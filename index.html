@@ -1,103 +1,226 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Boluadeoye — Writings, Projects, Notes</title>
-  <meta name="description" content="Writings and projects by Boluadeoye. Essays, notes, and resources." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Boluadeoye — Writing, Projects & Notes</title>
+  <meta name="description" content="Boluadeoye — writer & maker. Essays, notes, and projects." />
 
   <style>
     :root{
-      --bg:#ffffff;
-      --ink:#0c1222;
-      --muted:#4c5567;
-      --card:#f6f8ff;
-      --accent:#ff7a00;  /* bright orange */
-      --accent-ink:#fff;
-      --ring:rgba(255,122,0,.25);
-      --blue:#2b6ef6;
+      --bg: #fafbff;
+      --card: #ffffff;
+      --text: #0f172a;          /* deep slate */
+      --muted: #5b657a;
+      --blue: #2563eb;          /* bright */
+      --blue-ink: #1e40af;
+      --orange: #fb923c;        /* warm accent */
+      --ring: rgba(37, 99, 235, .18);
+      --shadow: 0 10px 30px rgba(2, 6, 23, .06);
+      --radius: 18px;
+      --maxw: 980px;
     }
     *{box-sizing:border-box}
+    html,body{margin:0}
     body{
-      margin:0; font-family:Inter,system-ui,Arial,Segoe UI,sans-serif;
-      color:var(--ink); background:var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
-    .wrap{max-width:900px;margin:0 auto;padding:24px}
-    header{
-      display:flex;align-items:center;gap:12px;padding:8px 0 22px;
-      position:sticky;top:0;background:var(--bg);z-index:10;
+    a{color:var(--blue); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:var(--maxw); margin:0 auto; padding:24px 20px 56px}
+
+    /* header */
+    .top{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px; padding:14px 0 18px;
     }
-    .logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+    .brand{
+      display:flex; align-items:center; gap:14px;
+    }
     .avatar{
-      width:40px;height:40px;border-radius:12px;object-fit:cover;
-      box-shadow:0 6px 20px rgba(0,0,0,.12);
+      width:48px; height:48px; border-radius:14px; flex:0 0 48px;
+      background:#e2e8f0 url("images/bolu.jpg") center/cover no-repeat;
+      box-shadow: var(--shadow);
+      outline: 3px solid #fff;
     }
-    .brand{font-weight:800;font-size:18px}
-    nav{margin-left:auto;display:flex;gap:14px}
+    .title{font-weight:800; font-size:22px; letter-spacing:.2px}
+    nav{display:flex; gap:18px; flex-wrap:wrap}
     nav a{
-      color:var(--muted);text-decoration:none;font-weight:600;font-size:14px;
-      padding:8px 10px;border-radius:10px
+      color:var(--blue-ink); font-weight:600; padding:8px 12px; border-radius:12px;
     }
-    nav a:hover{background:#f2f4f8;color:var(--ink)}
+    nav a:hover{background: #eaf1ff}
+
+    /* hero */
     .hero{
-      padding:22px 0 8px;
-      display:grid;grid-template-columns:1fr;gap:10px
+      background: linear-gradient(180deg, #ffffff, #f3f6ff);
+      border: 1px solid #eef2ff; border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px; margin: 6px 0 26px;
     }
-    h1{font-size:34px;line-height:1.15;margin:6px 0 6px;font-weight:800}
-    .tag{display:inline-flex;align-items:center;gap:8px;
-      background:var(--card);color:var(--muted);
-      border:1px solid #e8ecff;border-radius:999px;padding:8px 12px;font-weight:600}
-    .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0 20px}
-    .btn{
-      display:inline-flex;align-items:center;gap:8px;text-decoration:none;
-      padding:12px 16px;border-radius:12px;font-weight:700;
-      box-shadow:0 6px 18px rgba(0,0,0,.08)
+    .eyebrow{
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:13px; color:var(--muted);
+      background:#fff; border:1px solid #eef2ff; padding:6px 10px; border-radius:999px;
     }
-    .btn.primary{background:var(--accent);color:var(--accent-ink)}
-    .btn.secondary{background:#0f172a;color:#e6edff}
-    .grid{display:grid;gap:14px}
-    @media(min-width:760px){ .grid{grid-template-columns:1fr 1fr} }
+    .eyebrow b{color:var(--blue-ink)}
+    h1{
+      margin:14px 0 10px; font-size:clamp(28px, 6vw, 44px); line-height:1.1; font-weight:900;
+    }
+    .lead{font-size:18px; color:#384257; max-width:70ch}
+
+    /* section headings */
+    h2{font-size:22px; margin:28px 0 12px}
+    .section{margin: 26px 0}
+
+    /* cards */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap:16px;
+    }
     .card{
-      background:var(--card);border:1px solid #e8ecff;border-radius:16px;
-      padding:18px 18px 16px;transition:transform .1s ease, box-shadow .1s ease
+      background:var(--card); border-radius:16px; padding:18px;
+      border:1px solid #eef2ff; box-shadow: var(--shadow);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
     }
-    .card:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.08)}
-    .meta{font-size:13px;color:var(--muted);margin-bottom:6px}
-    .card h3{margin:2px 0 8px;font-size:20px}
-    .card p{margin:0 0 10px;color:#394155}
-    .read{color:var(--blue);text-decoration:none;font-weight:700}
-    footer{color:var(--muted);font-size:13px;padding:28px 0;text-align:center}
-    .watermark{opacity:.25;font-weight:800}
-    /* small utility */
-    .hidden{display:none}
-    .ring{outline:3px solid var(--ring);outline-offset:2px}
+    .card:hover{ transform: translateY(-2px); border-color:#e0e7ff; box-shadow: 0 14px 38px rgba(2,6,23,.10); }
+    .card h3{ margin: 4px 0 6px; font-size:18px; line-height:1.35 }
+    .card .meta{ font-size:13px; color:var(--muted); margin-bottom:8px }
+    .chip{
+      display:inline-block; font-size:12px; font-weight:700; letter-spacing:.3px;
+      color:#fff; background: var(--orange); padding:3px 8px; border-radius:999px;
+    }
+
+    /* about & contact blocks */
+    .about, .contact{
+      background:var(--card); border:1px solid #eef2ff; border-radius:var(--radius);
+      padding:20px; box-shadow: var(--shadow);
+    }
+    .about p, .contact p{margin:.5em 0}
+
+    .cta{
+      display:inline-flex; gap:10px; align-items:center;
+      background: var(--blue); color:#fff; border-radius:12px; padding:10px 14px;
+      border: 1px solid #3b82f6; box-shadow: 0 10px 20px var(--ring);
+      font-weight:700;
+    }
+    .cta:hover{ text-decoration:none; background:#1d4ed8 }
+    .ghost{
+      display:inline-flex; gap:8px; align-items:center;
+      border:1px solid #dbe3ff; padding:10px 14px; border-radius:12px; color:var(--blue-ink);
+      background:#fff;
+    }
+
+    footer{ margin-top:36px; color:var(--muted); font-size:13px; text-align:center }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <header>
-      <a class="logo" href="./">
-        <!-- uses your uploaded image -->
-        <img class="avatar" src="images/bolu.jpg" alt="Bolu photo">
-        <span class="brand">boluadeoye</span>
-      </a>
-      <nav>
-        <a href="./">Writings</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-      </nav>
-    </header>
 
-    <section class="hero">
-      <span class="tag">by bolu<sup>®</sup> • essays • notes • projects</span>
-      <h1>Words that spark action.</h1>
-      <p class="meta">Short essays and practical notes. Updated often. Mobile-first, fast, and personal.</p>
-      <div class="cta-row">
-        <a class="btn primary" href="#latest">✨ Read the latest</a>
-        <a class="btn secondary" href="about.html">About the author</a>
+    <!-- Top bar -->
+    <div class="top">
+      <div class="brand">
+        <div class="avatar" aria-label="Boluadeoye"></div>
+        <div class="title">boluadeoye</div>
+      </div>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#writings">Writings</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+
+    <!-- Hero -->
+    <section id="home" class="hero">
+      <span class="eyebrow">by <b>boluᵀᴿ</b> • writer & builder</span>
+      <h1>Words that glow. A simple, personal home on the web.</h1>
+      <p class="lead">
+        Short essays and notes on faith, focus and building. Clean, fast and updated often.
+        Bright theme. Mobile-first. No frameworks.
+      </p>
+      <p style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap">
+        <a class="cta" href="#writings">Read the latest</a>
+        <a class="ghost" href="#about">About the author</a>
+      </p>
+    </section>
+
+    <!-- Writings -->
+    <section id="writings" class="section">
+      <h2>Latest writings</h2>
+      <div id="posts" class="grid" aria-live="polite">
+        <!-- cards injected by JS -->
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="section about">
+      <h2>About</h2>
+      <p>Hi, I’m <b>Boluadeoye</b> — I write, prototype tiny apps, and enjoy clean, simple UIs.
+         This site is my hub for short essays, project notes and things I’m learning.</p>
+      <p>Theme: bright, minimal, with blue and orange accents. Built as a single HTML file on GitHub Pages.</p>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section contact">
+      <h2>Contact</h2>
+      <p>Say hello anytime.</p>
+      <p style="display:flex; gap:10px; flex-wrap:wrap">
+        <a class="cta" href="mailto:boluadeoye97@gmail.com">Email Me</a>
+        <a class="ghost" href="https://wa.me/2348106293674" target="_blank" rel="noopener">WhatsApp</a>
+      </p>
+    </section>
+
+    <footer>© <span id="y"></span> boluadeoye • Powered by GitHub Pages.</footer>
+  </div>
+
+  <script>
+    // year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // load cards from posts.json
+    async function loadPosts(){
+      try{
+        const res = await fetch('posts.json', {cache:'no-store'});
+        if(!res.ok) throw new Error('Failed to load posts.json');
+        const list = await res.json();
+        const box = document.getElementById('posts');
+
+        if(!Array.isArray(list) || !list.length){
+          box.innerHTML = '<p style="color:#6b7280">No posts yet. Add some to <code>posts.json</code>.</p>';
+          return;
+        }
+
+        // newest first by date
+        list.sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+
+        box.innerHTML = list.map(p=>{
+          const date = p.date ? new Date(p.date).toLocaleDateString() : '';
+          return `
+            <article class="card">
+              <span class="chip">NEW</span>
+              <h3>${p.title || 'Untitled'}</h3>
+              <div class="meta">${date} • ${p.minutes||3} min read</div>
+              <p style="margin:0 0 10px; color:#48536a">${p.excerpt || ''}</p>
+              <a href="${p.url}" class="ghost">Read →</a>
+            </article>
+          `;
+        }).join('');
+      }catch(err){
+        console.error(err);
+        document.getElementById('posts').innerHTML =
+          '<p style="color:#dc2626">Could not load posts. Check <code>posts.json</code> is in the repo root.</p>';
+      }
+    }
+    loadPosts();
+  </script>
+</body>
+</html>        <a class="btn secondary" href="about.html">About the author</a>
       </div>
     </section>
 
