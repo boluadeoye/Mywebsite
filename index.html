@@ -1,155 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Boluadeoye — Writer & Builder</title>
-<meta name="description" content="Writings, project notes, and ideas in motion by Boluadeoye.">
-<link rel="preload" href="images/bolu.jpg" as="image">
-<style>
-:root{
-  --bg:#ffffff; --ink:#0b1220; --muted:#546074;
-  --card:#f7f9ff; --blue:#2563eb; --blue-ink:#1e40af; --orange:#ff6a00;
-  --ring:rgba(37,99,235,.15); --shadow:0 6px 20px rgba(17,24,39,.08);
-  --radius:18px; --max:1020px;
-}
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
-  font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-a{color:var(--blue-ink);text-decoration:none}
-a:focus{outline:3px solid var(--ring);outline-offset:3px;border-radius:10px}
-img{max-width:100%;height:auto;display:block}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Boluadeoye</title>
+  <style>
+    :root{
+      --blue:#2563eb; --blue-ink:#1d4ed8;
+      --orange:#f97316; --orange-ink:#ea580c;
+      --ink:#111; --muted:#556; --card:#f8fafc; --ring:rgba(37,99,235,.15);
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;color:var(--ink);background:#fff;line-height:1.6}
 
-.container{max-width:var(--max);margin:0 auto;padding:22px}
-nav{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:12px}
-.brand{display:flex;align-items:center;gap:12px}
-.brand img{width:44px;height:44px;border-radius:14px;box-shadow:var(--shadow)}
-.brand .name{font-weight:800;font-size:20px}
-.menu{display:flex;gap:16px;flex-wrap:wrap}
-.menu a{padding:8px 12px;border-radius:12px}
-.menu a:hover{background:#eef2ff}
+    /* Header */
+    header{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid #eee;position:sticky;top:0;background:#fff;z-index:10}
+    .hamburger{width:32px;height:32px;border:1px solid #e5e7eb;border-radius:10px;display:grid;place-items:center;background:#fff}
+    .hamburger span{display:block;width:16px;height:2px;background:#111;position:relative}
+    .hamburger span:before,.hamburger span:after{content:"";position:absolute;left:0;width:16px;height:2px;background:#111}
+    .hamburger span:before{top:-5px}.hamburger span:after{top:5px}
+    .brand{display:flex;align-items:center;gap:10px;margin-left:6px}
+    .brand img{width:42px;height:42px;border-radius:50%;object-fit:cover}
+    .brand strong{font-size:20px}
+    nav{margin-left:auto;display:none;gap:14px}
+    nav a{color:var(--blue);text-decoration:none;font-weight:500}
 
-.hero{margin:10px 0 22px;padding:26px;border:1px solid #eaf0ff;border-radius:var(--radius);
-  background:linear-gradient(180deg,#ffffff,#f6f9ff)}
-.kicker{display:inline-block;color:var(--muted);font-weight:700;background:#eef2ff;
-  border:1px solid #dbe3ff;border-radius:999px;padding:6px 12px;margin-bottom:14px}
-h1{font-size:40px;line-height:1.1;margin:6px 0 10px}
-.lead{color:var(--muted);font-size:18px}
-.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
-.cta{display:inline-flex;gap:10px;align-items:center;background:var(--orange);color:#fff;
-  border-radius:12px;padding:12px 16px;border:1px solid #ff944d;
-  box-shadow:0 10px 20px rgba(255,106,0,.15);font-weight:700}
-.ghost{display:inline-flex;gap:8px;align-items:center;border:1px solid #dbe3ff;
-  padding:12px 16px;border-radius:12px;background:#fff;color:var(--blue-ink)}
+    /* Drawer */
+    .drawer{position:fixed;inset:0 0 0 auto; width:min(82vw,360px); translate: 100% 0;
+      background:#fff; box-shadow:-20px 0 40px rgba(0,0,0,.08); transition:translate .25s ease; z-index:30; padding:18px}
+    .drawer.open{translate:0 0}
+    .drawer h3{margin:6px 0 12px 0}
+    .drawer a{display:block;padding:10px 8px;border-radius:10px;text-decoration:none;color:var(--ink)}
+    .drawer a:hover{background:#f3f6ff}
 
-.section{margin-top:34px}
-.section h2{font-size:22px;margin:0 0 12px}
-.list{display:grid;gap:12px}
-.card{background:var(--card);border:1px solid #eaf0ff;border-radius:16px;padding:16px;box-shadow:var(--shadow)}
-.card a.title{display:block;font-weight:800;font-size:18px;color:var(--ink)}
-.meta{color:var(--muted);font-size:14px;margin:6px 0 8px}
-.excerpt{color:var(--muted)}
+    /* Hero */
+    .hero{padding:34px 18px;text-align:center}
+    .pill{display:inline-block;background:#eef2ff;border:1px solid #e2e8ff;border-radius:999px;padding:6px 10px;color:#334; font-size:12px}
+    .hero h1{font-size:38px;line-height:1.15;margin:14px 0 8px}
+    .hero p{color:#334}
+    .cta{display:inline-flex;gap:10px;align-items:center;background:var(--orange);color:#fff;border-radius:14px;padding:12px 18px;border:1px solid #ffdbbf;box-shadow:0 10px 20px var(--ring);font-weight:700;text-decoration:none;margin-top:14px}
+    .cta:hover{background:var(--orange-ink)}
 
-.grid{display:grid;gap:12px}
-@media(min-width:720px){ .grid{grid-template-columns:1fr 1fr} }
-.panel{background:#fff;border:1px solid #eaf0ff;border-radius:16px;padding:18px;box-shadow:var(--shadow)}
-.panel h3{margin:0 0 8px}
-</style>
+    /* Categories row (subtle chips + pipe) */
+    .catsbar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px 0 0}
+    .chip{padding:6px 10px;border-radius:999px;background:#fff;border:1px solid #e5e7eb;color:#334;font-size:13px;cursor:pointer}
+    .chip.active{border-color:#3b82f6;background:#eff6ff;color:#0b4fd6}
+
+    /* Sections */
+    .section{padding:16px 18px;max-width:760px;margin:auto}
+    .list .post{background:var(--card);border:1px solid #e8eefb;padding:15px;border-radius:12px;margin-bottom:14px}
+    .list .post h3{margin:0 0 4px 0;font-size:20px}
+    .list .post small{color:#667}
+    .list .post a{color:var(--blue);text-decoration:none;font-weight:600}
+    .ghost{display:inline-flex;gap:8px;align-items:center;border:1px solid #dbe3ff;padding:10px 14px;border-radius:12px;color:var(--blue-ink); background:#fff}
+
+    .card{background:#fff;border:1px solid #e8eefb;border-radius:14px;padding:18px}
+    .card p{margin:.55em 0}
+
+    footer{text-align:center;padding:20px;border-top:1px solid #eee;color:#556;font-size:14px;margin-top:36px}
+
+    @media(min-width:880px){
+      nav{display:flex}
+      .hamburger{display:none}
+      .hero h1{font-size:52px}
+    }
+  </style>
 </head>
 <body>
-<header class="container">
-  <nav>
+  <!-- HEADER -->
+  <header>
+    <button id="openMenu" class="hamburger" aria-label="Open menu"><span></span></button>
+
     <div class="brand">
       <img src="images/bolu.jpg" alt="Boluadeoye">
-      <div class="name">Boluadeoye</div>
+      <strong>Boluadeoye</strong>
     </div>
-    <div class="menu">
-      <a href="#home">Home</a>
+
+    <nav>
+      <a href="#">Home</a>
       <a href="#writings">Writings</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
-    </div>
-  </nav>
-</header>
+    </nav>
+  </header>
 
-<main id="home" class="container">
+  <!-- SLIDE-IN DRAWER -->
+  <aside id="drawer" class="drawer" aria-hidden="true">
+    <h3>Writing types</h3>
+    <a href="#" data-type="all">All writings</a>
+    <a href="#" data-type="poem">Poems</a>
+    <a href="#" data-type="story">Stories</a>
+    <a href="#" data-type="faith">Faith</a>
+    <a href="#" data-type="devotional">Devotional</a>
+    <a href="#" data-type="article">Articles</a>
+    <a href="#" data-type="essay">Essays</a>
+    <hr style="margin:14px 0;border:none;border-top:1px solid #eee">
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </aside>
+
+  <!-- HERO -->
   <section class="hero">
-    <span class="kicker">by boluᵀᴿ • personal site</span>
+    <span class="pill">personal site</span>
     <h1>Words that glow in the day.</h1>
-    <p class="lead">Short essays, project notes, and ideas in motion — updated often.</p>
-    <div class="actions">
-      <a class="cta" href="#writings">✨ Read the latest</a>
-      <a class="ghost" href="#about">About the author</a>
+    <p>Short essays, project notes, and ideas in motion — updated often.</p>
+    <a href="#writings" class="cta">✨ Read the latest</a>
+
+    <!-- Subtle categories row -->
+    <div class="catsbar" id="chips">
+      <!-- chips are generated by JS so they stay in sync with the drawer -->
     </div>
   </section>
 
+  <!-- LATEST WRITINGS -->
   <section id="writings" class="section">
     <h2>Latest writings</h2>
-    <div id="posts" class="list" role="list">
-      <div class="card"><div class="meta">Loading posts…</div></div>
+    <div id="posts" class="list"></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <div class="card">
+      <h2>About</h2>
+      <p>Hi, I’m <strong>Boluadeoye</strong> — I write, prototype tiny apps, and enjoy clean, simple UIs. This site is my hub for short essays, project notes and things I’m learning.</p>
+      <p>Theme: bright &amp; minimal with blue/orange accents. Hosted on GitHub Pages.</p>
     </div>
   </section>
 
-  <section class="section grid">
-    <article id="about" class="panel">
-      <h3>About</h3>
-      <p>Hi, I’m <strong>Boluadeoye</strong> — I write, prototype tiny apps, and enjoy clean, simple UIs. This is my hub for short essays, project notes and things I’m learning.</p>
-      <p>Theme: bright &amp; minimal with blue/orange accents. Hosted on GitHub Pages.</p>
-    </article>
-    <aside id="contact" class="panel">
-      <h3>Contact</h3>
+  <!-- CONTACT -->
+  <section id="contact" class="section">
+    <div class="card">
+      <h2>Contact</h2>
       <p>Email: <a href="mailto:boluadeoye97@gmail.com">boluadeoye97@gmail.com</a></p>
-      <p>WhatsApp: <a href="https://wa.me/2348106293674" rel="noopener">chat me</a></p>
-      <p>Instagram: <a href="https://instagram.com/boluadeoye" rel="noopener">@boluadeoye</a></p>
-    </aside>
+      <p>WhatsApp: <a href="https://wa.me/2348106293674">chat me</a></p>
+      <!-- Instagram intentionally removed -->
+    </div>
   </section>
-</main>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const wrap = document.getElementById('posts');
+  <footer>© boluadeoye 2025, all rights reserved</footer>
 
-  function card(post){
-    const article = document.createElement('article');
-    article.className = 'card';
+  <script>
+    // small helpers
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => [...document.querySelectorAll(sel)];
 
-    const meta = document.createElement('div');
-    meta.className = 'meta';
-    const d = new Date(post.date);
-    const dateStr = isNaN(d) ? post.date : d.toLocaleDateString();
-    const minsStr = (post.minutes && Number(post.minutes)) ? ` • ${post.minutes} min read` : '';
-    meta.textContent = `${dateStr}${minsStr}`;
+    // Drawer open/close
+    const drawer = $('#drawer');
+    $('#openMenu').addEventListener('click', ()=> drawer.classList.add('open'));
+    document.addEventListener('click', (e)=>{
+      if (drawer.classList.contains('open') && !drawer.contains(e.target) && e.target.id!=='openMenu') {
+        drawer.classList.remove('open');
+      }
+    });
 
-    const title = document.createElement('a');
-    title.className = 'title';
-    title.href = post.url;
-    title.textContent = post.title;
+    // Build chips row from drawer items
+    const chipsWrap = $('#chips');
+    const drawerLinks = $$('#drawer a[data-type]');
+    function buildChips(){
+      chipsWrap.innerHTML = drawerLinks.map(link =>
+        `<button class="chip" data-type="${link.dataset.type}">${link.textContent}</button>`
+      ).join('');
+    }
+    buildChips();
 
-    const ex = document.createElement('p');
-    ex.className = 'excerpt';
-    ex.textContent = post.excerpt || '';
+    // Fetch & render posts with optional type filter
+    let allPosts = [];
+    const postsEl = $('#posts');
 
-    article.append(meta, title, ex);
-    return article;
-  }
-
-  fetch('posts.json', {cache:'no-cache'})
-    .then(r => { if(!r.ok) throw new Error('posts.json missing'); return r.json(); })
-    .then(posts => {
-      wrap.innerHTML = '';
-      if(!Array.isArray(posts) || posts.length === 0){
-        const empty = document.createElement('div');
-        empty.className = 'card';
-        empty.innerHTML = '<div class="meta">No posts yet. Add one to <code>posts.json</code>.</div>';
-        wrap.append(empty);
+    function renderPosts(filterType='all'){
+      const list = (filterType==='all') ? allPosts : allPosts.filter(p => (p.type||'').toLowerCase()===filterType);
+      if (!list.length){
+        postsEl.innerHTML = `<p style="color:#667">No posts yet for “${filterType}”.</p>`;
         return;
       }
-      posts.forEach(p => wrap.append(card(p)));
-    })
-    .catch(() => {
-      wrap.innerHTML = '<div class="card"><div class="meta">Couldn’t load posts. Ensure <code>posts.json</code> is in the repo root and valid JSON.</div></div>';
+      postsEl.innerHTML = list.map(p=>{
+        const mins = p.minutes ? ` • ${p.minutes} min read` : '';
+        return `
+          <div class="post">
+            <h3><a href="${p.url}">${p.title}</a></h3>
+            <small>${p.date}${mins} • <em>${(p.type||'').toUpperCase()}</em></small>
+            <p>${p.excerpt||''}</p>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function loadPosts(){
+      try{
+        const res = await fetch('posts.json');
+        allPosts = await res.json();   // expects an array
+        renderPosts('all');
+      }catch(err){
+        console.error(err);
+        postsEl.innerHTML = `<p>Couldn't load posts. Make sure <code>posts.json</code> exists in the repo root and is valid JSON.</p>`;
+      }
+    }
+    loadPosts();
+
+    // Filtering via drawer + chips
+    function setActiveChip(type){
+      $$('#chips .chip').forEach(c=>c.classList.toggle('active', c.dataset.type===type));
+    }
+    chipsWrap.addEventListener('click', e=>{
+      const btn = e.target.closest('.chip'); if(!btn) return;
+      const type = btn.dataset.type; setActiveChip(type); renderPosts(type);
     });
-});
-</script>
+    drawer.addEventListener('click', e=>{
+      const link = e.target.closest('a[data-type]'); if(!link) return;
+      e.preventDefault(); drawer.classList.remove('open');
+      const type = link.dataset.type; setActiveChip(type); renderPosts(type);
+      // scroll to writings on mobile for context
+      document.getElementById('writings').scrollIntoView({behavior:'smooth'});
+    });
+
+    // Default select "all"
+    setActiveChip('all');
+  </script>
 </body>
 </html>
