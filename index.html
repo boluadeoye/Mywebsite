@@ -1,252 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Bolu — Writings</title>
-<meta name="description" content="Essays, notes and writings by Bolu.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bolu • Writings</title>
 
-<style>
-/* ----------------- THEME ----------------- */
-:root{
-  /* Deep navy base */
-  --bg-900:#050913;           /* page background */
-  --bg-800:#0a1122;           /* section/card background */
-  --line:#141e36;             /* hairline/borders */
-  --ink:#ecf1ff;              /* main text */
-  --muted:#a9b7db;            /* secondary text */
+  <!-- Meta for nice sharing cards -->
+  <meta name="description" content="Short essays and notes by Bolu. Faith, focus, and building—bright words for everyday momentum." />
+  <meta property="og:title" content="Bolu • Writings" />
+  <meta property="og:description" content="Short essays and notes by Bolu. Faith, focus, and building." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://boluadeoye.github.io/" />
 
-  /* Vibrant accents (catchy & modern) */
-  --blue:#4c7dff;             /* electric blue */
-  --violet:#7a5cff;           /* neon violet */
-  --coral:#ff7a45;            /* warm coral/orange */
+  <style>
+    /* ===== Theme ===== */
+    :root{
+      --bg:#0D1117;           /* deep navy */
+      --bg-2:#111826;         /* darker section */
+      --card:#151B23;         /* card/navy */
+      --text:#EAF0FF;         /* soft white */
+      --muted:#9FB3D1;        /* muted text */
+      --accent:#FF6B00;       /* bright orange */
+      --accent-2:#FF8A33;     /* hover orange */
+      --ring:rgba(255,107,0,.35);
+      --shadow:0 10px 25px rgba(0,0,0,.35);
+      --radius:16px;
+      --max: 980px;
+    }
 
-  /* UI */
-  --radius:16px;
-  --ring:0 0 0 8px rgba(124, 101, 255, .14);
-}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%}
 
-*{box-sizing:border-box}
-html,body{
-  margin:0;background:var(--bg-900);color:var(--ink);
-  font:16.5px/1.75 ui-sans-serif, system-ui, -apple-system, Segoe UI, Inter, Roboto, Arial;
-}
+    /* ===== Top bar ===== */
+    .nav{
+      position:sticky; top:0; z-index:30;
+      background:linear-gradient(180deg,#0F1420,transparent), var(--card);
+      backdrop-filter:saturate(1.2) blur(6px);
+      border-bottom:1px solid #1e2633;
+    }
+    .nav__inner{
+      max-width:var(--max); margin:auto; padding:14px 16px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
+    }
+    .logo{
+      width:36px; height:36px; border-radius:10px;
+      background: radial-gradient(120% 120% at 20% 20%, #FF8A33 0%, #FF6B00 35%, #3B82F6 65%, #1F2A44 100%);
+      box-shadow:0 10px 20px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.06);
+    }
+    .nav a{color:var(--muted); font-weight:600; padding:8px 10px; border-radius:10px}
+    .nav a:hover{color:var(--text); background:#1a2332}
 
-/* Utilities */
-.wrap{max-width:980px;margin:auto;padding:0 18px}
-h1,h2,h3{margin:0 0 .5rem;line-height:1.15}
-h1{font-size:clamp(28px,6vw,48px);font-weight:900;letter-spacing:.2px}
-h2{font-size:clamp(18px,3.5vw,24px);font-weight:800}
-h3{font-size:20px;font-weight:800}
-p{margin:.6rem 0}
-a{color:#bcd3ff;text-decoration:none}
-a:hover{text-decoration:underline}
-.hr{height:1px;background:var(--line);margin:14px 0}
+    /* ===== Hero ===== */
+    .hero{
+      padding:40px 16px 18px;
+      background:
+        radial-gradient(80% 120% at 10% 0%, rgba(255,107,0,.12), transparent 60%),
+        radial-gradient(50% 80% at 85% -10%, rgba(59,130,246,.13), transparent 60%);
+    }
+    .hero__inner{max-width:var(--max); margin:auto}
+    .tag{display:inline-block; padding:6px 12px; border-radius:999px; font-weight:700; letter-spacing:.3px;
+      background:#1c2534; color:var(--muted); border:1px solid #26303f}
+    h1{margin:12px 0 12px; font-size:clamp(28px,6vw,44px); line-height:1.15; letter-spacing:.2px}
+    .lead{color:var(--muted); font-size:clamp(15px,3.5vw,18px); max-width:750px}
 
-/* ----------------- NAV ----------------- */
-.nav{
-  position:sticky;top:0;z-index:20;
-  background:linear-gradient(180deg, rgba(5,9,19,.85), rgba(5,9,19,.55));
-  backdrop-filter: blur(10px);
-  border-bottom:1px solid var(--line);
-}
-.nav-inner{display:flex;align-items:center;gap:12px;padding:10px 0}
-.logo{
-  width:36px;height:36px;border-radius:12px;flex:none;
-  background:radial-gradient(120% 120% at 20% 20%, var(--blue) 0%, var(--violet) 50%, var(--coral) 100%);
-  box-shadow:0 10px 24px rgba(76,125,255,.28);
-}
-.brand{font-weight:900;letter-spacing:.3px}
-.spacer{flex:1}
-.menu a{
-  display:inline-block;padding:8px 12px;border-radius:12px;color:var(--muted)
-}
-.menu a:hover{background:rgba(255,255,255,.04);color:var(--ink)}
+    /* ===== Buttons ===== */
+    .actions{display:flex; flex-wrap:wrap; gap:12px; margin-top:18px}
+    .btn{
+      display:inline-flex; align-items:center; gap:10px;
+      background:var(--accent); color:#fff; font-weight:800;
+      border:none; border-radius:12px; padding:12px 18px; box-shadow:0 8px 20px var(--ring);
+      transition:.15s transform ease, .18s background ease, .18s box-shadow ease;
+    }
+    .btn:hover{background:var(--accent-2); transform:translateY(-1px); box-shadow:0 14px 26px var(--ring)}
+    .btn--ghost{background:#1b2433; color:var(--text); box-shadow:none; border:1px solid #2a3446}
+    .btn--ghost:hover{background:#202b3d}
 
-/* ----------------- HERO ----------------- */
-.hero{
-  border-bottom:1px solid var(--line);
-  background:
-    radial-gradient(1200px 500px at 20% -10%, rgba(76,125,255,.25), transparent 60%),
-    radial-gradient(900px 420px at 90% 0%, rgba(122,92,255,.20), transparent 60%),
-    radial-gradient(800px 380px at 50% 10%, rgba(255,122,69,.15), transparent 60%);
-}
-.hero-inner{padding:56px 0 28px}
-.kicker{
-  display:inline-flex;gap:8px;align-items:center;
-  padding:6px 10px;border-radius:999px;font-size:12px;
-  color:var(--muted);border:1px solid var(--line);background:rgba(255,255,255,.02)
-}
-.subtitle{color:var(--muted);max-width:68ch}
-.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
-.btn{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:12px 16px;border-radius:14px;font-weight:800;border:1px solid transparent
-}
-.btn-primary{
-  background:linear-gradient(135deg, var(--blue), var(--violet));
-  box-shadow:0 12px 24px rgba(76,125,255,.25), inset 0 -2px 0 rgba(255,255,255,.15);
-  color:#06102b;
-}
-.btn-ghost{
-  background:rgba(255,255,255,.04);border-color:var(--line);color:var(--ink)
-}
-.btn:hover{filter:brightness(1.03)}
+    /* ===== Sections ===== */
+    .section{padding:14px 16px 36px}
+    .section__inner{max-width:var(--max); margin:auto}
 
-/* ----------------- POSTS LIST ----------------- */
-.section{padding:22px 0;border-bottom:1px solid var(--line)}
-.grid{display:grid;gap:14px}
-.card{
-  background:linear-gradient(180deg, rgba(10,17,34,.8), rgba(10,17,34,.95));
-  border:1px solid var(--line);border-radius:var(--radius);padding:16px;
-  box-shadow:0 8px 18px rgba(6,10,20,.35);
-  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-}
-.card:hover{
-  transform:translateY(-3px);
-  border-color:#283a70;
-  box-shadow:0 18px 36px rgba(25,40,80,.40);
-}
-.meta{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
-.excerpt{color:var(--muted)}
-.read{margin-top:6px;font-weight:800;color:#dfe7ff}
+    /* ===== Cards (posts) ===== */
+    .grid{display:grid; gap:14px}
+    @media (min-width:640px){ .grid{grid-template-columns:1fr 1fr}}
+    .card{
+      background:linear-gradient(180deg,#121a27,#0f1420);
+      border:1px solid #202a3a; border-radius:var(--radius); padding:18px;
+      box-shadow:var(--shadow);
+    }
+    .card h3{margin:0 0 6px; color:#ffd2b3}
+    .meta{color:var(--muted); font-size:13px; margin-bottom:8px}
+    .card p{margin:0 0 10px; color:#cfe1ff}
+    .read{font-weight:800; color:var(--accent)}
+    .read:hover{color:var(--accent-2)}
 
-/* ----------------- ABOUT / CONTACT ----------------- */
-.panel{
-  background:linear-gradient(180deg, rgba(10,17,34,.8), rgba(10,17,34,.95));
-  border:1px solid var(--line);border-radius:var(--radius);padding:16px
-}
-.about-grid{display:grid;grid-template-columns:96px 1fr;gap:16px}
-@media (max-width:640px){.about-grid{grid-template-columns:1fr}}
-.avatar{
-  width:96px;height:96px;border-radius:16px;
-  background:radial-gradient(120% 120% at 20% 20%, var(--blue), var(--violet) 60%, var(--coral));
-  box-shadow:0 12px 24px rgba(122,92,255,.28);
-}
+    /* ===== Footer ===== */
+    footer{background:var(--bg-2); border-top:1px solid #1f2735}
+    .foot{max-width:var(--max); margin:auto; padding:26px 16px; color:var(--muted); text-align:center}
+    .watermark{opacity:.6; letter-spacing:.25px}
 
-/* ----------------- FOOTER ----------------- */
-footer{padding:22px 0;text-align:center}
-.watermark{font-weight:900;letter-spacing:.4px;color:rgba(255,255,255,.72)}
-</style>
+    /* ===== Utilities ===== */
+    .sr{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0}
+  </style>
 </head>
 <body>
 
-<!-- NAV -->
-<header class="nav">
-  <div class="wrap nav-inner">
-    <div class="logo" aria-hidden="true"></div>
-    <div class="brand">Bolu</div>
-    <div class="spacer"></div>
-    <nav class="menu">
-      <a href="#writings">Writings</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </div>
-</header>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="wrap hero-inner">
-    <span class="kicker">by boluᴿ • writings</span>
-    <h1>Words that glow in the dark.</h1>
-    <p class="subtitle">Short essays and notes on faith, focus and building.
-      Mobile-first, fast, and updated often.</p>
-    <div class="cta">
-      <a class="btn btn-primary" href="#writings">✨ Read the latest</a>
-      <a class="btn btn-ghost" href="#about">About the author</a>
-    </div>
-  </div>
-</section>
-
-<!-- WRITINGS -->
-<section id="writings" class="section">
-  <div class="wrap">
-    <h2>Latest writings</h2>
-    <div id="posts" class="grid"></div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about" class="section">
-  <div class="wrap">
-    <h2>About</h2>
-    <div class="panel">
-      <div class="about-grid">
-        <div class="avatar" aria-hidden="true"></div>
-        <div>
-          <p>Hello, I’m <strong>Bolu</strong> — a writer who likes simple language and useful truth.
-             I build small apps and publish notes as I learn.</p>
-          <p class="muted">This site is a single, fast page. I can edit on my phone, save, refresh, and share.</p>
-        </div>
+  <!-- Nav -->
+  <div class="nav">
+    <div class="nav__inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <span>Bolu</span>
       </div>
+      <nav>
+        <a href="#writings">Writings</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </div>
   </div>
-</section>
 
-<!-- CONTACT -->
-<section id="contact" class="section">
-  <div class="wrap">
-    <h2>Contact</h2>
-    <div class="panel">
-      <p>Say hello on
-        <a target="_blank" href="https://wa.me/2348012345678">WhatsApp</a>,
-        <a target="_blank" href="https://instagram.com/yourname">Instagram</a>,
-        or <a href="mailto:you@example.com">email</a>.
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero__inner">
+      <span class="tag">by boluᴿ • essays</span>
+      <h1>Words that glow in the dark.</h1>
+      <p class="lead">
+        Notes on faith, focus and building. Bright, simple, mobile-first.
+        Updated often with love and momentum.
       </p>
-      <div class="hr"></div>
-      <p class="muted">Newsletter coming soon.</p>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap"><div class="watermark">by boluᴿ</div></div>
-</footer>
-
-<script>
-/* ===== Add/edit posts here ===== */
-const POSTS = [
-  {
-    title: "Starting Small, Showing Up",
-    date: "2025-09-07",
-    minutes: 3,
-    url: "posts/starting-small.html",
-    excerpt: "Tiny daily steps beat perfect plans. Keep momentum with low friction."
-  },
-  {
-    title: "On Learning in Public",
-    date: "2025-09-05",
-    minutes: 4,
-    url: "posts/learning-in-public.html",
-    excerpt: "Share the process, not just the results — courage grows in public."
-  },
-  {
-    title: "Faith, Focus, and Work",
-    date: "2025-08-28",
-    minutes: 5,
-    url: "posts/faith-focus-work.html",
-    excerpt: "What steadies my hands when tasks feel heavy and days feel loud."
-  }
-];
-
-/* Render cards */
-const list = document.getElementById("posts");
-POSTS.forEach(p=>{
-  const el = document.createElement("article");
-  el.className = "card";
-  el.innerHTML = `
-    <a href="${p.url}">
-      <h3>${p.title}</h3>
-      <div class="meta">
-        <span>${new Date(p.date).toLocaleDateString()}</span>
-        <span>· ${p.minutes} min read</span>
+      <div class="actions">
+        <a class="btn" href="#writings">✨ Read the latest</a>
+        <a class="btn btn--ghost" href="#about">About the author</a>
+        <a class="btn" href="https://wa.me/2348106293674" target="_blank" rel="noopener">💬 WhatsApp me</a>
       </div>
-      <p class="excerpt">${p.excerpt}</p>
-      <p class="read">Read →</p>
-    </a>`;
-  list.appendChild(el);
-});
-</script>
+    </div>
+  </header>
+
+  <!-- Writings -->
+  <section id="writings" class="section">
+    <div class="section__inner">
+      <h2>Latest writings</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Starting Small, Showing Up</h3>
+          <div class="meta">Sep 7, 2025 • 3 min read</div>
+          <p>Tiny daily steps beat perfect plans. Keep momentum with low friction.</p>
+          <a class="read" href="posts/starting-small.html">Read →</a>
+        </article>
+
+        <article class="card">
+          <h3>On Learning in Public</h3>
+          <div class="meta">Sep 5, 2025 • 4 min read</div>
+          <p>Share the process, not just the results — and grow your courage.</p>
+          <a class="read" href="posts/learning-in-public.html">Read →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section">
+    <div class="section__inner">
+      <h2>About</h2>
+      <p>
+        Hi, I’m Bolu. I write short essays and reflections on faith, focus and work.
+        This site is my tiny home on the internet—simple, fast, and crafted for phones.
+      </p>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section">
+    <div class="section__inner">
+      <h2>Contact</h2>
+      <p>Say hello anytime:</p>
+      <div class="actions">
+        <a class="btn" href="mailto:boluadeoye97@gmail.com">📧 Email me</a>
+        <a class="btn" href="https://wa.me/2348106293674" target="_blank" rel="noopener">💬 WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot">
+      <div class="watermark">© 2025 • by boluᴿ — built with GitHub Pages</div>
+    </div>
+  </footer>
+
 </body>
 </html>
