@@ -3,18 +3,7 @@
     "title": "Starting Small, Showing Up",
     "date": "2025-09-07",
     "minutes": 3,
-    "url": "posts/starting-small.html",
-    "excerpt": "Why tiny daily steps beat perfect plans, and how to keep momentum with low friction."
+    "excerpt": "Why tiny daily steps beat perfect plans, and how to keep momentum with low friction.",
+    "url": "posts/starting-small.html"
   }
-  /* 
-  Add more posts by copying the block above and changing the fields, e.g.:
-
-  ,{
-    "title": "On Learning in Public",
-    "date": "2025-09-05",
-    "minutes": 4,
-    "url": "posts/learning-in-public.html",
-    "excerpt": "Notes on sharing the process, not just the results — and the courage it builds."
-  }
-  */
 ]
