@@ -1,37 +1,62 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Starting Small, Showing Up</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-      background: #fefefe;
-      color: #333;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #ffffff;
+      color: #111;
       line-height: 1.6;
     }
-    h1 {
-      color: #ff6600;
+    header {
+      border-bottom: 1px solid #eee;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
     }
-    a {
-      color: #0066cc;
+    h1 {
+      font-size: 28px;
+      margin: 0 0 10px 0;
+      color: #ff6600; /* orange */
+    }
+    .meta {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .content {
+      font-size: 17px;
+      margin-bottom: 30px;
+    }
+    a.back {
+      display: inline-block;
       text-decoration: none;
+      color: #2563eb; /* blue */
+      font-weight: 500;
+      margin-top: 20px;
+    }
+    a.back:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <h1>Starting Small, Showing Up</h1>
-  <p><em>Published on 2025-09-07 • 3 min read</em></p>
-  <p>
-    Why tiny daily steps beat perfect plans, and how to keep momentum with low friction.
-  </p>
+  <header>
+    <h1>Starting Small, Showing Up</h1>
+    <div class="meta">Published on 2025-09-07 • 3 min read</div>
+  </header>
 
-  <p>
-    (Here you’ll add your full essay/writing text. You can edit this later whenever you want!)
-  </p>
+  <div class="content">
+    <p>Why tiny daily steps beat perfect plans, and how to keep momentum with low friction.</p>
 
-  <p><a href="../index.html">⬅ Back to homepage</a></p>
+    <p>(Here you’ll add your full essay/writing text. You can edit this later whenever you want!)</p>
+  </div>
+
+  <a href="../index.html" class="back">← Back to homepage</a>
 </body>
 </html>
