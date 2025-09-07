@@ -28,18 +28,21 @@
 
     /* Backdrop + Drawer (from LEFT) */
     .backdrop{
-      position:fixed; inset:0; background:rgba(0,0,0,.28);
+      position:fixed; inset:0; background:rgba(0,0,0,.45); /* darker dim */
       opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:25;
     }
     .backdrop.show{opacity:1; pointer-events:auto;}
     .drawer{
       position:fixed; inset:0 auto 0 0; width:min(82vw,360px);
-      translate:-100% 0; background:#fff; box-shadow:20px 0 40px rgba(0,0,0,.12);
+      translate:-100% 0; 
+      /* changed to dark drawer */
+      background:#0b1020; color:#fff;
+      box-shadow:20px 0 40px rgba(0,0,0,.25);
       transition:translate .25s ease; z-index:30; padding:18px;
     }
     .drawer.open{translate:0 0}
-    .drawer a{display:block;padding:10px 8px;border-radius:10px;text-decoration:none;color:var(--ink)}
-    .drawer a:hover{background:#f3f6ff}
+    .drawer a{display:block;padding:10px 8px;border-radius:10px;text-decoration:none;color:#fff}
+    .drawer a:hover{background:rgba(255,255,255,.08)}
 
     /* Hero */
     .hero{padding:34px 18px;text-align:center}
@@ -103,7 +106,7 @@
     <a href="#" data-type="devotional">Devotional</a>
     <a href="#" data-type="article">Articles</a>
     <a href="#" data-type="essay">Essays</a>
-    <hr style="margin:14px 0;border:none;border-top:1px solid #eee">
+    <hr style="margin:14px 0;border:none;border-top:1px solid rgba(255,255,255,.12)">
     <a href="#about">About</a>
     <a href="mailto:boluadeoye97@gmail.com">Email me</a>
     <a href="https://wa.me/2348106293674">WhatsApp</a>
