@@ -3,153 +3,23 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Boluadeoye — Writer & Builder</title>
-<meta name="description" content="Writings, project notes, and ideas in motion by Boluadeoye.">
-<link rel="preload" href="images/bolu.jpg" as="image">
+<title>Starting Small, Showing Up</title>
 <style>
-:root{
-  --bg:#ffffff; --ink:#0b1220; --muted:#546074;
-  --card:#f7f9ff; --blue:#2563eb; --blue-ink:#1e40af; --orange:#ff6a00;
-  --ring:rgba(37,99,235,.15); --shadow:0 6px 20px rgba(17,24,39,.08);
-  --radius:18px; --max:1020px;
-}
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
-  font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-a{color:var(--blue-ink);text-decoration:none}
-a:focus{outline:3px solid var(--ring);outline-offset:3px;border-radius:10px}
-img{max-width:100%;height:auto;display:block}
-
-.container{max-width:var(--max);margin:0 auto;padding:22px}
-nav{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:12px}
-.brand{display:flex;align-items:center;gap:12px}
-.brand img{width:44px;height:44px;border-radius:14px;box-shadow:var(--shadow)}
-.brand .name{font-weight:800;font-size:20px}
-.menu{display:flex;gap:16px;flex-wrap:wrap}
-.menu a{padding:8px 12px;border-radius:12px}
-.menu a:hover{background:#eef2ff}
-
-.hero{margin:10px 0 22px;padding:26px;border:1px solid #eaf0ff;border-radius:var(--radius);
-  background:linear-gradient(180deg,#ffffff,#f6f9ff)}
-.kicker{display:inline-block;color:var(--muted);font-weight:700;background:#eef2ff;
-  border:1px solid #dbe3ff;border-radius:999px;padding:6px 12px;margin-bottom:14px}
-h1{font-size:40px;line-height:1.1;margin:6px 0 10px}
-.lead{color:var(--muted);font-size:18px}
-.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
-.cta{display:inline-flex;gap:10px;align-items:center;background:var(--orange);color:#fff;
-  border-radius:12px;padding:12px 16px;border:1px solid #ff944d;
-  box-shadow:0 10px 20px rgba(255,106,0,.15);font-weight:700}
-.ghost{display:inline-flex;gap:8px;align-items:center;border:1px solid #dbe3ff;
-  padding:12px 16px;border-radius:12px;background:#fff;color:var(--blue-ink)}
-
-.section{margin-top:34px}
-.section h2{font-size:22px;margin:0 0 12px}
-.list{display:grid;gap:12px}
-.card{background:var(--card);border:1px solid #eaf0ff;border-radius:16px;padding:16px;box-shadow:var(--shadow)}
-.card a.title{display:block;font-weight:800;font-size:18px;color:var(--ink)}
-.meta{color:var(--muted);font-size:14px;margin:6px 0 8px}
-.excerpt{color:var(--muted)}
-
-.grid{display:grid;gap:12px}
-@media(min-width:720px){ .grid{grid-template-columns:1fr 1fr} }
-.panel{background:#fff;border:1px solid #eaf0ff;border-radius:16px;padding:18px;box-shadow:var(--shadow)}
-.panel h3{margin:0 0 8px}
+body{margin:0;padding:22px;max-width:720px;margin-inline:auto;
+  font:16px/1.7 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#0b1220}
+h1{font-size:40px;line-height:1.1;margin:10px 0;color:#ff6a00}
+.meta{color:#566173;margin-bottom:20px;font-style:italic}
+a{color:#2563eb;text-decoration:none}
 </style>
 </head>
 <body>
-<header class="container">
-  <nav>
-    <div class="brand">
-      <img src="images/bolu.jpg" alt="Boluadeoye">
-      <div class="name">Boluadeoye</div>
-    </div>
-    <div class="menu">
-      <a href="#home">Home</a>
-      <a href="#writings">Writings</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </nav>
-</header>
+<h1>Starting Small, Showing Up</h1>
+<p class="meta">Published on 2025-09-07 • 3 min read</p>
 
-<main id="home" class="container">
-  <section class="hero">
-    <span class="kicker">by boluᵀᴿ • personal site</span>
-    <h1>Words that glow in the day.</h1>
-    <p class="lead">Short essays, project notes, and ideas in motion — updated often.</p>
-    <div class="actions">
-      <a class="cta" href="#writings">✨ Read the latest</a>
-      <a class="ghost" href="#about">About the author</a>
-    </div>
-  </section>
+<p>Why tiny daily steps beat perfect plans, and how to keep momentum with low friction.</p>
 
-  <section id="writings" class="section">
-    <h2>Latest writings</h2>
-    <div id="posts" class="list" role="list">
-      <div class="card"><div class="meta">Loading posts…</div></div>
-    </div>
-  </section>
+<p>(Here you’ll add your full essay/writing text. You can edit this later whenever you want!)</p>
 
-  <section class="section grid">
-    <article id="about" class="panel">
-      <h3>About</h3>
-      <p>Hi, I’m <strong>Boluadeoye</strong> — I write, prototype tiny apps, and enjoy clean, simple UIs. This is my hub for short essays, project notes and things I’m learning.</p>
-      <p>Theme: bright &amp; minimal with blue/orange accents. Hosted on GitHub Pages.</p>
-    </article>
-    <aside id="contact" class="panel">
-      <h3>Contact</h3>
-      <p>Email: <a href="mailto:boluadeoye97@gmail.com">boluadeoye97@gmail.com</a></p>
-      <p>WhatsApp: <a href="https://wa.me/2348106293674" rel="noopener">chat me</a></p>
-      <p>Instagram: <a href="https://instagram.com/boluadeoye" rel="noopener">@boluadeoye</a></p>
-    </aside>
-  </section>
-</main>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const wrap = document.getElementById('posts');
-
-  function card(post){
-    const article = document.createElement('article');
-    article.className = 'card';
-
-    const meta = document.createElement('div');
-    meta.className = 'meta';
-    const d = new Date(post.date);
-    const dateStr = isNaN(d) ? post.date : d.toLocaleDateString();
-    const minsStr = (post.minutes && Number(post.minutes)) ? ` • ${post.minutes} min read` : '';
-    meta.textContent = `${dateStr}${minsStr}`;
-
-    const title = document.createElement('a');
-    title.className = 'title';
-    title.href = post.url;
-    title.textContent = post.title;
-
-    const ex = document.createElement('p');
-    ex.className = 'excerpt';
-    ex.textContent = post.excerpt || '';
-
-    article.append(meta, title, ex);
-    return article;
-  }
-
-  fetch('posts.json', {cache:'no-cache'})
-    .then(r => { if(!r.ok) throw new Error('posts.json missing'); return r.json(); })
-    .then(posts => {
-      wrap.innerHTML = '';
-      if(!Array.isArray(posts) || posts.length === 0){
-        const empty = document.createElement('div');
-        empty.className = 'card';
-        empty.innerHTML = '<div class="meta">No posts yet. Add one to <code>posts.json</code>.</div>';
-        wrap.append(empty);
-        return;
-      }
-      posts.forEach(p => wrap.append(card(p)));
-    })
-    .catch(() => {
-      wrap.innerHTML = '<div class="card"><div class="meta">Couldn’t load posts. Ensure <code>posts.json</code> is in the repo root and valid JSON.</div></div>';
-    });
-});
-</script>
+<p><a href="../index.html">← Back to homepage</a></p>
 </body>
 </html>
