@@ -4,27 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Boluadeoye — Writer & Builder</title>
-<meta name="description" content="Writings, project notes, and ideas in motion by Boluadeoye."/>
+<meta name="description" content="Writings, project notes, and ideas in motion by Boluadeoye.">
 <link rel="preload" href="images/bolu.jpg" as="image">
 <style>
 :root{
-  --bg:#ffffff;
-  --ink:#0b1220;
-  --muted:#546074;
-  --card:#f7f9ff;
-  --blue:#2563eb;
-  --blue-ink:#1e40af;
-  --orange:#ff6a00;
-  --ring:rgba(37,99,235,.15);
-  --shadow:0 6px 20px rgba(17,24,39,.08);
-  --radius:18px;
-  --max:1020px;
+  --bg:#ffffff; --ink:#0b1220; --muted:#546074;
+  --card:#f7f9ff; --blue:#2563eb; --blue-ink:#1e40af; --orange:#ff6a00;
+  --ring:rgba(37,99,235,.15); --shadow:0 6px 20px rgba(17,24,39,.08);
+  --radius:18px; --max:1020px;
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-img{max-width:100%;height:auto;display:block}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
 a{color:var(--blue-ink);text-decoration:none}
 a:focus{outline:3px solid var(--ring);outline-offset:3px;border-radius:10px}
+img{max-width:100%;height:auto;display:block}
+
 .container{max-width:var(--max);margin:0 auto;padding:22px}
 nav{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:12px}
 .brand{display:flex;align-items:center;gap:12px}
@@ -34,19 +29,21 @@ nav{display:flex;justify-content:space-between;align-items:center;gap:16px;margi
 .menu a{padding:8px 12px;border-radius:12px}
 .menu a:hover{background:#eef2ff}
 
-.hero{margin:10px 0 22px;padding:26px;border:1px solid #eaf0ff;border-radius:var(--radius);background:linear-gradient(180deg,#ffffff, #f6f9ff);}
-.kicker{display:inline-block;color:var(--muted);font-weight:700;background:#eef2ff;border:1px solid #dbe3ff;border-radius:999px;padding:6px 12px;margin-bottom:14px}
+.hero{margin:10px 0 22px;padding:26px;border:1px solid #eaf0ff;border-radius:var(--radius);
+  background:linear-gradient(180deg,#ffffff,#f6f9ff)}
+.kicker{display:inline-block;color:var(--muted);font-weight:700;background:#eef2ff;
+  border:1px solid #dbe3ff;border-radius:999px;padding:6px 12px;margin-bottom:14px}
 h1{font-size:40px;line-height:1.1;margin:6px 0 10px}
 .lead{color:var(--muted);font-size:18px}
-
 .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
-.cta{display:inline-flex;gap:10px;align-items:center;background:var(--orange);color:#fff;border-radius:12px;padding:12px 16px;border:1px solid #ff944d;box-shadow:0 10px 20px rgba(255,106,0,.15);font-weight:700}
-.cta:hover{filter:brightness(1.02)}
-.ghost{display:inline-flex;gap:8px;align-items:center;border:1px solid #dbe3ff;padding:12px 16px;border-radius:12px;background:#fff;color:var(--blue-ink)}
+.cta{display:inline-flex;gap:10px;align-items:center;background:var(--orange);color:#fff;
+  border-radius:12px;padding:12px 16px;border:1px solid #ff944d;
+  box-shadow:0 10px 20px rgba(255,106,0,.15);font-weight:700}
+.ghost{display:inline-flex;gap:8px;align-items:center;border:1px solid #dbe3ff;
+  padding:12px 16px;border-radius:12px;background:#fff;color:var(--blue-ink)}
 
 .section{margin-top:34px}
 .section h2{font-size:22px;margin:0 0 12px}
-
 .list{display:grid;gap:12px}
 .card{background:var(--card);border:1px solid #eaf0ff;border-radius:16px;padding:16px;box-shadow:var(--shadow)}
 .card a.title{display:block;font-weight:800;font-size:18px;color:var(--ink)}
@@ -57,461 +54,102 @@ h1{font-size:40px;line-height:1.1;margin:6px 0 10px}
 @media(min-width:720px){ .grid{grid-template-columns:1fr 1fr} }
 .panel{background:#fff;border:1px solid #eaf0ff;border-radius:16px;padding:18px;box-shadow:var(--shadow)}
 .panel h3{margin:0 0 8px}
-
-footer{margin:36px 0 12px;color:var(--muted);font-size:13px;text-align:center}
-.no-footer{display:none}
 </style>
 </head>
 <body>
-  <header class="container">
-    <nav>
-      <div class="brand">
-        <img src="images/bolu.jpg" alt="Boluadeoye"/>
-        <div class="name">Boluadeoye</div>
-      </div>
-      <div class="menu">
-        <a href="#home">Home</a>
-        <a href="#writings">Writings</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </div>
-    </nav>
-  </header>
-
-  <main id="home" class="container">
-    <section class="hero">
-      <span class="kicker">by boluᵀᴿ • personal site</span>
-      <h1>Words that glow in the day.</h1>
-      <p class="lead">Short essays, project notes, and ideas in motion — updated often.</p>
-      <div class="actions">
-        <a class="cta" href="#writings">✨ Read the latest</a>
-        <a class="ghost" href="#about">About the author</a>
-      </div>
-    </section>
-
-    <section id="writings" class="section">
-      <h2>Latest writings</h2>
-      <div id="posts" class="list" role="list">
-        <div class="card"><div class="meta">Loading posts…</div></div>
-      </div>
-    </section>
-
-    <section class="section grid">
-      <article id="about" class="panel about">
-        <h3>About</h3>
-        <p>Hi, I’m <strong>Boluadeoye</strong> — I write, prototype tiny apps, and enjoy clean, simple UIs. This is my hub for short essays, project notes and things I’m learning.</p>
-        <p>Theme: bright & minimal with blue/orange accents. Hosted on GitHub Pages.</p>
-      </article>
-      <aside id="contact" class="panel contact">
-        <h3>Contact</h3>
-        <p>Email: <a href="mailto:boluadeoye97@gmail.com">boluadeoye97@gmail.com</a></p>
-        <p>WhatsApp: <a href="https://wa.me/2348106293674" rel="noopener">chat me</a></p>
-        <p>Instagram: <a href="https://instagram.com/boluadeoye" rel="noopener">@boluadeoye</a></p>
-      </aside>
-    </section>
-
-    <footer class="no-footer">
-      <!-- intentionally empty so there is NO visible footer -->
-    </footer>
-  </main>
-
-<script>
-(async () => {
-  const container = document.getElementById('posts');
-  try {
-    const res = await fetch('posts.json', {cache:'no-cache'});
-    if (!res.ok) throw new Error('posts.json not found');
-    const posts = await res.json();
-    if (!Array.isArray(posts) || posts.length === 0) {
-      container.innerHTML = '<div class="card"><div class="meta">No posts yet. Add items to <code>posts.json</code>.</div></div>';
-      return;
-    }
-    container.innerHTML = posts.map(p => `
-      <article class="card" role="listitem">
-        <div class="meta">${new Date(p.date).toLocaleDateString()} • ${p.minutes} min read</div>
-        <a class="title" href="${p.url}">${p.title}</a>
-        <p class="excerpt">${p.excerpt}</p>
-      </article>
-    `).join('');
-  } catch (e) {
-    container.innerHTML = '<div class="card"><div class="meta">Couldn’t load posts. Make sure <code>posts.json</code> is in the repo root.</div></div>';
-  }
-})();
-</script>
-</body>
-</html>      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      background: #fafafa;
-    }
-
-    .post h3 {
-      margin: 0;
-      font-size: 1.2em;
-    }
-
-    .post a {
-      color: #2563eb;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      border-top: 1px solid #eee;
-      font-size: 0.9em;
-      background: #fafafa;
-    }
-
-    footer a {
-      color: #2563eb;
-      text-decoration: none;
-    }
-
-  </style>
-</head>
-<body>
-
-  <!-- Header -->
-  <header>
-    <img src="images/bolu.jpg" alt="Boluadeoye" class="avatar">
-    <strong>Boluadeoye</strong>
-    <nav>
+<header class="container">
+  <nav>
+    <div class="brand">
+      <img src="images/bolu.jpg" alt="Boluadeoye">
+      <div class="name">Boluadeoye</div>
+    </div>
+    <div class="menu">
+      <a href="#home">Home</a>
       <a href="#writings">Writings</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
-    </nav>
-  </header>
+    </div>
+  </nav>
+</header>
 
-  <!-- Hero -->
-  <div class="hero">
+<main id="home" class="container">
+  <section class="hero">
+    <span class="kicker">by boluᵀᴿ • personal site</span>
     <h1>Words that glow in the day.</h1>
-    <p>Essays, reflections, project notes, and ideas in motion — updated often.</p>
-    <a href="#writings" class="btn btn-primary">✨ Read the latest</a>
-    <a href="#about" class="btn btn-secondary">About the author</a>
-  </div>
-
-  <!-- Writings -->
-  <section id="writings">
-    <h2>Latest Writings</h2>
-    <div id="posts"></div>
-  </section>
-
-  <!-- About -->
-  <section id="about">
-    <h2>About</h2>
-    <p>
-      Hi, I’m <strong>Boluadeoye</strong> — I write, build tiny apps, and enjoy clean, simple UIs.
-      This site is my hub for essays, reflections, project notes and things I’m learning.
-    </p>
-    <p>
-      Theme: bright, minimal, with orange and blue accents. Built on GitHub Pages.
-    </p>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>
-      📧 <a href="mailto:boluadeoye97@gmail.com">boluadeoye97@gmail.com</a><br>
-      💬 <a href="https://wa.me/2348106293674">Chat on WhatsApp</a>
-    </p>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-  <p>© 2025 Boluadeoye • All rights reserved</p>
-  </footer>
-
-  <!-- Script to load posts -->
-  <script>
-    async function loadPosts() {
-      try {
-        const res = await fetch("posts.json");
-        const posts = await res.json();
-        let html = "";
-        posts.forEach(p => {
-          html += `
-            <div class="post">
-              <h3><a href="${p.url}">${p.title}</a></h3>
-              <p><em>${p.date} • ${p.minutes} min read</em></p>
-              <p>${p.excerpt}</p>
-            </div>
-          `;
-        });
-        document.getElementById("posts").innerHTML = html;
-      } catch (e) {
-        document.getElementById("posts").innerHTML =
-          "<p>Could not load posts.</p>";
-      }
-    }
-    loadPosts();
-  </script>
-
-</body>
-</html>          wrap.innerHTML = '<div class="muted">No posts yet. Add one to <code>posts.json</code>.</div>';
-          return;
-        }
-        wrap.innerHTML = posts.map(p => {
-          const date = new Date(p.date).toLocaleDateString();
-          const mins = p.minutes ? ` • ${p.minutes} min read` : '';
-          return `
-            <article class="card">
-              <h3><a href="${p.url}">${p.title}</a></h3>
-              <div class="meta">${date}${mins}</div>
-              <p>${p.excerpt || ''}</p>
-              <a href="${p.url}">Read →</a>
-            </article>`;
-        }).join('');
-      } catch (e) {
-        console.error(e);
-        wrap.innerHTML =
-          '<div class="muted">Couldn’t load posts. Ensure <code>posts.json</code> is in the repo root and is valid JSON.</div>';
-      }
-    }
-    loadPosts();
-  </script>
-</body>
-</html>    .about, .contact{
-      background:var(--card); border:1px solid #eef2ff; border-radius:var(--radius);
-      padding:20px; box-shadow: var(--shadow);
-    }
-    .about p, .contact p{margin:.5em 0}
-
-    .cta{
-      display:inline-flex; gap:10px; align-items:center;
-      background: var(--blue); color:#fff; border-radius:12px; padding:10px 14px;
-      border: 1px solid #3b82f6; box-shadow: 0 10px 20px var(--ring);
-      font-weight:700;
-    }
-    .cta:hover{ text-decoration:none; background:#1d4ed8 }
-    .ghost{
-      display:inline-flex; gap:8px; align-items:center;
-      border:1px solid #dbe3ff; padding:10px 14px; border-radius:12px; color:var(--blue-ink);
-      background:#fff;
-    }
-
-    footer{ margin-top:36px; color:var(--muted); font-size:13px; text-align:center }
-  </style>
-</head>
-<body>
-  <div class="wrap">
-
-    <!-- Top bar -->
-    <div class="top">
-      <div class="brand">
-        <div class="avatar" aria-label="Boluadeoye"></div>
-        <div class="title">boluadeoye</div>
-      </div>
-      <nav>
-        <a href="#home">Home</a>
-        <a href="#writings">Writings</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </nav>
+    <p class="lead">Short essays, project notes, and ideas in motion — updated often.</p>
+    <div class="actions">
+      <a class="cta" href="#writings">✨ Read the latest</a>
+      <a class="ghost" href="#about">About the author</a>
     </div>
+  </section>
 
-    <!-- Hero -->
-    <section id="home" class="hero">
-      <span class="eyebrow">by <b>boluᵀᴿ</b> • writer & builder</span>
-      <h1>Words that glow. A simple, personal home on the web.</h1>
-      <p class="lead">
-        Short essays and notes on faith, focus and building. Clean, fast and updated often.
-        Bright theme. Mobile-first. No frameworks.
-      </p>
-      <p style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap">
-        <a class="cta" href="#writings">Read the latest</a>
-        <a class="ghost" href="#about">About the author</a>
-      </p>
-    </section>
-
-    <!-- Writings -->
-    <section id="writings" class="section">
-      <h2>Latest writings</h2>
-      <div id="posts" class="grid" aria-live="polite">
-        <!-- cards injected by JS -->
-      </div>
-    </section>
-
-    <!-- About -->
-    <section id="about" class="section about">
-      <h2>About</h2>
-      <p>Hi, I’m <b>Boluadeoye</b> — I write, prototype tiny apps, and enjoy clean, simple UIs.
-         This site is my hub for short essays, project notes and things I’m learning.</p>
-      <p>Theme: bright, minimal, with blue and orange accents. Built as a single HTML file on GitHub Pages.</p>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="section contact">
-      <h2>Contact</h2>
-      <p>Say hello anytime.</p>
-      <p style="display:flex; gap:10px; flex-wrap:wrap">
-        <a class="cta" href="mailto:boluadeoye97@gmail.com">Email Me</a>
-        <a class="ghost" href="https://wa.me/2348106293674" target="_blank" rel="noopener">WhatsApp</a>
-      </p>
-    </section>
-
-    <footer>© <span id="y"></span> boluadeoye • Powered by GitHub Pages.</footer>
-  </div>
-
-  <script>
-    // year
-    document.getElementById('y').textContent = new Date().getFullYear();
-
-    // load cards from posts.json
-    async function loadPosts(){
-      try{
-        const res = await fetch('posts.json', {cache:'no-store'});
-        if(!res.ok) throw new Error('Failed to load posts.json');
-        const list = await res.json();
-        const box = document.getElementById('posts');
-
-        if(!Array.isArray(list) || !list.length){
-          box.innerHTML = '<p style="color:#6b7280">No posts yet. Add some to <code>posts.json</code>.</p>';
-          return;
-        }
-
-        // newest first by date
-        list.sort((a,b)=> (b.date||'').localeCompare(a.date||''));
-
-        box.innerHTML = list.map(p=>{
-          const date = p.date ? new Date(p.date).toLocaleDateString() : '';
-          return `
-            <article class="card">
-              <span class="chip">NEW</span>
-              <h3>${p.title || 'Untitled'}</h3>
-              <div class="meta">${date} • ${p.minutes||3} min read</div>
-              <p style="margin:0 0 10px; color:#48536a">${p.excerpt || ''}</p>
-              <a href="${p.url}" class="ghost">Read →</a>
-            </article>
-          `;
-        }).join('');
-      }catch(err){
-        console.error(err);
-        document.getElementById('posts').innerHTML =
-          '<p style="color:#dc2626">Could not load posts. Check <code>posts.json</code> is in the repo root.</p>';
-      }
-    }
-    loadPosts();
-  </script>
-</body>
-</html>        <a class="btn secondary" href="about.html">About the author</a>
-      </div>
-    </section>
-
-    <h2 id="latest" style="margin:6px 0 10px">Latest writings</h2>
-    <div id="posts" class="grid" aria-live="polite">
-      <!-- cards injected here -->
+  <section id="writings" class="section">
+    <h2>Latest writings</h2>
+    <div id="posts" class="list" role="list">
+      <div class="card"><div class="meta">Loading posts…</div></div>
     </div>
+  </section>
 
-    <footer>
-      <div class="watermark">by bolu<sup>®</sup></div>
-      <div style="margin-top:6px">
-        <a class="read" href="mailto:boluadeoye97@gmail.com">Email</a> •
-        <a class="read" href="https://wa.me/2348106293674" target="_blank" rel="noopener">WhatsApp</a>
-      </div>
-    </footer>
-  </div>
+  <section class="section grid">
+    <article id="about" class="panel">
+      <h3>About</h3>
+      <p>Hi, I’m <strong>Boluadeoye</strong> — I write, prototype tiny apps, and enjoy clean, simple UIs. This is my hub for short essays, project notes and things I’m learning.</p>
+      <p>Theme: bright &amp; minimal with blue/orange accents. Hosted on GitHub Pages.</p>
+    </article>
+    <aside id="contact" class="panel">
+      <h3>Contact</h3>
+      <p>Email: <a href="mailto:boluadeoye97@gmail.com">boluadeoye97@gmail.com</a></p>
+      <p>WhatsApp: <a href="https://wa.me/2348106293674" rel="noopener">chat me</a></p>
+      <p>Instagram: <a href="https://instagram.com/boluadeoye" rel="noopener">@boluadeoye</a></p>
+    </aside>
+  </section>
+</main>
 
-  <script>
-    // Fetch posts.json and render cards
-    async function loadPosts(){
-      const container = document.getElementById('posts');
-      try{
-        const res = await fetch('posts.json', {cache:'no-cache'});
-        if(!res.ok) throw new Error('Cannot load posts.json');
-        const data = await res.json();
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const wrap = document.getElementById('posts');
 
-        if(!Array.isArray(data) || data.length === 0){
-          container.innerHTML = '<p class="meta">No posts yet. Add one in <strong>posts.json</strong>.</p>';
-          return;
-        }
+  function card(post){
+    const article = document.createElement('article');
+    article.className = 'card';
 
-        // newest first by date
-        data.sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    const d = new Date(post.date);
+    const dateStr = isNaN(d) ? post.date : d.toLocaleDateString();
+    const minsStr = (post.minutes && Number(post.minutes)) ? ` • ${post.minutes} min read` : '';
+    meta.textContent = `${dateStr}${minsStr}`;
 
-        container.innerHTML = data.map(p => `
-          <article class="card">
-            <div class="meta">${new Date(p.date).toLocaleDateString()} • ${p.minutes||3} min read</div>
-            <h3>${p.title}</h3>
-            <p>${p.excerpt||''}</p>
-            <a class="read" href="${p.url}">Read →</a>
-          </article>
-        `).join('');
-      }catch(err){
-        container.innerHTML = '<p class="meta ring">Couldn’t load posts. Make sure <strong>posts.json</strong> exists in the repo root.</p>';
-        console.error(err);
+    const title = document.createElement('a');
+    title.className = 'title';
+    title.href = post.url;
+    title.textContent = post.title;
+
+    const ex = document.createElement('p');
+    ex.className = 'excerpt';
+    ex.textContent = post.excerpt || '';
+
+    article.append(meta, title, ex);
+    return article;
+  }
+
+  fetch('posts.json', {cache:'no-cache'})
+    .then(r => { if(!r.ok) throw new Error('posts.json missing'); return r.json(); })
+    .then(posts => {
+      wrap.innerHTML = '';
+      if(!Array.isArray(posts) || posts.length === 0){
+        const empty = document.createElement('div');
+        empty.className = 'card';
+        empty.innerHTML = '<div class="meta">No posts yet. Add one to <code>posts.json</code>.</div>';
+        wrap.append(empty);
+        return;
       }
-    }
-    loadPosts();
-  </script>
-</body>
-</html>    </div>
-
-    <section id="latest">
-      <div class="section-title">Latest posts</div>
-      <div id="posts" class="posts" aria-live="polite">
-        <!-- cards will be injected here -->
-      </div>
-      <div id="posts-empty" style="display:none; color:var(--muted); margin-top:6px;">
-        No posts yet. Add items to <code>posts.json</code>.
-      </div>
-    </section>
-
-    <section id="topics">
-      <div class="section-title">Topics</div>
-      <div class="posts">
-        <div class="card"><h3>Essays</h3><p>Longer reflections and stories.</p></div>
-        <div class="card"><h3>Micro-notes</h3><p>Short ideas worth saving.</p></div>
-        <div class="card"><h3>Poems</h3><p>Lines I want to remember.</p></div>
-        <div class="card"><h3>Projects</h3><p>Things I build and ship.</p></div>
-      </div>
-    </section>
-
-    <section id="contact">
-      <div class="section-title">Contact</div>
-      <div class="cta">
-        <span>Say hello:</span>
-        <a href="mailto:boluadeoye97@gmail.com">Email</a>
-        <a href="https://wa.me/2348106293674" target="_blank" rel="noopener">WhatsApp</a>
-      </div>
-    </section>
-
-    <footer>© <span id="y"></span> Boluadeoye. Built with GitHub Pages.</footer>
-  </div>
-
-  <script>
-    // year
-    document.getElementById('y').textContent = new Date().getFullYear();
-
-    // fetch and render posts
-    async function loadPosts() {
-      try {
-        const res = await fetch('posts.json', {cache: 'no-store'});
-        if (!res.ok) throw new Error('Failed to load posts.json');
-        const posts = await res.json();
-
-        // sort newest first by date
-        posts.sort((a,b) => (a.date < b.date ? 1 : -1));
-
-        const wrap = document.getElementById('posts');
-        wrap.innerHTML = posts.map(p => `
-          <article class="card">
-            <div class="meta">${new Date(p.date).toLocaleDateString()} • ${p.minutes} min • ${p.category||'General'}</div>
-            <h3>${p.title}</h3>
-            <p>${p.excerpt||''}</p>
-            <a class="btn" href="${p.url}">Read →</a>
-          </article>
-        `).join('');
-
-        if (!posts.length) document.getElementById('posts-empty').style.display = 'block';
-      } catch (e) {
-        document.getElementById('posts-empty').style.display = 'block';
-        console.error(e);
-      }
-    }
-    loadPosts();
-  </script>
+      posts.forEach(p => wrap.append(card(p)));
+    })
+    .catch(() => {
+      wrap.innerHTML = '<div class="card"><div class="meta">Couldn’t load posts. Ensure <code>posts.json</code> is in the repo root and valid JSON.</div></div>';
+    });
+});
+</script>
 </body>
 </html>
