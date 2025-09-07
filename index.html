@@ -3,194 +3,167 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bolu • Writings</title>
-
-  <!-- Meta for nice sharing cards -->
-  <meta name="description" content="Short essays and notes by Bolu. Faith, focus, and building—bright words for everyday momentum." />
-  <meta property="og:title" content="Bolu • Writings" />
-  <meta property="og:description" content="Short essays and notes by Bolu. Faith, focus, and building." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://boluadeoye.github.io/" />
-
+  <title>Boluadeoye — Home</title>
+  <meta name="description" content="Boluadeoye — essays, micro-notes, poems, and projects." />
   <style>
-    /* ===== Theme ===== */
-    :root{
-      --bg:#0D1117;           /* deep navy */
-      --bg-2:#111826;         /* darker section */
-      --card:#151B23;         /* card/navy */
-      --text:#EAF0FF;         /* soft white */
-      --muted:#9FB3D1;        /* muted text */
-      --accent:#FF6B00;       /* bright orange */
-      --accent-2:#FF8A33;     /* hover orange */
-      --ring:rgba(255,107,0,.35);
-      --shadow:0 10px 25px rgba(0,0,0,.35);
-      --radius:16px;
-      --max: 980px;
+    :root {
+      --bg: #ffffff;
+      --text: #101418;
+      --muted: #5b6673;
+      --card: #ffffff;
+      --border: #e9eef5;
+      --brand: #ff6a00;   /* bright orange */
+      --brand-2: #2563eb; /* royal blue */
     }
-
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif}
-    a{color:inherit;text-decoration:none}
-    img{max-width:100%}
-
-    /* ===== Top bar ===== */
-    .nav{
-      position:sticky; top:0; z-index:30;
-      background:linear-gradient(180deg,#0F1420,transparent), var(--card);
-      backdrop-filter:saturate(1.2) blur(6px);
-      border-bottom:1px solid #1e2633;
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      line-height: 1.55;
     }
-    .nav__inner{
-      max-width:var(--max); margin:auto; padding:14px 16px;
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    .wrap { max-width: 960px; margin: 0 auto; padding: 20px 16px 48px; }
+    header { display:flex; align-items:center; gap:12px; padding:16px 0 8px; }
+    header img {
+      width:40px; height:40px; border-radius:12px; object-fit:cover;
+      box-shadow: 0 6px 18px rgba(37,99,235,.25), 0 2px 6px rgba(255,106,0,.25);
     }
-    .brand{
-      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
+    header .title { font-weight:800; font-size:22px; letter-spacing:.2px; }
+    nav { margin-left:auto; display:flex; gap:14px; }
+    nav a { text-decoration:none; color:var(--muted); font-weight:600; }
+    nav a:hover { color:var(--brand-2); }
+
+    .hero {
+      margin: 12px 0 22px; padding: 22px 20px;
+      border:1px solid var(--border); border-radius:20px;
+      background: linear-gradient(135deg, rgba(255,106,0,.06), rgba(37,99,235,.06));
     }
-    .logo{
-      width:36px; height:36px; border-radius:10px;
-      background: radial-gradient(120% 120% at 20% 20%, #FF8A33 0%, #FF6B00 35%, #3B82F6 65%, #1F2A44 100%);
-      box-shadow:0 10px 20px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.06);
+    .kicker {
+      display:inline-block; font-size:13px; font-weight:700; color:var(--brand-2);
+      padding:.25rem .6rem; border-radius:999px; background:rgba(37,99,235,.08); margin-bottom:10px;
     }
-    .nav a{color:var(--muted); font-weight:600; padding:8px 10px; border-radius:10px}
-    .nav a:hover{color:var(--text); background:#1a2332}
+    h1 { margin: 0 0 8px; font-size: clamp(28px, 6vw, 44px); line-height:1.1; }
+    .lead { color: var(--muted); max-width:56ch; }
 
-    /* ===== Hero ===== */
-    .hero{
-      padding:40px 16px 18px;
-      background:
-        radial-gradient(80% 120% at 10% 0%, rgba(255,107,0,.12), transparent 60%),
-        radial-gradient(50% 80% at 85% -10%, rgba(59,130,246,.13), transparent 60%);
+    /* Posts */
+    .posts { display:grid; grid-template-columns: 1fr; gap:14px; margin-top: 18px; }
+    @media (min-width:700px){ .posts { grid-template-columns: repeat(2, 1fr); } }
+    .card {
+      background: var(--card); border:1px solid var(--border); border-radius:16px;
+      padding:16px 16px 14px;
+      transition: box-shadow .15s ease, transform .15s ease;
     }
-    .hero__inner{max-width:var(--max); margin:auto}
-    .tag{display:inline-block; padding:6px 12px; border-radius:999px; font-weight:700; letter-spacing:.3px;
-      background:#1c2534; color:var(--muted); border:1px solid #26303f}
-    h1{margin:12px 0 12px; font-size:clamp(28px,6vw,44px); line-height:1.15; letter-spacing:.2px}
-    .lead{color:var(--muted); font-size:clamp(15px,3.5vw,18px); max-width:750px}
-
-    /* ===== Buttons ===== */
-    .actions{display:flex; flex-wrap:wrap; gap:12px; margin-top:18px}
-    .btn{
-      display:inline-flex; align-items:center; gap:10px;
-      background:var(--accent); color:#fff; font-weight:800;
-      border:none; border-radius:12px; padding:12px 18px; box-shadow:0 8px 20px var(--ring);
-      transition:.15s transform ease, .18s background ease, .18s box-shadow ease;
+    .card:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(16,20,24,.07); }
+    .meta { font-size:13px; color:var(--muted); margin-bottom:6px; }
+    .card h3 { margin:.2rem 0 .25rem; font-size:18px; }
+    .card p { margin:.25rem 0 .6rem; color: #2a333d; }
+    .card a.btn {
+      display:inline-block; text-decoration:none; font-weight:700; font-size:14px;
+      background: var(--brand); color:#fff; padding:8px 12px; border-radius:10px;
     }
-    .btn:hover{background:var(--accent-2); transform:translateY(-1px); box-shadow:0 14px 26px var(--ring)}
-    .btn--ghost{background:#1b2433; color:var(--text); box-shadow:none; border:1px solid #2a3446}
-    .btn--ghost:hover{background:#202b3d}
+    .card a.btn:hover { background:#ff7f27; }
 
-    /* ===== Sections ===== */
-    .section{padding:14px 16px 36px}
-    .section__inner{max-width:var(--max); margin:auto}
+    /* Sections */
+    section { margin-top: 28px; }
+    .section-title { font-size:16px; letter-spacing:.3px; color:var(--muted); margin:8px 0 10px; font-weight:800; }
 
-    /* ===== Cards (posts) ===== */
-    .grid{display:grid; gap:14px}
-    @media (min-width:640px){ .grid{grid-template-columns:1fr 1fr}}
-    .card{
-      background:linear-gradient(180deg,#121a27,#0f1420);
-      border:1px solid #202a3a; border-radius:var(--radius); padding:18px;
-      box-shadow:var(--shadow);
+    /* Footer / contact */
+    .cta {
+      margin-top: 26px; padding:16px; border:1px dashed var(--border); border-radius:16px;
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+      background: linear-gradient(180deg, rgba(255,106,0,.03), rgba(37,99,235,.03));
     }
-    .card h3{margin:0 0 6px; color:#ffd2b3}
-    .meta{color:var(--muted); font-size:13px; margin-bottom:8px}
-    .card p{margin:0 0 10px; color:#cfe1ff}
-    .read{font-weight:800; color:var(--accent)}
-    .read:hover{color:var(--accent-2)}
-
-    /* ===== Footer ===== */
-    footer{background:var(--bg-2); border-top:1px solid #1f2735}
-    .foot{max-width:var(--max); margin:auto; padding:26px 16px; color:var(--muted); text-align:center}
-    .watermark{opacity:.6; letter-spacing:.25px}
-
-    /* ===== Utilities ===== */
-    .sr{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0}
+    .cta a {
+      text-decoration:none; font-weight:800; padding:10px 12px; border-radius:12px;
+      border:1px solid var(--border); color:var(--brand-2); background:#fff;
+    }
+    .cta a:hover { border-color: var(--brand-2); box-shadow:0 4px 14px rgba(37,99,235,.15); }
+    footer { text-align:center; color:var(--muted); font-size:13px; margin-top:28px; }
   </style>
 </head>
 <body>
-
-  <!-- Nav -->
-  <div class="nav">
-    <div class="nav__inner">
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <span>Bolu</span>
-      </div>
+  <div class="wrap">
+    <header>
+      <!-- Your avatar -->
+      <img src="images/bolu.jpg" alt="Boluadeoye" />
+      <div class="title">Boluadeoye</div>
       <nav>
-        <a href="#writings">Writings</a>
-        <a href="#about">About</a>
+        <a href="index.html">Home</a>
+        <a href="#topics">Topics</a>
         <a href="#contact">Contact</a>
       </nav>
+    </header>
+
+    <div class="hero">
+      <span class="kicker">by bolu<sup>®</sup></span>
+      <h1>Words & work that shine bright.</h1>
+      <p class="lead">
+        Essays, micro-notes, poems and projects. Published simply, updated often, and designed for phones first.
+      </p>
     </div>
+
+    <section id="latest">
+      <div class="section-title">Latest posts</div>
+      <div id="posts" class="posts" aria-live="polite">
+        <!-- cards will be injected here -->
+      </div>
+      <div id="posts-empty" style="display:none; color:var(--muted); margin-top:6px;">
+        No posts yet. Add items to <code>posts.json</code>.
+      </div>
+    </section>
+
+    <section id="topics">
+      <div class="section-title">Topics</div>
+      <div class="posts">
+        <div class="card"><h3>Essays</h3><p>Longer reflections and stories.</p></div>
+        <div class="card"><h3>Micro-notes</h3><p>Short ideas worth saving.</p></div>
+        <div class="card"><h3>Poems</h3><p>Lines I want to remember.</p></div>
+        <div class="card"><h3>Projects</h3><p>Things I build and ship.</p></div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="section-title">Contact</div>
+      <div class="cta">
+        <span>Say hello:</span>
+        <a href="mailto:boluadeoye97@gmail.com">Email</a>
+        <a href="https://wa.me/2348106293674" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </section>
+
+    <footer>© <span id="y"></span> Boluadeoye. Built with GitHub Pages.</footer>
   </div>
 
-  <!-- Hero -->
-  <header class="hero">
-    <div class="hero__inner">
-      <span class="tag">by boluᴿ • essays</span>
-      <h1>Words that glow in the dark.</h1>
-      <p class="lead">
-        Notes on faith, focus and building. Bright, simple, mobile-first.
-        Updated often with love and momentum.
-      </p>
-      <div class="actions">
-        <a class="btn" href="#writings">✨ Read the latest</a>
-        <a class="btn btn--ghost" href="#about">About the author</a>
-        <a class="btn" href="https://wa.me/2348106293674" target="_blank" rel="noopener">💬 WhatsApp me</a>
-      </div>
-    </div>
-  </header>
+  <script>
+    // year
+    document.getElementById('y').textContent = new Date().getFullYear();
 
-  <!-- Writings -->
-  <section id="writings" class="section">
-    <div class="section__inner">
-      <h2>Latest writings</h2>
-      <div class="grid">
-        <article class="card">
-          <h3>Starting Small, Showing Up</h3>
-          <div class="meta">Sep 7, 2025 • 3 min read</div>
-          <p>Tiny daily steps beat perfect plans. Keep momentum with low friction.</p>
-          <a class="read" href="posts/starting-small.html">Read →</a>
-        </article>
+    // fetch and render posts
+    async function loadPosts() {
+      try {
+        const res = await fetch('posts.json', {cache: 'no-store'});
+        if (!res.ok) throw new Error('Failed to load posts.json');
+        const posts = await res.json();
 
-        <article class="card">
-          <h3>On Learning in Public</h3>
-          <div class="meta">Sep 5, 2025 • 4 min read</div>
-          <p>Share the process, not just the results — and grow your courage.</p>
-          <a class="read" href="posts/learning-in-public.html">Read →</a>
-        </article>
-      </div>
-    </div>
-  </section>
+        // sort newest first by date
+        posts.sort((a,b) => (a.date < b.date ? 1 : -1));
 
-  <!-- About -->
-  <section id="about" class="section">
-    <div class="section__inner">
-      <h2>About</h2>
-      <p>
-        Hi, I’m Bolu. I write short essays and reflections on faith, focus and work.
-        This site is my tiny home on the internet—simple, fast, and crafted for phones.
-      </p>
-    </div>
-  </section>
+        const wrap = document.getElementById('posts');
+        wrap.innerHTML = posts.map(p => `
+          <article class="card">
+            <div class="meta">${new Date(p.date).toLocaleDateString()} • ${p.minutes} min • ${p.category||'General'}</div>
+            <h3>${p.title}</h3>
+            <p>${p.excerpt||''}</p>
+            <a class="btn" href="${p.url}">Read →</a>
+          </article>
+        `).join('');
 
-  <!-- Contact -->
-  <section id="contact" class="section">
-    <div class="section__inner">
-      <h2>Contact</h2>
-      <p>Say hello anytime:</p>
-      <div class="actions">
-        <a class="btn" href="mailto:boluadeoye97@gmail.com">📧 Email me</a>
-        <a class="btn" href="https://wa.me/2348106293674" target="_blank" rel="noopener">💬 WhatsApp</a>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="foot">
-      <div class="watermark">© 2025 • by boluᴿ — built with GitHub Pages</div>
-    </div>
-  </footer>
-
+        if (!posts.length) document.getElementById('posts-empty').style.display = 'block';
+      } catch (e) {
+        document.getElementById('posts-empty').style.display = 'block';
+        console.error(e);
+      }
+    }
+    loadPosts();
+  </script>
 </body>
 </html>
