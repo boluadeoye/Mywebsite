@@ -3,101 +3,124 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Boluadeoye — Writing, Projects & Notes</title>
-  <meta name="description" content="Boluadeoye — writer & maker. Essays, notes, and projects." />
-
+  <title>Boluadeoye — Writings</title>
   <style>
     :root{
-      --bg: #fafbff;
-      --card: #ffffff;
-      --text: #0f172a;          /* deep slate */
-      --muted: #5b657a;
-      --blue: #2563eb;          /* bright */
-      --blue-ink: #1e40af;
-      --orange: #fb923c;        /* warm accent */
-      --ring: rgba(37, 99, 235, .18);
-      --shadow: 0 10px 30px rgba(2, 6, 23, .06);
-      --radius: 18px;
-      --maxw: 980px;
+      --bg:#ffffff;
+      --text:#0b1220;
+      --muted:#5b6475;
+      --card:#f6f7fb;
+      --brand:#ff7a00; /* bright orange */
+      --brand-strong:#e56500;
+      --link:#2563eb;  /* blue for links */
     }
     *{box-sizing:border-box}
-    html,body{margin:0}
     body{
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.55;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg); color:var(--text); line-height:1.6;
     }
-    a{color:var(--blue); text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{max-width:var(--maxw); margin:0 auto; padding:24px 20px 56px}
-
-    /* header */
-    .top{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:16px; padding:14px 0 18px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:14px;
-    }
-    .avatar{
-      width:48px; height:48px; border-radius:14px; flex:0 0 48px;
-      background:#e2e8f0 url("images/bolu.jpg") center/cover no-repeat;
-      box-shadow: var(--shadow);
-      outline: 3px solid #fff;
-    }
-    .title{font-weight:800; font-size:22px; letter-spacing:.2px}
-    nav{display:flex; gap:18px; flex-wrap:wrap}
-    nav a{
-      color:var(--blue-ink); font-weight:600; padding:8px 12px; border-radius:12px;
-    }
-    nav a:hover{background: #eaf1ff}
-
-    /* hero */
+    .wrap{max-width:880px; margin:0 auto; padding:24px 18px 56px}
+    header{padding:12px 0 8px; display:flex; align-items:center; gap:12px}
+    .avatar{width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,#ff8a2a,#6aa2ff)}
+    .title{font-size:18px; font-weight:700}
     .hero{
-      background: linear-gradient(180deg, #ffffff, #f3f6ff);
-      border: 1px solid #eef2ff; border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 28px; margin: 6px 0 26px;
+      margin-top:24px; padding:28px; border-radius:18px;
+      background:linear-gradient(180deg,#f9fbff, #ffffff 40%, #f5f7ff);
+      box-shadow: 0 10px 30px rgba(20,30,60,.05);
     }
-    .eyebrow{
-      display:inline-flex; align-items:center; gap:8px;
-      font-size:13px; color:var(--muted);
-      background:#fff; border:1px solid #eef2ff; padding:6px 10px; border-radius:999px;
+    h1{font-size:36px; line-height:1.2; margin:0 0 8px}
+    p.lead{color:var(--muted); margin:0 0 16px; font-size:18px}
+    .row{display:flex; gap:12px; flex-wrap:wrap}
+    .btn{
+      padding:12px 16px; border-radius:12px; font-weight:600; text-decoration:none; display:inline-block
     }
-    .eyebrow b{color:var(--blue-ink)}
-    h1{
-      margin:14px 0 10px; font-size:clamp(28px, 6vw, 44px); line-height:1.1; font-weight:900;
-    }
-    .lead{font-size:18px; color:#384257; max-width:70ch}
-
-    /* section headings */
-    h2{font-size:22px; margin:28px 0 12px}
-    .section{margin: 26px 0}
-
-    /* cards */
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap:16px;
-    }
+    .btn.primary{background:var(--brand); color:#fff}
+    .btn.primary:hover{background:var(--brand-strong)}
+    .btn.ghost{background:#fff; color:var(--text); border:1px solid #e7e9f3}
+    section{margin-top:32px}
+    h2{font-size:22px; margin:0 0 14px}
+    .posts{display:grid; grid-template-columns:1fr; gap:12px}
     .card{
-      background:var(--card); border-radius:16px; padding:18px;
-      border:1px solid #eef2ff; box-shadow: var(--shadow);
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      background:var(--card); border:1px solid #e8ebf6; border-radius:14px; padding:16px;
     }
-    .card:hover{ transform: translateY(-2px); border-color:#e0e7ff; box-shadow: 0 14px 38px rgba(2,6,23,.10); }
-    .card h3{ margin: 4px 0 6px; font-size:18px; line-height:1.35 }
-    .card .meta{ font-size:13px; color:var(--muted); margin-bottom:8px }
-    .chip{
-      display:inline-block; font-size:12px; font-weight:700; letter-spacing:.3px;
-      color:#fff; background: var(--orange); padding:3px 8px; border-radius:999px;
-    }
+    .card h3{margin:0 0 6px; font-size:18px}
+    .card .meta{color:var(--muted); font-size:14px; margin-bottom:6px}
+    .card a{color:var(--link); text-decoration:none}
+    .muted{color:var(--muted)}
+    footer{margin-top:36px; color:var(--muted); font-size:13px}
+    @media (min-width:720px){ .posts{grid-template-columns:1fr 1fr} h1{font-size:44px} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="avatar"></div>
+      <div class="title">Boluadeoye</div>
+    </header>
 
-    /* about & contact blocks */
-    .about, .contact{
+    <div class="hero">
+      <h1>Words that glow in the day.</h1>
+      <p class="lead">Short essays, project notes, and ideas in motion — updated often.</p>
+      <div class="row">
+        <a class="btn primary" href="#latest">Read the latest</a>
+        <a class="btn ghost" href="#about">About the author</a>
+      </div>
+    </div>
+
+    <section id="latest">
+      <h2>Latest writings</h2>
+      <div id="posts" class="posts">
+        <div class="muted" id="loading">Loading posts…</div>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2>About</h2>
+      <div class="card">
+        <p>Hi, I’m <strong>Boluadeoye</strong> — I write, learn in public, and build simple apps.</p>
+        <p class="muted">Theme: bright & minimal with orange accents. Hosted on GitHub Pages.</p>
+      </div>
+    </section>
+
+    <footer>© <span id="year"></span> Boluadeoye</footer>
+  </div>
+
+  <script>
+    // year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // fetch posts.json from repo root
+    async function loadPosts() {
+      const wrap = document.getElementById('posts');
+      try {
+        const res = await fetch('/posts.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const posts = await res.json();
+        if (!Array.isArray(posts) || posts.length === 0) {
+          wrap.innerHTML = '<div class="muted">No posts yet. Add one to <code>posts.json</code>.</div>';
+          return;
+        }
+        wrap.innerHTML = posts.map(p => {
+          const date = new Date(p.date).toLocaleDateString();
+          const mins = p.minutes ? ` • ${p.minutes} min read` : '';
+          return `
+            <article class="card">
+              <h3><a href="${p.url}">${p.title}</a></h3>
+              <div class="meta">${date}${mins}</div>
+              <p>${p.excerpt || ''}</p>
+              <a href="${p.url}">Read →</a>
+            </article>`;
+        }).join('');
+      } catch (e) {
+        console.error(e);
+        wrap.innerHTML =
+          '<div class="muted">Couldn’t load posts. Ensure <code>posts.json</code> is in the repo root and is valid JSON.</div>';
+      }
+    }
+    loadPosts();
+  </script>
+</body>
+</html>    .about, .contact{
       background:var(--card); border:1px solid #eef2ff; border-radius:var(--radius);
       padding:20px; box-shadow: var(--shadow);
     }
