@@ -1,106 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boluadeoye – Writings & Projects</title>
-  <style>
-    body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #ffffff;
-      color: #222;
-      line-height: 1.6;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Boluadeoye — Writer & Builder</title>
+<meta name="description" content="Writings, project notes, and ideas in motion by Boluadeoye."/>
+<link rel="preload" href="images/bolu.jpg" as="image">
+<style>
+:root{
+  --bg:#ffffff;
+  --ink:#0b1220;
+  --muted:#546074;
+  --card:#f7f9ff;
+  --blue:#2563eb;
+  --blue-ink:#1e40af;
+  --orange:#ff6a00;
+  --ring:rgba(37,99,235,.15);
+  --shadow:0 6px 20px rgba(17,24,39,.08);
+  --radius:18px;
+  --max:1020px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--blue-ink);text-decoration:none}
+a:focus{outline:3px solid var(--ring);outline-offset:3px;border-radius:10px}
+.container{max-width:var(--max);margin:0 auto;padding:22px}
+nav{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:12px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:44px;height:44px;border-radius:14px;box-shadow:var(--shadow)}
+.brand .name{font-weight:800;font-size:20px}
+.menu{display:flex;gap:16px;flex-wrap:wrap}
+.menu a{padding:8px 12px;border-radius:12px}
+.menu a:hover{background:#eef2ff}
 
-    header {
-      display: flex;
-      align-items: center;
-      padding: 15px 20px;
-      border-bottom: 1px solid #eee;
-      background: #fff;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
+.hero{margin:10px 0 22px;padding:26px;border:1px solid #eaf0ff;border-radius:var(--radius);background:linear-gradient(180deg,#ffffff, #f6f9ff);}
+.kicker{display:inline-block;color:var(--muted);font-weight:700;background:#eef2ff;border:1px solid #dbe3ff;border-radius:999px;padding:6px 12px;margin-bottom:14px}
+h1{font-size:40px;line-height:1.1;margin:6px 0 10px}
+.lead{color:var(--muted);font-size:18px}
 
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-right: 10px;
-      box-shadow: 0 0 0 2px #fff;
-    }
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+.cta{display:inline-flex;gap:10px;align-items:center;background:var(--orange);color:#fff;border-radius:12px;padding:12px 16px;border:1px solid #ff944d;box-shadow:0 10px 20px rgba(255,106,0,.15);font-weight:700}
+.cta:hover{filter:brightness(1.02)}
+.ghost{display:inline-flex;gap:8px;align-items:center;border:1px solid #dbe3ff;padding:12px 16px;border-radius:12px;background:#fff;color:var(--blue-ink)}
 
-    nav {
-      margin-left: auto;
-    }
+.section{margin-top:34px}
+.section h2{font-size:22px;margin:0 0 12px}
 
-    nav a {
-      text-decoration: none;
-      color: #333;
-      margin: 0 10px;
-      font-weight: 500;
-    }
+.list{display:grid;gap:12px}
+.card{background:var(--card);border:1px solid #eaf0ff;border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+.card a.title{display:block;font-weight:800;font-size:18px;color:var(--ink)}
+.meta{color:var(--muted);font-size:14px;margin:6px 0 8px}
+.excerpt{color:var(--muted)}
 
-    nav a:hover {
-      color: #f97316; /* orange accent */
-    }
+.grid{display:grid;gap:12px}
+@media(min-width:720px){ .grid{grid-template-columns:1fr 1fr} }
+.panel{background:#fff;border:1px solid #eaf0ff;border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+.panel h3{margin:0 0 8px}
 
-    .hero {
-      padding: 60px 20px;
-      text-align: center;
-      background: linear-gradient(to right, #f97316, #2563eb); /* orange → blue */
-      color: #fff;
-    }
+footer{margin:36px 0 12px;color:var(--muted);font-size:13px;text-align:center}
+.no-footer{display:none}
+</style>
+</head>
+<body>
+  <header class="container">
+    <nav>
+      <div class="brand">
+        <img src="images/bolu.jpg" alt="Boluadeoye"/>
+        <div class="name">Boluadeoye</div>
+      </div>
+      <div class="menu">
+        <a href="#home">Home</a>
+        <a href="#writings">Writings</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
 
-    .hero h1 {
-      font-size: 2em;
-      margin-bottom: 10px;
-    }
+  <main id="home" class="container">
+    <section class="hero">
+      <span class="kicker">by boluᵀᴿ • personal site</span>
+      <h1>Words that glow in the day.</h1>
+      <p class="lead">Short essays, project notes, and ideas in motion — updated often.</p>
+      <div class="actions">
+        <a class="cta" href="#writings">✨ Read the latest</a>
+        <a class="ghost" href="#about">About the author</a>
+      </div>
+    </section>
 
-    .hero p {
-      font-size: 1.1em;
-      margin-bottom: 20px;
-    }
+    <section id="writings" class="section">
+      <h2>Latest writings</h2>
+      <div id="posts" class="list" role="list">
+        <div class="card"><div class="meta">Loading posts…</div></div>
+      </div>
+    </section>
 
-    .btn {
-      display: inline-block;
-      padding: 12px 20px;
-      margin: 5px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-    }
+    <section class="section grid">
+      <article id="about" class="panel about">
+        <h3>About</h3>
+        <p>Hi, I’m <strong>Boluadeoye</strong> — I write, prototype tiny apps, and enjoy clean, simple UIs. This is my hub for short essays, project notes and things I’m learning.</p>
+        <p>Theme: bright & minimal with blue/orange accents. Hosted on GitHub Pages.</p>
+      </article>
+      <aside id="contact" class="panel contact">
+        <h3>Contact</h3>
+        <p>Email: <a href="mailto:boluadeoye97@gmail.com">boluadeoye97@gmail.com</a></p>
+        <p>WhatsApp: <a href="https://wa.me/2348106293674" rel="noopener">chat me</a></p>
+        <p>Instagram: <a href="https://instagram.com/boluadeoye" rel="noopener">@boluadeoye</a></p>
+      </aside>
+    </section>
 
-    .btn-primary {
-      background: #f97316;
-      color: #fff;
-    }
+    <footer class="no-footer">
+      <!-- intentionally empty so there is NO visible footer -->
+    </footer>
+  </main>
 
-    .btn-secondary {
-      background: #fff;
-      color: #2563eb;
-      border: 1px solid #2563eb;
+<script>
+(async () => {
+  const container = document.getElementById('posts');
+  try {
+    const res = await fetch('posts.json', {cache:'no-cache'});
+    if (!res.ok) throw new Error('posts.json not found');
+    const posts = await res.json();
+    if (!Array.isArray(posts) || posts.length === 0) {
+      container.innerHTML = '<div class="card"><div class="meta">No posts yet. Add items to <code>posts.json</code>.</div></div>';
+      return;
     }
-
-    section {
-      padding: 40px 20px;
-      max-width: 800px;
-      margin: auto;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-      font-size: 1.5em;
-      color: #f97316;
-    }
-
-    .post {
-      border: 1px solid #eee;
-      padding: 15px;
+    container.innerHTML = posts.map(p => `
+      <article class="card" role="listitem">
+        <div class="meta">${new Date(p.date).toLocaleDateString()} • ${p.minutes} min read</div>
+        <a class="title" href="${p.url}">${p.title}</a>
+        <p class="excerpt">${p.excerpt}</p>
+      </article>
+    `).join('');
+  } catch (e) {
+    container.innerHTML = '<div class="card"><div class="meta">Couldn’t load posts. Make sure <code>posts.json</code> is in the repo root.</div></div>';
+  }
+})();
+</script>
+</body>
+</html>      padding: 15px;
       border-radius: 8px;
       margin-bottom: 20px;
       background: #fafafa;
