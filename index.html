@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bolu — Writings</title>
+<meta name="description" content="Essays, notes and writings by Bolu.">
+
+<style>
+/* ----------------- THEME ----------------- */
+:root{
+  /* Deep navy base */
+  --bg-900:#050913;           /* page background */
+  --bg-800:#0a1122;           /* section/card background */
+  --line:#141e36;             /* hairline/borders */
+  --ink:#ecf1ff;              /* main text */
+  --muted:#a9b7db;            /* secondary text */
+
+  /* Vibrant accents (catchy & modern) */
+  --blue:#4c7dff;             /* electric blue */
+  --violet:#7a5cff;           /* neon violet */
+  --coral:#ff7a45;            /* warm coral/orange */
+
+  /* UI */
+  --radius:16px;
+  --ring:0 0 0 8px rgba(124, 101, 255, .14);
+}
+
+*{box-sizing:border-box}
+html,body{
+  margin:0;background:var(--bg-900);color:var(--ink);
+  font:16.5px/1.75 ui-sans-serif, system-ui, -apple-system, Segoe UI, Inter, Roboto, Arial;
+}
+
+/* Utilities */
+.wrap{max-width:980px;margin:auto;padding:0 18px}
+h1,h2,h3{margin:0 0 .5rem;line-height:1.15}
+h1{font-size:clamp(28px,6vw,48px);font-weight:900;letter-spacing:.2px}
+h2{font-size:clamp(18px,3.5vw,24px);font-weight:800}
+h3{font-size:20px;font-weight:800}
+p{margin:.6rem 0}
+a{color:#bcd3ff;text-decoration:none}
+a:hover{text-decoration:underline}
+.hr{height:1px;background:var(--line);margin:14px 0}
+
+/* ----------------- NAV ----------------- */
+.nav{
+  position:sticky;top:0;z-index:20;
+  background:linear-gradient(180deg, rgba(5,9,19,.85), rgba(5,9,19,.55));
+  backdrop-filter: blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{display:flex;align-items:center;gap:12px;padding:10px 0}
+.logo{
+  width:36px;height:36px;border-radius:12px;flex:none;
+  background:radial-gradient(120% 120% at 20% 20%, var(--blue) 0%, var(--violet) 50%, var(--coral) 100%);
+  box-shadow:0 10px 24px rgba(76,125,255,.28);
+}
+.brand{font-weight:900;letter-spacing:.3px}
+.spacer{flex:1}
+.menu a{
+  display:inline-block;padding:8px 12px;border-radius:12px;color:var(--muted)
+}
+.menu a:hover{background:rgba(255,255,255,.04);color:var(--ink)}
+
+/* ----------------- HERO ----------------- */
+.hero{
+  border-bottom:1px solid var(--line);
+  background:
+    radial-gradient(1200px 500px at 20% -10%, rgba(76,125,255,.25), transparent 60%),
+    radial-gradient(900px 420px at 90% 0%, rgba(122,92,255,.20), transparent 60%),
+    radial-gradient(800px 380px at 50% 10%, rgba(255,122,69,.15), transparent 60%);
+}
+.hero-inner{padding:56px 0 28px}
+.kicker{
+  display:inline-flex;gap:8px;align-items:center;
+  padding:6px 10px;border-radius:999px;font-size:12px;
+  color:var(--muted);border:1px solid var(--line);background:rgba(255,255,255,.02)
+}
+.subtitle{color:var(--muted);max-width:68ch}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 16px;border-radius:14px;font-weight:800;border:1px solid transparent
+}
+.btn-primary{
+  background:linear-gradient(135deg, var(--blue), var(--violet));
+  box-shadow:0 12px 24px rgba(76,125,255,.25), inset 0 -2px 0 rgba(255,255,255,.15);
+  color:#06102b;
+}
+.btn-ghost{
+  background:rgba(255,255,255,.04);border-color:var(--line);color:var(--ink)
+}
+.btn:hover{filter:brightness(1.03)}
+
+/* ----------------- POSTS LIST ----------------- */
+.section{padding:22px 0;border-bottom:1px solid var(--line)}
+.grid{display:grid;gap:14px}
+.card{
+  background:linear-gradient(180deg, rgba(10,17,34,.8), rgba(10,17,34,.95));
+  border:1px solid var(--line);border-radius:var(--radius);padding:16px;
+  box-shadow:0 8px 18px rgba(6,10,20,.35);
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.card:hover{
+  transform:translateY(-3px);
+  border-color:#283a70;
+  box-shadow:0 18px 36px rgba(25,40,80,.40);
+}
+.meta{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.excerpt{color:var(--muted)}
+.read{margin-top:6px;font-weight:800;color:#dfe7ff}
+
+/* ----------------- ABOUT / CONTACT ----------------- */
+.panel{
+  background:linear-gradient(180deg, rgba(10,17,34,.8), rgba(10,17,34,.95));
+  border:1px solid var(--line);border-radius:var(--radius);padding:16px
+}
+.about-grid{display:grid;grid-template-columns:96px 1fr;gap:16px}
+@media (max-width:640px){.about-grid{grid-template-columns:1fr}}
+.avatar{
+  width:96px;height:96px;border-radius:16px;
+  background:radial-gradient(120% 120% at 20% 20%, var(--blue), var(--violet) 60%, var(--coral));
+  box-shadow:0 12px 24px rgba(122,92,255,.28);
+}
+
+/* ----------------- FOOTER ----------------- */
+footer{padding:22px 0;text-align:center}
+.watermark{font-weight:900;letter-spacing:.4px;color:rgba(255,255,255,.72)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <div class="logo" aria-hidden="true"></div>
+    <div class="brand">Bolu</div>
+    <div class="spacer"></div>
+    <nav class="menu">
+      <a href="#writings">Writings</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-inner">
+    <span class="kicker">by boluᴿ • writings</span>
+    <h1>Words that glow in the dark.</h1>
+    <p class="subtitle">Short essays and notes on faith, focus and building.
+      Mobile-first, fast, and updated often.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="#writings">✨ Read the latest</a>
+      <a class="btn btn-ghost" href="#about">About the author</a>
+    </div>
+  </div>
+</section>
+
+<!-- WRITINGS -->
+<section id="writings" class="section">
+  <div class="wrap">
+    <h2>Latest writings</h2>
+    <div id="posts" class="grid"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="wrap">
+    <h2>About</h2>
+    <div class="panel">
+      <div class="about-grid">
+        <div class="avatar" aria-hidden="true"></div>
+        <div>
+          <p>Hello, I’m <strong>Bolu</strong> — a writer who likes simple language and useful truth.
+             I build small apps and publish notes as I learn.</p>
+          <p class="muted">This site is a single, fast page. I can edit on my phone, save, refresh, and share.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <div class="wrap">
+    <h2>Contact</h2>
+    <div class="panel">
+      <p>Say hello on
+        <a target="_blank" href="https://wa.me/2348012345678">WhatsApp</a>,
+        <a target="_blank" href="https://instagram.com/yourname">Instagram</a>,
+        or <a href="mailto:you@example.com">email</a>.
+      </p>
+      <div class="hr"></div>
+      <p class="muted">Newsletter coming soon.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"><div class="watermark">by boluᴿ</div></div>
+</footer>
+
+<script>
+/* ===== Add/edit posts here ===== */
+const POSTS = [
+  {
+    title: "Starting Small, Showing Up",
+    date: "2025-09-07",
+    minutes: 3,
+    url: "posts/starting-small.html",
+    excerpt: "Tiny daily steps beat perfect plans. Keep momentum with low friction."
+  },
+  {
+    title: "On Learning in Public",
+    date: "2025-09-05",
+    minutes: 4,
+    url: "posts/learning-in-public.html",
+    excerpt: "Share the process, not just the results — courage grows in public."
+  },
+  {
+    title: "Faith, Focus, and Work",
+    date: "2025-08-28",
+    minutes: 5,
+    url: "posts/faith-focus-work.html",
+    excerpt: "What steadies my hands when tasks feel heavy and days feel loud."
+  }
+];
+
+/* Render cards */
+const list = document.getElementById("posts");
+POSTS.forEach(p=>{
+  const el = document.createElement("article");
+  el.className = "card";
+  el.innerHTML = `
+    <a href="${p.url}">
+      <h3>${p.title}</h3>
+      <div class="meta">
+        <span>${new Date(p.date).toLocaleDateString()}</span>
+        <span>· ${p.minutes} min read</span>
+      </div>
+      <p class="excerpt">${p.excerpt}</p>
+      <p class="read">Read →</p>
+    </a>`;
+  list.appendChild(el);
+});
+</script>
+</body>
+</html>
