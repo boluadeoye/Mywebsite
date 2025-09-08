@@ -6,6 +6,27 @@
   <title>Boluadeoye</title>
   <style>
     :root {
+      /* Chips / badges */
+.chip{
+  display:inline-block;
+  padding:.4rem 1rem;
+  border-radius:999px;
+  background:var(--chip);             /* dark pill background */
+  color:var(--ink);
+  border:1px solid var(--chip-ring);   /* subtle orange ring */
+  box-shadow:0 0 0 6px var(--chip-ring); /* soft glow ring */
+  font-weight:600;
+  letter-spacing:.02em;
+}
+
+/* Hero subtitle (the paragraph under the big heading) */
+.hero p{
+  color:var(--muted);       /* softer color */
+  font-size:1.05rem;        /* slightly larger than body */
+  max-width:42rem;          /* comfortable reading width */
+  margin:.75rem auto 0;     /* centered under title */
+  line-height:1.8;
+}
       --bg:#0f172a;
       --panel:#111a2e;
       --ink:#e5eefc;
