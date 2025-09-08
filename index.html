@@ -5,170 +5,91 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Boluadeoye</title>
   <style>
-  :root{
-    --bg:#0f172a;         /* page background */
-    --surface:#1e293b;    /* cards/drawer base */
-    --ink:#f9fafb;        /* main text */
-    --muted:#cbd5e1;      /* secondary text */
-    --line:#334155;       /* borders */
+    :root{
+      --blue:#2563eb; --blue-ink:#1d4ed8;
+      --orange:#f97316; --orange-ink:#ea580c;
+      --ink:#0f172a; --muted:#64748b;
+      --card:#f8fafc; --ring:rgba(37,99,235,.15);
+      --radius:14px;
+      --drawer-pill:#122033; /* dark pill on orange drawer */
+    }
+    *{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;color:var(--ink);background:#fff;line-height:1.6}
+    body.noscroll{overflow:hidden}
 
-    --gold:#facc15;       /* gold accent */
-    --gold-ink:#eab308;   /* gold hover/depth */
-    --ring:rgba(250,204,21,.25); /* glow */
-  }
+    /* Header */
+    header{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid #eee;position:sticky;top:0;background:#fff;z-index:40}
+    .hamburger{width:40px;height:40px;border:1px solid #e5e7eb;border-radius:12px;display:grid;place-items:center;background:#fff}
+    .hamburger span{display:block;width:18px;height:2px;background:#111;position:relative;border-radius:2px}
+    .hamburger span:before,.hamburger span:after{content:"";position:absolute;left:0;width:18px;height:2px;background:#111;border-radius:2px}
+    .hamburger span:before{top:-6px}.hamburger span:after{top:6px}
+    .brand{display:flex;align-items:center;gap:10px;margin-left:6px}
+    .brand img{width:44px;height:44px;border-radius:50%;object-fit:cover}
+    .brand strong{font-size:22px}
+    nav{margin-left:auto;display:none;gap:16px}
+    nav a{color:var(--blue);text-decoration:none;font-weight:500}
 
-  *{box-sizing:border-box}
-  body{
-    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-    margin:0;
-    color:var(--ink);
-    background:var(--bg);
-    line-height:1.6;
-  }
+    /* Left Drawer (orange) */
+    .drawer{
+      position:fixed; inset:0 auto 0 0; width:min(84vw,380px);
+      transform: translateX(-100%); transition: transform .25s ease;
+      background: var(--orange); z-index:50; padding:20px 16px 28px;
+      box-shadow: 8px 0 28px rgba(0,0,0,.15);
+    }
+    .drawer.open{ transform: translateX(0) }
+    .drawer .list{display:grid;gap:14px;margin-top:6px}
+    .menu-item{
+      display:block; padding:16px 18px; border-radius:18px;
+      text-decoration:none; color:#fff; font-weight:600;
+      background: var(--drawer-pill); border:1px solid rgba(255,255,255,.08);
+    }
+    .menu-item:hover{filter:brightness(1.05)}
+    .drawer hr{border:none;border-top:1px solid rgba(255,255,255,.18);margin:10px 0}
 
-  /* Header */
-  header{
-    display:flex;align-items:center;gap:12px;
-    padding:16px 18px;
-    border-bottom:1px solid var(--line);
-    position:sticky;top:0;
-    background:var(--surface);
-    z-index:10
-  }
-  .hamburger{
-    width:32px;height:32px;border:1px solid var(--line);
-    border-radius:10px;display:grid;place-items:center;background:var(--surface)
-  }
-  .hamburger span{
-    display:block;width:16px;height:2px;background:var(--ink);position:relative
-  }
-  .hamburger span:before,.hamburger span:after{
-    content:"";position:absolute;left:0;width:16px;height:2px;background:var(--ink)
-  }
-  .hamburger span:before{top:-5px}
-  .hamburger span:after{top:5px}
-  .brand{display:flex;align-items:center;gap:10px;margin-left:6px}
-  .brand img{width:42px;height:42px;border-radius:50%;object-fit:cover}
-  .brand strong{font-size:20px;color:var(--ink)}
-  nav{margin-left:auto;display:none;gap:14px}
-  nav a{color:var(--gold);text-decoration:none;font-weight:500}
+    /* Overlay (only visible while drawer is open) */
+    #overlay{
+      position:fixed; inset:0; background:rgba(0,0,0,.45);
+      opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:45;
+    }
+    #overlay.show{opacity:1; pointer-events:auto}
 
-  /* Drawer */
-  .drawer{
-    position:fixed;top:0;left:0;bottom:0;
-    width:min(82vw,360px);
-    background:var(--surface);
-    color:var(--ink);
-    transform:translateX(-100%);
-    transition:transform .3s ease;
-    z-index:30;padding:18px;
-    overflow:auto;
-    box-shadow:20px 0 40px rgba(0,0,0,.55);
-  }
-  .drawer.open{transform:translateX(0)}
-  .drawer a{
-    display:block;padding:12px 14px;margin-bottom:10px;
-    border-radius:12px;text-decoration:none;
-    color:var(--ink);background:#111827;border:1px solid var(--line);
-  }
-  .drawer a:hover{
-    background:#1f2937;
-    border-color:var(--gold);
-    color:var(--gold);
-  }
-  .drawer hr{border:none;border-top:1px solid var(--line);margin:12px 0}
+    /* Hero */
+    .hero{padding:38px 18px 18px;text-align:center}
+    .pill{display:inline-block;background:#eef2ff;border:1px solid #e2e8ff;border-radius:999px;padding:6px 12px;color:#334; font-size:13px}
+    .hero h1{font-size:46px;line-height:1.12;margin:18px 0 10px}
+    .hero p{color:#334;max-width:58ch;margin:0 auto}
+    .cta{display:inline-flex;gap:10px;align-items:center;background:var(--orange);color:#fff;border-radius:18px;padding:14px 22px;border:1px solid #ffdbbf;box-shadow:0 14px 26px rgba(249,115,22,.25);font-weight:800;text-decoration:none;margin-top:18px}
+    .cta:hover{background:var(--orange-ink)}
 
-  /* Overlay */
-  .overlay{
-    position:fixed;inset:0;background:rgba(0,0,0,.5);
-    z-index:20;display:none;
-  }
-  .overlay.show{display:block}
+    /* Category chips (under hero) */
+    .catsbar{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:24px 0 4px}
+    .chip{padding:10px 16px;border-radius:999px;background:#fff;border:1px solid #e5e7eb;color:#334;font-weight:600;cursor:pointer;box-shadow:0 8px 22px rgba(249,115,22,.10)}
+    .chip.active{border-color:#f59e0b;background:#fff8ef;color:#b45309;box-shadow:0 14px 30px rgba(249,115,22,.18)}
 
-  /* Hero */
-  .hero{padding:34px 18px;text-align:center}
-  .pill{
-    display:inline-block;background:#1e293b;border:1px solid var(--line);
-    border-radius:999px;padding:6px 10px;color:var(--muted);
-    font-size:12px
-  }
-  .hero h1{font-size:42px;line-height:1.15;margin:14px 0 8px;color:var(--gold)}
-  .hero p{color:var(--muted)}
-  .cta{
-    display:inline-flex;gap:10px;align-items:center;
-    background:var(--gold);color:#111;font-weight:700;
-    border-radius:14px;padding:12px 18px;
-    border:1px solid #fde047;
-    box-shadow:0 10px 20px var(--ring);
-    text-decoration:none;margin-top:14px
-  }
-  .cta:hover{background:var(--gold-ink);color:#111}
+    /* Sections */
+    .section{padding:16px 18px;max-width:860px;margin:auto}
+    .search{position:relative;margin:8px 0 18px}
+    .search input{
+      width:100%; border:1px solid #e5e7eb; border-radius:16px; padding:14px 18px 14px 46px; font-size:16px; outline:none;
+      background:#fff; box-shadow: 0 10px 20px rgba(2,6,23,.04);
+    }
+    .search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.55}
 
-  /* Categories row */
-  .catsbar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px 0 0}
-  .chip{
-    padding:6px 10px;border-radius:999px;
-    background:var(--surface);border:1px solid var(--line);
-    color:var(--muted);font-size:13px;cursor:pointer
-  }
-  .chip.active{
-    border-color:var(--gold);
-    background:#2a2000;color:var(--gold)
-  }
+    .list .post{background:var(--card);border:1px solid #e8eefb;padding:16px;border-radius:14px;margin-bottom:14px}
+    .list .post h3{margin:0 0 6px 0;font-size:24px}
+    .list .post small{color:#667}
+    .list .post a{color:var(--blue);text-decoration:none;font-weight:700}
 
-  /* Sections */
-  .section{padding:16px 18px;max-width:760px;margin:auto}
-  .list .post{
-    background:var(--surface);border:1px solid var(--line);
-    padding:15px;border-radius:12px;margin-bottom:14px
-  }
-  .list .post h3{margin:0 0 4px 0;font-size:20px}
-  .list .post small{color:var(--muted)}
-  .list .post a{color:var(--gold);text-decoration:none;font-weight:600}
+    .card{background:#fff;border:1px solid #e8eefb;border-radius:14px;padding:18px}
+    .card p{margin:.55em 0}
 
-  .ghost{
-    display:inline-flex;gap:8px;align-items:center;
-    border:1px solid var(--line);padding:10px 14px;border-radius:12px;
-    color:var(--gold);background:var(--surface)
-  }
+    footer{text-align:center;padding:22px;border-top:1px solid #eee;color:#556;font-size:14px;margin-top:36px}
 
-  /* Cards (About, Contact, etc.) */
-  .card{
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:14px;
-    padding:18px;
-    color:var(--ink);
-  }
-  .card h2{color:var(--gold)}
-  .card p{margin:.55em 0;color:var(--muted)}
-
-  /* Footer */
-  footer{
-    text-align:center;padding:20px;border-top:1px solid var(--line);
-    color:var(--muted);font-size:14px;margin-top:36px
-  }
-
-  /* Search box */
-  .search{
-    display:flex;align-items:center;gap:10px;
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:999px;
-    padding:10px 14px;margin:8px 0 14px;
-    box-shadow:0 2px 5px rgba(0,0,0,.3)
-  }
-  .search input{
-    flex:1;border:none;outline:none;font-size:15px;
-    background:transparent;color:var(--ink)
-  }
-  .search input::placeholder{color:var(--muted)}
-
-  @media(min-width:880px){
-    nav{display:flex}
-    .hamburger{display:none}
-    .hero h1{font-size:52px}
-  }
+    @media(min-width:880px){
+      nav{display:flex}
+      .hamburger{display:none}
+      .hero h1{font-size:64px}
+    }
   </style>
 </head>
 <body>
@@ -188,21 +109,24 @@
     </nav>
   </header>
 
-  <!-- OVERLAY + DRAWER -->
-  <div id="overlay" class="overlay" aria-hidden="true"></div>
+  <!-- OVERLAY (appears only when drawer is open) -->
+  <div id="overlay" aria-hidden="true"></div>
 
+  <!-- LEFT SLIDE-IN DRAWER -->
   <aside id="drawer" class="drawer" aria-hidden="true">
-    <a href="#" data-type="all">All writings</a>
-    <a href="#" data-type="poem">Poems</a>
-    <a href="#" data-type="story">Stories</a>
-    <a href="#" data-type="faith">Faith</a>
-    <a href="#" data-type="devotional">Devotional</a>
-    <a href="#" data-type="article">Articles</a>
-    <a href="#" data-type="essay">Essays</a>
-    <hr>
-    <a href="#about">About</a>
-    <a href="mailto:boluadeoye97@gmail.com">Email me</a>
-    <a href="https://wa.me/2348106293674">WhatsApp</a>
+    <div class="list">
+      <a class="menu-item" href="#" data-type="all">All writings</a>
+      <a class="menu-item" href="#" data-type="poem">Poems</a>
+      <a class="menu-item" href="#" data-type="story">Stories</a>
+      <a class="menu-item" href="#" data-type="faith">Faith</a>
+      <a class="menu-item" href="#" data-type="devotional">Devotional</a>
+      <a class="menu-item" href="#" data-type="article">Articles</a>
+      <a class="menu-item" href="#" data-type="essay">Essays</a>
+      <hr>
+      <a class="menu-item" href="#about">About</a>
+      <a class="menu-item" href="mailto:boluadeoye97@gmail.com">Email me</a>
+      <a class="menu-item" href="https://wa.me/2348106293674">WhatsApp</a>
+    </div>
   </aside>
 
   <!-- HERO -->
@@ -212,17 +136,18 @@
     <p>Short essays, project notes, and ideas in motion — updated often.</p>
     <a href="#writings" class="cta">✨ Read the latest</a>
 
-    <!-- Categories row -->
-    <div class="catsbar" id="chips"></div>
+    <!-- Category chips -->
+    <div class="catsbar" id="chips"><!-- chips inserted by JS --></div>
   </section>
 
   <!-- LATEST WRITINGS -->
   <section id="writings" class="section">
-    <h2>Latest writings</h2>
+    <h2 style="font-size:36px;margin:0 0 8px">Latest writings</h2>
 
+    <!-- search -->
     <div class="search">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></svg>
-      <input id="searchBox" type="text" placeholder="Search titles or summaries..." />
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <input id="search" type="search" placeholder="Search titles or summaries..." />
     </div>
 
     <div id="posts" class="list"></div>
@@ -232,7 +157,7 @@
   <section id="about" class="section">
     <div class="card">
       <h2>About</h2>
-      <p>I’m <strong>Adeoye Boluwatife</strong>, a final-year student in English and Literary Studies at the Federal University, Oye-Ekiti. Writing and creativity are more than passions to me — they’re how I explore ideas, faith, and the beauty of human experience.</p>
+      <p>I’m <strong>Adeoye Boluwatife</strong>, a final-year student in English and Literary Studies at the Federal University, Oye-Ekiti. Writing and creativity are more than passions — they’re how I explore ideas, faith, and the beauty of human experience.</p>
       <p>Here, I share poems, devotionals, essays, and stories: words that glow with honesty, inspire reflection, and keep creativity alive.</p>
     </div>
   </section>
@@ -241,54 +166,61 @@
 
   <script>
     // helpers
-    const $  = s => document.querySelector(s);
-    const $$ = s => [...document.querySelectorAll(s)];
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => [...document.querySelectorAll(sel)];
 
     // Drawer + overlay
-    const drawer  = $('#drawer');
+    const drawer = $('#drawer');
     const overlay = $('#overlay');
-    $('#openMenu').addEventListener('click', () => {
+    const openBtn = $('#openMenu');
+
+    function openDrawer(){
       drawer.classList.add('open');
       overlay.classList.add('show');
-    });
-    const closeDrawer = () => { drawer.classList.remove('open'); overlay.classList.remove('show'); };
+      document.body.classList.add('noscroll');
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      overlay.classList.remove('show');
+      document.body.classList.remove('noscroll');
+    }
+
+    openBtn.addEventListener('click', openDrawer);
     overlay.addEventListener('click', closeDrawer);
-    document.addEventListener('keydown', e => { if(e.key === 'Escape') closeDrawer(); });
+    document.addEventListener('keydown', e => { if(e.key==='Escape') closeDrawer(); });
 
-    // Build chips row from drawer items
+    // Build chips row from drawer (keeps types in one place)
     const chipsWrap = $('#chips');
-    const types = [
-      {t:'all', label:'All writings'},
-      {t:'poem', label:'Poems'},
-      {t:'story', label:'Stories'},
-      {t:'faith', label:'Faith'},
-      {t:'devotional', label:'Devotional'},
-      {t:'article', label:'Articles'},
-      {t:'essay', label:'Essays'},
-    ];
-    chipsWrap.innerHTML = types.map(x => `<button class="chip" data-type="${x.t}">${x.label}</button>`).join('');
+    const drawerLinks = $$('#drawer a[data-type]');
+    function buildChips(){
+      chipsWrap.innerHTML = drawerLinks.map(link =>
+        `<button class="chip" data-type="${link.dataset.type}">${link.textContent}</button>`
+      ).join('');
+    }
+    buildChips();
 
-    // Posts + rendering
+    // Posts + filters
     let allPosts = [];
-    const postsEl   = $('#posts');
-    const searchBox = $('#searchBox');
+    const postsEl = $('#posts');
+    const searchEl = $('#search');
+    let activeType = 'all';
 
-    function renderPosts(filterType='all', q=''){
-      const qNorm = q.trim().toLowerCase();
+    function renderPosts(){
+      const q = searchEl.value.trim().toLowerCase();
       let list = allPosts;
 
-      if(filterType !== 'all'){
-        list = list.filter(p => (p.type||'').toLowerCase() === filterType);
+      if (activeType !== 'all') {
+        list = list.filter(p => (p.type||'').toLowerCase() === activeType);
       }
-      if(qNorm){
+      if (q){
         list = list.filter(p =>
-          (p.title||'').toLowerCase().includes(qNorm) ||
-          (p.excerpt||'').toLowerCase().includes(qNorm)
+          (p.title||'').toLowerCase().includes(q) ||
+          (p.excerpt||'').toLowerCase().includes(q)
         );
       }
 
-      if(!list.length){
-        postsEl.innerHTML = `<p style="color:#667">No posts found.</p>`;
+      if (!list.length){
+        postsEl.innerHTML = `<p style="color:#667;margin:10px 2px">No posts found.</p>`;
         return;
       }
 
@@ -296,49 +228,52 @@
         const mins = p.minutes ? ` • ${p.minutes} min read` : '';
         const type = (p.type||'').toUpperCase();
         return `
-          <div class="post">
+          <article class="post">
             <h3><a href="${p.url}">${p.title}</a></h3>
             <small>${p.date}${mins} • <em>${type}</em></small>
             <p>${p.excerpt||''}</p>
-          </div>`;
+          </article>
+        `;
       }).join('');
     }
 
     async function loadPosts(){
       try{
-        const res = await fetch('posts.json');
-        allPosts = await res.json(); // expects an array
-        renderPosts('all','');
-        setActiveChip('all');
-      }catch(e){
-        console.error(e);
-        postsEl.innerHTML = `<p>Couldn't load posts. Make sure <code>posts.json</code> exists in the repo root and is valid JSON.</p>`;
+        const res = await fetch('posts.json', {cache:'no-store'});
+        allPosts = await res.json();
+        renderPosts();
+      }catch(err){
+        console.error(err);
+        postsEl.innerHTML = `<p>Couldn't load posts. Make sure <code>posts.json</code> exists at the repo root and is valid JSON.</p>`;
       }
     }
     loadPosts();
 
-    // Filtering (chips + drawer)
+    // Chip selection
     function setActiveChip(type){
-      $$('#chips .chip').forEach(c => c.classList.toggle('active', c.dataset.type === type));
+      activeType = type;
+      $$('#chips .chip').forEach(c=>c.classList.toggle('active', c.dataset.type===type));
+      renderPosts();
     }
+    setActiveChip('all');
+
     chipsWrap.addEventListener('click', e=>{
       const btn = e.target.closest('.chip'); if(!btn) return;
-      const type = btn.dataset.type; setActiveChip(type); renderPosts(type, searchBox.value);
+      setActiveChip(btn.dataset.type);
     });
+
+    // Drawer clicks also filter
     drawer.addEventListener('click', e=>{
-      const link = e.target.closest('a[data-type]'); if(!link) return;
+      const link = e.target.closest('a[data-type]');
+      if (!link) return;
       e.preventDefault();
-      const type = link.getAttribute('data-type');
+      setActiveChip(link.dataset.type);
       closeDrawer();
-      setActiveChip(type); renderPosts(type, searchBox.value);
       document.getElementById('writings').scrollIntoView({behavior:'smooth'});
     });
 
-    // Search
-    searchBox.addEventListener('input', () => {
-      const active = ($$('#chips .chip').find(c => c.classList.contains('active')) || {dataset:{type:'all'}}).dataset.type;
-      renderPosts(active, searchBox.value);
-    });
+    // Search input
+    searchEl.addEventListener('input', renderPosts);
   </script>
 </body>
 </html>
