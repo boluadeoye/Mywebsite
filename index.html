@@ -124,7 +124,35 @@
   .overlay{
     position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:55;
   }
+/* Chip pill style (already exists, but make sure it's here) */
+.chip {
+  display: inline-block;
+  padding: .55rem 1rem;
+  border-radius: 999px;
+  background: var(--panel);
+  color: #c7d2fe;
+  border: 1px solid rgba(255,255,255,.08);
+}
 
+/* Extra glowing ring for "personal blog" */
+.chip-ring {
+  position: relative;
+  box-shadow: 0 0 0 6px rgba(245,158,11,.12);
+}
+.chip-ring::after {
+  content: "";
+  position: absolute;
+  inset: -10px;                 /* expands around pill */
+  border-radius: 999px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(245,158,11,.18) 0%,
+    rgba(245,158,11,.10) 45%,
+    rgba(245,158,11,0) 70%
+  );
+  filter: blur(6px);
+  z-index: -1;
+}
   /* Hero (screenshot style: two columns) */
   .hero{ padding:2.2rem 0 1rem }
   .hero-split{
@@ -241,7 +269,7 @@
         </figure>
 
         <div class="hero-copy">
-          <span class="sub" style="display:inline-block;background:var(--panel);padding:.5rem 1rem;border-radius:999px;border:1px solid rgba(255,255,255,.08)">personal site</span>
+          <span class="sub" style="display:inline-block;background:var(--panel);padding:.5rem 1rem;border-radius:999px;border:1px solid rgba(255,255,255,.08)">Personal Blog</span>
           <h2><span class="accent">Words that glow</span> in the day.</h2>
           <p class="sub">Short essays, project notes, and ideas in motion — updated often.</p>
           <a class="btn" href="#latest">Read the latest</a>
