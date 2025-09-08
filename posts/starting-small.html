@@ -1,62 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Starting Small, Showing Up</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sample Post — Boluadeoye</title>
+  <meta name="description" content="A short piece by Adeoye Boluwatife.">
   <style>
-    body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #ffffff;
-      color: #111;
-      line-height: 1.6;
+    :root{
+      --bg:#0f172a; --surface:#1e293b; --ink:#f9fafb; --muted:#cbd5e1; --line:#334155;
+      --gold:#facc15; --gold-ink:#eab308; --ring:rgba(250,204,21,.25);
     }
-    header {
-      border-bottom: 1px solid #eee;
-      margin-bottom: 20px;
-      padding-bottom: 10px;
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+    header{position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--line);padding:12px 16px;z-index:10}
+    header a{color:var(--gold);text-decoration:none;font-weight:600}
+    main{max-width:760px;margin:24px auto;padding:0 16px}
+    h1{font-size:34px;line-height:1.2;margin:6px 0 4px;color:var(--gold)}
+    .meta{color:var(--muted);font-size:14px;margin-bottom:18px}
+    article{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+    article p{margin:1em 0;color:var(--muted)}
+    article h2, article h3{color:var(--ink);margin-top:1.2em}
+    pre, code{background:#0b1220;color:#e5e7eb;border:1px solid #263247;border-radius:8px}
+    pre{padding:12px;overflow:auto}
+    blockquote{margin:1em 0;padding:10px 14px;border-left:4px solid var(--gold);background:#0b1220;color:#e5e7eb;border-radius:8px}
+    footer{color:var(--muted);text-align:center;padding:20px;margin:24px 0}
+    .btn{
+      display:inline-block;margin-top:12px;background:var(--gold);color:#111;border:1px solid #fde047;
+      text-decoration:none;padding:10px 14px;border-radius:10px;box-shadow:0 10px 20px var(--ring);font-weight:700
     }
-    h1 {
-      font-size: 28px;
-      margin: 0 0 10px 0;
-      color: #ff6600; /* orange */
-    }
-    .meta {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 20px;
-      font-style: italic;
-    }
-    .content {
-      font-size: 17px;
-      margin-bottom: 30px;
-    }
-    a.back {
-      display: inline-block;
-      text-decoration: none;
-      color: #2563eb; /* blue */
-      font-weight: 500;
-      margin-top: 20px;
-    }
-    a.back:hover {
-      text-decoration: underline;
-    }
+    .btn:hover{background:var(--gold-ink)}
   </style>
 </head>
 <body>
   <header>
-    <h1>Starting Small, Showing Up</h1>
-    <div class="meta">Published on 2025-09-07 • 3 min read</div>
+    <a href="../index.html">← Back to writings</a>
   </header>
 
-  <div class="content">
-    <p>Why tiny daily steps beat perfect plans, and how to keep momentum with low friction.</p>
+  <main>
+    <h1>Sample Post Title</h1>
+    <div class="meta">Jan 1, 2025 • 4 min read • <em>ESSAY</em></div>
 
-    <p>(Here you’ll add your full essay/writing text. You can edit this later whenever you want!)</p>
-  </div>
+    <article>
+      <p>Intro paragraph — set the mood for the piece. Keep it short and strong.</p>
+      <h2>Section header</h2>
+      <p>Write your content here. This dark theme is gentle on the eyes and matches your homepage.</p>
+      <blockquote>Pull-quote or important thought stands out here.</blockquote>
+      <pre><code>// code sample (if ever needed)
+print("Hello, Bolu!")</code></pre>
+      <p>Closing line or a benediction.</p>
+      <a class="btn" href="../index.html#writings">Back to Latest</a>
+    </article>
 
-  <a href="../index.html" class="back">← Back to homepage</a>
+    <footer>© Boluadeoye 2025 · All rights reserved</footer>
+  </main>
 </body>
 </html>
