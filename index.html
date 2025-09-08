@@ -2,324 +2,322 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Boluadeoye</title>
-  <meta name="description" content="Poems, devotionals, essays and stories by Adeoye Boluwatife — words that glow in the day." />
-
+  <link rel="stylesheet" href="styles.css" />
   <style>
-    :root{
-      /* Core palette (locked) */
-      --bg: #0b1220;          /* page background */
-      --panel: #0f172a;       /* cards/sections */
-      --text: #e5e7eb;        /* primary text */
-      --muted: #9aa6b2;       /* secondary text */
-
-      --orange: #f97316;      /* accent / buttons / drawer */
-      --orange-ink:#ea580c;   /* hover/pressed */
-
-      --gold:#facc15;         /* highlight glow / chip aura */
-
-      --chip-bg:#111827;      /* chip surface */
-      --chip-br:#1f2937;
-
-      --ring: rgba(250, 204, 21, .18); /* soft gold ring */
-      --radius: 16px;
+    /* ============= BASE THEME COLORS ============= */
+    :root {
+      --bg-dark: #0f172a;      /* dark navy */
+      --card-dark: #1e293b;    /* slightly lighter navy */
+      --text-light: #f1f5f9;   /* light text */
+      --text-muted: #94a3b8;   /* muted text */
+      --accent: #f59e0b;       /* warm orange */
+      --accent-alt: #facc15;   /* yellow for hover/buttons */
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:var(--bg); color:var(--text); line-height:1.6;
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      line-height: 1.6;
     }
 
-    a{color:#93c5fd; text-decoration:none}
-    a:hover{color:#bfdbfe}
-
-    /* Header */
-    header{
-      position:sticky; top:0; z-index:20;
-      display:flex; align-items:center; gap:12px;
-      padding:12px 16px; background:var(--bg); border-bottom:1px solid #0e1526;
+    a {
+      color: var(--accent);
+      text-decoration: none;
     }
-    .hamburger{
-      width:40px; height:40px; border-radius:12px; display:grid; place-items:center;
-      background:#0d162b; border:1px solid #121b31;
-    }
-    .hamburger span,.hamburger span:before,.hamburger span:after{
-      display:block; width:18px; height:2px; background:#cbd5e1; content:"";
-      position:relative; border-radius:2px;
-    }
-    .hamburger span:before{position:absolute; top:-6px}
-    .hamburger span:after{position:absolute; top:6px}
-
-    .brand{display:flex; align-items:center; gap:12px}
-    .brand img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid #1f2a44}
-    .brand strong{font-size:22px; letter-spacing:.2px}
-
-    nav{margin-left:auto;display:none;gap:18px}
-    nav a{color:#cbd5e1}
-    nav a:hover{color:#e5e7eb}
-
-    /* Drawer (LEFT, scrollable) — NO page overlay */
-    .drawer{
-      position:fixed; left:0; top:0; bottom:0; width:min(88vw,420px);
-      transform:translateX(-100%); transition:transform .28s ease;
-      background:var(--orange); color:#0b1220; z-index:40;
-      padding:18px 16px; overflow-y:auto;
-      box-shadow:10px 0 40px rgba(0,0,0,.25);
-    }
-    .drawer.open{ transform:translateX(0) }
-    .drawer .item{
-      display:block; margin:14px 0; padding:18px 20px; border-radius:18px;
-      background:#0f1b2d; color:#e5e7eb; border:1px solid #1e2b42; font-weight:600;
-    }
-    .drawer .item:focus,.drawer .item:hover{ outline:0; border-color:#2a3a57 }
-
-    /* Hero */
-    .hero{padding:36px 16px 16px; text-align:center}
-    .pill{
-      display:inline-block; padding:6px 12px; border-radius:999px;
-      background:#0e1a2f; border:1px solid #13213a; color:#b7c4d6; font-size:12px;
-    }
-    .hero h1{
-      font-size: clamp(32px, 6vw, 56px);
-      line-height:1.15; margin:16px auto 10px; max-width:20ch; letter-spacing:.2px;
-    }
-    .hero p{color:var(--muted); max-width:60ch; margin:0 auto 18px}
-    .cta{
-      display:inline-flex; gap:10px; align-items:center; justify-content:center;
-      padding:14px 22px; border-radius:18px; font-weight:800;
-      color:#121212; background:var(--orange); border:1px solid #f6a66a;
-      box-shadow:0 12px 32px rgba(250, 204, 21, .14), 0 6px 16px rgba(233, 132, 28, .18);
-    }
-    .cta:hover{ background:var(--orange-ink) }
-
-    /* Chips row */
-    .catsbar{display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin:22px auto 8px; max-width:820px}
-    .chip{
-      background:var(--chip-bg); border:1px solid var(--chip-br); color:#d1d5db;
-      padding:10px 14px; border-radius:999px; cursor:pointer; font-weight:600;
-      box-shadow:0 8px 24px rgba(250, 204, 21, 0); transition:box-shadow .2s,border-color .2s, transform .05s;
-    }
-    .chip:active{ transform:translateY(1px) }
-    .chip.active{
-      border-color:#f59e0b; color:#fff;
-      box-shadow:0 10px 26px var(--ring);
+    a:hover {
+      text-decoration: underline;
     }
 
-    /* Sections */
-    .section{padding:12px 16px 22px; max-width:860px; margin:0 auto}
-    .section h2{font-size:32px; margin:10px 4px 14px}
-
-    /* Search */
-    .search{
-      position:sticky; top:60px; z-index:15; /* stays under header */
-      margin:0 0 12px; padding:8px 0; background:linear-gradient(180deg, var(--bg) 60%, transparent);
-    }
-    .search input{
-      width:100%; padding:14px 16px 14px 44px; border-radius:14px;
-      background:#0d162b; border:1px solid #141f36; color:#e5e7eb; outline:0;
-    }
-    .search .icon{
-      position:absolute; left:16px; top:50%; transform:translateY(-50%);
-      width:18px; height:18px; opacity:.6
+    /* ============= HEADER + NAVBAR ============= */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background: var(--card-dark);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
-    /* Post list */
-    .list .post{
-      background:var(--panel); border:1px solid #18223a; padding:16px; border-radius:14px; margin:12px 0;
-    }
-    .list .post h3{margin:0 0 6px 0; font-size:22px}
-    .list .post small{color:var(--muted)}
-    .list .post a{color:#93c5fd; font-weight:800}
-    .list .post a:hover{color:#bfdbfe}
-
-    /* ABOUT card */
-    .card{background:var(--panel); border:1px solid #18223a; border-radius:16px; padding:18px; margin:20px 0}
-    .card p{margin:.7em 0}
-
-    footer{
-      text-align:center; color:#93a0b4; padding:22px; border-top:1px solid #0e1526; margin-top:24px;
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    @media(min-width:900px){
-      nav{display:flex}
-      .hamburger{display:none}
+    .logo img {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+    }
+
+    .logo h1 {
+      font-size: 20px;
+      margin: 0;
+    }
+
+    .hamburger {
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: var(--text-light);
+      cursor: pointer;
+    }
+
+    /* Sidebar menu */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      width: 240px;
+      height: 100%;
+      background: var(--accent);
+      padding: 20px;
+      transition: left 0.3s ease;
+      z-index: 1100;
+      overflow-y: auto;
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    .sidebar a {
+      display: block;
+      background: var(--card-dark);
+      color: var(--text-light);
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .sidebar a:hover {
+      background: var(--accent-alt);
+      color: #000;
+    }
+
+    /* ============= HERO SECTION ============= */
+    .hero {
+      text-align: center;
+      padding: 60px 20px 40px;
+    }
+
+    .hero .tag {
+      display: inline-block;
+      background: var(--card-dark);
+      color: var(--text-muted);
+      font-size: 14px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    .hero h2 {
+      font-size: clamp(28px, 5vw, 42px);
+      margin: 10px 0;
+    }
+
+    .hero p {
+      max-width: 600px;
+      margin: 0 auto 24px;
+      color: var(--text-muted);
+    }
+
+    .hero .cta {
+      background: var(--accent);
+      color: #000;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-weight: bold;
+      transition: background 0.3s;
+      display: inline-block;
+    }
+
+    .hero .cta:hover {
+      background: var(--accent-alt);
+    }
+
+    /* ============= CATEGORY BUTTONS ============= */
+    .categories {
+      text-align: center;
+      margin: 20px auto 40px;
+    }
+
+    .categories button {
+      background: var(--card-dark);
+      color: var(--text-light);
+      border: 1px solid var(--accent);
+      margin: 6px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .categories button.active,
+    .categories button:hover {
+      background: var(--accent);
+      color: #000;
+    }
+
+    /* ============= POSTS LIST ============= */
+    .posts {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+    }
+
+    .post-card {
+      background: var(--card-dark);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .post-card h3 {
+      margin: 0 0 8px;
+    }
+
+    .post-card small {
+      color: var(--text-muted);
+    }
+
+    /* ============= ABOUT SECTION ============= */
+    .card.about {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 28px 18px;
+      background: var(--card-dark);
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .card.about h2 {
+      margin: 0 0 12px;
+      font-size: clamp(22px, 3.2vw, 28px);
+    }
+
+    .card.about p {
+      margin: 0 0 14px;
+    }
+
+    .card.about a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      text-underline-offset: 3px;
+    }
+    .card.about a:hover {
+      text-decoration: underline;
+    }
+
+    /* ============= FOOTER ============= */
+    footer {
+      text-align: center;
+      font-size: 14px;
+      padding: 16px;
+      color: var(--text-muted);
+      background: var(--card-dark);
     }
   </style>
 </head>
 <body>
   <!-- HEADER -->
   <header>
-    <button id="openMenu" class="hamburger" aria-label="Open menu"><span></span></button>
-
-    <div class="brand">
-      <img src="images/bolu.jpg" alt="Boluadeoye">
-      <strong>Boluadeoye</strong>
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
+    <div class="logo">
+      <img src="profile.jpg" alt="Profile" />
+      <h1>Boluadeoye</h1>
     </div>
-
-    <nav>
-      <a href="#">Home</a>
-      <a href="#writings">Writings</a>
-      <a href="#about">About</a>
-    </nav>
   </header>
 
-  <!-- LEFT DRAWER (NO page overlay) -->
-  <aside id="drawer" class="drawer" aria-hidden="true">
-    <a class="item" href="#" data-type="all">All writings</a>
-    <a class="item" href="#" data-type="poem">Poems</a>
-    <a class="item" href="#" data-type="story">Stories</a>
-    <a class="item" href="#" data-type="faith">Faith</a>
-    <a class="item" href="#" data-type="devotional">Devotional</a>
-    <a class="item" href="#" data-type="article">Articles</a>
-    <a class="item" href="#" data-type="essay">Essays</a>
-
-    <hr style="border:none;border-top:1px solid #ee9a5a33;margin:18px 2px" />
-    <a class="item" href="#about">About</a>
-    <a class="item" href="mailto:boluadeoye97@gmail.com">Email me</a>
-    <a class="item" href="https://wa.me/2348106293674">WhatsApp</a>
-    <div style="height:18px"></div>
-  </aside>
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <a href="#">All writings</a>
+    <a href="#">Poems</a>
+    <a href="#">Stories</a>
+    <a href="#">Faith</a>
+    <a href="#">Devotional</a>
+    <a href="#">Articles</a>
+    <a href="#">Essays</a>
+    <hr />
+    <a href="#about">About</a>
+    <a href="mailto:boluadeoye97@gmail.com">Email me</a>
+    <a href="https://wa.me/2349060000000" target="_blank">WhatsApp</a>
+  </nav>
 
   <!-- HERO -->
   <section class="hero">
-    <span class="pill">personal site</span>
-    <h1>Words that glow in the day.</h1>
+    <span class="tag">personal site</span>
+    <h2>Words that glow in the day.</h2>
     <p>Short essays, project notes, and ideas in motion — updated often.</p>
-    <a class="cta" href="#writings"> Read the latest</a>
-
-    <!-- Category chips (auto-built from drawer) -->
-    <div id="chips" class="catsbar"></div>
+    <a href="#latest" class="cta">✨ Read the latest</a>
   </section>
 
-  <!-- LATEST WRITINGS -->
-  <section id="writings" class="section">
+  <!-- CATEGORIES -->
+  <div class="categories">
+    <button class="active">All writings</button>
+    <button>Poems</button>
+    <button>Stories</button>
+    <button>Faith</button>
+    <button>Devotional</button>
+    <button>Articles</button>
+    <button>Essays</button>
+  </div>
+
+  <!-- POSTS LIST -->
+  <section class="posts" id="latest">
     <h2>Latest writings</h2>
-
-    <div class="search" id="searchWrap">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <circle cx="11" cy="11" r="7" stroke-width="2"></circle>
-        <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"></line>
-      </svg>
-      <input id="search" type="search" placeholder="Search titles or summaries..." autocomplete="off" />
+    <div class="post-card">
+      <h3><a href="posts/starting-small.html">Starting Small, Showing Up</a></h3>
+      <small>2025-09-07 • 3 min read • Essay</small>
+      <p>Why tiny daily steps beat perfect plans, and how to keep momentum with low friction.</p>
     </div>
-
-    <div id="posts" class="list"></div>
+    <div class="post-card">
+      <h3><a href="posts/discipline.html">Discipline Builds Momentum</a></h3>
+      <small>2025-09-08 • 3 min read • Essay</small>
+      <p>Discipline is the quiet engine that outlasts motivation, turning small actions into unstoppable progress.</p>
+    </div>
   </section>
 
   <!-- ABOUT -->
   <section id="about" class="section">
-    <div class="card">
+    <div class="card about">
       <h2>About</h2>
-      <p>I’m <strong>Adeoye Boluwatife</strong>, a final-year student in English and Literary Studies at the Federal University, Oye-Ekiti.</p>
-      <p>Writing and creativity are more than passions to me — they’re how I explore ideas, faith, and the beauty of human experience.</p>
-      <p>Here, I share poems, devotionals, essays, and stories: words that glow with honesty, inspire reflection, and keep creativity alive.</p>
+      <p>
+        I’m <strong>Adeoye Boluwatife</strong>, a final-year student in English and
+        Literary Studies at the 
+        <a href="https://fuoye.edu.ng" target="_blank" rel="noopener noreferrer">
+          Federal University Oye-Ekiti, Ekiti State, Nigeria
+        </a>.
+      </p>
+      <p>
+        Writing and creativity are more than passions to me — they’re how I explore
+        ideas, faith, and the beauty of human experience.
+      </p>
+      <p>
+        Here, I share poems, devotionals, essays, and stories: words that glow with
+        honesty, inspire reflection, and keep creativity alive.
+      </p>
     </div>
   </section>
 
-  <footer>© Boluadeoye 2025 · All rights reserved</footer>
+  <!-- FOOTER -->
+  <footer>
+    © Boluadeoye 2025 · All rights reserved
+  </footer>
 
   <script>
-    // helpers
-    const $ = s => document.querySelector(s);
-    const $$ = s => [...document.querySelectorAll(s)];
-
-    // Drawer open/close (left slide). No page overlay.
-    const drawer = $('#drawer');
-    $('#openMenu').addEventListener('click', () => drawer.classList.add('open'));
-    document.addEventListener('click', (e) => {
-      const hitMenuBtn = e.target.closest('#openMenu');
-      const hitDrawer = e.target.closest('#drawer');
-      if (!hitMenuBtn && !hitDrawer) drawer.classList.remove('open');
-    });
-
-    // Chips build from drawer (keeps in sync)
-    const chipsWrap = $('#chips');
-    const drawerLinks = $$('#drawer .item[data-type]');
-    function buildChips(){
-      chipsWrap.innerHTML = drawerLinks.map(l =>
-        `<button class="chip" data-type="${l.dataset.type}">${l.textContent}</button>`
-      ).join('');
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
     }
-    buildChips();
-
-    // Posts + search + filter
-    let allPosts = [];
-    const postsEl = $('#posts');
-    const searchInput = $('#search');
-
-    function renderPosts(filter='all', query=''){
-      const q = query.trim().toLowerCase();
-      let list = (filter==='all') ? allPosts : allPosts.filter(p => (p.type||'').toLowerCase()===filter);
-      if (q){
-        list = list.filter(p => (p.title||'').toLowerCase().includes(q) || (p.excerpt||'').toLowerCase().includes(q));
-      }
-      if (!list.length){
-        postsEl.innerHTML = `<p style="color:#9aa6b2">No posts found.</p>`;
-        return;
-      }
-      postsEl.innerHTML = list.map(p=>{
-        const mins = p.minutes ? ` • ${p.minutes} min read` : '';
-        const type = (p.type||'').toUpperCase();
-        return `
-          <article class="post">
-            <h3><a href="${p.url}">${p.title}</a></h3>
-            <small>${p.date}${mins} • ${type}</small>
-            <p style="color:#cbd5e1;margin:.4em 0 0">${p.excerpt||''}</p>
-          </article>
-        `;
-      }).join('');
-    }
-
-    async function loadPosts(){
-      try{
-        const res = await fetch('posts.json',{cache:'no-store'});
-        allPosts = await res.json();
-        renderPosts('all','');
-        setActiveChip('all');
-      }catch(err){
-        console.error(err);
-        postsEl.innerHTML = `<p style="color:#ef9a9a">Couldn't load posts.json</p>`;
-      }
-    }
-    loadPosts();
-
-    // chip selection
-    function setActiveChip(type){
-      $$('#chips .chip').forEach(c => c.classList.toggle('active', c.dataset.type===type));
-    }
-    chipsWrap.addEventListener('click', e=>{
-      const btn = e.target.closest('.chip'); if(!btn) return;
-      const type = btn.dataset.type;
-      setActiveChip(type);
-      renderPosts(type, searchInput.value);
-      // scroll to writings on mobile
-      document.getElementById('writings').scrollIntoView({behavior:'smooth', block:'start'});
-    });
-
-    // drawer filter
-    drawer.addEventListener('click', e=>{
-      const link = e.target.closest('.item[data-type]'); if(!link) return;
-      e.preventDefault();
-      drawer.classList.remove('open');
-      const type = link.dataset.type;
-      setActiveChip(type);
-      renderPosts(type, searchInput.value);
-      document.getElementById('writings').scrollIntoView({behavior:'smooth', block:'start'});
-    });
-
-    // search
-    searchInput.addEventListener('input', ()=>{
-      const active = (chipsWrap.querySelector('.chip.active')||{dataset:{type:'all'}}).dataset.type;
-      renderPosts(active, searchInput.value);
-    });
-
-    // Accessibility: close drawer with Escape
-    document.addEventListener('keydown', (e)=>{
-      if (e.key === 'Escape') drawer.classList.remove('open');
-    });
   </script>
 </body>
 </html>
