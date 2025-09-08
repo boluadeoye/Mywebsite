@@ -30,6 +30,33 @@
   display: flex;
   align-items: center;
   gap: 0.5rem; /* adds space between the circle and the text */
+  /* base chip (you probably already have something similar) */
+.chip{
+  display:inline-block;
+  padding:.55rem 1rem;
+  border-radius:999px;
+  background:var(--panel);
+  color:#c7d2fe;                       /* soft ink */
+  border:1px solid rgba(255,255,255,.08);
+}
+
+/* ringy / glowy version */
+.chip-ring{
+  position:relative;
+  box-shadow:0 0 0 6px rgba(245,158,11,.12);  /* soft orange ring */
+}
+.chip-ring::after{
+  content:"";
+  position:absolute; inset:-10px;      /* bigger than the pill */
+  border-radius:999px;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(245,158,11,.18) 0%,
+    rgba(245,158,11,.10) 45%,
+    rgba(245,158,11,0) 70%
+  );
+  filter: blur(6px);
+  z-index:-1;                          /* sits behind the pill */
 }
 
 .brand-circle {
