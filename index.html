@@ -141,15 +141,17 @@ footer{ color:var(--muted); font-size:.9rem; padding:2rem 1rem; text-align:cente
   </header>
 
   <!-- Sidebar -->
-  <nav id="sideMenu" class="side-menu" aria-label="Site">
-    <a class="side-link" href="#" data-filter="all">All writings</a>
-    <a class="side-link" href="#" data-filter="poems">Poems</a>
-    <a class="side-link" href="#" data-filter="stories">Stories</a>
-    <a class="side-link" href="#" data-filter="faith">Faith</a>
-    <a class="side-link" href="#" data-filter="devotional">Devotional</a>
-    <a class="side-link" href="#" data-filter="articles">Articles</a>
-    <a class="side-link" href="#" data-filter="essays">Essays</a>
-    <a class="side-link" href="#about">About</a>
+  <nav id="sideMenu" class="side-menu">
+  <a class="side-link" href="#" data-filter="all">All writings</a>
+  <a class="side-link" href="#" data-filter="poems">Poems</a>
+  <a class="side-link" href="#" data-filter="stories">Stories</a>
+  <a class="side-link" href="#" data-filter="faith">Faith</a>
+  <a class="side-link" href="#" data-filter="devotional">Devotional</a>
+  <a class="side-link" href="#" data-filter="articles">Articles</a>
+  <a class="side-link" href="#" data-filter="essays">Essays</a>
+  <!-- About is a real separate page -->
+    
+  <a class="side-link" href="./about.html">About</a>
   </nav>
   <div id="menuOverlay" class="overlay" hidden></div>
 
@@ -296,6 +298,19 @@ document.addEventListener('DOMContentLoaded', ()=>{
   });
   document.getElementById('y').textContent = new Date().getFullYear();
 });
+  // Handle sidebar filter links
+document.querySelectorAll('.side-link[data-filter]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault(); // stop page reload
+    const filter = link.getAttribute('data-filter');
+    renderPosts(filter); // call your renderPosts function
+    document.getElementById('sideMenu').classList.remove('active');
+    document.getElementById('menuOverlay').hidden = true;
+  });
+});
+</script>
+</body>
+</html>
 </script>
 </body>
 </html>
