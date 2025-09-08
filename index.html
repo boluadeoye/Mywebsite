@@ -1,3 +1,121 @@
+/* === BOLU THEME — Dark + Orange accents ============================= */
+/* Put this at the very top of your <style> on EVERY page               */
+
+:root{
+  /* core palette */
+  --bg:#0f172a;           /* page background (dark navy) */
+  --panel:#111a2e;        /* cards / header / hero surface */
+  --ink:#e5eefc;          /* primary text on dark */
+  --muted:#a7b3cc;        /* secondary text */
+  --chip:#0d1527;         /* chip/button surface */
+  --chip-ring:#ffc04333;  /* soft orange ring for active chip glow */
+  --orange:#f59e0b;       /* accent / CTA */
+  --orange-ink:#0b0f19;   /* text on orange */
+  --ring:rgba(245,158,11,.25);
+  --radius:16px;
+
+  color-scheme: dark;
+}
+
+/* --- Base / reset --------------------------------------------------- */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+  line-height:1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Kill any old page vignettes / gradients that created the dark shadow */
+body{ background-image:none !important; }
+.hero::before,.hero::after,
+.page-vignette,.edge-fade,.gradient-mask,.vignette{
+  content:none !important; display:none !important; background:none !important;
+}
+
+/* Typography */
+h1,h2,h3,h4{line-height:1.25; color:var(--ink); margin:0 0 .6rem}
+p,small{color:var(--muted)}
+a{color:#c2d7ff; text-decoration:none}
+a:hover{color:#e8f0ff}
+
+/* Panels / cards */
+.card{
+  background:var(--panel);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:var(--radius);
+  padding:1rem;
+}
+
+/* CTA button */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:.95rem 1.35rem; border-radius:14px; border:0;
+  background:var(--orange); color:var(--orange-ink); font-weight:700;
+  box-shadow: 0 8px 26px var(--ring);
+  transition: transform .08s ease, box-shadow .2s ease, opacity .2s ease;
+}
+.btn:hover{ box-shadow:0 12px 36px var(--ring) }
+.btn:active{ transform:translateY(1px) }
+
+/* Chips (filters) */
+.chips{ display:flex; flex-wrap:wrap; gap:12px }
+.chip{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:.55rem 1rem; border-radius:999px;
+  background:var(--chip); color:var(--muted);
+  border:1px solid rgba(255,255,255,.08);
+  transition:border-color .2s, color .2s, box-shadow .2s;
+}
+.chip:hover{ border-color:rgba(255,191,36,.45); color:var(--ink) }
+.chip.is-active{
+  border-color:var(--orange); color:var(--ink);
+  box-shadow: 0 8px 24px var(--chip-ring);
+}
+
+/* Header (keeps your navy look) */
+.site-header{
+  position:sticky; top:0; z-index:50;
+  display:flex; align-items:center; justify-content:space-between; gap:.75rem;
+  padding:.75rem 1rem; background:var(--panel);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.site-header .brand{ display:flex; align-items:center; gap:.75rem; color:var(--ink); text-decoration:none }
+.site-header img{ width:40px; height:40px; border-radius:50%; object-fit:cover }
+
+/* Hamburger */
+.hamburger{ width:44px; height:44px; border:0; background:transparent; color:var(--ink); font-size:22px; border-radius:8px }
+.hamburger:active{ transform:scale(.96) }
+
+/* Sidebar (orange) + backdrop (no harsh dark overlay) */
+.drawer{
+  position:fixed; inset:0 auto 0 0; width:min(92vw, 360px);
+  transform:translateX(-100%); transition:transform .25s ease;
+  background:var(--orange); z-index:60; overflow:auto; padding:18px 0;
+  box-shadow: 2px 0 24px rgba(0,0,0,.25);
+}
+.drawer.open{ transform:none }
+.drawer a{
+  display:block; margin:14px 18px; padding:16px 18px; border-radius:16px;
+  background:rgba(0,0,0,.35); color:#fff; text-decoration:none; font-weight:600;
+  border:1px solid rgba(255,255,255,.15);
+}
+.backdrop{
+  position:fixed; inset:0; background:rgba(0,0,0,.0);
+  pointer-events:none; transition:background .2s ease; z-index:55;
+}
+.drawer.open + .backdrop{ background:rgba(0,0,0,.35); pointer-events:auto }
+.no-scroll{ overflow:hidden }
+
+/* Utility spacing (optional) */
+.section{ padding:2rem 1rem }
+.max{ max-width:960px; margin:0 auto }
+
+/* End Theme ========================================================== */
 <!doctype html>
 <html lang="en">
 <head>
