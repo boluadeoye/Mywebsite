@@ -246,6 +246,67 @@ header h1 {
       sidebar.classList.remove("active");
       overlay.classList.remove("active");
     });
-  </script>
+  <script>
+/* --- Posts loader override (safe to paste at bottom) --- */
+(function(){
+  // If page already defined these, we just replace them safely.
+  let allPosts = window.allPosts || [];
+  const postsEl = document.getElementById('posts');
+
+  window.renderPosts = function renderPosts(filterType='all'){
+    if(!postsEl){ return; }
+    const list = (filterType==='all')
+      ? allPosts
+      : allPosts.filter(p => (p.type||'').toLowerCase() === String(filterType).toLowerCase());
+
+    if(!list.length){
+      postsEl.innerHTML = `<p style="color:#a7b3cc">No posts found.</p>`;
+      return;
+    }
+
+    postsEl.innerHTML = list.map(p=>{
+      const mins = p.minutes ? ` • ${p.minutes} min read` : '';
+      const type = p.type ? ` • <em>${String(p.type).toUpperCase()}</em>` : '';
+      const date = p.date || '';
+      const excerpt = p.excerpt ? `<p>${p.excerpt}</p>` : '';
+      return `
+        <div class="post">
+          <h3><a href="${p.url}">${p.title}</a></h3>
+          <small>${date}${mins}${type}</small>
+          ${excerpt}
+        </div>
+      `;
+    }).join('');
+  };
+
+  window.loadPosts = async function loadPosts(){
+    if(!postsEl){ return; }
+    try{
+      // Bust GitHub Pages cache
+      const res = await fetch('posts.json?v=4', { cache: 'no-store' });
+      if(!res.ok) throw new Error('posts.json not found (' + res.status + ')');
+      const data = await res.json();
+      if(!Array.isArray(data)) throw new Error('posts.json must be a JSON array');
+
+      // newest first if dates like YYYY-MM-DD
+      data.sort((a,b)=> String(b.date).localeCompare(String(a.date)));
+
+      allPosts = data;
+      window.allPosts = data; // share globally if other code needs it
+      renderPosts('all');
+    }catch(err){
+      postsEl.innerHTML = `<p style="color:#ffbf24">Couldn't load posts: ${err.message}</p>`;
+      console.error('loadPosts error:', err);
+    }
+  };
+
+  // Run after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadPosts);
+  } else {
+    loadPosts();
+  }
+})();
+</script>
 </body>
 </html>
