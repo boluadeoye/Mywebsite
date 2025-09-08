@@ -281,8 +281,7 @@ async function loadPosts(){
     });
     renderPosts(urlType);
   }catch(err){
-    postsEl.innerHTML = `<p style="color:#fffbf24">Couldn't load posts: ${err.message}</p>`;
-    console.error(err);
+    postsEl.innerHTML = <h3><a href="post.html?file=${encodeURIComponent(p.url)}">${p.title}</a></h3>
   }
 }
 document.addEventListener('DOMContentLoaded', ()=>{
