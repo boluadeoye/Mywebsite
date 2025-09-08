@@ -4,56 +4,69 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Boluadeoye</title>
-  <style #search{
-  width:100%;
-  padding:10px 12px;
-  margin:8px 0 14px;
-  border:1px solid #e5e7eb;
-  border-radius:10px;
-  font-size:14px;
-}
-#search:focus{ outline:3px solid rgba(37,99,235,.15); border-color:#c7d2fe; }>
+  <style>
     :root{
       --blue:#2563eb; --blue-ink:#1d4ed8;
       --orange:#f97316; --orange-ink:#ea580c;
-      --ink:#111; --muted:#556; --card:#f8fafc; --ring:rgba(37,99,235,.15);
+      --ink:#111; --muted:#556;
+      --card:#f8fafc; --ring:rgba(37,99,235,.15);
       --radius:14px;
+      --drawer:#0f172a; /* deep navy */
+      --drawer-ink:#e5e7eb;
+      --chip:#fff; --chip-border:#e5e7eb;
     }
     *{box-sizing:border-box}
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;color:var(--ink);background:#fff;line-height:1.6}
 
     /* Header */
     header{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid #eee;position:sticky;top:0;background:#fff;z-index:10}
-    .hamburger{width:32px;height:32px;border:1px solid #e5e7eb;border-radius:10px;display:grid;place-items:center;background:#fff}
-    .hamburger span{display:block;width:16px;height:2px;background:#111;position:relative}
-    .hamburger span:before,.hamburger span:after{content:"";position:absolute;left:0;width:16px;height:2px;background:#111}
-    .hamburger span:before{top:-5px}.hamburger span:after{top:5px}
+    .hamburger{width:40px;height:40px;border:1px solid #e5e7eb;border-radius:12px;display:grid;place-items:center;background:#fff}
+    .hamburger span{display:block;width:18px;height:2px;background:#111;position:relative;border-radius:2px}
+    .hamburger span:before,.hamburger span:after{content:"";position:absolute;left:0;width:18px;height:2px;background:#111;border-radius:2px}
+    .hamburger span:before{top:-6px}.hamburger span:after{top:6px}
     .brand{display:flex;align-items:center;gap:10px;margin-left:6px}
     .brand img{width:42px;height:42px;border-radius:50%;object-fit:cover}
-    .brand strong{font-size:20px}
+    .brand strong{font-size:22px}
     nav{margin-left:auto;display:none;gap:14px}
     nav a{color:var(--blue);text-decoration:none;font-weight:500}
 
-    /* Drawer */
-    .drawer{position:fixed;top:0;left:0;bottom:0;width:min(82vw,320px);translate:-100% 0;
-      background:var(--orange); color:#fff; transition:translate .25s ease;
-      z-index:30; padding:24px 18px; overflow-y:auto}
+    /* Drawer (left slide, dark, orange headline chips) */
+    .drawer{
+      position:fixed; inset:0 auto 0 0; width:min(86vw,360px);
+      translate:-100% 0; background:var(--drawer); color:var(--drawer-ink);
+      box-shadow:20px 0 40px rgba(0,0,0,.18); transition:translate .25s ease;
+      z-index:30; padding:22px 20px;
+    }
     .drawer.open{translate:0 0}
-    .drawer a{display:block;padding:12px 10px;border-radius:10px;text-decoration:none;color:#fff;font-weight:500;margin-bottom:6px}
-    .drawer a:hover{background:rgba(255,255,255,.15)}
+    .drawer h3{margin:4px 0 16px 0; font-size:15px; font-weight:600; opacity:.7}
+    .drawer a{
+      display:block; padding:12px 12px; border-radius:12px; text-decoration:none;
+      color:var(--drawer-ink); font-size:18px; font-weight:600;
+      background:rgba(249,115,22,.08); border:1px solid rgba(249,115,22,.25); margin-bottom:12px;
+    }
+    .drawer a[data-type="all"]{background:rgba(249,115,22,.16)}
+    .drawer a:hover{background:rgba(249,115,22,.22)}
+    .drawer hr{border:none;border-top:1px solid rgba(255,255,255,.1); margin:16px 0}
 
     /* Hero */
     .hero{padding:34px 18px;text-align:center}
-    .pill{display:inline-block;background:#eef2ff;border:1px solid #e2e8ff;border-radius:999px;padding:6px 10px;color:#334; font-size:12px}
+    .pill{display:inline-block;background:#eef2ff;border:1px solid #e2e8ff;border-radius:999px;padding:6px 10px;color:#334;font-size:12px}
     .hero h1{font-size:38px;line-height:1.15;margin:14px 0 8px}
     .hero p{color:#334}
-    .cta{display:inline-flex;gap:10px;align-items:center;background:var(--orange);color:#fff;border-radius:14px;padding:12px 18px;border:1px solid #ffdbbf;box-shadow:0 10px 20px var(--ring);font-weight:700;text-decoration:none;margin-top:14px}
+    .cta{
+      display:inline-flex;gap:10px;align-items:center;background:var(--orange);color:#fff;
+      border-radius:14px;padding:12px 18px;border:1px solid #ffdbbf;box-shadow:0 10px 20px var(--ring);
+      font-weight:700;text-decoration:none;margin-top:14px
+    }
     .cta:hover{background:var(--orange-ink)}
 
-    /* Categories row */
-    .catsbar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px 0 0}
-    .chip{padding:6px 12px;border-radius:20px;background:#fff;border:1px solid #ddd;color:#333;font-size:13px;cursor:pointer}
-    .chip.active{border-color:var(--orange);background:#fff5ef;color:var(--orange-ink);font-weight:600}
+    /* Category chips row */
+    .catsbar{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:18px auto 6px}
+    .chip{
+      padding:10px 14px;border-radius:999px;background:var(--chip);border:1px solid var(--chip-border);
+      color:#334;font-size:14px;cursor:pointer; box-shadow:0 2px 5px rgba(0,0,0,.04)
+    }
+    .chip.active{border-color:#3b82f6;background:#eff6ff;color:#0b4fd6}
 
     /* Sections */
     .section{padding:16px 18px;max-width:760px;margin:auto}
@@ -61,9 +74,28 @@
     .list .post h3{margin:0 0 4px 0;font-size:20px}
     .list .post small{color:#667}
     .list .post a{color:var(--blue);text-decoration:none;font-weight:600}
-
     .card{background:#fff;border:1px solid #e8eefb;border-radius:14px;padding:18px}
     .card p{margin:.55em 0}
+
+    /* SEARCH — polished */
+    #search{
+      width:100%; max-width:500px; display:block; margin:12px auto 20px;
+      padding:12px 14px; border:1px solid #e5e7eb; border-radius:12px;
+      font-size:15px; font-family:inherit; color:#111;
+      box-shadow:0 2px 5px rgba(0,0,0,.04);
+      transition:border-color .2s, box-shadow .2s, background .2s, padding .2s;
+      background:
+        url('data:image/svg+xml;utf8,<svg fill="%23889" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 20l-5.6-5.6a7.5 7.5 0 10-1.4 1.4L20 21l1-1zM4 10a6 6 0 1112 0 6 6 0 01-12 0z"/></svg>')
+        no-repeat 12px center #fff;
+      background-size:18px;
+      padding-left:40px; /* space for icon */
+    }
+    #search::placeholder{color:#889; font-style:italic}
+    #search:focus{
+      outline:none; border-color:var(--blue);
+      box-shadow:0 0 0 3px rgba(37,99,235,.18);
+      background-color:#fff;
+    }
 
     footer{text-align:center;padding:20px;border-top:1px solid #eee;color:#556;font-size:14px;margin-top:36px}
 
@@ -78,20 +110,20 @@
   <!-- HEADER -->
   <header>
     <button id="openMenu" class="hamburger" aria-label="Open menu"><span></span></button>
+
     <div class="brand">
       <img src="images/bolu.jpg" alt="Boluadeoye">
       <strong>Boluadeoye</strong>
     </div>
+
     <nav>
-  <a href="#">Home</a>
-  <a href="#writings">Writings</a>
-  <a href="#about">About</a>
-  <!-- Contact goes straight to WhatsApp or email -->
-  <a href="https://wa.me/2348106293674">Contact</a>
+      <a href="#">Home</a>
+      <a href="#writings">Writings</a>
+      <a href="#about">About</a>
     </nav>
   </header>
 
-  <!-- SLIDE-IN DRAWER -->
+  <!-- SLIDE-IN DRAWER (left, dark) -->
   <aside id="drawer" class="drawer" aria-hidden="true">
     <a href="#" data-type="all">All writings</a>
     <a href="#" data-type="poem">Poems</a>
@@ -100,10 +132,10 @@
     <a href="#" data-type="devotional">Devotional</a>
     <a href="#" data-type="article">Articles</a>
     <a href="#" data-type="essay">Essays</a>
-    <hr style="margin:14px 0;border:none;border-top:1px solid rgba(255,255,255,.4)">
-    <a href="#about">About</a>
-    <a href="mailto:boluadeoye97@gmail.com">Email me</a>
-    <a href="https://wa.me/2348106293674">WhatsApp</a>
+    <hr>
+    <a href="#about" style="background:transparent;border-color:rgba(255,255,255,.2)">About</a>
+    <a href="mailto:boluadeoye97@gmail.com" style="background:transparent;border-color:rgba(255,255,255,.2)">Email me</a>
+    <a href="https://wa.me/2348106293674" style="background:transparent;border-color:rgba(255,255,255,.2)">WhatsApp</a>
   </aside>
 
   <!-- HERO -->
@@ -113,15 +145,18 @@
     <p>Short essays, project notes, and ideas in motion — updated often.</p>
     <a href="#writings" class="cta">✨ Read the latest</a>
 
-    <!-- Categories row -->
-    <div class="catsbar" id="chips"></div>
+    <!-- Subtle categories row -->
+    <div class="catsbar" id="chips"><!-- chips built by JS --></div>
   </section>
 
   <!-- LATEST WRITINGS -->
   <section id="writings" class="section">
-  <h2>Latest writings</h2>
-  <input id="search" type="search" placeholder="Search titles or summaries…" aria-label="Search writings" />
-  <div id="posts" class="list"></div>
+    <h2>Latest writings</h2>
+
+    <!-- Polished search -->
+    <input id="search" type="search" placeholder="Search titles or summaries…" aria-label="Search writings" />
+
+    <div id="posts" class="list"></div>
   </section>
 
   <!-- ABOUT -->
@@ -133,29 +168,23 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
-  
-
   <footer>© Boluadeoye 2025 · All rights reserved</footer>
 
   <script>
-    const $ = sel => document.querySelector(sel);
-    const $$ = sel => [...document.querySelectorAll(sel)];
+    // tiny helpers
+    const $ = s => document.querySelector(s);
+    const $$ = s => [...document.querySelectorAll(s)];
 
+    // Drawer open/close
     const drawer = $('#drawer');
-    const openBtn = $('#openMenu');
-    function openDrawer(){ drawer.classList.add('open'); }
-    function closeDrawer(){ drawer.classList.remove('open'); }
-    openBtn.addEventListener('click', openDrawer);
-
-    // close if click outside drawer
-    document.addEventListener('click', e=>{
-      if(drawer.classList.contains('open') && !drawer.contains(e.target) && e.target!==openBtn){
-        closeDrawer();
+    $('#openMenu').addEventListener('click', ()=> drawer.classList.add('open'));
+    document.addEventListener('click', (e)=>{
+      if (drawer.classList.contains('open') && !drawer.contains(e.target) && e.target.id!=='openMenu') {
+        drawer.classList.remove('open');
       }
     });
 
-    // Build chips row from drawer items
+    // Build chips from drawer items
     const chipsWrap = $('#chips');
     const drawerLinks = $$('#drawer a[data-type]');
     function buildChips(){
@@ -165,22 +194,35 @@
     }
     buildChips();
 
-    // Fetch & render posts with optional type filter
+    // Posts + filters
     let allPosts = [];
+    let currentType = 'all';
     const postsEl = $('#posts');
+    const searchEl = $('#search');
 
-    function renderPosts(filterType='all'){
-      const list = (filterType==='all') ? allPosts : allPosts.filter(p => (p.type||'').toLowerCase()===filterType);
+    function renderPosts(){
+      // filter by type
+      let list = (currentType==='all')
+        ? allPosts
+        : allPosts.filter(p => (p.type||'').toLowerCase() === currentType);
+
+      // then filter by search text
+      const q = (searchEl.value || '').trim().toLowerCase();
+      if (q){
+        list = list.filter(p => (p.title+p.excerpt).toLowerCase().includes(q));
+      }
+
       if (!list.length){
-        postsEl.innerHTML = `<p style="color:#667">No posts yet for “${filterType}”.</p>`;
+        postsEl.innerHTML = `<p style="color:#667">No posts match your filters.</p>`;
         return;
       }
       postsEl.innerHTML = list.map(p=>{
         const mins = p.minutes ? ` • ${p.minutes} min read` : '';
+        const t = (p.type||'').toUpperCase();
         return `
           <div class="post">
             <h3><a href="${p.url}">${p.title}</a></h3>
-            <small>${p.date}${mins} • <em>${(p.type||'').toUpperCase()}</em></small>
+            <small>${p.date}${mins} • <em>${t}</em></small>
             <p>${p.excerpt||''}</p>
           </div>
         `;
@@ -190,11 +232,11 @@
     async function loadPosts(){
       try{
         const res = await fetch('posts.json');
-        allPosts = await res.json();
-        renderPosts('all');
+        allPosts = await res.json();   // expects an array
+        renderPosts();
       }catch(err){
         console.error(err);
-        postsEl.innerHTML = `<p>Couldn't load posts. Make sure <code>posts.json</code> exists and is valid JSON.</p>`;
+        postsEl.innerHTML = `<p>Couldn't load posts. Make sure <code>posts.json</code> exists in the repo root and is valid JSON.</p>`;
       }
     }
     loadPosts();
@@ -202,17 +244,25 @@
     function setActiveChip(type){
       $$('#chips .chip').forEach(c=>c.classList.toggle('active', c.dataset.type===type));
     }
+
+    // chip clicks
     chipsWrap.addEventListener('click', e=>{
       const btn = e.target.closest('.chip'); if(!btn) return;
-      const type = btn.dataset.type; setActiveChip(type); renderPosts(type);
+      currentType = btn.dataset.type; setActiveChip(currentType); renderPosts();
     });
+
+    // drawer clicks
     drawer.addEventListener('click', e=>{
       const link = e.target.closest('a[data-type]'); if(!link) return;
-      e.preventDefault(); closeDrawer();
-      const type = link.dataset.type; setActiveChip(type); renderPosts(type);
+      e.preventDefault(); drawer.classList.remove('open');
+      currentType = link.dataset.type; setActiveChip(currentType); renderPosts();
       document.getElementById('writings').scrollIntoView({behavior:'smooth'});
     });
 
+    // search typing
+    searchEl.addEventListener('input', renderPosts);
+
+    // default selected chip
     setActiveChip('all');
   </script>
 </body>
