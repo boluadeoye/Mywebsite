@@ -1,10 +1,10 @@
 [
   {
-    "title": "Starting Small, Showing Up",
-    "date": "2025-09-07",
-    "minutes": 3,
-    "excerpt": "Why tiny daily steps beat perfect plans, and how to keep momentum with low friction.",
-    "url": "posts/starting-small.html",
-    "type": "essay"
+    "title": "Sample Post Title",
+    "date": "Jan 1, 2025",
+    "minutes": 4,
+    "type": "essay",
+    "url": "posts/sample-post.html",
+    "excerpt": "Intro paragraph — set the mood for the piece."
   }
 ]
