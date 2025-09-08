@@ -27,6 +27,36 @@
       color: var(--ink);
       line-height: 1.6;
     }
+    /* === Header / Profile Fix === */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: var(--panel);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+header img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+header h1 {
+  font-size: 1.2rem;
+  margin: 0;
+  color: var(--ink);
+}
+
+#menuBtn {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--ink);
+  cursor: pointer;
+}
 
     /* Header */
     header {
@@ -158,13 +188,13 @@
   </div>
 
   <!-- Header -->
-  <header>
-    <button id="menuBtn">☰</button>
-    <div style="display:flex;align-items:center;gap:.5rem;">
-      <img src="profile.jpg" alt="Profile picture">
-      <h1>boluadeoye</h1>
-    </div>
-  </header>
+<header class="site-header">
+  <button id="menuBtn" class="hamburger" aria-label="Open menu"><span></span></button>
+  <a href="/" class="brand">
+    <img src="images/bolu.jpg" alt="Boluadeoye" class="avatar" width="44" height="44" loading="eager">
+    <h1>Boluadeoye</h1>
+  </a>
+</header>
 
   <!-- Hero -->
   <section class="hero">
