@@ -4,91 +4,148 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Boluadeoye</title>
+  <meta name="description" content="Poems, devotionals, essays and stories by Adeoye Boluwatife — words that glow in the day." />
+
   <style>
     :root{
-      --blue:#2563eb; --blue-ink:#1d4ed8;
-      --orange:#f97316; --orange-ink:#ea580c;
-      --ink:#0f172a; --muted:#64748b;
-      --card:#f8fafc; --ring:rgba(37,99,235,.15);
-      --radius:14px;
-      --drawer-pill:#122033; /* dark pill on orange drawer */
+      /* Core palette (locked) */
+      --bg: #0b1220;          /* page background */
+      --panel: #0f172a;       /* cards/sections */
+      --text: #e5e7eb;        /* primary text */
+      --muted: #9aa6b2;       /* secondary text */
+
+      --orange: #f97316;      /* accent / buttons / drawer */
+      --orange-ink:#ea580c;   /* hover/pressed */
+
+      --gold:#facc15;         /* highlight glow / chip aura */
+
+      --chip-bg:#111827;      /* chip surface */
+      --chip-br:#1f2937;
+
+      --ring: rgba(250, 204, 21, .18); /* soft gold ring */
+      --radius: 16px;
     }
+
     *{box-sizing:border-box}
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;color:var(--ink);background:#fff;line-height:1.6}
-    body.noscroll{overflow:hidden}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg); color:var(--text); line-height:1.6;
+    }
+
+    a{color:#93c5fd; text-decoration:none}
+    a:hover{color:#bfdbfe}
 
     /* Header */
-    header{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid #eee;position:sticky;top:0;background:#fff;z-index:40}
-    .hamburger{width:40px;height:40px;border:1px solid #e5e7eb;border-radius:12px;display:grid;place-items:center;background:#fff}
-    .hamburger span{display:block;width:18px;height:2px;background:#111;position:relative;border-radius:2px}
-    .hamburger span:before,.hamburger span:after{content:"";position:absolute;left:0;width:18px;height:2px;background:#111;border-radius:2px}
-    .hamburger span:before{top:-6px}.hamburger span:after{top:6px}
-    .brand{display:flex;align-items:center;gap:10px;margin-left:6px}
-    .brand img{width:44px;height:44px;border-radius:50%;object-fit:cover}
-    .brand strong{font-size:22px}
-    nav{margin-left:auto;display:none;gap:16px}
-    nav a{color:var(--blue);text-decoration:none;font-weight:500}
+    header{
+      position:sticky; top:0; z-index:20;
+      display:flex; align-items:center; gap:12px;
+      padding:12px 16px; background:var(--bg); border-bottom:1px solid #0e1526;
+    }
+    .hamburger{
+      width:40px; height:40px; border-radius:12px; display:grid; place-items:center;
+      background:#0d162b; border:1px solid #121b31;
+    }
+    .hamburger span,.hamburger span:before,.hamburger span:after{
+      display:block; width:18px; height:2px; background:#cbd5e1; content:"";
+      position:relative; border-radius:2px;
+    }
+    .hamburger span:before{position:absolute; top:-6px}
+    .hamburger span:after{position:absolute; top:6px}
 
-    /* Left Drawer (orange) */
+    .brand{display:flex; align-items:center; gap:12px}
+    .brand img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid #1f2a44}
+    .brand strong{font-size:22px; letter-spacing:.2px}
+
+    nav{margin-left:auto;display:none;gap:18px}
+    nav a{color:#cbd5e1}
+    nav a:hover{color:#e5e7eb}
+
+    /* Drawer (LEFT, scrollable) — NO page overlay */
     .drawer{
-      position:fixed; inset:0 auto 0 0; width:min(84vw,380px);
-      transform: translateX(-100%); transition: transform .25s ease;
-      background: var(--orange); z-index:50; padding:20px 16px 28px;
-      box-shadow: 8px 0 28px rgba(0,0,0,.15);
+      position:fixed; left:0; top:0; bottom:0; width:min(88vw,420px);
+      transform:translateX(-100%); transition:transform .28s ease;
+      background:var(--orange); color:#0b1220; z-index:40;
+      padding:18px 16px; overflow-y:auto;
+      box-shadow:10px 0 40px rgba(0,0,0,.25);
     }
-    .drawer.open{ transform: translateX(0) }
-    .drawer .list{display:grid;gap:14px;margin-top:6px}
-    .menu-item{
-      display:block; padding:16px 18px; border-radius:18px;
-      text-decoration:none; color:#fff; font-weight:600;
-      background: var(--drawer-pill); border:1px solid rgba(255,255,255,.08);
+    .drawer.open{ transform:translateX(0) }
+    .drawer .item{
+      display:block; margin:14px 0; padding:18px 20px; border-radius:18px;
+      background:#0f1b2d; color:#e5e7eb; border:1px solid #1e2b42; font-weight:600;
     }
-    .menu-item:hover{filter:brightness(1.05)}
-    .drawer hr{border:none;border-top:1px solid rgba(255,255,255,.18);margin:10px 0}
-
-    /* Overlay (only visible while drawer is open) */
-    #overlay{
-      position:fixed; inset:0; background:rgba(0,0,0,.45);
-      opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:45;
-    }
-    #overlay.show{opacity:1; pointer-events:auto}
+    .drawer .item:focus,.drawer .item:hover{ outline:0; border-color:#2a3a57 }
 
     /* Hero */
-    .hero{padding:38px 18px 18px;text-align:center}
-    .pill{display:inline-block;background:#eef2ff;border:1px solid #e2e8ff;border-radius:999px;padding:6px 12px;color:#334; font-size:13px}
-    .hero h1{font-size:46px;line-height:1.12;margin:18px 0 10px}
-    .hero p{color:#334;max-width:58ch;margin:0 auto}
-    .cta{display:inline-flex;gap:10px;align-items:center;background:var(--orange);color:#fff;border-radius:18px;padding:14px 22px;border:1px solid #ffdbbf;box-shadow:0 14px 26px rgba(249,115,22,.25);font-weight:800;text-decoration:none;margin-top:18px}
-    .cta:hover{background:var(--orange-ink)}
+    .hero{padding:36px 16px 16px; text-align:center}
+    .pill{
+      display:inline-block; padding:6px 12px; border-radius:999px;
+      background:#0e1a2f; border:1px solid #13213a; color:#b7c4d6; font-size:12px;
+    }
+    .hero h1{
+      font-size: clamp(32px, 6vw, 56px);
+      line-height:1.15; margin:16px auto 10px; max-width:20ch; letter-spacing:.2px;
+    }
+    .hero p{color:var(--muted); max-width:60ch; margin:0 auto 18px}
+    .cta{
+      display:inline-flex; gap:10px; align-items:center; justify-content:center;
+      padding:14px 22px; border-radius:18px; font-weight:800;
+      color:#121212; background:var(--orange); border:1px solid #f6a66a;
+      box-shadow:0 12px 32px rgba(250, 204, 21, .14), 0 6px 16px rgba(233, 132, 28, .18);
+    }
+    .cta:hover{ background:var(--orange-ink) }
 
-    /* Category chips (under hero) */
-    .catsbar{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:24px 0 4px}
-    .chip{padding:10px 16px;border-radius:999px;background:#fff;border:1px solid #e5e7eb;color:#334;font-weight:600;cursor:pointer;box-shadow:0 8px 22px rgba(249,115,22,.10)}
-    .chip.active{border-color:#f59e0b;background:#fff8ef;color:#b45309;box-shadow:0 14px 30px rgba(249,115,22,.18)}
+    /* Chips row */
+    .catsbar{display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin:22px auto 8px; max-width:820px}
+    .chip{
+      background:var(--chip-bg); border:1px solid var(--chip-br); color:#d1d5db;
+      padding:10px 14px; border-radius:999px; cursor:pointer; font-weight:600;
+      box-shadow:0 8px 24px rgba(250, 204, 21, 0); transition:box-shadow .2s,border-color .2s, transform .05s;
+    }
+    .chip:active{ transform:translateY(1px) }
+    .chip.active{
+      border-color:#f59e0b; color:#fff;
+      box-shadow:0 10px 26px var(--ring);
+    }
 
     /* Sections */
-    .section{padding:16px 18px;max-width:860px;margin:auto}
-    .search{position:relative;margin:8px 0 18px}
-    .search input{
-      width:100%; border:1px solid #e5e7eb; border-radius:16px; padding:14px 18px 14px 46px; font-size:16px; outline:none;
-      background:#fff; box-shadow: 0 10px 20px rgba(2,6,23,.04);
+    .section{padding:12px 16px 22px; max-width:860px; margin:0 auto}
+    .section h2{font-size:32px; margin:10px 4px 14px}
+
+    /* Search */
+    .search{
+      position:sticky; top:60px; z-index:15; /* stays under header */
+      margin:0 0 12px; padding:8px 0; background:linear-gradient(180deg, var(--bg) 60%, transparent);
     }
-    .search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.55}
+    .search input{
+      width:100%; padding:14px 16px 14px 44px; border-radius:14px;
+      background:#0d162b; border:1px solid #141f36; color:#e5e7eb; outline:0;
+    }
+    .search .icon{
+      position:absolute; left:16px; top:50%; transform:translateY(-50%);
+      width:18px; height:18px; opacity:.6
+    }
 
-    .list .post{background:var(--card);border:1px solid #e8eefb;padding:16px;border-radius:14px;margin-bottom:14px}
-    .list .post h3{margin:0 0 6px 0;font-size:24px}
-    .list .post small{color:#667}
-    .list .post a{color:var(--blue);text-decoration:none;font-weight:700}
+    /* Post list */
+    .list .post{
+      background:var(--panel); border:1px solid #18223a; padding:16px; border-radius:14px; margin:12px 0;
+    }
+    .list .post h3{margin:0 0 6px 0; font-size:22px}
+    .list .post small{color:var(--muted)}
+    .list .post a{color:#93c5fd; font-weight:800}
+    .list .post a:hover{color:#bfdbfe}
 
-    .card{background:#fff;border:1px solid #e8eefb;border-radius:14px;padding:18px}
-    .card p{margin:.55em 0}
+    /* ABOUT card */
+    .card{background:var(--panel); border:1px solid #18223a; border-radius:16px; padding:18px; margin:20px 0}
+    .card p{margin:.7em 0}
 
-    footer{text-align:center;padding:22px;border-top:1px solid #eee;color:#556;font-size:14px;margin-top:36px}
+    footer{
+      text-align:center; color:#93a0b4; padding:22px; border-top:1px solid #0e1526; margin-top:24px;
+    }
 
-    @media(min-width:880px){
+    @media(min-width:900px){
       nav{display:flex}
       .hamburger{display:none}
-      .hero h1{font-size:64px}
     }
   </style>
 </head>
@@ -109,24 +166,21 @@
     </nav>
   </header>
 
-  <!-- OVERLAY (appears only when drawer is open) -->
-  <div id="overlay" aria-hidden="true"></div>
-
-  <!-- LEFT SLIDE-IN DRAWER -->
+  <!-- LEFT DRAWER (NO page overlay) -->
   <aside id="drawer" class="drawer" aria-hidden="true">
-    <div class="list">
-      <a class="menu-item" href="#" data-type="all">All writings</a>
-      <a class="menu-item" href="#" data-type="poem">Poems</a>
-      <a class="menu-item" href="#" data-type="story">Stories</a>
-      <a class="menu-item" href="#" data-type="faith">Faith</a>
-      <a class="menu-item" href="#" data-type="devotional">Devotional</a>
-      <a class="menu-item" href="#" data-type="article">Articles</a>
-      <a class="menu-item" href="#" data-type="essay">Essays</a>
-      <hr>
-      <a class="menu-item" href="#about">About</a>
-      <a class="menu-item" href="mailto:boluadeoye97@gmail.com">Email me</a>
-      <a class="menu-item" href="https://wa.me/2348106293674">WhatsApp</a>
-    </div>
+    <a class="item" href="#" data-type="all">All writings</a>
+    <a class="item" href="#" data-type="poem">Poems</a>
+    <a class="item" href="#" data-type="story">Stories</a>
+    <a class="item" href="#" data-type="faith">Faith</a>
+    <a class="item" href="#" data-type="devotional">Devotional</a>
+    <a class="item" href="#" data-type="article">Articles</a>
+    <a class="item" href="#" data-type="essay">Essays</a>
+
+    <hr style="border:none;border-top:1px solid #ee9a5a33;margin:18px 2px" />
+    <a class="item" href="#about">About</a>
+    <a class="item" href="mailto:boluadeoye97@gmail.com">Email me</a>
+    <a class="item" href="https://wa.me/2348106293674">WhatsApp</a>
+    <div style="height:18px"></div>
   </aside>
 
   <!-- HERO -->
@@ -134,20 +188,22 @@
     <span class="pill">personal site</span>
     <h1>Words that glow in the day.</h1>
     <p>Short essays, project notes, and ideas in motion — updated often.</p>
-    <a href="#writings" class="cta">✨ Read the latest</a>
+    <a class="cta" href="#writings"> Read the latest</a>
 
-    <!-- Category chips -->
-    <div class="catsbar" id="chips"><!-- chips inserted by JS --></div>
+    <!-- Category chips (auto-built from drawer) -->
+    <div id="chips" class="catsbar"></div>
   </section>
 
   <!-- LATEST WRITINGS -->
   <section id="writings" class="section">
-    <h2 style="font-size:36px;margin:0 0 8px">Latest writings</h2>
+    <h2>Latest writings</h2>
 
-    <!-- search -->
-    <div class="search">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      <input id="search" type="search" placeholder="Search titles or summaries..." />
+    <div class="search" id="searchWrap">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <circle cx="11" cy="11" r="7" stroke-width="2"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"></line>
+      </svg>
+      <input id="search" type="search" placeholder="Search titles or summaries..." autocomplete="off" />
     </div>
 
     <div id="posts" class="list"></div>
@@ -157,7 +213,8 @@
   <section id="about" class="section">
     <div class="card">
       <h2>About</h2>
-      <p>I’m <strong>Adeoye Boluwatife</strong>, a final-year student in English and Literary Studies at the Federal University, Oye-Ekiti. Writing and creativity are more than passions — they’re how I explore ideas, faith, and the beauty of human experience.</p>
+      <p>I’m <strong>Adeoye Boluwatife</strong>, a final-year student in English and Literary Studies at the Federal University, Oye-Ekiti.</p>
+      <p>Writing and creativity are more than passions to me — they’re how I explore ideas, faith, and the beauty of human experience.</p>
       <p>Here, I share poems, devotionals, essays, and stories: words that glow with honesty, inspire reflection, and keep creativity alive.</p>
     </div>
   </section>
@@ -166,72 +223,51 @@
 
   <script>
     // helpers
-    const $ = sel => document.querySelector(sel);
-    const $$ = sel => [...document.querySelectorAll(sel)];
+    const $ = s => document.querySelector(s);
+    const $$ = s => [...document.querySelectorAll(s)];
 
-    // Drawer + overlay
+    // Drawer open/close (left slide). No page overlay.
     const drawer = $('#drawer');
-    const overlay = $('#overlay');
-    const openBtn = $('#openMenu');
+    $('#openMenu').addEventListener('click', () => drawer.classList.add('open'));
+    document.addEventListener('click', (e) => {
+      const hitMenuBtn = e.target.closest('#openMenu');
+      const hitDrawer = e.target.closest('#drawer');
+      if (!hitMenuBtn && !hitDrawer) drawer.classList.remove('open');
+    });
 
-    function openDrawer(){
-      drawer.classList.add('open');
-      overlay.classList.add('show');
-      document.body.classList.add('noscroll');
-    }
-    function closeDrawer(){
-      drawer.classList.remove('open');
-      overlay.classList.remove('show');
-      document.body.classList.remove('noscroll');
-    }
-
-    openBtn.addEventListener('click', openDrawer);
-    overlay.addEventListener('click', closeDrawer);
-    document.addEventListener('keydown', e => { if(e.key==='Escape') closeDrawer(); });
-
-    // Build chips row from drawer (keeps types in one place)
+    // Chips build from drawer (keeps in sync)
     const chipsWrap = $('#chips');
-    const drawerLinks = $$('#drawer a[data-type]');
+    const drawerLinks = $$('#drawer .item[data-type]');
     function buildChips(){
-      chipsWrap.innerHTML = drawerLinks.map(link =>
-        `<button class="chip" data-type="${link.dataset.type}">${link.textContent}</button>`
+      chipsWrap.innerHTML = drawerLinks.map(l =>
+        `<button class="chip" data-type="${l.dataset.type}">${l.textContent}</button>`
       ).join('');
     }
     buildChips();
 
-    // Posts + filters
+    // Posts + search + filter
     let allPosts = [];
     const postsEl = $('#posts');
-    const searchEl = $('#search');
-    let activeType = 'all';
+    const searchInput = $('#search');
 
-    function renderPosts(){
-      const q = searchEl.value.trim().toLowerCase();
-      let list = allPosts;
-
-      if (activeType !== 'all') {
-        list = list.filter(p => (p.type||'').toLowerCase() === activeType);
-      }
+    function renderPosts(filter='all', query=''){
+      const q = query.trim().toLowerCase();
+      let list = (filter==='all') ? allPosts : allPosts.filter(p => (p.type||'').toLowerCase()===filter);
       if (q){
-        list = list.filter(p =>
-          (p.title||'').toLowerCase().includes(q) ||
-          (p.excerpt||'').toLowerCase().includes(q)
-        );
+        list = list.filter(p => (p.title||'').toLowerCase().includes(q) || (p.excerpt||'').toLowerCase().includes(q));
       }
-
       if (!list.length){
-        postsEl.innerHTML = `<p style="color:#667;margin:10px 2px">No posts found.</p>`;
+        postsEl.innerHTML = `<p style="color:#9aa6b2">No posts found.</p>`;
         return;
       }
-
       postsEl.innerHTML = list.map(p=>{
         const mins = p.minutes ? ` • ${p.minutes} min read` : '';
         const type = (p.type||'').toUpperCase();
         return `
           <article class="post">
             <h3><a href="${p.url}">${p.title}</a></h3>
-            <small>${p.date}${mins} • <em>${type}</em></small>
-            <p>${p.excerpt||''}</p>
+            <small>${p.date}${mins} • ${type}</small>
+            <p style="color:#cbd5e1;margin:.4em 0 0">${p.excerpt||''}</p>
           </article>
         `;
       }).join('');
@@ -239,41 +275,51 @@
 
     async function loadPosts(){
       try{
-        const res = await fetch('posts.json', {cache:'no-store'});
+        const res = await fetch('posts.json',{cache:'no-store'});
         allPosts = await res.json();
-        renderPosts();
+        renderPosts('all','');
+        setActiveChip('all');
       }catch(err){
         console.error(err);
-        postsEl.innerHTML = `<p>Couldn't load posts. Make sure <code>posts.json</code> exists at the repo root and is valid JSON.</p>`;
+        postsEl.innerHTML = `<p style="color:#ef9a9a">Couldn't load posts.json</p>`;
       }
     }
     loadPosts();
 
-    // Chip selection
+    // chip selection
     function setActiveChip(type){
-      activeType = type;
-      $$('#chips .chip').forEach(c=>c.classList.toggle('active', c.dataset.type===type));
-      renderPosts();
+      $$('#chips .chip').forEach(c => c.classList.toggle('active', c.dataset.type===type));
     }
-    setActiveChip('all');
-
     chipsWrap.addEventListener('click', e=>{
       const btn = e.target.closest('.chip'); if(!btn) return;
-      setActiveChip(btn.dataset.type);
+      const type = btn.dataset.type;
+      setActiveChip(type);
+      renderPosts(type, searchInput.value);
+      // scroll to writings on mobile
+      document.getElementById('writings').scrollIntoView({behavior:'smooth', block:'start'});
     });
 
-    // Drawer clicks also filter
+    // drawer filter
     drawer.addEventListener('click', e=>{
-      const link = e.target.closest('a[data-type]');
-      if (!link) return;
+      const link = e.target.closest('.item[data-type]'); if(!link) return;
       e.preventDefault();
-      setActiveChip(link.dataset.type);
-      closeDrawer();
-      document.getElementById('writings').scrollIntoView({behavior:'smooth'});
+      drawer.classList.remove('open');
+      const type = link.dataset.type;
+      setActiveChip(type);
+      renderPosts(type, searchInput.value);
+      document.getElementById('writings').scrollIntoView({behavior:'smooth', block:'start'});
     });
 
-    // Search input
-    searchEl.addEventListener('input', renderPosts);
+    // search
+    searchInput.addEventListener('input', ()=>{
+      const active = (chipsWrap.querySelector('.chip.active')||{dataset:{type:'all'}}).dataset.type;
+      renderPosts(active, searchInput.value);
+    });
+
+    // Accessibility: close drawer with Escape
+    document.addEventListener('keydown', (e)=>{
+      if (e.key === 'Escape') drawer.classList.remove('open');
+    });
   </script>
 </body>
 </html>
