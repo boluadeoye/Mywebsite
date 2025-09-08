@@ -2,315 +2,317 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Boludeoye</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Boluadeoye — Personal Blog</title>
   <meta name="description" content="Short essays, project notes, and ideas in motion — updated often." />
 
-  <!-- THEME (Dark + Orange) -->
   <style>
+    /* === BOLU THEME — Dark + Orange accents ========================= */
     :root{
-      --bg:#0f172a;          /* page background (dark navy) */
-      --panel:#111a2e;       /* header / cards */
-      --ink:#e5eefc;         /* primary text on dark */
-      --muted:#a7b3cc;       /* secondary text */
-      --chip:#0d1527;        /* chip/button surface */
-      --chip-ring:#ffc04333; /* soft orange ring glow */
-      --orange:#f59e0b;      /* accent / CTA */
-      --orange-ink:#0b0f19;  /* text on orange buttons */
+      --bg:#0f172a;            /* page background (dark navy) */
+      --panel:#111a2e;         /* cards / header / hero surface */
+      --ink:#e5eefc;           /* primary text on dark */
+      --muted:#a7b3cc;         /* secondary text */
+      --chip:#0d1527;          /* chip/button surface */
+      --chip-ring:#ffc04333;   /* soft orange ring on focus/active chip */
+      --orange:#f59e0b;        /* accent / CTA */
+      --orange-ink:#0b0f19;    /* text on orange */
       --ring:rgba(245,158,11,.25);
       --radius:16px;
-      color-scheme:dark;
     }
-
-    /* Base */
-    *{box-sizing:border-box}
     html,body{height:100%}
+    *{box-sizing:border-box}
     body{
       margin:0;
       background:var(--bg);
       color:var(--ink);
-      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Inter,Arial,sans-serif;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
       line-height:1.6;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
     }
-    /* Kill any old vignettes / gradients */
-    body{ background-image:none !important; }
+
+    /* Kill any old page vignettes if they sneak in */
     .hero::before,.hero::after,.page-vignette,.edge-fade,.gradient-mask,.vignette{
-      content:none !important; display:none !important; background:none !important;
+      content:none!important; display:none!important;
     }
 
-    a{color:inherit;text-decoration:none}
-    .wrap{max-width:920px;margin:0 auto;padding:24px}
+    /* Layout helpers */
+    .wrap{max-width:980px; margin:0 auto; padding:0 16px;}
 
-    /* Header */
-    header{
-      position:sticky; top:0; z-index:10;
+    /* === Header ===================================================== */
+    .site-header{
+      position:sticky; top:0;
       background:var(--panel);
+      z-index:1001;
       border-bottom:1px solid rgba(255,255,255,.05);
     }
+    .header-row{
+      display:flex; align-items:center; gap:12px;
+      padding:12px 16px;
+    }
+    .hamburger{
+      appearance:none; border:0; background:transparent;
+      color:var(--ink); font-size:26px; line-height:1;
+      padding:8px; border-radius:12px;
+    }
     .brand{
-      display:flex; align-items:center; gap:.75rem;
+      display:flex; align-items:center; gap:.7rem;
+      text-decoration:none;
     }
     .brand img{
       width:40px; height:40px; border-radius:50%; object-fit:cover;
-      box-shadow:0 0 0 2px rgba(255,255,255,.06) inset;
     }
-    .brand h1{font-size:1.25rem;margin:0;font-weight:700}
+    .brand h1{
+      margin:0; font-size:1.25rem; color:var(--ink);
+    }
 
-    .header-row{display:flex; align-items:center; justify-content:space-between}
-    .hamburger{
-      display:inline-grid; place-items:center;
-      width:42px; height:42px; border-radius:10px;
-      border:1px solid rgba(255,255,255,.08);
-      background:var(--chip); color:var(--ink);
+    /* === Sidebar (fixed, closed by default) ========================= */
+    .side-menu{
+      position:fixed; inset:0 auto 0 0;
+      width:min(88vw,420px);
+      background:var(--panel);
+      padding:84px 16px 24px;
+      transform:translateX(-100%);
+      transition:transform .28s ease;
+      box-shadow:0 0 0 9999px rgba(0,0,0,.45);
+      overflow:auto; -webkit-overflow-scrolling:touch;
+      z-index:1000;
     }
-    .hamburger:active{transform:scale(.98)}
-
-    /* Sidebar */
-    .sidebar{
-      position:fixed; inset:0 30% 0 auto; /* left panel on small screens */
-      max-width:320px; width:80vw;
-      background:#ff7a00; /* solid orange panel */
-      transform:translateX(-105%);
-      transition:transform .25s ease;
-      z-index:999;
-      box-shadow:2px 0 40px rgba(0,0,0,.35);
-      overflow:auto;
-      padding:20px 16px 32px;
-    }
-    .sidebar.open{ transform:none; }
-    .scrim{
-      position:fixed; inset:0;
-      background:rgba(0,0,0,.35);
-      opacity:0; pointer-events:none;
-      transition:opacity .2s ease;
-      z-index:998;
-    }
-    .scrim.show{ opacity:1; pointer-events:auto; }
+    .side-menu.open{ transform:translateX(0); }
+    body.menu-open{ overflow:hidden; }
 
     .side-link{
-      display:block; background:#0d1725; color:var(--ink);
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:18px; padding:18px; margin:10px 6px;
-      font-weight:600;
-    }
-
-    /* Hero */
-    .hero{padding:48px 0}
-    .chip{
-      display:inline-flex; align-items:center; gap:.5rem;
+      display:block;
       background:var(--chip);
-      border:1px solid rgba(255,255,255,.08);
-      padding:.5rem 1rem; border-radius:999px;
-      box-shadow:0 0 0 6px var(--chip-ring);
-      color:var(--muted); font-weight:600;
+      color:var(--ink);
+      text-decoration:none;
+      padding:18px 20px;
+      margin:14px 6px;
+      border-radius:var(--radius);
+      border:1px solid rgba(255,255,255,.06);
     }
-    h2{font-size:clamp(2rem,5vw,3.6rem); line-height:1.15; margin:.75rem 0 1rem}
-    p.lead{color:var(--muted); font-size:1.125rem; margin:0 0 1.25rem}
+    .side-link:focus,
+    .side-link:hover{ box-shadow:0 0 0 3px var(--chip-ring); outline:none;}
+
+    /* === Hero ======================================================= */
+    .hero{
+      padding:40px 0 8px;
+      background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
+    }
+    .chip{
+      display:inline-block;
+      padding:10px 16px;
+      border-radius:999px;
+      background:var(--chip);
+      border:1px solid rgba(255,255,255,.06);
+      color:var(--muted);
+    }
+    .hero h2{
+      margin:16px 0 12px;
+      font-size:clamp(2.2rem,6.6vw,3.6rem);
+      line-height:1.1;
+      letter-spacing:.2px;
+    }
+    .accent{ color:var(--orange); } /* <— your request: orange title */
+    .hero p{ color:var(--muted); margin:0 0 20px; }
 
     .btn{
       display:inline-flex; align-items:center; justify-content:center;
-      padding:14px 22px; border-radius:16px; border:1px solid rgba(255,255,255,.08);
-      background:linear-gradient(180deg,#ffb13b 0%, #f59e0b 90%);
-      color:var(--orange-ink); font-weight:800; font-size:1.05rem;
-      box-shadow:0 12px 30px var(--ring);
+      padding:14px 22px; border-radius:14px; border:0;
+      background:var(--orange); color:var(--orange-ink);
+      font-weight:700; text-decoration:none; cursor:pointer;
+      box-shadow:0 10px 30px var(--ring);
     }
+    .btn:focus,.btn:hover{ outline:none; transform:translateY(-1px); }
 
-    /* Chips (filters) */
-    .chips{display:flex; flex-wrap:wrap; gap:14px; margin:26px 0 6px}
-    .chip.tab{box-shadow:none; border:1px solid rgba(255,255,255,.15)}
-    .chip.tab.active{ box-shadow:0 0 0 6px var(--chip-ring); border-color:#ffd48522 }
+    /* Chips row */
+    .chips{ display:flex; flex-wrap:wrap; gap:12px; margin:22px 0 6px; }
+    .chips .chip{ cursor:pointer; }
+    .chip.active{ box-shadow:0 0 0 3px var(--chip-ring); color:var(--ink); }
 
-    /* Section headers */
-    h3.section{font-size:2.1rem;margin:36px 0 14px}
-
-    /* Posts list */
-    #posts .post{
-      background:var(--panel); border:1px solid rgba(255,255,255,.06);
-      border-radius:16px; padding:18px 18px 20px; margin:12px 0;
+    /* === Posts list ================================================== */
+    .posts{ margin:28px 0 60px; }
+    .posts h3{ margin:.1rem 0 .35rem; }
+    .post{
+      padding:18px;
+      border-radius:14px;
+      background:var(--panel);
+      border:1px solid rgba(255,255,255,.06);
+      margin-bottom:14px;
     }
-    #posts h3{margin:0 0 6px;font-size:1.25rem}
-    #posts small{color:#9eb1cc}
-    #posts p{margin:.5rem 0 0;color:#c7d3e6}
+    .post a{ color:var(--ink); text-decoration:none; }
+    .post small{ color:var(--muted); }
 
-    /* About card */
-    .about{
-      background:var(--panel); border:1px solid rgba(255,255,255,.06);
-      border-radius:16px; padding:22px; margin:34px 0;
-    }
-    .about a{color:#cde3ff; text-decoration:underline}
+    /* Footer */
+    footer{ color:var(--muted); padding:40px 0 60px; }
+    a{ color:#9ec5ff; }
   </style>
 </head>
 <body>
 
-  <!-- Sidebar + scrim -->
-  <div id="scrim" class="scrim" aria-hidden="true"></div>
-  <nav id="sidebar" class="sidebar" aria-label="Navigation">
-    <div class="wrap">
-      <a class="side-link" href="/">All writings</a>
-      <a class="side-link" href="#" data-filter="poems">Poems</a>
-      <a class="side-link" href="#" data-filter="stories">Stories</a>
-      <a class="side-link" href="#" data-filter="faith">Faith</a>
-      <a class="side-link" href="#" data-filter="devotional">Devotional</a>
-      <a class="side-link" href="#" data-filter="articles">Articles</a>
-      <a class="side-link" href="#" data-filter="essays">Essays</a>
-      <hr style="border:none;border-top:1px solid rgba(0,0,0,.15);margin:12px 6px">
-      <a class="side-link" href="#about">About</a>
-      <a class="side-link" href="mailto:bolu@example.com">Email me</a>
-      <a class="side-link" href="https://wa.me/2340000000000">WhatsApp</a>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="wrap header-row">
+      <button id="menuBtn" class="hamburger" aria-label="Menu">&#9776;</button>
+      <a href="./" class="brand">
+        <img src="images/bolu.jpg" alt="Boluadeoye" />
+        <h1>Boluadeoye</h1>
+      </a>
     </div>
-  </nav>
-<!-- Header -->
-<header class="site-header">
-  <button id="menuBtn" class="hamburger" aria-label="Menu">&#9776;</button>
-  <a href="./" class="brand">
-    <img src="images/bolu.jpg" alt="Boluadeoye" />
-    <h1>Boluadeoye</h1>
-  </a>
-</header>
+  </header>
 
-<!-- Sidebar -->
-<nav id="sideMenu" class="side-menu">
-  <a class="side-link" href="./">All writings</a>
-  <a class="side-link" href="./posts/poems.html">Poems</a>
-  <a class="side-link" href="./posts/stories.html">Stories</a>
-  <a class="side-link" href="./posts/faith.html">Faith</a>
-  <a class="side-link" href="./posts/devotional.html">Devotional</a>
-  <a class="side-link" href="./posts/articles.html">Articles</a>
-  <a class="side-link" href="./posts/essays.html">Essays</a>
-  <a class="side-link" href="./about.html">About</a>
-</nav>
+  <!-- Sidebar (closed by default) -->
+  <nav id="sideMenu" class="side-menu">
+    <a class="side-link" href="./">All writings</a>
+    <a class="side-link" href="./posts/poems.html">Poems</a>
+    <a class="side-link" href="./posts/stories.html">Stories</a>
+    <a class="side-link" href="./posts/faith.html">Faith</a>
+    <a class="side-link" href="./posts/devotional.html">Devotional</a>
+    <a class="side-link" href="./posts/articles.html">Articles</a>
+    <a class="side-link" href="./posts/essays.html">Essays</a>
+    <a class="side-link" href="./about.html">About</a>
+  </nav>
 
   <main class="wrap">
-
     <!-- Hero -->
     <section class="hero">
       <span class="chip">personal site</span>
-      <h2>Words that glow in the day.</h2>
-      <p class="lead">Short essays, project notes, and ideas in motion — updated often.</p>
-      <a class="btn" href="#posts">✨ Read the latest</a>
+      <h2><span class="accent">Words that glow in the day.</span></h2>
+      <p>Short essays, project notes, and ideas in motion — updated often.</p>
+      <a class="btn" href="#latest">Read the latest</a>
 
-      <!-- Filter chips -->
-      <div class="chips" id="filters">
-        <button class="chip tab active" data-filter="all">All writings</button>
-        <button class="chip tab" data-filter="poems">Poems</button>
-        <button class="chip tab" data-filter="stories">Stories</button>
-        <button class="chip tab" data-filter="faith">Faith</button>
-        <button class="chip tab" data-filter="devotional">Devotional</button>
-        <button class="chip tab" data-filter="articles">Articles</button>
-        <button class="chip tab" data-filter="essays">Essays</button>
+      <div class="chips" id="chips">
+        <div class="chip active" data-filter="all">All writings</div>
+        <div class="chip" data-filter="poem">Poems</div>
+        <div class="chip" data-filter="story">Stories</div>
+        <div class="chip" data-filter="faith">Faith</div>
+        <div class="chip" data-filter="devotional">Devotional</div>
+        <div class="chip" data-filter="article">Articles</div>
+        <div class="chip" data-filter="essay">Essays</div>
       </div>
     </section>
 
-    <!-- Posts -->
-    <h3 class="section">Latest writings</h3>
-    <div id="posts" aria-live="polite">Loading…</div>
-
-    <!-- About -->
-    <section id="about" class="about">
-      <h3 style="margin:0 0 10px">About</h3>
-      <p style="margin:.25rem 0 0">
-        I’m <strong>Adeoye Boluwatife</strong>, a final-year student in English and Literary Studies
-        at the <a href="https://fuoye.edu.ng/" target="_blank" rel="noopener">Federal University, Oye-Ekiti</a>.
-        Writing and creativity are more than passions — they’re how I explore ideas, faith,
-        and the beauty of human experience. Here, I share poems, devotionals, essays, and stories:
-        words that glow with honesty, inspire reflection, and keep creativity alive.
-      </p>
-    </section>
-
+    <!-- Latest writings -->
+    <h2 id="latest" style="margin-top:18px;">Latest writings</h2>
+    <div id="posts" class="posts" aria-live="polite"></div>
   </main>
 
-  <!-- JS: menu, posts, filters -->
+  <footer class="wrap">
+    © <span id="year"></span> Boluadeoye
+  </footer>
+
+  <!-- === Scripts ===================================================== -->
   <script>
-  (function(){
-    const menuBtn = document.getElementById('menuBtn');
-    const sidebar = document.getElementById('sidebar');
-    const scrim = document.getElementById('scrim');
-    const postsEl = document.getElementById('posts');
-    const filtersEl = document.getElementById('filters');
+    // Sidebar toggle (closed by default)
+    (function(){
+      const btn  = document.getElementById('menuBtn');
+      const menu = document.getElementById('sideMenu');
+      if(!btn || !menu) return;
 
-    function openMenu(){ sidebar.classList.add('open'); scrim.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
-    function closeMenu(){ sidebar.classList.remove('open'); scrim.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
+      // Force closed on load
+      menu.classList.remove('open');
+      document.body.classList.remove('menu-open');
 
-    menuBtn.addEventListener('click', (e)=>{ e.stopPropagation(); sidebar.classList.contains('open') ? closeMenu() : openMenu(); });
-    scrim.addEventListener('click', closeMenu);
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeMenu(); });
+      const open  = ()=>{ menu.classList.add('open'); document.body.classList.add('menu-open'); };
+      const close = ()=>{ menu.classList.remove('open'); document.body.classList.remove('menu-open'); };
 
-    // ---- Posts
-    let allPosts = [];
+      btn.addEventListener('click',(e)=>{
+        e.stopPropagation();
+        menu.classList.contains('open') ? close() : open();
+      });
 
-    function renderPosts(filter='all'){
-      if(!postsEl) return;
-      const list = (filter==='all')
-        ? allPosts
-        : allPosts.filter(p => (p.type||'').toLowerCase() === String(filter).toLowerCase());
+      // Close when clicking a menu link
+      menu.addEventListener('click',(e)=>{
+        if(e.target.closest('.side-link')) close();
+        e.stopPropagation();
+      });
 
-      if(!list.length){
-        postsEl.innerHTML = '<p style="color:#a7b3cc">No posts found.</p>';
-        return;
+      // Close when clicking outside
+      document.addEventListener('click',(e)=>{
+        if(menu.classList.contains('open') && !menu.contains(e.target) && e.target !== btn){
+          close();
+        }
+      });
+
+      // Close by ESC
+      document.addEventListener('keydown',(e)=>{
+        if(e.key === 'Escape' && menu.classList.contains('open')) close();
+      });
+    })();
+
+    // Posts loader + category filtering
+    (function(){
+      const postsEl = document.getElementById('posts');
+      const chipsEl = document.getElementById('chips');
+      let allPosts = [];
+
+      function renderPosts(filter='all'){
+        if(!postsEl) return;
+        const list = filter==='all'
+          ? allPosts
+          : allPosts.filter(p => (p.type||'').toLowerCase() === String(filter).toLowerCase());
+
+        if(!list.length){
+          postsEl.innerHTML = '<p style="color:var(--muted)">No posts found.</p>';
+          return;
+        }
+
+        postsEl.innerHTML = list.map(p=>{
+          const mins = p.minutes ? ` • ${p.minutes} min read` : '';
+          const type = p.type ? ` · <em>${String(p.type).toUpperCase()}</em>` : '';
+          const date = p.date || '';
+          const excerpt = p.excerpt ? `<p style="color:var(--muted)">${p.excerpt}</p>` : '';
+          return `
+            <article class="post">
+              <h3><a href="${p.url}">${p.title}</a></h3>
+              <small>${date}${mins}${type}</small>
+              ${excerpt}
+            </article>
+          `;
+        }).join('');
       }
-      postsEl.innerHTML = list.map(p=>{
-        const mins = p.minutes ? ` · ${p.minutes} min read` : '';
-        const type = p.type ? ` · <em>${String(p.type).toUpperCase()}</em>` : '';
-        const date = p.date || '';
-        const excerpt = p.excerpt ? `<p>${p.excerpt}</p>` : '';
-        return `
-          <article class="post">
-            <h3><a href="${p.url}">${p.title}</a></h3>
-            <small>${date}${mins}${type}</small>
-            ${excerpt}
-          </article>`;
-      }).join('');
-    }
 
-    async function loadPosts(){
-      try{
-        // Avoid cached JSON on GitHub Pages
-        const res = await fetch('posts.json?v=' + Date.now(), { cache: 'no-store' });
-        if(!res.ok) throw new Error('posts.json not found ('+res.status+')');
-        const data = await res.json();
-        if(!Array.isArray(data)) throw new Error('posts.json must be an array');
+      async function loadPosts(){
+        if(!postsEl) return;
+        try{
+          const res = await fetch('posts.json?v=4',{cache:'no-store'});
+          if(!res.ok) throw new Error('posts.json not found ('+res.status+')');
+          const data = await res.json();
+          if(!Array.isArray(data)) throw new Error('posts.json must be a JSON array');
 
-        // Sort newest first by date if YYYY-MM-DD
-        data.sort((a,b)=> String(b.date||'').localeCompare(String(a.date||'')));
+          // newest first if dates like YYYY-MM-DD
+          data.sort((a,b)=> String(b.date).localeCompare(String(a.date)));
 
-        allPosts = data;
-        renderPosts('all');
-      }catch(err){
-        postsEl.innerHTML = '<p style="color:#ffbf24">Couldn\'t load posts.</p>';
-        console.error(err);
+          allPosts = data;
+          renderPosts('all');
+        }catch(err){
+          postsEl.innerHTML = `<p style="color:#ffbF24">Couldn't load posts: ${err.message}</p>`;
+          console.error('loadPosts error:', err);
+        }
       }
-    }
 
-    // Filter chips (both in hero and in sidebar)
-    function handleFilterClick(target){
-      const f = target.getAttribute('data-filter');
-      if(!f) return;
-      renderPosts(f);
-      // mark active in hero chip row
-      document.querySelectorAll('.chip.tab').forEach(c => c.classList.toggle('active', c===target));
-      // close menu if selection came from sidebar
-      if(target.classList.contains('side-link')) closeMenu();
-    }
+      // Chip filter clicks
+      if(chipsEl){
+        chipsEl.addEventListener('click',(e)=>{
+          const c = e.target.closest('.chip');
+          if(!c) return;
+          chipsEl.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+          c.classList.add('active');
+          renderPosts(c.dataset.filter || 'all');
+        });
+      }
 
-    filtersEl.addEventListener('click', (e)=>{
-      const btn = e.target.closest('[data-filter]');
-      if(btn) handleFilterClick(btn);
-    });
+      // Run
+      if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', loadPosts);
+      }else{
+        loadPosts();
+      }
+    })();
 
-    document.getElementById('sidebar').addEventListener('click', (e)=>{
-      const link = e.target.closest('[data-filter]');
-      if(link){ e.preventDefault(); handleFilterClick(link); }
-    });
-
-    // Kickoff
-    if(document.readyState === 'loading'){
-      document.addEventListener('DOMContentLoaded', loadPosts);
-    } else {
-      loadPosts();
-    }
-  })();
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
