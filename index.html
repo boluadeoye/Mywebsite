@@ -1,168 +1,168 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Boluadeoye — Personal Blog</title>
-  <meta name="description" content="Short essays, project notes, and ideas in motion — updated often." />
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boluadeoye</title>
   <style>
-    /* === BOLU THEME — Dark + Orange accents ========================= */
-    :root{
-      --bg:#0f172a;            /* page background (dark navy) */
-      --panel:#111a2e;         /* cards / header / hero surface */
-      --ink:#e5eefc;           /* primary text on dark */
-      --muted:#a7b3cc;         /* secondary text */
-      --chip:#0d1527;          /* chip/button surface */
-      --chip-ring:#ffc04333;   /* soft orange ring on focus/active chip */
-      --orange:#f59e0b;        /* accent / CTA */
-      --orange-ink:#0b0f19;    /* text on orange */
+    :root {
+      --bg:#0f172a;
+      --panel:#111a2e;
+      --ink:#e5eefc;
+      --muted:#a7b3cc;
+      --chip:#0d1527;
+      --chip-ring:#ffc04333;
+      --orange:#f59e0b;
+      --orange-ink:#0b0f19;
       --ring:rgba(245,158,11,.25);
       --radius:16px;
     }
-    html,body{height:100%}
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      background:var(--bg);
-      color:var(--ink);
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
-      line-height:1.6;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
     }
 
-    /* Kill any old page vignettes if they sneak in */
-    .hero::before,.hero::after,.page-vignette,.edge-fade,.gradient-mask,.vignette{
-      content:none!important; display:none!important;
+    header.site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      background: var(--panel);
     }
 
-    /* Layout helpers */
-    .wrap{max-width:980px; margin:0 auto; padding:0 16px;}
-
-    /* === Header ===================================================== */
-    .site-header{
-      position:sticky; top:0;
-      background:var(--panel);
-      z-index:1001;
-      border-bottom:1px solid rgba(255,255,255,.05);
-    }
-    .header-row{
-      display:flex; align-items:center; gap:12px;
-      padding:12px 16px;
-    }
-    .hamburger{
-      appearance:none; border:0; background:transparent;
-      color:var(--ink); font-size:26px; line-height:1;
-      padding:8px; border-radius:12px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:.7rem;
-      text-decoration:none;
-    }
-    .brand img{
-      width:40px; height:40px; border-radius:50%; object-fit:cover;
-    }
-    .brand h1{
-      margin:0; font-size:1.25rem; color:var(--ink);
+    header img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: .5rem;
     }
 
-    /* === Sidebar (fixed, closed by default) ========================= */
-    .side-menu{
-      position:fixed; inset:0 auto 0 0;
-      width:min(88vw,420px);
-      background:var(--panel);
-      padding:84px 16px 24px;
-      transform:translateX(-100%);
-      transition:transform .28s ease;
-      box-shadow:0 0 0 9999px rgba(0,0,0,.45);
-      overflow:auto; -webkit-overflow-scrolling:touch;
-      z-index:1000;
+    header h1 {
+      display: inline;
+      font-size: 1.2rem;
+      margin: 0;
+      color: var(--ink);
     }
-    .side-menu.open{ transform:translateX(0); }
-    body.menu-open{ overflow:hidden; }
 
-    .side-link{
-      display:block;
-      background:var(--chip);
-      color:var(--ink);
-      text-decoration:none;
-      padding:18px 20px;
-      margin:14px 6px;
-      border-radius:var(--radius);
-      border:1px solid rgba(255,255,255,.06);
+    .brand {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--ink);
     }
-    .side-link:focus,
-    .side-link:hover{ box-shadow:0 0 0 3px var(--chip-ring); outline:none;}
 
-    /* === Hero ======================================================= */
-    .hero{
-      padding:40px 0 8px;
-      background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
+    /* Hamburger */
+    #menuBtn {
+      background: none;
+      border: none;
+      color: var(--ink);
+      font-size: 1.5rem;
+      cursor: pointer;
     }
-    .chip{
-      display:inline-block;
-      padding:10px 16px;
-      border-radius:999px;
-      background:var(--chip);
-      border:1px solid rgba(255,255,255,.06);
-      color:var(--muted);
-    }
-    .hero h2{
-      margin:16px 0 12px;
-      font-size:clamp(2.2rem,6.6vw,3.6rem);
-      line-height:1.1;
-      letter-spacing:.2px;
-    }
-    .accent{ color:var(--orange); } /* <— your request: orange title */
-    .hero p{ color:var(--muted); margin:0 0 20px; }
 
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:14px 22px; border-radius:14px; border:0;
-      background:var(--orange); color:var(--orange-ink);
-      font-weight:700; text-decoration:none; cursor:pointer;
-      box-shadow:0 10px 30px var(--ring);
+    /* Sidebar */
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      width: 240px;
+      height: 100%;
+      background: var(--orange);
+      padding: 2rem 1rem;
+      transition: left 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      z-index: 999;
     }
-    .btn:focus,.btn:hover{ outline:none; transform:translateY(-1px); }
 
-    /* Chips row */
-    .chips{ display:flex; flex-wrap:wrap; gap:12px; margin:22px 0 6px; }
-    .chips .chip{ cursor:pointer; }
-    .chip.active{ box-shadow:0 0 0 3px var(--chip-ring); color:var(--ink); }
-
-    /* === Posts list ================================================== */
-    .posts{ margin:28px 0 60px; }
-    .posts h3{ margin:.1rem 0 .35rem; }
-    .post{
-      padding:18px;
-      border-radius:14px;
-      background:var(--panel);
-      border:1px solid rgba(255,255,255,.06);
-      margin-bottom:14px;
+    .side-menu.active {
+      left: 0;
     }
-    .post a{ color:var(--ink); text-decoration:none; }
-    .post small{ color:var(--muted); }
 
-    /* Footer */
-    footer{ color:var(--muted); padding:40px 0 60px; }
-    a{ color:#9ec5ff; }
+    .side-link {
+      background: var(--chip);
+      color: var(--ink);
+      padding: .75rem 1rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .menu-section {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      color: var(--orange-ink);
+      font-weight: bold;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    .hero h2 {
+      font-size: 2rem;
+      color: var(--orange);
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 1rem;
+      background: var(--orange);
+      color: var(--orange-ink);
+      font-weight: bold;
+      border: none;
+      border-radius: var(--radius);
+      padding: .75rem 1.5rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Posts */
+    #posts {
+      padding: 2rem;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .post {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: var(--panel);
+      border-radius: var(--radius);
+    }
+
+    .post h3 a {
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .post small {
+      display: block;
+      margin-bottom: .5rem;
+      color: var(--muted);
+    }
   </style>
 </head>
 <body>
-
   <!-- Header -->
   <header class="site-header">
-    <div class="wrap header-row">
-      <button id="menuBtn" class="hamburger" aria-label="Menu">&#9776;</button>
-      <a href="./" class="brand">
-        <img src="images/bolu.jpg" alt="Boluadeoye" />
-        <h1>Boluadeoye</h1>
-      </a>
-    </div>
+    <button id="menuBtn" aria-label="Menu">&#9776;</button>
+    <a href="./" class="brand">
+      <img src="images/bolu.jpg" alt="Boluadeoye">
+      <h1>Boluadeoye</h1>
+    </a>
   </header>
 
-  <!-- Sidebar (closed by default) -->
+  <!-- Sidebar -->
   <nav id="sideMenu" class="side-menu">
     <a class="side-link" href="./">All writings</a>
     <a class="side-link" href="./posts/poems.html">Poems</a>
@@ -172,147 +172,51 @@
     <a class="side-link" href="./posts/articles.html">Articles</a>
     <a class="side-link" href="./posts/essays.html">Essays</a>
     <a class="side-link" href="./about.html">About</a>
+
+    <div class="menu-section">Contact</div>
+    <a class="side-link" href="mailto:boluadeoye97@gmail.com">Email me</a>
+    <a class="side-link" href="https://wa.me/2348106293674">WhatsApp</a>
   </nav>
 
-  <main class="wrap">
-    <!-- Hero -->
-    <section class="hero">
-      <span class="chip">personal site</span>
-      <h2><span class="accent">Words that glow in the day.</span></h2>
-      <p>Short essays, project notes, and ideas in motion — updated often.</p>
-      <a class="btn" href="#latest">Read the latest</a>
+  <!-- Hero -->
+  <section class="hero">
+    <span class="chip">personal site</span>
+    <h2>Words that glow in the day.</h2>
+    <p>Short essays, project notes, and ideas in motion — updated often.</p>
+    <a href="#posts" class="btn">Read the latest</a>
+  </section>
 
-      <div class="chips" id="chips">
-        <div class="chip active" data-filter="all">All writings</div>
-        <div class="chip" data-filter="poem">Poems</div>
-        <div class="chip" data-filter="story">Stories</div>
-        <div class="chip" data-filter="faith">Faith</div>
-        <div class="chip" data-filter="devotional">Devotional</div>
-        <div class="chip" data-filter="article">Articles</div>
-        <div class="chip" data-filter="essay">Essays</div>
-      </div>
-    </section>
+  <!-- Posts -->
+  <main id="posts"></main>
 
-    <!-- Latest writings -->
-    <h2 id="latest" style="margin-top:18px;">Latest writings</h2>
-    <div id="posts" class="posts" aria-live="polite"></div>
-  </main>
-
-  <footer class="wrap">
-    © <span id="year"></span> Boluadeoye
-  </footer>
-
-  <!-- === Scripts ===================================================== -->
   <script>
-    // Sidebar toggle (closed by default)
-    (function(){
-      const btn  = document.getElementById('menuBtn');
-      const menu = document.getElementById('sideMenu');
-      if(!btn || !menu) return;
+    const menuBtn = document.getElementById("menuBtn");
+    const sideMenu = document.getElementById("sideMenu");
 
-      // Force closed on load
-      menu.classList.remove('open');
-      document.body.classList.remove('menu-open');
+    menuBtn.addEventListener("click", () => {
+      sideMenu.classList.toggle("active");
+    });
 
-      const open  = ()=>{ menu.classList.add('open'); document.body.classList.add('menu-open'); };
-      const close = ()=>{ menu.classList.remove('open'); document.body.classList.remove('menu-open'); };
+    // Load posts.json
+    async function loadPosts() {
+      try {
+        const res = await fetch("posts.json?v=" + Date.now());
+        const data = await res.json();
+        const postsEl = document.getElementById("posts");
 
-      btn.addEventListener('click',(e)=>{
-        e.stopPropagation();
-        menu.classList.contains('open') ? close() : open();
-      });
-
-      // Close when clicking a menu link
-      menu.addEventListener('click',(e)=>{
-        if(e.target.closest('.side-link')) close();
-        e.stopPropagation();
-      });
-
-      // Close when clicking outside
-      document.addEventListener('click',(e)=>{
-        if(menu.classList.contains('open') && !menu.contains(e.target) && e.target !== btn){
-          close();
-        }
-      });
-
-      // Close by ESC
-      document.addEventListener('keydown',(e)=>{
-        if(e.key === 'Escape' && menu.classList.contains('open')) close();
-      });
-    })();
-
-    // Posts loader + category filtering
-    (function(){
-      const postsEl = document.getElementById('posts');
-      const chipsEl = document.getElementById('chips');
-      let allPosts = [];
-
-      function renderPosts(filter='all'){
-        if(!postsEl) return;
-        const list = filter==='all'
-          ? allPosts
-          : allPosts.filter(p => (p.type||'').toLowerCase() === String(filter).toLowerCase());
-
-        if(!list.length){
-          postsEl.innerHTML = '<p style="color:var(--muted)">No posts found.</p>';
-          return;
-        }
-
-        postsEl.innerHTML = list.map(p=>{
-          const mins = p.minutes ? ` • ${p.minutes} min read` : '';
-          const type = p.type ? ` · <em>${String(p.type).toUpperCase()}</em>` : '';
-          const date = p.date || '';
-          const excerpt = p.excerpt ? `<p style="color:var(--muted)">${p.excerpt}</p>` : '';
-          return `
-            <article class="post">
-              <h3><a href="${p.url}">${p.title}</a></h3>
-              <small>${date}${mins}${type}</small>
-              ${excerpt}
-            </article>
-          `;
-        }).join('');
+        postsEl.innerHTML = data.map(p => `
+          <div class="post">
+            <h3><a href="${p.url}">${p.title}</a></h3>
+            <small>${p.date} • ${p.minutes} min read • ${p.type.toUpperCase()}</small>
+            <p>${p.excerpt}</p>
+          </div>
+        `).join("");
+      } catch (err) {
+        console.error("Error loading posts:", err);
       }
+    }
 
-      async function loadPosts(){
-        if(!postsEl) return;
-        try{
-          const res = await fetch('posts.json?v=4',{cache:'no-store'});
-          if(!res.ok) throw new Error('posts.json not found ('+res.status+')');
-          const data = await res.json();
-          if(!Array.isArray(data)) throw new Error('posts.json must be a JSON array');
-
-          // newest first if dates like YYYY-MM-DD
-          data.sort((a,b)=> String(b.date).localeCompare(String(a.date)));
-
-          allPosts = data;
-          renderPosts('all');
-        }catch(err){
-          postsEl.innerHTML = `<p style="color:#ffbF24">Couldn't load posts: ${err.message}</p>`;
-          console.error('loadPosts error:', err);
-        }
-      }
-
-      // Chip filter clicks
-      if(chipsEl){
-        chipsEl.addEventListener('click',(e)=>{
-          const c = e.target.closest('.chip');
-          if(!c) return;
-          chipsEl.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
-          c.classList.add('active');
-          renderPosts(c.dataset.filter || 'all');
-        });
-      }
-
-      // Run
-      if(document.readyState === 'loading'){
-        document.addEventListener('DOMContentLoaded', loadPosts);
-      }else{
-        loadPosts();
-      }
-    })();
-
-    // Footer year
-    document.getElementById('year').textContent = new Date().getFullYear();
+    loadPosts();
   </script>
 </body>
 </html>
