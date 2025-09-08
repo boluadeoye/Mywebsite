@@ -1,389 +1,250 @@
-/* === BOLU THEME — Dark + Orange accents ============================= */
-/* Put this at the very top of your <style> on EVERY page               */
-
-:root{
-  /* core palette */
-  --bg:#0f172a;           /* page background (dark navy) */
-  --panel:#111a2e;        /* cards / header / hero surface */
-  --ink:#e5eefc;          /* primary text on dark */
-  --muted:#a7b3cc;        /* secondary text */
-  --chip:#0d1527;         /* chip/button surface */
-  --chip-ring:#ffc04333;  /* soft orange ring for active chip glow */
-  --orange:#f59e0b;       /* accent / CTA */
-  --orange-ink:#0b0f19;   /* text on orange */
-  --ring:rgba(245,158,11,.25);
-  --radius:16px;
-
-  color-scheme: dark;
-}
-
-/* --- Base / reset --------------------------------------------------- */
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--ink);
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
-  line-height:1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Kill any old page vignettes / gradients that created the dark shadow */
-body{ background-image:none !important; }
-.hero::before,.hero::after,
-.page-vignette,.edge-fade,.gradient-mask,.vignette{
-  content:none !important; display:none !important; background:none !important;
-}
-
-/* Typography */
-h1,h2,h3,h4{line-height:1.25; color:var(--ink); margin:0 0 .6rem}
-p,small{color:var(--muted)}
-a{color:#c2d7ff; text-decoration:none}
-a:hover{color:#e8f0ff}
-
-/* Panels / cards */
-.card{
-  background:var(--panel);
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:var(--radius);
-  padding:1rem;
-}
-
-/* CTA button */
-.btn{
-  display:inline-flex; align-items:center; justify-content:center;
-  padding:.95rem 1.35rem; border-radius:14px; border:0;
-  background:var(--orange); color:var(--orange-ink); font-weight:700;
-  box-shadow: 0 8px 26px var(--ring);
-  transition: transform .08s ease, box-shadow .2s ease, opacity .2s ease;
-}
-.btn:hover{ box-shadow:0 12px 36px var(--ring) }
-.btn:active{ transform:translateY(1px) }
-
-/* Chips (filters) */
-.chips{ display:flex; flex-wrap:wrap; gap:12px }
-.chip{
-  display:inline-flex; align-items:center; justify-content:center;
-  padding:.55rem 1rem; border-radius:999px;
-  background:var(--chip); color:var(--muted);
-  border:1px solid rgba(255,255,255,.08);
-  transition:border-color .2s, color .2s, box-shadow .2s;
-}
-.chip:hover{ border-color:rgba(255,191,36,.45); color:var(--ink) }
-.chip.is-active{
-  border-color:var(--orange); color:var(--ink);
-  box-shadow: 0 8px 24px var(--chip-ring);
-}
-
-/* Header (keeps your navy look) */
-.site-header{
-  position:sticky; top:0; z-index:50;
-  display:flex; align-items:center; justify-content:space-between; gap:.75rem;
-  padding:.75rem 1rem; background:var(--panel);
-  border-bottom:1px solid rgba(255,255,255,.06);
-}
-.site-header .brand{ display:flex; align-items:center; gap:.75rem; color:var(--ink); text-decoration:none }
-.site-header img{ width:40px; height:40px; border-radius:50%; object-fit:cover }
-
-/* Hamburger */
-.hamburger{ width:44px; height:44px; border:0; background:transparent; color:var(--ink); font-size:22px; border-radius:8px }
-.hamburger:active{ transform:scale(.96) }
-
-/* Sidebar (orange) + backdrop (no harsh dark overlay) */
-.drawer{
-  position:fixed; inset:0 auto 0 0; width:min(92vw, 360px);
-  transform:translateX(-100%); transition:transform .25s ease;
-  background:var(--orange); z-index:60; overflow:auto; padding:18px 0;
-  box-shadow: 2px 0 24px rgba(0,0,0,.25);
-}
-.drawer.open{ transform:none }
-.drawer a{
-  display:block; margin:14px 18px; padding:16px 18px; border-radius:16px;
-  background:rgba(0,0,0,.35); color:#fff; text-decoration:none; font-weight:600;
-  border:1px solid rgba(255,255,255,.15);
-}
-.backdrop{
-  position:fixed; inset:0; background:rgba(0,0,0,.0);
-  pointer-events:none; transition:background .2s ease; z-index:55;
-}
-.drawer.open + .backdrop{ background:rgba(0,0,0,.35); pointer-events:auto }
-.no-scroll{ overflow:hidden }
-
-/* Utility spacing (optional) */
-.section{ padding:2rem 1rem }
-.max{ max-width:960px; margin:0 auto }
-
-/* End Theme ========================================================== */
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Boluadeoye — personal site</title>
-  <meta name="color-scheme" content="dark">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Boludeoye</title>
+  <meta name="description" content="Short essays, project notes, and ideas in motion — updated often." />
 
+  <!-- THEME (Dark + Orange) -->
   <style>
     :root{
-      /* THEME (Dark + orange accents) */
-      --bg:#0f172a;          /* page */
-      --panel:#111a2e;       /* cards/hero surface */
-      --ink:#e5eefc;         /* primary text */
+      --bg:#0f172a;          /* page background (dark navy) */
+      --panel:#111a2e;       /* header / cards */
+      --ink:#e5eefc;         /* primary text on dark */
       --muted:#a7b3cc;       /* secondary text */
-      --chip:#0d1527;        /* chip bg */
-      --chip-ring:#ffc04333; /* 8-digit hex (orange + alpha) */
-      --orange:#f59e0b;      /* accent */
-      --orange-ink:#ffbf24;  /* accent text */
+      --chip:#0d1527;        /* chip/button surface */
+      --chip-ring:#ffc04333; /* soft orange ring glow */
+      --orange:#f59e0b;      /* accent / CTA */
+      --orange-ink:#0b0f19;  /* text on orange buttons */
       --ring:rgba(245,158,11,.25);
       --radius:16px;
-      --shadow: 0 8px 28px rgba(0,0,0,.35);
+      color-scheme:dark;
     }
 
+    /* Base */
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
       background:var(--bg);
       color:var(--ink);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Inter,Arial,sans-serif;
       line-height:1.6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
-    a{color:#9dbaff;text-decoration:none}
-    a:hover{text-decoration:underline}
+    /* Kill any old vignettes / gradients */
+    body{ background-image:none !important; }
+    .hero::before,.hero::after,.page-vignette,.edge-fade,.gradient-mask,.vignette{
+      content:none !important; display:none !important; background:none !important;
+    }
+
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:920px;margin:0 auto;padding:24px}
 
     /* Header */
-    .site-header{
-      position:sticky; top:0; z-index:40;
-      display:flex; align-items:center; justify-content:space-between;
-      gap:.75rem; padding:.75rem 1rem;
+    header{
+      position:sticky; top:0; z-index:10;
       background:var(--panel);
       border-bottom:1px solid rgba(255,255,255,.05);
     }
     .brand{
       display:flex; align-items:center; gap:.75rem;
-      min-width:0;
     }
     .brand img{
       width:40px; height:40px; border-radius:50%; object-fit:cover;
-      box-shadow:0 0 0 2px rgba(255,255,255,.06);
+      box-shadow:0 0 0 2px rgba(255,255,255,.06) inset;
     }
-    .brand h1{
-      font-size:1.25rem; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-      color:var(--ink);
-    }
+    .brand h1{font-size:1.25rem;margin:0;font-weight:700}
 
-    /* Hamburger (accessible button) */
+    .header-row{display:flex; align-items:center; justify-content:space-between}
     .hamburger{
-      --line:2px;
-      width:44px;height:44px;border:0;background:transparent;border-radius:10px;
-      display:grid;place-items:center;cursor:pointer;
+      display:inline-grid; place-items:center;
+      width:42px; height:42px; border-radius:10px;
+      border:1px solid rgba(255,255,255,.08);
+      background:var(--chip); color:var(--ink);
     }
-    .hamburger:focus-visible{outline:2px solid var(--orange)}
-    .hamburger .lines{width:22px;height:16px;position:relative}
-    .hamburger .lines::before,
-    .hamburger .lines::after,
-    .hamburger .lines span{
-      content:""; position:absolute; left:0; right:0; height:var(--line);
-      background:var(--ink); border-radius:2px;
-      transition:transform .25s ease, opacity .2s ease;
-    }
-    .hamburger .lines::before{top:0}
-    .hamburger .lines span{top:calc(50% - var(--line)/2)}
-    .hamburger .lines::after{bottom:0}
-    body.menu-open .hamburger .lines::before{transform:translateY(8px) rotate(45deg)}
-    body.menu-open .hamburger .lines::after{transform:translateY(-8px) rotate(-45deg)}
-    body.menu-open .hamburger .lines span{opacity:0}
+    .hamburger:active{transform:scale(.98)}
 
-    main{padding:1.25rem; max-width:980px; margin-inline:auto}
+    /* Sidebar */
+    .sidebar{
+      position:fixed; inset:0 30% 0 auto; /* left panel on small screens */
+      max-width:320px; width:80vw;
+      background:#ff7a00; /* solid orange panel */
+      transform:translateX(-105%);
+      transition:transform .25s ease;
+      z-index:999;
+      box-shadow:2px 0 40px rgba(0,0,0,.35);
+      overflow:auto;
+      padding:20px 16px 32px;
+    }
+    .sidebar.open{ transform:none; }
+    .scrim{
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.35);
+      opacity:0; pointer-events:none;
+      transition:opacity .2s ease;
+      z-index:998;
+    }
+    .scrim.show{ opacity:1; pointer-events:auto; }
+
+    .side-link{
+      display:block; background:#0d1725; color:var(--ink);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px; padding:18px; margin:10px 6px;
+      font-weight:600;
+    }
 
     /* Hero */
+    .hero{padding:48px 0}
     .chip{
-      display:inline-block; padding:.5rem .875rem; border-radius:999px;
-      background:var(--chip); color:var(--muted);
-      box-shadow:0 0 0 1px var(--chip-ring);
-      margin-bottom:1rem;
+      display:inline-flex; align-items:center; gap:.5rem;
+      background:var(--chip);
+      border:1px solid rgba(255,255,255,.08);
+      padding:.5rem 1rem; border-radius:999px;
+      box-shadow:0 0 0 6px var(--chip-ring);
+      color:var(--muted); font-weight:600;
     }
-    h2.hero-title{
-      font-size:clamp(2rem, 4vw + 1rem, 3.25rem);
-      line-height:1.15; margin:.25rem 0 1rem;
-    }
-    .lead{color:var(--muted); font-size:1.125rem}
+    h2{font-size:clamp(2rem,5vw,3.6rem); line-height:1.15; margin:.75rem 0 1rem}
+    p.lead{color:var(--muted); font-size:1.125rem; margin:0 0 1.25rem}
 
     .btn{
-      display:inline-block; margin-top:1.25rem;
-      background:linear-gradient(180deg,#f7a318,#f59e0b);
-      color:#1b1203; font-weight:700; border:0;
-      padding:.95rem 1.25rem; border-radius:14px; cursor:pointer;
-      box-shadow:0 10px 22px var(--ring), 0 2px 0 rgba(0,0,0,.2) inset;
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:14px 22px; border-radius:16px; border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg,#ffb13b 0%, #f59e0b 90%);
+      color:var(--orange-ink); font-weight:800; font-size:1.05rem;
+      box-shadow:0 12px 30px var(--ring);
     }
-    .btn:hover{filter:brightness(1.05)}
-    .btn:active{transform:translateY(1px)}
 
-    /* Chips row */
-    .chips{display:flex; flex-wrap:wrap; gap:.85rem; margin:2rem 0}
-    .chips .chip{box-shadow:0 0 0 1px rgba(255,191,36,.2)}
-    .chips .chip:hover{box-shadow:0 0 0 2px rgba(255,191,36,.45)}
+    /* Chips (filters) */
+    .chips{display:flex; flex-wrap:wrap; gap:14px; margin:26px 0 6px}
+    .chip.tab{box-shadow:none; border:1px solid rgba(255,255,255,.15)}
+    .chip.tab.active{ box-shadow:0 0 0 6px var(--chip-ring); border-color:#ffd48522 }
 
-    /* Latest posts */
-    section[aria-labelledby="latest"]{margin-top:2.5rem}
+    /* Section headers */
+    h3.section{font-size:2.1rem;margin:36px 0 14px}
+
+    /* Posts list */
     #posts .post{
-      background:var(--panel); border-radius:var(--radius); padding:1rem 1.1rem;
-      box-shadow:var(--shadow); margin:.9rem 0;
+      background:var(--panel); border:1px solid rgba(255,255,255,.06);
+      border-radius:16px; padding:18px 18px 20px; margin:12px 0;
     }
-    #posts h3{margin:.2rem 0 .35rem; font-size:1.25rem}
-    #posts small{color:var(--muted)}
+    #posts h3{margin:0 0 6px;font-size:1.25rem}
+    #posts small{color:#9eb1cc}
+    #posts p{margin:.5rem 0 0;color:#c7d3e6}
 
-    /* Sidebar (orange) */
-    .scrim{
-      position:fixed; inset:0; background:rgba(0,0,0,.55);
-      opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:49;
+    /* About card */
+    .about{
+      background:var(--panel); border:1px solid rgba(255,255,255,.06);
+      border-radius:16px; padding:22px; margin:34px 0;
     }
-    body.menu-open .scrim{opacity:1; pointer-events:auto}
-
-    .sidebar{
-      position:fixed; top:0; left:0; height:100dvh; z-index:50;
-      width:86%; max-width:420px; background:var(--orange);
-      transform:translateX(-100%); transition:transform .23s ease;
-      padding:1rem .9rem; overflow:auto; box-shadow:var(--shadow);
-    }
-    body.menu-open .sidebar{transform:none}
-    .nav-list{list-style:none; padding:0; margin:0}
-    .nav-item{
-      background:#0f1a2a; color:var(--ink); border-radius:18px;
-      padding:1rem 1.1rem; margin:.6rem 0; font-weight:600;
-      box-shadow:0 0 0 1px rgba(255,255,255,.06);
-    }
-    .nav-item a{color:var(--ink); text-decoration:none; display:block}
-    .nav-divider{margin:1rem 0; height:1px; background:rgba(255,255,255,.25)}
-
-    /* Accessibility helper when menu is open */
-    body.menu-open{overflow:hidden}
+    .about a{color:#cde3ff; text-decoration:underline}
   </style>
 </head>
 <body>
-  <!-- Orange sidebar + scrim -->
-  <aside class="sidebar" id="sidebar" aria-hidden="true">
-    <nav aria-label="Main">
-      <ul class="nav-list">
-        <li class="nav-item"><a href="/">All writings</a></li>
-        <li class="nav-item"><a href="#">Poems</a></li>
-        <li class="nav-item"><a href="#">Stories</a></li>
-        <li class="nav-item"><a href="#">Faith</a></li>
-        <li class="nav-item"><a href="#">Devotional</a></li>
-        <li class="nav-item"><a href="#">Articles</a></li>
-        <li class="nav-item"><a href="#">Essays</a></li>
-        <div class="nav-divider"></div>
-        <li class="nav-item"><a href="#about">About</a></li>
-        <li class="nav-item"><a href="mailto:bolu@example.com">Email me</a></li>
-        <li class="nav-item"><a href="https://wa.me/234">WhatsApp</a></li>
-      </ul>
-    </nav>
-  </aside>
-  <div class="scrim" id="scrim" hidden></div>
+
+  <!-- Sidebar + scrim -->
+  <div id="scrim" class="scrim" aria-hidden="true"></div>
+  <nav id="sidebar" class="sidebar" aria-label="Navigation">
+    <div class="wrap">
+      <a class="side-link" href="/">All writings</a>
+      <a class="side-link" href="#" data-filter="poems">Poems</a>
+      <a class="side-link" href="#" data-filter="stories">Stories</a>
+      <a class="side-link" href="#" data-filter="faith">Faith</a>
+      <a class="side-link" href="#" data-filter="devotional">Devotional</a>
+      <a class="side-link" href="#" data-filter="articles">Articles</a>
+      <a class="side-link" href="#" data-filter="essays">Essays</a>
+      <hr style="border:none;border-top:1px solid rgba(0,0,0,.15);margin:12px 6px">
+      <a class="side-link" href="#about">About</a>
+      <a class="side-link" href="mailto:bolu@example.com">Email me</a>
+      <a class="side-link" href="https://wa.me/2340000000000">WhatsApp</a>
+    </div>
+  </nav>
 
   <!-- Header -->
-  <header class="site-header">
-    <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">
-      <span class="lines"><span></span></span>
-    </button>
+  <header>
+    <div class="wrap header-row">
+      <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">
+        <!-- three lines -->
+        <svg width="22" height="16" viewBox="0 0 22 16" fill="none" aria-hidden="true">
+          <path d="M1 1h20M1 8h20M1 15h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
 
-    <a href="/" class="brand">
-      <img src="images/bolu.jpg" alt="Boluadeoye profile picture" />
-      <h1>Boluadeoye</h1>
-    </a>
-    <!-- spacer on the right -->
-    <div style="width:44px"></div>
+      <a href="/" class="brand" style="text-decoration:none">
+        <img src="images/bolu.jpg" alt="Boluadeoye" />
+        <h1>Boludeoye</h1>
+      </a>
+    </div>
   </header>
 
-  <main>
+  <main class="wrap">
+
     <!-- Hero -->
-    <section class="hero" aria-labelledby="hero">
+    <section class="hero">
       <span class="chip">personal site</span>
-      <h2 id="hero" class="hero-title">Words that glow in the day.</h2>
+      <h2>Words that glow in the day.</h2>
       <p class="lead">Short essays, project notes, and ideas in motion — updated often.</p>
-      <a id="latestBtn" class="btn" href="#latest">Read the latest</a>
-      <div class="chips" aria-label="Categories">
-        <span class="chip">All writings</span>
-        <span class="chip">Poems</span>
-        <span class="chip">Stories</span>
-        <span class="chip">Faith</span>
-        <span class="chip">Devotional</span>
-        <span class="chip">Articles</span>
-        <span class="chip">Essays</span>
+      <a class="btn" href="#posts">✨ Read the latest</a>
+
+      <!-- Filter chips -->
+      <div class="chips" id="filters">
+        <button class="chip tab active" data-filter="all">All writings</button>
+        <button class="chip tab" data-filter="poems">Poems</button>
+        <button class="chip tab" data-filter="stories">Stories</button>
+        <button class="chip tab" data-filter="faith">Faith</button>
+        <button class="chip tab" data-filter="devotional">Devotional</button>
+        <button class="chip tab" data-filter="articles">Articles</button>
+        <button class="chip tab" data-filter="essays">Essays</button>
       </div>
     </section>
 
-    <!-- Latest posts -->
-    <section aria-labelledby="latest">
-      <h2 id="latest">Latest writings</h2>
-      <div id="posts"></div>
+    <!-- Posts -->
+    <h3 class="section">Latest writings</h3>
+    <div id="posts" aria-live="polite">Loading…</div>
+
+    <!-- About -->
+    <section id="about" class="about">
+      <h3 style="margin:0 0 10px">About</h3>
+      <p style="margin:.25rem 0 0">
+        I’m <strong>Adeoye Boluwatife</strong>, a final-year student in English and Literary Studies
+        at the <a href="https://fuoye.edu.ng/" target="_blank" rel="noopener">Federal University, Oye-Ekiti</a>.
+        Writing and creativity are more than passions — they’re how I explore ideas, faith,
+        and the beauty of human experience. Here, I share poems, devotionals, essays, and stories:
+        words that glow with honesty, inspire reflection, and keep creativity alive.
+      </p>
     </section>
 
-    <!-- About (linked line) -->
-    <section id="about" aria-labelledby="about-title" style="margin-top:2.5rem">
-      <h2 id="about-title">About</h2>
-      <div style="background:var(--panel); border-radius:var(--radius); padding:1.25rem; box-shadow:var(--shadow)">
-        <p>I’m <strong>Adeoye Boluwatife</strong>, a final-year student in English and Literary Studies at the
-          <a href="https://www.fuoye.edu.ng/" target="_blank" rel="noopener">Federal University, Oye-Ekiti</a>.
-          Writing and creativity are how I explore ideas, faith, and the beauty of human experience.</p>
-        <p>Here, I share poems, devotionals, essays, and stories—words that glow with honesty, inspire reflection, and keep creativity alive.</p>
-      </div>
-    </section>
   </main>
 
-  <!-- POSTS LOADER + MENU JS -->
+  <!-- JS: menu, posts, filters -->
   <script>
-  // ------- Helper: compute correct base for GitHub Pages (user or project site)
-  const BASE = (() => {
-    const p = location.pathname.replace(/\/+$/, "");
-    // If running at /RepoName or deeper, use "/RepoName/"
-    const parts = p.split("/").filter(Boolean);
-    return parts.length ? `/${parts[0]}/` : "/";
-  })();
-
-  // ------- Sidebar open/close (tap scrim, Esc, Back button supported)
   (function(){
-    const body = document.body;
-    const btn = document.getElementById('menuBtn');
-    const scrim = document.getElementById('scrim');
+    const menuBtn = document.getElementById('menuBtn');
     const sidebar = document.getElementById('sidebar');
-
-    function openMenu(push=true){
-      body.classList.add('menu-open');
-      btn.setAttribute('aria-expanded','true');
-      sidebar.setAttribute('aria-hidden','false');
-      scrim.hidden = false;
-      if (push) history.pushState({menu:true}, "", "#menu");
-    }
-    function closeMenu(fromPop=false){
-      body.classList.remove('menu-open');
-      btn.setAttribute('aria-expanded','false');
-      sidebar.setAttribute('aria-hidden','true');
-      scrim.hidden = true;
-      if (!fromPop && location.hash === "#menu") history.back();
-    }
-
-    btn.addEventListener('click', () => {
-      if (body.classList.contains('menu-open')) closeMenu();
-      else openMenu();
-    });
-    scrim.addEventListener('click', () => closeMenu());
-    window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
-    window.addEventListener('popstate', () => {
-      if (body.classList.contains('menu-open')) closeMenu(true);
-    });
-  })();
-
-  // ------- Load posts.json and render
-  (function () {
+    const scrim = document.getElementById('scrim');
     const postsEl = document.getElementById('posts');
-    const latestBtn = document.getElementById('latestBtn');
-    if (!postsEl) return;
+    const filtersEl = document.getElementById('filters');
 
-    function render(list){
-      if (!list || !list.length){
-        postsEl.innerHTML = `<p style="color:#a7b3cc">No posts found.</p>`;
+    function openMenu(){ sidebar.classList.add('open'); scrim.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
+    function closeMenu(){ sidebar.classList.remove('open'); scrim.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
+
+    menuBtn.addEventListener('click', (e)=>{ e.stopPropagation(); sidebar.classList.contains('open') ? closeMenu() : openMenu(); });
+    scrim.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeMenu(); });
+
+    // ---- Posts
+    let allPosts = [];
+
+    function renderPosts(filter='all'){
+      if(!postsEl) return;
+      const list = (filter==='all')
+        ? allPosts
+        : allPosts.filter(p => (p.type||'').toLowerCase() === String(filter).toLowerCase());
+
+      if(!list.length){
+        postsEl.innerHTML = '<p style="color:#a7b3cc">No posts found.</p>';
         return;
       }
       postsEl.innerHTML = list.map(p=>{
@@ -391,40 +252,60 @@ a:hover{color:#e8f0ff}
         const type = p.type ? ` · <em>${String(p.type).toUpperCase()}</em>` : '';
         const date = p.date || '';
         const excerpt = p.excerpt ? `<p>${p.excerpt}</p>` : '';
-        const url = /^https?:\/\//i.test(p.url) ? p.url : (BASE + p.url.replace(/^\/+/, ''));
         return `
           <article class="post">
-            <h3><a href="${url}">${p.title}</a></h3>
+            <h3><a href="${p.url}">${p.title}</a></h3>
             <small>${date}${mins}${type}</small>
             ${excerpt}
           </article>`;
       }).join('');
-
-      // Make the CTA go to newest post
-      const firstUrl = /^https?:\/\//i.test(list[0].url) ? list[0].url : (BASE + list[0].url.replace(/^\/+/, ''));
-      latestBtn.setAttribute('href', firstUrl);
     }
 
-    async function load(){
+    async function loadPosts(){
       try{
-        const res = await fetch(`${BASE}posts.json?v=${Date.now()}`, {cache:'no-store'});
-        if(!res.ok) throw new Error(`posts.json status ${res.status}`);
+        // Avoid cached JSON on GitHub Pages
+        const res = await fetch('posts.json?v=' + Date.now(), { cache: 'no-store' });
+        if(!res.ok) throw new Error('posts.json not found ('+res.status+')');
         const data = await res.json();
         if(!Array.isArray(data)) throw new Error('posts.json must be an array');
 
-        data.sort((a,b)=> String(b.date).localeCompare(String(a.date)));
-        window.allPosts = data;
-        render(data);
+        // Sort newest first by date if YYYY-MM-DD
+        data.sort((a,b)=> String(b.date||'').localeCompare(String(a.date||'')));
+
+        allPosts = data;
+        renderPosts('all');
       }catch(err){
-        console.error('posts load error:', err);
-        postsEl.innerHTML = `<p style="color:#ffbf24">Couldn't load posts: ${err.message}</p>`;
+        postsEl.innerHTML = '<p style="color:#ffbf24">Couldn\'t load posts.</p>';
+        console.error(err);
       }
     }
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', load);
+    // Filter chips (both in hero and in sidebar)
+    function handleFilterClick(target){
+      const f = target.getAttribute('data-filter');
+      if(!f) return;
+      renderPosts(f);
+      // mark active in hero chip row
+      document.querySelectorAll('.chip.tab').forEach(c => c.classList.toggle('active', c===target));
+      // close menu if selection came from sidebar
+      if(target.classList.contains('side-link')) closeMenu();
+    }
+
+    filtersEl.addEventListener('click', (e)=>{
+      const btn = e.target.closest('[data-filter]');
+      if(btn) handleFilterClick(btn);
+    });
+
+    document.getElementById('sidebar').addEventListener('click', (e)=>{
+      const link = e.target.closest('[data-filter]');
+      if(link){ e.preventDefault(); handleFilterClick(link); }
+    });
+
+    // Kickoff
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', loadPosts);
     } else {
-      load();
+      loadPosts();
     }
   })();
   </script>
