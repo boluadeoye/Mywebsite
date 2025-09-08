@@ -370,7 +370,8 @@ footer {
       const excerpt = p.excerpt ? `<p>${p.excerpt}</p>` : '';
       return `
         <article class="post">
-          <h3><a href="${p.url}" style="color:inherit;text-decoration:none">${p.title}</a></h3>
+          - <h3><a href="${p.url}" style="color:inherit;text-decoration:none">
++ <h3><a href="${p.url || ('post.html?file=' + encodeURIComponent(p.file))}" style="color:inherit;text-decoration:none">
           <small>${date}${mins}${type}</small>
           ${excerpt}
         </article>
