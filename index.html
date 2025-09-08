@@ -73,11 +73,24 @@
   }
   .wrap{ max-width:1100px; margin:0 auto; padding:0 1.2rem; }
   .header-row{ display:flex; align-items:center; justify-content:space-between; padding: .85rem 0; gap:1rem; }
-  .brand{ display:flex; align-items:center; gap:.7rem; text-decoration:none; color:inherit;}
-  .brand img{ width:44px; height:44px; border-radius:50%; object-fit:cover }
-  .brand h1{ font-size:1.25rem; margin:0; font-weight:700 }
+  /* Brand styling */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;       /* space between circle and name */
+  margin-left: 1rem; /* pushes the whole logo away from the edge */
+  text-decoration: none;
+}
 
-  /* Desktop top-nav like the reference */
+.brand h1 {
+  color: #ffffff;   /* bright white text */
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+  .brand img{ width:44px; height:44px; border-radius:50%; object-fit:cover }
+  
+    /* Desktop top-nav like the reference */
   .top-nav{ display:none; gap:1.25rem; align-items:center; }
   .top-nav a{
     text-decoration:none; color:var(--ink); opacity:.85; font-weight:600;
