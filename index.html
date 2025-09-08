@@ -95,7 +95,16 @@
       .hamburger{display:none}
       .hero h1{font-size:56px}
     }
-  </style>
+ /* Remove the dark shadow overlay completely */
+body::before {
+  content: none !important;
+}
+
+/* OR, if you want a subtle orange glow instead of black */
+.drawer.open {
+  box-shadow: -4px 0 12px rgba(249, 115, 22, 0.25); /* soft orange */
+} 
+</style>
 </head>
 <body>
   <!-- HEADER -->
