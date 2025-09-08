@@ -4,7 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Boluadeoye</title>
-  <style>
+  <style #search{
+  width:100%;
+  padding:10px 12px;
+  margin:8px 0 14px;
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  font-size:14px;
+}
+#search:focus{ outline:3px solid rgba(37,99,235,.15); border-color:#c7d2fe; }>
     :root{
       --blue:#2563eb; --blue-ink:#1d4ed8;
       --orange:#f97316; --orange-ink:#ea580c;
@@ -111,8 +119,9 @@
 
   <!-- LATEST WRITINGS -->
   <section id="writings" class="section">
-    <h2>Latest writings</h2>
-    <div id="posts" class="list"></div>
+  <h2>Latest writings</h2>
+  <input id="search" type="search" placeholder="Search titles or summaries…" aria-label="Search writings" />
+  <div id="posts" class="list"></div>
   </section>
 
   <!-- ABOUT -->
