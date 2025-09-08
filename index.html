@@ -26,7 +26,22 @@
     --sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
     --serif: "Playfair Display", ui-serif, Georgia, "Times New Roman", serif;
   }
+/* Header with gradient background */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: linear-gradient(90deg, var(--orange), var(--panel));
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
 
+/* Gradient text for site name */
+.brand h1 {
+  font-size: 1.3rem;
+  margin: 0;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--orange), #ffb347);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
   *{ box-sizing:border-box }
   html,body{ height:100%; margin:0 }
   body{
