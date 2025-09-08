@@ -1,380 +1,212 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Boluadeoye — personal blog</title>
-<meta name="description" content="Short essays, project notes, and ideas in motion — updated often." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boludeoye | Personal Site</title>
+  <style>
+    /* === THEME (Dark + Orange accents) ================= */
+    :root {
+      --bg:#0f172a;       /* page background */
+      --panel:#111a2e;    /* header / cards */
+      --ink:#e5eefc;      /* primary text */
+      --muted:#a7b3cc;    /* secondary text */
+      --chip:#0d1527;     /* chip surface */
+      --chip-ring:#ffc04333;
+      --orange:#f59e0b;   /* accent / CTA */
+      --orange-ink:#0b0f19;
+      --ring:rgba(245,158,11,.25);
+      --radius:16px;
+    }
 
-<style>
-/* === THEME (Dark + Orange accents) =============================== */
-:root{
-  --bg:#0f172a;        /* page background (dark navy) */
-  --panel:#111a2e;     /* header / cards */
-  --ink:#e5eefc;       /* primary text on dark */
-  --muted:#a7b3cc;     /* secondary text */
-  --chip:#0d1527;      /* chip/button surface */
-  --chip-ring:#ffc04333; /* soft orange ring glow */
-  --orange:#f59e0b;    /* accent / CTA */
-  --orange-ink:#0b0f19;/* text on orange */
-  --ring:rgba(245,158,11,.25);
-  --radius:16px;
-}
-  /* Sidebar */
-.side-menu {
-  position: fixed;
-  top: 0;
-  left: -260px; /* hidden by default */
-  width: 240px;
-  height: 100%;
-  background: var(--orange);
-  padding: 2rem 1rem;
-  transition: left 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  z-index: 1001; /* makes sure it sits above content */
-  box-shadow: 2px 0 10px rgba(0,0,0,0.3); /* small shadow */
-}
+    body {
+      margin:0;
+      font-family: system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
 
-/* When active (open) */
-.side-menu.active {
-  left: 0;
-}
+    header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background: var(--panel);
+      padding:1rem;
+    }
 
-/* Overlay behind sidebar */
-#menuOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* dim background */
-  z-index: 1000; /* just below sidebar */
-  display: none;
-}
+    header img {
+      width:40px;
+      height:40px;
+      border-radius:50%;
+      margin-right:.5rem;
+    }
 
-#menuOverlay.active {
-  display: block;
-}
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:.5rem;
+      text-decoration:none;
+      color:var(--ink);
+      font-weight:bold;
+      font-size:1.2rem;
+    }
 
-/* Sidebar links */
-.side-link {
-  background: var(--panel);
-  color: var(--ink);
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius);
-  text-decoration: none;
-  font-weight: 500;
-  transition: background 0.2s ease;
-}
+    .hamburger {
+      font-size:1.5rem;
+      background:none;
+      border:none;
+      color:var(--ink);
+    }
 
-.side-link:hover {
-  background: var(--chip);
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, sans-serif;
-  background:var(--bg);
-  color:var(--ink);
-  line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-}
-.no-scroll{overflow:hidden}
+    /* Sidebar */
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      width: 240px;
+      height: 100%;
+      background: var(--orange);
+      padding: 2rem 1rem;
+      transition: left 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      z-index: 1001;
+    }
+    .side-menu.active { left: 0; }
 
-/* Header */
-.site-header{
-  position:sticky; top:0; z-index:1000;
-  background:var(--panel);
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
-.header-row{
-  display:flex; align-items:center; gap:.75rem;
-  padding:.75rem 1rem; max-width:980px; margin:0 auto;
-}
-.hamburger{
-  width:44px; height:44px; border:0; border-radius:12px;
-  background:var(--chip); color:var(--ink); cursor:pointer;
-}
-.brand{display:flex; align-items:center; gap:.6rem; text-decoration:none}
-.brand img{width:42px; height:42px; border-radius:50%; object-fit:cover}
-.brand h1{font-size:1.25rem; margin:0; color:var(--ink)}
+    .side-link {
+      background: var(--chip);
+      padding: .8rem 1rem;
+      border-radius: var(--radius);
+      text-decoration:none;
+      color: var(--ink);
+      font-weight:500;
+    }
 
-/* Sidebar + overlay */
-.side-menu{
-  position:fixed; top:0; left:-260px; width:240px; height:100%;
-  background:var(--orange); padding:2rem 1rem;
-  transition:left .3s ease; display:flex; flex-direction:column; gap:1rem;
-  z-index: 1001;
-}
-.side-menu.active{ left:0; }
-.side-link{
-  display:block; padding:1rem; border-radius:20px;
-  background:#0d1b2a; color:#dee7fb; text-decoration:none; font-weight:600;
-  box-shadow:0 0 0 2px transparent, 0 8px 24px rgba(0,0,0,.15);
-}
-.side-link:active{transform:translateY(1px)}
-.overlay{
-  position:fixed; inset:0; background:rgba(0,0,0,.45);
-  opacity:0; pointer-events:none; transition:opacity .2s ease-out;
-  z-index: 1000;
-}
-.overlay.show{opacity:1; pointer-events:auto}
+    /* Overlay */
+    #menuOverlay {
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background:rgba(0,0,0,0.6);
+      z-index:1000;
+    }
 
-/* Layout wrappers */
-.wrap{max-width:980px; margin:0 auto; padding:1rem}
+    /* Hero */
+    .hero { padding:3rem 1rem; text-align:center; }
+    .hero h2 { font-size:2rem; line-height:1.2; }
+    .hero h2 .accent { color: var(--orange); }
+    .hero p { color: var(--muted); max-width:500px; margin:1rem auto; }
+    .btn {
+      display:inline-block;
+      margin-top:1rem;
+      padding:.8rem 1.2rem;
+      border-radius:var(--radius);
+      background:var(--orange);
+      color:var(--orange-ink);
+      font-weight:700;
+      text-decoration:none;
+    }
 
-/* Hero */
-.hero{padding:2rem 1rem}
-.hero .chip{
-  display:inline-block; padding:.55rem 1rem; border-radius:999px;
-  background:var(--panel); border:1px solid rgba(255,255,255,.08);
-  color:#c7d2fe;
-}
-.hero h2{
-  font-size: clamp(2.2rem, 5vw, 4rem);
-  line-height:1.1; margin:.8rem 0 1rem 0;
-}
-.hero h2 .accent{ color: var(--orange); }
-.hero p{color:var(--muted); max-width:58ch}
-.btn{
-  display:inline-block; margin-top:1.25rem; padding:1rem 1.4rem; border:0;
-  border-radius:18px; background:var(--orange); color:var(--orange-ink);
-  font-size:1.05rem; font-weight:700; box-shadow:0 12px 34px var(--ring);
-}
-
-/* Chips row */
-.chips{display:flex; flex-wrap:wrap; gap:.8rem; margin:1.5rem 0}
-.chips .chip{
-  background:var(--chip); color:#dbe6ff; border:1px solid rgba(255,255,255,.08);
-  cursor:pointer;
-}
-.chips .chip.active{
-  box-shadow:0 0 0 3px var(--chip-ring);
-  color:#fff;
-}
-
-/* Posts list */
-.section-title{font-size:2rem; margin:2rem 0 1rem 0}
-.post{ background:var(--panel); border:1px solid rgba(255,255,255,.06);
-  border-radius:var(--radius); padding:1.25rem; margin:.9rem 0;
-}
-.post h3{margin:.2rem 0 .4rem 0; font-size:1.3rem}
-.post a{ color:#c7d2fe; text-decoration:none }
-.post small{ color:var(--muted) }
-.post p{ color:#d7e3ff }
-
-/* About / contact */
-.card{
-  background:var(--panel); border:1px solid rgba(255,255,255,.06);
-  border-radius:var(--radius); padding:1.25rem; margin:2rem 0;
-}
-.card h3{margin:.2rem 0 1rem 0}
-.card a{ color:#c7d2fe }
-
-/* Footer */
-footer{ color:var(--muted); font-size:.9rem; padding:2rem 1rem; text-align:center }
-</style>
+    /* Posts */
+    #posts { padding:2rem 1rem; max-width:600px; margin:auto; }
+    #posts .post { margin-bottom:1.5rem; }
+    #posts h3 { margin:.3rem 0; }
+    #posts p { color:var(--muted); }
+  </style>
 </head>
-
 <body>
   <!-- Header -->
-  <header class="site-header">
-    <div class="header-row">
-      <button id="menuBtn" class="hamburger" aria-label="Open menu">☰</button>
-      <a href="./" class="brand">
-        <img src="images/bolu.jpg" alt="Boluadeoye" />
-        <h1>Boluadeoye</h1>
-      </a>
-    </div>
+  <header>
+    <button id="menuBtn" class="hamburger">&#9776;</button>
+    <a href="/Mywebsite/index.html" class="brand">
+      <img src="/Mywebsite/images/bolu.jpg" alt="Boludeoye">
+      <span>Boludeoye</span>
+    </a>
   </header>
 
   <!-- Sidebar -->
   <nav id="sideMenu" class="side-menu">
-  <a class="side-link" href="#" data-filter="all">All writings</a>
-  <a class="side-link" href="#" data-filter="poems">Poems</a>
-  <a class="side-link" href="#" data-filter="stories">Stories</a>
-  <a class="side-link" href="#" data-filter="faith">Faith</a>
-  <a class="side-link" href="#" data-filter="devotional">Devotional</a>
-  <a class="side-link" href="#" data-filter="articles">Articles</a>
-  <a class="side-link" href="#" data-filter="essays">Essays</a>
-  <!-- About is a real separate page -->
-    
-  <a class="side-link" href="./about.html">About</a>
+    <a class="side-link" href="#" data-filter="all">All writings</a>
+    <a class="side-link" href="#" data-filter="poems">Poems</a>
+    <a class="side-link" href="#" data-filter="stories">Stories</a>
+    <a class="side-link" href="#" data-filter="faith">Faith</a>
+    <a class="side-link" href="#" data-filter="devotional">Devotional</a>
+    <a class="side-link" href="#" data-filter="articles">Articles</a>
+    <a class="side-link" href="#" data-filter="essays">Essays</a>
+    <a class="side-link" href="/Mywebsite/about.html">About</a>
   </nav>
-  <div id="menuOverlay" class="overlay"></div>
+  <div id="menuOverlay" hidden></div>
 
-  <main class="wrap">
-    <!-- Hero -->
-    <section class="hero">
-      <span class="chip">personal site</span>
-      <h2><span class="accent">Words that glow</span> in the day.</h2>
-      <p>Short essays, project notes, and ideas in motion — updated often.</p>
-      <a class="btn" href="#latest">Read the latest</a>
+  <!-- Hero -->
+  <section class="hero">
+    <span class="chip">personal site</span>
+    <h2><span class="accent">Words that glow</span> in the day.</h2>
+    <p>Short essays, project notes, and ideas in motion — updated often.</p>
+    <a href="#latest" class="btn">Read the latest</a>
+  </section>
 
-      <div class="chips" id="chipRow">
-        <span class="chip active" data-filter="all">All writings</span>
-        <span class="chip" data-filter="poems">Poems</span>
-        <span class="chip" data-filter="stories">Stories</span>
-        <span class="chip" data-filter="faith">Faith</span>
-        <span class="chip" data-filter="devotional">Devotional</span>
-        <span class="chip" data-filter="articles">Articles</span>
-        <span class="chip" data-filter="essays">Essays</span>
-      </div>
-    </section>
-
-    <h2 id="latest" class="section-title">Latest writings</h2>
-    <div id="posts"></div>
-    
-    </section>
+  <!-- Posts -->
+  <main id="posts">
+    <h2>Latest writings</h2>
+    <div id="postList"></div>
   </main>
 
-  <footer>© <span id="y"></span> Boluadeoye 2025</footer>
+  <script>
+    // Sidebar toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
 
-<script>
-/* ===== MENU: toggle + overlay + back button ===== */
-(function(){
-  const body = document.body;
-  const menu = document.getElementById('sideMenu');
-  const btn  = document.getElementById('menuBtn');
-  const ovl  = document.getElementById('menuOverlay');
+    menuBtn.addEventListener('click', () => {
+      sideMenu.classList.toggle('active');
+      menuOverlay.hidden = !sideMenu.classList.contains('active');
+    });
 
-  function openMenu(){
-    menu.classList.add('active');
-    ovl.classList.add('show'); ovl.hidden = false;
-    body.classList.add('no-scroll');
-    history.pushState({menu:true}, '', location.href); // let Back close it
-  }
-  function closeMenu(){
-    menu.classList.remove('active');
-    ovl.classList.remove('show');
-    // small delay to avoid focus flicker
-    setTimeout(()=>{ ovl.hidden = true; }, 200);
-    body.classList.remove('no-scroll');
-  }
-  btn.addEventListener('click', e=>{
-    e.preventDefault();
-    if(menu.classList.contains('active')) closeMenu(); else openMenu();
-  });
-  ovl.addEventListener('click', closeMenu);
-  window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeMenu(); });
+    menuOverlay.addEventListener('click', () => {
+      sideMenu.classList.remove('active');
+      menuOverlay.hidden = true;
+    });
 
-  // Back button: if menu open, close instead of leaving
-  window.addEventListener('popstate', ()=>{
-    if(menu.classList.contains('active')) { closeMenu(); }
-  });
+    // Load posts from posts.json
+    async function loadPosts(filter='all') {
+      const postList = document.getElementById('postList');
+      try {
+        const res = await fetch('/Mywebsite/posts.json');
+        const data = await res.json();
 
-  // Sidebar links that filter content
-  menu.querySelectorAll('[data-filter]').forEach(a=>{
-    a.addEventListener('click', (e)=>{
-      e.preventDefault();
-      const f = a.getAttribute('data-filter');
-      renderPosts(f);
-      closeMenu();
-      // sync chips state
-      document.querySelectorAll('#chipRow .chip').forEach(c=>{
-        c.classList.toggle('active', c.getAttribute('data-filter')===f);
+        const list = filter==='all' ? data : data.filter(p => p.type===filter);
+        if(list.length===0){
+          postList.innerHTML = `<p>No posts found.</p>`;
+          return;
+        }
+
+        postList.innerHTML = list.map(p => `
+          <div class="post">
+            <h3><a href="${p.url}">${p.title}</a></h3>
+            <small>${p.date} · ${p.minutes} min read · ${p.type.toUpperCase()}</small>
+            <p>${p.excerpt}</p>
+          </div>
+        `).join('');
+      } catch(err) {
+        postList.innerHTML = `<p style="color:red">Couldn't load posts.</p>`;
+        console.error(err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadPosts();
+      document.querySelectorAll('.side-link[data-filter]').forEach(link=>{
+        link.addEventListener('click', e=>{
+          e.preventDefault();
+          const f = link.getAttribute('data-filter');
+          loadPosts(f);
+          sideMenu.classList.remove('active');
+          menuOverlay.hidden = true;
+        });
       });
-      // remember selection in URL
-      const url = new URL(location.href);
-      url.searchParams.set('type', f);
-      history.replaceState(history.state, '', url);
     });
-  });
-})();
-
-/* ===== POSTS LOADER & FILTER ==================================== */
-let allPosts = [];
-const postsEl = document.getElementById('posts');
-
-function renderPosts(filterType='all'){
-  if(!postsEl) return;
-  const list = (filterType==='all')
-    ? allPosts
-    : allPosts.filter(p => (p.type||'').toLowerCase() === String(filterType).toLowerCase());
-
-  if(!list.length){
-    postsEl.innerHTML = '<p style="color:#a7b3cc">No posts found.</p>';
-    return;
-  }
-  postsEl.innerHTML = list.map(p=>{
-    const mins = p.minutes ? ` • ${p.minutes} min read` : '';
-    const type = p.type ? ` · <em>${String(p.type).toUpperCase()}</em>` : '';
-    const date = p.date || '';
-    const excerpt = p.excerpt ? `<p>${p.excerpt}</p>` : '';
-    return `
-      <article class="post">
-        <h3><a href="${p.url}">${p.title}</a></h3>
-        <small>${date}${mins}${type}</small>
-        ${excerpt}
-      </article>
-    `;
-  }).join('');
-}
-async function loadPosts(){
-  try{
-    const res = await fetch('posts.json?v=4', { cache:'no-store' });
-    if(!res.ok) throw new Error('posts.json not found ('+res.status+')');
-    const data = await res.json();
-    if(!Array.isArray(data)) throw new Error('posts.json must be a JSON array');
-
-    // newest first if dates like YYYY-MM-DD
-    data.sort((a,b)=> String(b.date||'').localeCompare(String(a.date||'')));
-
-    allPosts = data;
-    // pick filter from ?type=… if present
-    const urlType = new URL(location.href).searchParams.get('type') || 'all';
-    // mark chip active
-    document.querySelectorAll('#chipRow .chip').forEach(c=>{
-      c.classList.toggle('active', c.getAttribute('data-filter')===urlType);
-    });
-    renderPosts(urlType);
-  }catch(err){
-    postsEl.innerHTML = <h3><a href="post.html?file=${encodeURIComponent(p.url)}">${p.title}</a></h3>
-  }
-}
-document.addEventListener('DOMContentLoaded', ()=>{
-  loadPosts();
-  // chip row handlers
-  document.getElementById('chipRow').addEventListener('click', (e)=>{
-    const chip = e.target.closest('.chip'); if(!chip) return;
-    const f = chip.getAttribute('data-filter');
-    document.querySelectorAll('#chipRow .chip').forEach(c=>c.classList.toggle('active', c===chip));
-    renderPosts(f);
-    const url = new URL(location.href); url.searchParams.set('type', f);
-    history.replaceState(history.state,'',url);
-  });
-  document.getElementById('y').textContent = new Date().getFullYear();
-});
-  // Handle sidebar filter links
-document.querySelectorAll('.side-link[data-filter]').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault(); // stop page reload
-    const filter = link.getAttribute('data-filter');
-    renderPosts(filter); // call your renderPosts function
-    document.getElementById('sideMenu').classList.remove('active');
-    document.getElementById('menuOverlay').hidden = true;
-  });
-});
-  // === Sidebar toggle ===
-const menuBtn = document.getElementById('menuBtn');
-const sideMenu = document.getElementById('sideMenu');
-const menuOverlay = document.getElementById('menuOverlay');
-
-// Open sidebar
-menuBtn.addEventListener('click', () => {
-  sideMenu.classList.toggle('active');
-  menuOverlay.hidden = !sideMenu.classList.contains('active');
-});
-
-// Close sidebar when clicking overlay
-menuOverlay.addEventListener('click', () => {
-  sideMenu.classList.remove('active');
-  menuOverlay.hidden = true;
-});
-</script>
+  </script>
 </body>
 </html>
