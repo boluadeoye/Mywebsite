@@ -1,318 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Boluadeoye</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boluadeoye | Personal Site</title>
   <style>
-    :root{
+    :root {
       /* THEME (Dark + orange accents) */
-      --bg:#0f172a;           /* page */
-      --panel:#111a2e;        /* cards/hero surface */
-      --ink:#e5eefc;          /* primary text */
-      --muted:#a7b3cc;        /* secondary text */
-      --chip:#0d1527;         /* chip bg */
-      --chip-ring:#ffc04333;  /* chip ring glow */
-      --orange:#f59e0b;       /* accent */
-      --orange-ink:#fbbf24;
+      --bg:#0f172a;         /* page */
+      --panel:#111a2e;      /* cards/hero surface */
+      --ink:#e5eefc;        /* primary text */
+      --muted:#a7b3cc;      /* secondary text */
+      --chip:#0d1527;       /* chip bg */
+      --chip-ring:#ffc04333;/* chip ring glow */
+      --orange:#f59e0b;     /* accent */
+      --orange-ink:#fbbf24; /* accent text */
       --ring:rgba(245,158,11,.25);
       --radius:16px;
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:var(--bg);
-      color:var(--ink);
-      line-height:1.6;
+    * { box-sizing: border-box; }
+    html, body { height:100%; margin:0; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
     }
-    .no-scroll{overflow:hidden}
 
     /* Header */
-    header{
-      position:sticky; top:0; z-index:50;
-      background:#0c1326; border-bottom:1px solid #1b2744;
-      display:flex; align-items:center; gap:12px;
-      padding:14px 18px;
+    header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:1rem;
+      background:var(--panel);
     }
-    .hamburger{width:40px;height:40px;border:1px solid #1f2b4a;border-radius:12px;display:grid;place-items:center;background:#0f162b}
-    .hamburger span{display:block;width:18px;height:2px;background:#cbd5e1;position:relative;border-radius:2px}
-    .hamburger span:before,.hamburger span:after{content:"";position:absolute;left:0;width:18px;height:2px;background:#cbd5e1;border-radius:2px}
-    .hamburger span:before{top:-6px}.hamburger span:after{top:6px}
-
-    .brand{display:flex;align-items:center;gap:10px}
-    .brand img{width:42px;height:42px;border-radius:50%;object-fit:cover;background:#0a1021}
-    .brand strong{font-size:22px}
-
-    nav{margin-left:auto;display:none;gap:16px}
-    nav a{color:#9ec1ff;text-decoration:none}
-
-    /* Drawer (LEFT slide) */
-    .drawer{
-      position:fixed; top:0; left:0; bottom:0;
-      width:min(86vw,410px);
-      background:#f59e0b;            /* orange panel */
-      transform:translateX(-100%);
-      transition:transform .28s ease;
-      z-index:90;
-      padding:18px 16px 28px;
-      overflow:auto;                  /* scrollable */
-      -webkit-overflow-scrolling:touch;
-      box-shadow: 2px 0 30px rgba(0,0,0,.35);
+    header img {
+      width:48px;
+      height:48px;
+      border-radius:50%;
+      object-fit:cover;
     }
-    .drawer.open{transform:translateX(0)}
-    .menu-list{display:grid;gap:14px;margin-top:6px}
-    .menu-item{
-      display:block; padding:16px 18px; border-radius:20px;
-      background:#0d2038; color:#dbe7ff; text-decoration:none;
-      border:1px solid #f0b44d22;
+    header h1 {
+      margin:0;
+      font-size:1.2rem;
     }
-    .menu-item:active{transform:scale(.99)}
 
-    /* Scrim (tap to close) */
-    .scrim{
-      position:fixed; inset:0; background:rgba(0,0,0,.55);
-      opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:80;
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top:0; left:-260px;
+      width:260px; height:100%;
+      background:var(--orange);
+      padding:1rem;
+      transition: left .3s ease;
+      overflow-y:auto;
+      z-index:1000;
     }
-    .scrim.show{opacity:1; pointer-events:auto}
+    .sidebar.active { left:0; }
+    .sidebar a {
+      display:block;
+      padding:.75rem 1rem;
+      margin:.5rem 0;
+      background:var(--panel);
+      color:var(--ink);
+      text-decoration:none;
+      border-radius:var(--radius);
+      font-weight:500;
+    }
+
+    /* Overlay */
+    .overlay {
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background:rgba(0,0,0,0.4);
+      display:none;
+      z-index:999;
+    }
+    .overlay.active { display:block; }
 
     /* Hero */
-    .hero{padding:36px 18px 22px}
-    .pill{display:inline-block;background:#0d1b33;border:1px solid #1e2b48;color:#a9b7d1;border-radius:999px;padding:8px 14px;font-size:13px}
-    .hero h1{font-size:40px;line-height:1.15;margin:16px 0 8px}
-    .hero p{color:var(--muted);margin:0 0 16px}
-    .cta{
-      display:inline-flex;gap:10px;align-items:center;
-      background:#ea7c15;color:#101623;
-      border-radius:16px;padding:14px 20px;
-      border:1px solid #ffc04366; font-weight:700; text-decoration:none;
-      box-shadow:0 10px 28px var(--ring);
+    .hero {
+      text-align:center;
+      padding:3rem 1rem;
     }
-    .cta:hover{background:#ff8d1f}
+    .hero h2 {
+      font-size:2rem;
+      margin-bottom:1rem;
+    }
+    .btn {
+      background:var(--orange);
+      color:var(--orange-ink);
+      border:none;
+      padding:1rem 2rem;
+      font-weight:bold;
+      border-radius:var(--radius);
+      cursor:pointer;
+    }
 
     /* Chips */
-    .catsbar{display:flex;flex-wrap:wrap;gap:14px;justify-content:flex-start;margin:18px}
-    .chip{
-      padding:10px 16px;border-radius:999px;background:var(--chip);
-      border:1px solid #263656;color:#c9d7f0;cursor:pointer
+    .chips {
+      display:flex;
+      flex-wrap:wrap;
+      gap:.5rem;
+      justify-content:center;
+      margin:2rem 0;
     }
-    .chip.active{box-shadow:0 8px 26px var(--chip-ring);border-color:#f7bf4b;color:#ffd483}
-
-    /* Sections */
-    .section{padding:8px 18px 22px;max-width:860px;margin:auto}
-    .search{margin:8px 0 16px}
-    .search input{
-      width:100%; padding:14px 16px 14px 42px; border-radius:14px;
-      border:1px solid #1e2a49; background:#0c162c; color:#e6eefc;
-      outline:none;
+    .chip {
+      background:var(--chip);
+      color:var(--ink);
+      padding:.5rem 1rem;
+      border-radius:var(--radius);
+      border:1px solid var(--orange);
+      cursor:pointer;
     }
-    .search .icon{position:relative; left:14px; top:38px; width:0; height:0}
-    .list .post{background:var(--panel);border:1px solid #1e2a49;padding:18px;border-radius:16px;margin-bottom:14px}
-    .list .post h3{margin:0 0 6px 0;font-size:22px}
-    .list .post small{color:#9bb0cc}
-    .list .post a{color:#7db1ff;text-decoration:none;font-weight:700}
 
-    .card{background:var(--panel);border:1px solid #1f2c4f;border-radius:18px;padding:22px}
-    .card p{margin:1em 0}
-    .card a{color:#7db1ff;text-underline-offset:3px}
-
-    footer{text-align:center;padding:24px;border-top:1px solid #1b2744;color:#9eb3d1;font-size:14px;margin-top:36px}
-
-    @media(min-width:900px){
-      nav{display:flex}
-      .hamburger{display:none}
-      .hero h1{font-size:56px}
-      .catsbar{justify-content:center}
-      .section{padding:10px 22px 28px}
+    /* About */
+    .about {
+      max-width:700px;
+      margin:2rem auto;
+      padding:1.5rem;
+      background:var(--panel);
+      border-radius:var(--radius);
+      text-align:center;
     }
+
+    /* Footer */
+    footer {
+      text-align:center;
+      padding:1rem;
+      color:var(--muted);
+    }
+
+    /* === THEME STABILIZER === */
+    body { background: var(--bg) !important; color: var(--ink) !important; }
+    header, .panel, .card { background: var(--panel) !important; color: var(--ink) !important; }
+    button, .btn, .chip.active { background: var(--orange) !important; color: var(--orange-ink) !important; }
   </style>
 </head>
 <body>
-  <!-- SCRIM -->
-  <div id="scrim" class="scrim" aria-hidden="true"></div>
 
-  <!-- HEADER -->
+  <!-- Overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <a href="#">All writings</a>
+    <a href="#">Poems</a>
+    <a href="#">Stories</a>
+    <a href="#">Faith</a>
+    <a href="#">Devotional</a>
+    <a href="#">Articles</a>
+    <a href="#">Essays</a>
+    <a href="#about">About</a>
+  </div>
+
+  <!-- Header -->
   <header>
-    <button id="openMenu" class="hamburger" aria-label="Open menu"><span></span></button>
-
-    <div class="brand">
-      <!-- Make sure this file exists exactly as 'images/bolu.jpg' (case-sensitive) -->
-      <img src="images/bolu.jpg" alt="Profile photo of Boluadeoye" onerror="this.src=''; this.alt='Profile';">
-      <strong>Boluadeoye</strong>
+    <button id="menuBtn">☰</button>
+    <div style="display:flex;align-items:center;gap:.5rem;">
+      <img src="profile.jpg" alt="Profile picture">
+      <h1>Boluadeoye</h1>
     </div>
-
-    <nav>
-      <a href="#">Home</a>
-      <a href="#writings">Writings</a>
-      <a href="#about">About</a>
-    </nav>
   </header>
 
-  <!-- DRAWER -->
-  <aside id="drawer" class="drawer" aria-hidden="true">
-    <div class="menu-list">
-      <a class="menu-item" href="#" data-type="all">All writings</a>
-      <a class="menu-item" href="#" data-type="poem">Poems</a>
-      <a class="menu-item" href="#" data-type="story">Stories</a>
-      <a class="menu-item" href="#" data-type="faith">Faith</a>
-      <a class="menu-item" href="#" data-type="devotional">Devotional</a>
-      <a class="menu-item" href="#" data-type="article">Articles</a>
-      <a class="menu-item" href="#" data-type="essay">Essays</a>
-      <hr style="border:none;border-top:1px solid #ffbd5a55">
-      <a class="menu-item" href="#about">About</a>
-      <a class="menu-item" href="mailto:boluadeoye97@gmail.com">Email me</a>
-      <a class="menu-item" href="https://wa.me/2348106293674">WhatsApp</a>
-    </div>
-  </aside>
-
-  <!-- HERO -->
+  <!-- Hero -->
   <section class="hero">
-    <span class="pill">personal site</span>
-    <h1>Words that glow in the day.</h1>
+    <span class="chip">personal site</span>
+    <h2>Words that glow in the day.</h2>
     <p>Short essays, project notes, and ideas in motion — updated often.</p>
-    <a href="#writings" class="cta">✨ Read the latest</a>
-  </section>
+    <button class="btn">✨ Read the latest</button>
 
-  <!-- CATEGORY CHIPS -->
-  <div class="catsbar" id="chips"></div>
-
-  <!-- LATEST -->
-  <section id="writings" class="section">
-    <h2 style="margin:0 0 6px">Latest writings</h2>
-
-    <div class="search">
-      <input id="search" type="search" placeholder="Search titles or summaries…">
-    </div>
-
-    <div id="posts" class="list"></div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="section">
-    <div class="card">
-      <h2 style="margin-top:0">About</h2>
-      <p>I’m <strong>Adeoye Boluwatife</strong>, a final-year student in English and Literary Studies at the
-        <a href="https://fuoye.edu.ng/" target="_blank" rel="noopener">Federal University, Oye-Ekiti</a>.
-      </p>
-      <p>Writing and creativity are more than passions to me — they’re how I explore ideas, faith, and the beauty of human experience.</p>
-      <p>Here, I share poems, devotionals, essays, and stories: words that glow with honesty, inspire reflection, and keep creativity alive.</p>
+    <!-- Chips -->
+    <div class="chips">
+      <div class="chip">All writings</div>
+      <div class="chip">Poems</div>
+      <div class="chip">Stories</div>
+      <div class="chip">Faith</div>
+      <div class="chip">Devotional</div>
+      <div class="chip">Articles</div>
+      <div class="chip">Essays</div>
     </div>
   </section>
 
-  <footer>© Boluadeoye 2025 · All rights reserved</footer>
+  <!-- About -->
+  <section id="about" class="about">
+    <h2>About</h2>
+    <p>I’m <b>Adeoye Boluwatife</b>, a final-year student in English and Literary Studies at the 
+      <a href="https://fuoye.edu.ng" target="_blank" style="color:var(--orange); text-decoration:none;">
+        Federal University, Oye-Ekiti
+      </a>.
+    </p>
+    <p>Writing and creativity are more than passions to me — they’re how I explore ideas, faith, and the beauty of human experience.</p>
+    <p>Here, I share poems, devotionals, essays, and stories: words that glow with honesty, inspire reflection, and keep creativity alive.</p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    © Boluadeoye 2025 · All rights reserved
+  </footer>
 
   <script>
-    const $ = s => document.querySelector(s);
-    const $$ = s => [...document.querySelectorAll(s)];
-    const drawer = $('#drawer');
-    const scrim  = $('#scrim');
-    const bodyEl = document.body;
+    const menuBtn = document.getElementById("menuBtn");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
 
-    // OPEN/CLOSE helpers
-    function openMenu(){
-      drawer.classList.add('open');
-      scrim.classList.add('show');
-      bodyEl.classList.add('no-scroll');
-      // push a hash so Android back button closes the drawer first
-      if(location.hash !== '#menu'){ location.hash = 'menu'; }
-    }
-    function closeMenu(){
-      drawer.classList.remove('open');
-      scrim.classList.remove('show');
-      bodyEl.classList.remove('no-scroll');
-      if(location.hash === '#menu'){
-        history.back(); // clean up the hash if user tapped to close
-      }
-    }
-
-    // Triggers
-    $('#openMenu').addEventListener('click', openMenu);
-    scrim.addEventListener('click', closeMenu);
-    document.addEventListener('keydown', e => { if(e.key === 'Escape') closeMenu(); });
-    // Close when any link in the drawer is tapped
-    drawer.addEventListener('click', e=>{
-      const a = e.target.closest('a'); if(!a) return;
-      // If it’s a filter link, handle below; otherwise just close
-      if(!a.dataset.type) closeMenu();
-    });
-    // Back button (hashchange)
-    window.addEventListener('hashchange', ()=>{
-      if(location.hash !== '#menu') closeMenu();
+    menuBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("active");
+      overlay.classList.toggle("active");
     });
 
-    // Build chips from drawer writing links
-    const chipsWrap = $('#chips');
-    const drawerLinks = $$('#drawer a[data-type]');
-    function buildChips(){
-      chipsWrap.innerHTML = drawerLinks.map(l => `<button class="chip" data-type="${l.dataset.type}">${l.textContent}</button>`).join('');
-    }
-    buildChips();
-
-    // Posts / search / filter
-    let allPosts = [];
-    const postsEl = $('#posts');
-    const searchEl = $('#search');
-
-    function renderPosts(filter='all'){
-      let list = allPosts;
-      const q = searchEl.value.trim().toLowerCase();
-      if(filter !== 'all') list = list.filter(p => (p.type||'').toLowerCase() === filter);
-      if(q) list = list.filter(p =>
-        (p.title||'').toLowerCase().includes(q) ||
-        (p.excerpt||'').toLowerCase().includes(q)
-      );
-
-      if(!list.length){
-        postsEl.innerHTML = `<p style="color:#98a8c6">No posts found.</p>`;
-        return;
-      }
-      postsEl.innerHTML = list.map(p=>{
-        const mins = p.minutes ? ` • ${p.minutes} min read` : '';
-        const type = (p.type||'').toUpperCase();
-        return `
-          <div class="post">
-            <h3><a href="${p.url}">${p.title}</a></h3>
-            <small>${p.date}${mins} • <em>${type}</em></small>
-            <p style="color:#a7b3cc">${p.excerpt||''}</p>
-          </div>
-        `;
-      }).join('');
-    }
-
-    async function loadPosts(){
-      try{
-        const res = await fetch('posts.json', {cache:'no-store'});
-        allPosts = await res.json();
-        renderPosts('all');
-        setActiveChip('all');
-      }catch(e){
-        console.error(e);
-        postsEl.innerHTML = `<p style="color:#98a8c6">Couldn't load posts.json.</p>`;
-      }
-    }
-    loadPosts();
-
-    function setActiveChip(type){
-      $$('#chips .chip').forEach(c => c.classList.toggle('active', c.dataset.type === type));
-    }
-    chipsWrap.addEventListener('click', e=>{
-      const b = e.target.closest('.chip'); if(!b) return;
-      setActiveChip(b.dataset.type);
-      renderPosts(b.dataset.type);
+    overlay.addEventListener("click", () => {
+      sidebar.classList.remove("active");
+      overlay.classList.remove("active");
     });
-    // Drawer filter taps
-    drawer.addEventListener('click', e=>{
-      const l = e.target.closest('a[data-type]'); if(!l) return;
-      e.preventDefault();
-      setActiveChip(l.dataset.type);
-      renderPosts(l.dataset.type);
-      closeMenu();
-      document.getElementById('writings').scrollIntoView({behavior:'smooth'});
-    });
-    // Live search
-    searchEl.addEventListener('input', ()=> renderPosts($$('#chips .chip.active')[0]?.dataset.type || 'all'));
   </script>
 </body>
 </html>
