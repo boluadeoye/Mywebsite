@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Post • Boluadeoye</title>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#111a2e; --ink:#e5eefc; --muted:#a7b3cc;
+    --chip:#0d1527; --chip-ring:#ffc04333; --orange:#f59e0b; --orange-ink:#0b0f19;
+    --ring:rgba(245,158,11,.25); --radius:16px;
+  }
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,sans-serif;line-height:1.6}
+  .wrap{max-width:820px;margin:0 auto;padding:24px}
+  a{color:#8ab4ff;text-decoration:none}
+  .back{display:inline-flex;align-items:center;gap:.5rem;color:#fbbf24}
+  .card{background:var(--panel);border-radius:20px;padding:24px 20px;box-shadow:0 2px 0 rgba(255,255,255,.05) inset}
+  h1{font-size:clamp(2rem,6vw,3.5rem);line-height:1.1;margin:.2em 0}
+  .meta{color:var(--muted);margin-bottom:1rem}
+  blockquote{background:#0b1225;border-left:6px solid #fbbf24;padding:16px 18px;border-radius:14px;margin:1.25rem 0}
+  .prose p{margin:1rem 0}
+  .btn{display:inline-block;background:#f59e0b;color:#0b0f19;padding:.85rem 1.1rem;border-radius:14px;border:none;font-weight:700}
+  .btn:hover{filter:brightness(1.05)}
+</style>
+<!-- Markdown converter -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="./">← Back to writings</a>
+    <div class="card" style="margin-top:16px">
+      <h1 id="postTitle">Loading…</h1>
+      <div class="meta" id="postMeta"></div>
+      <div class="prose" id="postBody">Please wait…</div>
+      <div style="margin-top:2rem">
+        <a class="btn" href="./">↩ Back to Latest</a>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('slug');
+
+  const titleEl = document.getElementById('postTitle');
+  const metaEl  = document.getElementById('postMeta');
+  const bodyEl  = document.getElementById('postBody');
+
+  async function load(){
+    try{
+      const res = await fetch('posts.json?v=4',{cache:'no-store'});
+      if(!res.ok) throw new Error('posts.json not found');
+      const data = await res.json();
+      const post = (data || []).find(p => p.slug === slug);
+      if(!post){ titleEl.textContent = 'Post not found'; bodyEl.textContent = 'The link may be broken.'; return; }
+
+      titleEl.textContent = post.title;
+      metaEl.textContent  = `${post.date} · ${post.minutes} min read · ${String(post.type).toUpperCase()}`;
+
+      // Convert Markdown to HTML
+      bodyEl.innerHTML = marked.parse(post.content || '');
+    }catch(err){
+      titleEl.textContent = 'Error';
+      bodyEl.textContent = err.message || String(err);
+      console.error(err);
+    }
+  }
+
+  if(slug){ load(); } else {
+    titleEl.textContent = 'No post selected';
+    bodyEl.textContent = 'Use a link like post.html?slug=discipline-builds-momentum';
+  }
+})();
+</script>
+</body>
+</html>
