@@ -25,8 +25,20 @@
 
     --sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
     --serif: "Playfair Display", ui-serif, Georgia, "Times New Roman", serif;
-  }
-/* Header with gradient background */
+    /* Brand styling */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* adds space between the circle and the text */
+}
+
+.brand-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--orange), #ffb347);
+}
+  /* Header with gradient background */
 .site-header {
   position: sticky; top: 0; z-index: 50;
   background: linear-gradient(90deg, var(--orange), var(--panel));
@@ -175,7 +187,8 @@
 
     <!-- Gradient brand instead of DP -->
     <a href="./" class="brand">
-      <h1>Boluadeoye</h1>
+  <span class="brand-circle"></span>
+  <h1>Boluadeoye</h1>
     </a>
 
     <!-- Desktop top navigation -->
