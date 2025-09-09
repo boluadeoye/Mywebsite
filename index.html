@@ -136,59 +136,95 @@
     <div class="wrap">© Boluadeoye 2025 • All rights reserved.</div>
   </footer>
   <script>
-    const menuBtn     = document.getElementById('menuBtn');
-    const sideMenu    = document.getElementById('sideMenu');
-    const menuOverlay = document.getElementById('menuOverlay');
-    function closeMenu(){ sideMenu.classList.remove('active'); menuOverlay.classList.remove('show'); menuOverlay.hidden=true; menuBtn.setAttribute('aria-expanded','false'); }
-    function openMenu(){ sideMenu.classList.add('active'); menuOverlay.classList.add('show'); menuOverlay.hidden=false; menuBtn.setAttribute('aria-expanded','true'); }
-    menuBtn.addEventListener('click', ()=>{ if(sideMenu.classList.contains('active')) closeMenu(); else openMenu(); });
-    menuOverlay.addEventListener('click', closeMenu);
+  // ========== MENU TOGGLE ==========
+  const menuBtn     = document.getElementById('menuBtn');
+  const sideMenu    = document.getElementById('sideMenu');
+  const menuOverlay = document.getElementById('menuOverlay');
 
-    let allPosts = [];
-    const postsEl = document.getElementById('posts');
+  function closeMenu(){
+    sideMenu.classList.remove('active');
+    menuOverlay.classList.remove('show');
+    menuOverlay.hidden = true;
+    menuBtn.setAttribute('aria-expanded','false');
+  }
+  function openMenu(){
+    sideMenu.classList.add('active');
+    menuOverlay.classList.add('show');
+    menuOverlay.hidden = false;
+    menuBtn.setAttribute('aria-expanded','true');
+  }
+  menuBtn.addEventListener('click', ()=>{
+    if(sideMenu.classList.contains('active')) closeMenu(); else openMenu();
+  });
+  menuOverlay.addEventListener('click', closeMenu);
 
-    async function loadPosts(){
-      try{
-        const url = new URL('./posts.json', location.origin); // Explicit relative path
-        url.searchParams.set('v','12'); // Bumped version
-        const res = await fetch(url.toString(), { cache:'no-store' });
-        if(!res.ok) throw new Error(`HTTP ${res.status}: posts.json not found at ${url}`);
-        const data = await res.json();
-        if(!Array.isArray(data)) throw new Error('posts.json must be an array');
-        allPosts = data.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
-        renderPosts('all');
-      }catch(err){
-        postsEl.innerHTML = `<p style="color:#ffbdf2">Couldn't load posts. (${String(err.message)})</p>`;
-        console.error(err);
-      }
+  // ========== POSTS LOADER + FILTER ==========
+  let allPosts = [];
+  const postsEl = document.getElementById('posts');
+
+  async function loadPosts(){
+    try{
+      // Corrected path to match GitHub Pages structure
+      const url = new URL('posts.json', location.origin);
+      url.searchParams.set('v','9'); // cache buster
+
+      const res  = await fetch(url.toString(), { cache:'no-store' });
+      if(!res.ok) throw new Error(`HTTP ${res.status}: posts.json not found`);
+
+      const data = await res.json();
+      if(!Array.isArray(data)) throw new Error('posts.json must be an array');
+
+      // newest first by ISO date string
+      data.sort((a,b)=> String(b.date).localeCompare(String(a.date)));
+
+      allPosts = data;
+      renderPosts('all');
+    }catch(err){
+      postsEl.innerHTML = `<p style="color:#ffbdf2">Couldn't load posts. (${String(err.message)})</p>`;
+      console.error(err);
+    }
+  }
+
+  function renderPosts(filter='all'){
+    const list = (filter==='all')
+      ? allPosts
+      : allPosts.filter(p => (p.type||'').toLowerCase() === filter);
+
+    if(!list.length){
+      postsEl.innerHTML = `<p style="color:var(--muted)">No posts found.</p>`;
+      return;
     }
 
-    function renderPosts(filter='all'){
-      const list = (filter==='all') ? allPosts.slice(0, 3) : allPosts.filter(p => (p.type||'').toLowerCase() === filter);
-      if(!list.length){
-        postsEl.innerHTML = `<p style="color:var(--muted)">No posts found.</p>`;
-        return;
-      }
-      postsEl.innerHTML = list.map(p=>`
+    postsEl.innerHTML = list.map(p=>{
+      const mins   = p.minutes ? ` • ~${p.minutes} min read` : '';
+      const type   = p.type ? ` • <em>${String(p.type).toUpperCase()}</em>` : '';
+      const date   = p.date || '';
+      const link   = p.url ? p.url
+                   : (p.file ? ('post.html?file=' + encodeURIComponent(p.file)) : '#');
+      const excerpt= p.excerpt ? `<p>${p.excerpt}</p>` : '';
+      const title  = p.title || 'Untitled';
+
+      return `
         <article class="post">
-          <h3><a href="post.html?file=${p.file}" style="color:inherit;text-decoration:none">${p.title}</a></h3>
-          <small>${p.date}</small>
-          <p>${p.excerpt}</p>
-          <p class="stats">Likes: ${p.likes} | Views: ${p.views}K</p>
+          <h3><a href="${link}" style="color:inherit;text-decoration:none">${title}</a></h3>
+          <small>${date}${mins}${type}</small>
+          ${excerpt}
         </article>
-      `).join('');
-    }
+      `;
+    }).join('');
+  }
 
-    document.querySelectorAll('.top-nav a[data-filter], .side-menu a[data-filter]').forEach(a=>{
-      a.addEventListener('click', (e)=>{
-        e.preventDefault();
-        const f = a.getAttribute('data-filter');
-        renderPosts(f);
-        closeMenu();
-      });
+  // Click handlers for both top-nav and sidebar filter links
+  document.querySelectorAll('.top-nav a[data-filter], .side-menu a[data-filter]').forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const f = a.getAttribute('data-filter');
+      renderPosts(f);
+      closeMenu(); // close if coming from sidebar
     });
+  });
 
-    document.addEventListener('DOMContentLoaded', loadPosts);
+  document.addEventListener('DOMContentLoaded', loadPosts);
   </script>
 </body>
 </html>
