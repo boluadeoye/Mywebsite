@@ -2,130 +2,154 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <base href="/Mywebsite/">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Post • Boluadeoye</title>
 
+  <!-- IMPORTANT: everything is under /Mywebsite -->
+  <base href="/Mywebsite/">
+
   <style>
-    /* === Theme (your current colors) === */
+    /* === Theme (matches index) === */
     :root{
-      --bg:#0f172a;         /* page background */
-      --panel:#111a2e;      /* cards/header surface */
-      --ink:#e5eefc;        /* main text */
-      --muted:#a7b3cc;      /* secondary text */
-      --orange:#f59e0b;     /* accent/CTA */
-      --orange-ink:#0b0f19; /* text on orange */
+      --bg:#0f172a;         --panel:#111a2e;
+      --ink:#e5eefc;        --muted:#a7b3cc;
+      --orange:#f59e0b;     --orange-ink:#0b0f19;
       --ring:rgba(245,158,11,.25);
-      --radius:16px;
+      --radius:16px;        --serif: ui-serif, Georgia, "Times New Roman", serif;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0;
-      background:var(--bg);
-      color:var(--ink);
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
-      line-height:1.6;
+      margin:0; background:var(--bg); color:var(--ink);
+      font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
-    a{color:inherit;text-decoration:none}
-    .wrap{max-width:920px;margin:0 auto;padding:1.25rem}
-    header{
-      position:sticky; top:0; z-index:5;
-      background:var(--panel);
-      border-bottom:1px solid rgba(255,255,255,.05);
-    }
-    .brand{display:flex;align-items:center;gap:.75rem;padding:.75rem 0}
-    .brand img{width:40px;height:40px;border-radius:50%;object-fit:cover}
-    .brand h1{font-size:1.15rem;margin:0}
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:920px;margin:0 auto;padding:0 1.2rem}
 
-    .back{
-      display:inline-flex; align-items:center; gap:.5rem;
-      color:#fbbf24; font-weight:600; margin:.5rem 0 1rem 0;
-    }
+    /* Header */
+    header{position:sticky;top:0;z-index:5;background:var(--panel);
+      border-bottom:1px solid rgba(255,255,255,.06)}
+    .row{min-height:64px;display:flex;align-items:center;gap:1rem}
+    .brand{display:flex;align-items:center;gap:.6rem;margin-left:.5rem}
+    .dot{width:28px;height:28px;border-radius:50%;
+      background:radial-gradient(65% 65% at 30% 30%,#ffd27a 0%,#f59e0b 55%,#a55e03 100%);
+      box-shadow:0 0 0 3px rgba(245,158,11,.12),0 10px 26px rgba(245,158,11,.25);}
+    .brand h1{margin:0;font-size:1.25rem;font-weight:800;letter-spacing:.2px}
+    .back-top{margin-left:auto;color:#fbbf24;font-weight:700;opacity:.95}
+    .back-top:hover{opacity:1}
 
+    /* Card & post styles */
     .card{
-      background:var(--panel);
-      border-radius:var(--radius);
-      padding:1.25rem;
-      box-shadow:0 8px 24px rgba(0,0,0,.25)
+      background:var(--panel); border:1px solid rgba(255,255,255,.06);
+      border-radius:24px; padding:1.25rem; box-shadow:0 12px 28px rgba(0,0,0,.25);
+      margin:1rem 0 2rem;
     }
-    .post h1{font-size:clamp(2rem,6vw,3.25rem);line-height:1.1;margin:.25rem 0 1rem}
-    .post .meta{color:var(--muted);font-size:.95rem;margin-bottom:1rem}
+    .post h1{font-family:var(--serif);font-weight:900;line-height:1.1;
+      font-size:clamp(2.1rem,5.5vw,3.1rem);margin:.25rem 0 1rem}
+    .meta{color:var(--muted);margin:.25rem 0 1rem}
+    .post p{margin:1rem 0}
     blockquote{
-      margin:1rem 0; padding:1rem 1.25rem;
-      border-left:6px solid var(--orange);
-      background:rgba(255,255,255,.03); border-radius:12px;
+      margin:1.2rem 0; padding:1rem 1.25rem;
+      background:rgba(255,255,255,.03); border-radius:14px;
+      border-left:6px solid var(--orange); color:var(--ink);
     }
+
+    /* Bottom back button */
     .cta{
-      display:inline-flex;align-items:center;gap:.5rem;
-      background:var(--orange); color:var(--orange-ink);
-      padding:.9rem 1.15rem; border-radius:14px; font-weight:700;
-      box-shadow:0 12px 40px var(--ring);
+      display:inline-block; margin-top:1rem; padding:1rem 1.25rem;
+      border-radius:14px; background:var(--orange); color:var(--orange-ink);
+      font-weight:800; box-shadow:0 14px 38px var(--ring);
+      transition:transform .06s ease;
     }
+    .cta:active{transform:translateY(1px)}
+
+    /* Footer */
+    footer{color:var(--muted);border-top:1px solid rgba(255,255,255,.06);
+      text-align:center;font-size:.85rem;padding:2rem 0 1.5rem;margin-top:1rem}
   </style>
 </head>
 <body>
   <header>
-    <div class="wrap">
+    <div class="wrap row">
       <a class="brand" href="./">
-        <img src="images/bolu.jpg" alt="Boluadeoye" />
+        <span class="dot" aria-hidden="true"></span>
         <h1>Boluadeoye</h1>
       </a>
+      <a class="back-top" href="./#latest">← Back to writings</a>
     </div>
   </header>
 
   <main class="wrap">
-    <a class="back" href="./">← Back to writings</a>
-
-    <!-- Where the fetched article will be injected -->
-    <article id="postContainer" class="card post">
-      <p style="color:var(--muted);">Loading…</p>
+    <article id="postContainer" class="card post" aria-live="polite">
+      <p style="color:var(--muted)">Loading…</p>
     </article>
   </main>
 
+  <footer>
+    <div class="wrap">© Boluadeoye 2025 • All rights reserved.</div>
+  </footer>
+
   <script>
   (async function () {
-    // 1) get ?file=… from the url
-    const params = new URLSearchParams(location.search);
-    const file = params.get('file');
-
+    // 1) Which file to load?
+    const fileParam = new URLSearchParams(location.search).get('file');
     const container = document.getElementById('postContainer');
 
-    if (!file) {
+    if (!fileParam) {
       container.innerHTML = "<p style='color:#fbbf24'>No post specified.</p>";
       return;
     }
 
     try {
-      // 2) fetch the HTML of the post file (same-origin file in /posts/…)
-      const res = await fetch(file, { cache: 'no-store' });
+      // 2) Build an absolute URL to the post under /Mywebsite/
+      const fileUrl = new URL(fileParam, location.origin + '/Mywebsite/');
+
+      // 3) Fetch the post HTML (bypass cache for quicker updates)
+      const res = await fetch(fileUrl.toString(), { cache: 'no-store' });
       if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
       const html = await res.text();
 
-      // 3) parse and extract the main content safely
-      const doc = new DOMParser().parseFromString(html, 'text/html');
+      // 4) Parse and choose main content
+      const doc  = new DOMParser().parseFromString(html, 'text/html');
+      const pick = doc.querySelector('article') || doc.querySelector('main') || doc.body;
 
-      // Prefer an <article>, then <main>, else fall back to <body>
-      const pick = doc.querySelector('article') ||
-                   doc.querySelector('main') ||
-                   doc.body;
+      // 5) Clone & clean: remove any “Back to Latest/Writings” links inside the content
+      const frag = document.createElement('div');
+      frag.innerHTML = pick.innerHTML;
 
-      // Pull out title and meta if present
-      const h1 = pick.querySelector('h1');
-      if (h1) document.title = h1.textContent.trim() + " • Boluadeoye";
-
-      // 4) inject into the card
-      container.innerHTML = pick.innerHTML;
-
-      // 5) make sure internal links work from nested content
-      // (turn relative links inside the post into absolute relative to root)
-      container.querySelectorAll('a[href]').forEach(a=>{
-        const href = a.getAttribute('href');
-        if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('mailto:') && !href.startsWith('https://wa.me')) {
-          // keep them root-relative
-          a.setAttribute('href', href.replace(/^\.\//,'/'));
+      frag.querySelectorAll('a').forEach(a=>{
+        const href = (a.getAttribute('href')||'').toLowerCase();
+        const text = (a.textContent||'').toLowerCase();
+        if (href.endsWith('#latest') || text.includes('back to latest') || text.includes('back to writings')) {
+          a.remove();
         }
       });
+
+      // 6) Inject cleaned content
+      container.innerHTML = frag.innerHTML;
+
+      // 7) Normalize internal relative links to be root-relative (under /Mywebsite)
+      container.querySelectorAll('a[href]').forEach(a=>{
+        const href = a.getAttribute('href');
+        if (!href) return;
+        const low = href.toLowerCase();
+        if (low.startsWith('http') || low.startsWith('mailto:') || low.startsWith('https://wa.me') || low.startsWith('#')) return;
+        // Make relative links root-relative under /Mywebsite
+        const abs = new URL(href, location.origin + '/Mywebsite/');
+        a.setAttribute('href', abs.pathname + abs.search + abs.hash);
+      });
+
+      // 8) Append one consistent bottom button
+      const backBottom = document.createElement('a');
+      backBottom.href = './#latest';
+      backBottom.className = 'cta';
+      backBottom.textContent = '↩ Back to Latest';
+      container.appendChild(backBottom);
+
+      // 9) Title (if the post has an h1 inside)
+      const h1 = container.querySelector('h1');
+      if (h1) document.title = h1.textContent.trim() + " • Boluadeoye";
 
     } catch (err) {
       console.error(err);
