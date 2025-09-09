@@ -3,250 +3,230 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Boluadeoye — Writings</title>
+  <title>Boluadeoye — Home</title>
   <base href="/Mywebsite/">
-
   <style>
-    /* ========== THEME (Dark + Orange) ========== */
-    :root{
-      --bg:#0f172a;
-      --panel:#111a2e;
-      --ink:#e5eefc;
-      --muted:#a7b3cc;
-      --orange:#f59e0b;
-      --orange-ink:#0b0f19;
-      --ring:rgba(245,158,11,.25);
-      --radius:16px;
-      --serif: ui-serif, Georgia, "Times New Roman", serif;
+    :root {
+      --bg: #0f172a;
+      --panel: #111a2e;
+      --ink: #e5eefc;
+      --muted: #a7b3cc;
+      --orange: #f59e0b;
+      --orange-ink: #0b0f19;
+      --ring: rgba(245,158,11,.25);
+      --radius: 16px;
     }
-    *{ box-sizing:border-box }
-    html,body{ height:100% }
-    body{
-      margin:0;
-      background:var(--bg);
-      color:var(--ink);
-      font: 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
     }
-    img{ max-width:100%; display:block }
-    a{ color:inherit; text-decoration:none }
-    .wrap{ max-width:1100px; margin:0 auto; padding:0 1.2rem }
-    header{ position:sticky; top:0; z-index:50; background:var(--panel); border-bottom:1px solid rgba(255,255,255,.06); }
-    .header-row{ display:flex; align-items:center; justify-content:space-between; min-height:64px; }
-    .brand{ display:flex; align-items:center; gap:.5rem; margin-left:1rem; text-decoration:none; }
-    .brand .dot{ width:28px; height:28px; border-radius:50%; background:radial-gradient(65% 65% at 30% 30%, #ffd27a 0%, #f59e0b 55%, #a55e03 100%); box-shadow:0 0 0 3px rgba(245,158,11,.12), 0 6px 26px rgba(245,158,11,.25); flex:0 0 28px; }
-    .brand h1{ margin:0; font-size:1.25rem; font-weight:700; color:var(--ink); letter-spacing:.2px; }
-    .search-bar { position:relative; width:100%; max-width:300px; }
-    .search-bar input { width:100%; padding:.75rem 1rem; border:1px solid rgba(255,255,255,.06); border-radius:18px; background:var(--panel); color:var(--ink); font-size:1rem; outline:none; transition:border-color .3s ease; }
-    .search-bar input:focus { border-color:var(--orange); }
-    .search-bar .search-icon { position:absolute; right:10px; top:50%; transform:translateY(-50%); color:var(--muted); }
-    .top-nav{ display:none; gap:1.1rem; align-items:center; }
-    .top-nav a{ opacity:.9; color:var(--ink); font-weight:600; }
-    .top-nav a:hover{ color:var(--orange); }
-    .hamburger{ width:42px; height:42px; margin-right:.5rem; display:flex; align-items:center; justify-content:center; border-radius:10px; border:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.02); color:var(--ink); }
-    .hamburger svg{ width:22px; height:22px }
-    .side-menu{ position:fixed; top:0; left:-260px; z-index:60; width:240px; height:100%; padding:2rem 1rem; display:flex; flex-direction:column; gap:1rem; background:var(--panel); box-shadow:2px 0 10px rgba(0,0,0,.35); transition:left .3s ease; }
-    .side-menu a{ background:var(--chip, #0d1527); color:var(--ink); font-weight:600; padding:.85rem 1rem; border-radius:14px; border:1px solid rgba(255,255,255,.06); }
-    .side-menu.active{ left:0 }
-    .overlay{ position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:40; display:none; }
-    .overlay.show{ display:block }
-    .hero{ padding:2.2rem 0 1rem }
-    .hero-split{ display:grid; align-items:center; gap:2rem; grid-template-columns:min(420px,40%) 1fr; }
-    .hero-photo{ background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.06); border-radius:24px; overflow:hidden; margin:0 auto; max-width:520px; }
-    .hero-photo img{ width:100%; height:auto; display:block }
-    .chip{ display:inline-block; padding:.6rem 1rem; border-radius:999px; background:var(--panel); color:#c7d2fe; border:1px solid rgba(255,255,255,.08); position:relative; z-index:1; }
-    .chip-ring::after{ content:""; position:absolute; inset:-10px; z-index:-1; border-radius:999px; background:radial-gradient(circle at 50% 50%, rgba(245,158,11,.18) 0%, rgba(245,158,11,.10) 45%, rgba(245,158,11,0) 70%); filter:blur(6px); }
-    .hero h2{ font-family:var(--serif); font-weight:900; line-height:1.08; margin:.25rem 0 1rem 0; font-size:clamp(2.2rem, 3.8vw, 3.4rem); }
-    .accent{ color:var(--orange) }
-    .sub{ color:var(--muted); max-width:60ch; margin:0 0 1rem }
-    .btn{ display:inline-block; margin-top:.75rem; padding:1rem 1.35rem; border-radius:18px; background:var(--orange); color:var(--orange-ink); font-weight:800; box-shadow:0 14px 38px var(--ring); transition:transform .06s ease; }
-    .btn:active{ transform:translateY(1px) }
-    @media (max-width: 799px){ .hero{ padding:1.4rem 0 .5rem } .hero-split{ grid-template-columns:1fr; justify-items:center; text-align:center } .chip{ margin-left:auto; margin-right:auto } }
-    h3.section-title{ font-size:clamp(1.4rem, 2.4vw, 2rem); margin:2.2rem 0 1rem; }
-    #posts{ display:grid; gap:1rem }
-    .post{ background:var(--panel); border:1px solid rgba(255,255,255,.06); border-radius:18px; padding:1.1rem 1.25rem; }
-    .post h3{ margin:1rem 0 .35rem; font-size:1.15rem }
-    .post small{ color:var(--muted) }
-    .post p{ color:var(--muted); margin:.5rem 0 0 }
-    .post .stats{ font-style:italic; }
-    footer{ color:var(--muted); border-top:1px solid rgba(255,255,255,.06); text-align:center; font-size:.85rem; padding:2rem 0 1.5rem; margin-top:1rem; }
-    @media (min-width: 880px){ .top-nav{ display:flex } .hamburger{ display:none } .header-row{ justify-content:space-between; } .search-bar{ margin-right:1rem; } }
-  
-    <section class="her<script>
-  // === MENU TOGGLE ===
-  const menuBtn     = document.getElementById('menuBtn');
-  const sideMenu    = document.getElementById('sideMenu');
-  const menuOverlay = document.getElementById('menuOverlay');
-
-  function closeMenu(){
-    sideMenu.classList.remove('active');
-    menuOverlay.classList.remove('show');
-    menuOverlay.hidden = true;
-    menuBtn.setAttribute('aria-expanded','false');
-  }
-  function openMenu(){
-    sideMenu.classList.add('active');
-    menuOverlay.classList.add('show');
-    menuOverlay.hidden = false;
-    menuBtn.setAttribute('aria-expanded','true');
-  }
-  menuBtn.addEventListener('click', ()=>{
-    if(sideMenu.classList.contains('active')) closeMenu(); else openMenu();
-  });
-  menuOverlay.addEventListener('click', closeMenu);
-
-  // === POSTS LOADER + FILTER ===
-  let allPosts = [];
-  const postsEl = document.getElementById('posts');
-
-  async function loadPosts(){
-    try{
-      const url = new URL('posts.json', location.origin); // Correct path
-      url.searchParams.set('v','9'); // cache buster
-
-      const res  = await fetch(url.toString(), { cache:'no-store' });
-      if(!res.ok) throw new Error(`HTTP ${res.status}: posts.json not found`);
-
-      const data = await res.json();
-      if(!Array.isArray(data)) throw new Error('posts.json must be an array');
-
-      data.sort((a,b)=> String(b.date).localeCompare(String(a.date))); // newest first
-      allPosts = data;
-      renderPosts('all');
-    }catch(err){
-      postsEl.innerHTML = `<p style="color:#ffbdf2">Couldn't load posts. (${String(err.message)})</p>`;
-      console.error(err);
+    header {
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-  }
-
-  function renderPosts(filter='all'){
-    const list = (filter==='all')
-      ? allPosts.slice(0,3) // show only 3 latest
-      : allPosts.filter(p => (p.type||'').toLowerCase() === filter);
-
-    if(!list.length){
-      postsEl.innerHTML = `<p style="color:var(--muted)">No posts found.</p>`;
-      return;
+    .logo {
+      font-weight: bold;
+      color: var(--orange);
     }
+    #menuBtn {
+      background: none;
+      border: none;
+      color: var(--ink);
+      font-size: 1.5rem;
+    }
+    #sideMenu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 70%;
+      max-width: 300px;
+      height: 100%;
+      background: var(--panel);
+      padding: 1rem;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+    #sideMenu.active {
+      transform: translateX(0);
+    }
+    #menuOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+      display: none;
+    }
+    #menuOverlay.show {
+      display: block;
+    }
+    #sideMenu a {
+      display: block;
+      margin: 0.5rem 0;
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .hero {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    .hero img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .hero h1 {
+      margin-top: 1rem;
+      font-size: 1.5rem;
+      color: var(--orange);
+    }
+    .hero p {
+      font-style: italic;
+      color: var(--muted);
+    }
+    .section {
+      padding: 1rem;
+    }
+    .post {
+      background: var(--panel);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .post h3 {
+      margin: 0;
+      color: var(--ink);
+    }
+    .post small {
+      color: var(--muted);
+    }
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Boluadeoye</div>
+    <button id="menuBtn" aria-expanded="false">☰</button>
+  </header>
 
-    postsEl.innerHTML = list.map(p=>{
-      const link   = p.url ? p.url : (p.file ? ('post.html?file=' + encodeURIComponent(p.file)) : '#');
-      const title  = p.title || 'Untitled';
-      const date   = p.date || '';
-      const excerpt= p.excerpt ? `<p>${p.excerpt}</p>` : '';
-      const type   = p.type ? ` • <em>${String(p.type).toUpperCase()}</em>` : '';
+  <div id="menuOverlay" hidden></div>
+  <nav id="sideMenu">
+    <a href="#" data-filter="all">All writings</a>
+    <a href="#" data-filter="poem">Poems</a>
+    <a href="#" data-filter="story">Stories</a>
+    <a href="#" data-filter="faith">Faith</a>
+    <a href="#" data-filter="devotional">Devotional</a>
+    <a href="#" data-filter="article">Articles</a>
+    <a href="#" data-filter="essay">Essays</a>
+    <a href="about.html">About</a>
+  </nav>
 
-      return `
-        <article class="post">
-          <h3><a href="${link}" style="color:inherit;text-decoration:none">${title}</a></h3>
-          <small>${date}${type}</small>
-          ${excerpt}
-        </article>
-      `;
-    }).join('');
-  }
+  <section class="hero">
+    <img src="images/bolu.jpg" alt="Boluadeoye" />
+    <h1>Personal Blog</h1>
+    <p>Words that glow in the day.</p>
+  </section>
 
-  document.querySelectorAll('[data-filter]').forEach(a=>{
-    a.addEventListener('click', (e)=>{
-      e.preventDefault();
-      const f = a.getAttribute('data-filter');
-      renderPosts(f);
-      closeMenu();
+  <section class="section">
+    <h2 style="color:var(--orange)">Latest Writings</h2>
+    <div id="posts"></div>
+  </section>
+
+  <footer>© Boluadeoye 2025 • All rights reserved.</footer>
+
+  <script>
+    const menuBtn     = document.getElementById('menuBtn');
+    const sideMenu    = document.getElementById('sideMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+
+    function closeMenu(){
+      sideMenu.classList.remove('active');
+      menuOverlay.classList.remove('show');
+      menuOverlay.hidden = true;
+      menuBtn.setAttribute('aria-expanded','false');
+    }
+    function openMenu(){
+      sideMenu.classList.add('active');
+      menuOverlay.classList.add('show');
+      menuOverlay.hidden = false;
+      menuBtn.setAttribute('aria-expanded','true');
+    }
+    menuBtn.addEventListener('click', ()=>{
+      if(sideMenu.classList.contains('active')) closeMenu(); else openMenu();
     });
-  });
+    menuOverlay.addEventListener('click', closeMenu);
 
-  document.addEventListener('DOMContentLoaded', loadPosts);
-      </script>
-  // ========== MENU TOGGLE ==========
-  const menuBtn     = document.getElementById('menuBtn');
-  const sideMenu    = document.getElementById('sideMenu');
-  const menuOverlay = document.getElementById('menuOverlay');
+    let allPosts = [];
+    const postsEl = document.getElementById('posts');
 
-  function closeMenu(){
-    sideMenu.classList.remove('active');
-    menuOverlay.classList.remove('show');
-    menuOverlay.hidden = true;
-    menuBtn.setAttribute('aria-expanded','false');
-  }
-  function openMenu(){
-    sideMenu.classList.add('active');
-    menuOverlay.classList.add('show');
-    menuOverlay.hidden = false;
-    menuBtn.setAttribute('aria-expanded','true');
-  }
-  menuBtn.addEventListener('click', ()=>{
-    if(sideMenu.classList.contains('active')) closeMenu(); else openMenu();
-  });
-  menuOverlay.addEventListener('click', closeMenu);
-
-  // ========== POSTS LOADER + FILTER ==========
-  let allPosts = [];
-  const postsEl = document.getElementById('posts');
-
-  async function loadPosts(){
-    try{
-      // Corrected path to match GitHub Pages structure
-      const url = new URL('posts.json', location.origin);
-      url.searchParams.set('v','9'); // cache buster
-
-      const res  = await fetch(url.toString(), { cache:'no-store' });
-      if(!res.ok) throw new Error(`HTTP ${res.status}: posts.json not found`);
-
-      const data = await res.json();
-      if(!Array.isArray(data)) throw new Error('posts.json must be an array');
-
-      // newest first by ISO date string
-      data.sort((a,b)=> String(b.date).localeCompare(String(a.date)));
-
-      allPosts = data;
-      renderPosts('all');
-    }catch(err){
-      postsEl.innerHTML = `<p style="color:#ffbdf2">Couldn't load posts. (${String(err.message)})</p>`;
-      console.error(err);
-    }
-  }
-
-  function renderPosts(filter='all'){
-    const list = (filter==='all')
-      ? allPosts
-      : allPosts.filter(p => (p.type||'').toLowerCase() === filter);
-
-    if(!list.length){
-      postsEl.innerHTML = `<p style="color:var(--muted)">No posts found.</p>`;
-      return;
+    async function loadPosts(){
+      try{
+        const url = new URL('posts.json', location.origin);
+        url.searchParams.set('v','9');
+        const res = await fetch(url.toString(), { cache:'no-store' });
+        if(!res.ok) throw new Error(`HTTP ${res.status}: posts.json not found`);
+        const data = await res.json();
+        if(!Array.isArray(data)) throw new Error('posts.json must be an array');
+        data.sort((a,b)=> String(b.date).localeCompare(String(a.date)));
+        allPosts = data;
+        renderPosts('all');
+      }catch(err){
+        postsEl.innerHTML = `<p style="color:#ffbdf2">Couldn't load posts. (${String(err.message)})</p>`;
+        console.error(err);
+      }
     }
 
-    postsEl.innerHTML = list.map(p=>{
-      const mins   = p.minutes ? ` • ~${p.minutes} min read` : '';
-      const type   = p.type ? ` • <em>${String(p.type).toUpperCase()}</em>` : '';
-      const date   = p.date || '';
-      const link   = p.url ? p.url
-                   : (p.file ? ('post.html?file=' + encodeURIComponent(p.file)) : '#');
-      const excerpt= p.excerpt ? `<p>${p.excerpt}</p>` : '';
-      const title  = p.title || 'Untitled';
+    function renderPosts(filter='all'){
+      const list = (filter==='all')
+        ? allPosts.slice(0,3)
+        : allPosts.filter(p => (p.type||'').toLowerCase() === filter);
 
-      return `
-        <article class="post">
-          <h3><a href="${link}" style="color:inherit;text-decoration:none">${title}</a></h3>
-          <small>${date}${mins}${type}</small>
-          ${excerpt}
-        </article>
-      `;
-    }).join('');
-  }
+      if(!list.length){
+        postsEl.innerHTML = `<p style="color:var(--muted)">No posts found.</p>`;
+        return;
+      }
 
-  // Click handlers for both top-nav and sidebar filter links
-  document.querySelectorAll('.top-nav a[data-filter], .side-menu a[data-filter]').forEach(a=>{
-    a.addEventListener('click', (e)=>{
-      e.preventDefault();
-      const f = a.getAttribute('data-filter');
-      renderPosts(f);
-      closeMenu(); // close if coming from sidebar
+      postsEl.innerHTML = list.map(p=>{
+        const link   = p.url ? p.url : (p.file ? ('post.html?file=' + encodeURIComponent(p.file)) : '#');
+        const title  = p.title || 'Untitled';
+        const date   = p.date || '';
+        const excerpt= p.excerpt ? `<p>${p.excerpt}</p>` : '';
+        const type   = p.type ? ` • <em>${String(p.type).toUpperCase()}</em>` : '';
+
+        return `
+          <article class="post">
+            <h3><a href="${link}" style="color:inherit;text-decoration:none">${title}</a></h3>
+            <small>${date}${type}</small>
+            ${excerpt}
+          </article>
+        `;
+      }).join('');
+    }
+
+    document.querySelectorAll('[data-filter]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const f = a.getAttribute('data-filter');
+        renderPosts(f);
+        closeMenu();
+      });
     });
-  });
 
-  document.addEventListener('DOMContentLoaded', loadPosts);
+    document.addEventListener('DOMContentLoaded', loadPosts);
   </script>
 </body>
 </html>
