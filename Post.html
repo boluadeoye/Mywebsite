@@ -1,26 +1,523 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{post_title}}</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title id="post-title-tag">Boluadeoye — post</title>
+
+  <style>
+    /* ========== THEME (Dark + Orange) ========== */
+    :root{
+      --bg:#0f172a;          /* page background (dark navy) */
+      --panel:#111a2e;       /* header / cards */
+      --ink:#e5eefc;         /* primary text */
+      --muted:#a7b3cc;       /* secondary text */
+      --orange:#f59e0b;      /* accent / CTA */
+      --orange-ink:#0b0f19;  /* text on orange */
+      --ring:rgba(245,158,11,.25);
+      --radius:16px;
+      --serif: ui-serif, Georgia, "Times New Roman", serif;
+    }
+
+    /* Base reset */
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font: 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    img{ max-width:100%; display:block }
+    a{ color:inherit; text-decoration:none }
+    .wrap{ max-width:1100px; margin:0 auto; padding:0 1.2rem }
+
+    /* ========== HEADER ========== */
+    header{
+      position:sticky; top:0; z-index:50;
+      background:var(--panel);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .header-row{
+      display:flex; align-items:center; justify-content:space-between;
+      min-height:64px;
+    }
+    /* Brand (gradient dot + name) */
+    .brand{
+      display:flex; align-items:center; gap:.5rem;
+      margin-left:1rem;                 /* breathing space from edge */
+      text-decoration:none;
+    }
+    .brand .dot{
+      width:28px; height:28px; border-radius:50%;
+      background:
+        radial-gradient(65% 65% at 30% 30%, #ffd27a 0%, #f59e0b 55%, #a55e03 100%);
+      box-shadow:0 0 0 3px rgba(245,158,11,.12), 0 6px 26px rgba(245,158,11,.25);
+      flex:0 0 28px;
+    }
+    .brand h1{
+      margin:0;
+      font-size:1.25rem;
+      font-weight:700;
+      color:var(--ink);                 /* bright text */
+      letter-spacing:.2px;
+    }
+
+    /* Top nav (desktop) */
+    .top-nav{ display:none; gap:1.1rem; align-items:center; }
+    .top-nav a{
+      opacity:.9; color:var(--ink);
+      font-weight:600;
+    }
+    .top-nav a:hover{ color:var(--orange); }
+
+    /* Hamburger (mobile) */
+    .hamburger{
+      width:42px; height:42px; margin-right:.5rem;
+      display:flex; align-items:center; justify-content:center;
+      border-radius:10px; border:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.02);
+      color:var(--ink);
+    }
+    .hamburger svg{ width:22px; height:22px }
+
+    /* Sidebar menu */
+    .side-menu{
+      position:fixed; top:0; left:-260px; z-index:60;
+      width:240px; height:100%; padding:2rem 1rem;
+      display:flex; flex-direction:column; gap:1rem;
+      background:var(--panel);
+      box-shadow:2px 0 10px rgba(0,0,0,.35);
+      transition:left .3s ease;
+    }
+    .side-menu a{
+      background:var(--chip, #0d1527);
+      color:var(--ink); font-weight:600;
+      padding:.85rem 1rem; border-radius:14px;
+      border:1px solid rgba(255,255,255,.06);
+    }
+    .side-menu.active{ left:0 }
+    .overlay{
+      position:fixed; inset:0; background:rgba(0,0,0,.55);
+      z-index:40; display:none;
+    }
+    .overlay.show{ display:block }
+
+    /* Desktop: show top nav, hide hamburger */
+    @media (min-width: 880px){
+      .top-nav{ display:flex }
+      .hamburger{ display:none }
+    }
+
+    /* ========== POST CONTENT ========== */
+    .post-content{
+        max-width: 700px;
+        margin: 2rem auto;
+        line-height: 1.8;
+        color: var(--muted);
+    }
+    .post-content h1, .post-content h2, .post-content h3{
+      color: var(--ink);
+      font-family: var(--serif);
+      font-weight: 700;
+      margin-top: 2em;
+      margin-bottom: 0.5em;
+    }
+    .post-content h1{ 
+      font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+      color: var(--orange);
+    }
+    .post-content p{
+      color: var(--muted);
+      font-family: inherit;
+    }
+    .post-meta{
+      color: var(--muted);
+      font-size: 0.9em;
+      opacity: 0.8;
+      text-align: center;
+      margin-top: -1em;
+      margin-bottom: 2rem;
+    }
+    /* Like button styles */
+    .like-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 2rem;
+    }
+    .like-btn {
+        background-color: var(--orange);
+        color: var(--orange-ink);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .like-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+    }
+    /* Loading indicator */
+    .loading-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+    }
+    .loading-spinner {
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        border-top: 4px solid var(--orange);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* ========== FOOTER ========== */
+    footer{
+      color:var(--muted);
+      border-top:1px solid rgba(255,255,255,.06);
+      text-align:center;
+      font-size:.85rem;
+      padding:2rem 0 1.5rem;
+      margin-top:1rem;
+    }
+    
+    .back-link{
+        display: block;
+        margin-top: 1.5rem;
+        margin-bottom: 0;
+        font-weight: 600;
+        opacity: 0.8;
+    }
+  </style>
 </head>
 <body>
-    <!-- Back Button -->
-    <a href="/" class="back-button">← Back to Latest</a>
-    
-    <div class="post-content">
-        <h1>{{post_title}}</h1>
-        <p class="post-date">{{post_date}} · {{post_minutes}} min read</p>
-        <div class="post-body">
-            <p>{{post_content}}</p>
-            <p>Likes: 200 👍 | Views: 500</p>
+
+  <!-- Sidebar -->
+  <nav id="sideMenu" class="side-menu" aria-label="Menu">
+    <a href="./">Home</a>
+    <a href="./about.html">About</a>
+  </nav>
+  <div id="menuOverlay" class="overlay" hidden></div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="wrap header-row">
+      <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-controls="sideMenu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <rect x="3" y="6" width="18" height="2" rx="1"></rect>
+          <rect x="3" y="11" width="18" height="2" rx="1"></rect>
+          <rect x="3" y="16" width="18" height="2" rx="1"></rect>
+        </svg>
+      </button>
+
+      <a class="brand" href="./">
+        <span class="dot" aria-hidden="true"></span>
+        <h1>Boluadeoye</h1>
+      </a>
+
+      <nav class="top-nav" aria-label="Filters">
+        <a href="./">Home</a>
+        <a href="./about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a href="./" class="back-link">← Back to Home</a>
+    <div id="post-container">
+        <div class="loading-container" id="loading">
+            <div class="loading-spinner"></div>
+        </div>
+        <div id="post-content" class="post-content" style="display:none;">
+            <!-- Post content will be loaded here dynamically -->
         </div>
     </div>
+  </main>
+
+  <footer>
+    <div class="wrap">© Boluadeoye <span id="current-year"></span> · All rights reserved.</div>
+  </footer>
+
+  <script type="module">
+    // Firebase imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, getDocs, collection, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Global variables (provided by Canvas)
+    const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+    const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+    // Element references
+    const postContainer = document.getElementById('post-container');
+    const postContent = document.getElementById('post-content');
+    const loadingIndicator = document.getElementById('loading');
+    const postTitleTag = document.getElementById('post-title-tag');
+
+    let db;
+    let auth;
+    let userId;
+    let postData;
+    let hasLiked = false;
+
+    // ===================================
+    //  Helper Functions
+    // ===================================
+
+    // Function to parse the URL to get the post's unique ID
+    function getPostIdFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('id');
+    }
+
+    // Function to fetch the post data from a Markdown file
+    async function fetchPostContent(postUrl) {
+        try {
+            const response = await fetch(postUrl);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch post: ${response.statusText}`);
+            }
+            return await response.text();
+        } catch (error) {
+            console.error("Error fetching post content:", error);
+            return null;
+        }
+    }
+
+    // Function to render Markdown to HTML
+    function renderMarkdown(markdownText) {
+        // Simple Markdown to HTML conversion for this example
+        // For a more robust solution, use a library like marked.js
+        let html = markdownText
+            .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+            .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+            .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+            .replace(/\*\*(.*)\*\*/gim, '<b>$1</b>')
+            .replace(/_(.*)_/gim, '<i>$1</i>')
+            .replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2">$1</a>');
+
+        // Split by paragraph and wrap in <p> tags
+        const paragraphs = html.split(/\n\n/);
+        html = paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
+
+        return html;
+    }
+
+    // Function to handle database operations
+    async function updatePostData(postId) {
+        if (!db || !userId) {
+            console.error("Database or User ID not initialized.");
+            return;
+        }
+
+        const postDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'posts', postId);
+        const userDocRef = doc(db, 'artifacts', appId, 'users', userId, 'post-interactions', postId);
+        
+        try {
+            // Check if user has viewed this post before
+            const userDocSnap = await getDoc(userDocRef);
+            if (!userDocSnap.exists()) {
+                // First view from this user, update view count and record interaction
+                await updateDoc(postDocRef, {
+                    views: increment(1)
+                }, { merge: true });
+                await setDoc(userDocRef, {
+                    viewed: true,
+                    liked: false,
+                    lastViewed: serverTimestamp()
+                });
+                console.log("View count incremented for new visitor.");
+            } else {
+                console.log("Visitor has viewed this post before.");
+            }
+        } catch (e) {
+            console.error("Error updating views or checking user interaction:", e);
+        }
+    }
+
+    async function handleLikeButton() {
+        if (!db || !userId) {
+            console.error("Database or User ID not initialized.");
+            return;
+        }
+
+        const postId = getPostIdFromUrl();
+        const postDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'posts', postId);
+        const userDocRef = doc(db, 'artifacts', appId, 'users', userId, 'post-interactions', postId);
+
+        // Check if user has liked this post before
+        const userDocSnap = await getDoc(userDocRef);
+        const userData = userDocSnap.data();
+
+        if (userData && !userData.liked) {
+            try {
+                // Increment likes and update user interaction
+                await updateDoc(postDocRef, {
+                    likes: increment(1)
+                });
+                await updateDoc(userDocRef, {
+                    liked: true,
+                    lastLiked: serverTimestamp()
+                });
+                console.log("Post liked! Likes count incremented.");
+                alert("You liked this post!");
+                hasLiked = true;
+                document.getElementById('like-btn').disabled = true;
+            } catch (e) {
+                console.error("Error updating likes:", e);
+                alert("An error occurred. Please try again.");
+            }
+        } else if (!userDocSnap.exists()) {
+            console.warn("User interaction document does not exist. Please try reloading the page.");
+        } else {
+            console.log("User has already liked this post.");
+            alert("You've already liked this post!");
+        }
+    }
     
-    <footer>
-        <p>&copy; 2025 Boluadeoye · All rights reserved.</p>
-    </footer>
+    // Function to find post data from posts.json
+    async function findPostData(postId) {
+        try {
+            const response = await fetch('/posts.json');
+            if (!response.ok) {
+                throw new Error('Failed to fetch posts.json');
+            }
+            const posts = await response.json();
+            const post = posts.find(p => p.url === `/posts/${postId}.html`);
+            return post;
+        } catch (error) {
+            console.error("Error fetching or parsing posts.json:", error);
+            return null;
+        }
+    }
+    
+    // ===================================
+    //  Main Initialization
+    // ===================================
+    async function init() {
+        try {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+            
+            // Firebase Auth setup
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    userId = user.uid;
+                    await mainPostLogic();
+                } else {
+                    // Sign in anonymously if no user is found
+                    await signInAnonymously(auth);
+                }
+            });
+            
+            if (initialAuthToken) {
+                await signInWithCustomToken(auth, initialAuthToken);
+            } else {
+                await signInAnonymously(auth);
+            }
+        } catch (e) {
+            console.error("Failed to initialize Firebase:", e);
+            // Fallback for when Firebase isn't available
+            await mainPostLogic();
+        }
+    }
+
+    async function mainPostLogic() {
+        const postId = getPostIdFromUrl();
+        if (!postId) {
+            postContent.innerHTML = '<h2>Post not found.</h2><p>Please return to the <a href="./">homepage</a>.</p>';
+            loadingIndicator.style.display = 'none';
+            postContent.style.display = 'block';
+            return;
+        }
+
+        postData = await findPostData(postId);
+        if (!postData) {
+            postContent.innerHTML = '<h2>Post not found.</h2><p>Please return to the <a href="./">homepage</a>.</p>';
+            loadingIndicator.style.display = 'none';
+            postContent.style.display = 'block';
+            return;
+        }
+
+        const postMarkdown = await fetchPostContent(`/posts/${postId}.md`);
+        if (!postMarkdown) {
+            postContent.innerHTML = '<h2>Post content unavailable.</h2>';
+            loadingIndicator.style.display = 'none';
+            postContent.style.display = 'block';
+            return;
+        }
+        
+        // Dynamically add the like button section
+        const likeSection = document.createElement('div');
+        likeSection.className = 'like-section';
+        likeSection.innerHTML = `<button id="like-btn" class="like-btn">Like Post</button>`;
+        
+        postContent.innerHTML = `
+            <div style="text-align: center;">
+                <h1 style="color:var(--orange);">${postData.title}</h1>
+                <p class="post-meta">${postData.date} • ${postData.minutes} min read</p>
+            </div>
+            ${renderMarkdown(postMarkdown)}
+        `;
+        postContent.appendChild(likeSection);
+        
+        document.getElementById('like-btn').addEventListener('click', handleLikeButton);
+        postTitleTag.textContent = `Boluadeoye — ${postData.title}`;
+
+        // Hide loading and show content
+        loadingIndicator.style.display = 'none';
+        postContent.style.display = 'block';
+
+        // Update view count
+        if (db && userId) {
+            await updatePostData(postId);
+        } else {
+            console.warn("Database not ready, views will not be tracked.");
+        }
+    }
+
+    // ========== MENU TOGGLE ==========
+    const menuBtn = document.getElementById('menuBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+
+    function closeMenu() {
+      sideMenu.classList.remove('active');
+      menuOverlay.classList.remove('show');
+      menuOverlay.hidden = true;
+      menuBtn.setAttribute('aria-expanded', 'false');
+    }
+    function openMenu() {
+      sideMenu.classList.add('active');
+      menuOverlay.classList.add('show');
+      menuOverlay.hidden = false;
+      menuBtn.setAttribute('aria-expanded', 'true');
+    }
+    menuBtn.addEventListener('click', () => {
+      if (sideMenu.classList.contains('active')) closeMenu(); else openMenu();
+    });
+    menuOverlay.addEventListener('click', closeMenu);
+
+    // Set the current year in the footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // Start the app
+    init();
+  </script>
 </body>
 </html>
+
