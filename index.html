@@ -337,19 +337,25 @@ footer {
   const postsEl = document.getElementById('posts');
 
   async function loadPosts(){
-    try{
-      const res = await fetch('posts.json?v=5', { cache:'no-store' });
-      if(!res.ok) throw new Error('posts.json not found');
-      const data = await res.json();
-      if(!Array.isArray(data)) throw new Error('posts.json must be an array');
+    try {
+  const postsUrl = new URL('posts.json', document.baseURI);
+  postsUrl.searchParams.set('v', Date.now());   // bust cache
 
-      // newest first
-      data.sort((a,b)=> String(b.date).localeCompare(String(a.date)));
-      allPosts = data;
-      renderPosts('all');
-    }catch(err){
-      postsEl.innerHTML = `<p style="color:#ffbdf2">Couldn't load posts: ${err.message}</p>`;
-      console.error(err);
+  const res = await fetch(postsUrl.toString(), { cache: 'no-store' });
+  if (!res.ok) throw new Error(`posts.json ${res.status}`);
+
+  const data = await res.json();
+  if (!Array.isArray(data)) throw new Error('posts.json is not an array');
+
+  // newest first
+  data.sort((a,b) => String(b.date||'').localeCompare(String(a.date||'')));
+
+  allPosts = data;
+  renderPosts('all');
+}
+catch (err) {
+  postsEl.innerHTML = `<p style="color:#ffbdf2">Couldn’t load posts: ${String(err.message)}</p>`;
+  console.error(err);
     }
   }
 
