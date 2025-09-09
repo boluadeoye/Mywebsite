@@ -1,32 +1,16 @@
 [
   {
-    "file": "poem1",
-    "title": "Poem: Dawn's Whisper",
-    "date": "2025-09-09",
-    "excerpt": "A short verse about morning light and hope...",
-    "content": "Full text of the poem about the gentle whisper of dawn...",
+    "title": "My First Post",
+    "date": "2025-09-01",
     "type": "poems",
-    "likes": 150,
-    "views": 1200
+    "excerpt": "This is a short preview of my first post.",
+    "file": "first-post.md"
   },
   {
-    "file": "essay1",
-    "title": "Essay: The Power of Words",
-    "date": "2025-09-08",
-    "excerpt": "Exploring how language shapes our world...",
-    "content": "A deep dive into the influence of words on society and personal growth...",
-    "type": "essays",
-    "likes": 90,
-    "views": 800
-  },
-  {
-    "file": "story1",
-    "title": "Story: The Quiet Path",
-    "date": "2025-09-07",
-    "excerpt": "A tale of discovery in nature's embrace...",
-    "content": "A narrative about a journey through a serene forest path...",
-    "type": "stories",
-    "likes": 200,
-    "views": 1500
+    "title": "Faith in Motion",
+    "date": "2025-09-05",
+    "type": "faith",
+    "excerpt": "Reflections on belief and action.",
+    "file": "faith-motion.md"
   }
 ]
