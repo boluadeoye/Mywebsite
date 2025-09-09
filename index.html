@@ -72,70 +72,92 @@
     .post .stats{ font-style:italic; }
     footer{ color:var(--muted); border-top:1px solid rgba(255,255,255,.06); text-align:center; font-size:.85rem; padding:2rem 0 1.5rem; margin-top:1rem; }
     @media (min-width: 880px){ .top-nav{ display:flex } .hamburger{ display:none } .header-row{ justify-content:space-between; } .search-bar{ margin-right:1rem; } }
-  </style>
-</head>
-<body>
-  <nav id="sideMenu" class="side-menu" aria-label="Menu">
-    <a href="#" data-filter="all">All writings</a>
-    <a href="#" data-filter="poems">Poems</a>
-    <a href="#" data-filter="stories">Stories</a>
-    <a href="#" data-filter="faith">Faith</a>
-    <a href="#" data-filter="devotional">Devotional</a>
-    <a href="#" data-filter="articles">Articles</a>
-    <a href="#" data-filter="essays">Essays</a>
-    <a href="./about.html">About</a>
-  </nav>
-  <div id="menuOverlay" class="overlay" hidden></div>
-  <header>
-    <div class="wrap header-row">
-      <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-controls="sideMenu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <rect x="3" y="6" width="18" height="2" rx="1"></rect>
-          <rect x="3" y="11" width="18" height="2" rx="1"></rect>
-          <rect x="3" y="16" width="18" height="2" rx="1"></rect>
-        </svg>
-      </button>
-      <a class="brand" href="./">
-        <span class="dot" aria-hidden="true"></span>
-        <h1>Boluadeoye</h1>
-      </a>
-      <div class="search-bar">
-        <input type="text" placeholder="Search writings..." aria-label="Search">
-        <span class="search-icon">🔍</span>
-      </div>
-      <nav class="top-nav" aria-label="Filters">
-        <a href="#" data-filter="all">All</a>
-        <a href="#" data-filter="poems">Poems</a>
-        <a href="#" data-filter="stories">Stories</a>
-        <a href="#" data-filter="faith">Faith</a>
-        <a href="#" data-filter="devotional">Devotional</a>
-        <a href="#" data-filter="articles">Articles</a>
-        <a href="#" data-filter="essays">Essays</a>
-        <a href="./about.html">About</a>
-      </nav>
-    </div>
-  </header>
-  <main class="wrap">
-    <section class="hero" aria-label="Intro">
-      <div class="hero-split">
-        <figure class="hero-photo">
-          <img src="images/bolu.jpg" alt="Boluadeoye" />
-        </figure>
-        <div class="hero-copy">
-          <span class="chip chip-ring">Personal Blog</span>
-          <h2><span class="accent">Words that glow</span> in the day.</h2>
-          <p class="sub">Short essays, project notes, and ideas in motion — updated often.</p>
-          <a class="btn" href="#latest">Read the latest</a>
-        </div>
-      </div>
-    </section>
-    <h3 id="latest" class="section-title">Latest Writings</h3>
-    <section id="posts" aria-live="polite"></section>
-  </main>
-  <footer>
-    <div class="wrap">© Boluadeoye 2025 • All rights reserved.</div>
-  </footer>
-  <script>
+  
+    <section class="her<script>
+  // === MENU TOGGLE ===
+  const menuBtn     = document.getElementById('menuBtn');
+  const sideMenu    = document.getElementById('sideMenu');
+  const menuOverlay = document.getElementById('menuOverlay');
+
+  function closeMenu(){
+    sideMenu.classList.remove('active');
+    menuOverlay.classList.remove('show');
+    menuOverlay.hidden = true;
+    menuBtn.setAttribute('aria-expanded','false');
+  }
+  function openMenu(){
+    sideMenu.classList.add('active');
+    menuOverlay.classList.add('show');
+    menuOverlay.hidden = false;
+    menuBtn.setAttribute('aria-expanded','true');
+  }
+  menuBtn.addEventListener('click', ()=>{
+    if(sideMenu.classList.contains('active')) closeMenu(); else openMenu();
+  });
+  menuOverlay.addEventListener('click', closeMenu);
+
+  // === POSTS LOADER + FILTER ===
+  let allPosts = [];
+  const postsEl = document.getElementById('posts');
+
+  async function loadPosts(){
+    try{
+      const url = new URL('posts.json', location.origin); // Correct path
+      url.searchParams.set('v','9'); // cache buster
+
+      const res  = await fetch(url.toString(), { cache:'no-store' });
+      if(!res.ok) throw new Error(`HTTP ${res.status}: posts.json not found`);
+
+      const data = await res.json();
+      if(!Array.isArray(data)) throw new Error('posts.json must be an array');
+
+      data.sort((a,b)=> String(b.date).localeCompare(String(a.date))); // newest first
+      allPosts = data;
+      renderPosts('all');
+    }catch(err){
+      postsEl.innerHTML = `<p style="color:#ffbdf2">Couldn't load posts. (${String(err.message)})</p>`;
+      console.error(err);
+    }
+  }
+
+  function renderPosts(filter='all'){
+    const list = (filter==='all')
+      ? allPosts.slice(0,3) // show only 3 latest
+      : allPosts.filter(p => (p.type||'').toLowerCase() === filter);
+
+    if(!list.length){
+      postsEl.innerHTML = `<p style="color:var(--muted)">No posts found.</p>`;
+      return;
+    }
+
+    postsEl.innerHTML = list.map(p=>{
+      const link   = p.url ? p.url : (p.file ? ('post.html?file=' + encodeURIComponent(p.file)) : '#');
+      const title  = p.title || 'Untitled';
+      const date   = p.date || '';
+      const excerpt= p.excerpt ? `<p>${p.excerpt}</p>` : '';
+      const type   = p.type ? ` • <em>${String(p.type).toUpperCase()}</em>` : '';
+
+      return `
+        <article class="post">
+          <h3><a href="${link}" style="color:inherit;text-decoration:none">${title}</a></h3>
+          <small>${date}${type}</small>
+          ${excerpt}
+        </article>
+      `;
+    }).join('');
+  }
+
+  document.querySelectorAll('[data-filter]').forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const f = a.getAttribute('data-filter');
+      renderPosts(f);
+      closeMenu();
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', loadPosts);
+      </script>
   // ========== MENU TOGGLE ==========
   const menuBtn     = document.getElementById('menuBtn');
   const sideMenu    = document.getElementById('sideMenu');
