@@ -1,344 +1,480 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Boluadeoye — writings</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boluadeoye — writings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for search icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --panel: #111a2e;
+            --ink: #e5eefc;
+            --muted: #a7b3cc;
+            --orange: #ff5722;
+            --orange-ink: #0b0f19;
+            --ring: rgba(255, 87, 34, .25);
+            --radius: 16px;
+            --serif: ui-serif, Georgia, "Times New Roman", serif;
+        }
 
-  <style>
-    /* ========== THEME (Dark + Yellow/Orange) ========== */
-    :root{
-      --bg:#0f172a;          /* page background (dark navy) */
-      --panel:#111a2e;       /* header / cards */
-      --ink:#e5eefc;         /* primary text */
-      --muted:#a7b3cc;       /* secondary text */
-      --yellow:#facc15;      /* accent / CTA */
-      --yellow-ink:#0b0f19;  /* text on yellow */
-      --ring:rgba(250,204,21,.25);
-      --radius:16px;
-      --serif: ui-serif, Georgia, "Times New Roman", serif;
-    }
+        /* Base reset */
+        * {
+            box-sizing: border-box
+        }
 
-    /* Base reset */
-    *{ box-sizing:border-box }
-    html,body{ height:100% }
-    body{
-      margin:0;
-      background:var(--bg);
-      color:var(--ink);
-      font: 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
-    img{ max-width:100%; display:block }
-    a{ color:inherit; text-decoration:none }
-    .wrap{ max-width:1100px; margin:0 auto; padding:0 1.2rem }
+        html,
+        body {
+            height: 100%
+        }
 
-    /* ========== HEADER ========== */
-    header{
-      position:sticky; top:0; z-index:50;
-      background:var(--panel);
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
-    .header-row{
-      display:flex; align-items:center; justify-content:space-between;
-      min-height:64px;
-    }
-    /* Brand (gradient dot + name) */
-    .brand{
-      display:flex; align-items:center; gap:.5rem;
-      margin-left:1rem;                 /* breathing space from edge */
-      text-decoration:none;
-    }
-    .brand .dot{
-      width:28px; height:28px; border-radius:50%;
-      background:
-        radial-gradient(65% 65% at 30% 30%, #ffd27a 0%, #facc15 55%, #a55e03 100%);
-      box-shadow:0 0 0 3px rgba(250,204,21,.12), 0 6px 26px rgba(250,204,21,.25);
-      flex:0 0 28px;
-    }
-    .brand h1{
-      margin:0;
-      font-size:1.25rem;
-      font-weight:700;
-      color:var(--ink);                 /* bright text */
-      letter-spacing:.2px;
-    }
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-    /* Top nav (desktop) */
-    .top-nav{ display:none; gap:1.1rem; align-items:center; }
-    .top-nav a{
-      opacity:.9; color:var(--ink);
-      font-weight:600;
-    }
-    .top-nav a:hover{ color:var(--yellow); }
+        img {
+            max-width: 100%;
+            display: block
+        }
 
-    /* Hamburger (mobile) */
-    .hamburger{
-      width:42px; height:42px; margin-right:.5rem;
-      display:flex; align-items:center; justify-content:center;
-      border-radius:10px; border:1px solid rgba(255,255,255,.06);
-      background:rgba(255,255,255,.02);
-      color:var(--ink);
-    }
-    .hamburger svg{ width:22px; height:22px }
+        a {
+            color: inherit;
+            text-decoration: none
+        }
 
-    /* Sidebar menu */
-    .side-menu{
-      position:fixed; top:0; left:-260px; z-index:60;
-      width:240px; height:100%; padding:2rem 1rem;
-      display:flex; flex-direction:column; gap:1rem;
-      background:var(--panel);
-      box-shadow:2px 0 10px rgba(0,0,0,.35);
-      transition:left .3s ease;
-    }
-    .side-menu a{
-      background:var(--chip, #0d1527);
-      color:var(--ink); font-weight:600;
-      padding:.85rem 1rem; border-radius:14px;
-      border:1px solid rgba(255,255,255,.06);
-    }
-    .side-menu.active{ left:0 }
-    .overlay{
-      position:fixed; inset:0; background:rgba(0,0,0,.55);
-      z-index:40; display:none;
-    }
-    .overlay.show{ display:block }
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.2rem
+        }
 
-    /* Desktop: show top nav, hide hamburger */
-    @media (min-width: 880px){
-      .top-nav{ display:flex }
-      .hamburger{ display:none }
-    }
+        /* ========== HEADER ========== */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--panel);
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
+        }
 
-    /* ========== HERO ========== */
-    .hero{ text-align:center }
-    .hero-photo{
-      max-width:520px;
-      margin:0 auto;
-      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      border:1px solid rgba(255,255,255,.06);
-      border-radius:24px;
-      overflow:hidden;
-      box-shadow:0 8px 30px rgba(0,0,0,.25);
-      margin-top:2rem;
-    }
-    .hero-photo img{
-      width:100%; height:auto; display:block;
-    }
-    .chip{
-      background:#16243d;
-      color:var(--muted);
-      font-size:.85rem;
-      font-weight:600;
-      padding:.5rem 1rem;
-      border-radius:99px;
-      margin-top:2rem;
-      display:inline-block;
-      text-transform:uppercase;
-      letter-spacing:.5px;
-    }
-    .hero h1{
-      font-size:clamp(2.4rem, 4.2vw, 4.8rem);
-      color:var(--yellow);
-      font-family:var(--serif);
-      font-weight:700;
-      line-height:1.15;
-      margin-top:.75rem;
-      margin-bottom:.5rem;
-    }
-    .hero p{
-      color:var(--muted);
-      max-width:600px;
-      margin:0 auto;
-    }
+        .header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 64px;
+        }
 
-    /* ========== POSTS GRID ========== */
-    .section-heading{
-      text-align:center;
-      font-size:1.85rem;
-      font-family:var(--serif);
-      font-weight:700;
-      color:var(--ink);
-      margin-top:5rem;
-      margin-bottom:2rem;
-    }
-    .post-grid{
-      display:grid; gap:1.25rem;
-    }
-    @media (min-width: 600px){
-      .post-grid{ grid-template-columns:repeat(2, 1fr); }
-    }
-    @media (min-width: 900px){
-      .post-grid{ grid-template-columns:repeat(3, 1fr); }
-    }
+        /* Brand (gradient dot + name) */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            margin-left: 1rem;
+            text-decoration: none;
+        }
 
-    /* Post Card */
-    .post-card{
-      background:var(--panel);
-      border:1px solid rgba(255,255,255,.06);
-      border-radius:24px;
-      padding:1.5rem;
-      position:relative;
-      transition:transform .2s ease, box-shadow .2s ease;
-    }
-    .post-card:hover{
-      transform:translateY(-2px);
-      box-shadow:0 8px 24px rgba(0,0,0,.25);
-    }
-    .post-card .post-title{
-      font-size:1.25rem;
-      font-weight:600;
-      color:var(--ink);
-      line-height:1.4;
-    }
-    .post-card .post-excerpt{
-      color:var(--muted);
-      font-size:.95rem;
-      margin-top:.5rem;
-      line-height:1.6;
-    }
-    .post-card .post-meta{
-      display:flex; align-items:center; justify-content:space-between;
-      color:var(--muted);
-      font-size:.85rem;
-      margin-top:1rem;
-    }
-    .post-card .post-read-more{
-      color:var(--yellow);
-      font-weight:600;
-    }
+        .brand .dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: radial-gradient(65% 65% at 30% 30%, #ff8b52 0%, #ff5722 55%, #a55e03 100%);
+            box-shadow: 0 0 0 3px rgba(255, 87, 34, .12), 0 6px 26px rgba(255, 87, 34, .25);
+            flex: 0 0 28px;
+        }
 
-    /* ========== FOOTER ========== */
-    footer{
-      color:var(--muted);
-      border-top:1px solid rgba(255,255,255,.06);
-      text-align:center;
-      font-size:.85rem;
-      padding:2rem 0 1.5rem;
-      margin-top:5rem;
-    }
-  </style>
+        .brand h1 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: .2px;
+        }
+
+        /* Top nav (desktop) */
+        .top-nav {
+            display: none;
+            gap: 1.1rem;
+            align-items: center;
+        }
+
+        .top-nav a {
+            opacity: .9;
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .top-nav a:hover {
+            color: var(--orange);
+        }
+
+        /* Hamburger (mobile) */
+        .hamburger {
+            width: 42px;
+            height: 42px;
+            margin-right: .5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, .06);
+            background: rgba(255, 255, 255, .02);
+            color: var(--ink);
+        }
+
+        .hamburger svg {
+            width: 22px;
+            height: 22px
+        }
+
+        /* Sidebar menu */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -260px;
+            z-index: 60;
+            width: 240px;
+            height: 100%;
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: var(--panel);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, .35);
+            transition: left .3s ease;
+        }
+
+        .side-menu a {
+            background: var(--chip, #0d1527);
+            color: var(--ink);
+            font-weight: 600;
+            padding: .85rem 1rem;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, .06);
+        }
+
+        .side-menu.active {
+            left: 0
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .55);
+            z-index: 40;
+            display: none;
+        }
+
+        .overlay.show {
+            display: block
+        }
+
+        /* Search box */
+        .search-container {
+            position: relative;
+        }
+
+        .search-box {
+            padding-left: 2.5rem;
+            padding-right: 1rem;
+            width: 100%;
+            border-radius: 12px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: white;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+
+        /* Desktop: show top nav, hide hamburger */
+        @media (min-width: 880px) {
+            .top-nav {
+                display: flex
+            }
+
+            .hamburger {
+                display: none
+            }
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            text-align: center
+        }
+
+        .hero-photo {
+            max-width: 520px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .04), rgba(255, 255, 255, .02));
+            border: 1px solid rgba(255, 255, 255, .06);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .25);
+            margin-top: 2rem;
+        }
+
+        .hero-photo img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .chip {
+            background: #16243d;
+            color: var(--muted);
+            font-size: .85rem;
+            font-weight: 600;
+            padding: .5rem 1rem;
+            border-radius: 99px;
+            margin-top: 2rem;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 4.2vw, 4.8rem);
+            color: var(--orange);
+            font-family: var(--serif);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-top: .75rem;
+            margin-bottom: .5rem;
+        }
+
+        .hero p {
+            color: var(--muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ========== POSTS GRID ========== */
+        .section-heading {
+            text-align: center;
+            font-size: 1.85rem;
+            font-family: var(--serif);
+            font-weight: 700;
+            color: var(--ink);
+            margin-top: 5rem;
+            margin-bottom: 2rem;
+        }
+
+        .post-grid {
+            display: grid;
+            gap: 1.25rem;
+        }
+
+        @media (min-width: 600px) {
+            .post-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 900px) {
+            .post-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Post Card */
+        .post-card {
+            background: var(--panel);
+            border: 1px solid rgba(255, 255, 255, .06);
+            border-radius: 24px;
+            padding: 1.5rem;
+            position: relative;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .post-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+        }
+
+        .post-card .post-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--ink);
+            line-height: 1.4;
+        }
+
+        .post-card .post-excerpt {
+            color: var(--muted);
+            font-size: .95rem;
+            margin-top: .5rem;
+            line-height: 1.6;
+        }
+
+        .post-card .post-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--muted);
+            font-size: .85rem;
+            margin-top: 1rem;
+        }
+
+        .post-card .post-read-more {
+            color: var(--orange);
+            font-weight: 600;
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            color: var(--muted);
+            border-top: 1px solid rgba(255, 255, 255, .06);
+            text-align: center;
+            font-size: .85rem;
+            padding: 2rem 0 1.5rem;
+            margin-top: 5rem;
+        }
+    </style>
 </head>
+
 <body>
 
-  <nav id="sideMenu" class="side-menu" aria-label="Menu">
-    <a href="./">Writings</a>
-    <a href="./about.html">About</a>
-  </nav>
-  <div id="menuOverlay" class="overlay" hidden></div>
-
-  <header>
-    <div class="wrap header-row">
-      <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-controls="sideMenu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <rect x="3" y="6" width="18" height="2" rx="1"></rect>
-          <rect x="3" y="11" width="18" height="2" rx="1"></rect>
-          <rect x="3" y="16" width="18" height="2" rx="1"></rect>
-        </svg>
-      </button>
-
-      <a class="brand" href="./">
-        <span class="dot" aria-hidden="true"></span>
-        <h1>Boluadeoye</h1>
-      </a>
-
-      <nav class="top-nav" aria-label="Filters">
+    <!-- Sidebar -->
+    <nav id="sideMenu" class="side-menu" aria-label="Menu">
         <a href="./">Writings</a>
         <a href="./about.html">About</a>
-      </nav>
-    </div>
-  </header>
+        <a href="#">Contact</a>
+        <a href="#">Social</a>
+        <a href="#">Newsletter</a>
+    </nav>
+    <div id="menuOverlay" class="overlay" hidden></div>
 
-  <main>
-    <section class="hero wrap">
-      <div class="hero-photo">
-        <img src="images/bolu.jpg" alt="Boluadeoye" />
-      </div>
-      <span class="chip">Personal Blog</span>
-      <h1>Words that glow in the day.</h1>
-      <p>Welcome to my world of words—a space to share thoughts, stories, and reflections on life, literature, and faith.</p>
-    </section>
+    <!-- HEADER -->
+    <header>
+        <div class="wrap header-row">
+            <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-controls="sideMenu" aria-expanded="false">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <rect x="3" y="6" width="18" height="2" rx="1"></rect>
+                    <rect x="3" y="11" width="18" height="2" rx="1"></rect>
+                    <rect x="3" y="16" width="18" height="2" rx="1"></rect>
+                </svg>
+            </button>
 
-    <section>
-      <div class="wrap">
-        <h2 class="section-heading">All Writings</h2>
-        <div id="posts-container" class="post-grid">
-          </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="wrap">© Boluadeoye <span id="current-year"></span> · All rights reserved.</div>
-  </footer>
-
-  <script>
-    // ========== MENU TOGGLE ==========
-    const menuBtn     = document.getElementById('menuBtn');
-    const sideMenu    = document.getElementById('sideMenu');
-    const menuOverlay = document.getElementById('menuOverlay');
-
-    function closeMenu(){
-      sideMenu.classList.remove('active');
-      menuOverlay.classList.remove('show');
-      menuOverlay.hidden = true;
-      menuBtn.setAttribute('aria-expanded','false');
-    }
-    function openMenu(){
-      sideMenu.classList.add('active');
-      menuOverlay.classList.add('show');
-      menuOverlay.hidden = false;
-      menuBtn.setAttribute('aria-expanded','true');
-    }
-    menuBtn.addEventListener('click', ()=>{
-      if(sideMenu.classList.contains('active')) closeMenu(); else openMenu();
-    });
-    menuOverlay.addEventListener('click', closeMenu);
-
-    // Set the current year in the footer
-    document.getElementById('current-year').textContent = new Date().getFullYear();
-
-    // ========== DYNAMIC POST LOADING ==========
-    const postsContainer = document.getElementById('posts-container');
-    
-    // Fetch and display posts
-    fetch('posts.json')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(posts => {
-        if (posts.length === 0) {
-          postsContainer.innerHTML = '<p style="text-align: center; color:var(--muted); width:100%;">No posts yet. Check back soon!</p>';
-          return;
-        }
-
-        posts.forEach(post => {
-          const postCard = `
-            <a href="post.html?id=${post.id}" class="post-card">
-              <h3 class="post-title">${post.title}</h3>
-              <p class="post-excerpt">${post.excerpt}</p>
-              <div class="post-meta">
-                <span>${post.date} &bull; ${post.minutes} min read</span>
-                <span class="post-read-more">Read more &rarr;</span>
-              </div>
+            <a class="brand" href="./">
+                <span class="dot" aria-hidden="true"></span>
+                <h1>Boluadeoye</h1>
             </a>
-          `;
-          postsContainer.innerHTML += postCard;
+
+            <nav class="top-nav" aria-label="Filters">
+                <a href="./">Writings</a>
+                <a href="./about.html">About</a>
+                <a href="#">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero wrap">
+            <div class="hero-photo">
+                <img src="images/bolu.jpg" alt="Boluadeoye" />
+            </div>
+            <span class="chip">Personal Blog</span>
+            <h1>Words that glow in the day.</h1>
+            <p>Welcome to my world of words—a space to share thoughts, stories, and reflections on life, literature, and faith.</p>
+        </section>
+
+        <!-- Posts Section -->
+        <section>
+            <div class="wrap">
+                <h2 class="section-heading">All Writings</h2>
+                <div id="posts-container" class="post-grid">
+                    <!-- Posts will be dynamically inserted here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="wrap">&copy; Boluadeoye <span id="current-year"></span> · All rights reserved.</div>
+    </footer>
+
+    <script>
+        // ========== MENU TOGGLE ==========
+        const menuBtn = document.getElementById('menuBtn');
+        const sideMenu = document.getElementById('sideMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        function closeMenu() {
+            sideMenu.classList.remove('active');
+            menuOverlay.classList.remove('show');
+            menuOverlay.hidden = true;
+            menuBtn.setAttribute('aria-expanded', 'false');
+        }
+
+        function openMenu() {
+            sideMenu.classList.add('active');
+            menuOverlay.classList.add('show');
+            menuOverlay.hidden = false;
+            menuBtn.setAttribute('aria-expanded', 'true');
+        }
+
+        menuBtn.addEventListener('click', () => {
+            if (sideMenu.classList.contains('active')) closeMenu();
+            else openMenu();
         });
-      })
-      .catch(error => {
-        console.error('Error fetching posts:', error);
-        postsContainer.innerHTML = '<p style="text-align: center; color:var(--muted); width:100%;">Failed to load posts. Please try again later.</p>';
-      });
-  </script>
+        menuOverlay.addEventListener('click', closeMenu);
+
+        // Set the current year in the footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // ========== DYNAMIC POST LOADING ==========
+        const postsContainer = document.getElementById('posts-container');
+
+        // Fetch and display posts
+        fetch('posts.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(posts => {
+                if (posts.length === 0) {
+                    postsContainer.innerHTML = '<p style="text-align: center; color:var(--muted); width:100%;">No posts yet. Check back soon!</p>';
+                    return;
+                }
+
+                posts.forEach(post => {
+                    const postCard = `
+                        <a href="post.html?id=${post.id}" class="post-card">
+                            <h3 class="post-title">${post.title}</h3>
+                            <p class="post-excerpt">${post.excerpt}</p>
+                            <div class="post-meta">
+                                <span>${post.date} &bull; ${post.minutes} min read</span>
+                                <span class="post-read-more">Read more &rarr;</span>
+                            </div>
+                        </a>
+                    `;
+                    postsContainer.innerHTML += postCard;
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching posts:', error);
+                postsContainer.innerHTML = '<p style="text-align: center; color:var(--muted); width:100%;">Failed to load posts. Please try again later.</p>';
+            });
+    </script>
 </body>
+
 </html>
-```eof
 
-Once you replace your `index.html` file with this code, your first post will appear on the homepage with the correct colors and styling.
-
-What would you like to do now? We can add another post or work on the design of the post cards, or something else.
