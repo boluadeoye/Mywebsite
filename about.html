@@ -134,18 +134,15 @@
       color: var(--muted);
       font-family: inherit;
     }
-    .about-photo-card {
-        background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-        border: 1px solid rgba(255,255,255,.06);
-        border-radius: 24px;
-        overflow: hidden;
-        margin: 0 auto 2rem;
-        max-width: 520px;
-    }
-    .about-photo-card img {
-        width: 100%;
-        height: auto;
+    .about-photo {
         display: block;
+        margin: 0 auto 2rem;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--orange);
+        box-shadow: 0 0 12px var(--ring);
     }
     .about-text {
         text-align: center;
@@ -216,17 +213,12 @@
   <main class="wrap">
     <a href="./" class="back-link">← Back to Home</a>
     <div class="page-content">
-      <div class="about-photo-card">
-        <img src="images/bolu.jpg" alt="Boluadeoye" />
-      </div>
+      <img src="images/bolu.jpg" alt="Boluadeoye" class="about-photo" />
 
       <h1>About Me</h1>
       <div class="about-text">
-        <p>I'm **Adeoye Boluwatife**, a final-year student in English and Literary Studies. Writing and creativity are how I explore ideas, faith, and the beauty of life. On this site, I share poems, devotionals, essays, and stories — words that glow and inspire.</p>
+        <p>Hi, I'm Boluadeoye, a final-year student in the Department of English and Literary Studies at <a href="https://fuoye.edu.ng/" style="color:var(--orange);">Federal University Oye-Ekiti</a>, Nigeria. I'm passionate about writing and creativity, and this blog is my space to share thoughts, stories, and reflections on life, literature, and faith. I believe in the power of words to inspire and connect, and I'm excited to share my journey with you.</p>
       </div>
-
-      <h2>Education</h2>
-      <p>I am a student at **Federal University Oye-Ekiti**, located in Ekiti State, Nigeria.</p>
 
       <h2>Contact</h2>
       <ul class="contact-details">
