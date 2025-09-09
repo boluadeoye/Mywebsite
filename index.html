@@ -149,10 +149,10 @@
 
     async function loadPosts(){
       try{
-        const url = new URL('posts.json', location.origin); // Relative to base
-        url.searchParams.set('v','11'); // Bumped version
+        const url = new URL('./posts.json', location.origin); // Explicit relative path
+        url.searchParams.set('v','12'); // Bumped version
         const res = await fetch(url.toString(), { cache:'no-store' });
-        if(!res.ok) throw new Error(`HTTP ${res.status}: posts.json not found`);
+        if(!res.ok) throw new Error(`HTTP ${res.status}: posts.json not found at ${url}`);
         const data = await res.json();
         if(!Array.isArray(data)) throw new Error('posts.json must be an array');
         allPosts = data.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
