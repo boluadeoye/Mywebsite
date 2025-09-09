@@ -4,7 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Boluadeoye — Writings</title>
-  <base href="/Mywebsite/">
+  <!-- Removed base href to test root path; adjust if needed -->
+  <!-- <base href="/Mywebsite/"> -->
 
   <style>
     /* ========== THEME (Dark + Orange) ========== */
@@ -149,8 +150,8 @@
 
     async function loadPosts(){
       try{
-        const url = new URL('/Mywebsite/posts.json', location.origin);
-        url.searchParams.set('v','8');
+        const url = new URL('/Mywebsite/posts.json', location.origin); // Adjust path if needed
+        url.searchParams.set('v','9'); // Updated version to force refresh
         const res = await fetch(url.toString(), { cache:'no-store' });
         if(!res.ok) throw new Error(`HTTP ${res.status}: posts.json not found`);
         const data = await res.json();
