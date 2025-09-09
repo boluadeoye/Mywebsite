@@ -1,10 +1,10 @@
 [
   {
-    "title": "Starting Small, Showing Up",
-    "date": "2025-09-07",
-    "minutes": 3,
-    "type": "essay",
-    "excerpt": "Why tiny daily steps beat perfect plans, and how consistency builds momentum.",
-    "url": "/posts/starting-small.html"
+    "id": "starting-small",
+    "title": "How tiny steps build big momentum",
+    "url": "/posts/starting-small.md",
+    "excerpt": "What if we let go of that pressure and just started small? A tiny, almost insignificant step today. Another tiny step tomorrow. The real magic isn't in a flawless plan; it's in the simple act of showing up.",
+    "date": "September 9, 2025",
+    "minutes": 3
   }
 ]
