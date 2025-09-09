@@ -1,10 +1,32 @@
 [
   {
-    "id": "starting-small",
-    "title": "How tiny steps build big momentum",
-    "url": "/posts/starting-small.md",
-    "excerpt": "What if we let go of that pressure and just started small? A tiny, almost insignificant step today. Another tiny step tomorrow. The real magic isn't in a flawless plan; it's in the simple act of showing up.",
-    "date": "September 9, 2025",
-    "minutes": 3
+    "file": "poem1",
+    "title": "Poem: Dawn's Whisper",
+    "date": "2025-09-09",
+    "excerpt": "A short verse about morning light and hope...",
+    "content": "Full text of the poem about the gentle whisper of dawn...",
+    "type": "poems",
+    "likes": 150,
+    "views": 1200
+  },
+  {
+    "file": "essay1",
+    "title": "Essay: The Power of Words",
+    "date": "2025-09-08",
+    "excerpt": "Exploring how language shapes our world...",
+    "content": "A deep dive into the influence of words on society and personal growth...",
+    "type": "essays",
+    "likes": 90,
+    "views": 800
+  },
+  {
+    "file": "story1",
+    "title": "Story: The Quiet Path",
+    "date": "2025-09-07",
+    "excerpt": "A tale of discovery in nature's embrace...",
+    "content": "A narrative about a journey through a serene forest path...",
+    "type": "stories",
+    "likes": 200,
+    "views": 1500
   }
 ]
