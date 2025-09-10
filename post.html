@@ -2,49 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reading Page</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Boluadeoye — Post</title>
+
   <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111a2e;
+      --ink: #e5eefc;
+      --muted: #a7b3cc;
+      --orange: #f59e0b;
+      --orange-ink: #0b0f19;
+      --ring: rgba(245,158,11,.25);
+      --radius: 16px;
+      --serif: ui-serif, Georgia, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box }
     body {
-      font-family: 'Merriweather', serif;
-      background-color: #fefcf8;
-      color: #2a2a2a;
       margin: 0;
-      padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.7 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding: 2rem 1.2rem;
     }
 
     .container {
-      max-width: 680px;
+      max-width: 700px;
       margin: auto;
-      padding: 1.5rem;
     }
 
     h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      margin-bottom: 0.4rem;
-      color: #1a1a1a;
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      color: var(--orange);
+      margin-bottom: 0.5rem;
     }
 
     .meta {
       font-size: 0.85rem;
-      color: #777;
+      color: var(--muted);
       margin-bottom: 2rem;
     }
 
     #post-content p {
-      line-height: 1.7;
+      color: var(--muted);
       margin-bottom: 1.2rem;
+      line-height: 1.8;
     }
 
     .quote-box {
-      background-color: #f4f9ff;
-      border-left: 4px solid #005fa3;
+      background-color: #1a263b;
+      border-left: 4px solid var(--orange);
       padding: 1rem;
       margin: 2rem 0;
       font-style: italic;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      color: var(--ink);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
 
     .back-button {
@@ -52,11 +68,9 @@
       margin-top: 2rem;
       font-size: 0.85rem;
       text-decoration: none;
-      color: #005fa3;
-      font-weight: bold;
-      padding: 0.3rem 0.5rem;
-      border-radius: 4px;
-      transition: background 0.2s ease;
+      color: var(--orange);
+      font-weight: 600;
+      opacity: 0.85;
     }
 
     .back-button::before {
@@ -64,7 +78,7 @@
     }
 
     .back-button:hover {
-      background-color: #e6f2ff;
+      text-decoration: underline;
     }
   </style>
 </head>
