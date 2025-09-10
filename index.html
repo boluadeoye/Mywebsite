@@ -149,7 +149,7 @@
 
     async function loadPosts(){
       try{
-        const url = new URL('/Mywebsite/posts.json', location.origin);
+        const url = new URL('/Mywebsite/Posts.json', location.origin);
         const res = await fetch(url.toString(), { cache:'no-store' });
         if(!res.ok) throw new Error(`HTTP ${res.status}: posts.json not found at ${url}`);
         const data = await res.json();
