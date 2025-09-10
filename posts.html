@@ -174,6 +174,7 @@
         return;
       }
 
+      console.log('Rendering posts with quote box:', paginatedPosts); // Debug log
       postsEl.innerHTML = paginatedPosts.map(p => `
         <article class="post">
           <h3><a href="post.html?file=${encodeURIComponent(p.file)}">${p.title}</a></h3>
