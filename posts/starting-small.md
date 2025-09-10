@@ -1,4 +1,3 @@
-# Starting Small
 
 Sometimes the biggest breakthroughs begin with the smallest steps.
 
