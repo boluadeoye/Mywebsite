@@ -7,21 +7,28 @@
   <base href="/Mywebsite/">
 
   <style>
-    /* Use the same theme variables from your existing pages */
+    /* Theme Variables */
     :root {
       --bg: #0f172a;
       --panel: #111a2e;
+      --panel-hover: #1a2341;
       --ink: #e5eefc;
       --muted: #a7b3cc;
       --orange: #f59e0b;
+      --orange-light: #fbbf24;
+      --orange-dark: #d97706;
       --orange-ink: #0b0f19;
       --ring: rgba(245, 158, 11, .25);
       --radius: 16px;
       --serif: ui-serif, Georgia, "Times New Roman", serif;
+      --transition: cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     * { box-sizing: border-box }
-    html, body { height: 100% }
+    html, body { 
+      height: 100%;
+      scroll-behavior: smooth;
+    }
     
     body {
       margin: 0;
@@ -30,141 +37,355 @@
       font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      position: relative;
+    }
+    
+    /* Animated Background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(245, 158, 11, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.03) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
     }
     
     a { color: inherit; text-decoration: none }
-    .wrap { max-width: 800px; margin: 0 auto; padding: 0 1.2rem }
+    .wrap { 
+      max-width: 800px; 
+      margin: 0 auto; 
+      padding: 0 1.2rem;
+      position: relative;
+      z-index: 1;
+    }
     
-    /* Header - matching your existing style */
+    /* Enhanced Header */
     header { 
       position: sticky; 
       top: 0; 
       z-index: 50; 
-      background: var(--panel); 
-      border-bottom: 1px solid rgba(255, 255, 255, .06); 
+      background: rgba(17, 26, 46, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, .06);
+      transition: all 0.3s ease;
     }
     
     .header-row { 
       display: flex; 
       align-items: center; 
       justify-content: space-between; 
-      min-height: 64px; 
+      min-height: 72px;
+      padding: 0 1rem;
     }
     
     .brand { 
       display: flex; 
       align-items: center; 
-      gap: .5rem; 
-      text-decoration: none; 
+      gap: .75rem; 
+      text-decoration: none;
+      transition: transform 0.3s var(--transition);
+    }
+    
+    .brand:hover {
+      transform: translateX(5px);
     }
     
     .brand .dot { 
-      width: 28px; 
-      height: 28px; 
+      width: 32px; 
+      height: 32px; 
       border-radius: 50%; 
       background: radial-gradient(65% 65% at 30% 30%, #ffd27a 0%, #f59e0b 55%, #a55e03 100%); 
       box-shadow: 0 0 0 3px rgba(245, 158, 11, .12), 0 6px 26px rgba(245, 158, 11, .25); 
-      flex: 0 0 28px; 
+      flex: 0 0 32px;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
     
     .brand h1 { 
       margin: 0; 
-      font-size: 1.25rem; 
+      font-size: 1.35rem; 
       font-weight: 700; 
       color: var(--ink); 
       letter-spacing: .2px; 
     }
     
+    /* Navigation Pills */
     .nav-links {
       display: flex;
-      gap: 1.5rem;
+      gap: 1rem;
       align-items: center;
     }
     
-    .nav-links a {
-      color: var(--ink);
-      font-weight: 600;
-      opacity: 0.9;
-      transition: color 0.3s ease;
-    }
-    
-    .nav-links a:hover {
+    .nav-chip {
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      background: rgba(245, 158, 11, 0.1);
       color: var(--orange);
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
     
-    /* Post Content Styles */
+    .nav-chip::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: var(--orange);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.5s ease, height 0.5s ease;
+    }
+    
+    .nav-chip:hover::before {
+      width: 150px;
+      height: 150px;
+    }
+    
+    .nav-chip:hover {
+      color: var(--orange-ink);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+    
+    .nav-chip span {
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Post Header Section */
     .post-header {
-      padding: 3rem 0 2rem;
+      padding: 4rem 0 3rem;
       text-align: center;
-      border-bottom: 1px solid rgba(255, 255, 255, .06);
+      position: relative;
+      animation: fadeInDown 0.8s ease;
     }
     
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .post-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--orange), transparent);
+      border-radius: 2px;
+    }
+    
+    /* Post Metadata */
     .post-meta {
       display: flex;
-      gap: 1.5rem;
+      gap: 2rem;
       justify-content: center;
-      margin-bottom: 1rem;
-      color: var(--muted);
-      font-size: 0.9rem;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
     }
     
-    .post-title {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 900;
-      line-height: 1.2;
-      margin: 1rem 0;
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 999px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: all 0.3s ease;
+    }
+    
+    .meta-item:hover {
+      background: rgba(245, 158, 11, 0.1);
+      border-color: var(--orange);
       color: var(--ink);
     }
     
+    .meta-icon {
+      font-size: 1rem;
+    }
+    
+    /* Post Title */
+    .post-title {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin: 1.5rem 0;
+      background: linear-gradient(135deg, var(--orange), var(--orange-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeIn 1s ease 0.3s both;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    /* Post Content Container */
     .post-content {
       padding: 3rem 0;
-      max-width: 65ch;
+      max-width: 680px;
       margin: 0 auto;
-      font-size: 1.1rem;
-      line-height: 1.8;
+      font-size: 1.125rem;
+      line-height: 1.85;
+      color: rgba(229, 238, 252, 0.9);
+      animation: fadeInUp 0.8s ease 0.5s both;
     }
     
-    /* Markdown content styling */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Content Typography */
     .post-content h1,
     .post-content h2,
-    .post-content h3 {
+    .post-content h3,
+    .post-content h4 {
       font-family: var(--serif);
       color: var(--orange);
-      margin: 2rem 0 1rem;
+      margin: 3rem 0 1.5rem;
+      font-weight: 700;
+      text-align: center;
     }
     
-    .post-content h1 { font-size: 2rem; }
-    .post-content h2 { font-size: 1.6rem; }
-    .post-content h3 { font-size: 1.3rem; }
+    .post-content h1 { 
+      font-size: 2.25rem;
+      background: linear-gradient(135deg, var(--orange), var(--orange-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .post-content h2 { 
+      font-size: 1.875rem;
+      position: relative;
+      padding-bottom: 0.75rem;
+    }
+    
+    .post-content h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 2px;
+      background: var(--orange);
+      border-radius: 1px;
+    }
+    
+    .post-content h3 { 
+      font-size: 1.5rem;
+      color: var(--orange-light);
+    }
     
     .post-content p {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.75rem;
+      text-align: justify;
     }
     
-    .post-content blockquote {
-      border-left: 4px solid var(--orange);
-      padding-left: 1.5rem;
-      margin: 2rem 0;
+    /* Enhanced Quote Box */
+    .post-content blockquote,
+    .quote-highlight {
+      position: relative;
+      margin: 2.5rem auto;
+      padding: 2rem 2rem 2rem 3.5rem;
+      max-width: 90%;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: var(--radius);
+      box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
       font-style: italic;
-      color: var(--muted);
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: var(--ink);
+      overflow: hidden;
     }
     
+    .post-content blockquote::before,
+    .quote-highlight::before {
+      content: '"';
+      position: absolute;
+      top: 0.5rem;
+      left: 1rem;
+      font-size: 3rem;
+      color: var(--orange);
+      opacity: 0.3;
+      font-family: var(--serif);
+      line-height: 1;
+    }
+    
+    .post-content blockquote::after,
+    .quote-highlight::after {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.15), transparent);
+      border-radius: 50%;
+    }
+    
+    /* Lists */
     .post-content ul, 
     .post-content ol {
-      margin: 1.5rem 0;
+      margin: 2rem 0;
       padding-left: 2rem;
     }
     
     .post-content li {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
+      color: rgba(229, 238, 252, 0.85);
     }
     
+    /* Code Blocks */
     .post-content code {
       background: var(--panel);
-      padding: 0.2em 0.4em;
-      border-radius: 4px;
+      padding: 0.25em 0.5em;
+      border-radius: 6px;
       font-size: 0.9em;
+      color: var(--orange-light);
+      border: 1px solid rgba(245, 158, 11, 0.1);
     }
     
     .post-content pre {
@@ -173,75 +394,179 @@
       border-radius: var(--radius);
       overflow-x: auto;
       margin: 2rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
     
     .post-content pre code {
       background: none;
       padding: 0;
+      border: none;
+      color: var(--ink);
     }
     
+    /* Links in content */
     .post-content a {
       color: var(--orange);
-      text-decoration: underline;
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s ease;
     }
     
-    .post-content a:hover {
-      opacity: 0.8;
+    .post-content a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--orange);
+      transition: width 0.3s ease;
     }
     
+    .post-content a:hover::after {
+      width: 100%;
+    }
+    
+    /* Images */
     .post-content img {
       max-width: 100%;
       height: auto;
       border-radius: var(--radius);
       margin: 2rem 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
     
-    /* Navigation buttons */
+    /* Enhanced Navigation Buttons */
     .post-nav {
       display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 2rem 0;
-      border-top: 1px solid rgba(255, 255, 255, .06);
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 3rem 0;
+      margin-top: 3rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      flex-wrap: wrap;
     }
     
-    .btn-back {
+    .btn-chip {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      background: var(--panel);
-      border: 1px solid rgba(255, 255, 255, .06);
-      border-radius: 18px;
-      color: var(--ink);
-      font-weight: 600;
-      transition: all 0.3s ease;
+      gap: 0.75rem;
+      padding: 0.85rem 1.75rem;
+      background: var(--orange);
+      color: var(--orange-ink);
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: all 0.3s var(--transition);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
     }
     
-    .btn-back:hover {
-      background: rgba(255, 255, 255, .08);
-      transform: translateX(-5px);
+    .btn-chip::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.5s ease, height 0.5s ease;
     }
     
-    /* Loading and error states */
+    .btn-chip:hover::before {
+      width: 200px;
+      height: 200px;
+    }
+    
+    .btn-chip:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+    }
+    
+    .btn-chip span {
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Loading and Error States */
     .loading, .error {
       text-align: center;
       padding: 4rem 2rem;
       color: var(--muted);
     }
     
+    .loading-spinner {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      border: 3px solid rgba(245, 158, 11, 0.2);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
     .error {
       color: #ff6b6b;
+    }
+    
+    .error h2 {
+      color: #ff6b6b;
+      margin-bottom: 1rem;
     }
     
     /* Footer */
     footer {
       color: var(--muted);
-      border-top: 1px solid rgba(255, 255, 255, .06);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
       text-align: center;
-      font-size: .85rem;
+      font-size: .9rem;
       padding: 2rem 0 1.5rem;
-      margin-top: 3rem;
+      margin-top: auto;
+      background: var(--panel);
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .header-row {
+        padding: 0 0.5rem;
+      }
+      
+      .nav-links {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      
+      .nav-chip {
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+      }
+      
+      .post-title {
+        font-size: 2rem;
+      }
+      
+      .post-content {
+        font-size: 1rem;
+        padding: 2rem 0;
+      }
+      
+      .post-nav {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .btn-chip {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -253,16 +578,19 @@
         <h1>Boluadeoye</h1>
       </a>
       <nav class="nav-links">
-        <a href="./">Home</a>
-        <a href="./posts.html">All Posts</a>
-        <a href="./about.html">About</a>
+        <a href="./" class="nav-chip"><span>Home</span></a>
+        <a href="./posts.html" class="nav-chip"><span>All Posts</span></a>
+        <a href="./about.html" class="nav-chip"><span>About</span></a>
       </nav>
     </div>
   </header>
 
   <main class="wrap">
     <article id="post-container">
-      <div class="loading">Loading post...</div>
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        <p>Loading your content...</p>
+      </div>
     </article>
   </main>
 
@@ -271,7 +599,7 @@
   </footer>
 
   <script>
-    // Simple markdown parser
+    // Enhanced Markdown Parser
     function parseMarkdown(markdown) {
       let html = markdown;
       
@@ -280,14 +608,15 @@
       html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
       html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
       
-      // Bold
+      // Bold and Italic
       html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-      
-      // Italic
       html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
       
       // Links
       html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+      
+      // Blockquotes (lines starting with >)
+      html = html.replace(/^> (.+)$/gim, '<blockquote>$1</blockquote>');
       
       // Paragraphs
       html = html.split('\n\n').map(para => {
@@ -310,12 +639,20 @@
       const file = urlParams.get('file');
       
       if (!file) {
-        container.innerHTML = '<div class="error">No post specified. <a href="./" style="color: var(--orange);">Return home</a></div>';
+        container.innerHTML = `
+          <div class="error">
+            <h2>No Post Specified</h2>
+            <p>Please select a post to read.</p>
+            <div class="post-nav">
+              <a href="./" class="btn-chip"><span>← Back to Home</span></a>
+            </div>
+          </div>
+        `;
         return;
       }
       
       try {
-        // First, load the posts.json to get post metadata
+        // Load posts.json for metadata
         const postsRes = await fetch('Posts.json');
         const posts = await postsRes.json();
         const postData = posts.find(p => p.file === file);
@@ -329,7 +666,10 @@
         if (!mdRes.ok) throw new Error('Post file not found');
         
         const markdown = await mdRes.text();
-        const content = parseMarkdown(markdown);
+        let content = parseMarkdown(markdown);
+        
+        // Add quote highlight box for special quotes
+        content = content.replace(/<blockquote>/g, '<blockquote class="quote-highlight">');
         
         // Update page title
         document.title = `${postData.title} - Boluadeoye`;
@@ -338,14 +678,26 @@
         container.innerHTML = `
           <div class="post-header">
             <div class="post-meta">
-              <span>📅 ${new Date(postData.date).toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-              })}</span>
-              <span>📁 ${postData.type}</span>
-              <span>❤️ ${postData.likes} likes</span>
-              <span>👁️ ${postData.views}K views</span>
+              <span class="meta-item">
+                <span class="meta-icon">📅</span>
+                ${new Date(postData.date).toLocaleDateString('en-US', { 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                })}
+              </span>
+              <span class="meta-item">
+                <span class="meta-icon">📁</span>
+                ${postData.type}
+              </span>
+              <span class="meta-item">
+                <span class="meta-icon">❤️</span>
+                ${postData.likes} likes
+              </span>
+              <span class="meta-item">
+                <span class="meta-icon">👁️</span>
+                ${postData.views}K views
+              </span>
             </div>
             <h1 class="post-title">${postData.title}</h1>
           </div>
@@ -353,19 +705,28 @@
             ${content}
           </div>
           <nav class="post-nav">
-            <a href="./" class="btn-back">← Back to Home</a>
-            <a href="./posts.html" class="btn-back">View All Posts →</a>
+            <a href="./" class="btn-chip">
+              <span>← Back to Home</span>
+            </a>
+            <a href="./posts.html" class="btn-chip">
+              <span>View All Posts →</span>
+            </a>
           </nav>
         `;
+        
+        // Smooth scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         
       } catch (error) {
         container.innerHTML = `
           <div class="error">
-            <h2>Post Not Found</h2>
+            <h2>Unable to Load Post</h2>
             <p>${error.message}</p>
-            <p style="margin-top: 2rem;">
-              <a href="./" style="color: var(--orange);">← Return to Homepage</a>
-            </p>
+            <div class="post-nav">
+              <a href="./" class="btn-chip">
+                <span>← Return to Homepage</span>
+              </a>
+            </div>
           </div>
         `;
       }
