@@ -1,16 +1,9 @@
 [
   {
-    "title": "My First Post",
-    "date": "2025-09-01",
-    "type": "poems",
-    "excerpt": "This is a short preview of my first post.",
-    "file": "first-post.md"
-  },
-  {
-    "title": "Faith in Motion",
-    "date": "2025-09-05",
+    "title": "Starting Small",
+    "date": "2025-09-10",
     "type": "faith",
-    "excerpt": "Reflections on belief and action.",
-    "file": "faith-motion.md"
+    "excerpt": "A reflection on humble beginnings.",
+    "file": "starting-small.md"
   }
 ]
