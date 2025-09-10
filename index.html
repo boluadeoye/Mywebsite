@@ -149,8 +149,7 @@
 
     async function loadPosts(){
       try{
-        const url = new URL('./posts.json', location.origin); // Explicit relative path
-        url.searchParams.set('v','12'); // Bumped version
+        const url = new URL('/Mywebsite/posts.json', location.origin);
         const res = await fetch(url.toString(), { cache:'no-store' });
         if(!res.ok) throw new Error(`HTTP ${res.status}: posts.json not found at ${url}`);
         const data = await res.json();
