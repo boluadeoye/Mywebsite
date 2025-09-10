@@ -4,25 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Boluadeoye — Post</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0f172a;
-      --panel: #111a2e;
+      --panel: #141a2a;
       --ink: #e5eefc;
       --muted: #a7b3cc;
       --orange: #f59e0b;
-      --orange-dark: #be7102;
-      --radius: 22px;
-      --border: 1.5px solid rgba(229,238,252,0.08);
-      --serif: 'Playfair Display', ui-serif, Georgia, serif;
-      --chip-bg: rgba(245,158,11,0.14);
-      --chip-bg-outline: transparent;
-      --chip-fg: var(--orange);
-      --chip-outline-fg: var(--orange);
+      --orange-outline: #f59e0b;
+      --radius: 32px;
+      --border: 1.9px solid rgba(245,158,11,0.19);
       --chip-radius: 999px;
+      --serif: 'Playfair Display', ui-serif, Georgia, serif;
     }
-
     html, body {
       height: 100%;
       margin: 0;
@@ -30,76 +25,84 @@
       background: var(--bg);
       color: var(--ink);
       font-family: var(--serif);
-      font-size: 18px;
+      font-size: 1.08rem;
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
-
-    .container {
-      max-width: 720px;
-      margin: 3.5rem auto 2.5rem auto;
+    .post-card {
       background: var(--panel);
-      border-radius: var(--radius);
       border: var(--border);
-      box-shadow: 0 2px 14px rgba(0,0,0,.11);
-      padding: 2.5rem 1.3rem 2.2rem 1.3rem;
-      position: relative;
+      border-radius: var(--radius);
+      max-width: 730px;
+      margin: 2.1rem auto 2.5rem auto;
+      padding: 2.1rem 1.3rem 2.2rem 1.3rem;
+      box-shadow: 0 2px 16px rgba(0,0,0,.12);
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: relative;
     }
-
     .chip {
       display: inline-block;
-      padding: 0.42em 1.1em;
+      padding: 0.29em 1.1em;
       border-radius: var(--chip-radius);
-      font-size: 0.98em;
+      font-size: 0.95em;
       font-weight: 700;
-      letter-spacing: .01em;
-      cursor: pointer;
+      background: rgba(245,158,11,0.13);
+      color: var(--orange);
       border: none;
       outline: none;
-      background: var(--chip-bg);
-      color: var(--chip-fg);
-      margin-bottom: 1.6rem;
-      margin-right: auto;
+      margin-bottom: 1.2rem;
       margin-left: 0;
-      transition: background .18s, color .18s;
+      margin-right: auto;
+      margin-top: 0;
       box-shadow: 0 1px 5px rgba(245,158,11,0.07);
       text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: background .18s, color .18s;
+      cursor: pointer;
+    }
+    .chip:hover {
+      background: var(--orange);
+      color: #0f172a;
     }
     .chip-outline {
-      background: var(--chip-bg-outline);
-      color: var(--chip-outline-fg);
-      border: 1.5px solid var(--chip-outline-fg);
-      margin-top: 2.4rem;
-      margin-bottom: 0;
-      margin-right: 0;
-      margin-left: 0;
+      display: inline-block;
+      padding: 0.29em 1.2em;
+      border-radius: var(--chip-radius);
+      font-size: 1em;
+      font-weight: 700;
+      background: transparent;
+      color: var(--orange);
+      border: 1.7px solid var(--orange-outline);
+      margin: 2.1rem auto 0 auto;
       text-align: center;
+      letter-spacing: 0.01em;
+      transition: background .18s, color .18s;
+      text-decoration: none;
+      cursor: pointer;
     }
-    .chip:hover, .chip-outline:hover {
+    .chip-outline:hover {
       background: var(--orange);
-      color: #0b0f19;
+      color: #0f172a;
     }
-
     .post-title {
       font-family: var(--serif);
       font-weight: 700;
       color: var(--orange);
-      font-size: 2.2rem;
+      font-size: 2.05rem;
       text-align: center;
-      margin: 0 0 0.7rem 0;
+      margin: 0 0 .5rem 0;
       letter-spacing: 0.3px;
     }
     .meta {
-      font-size: 1.02rem;
+      font-size: 1.01rem;
       color: var(--muted);
       text-align: center;
       margin-bottom: 2.1rem;
+      font-family: var(--serif);
     }
-
     #post-content {
       width: 100%;
       max-width: 640px;
@@ -110,49 +113,49 @@
     }
     #post-content p {
       color: var(--ink);
-      margin: 0.9rem 0 1.25rem 0;
+      margin: 0.9rem 0 1.15rem 0;
       text-align: center;
-      font-size: 1.18rem;
+      font-size: 1.13rem;
       font-family: var(--serif);
-      font-weight: 400;
+      font-weight: 500;
       letter-spacing: 0.01em;
     }
-
     .quote-box {
-      background: rgba(245,158,11,0.07);
-      border-radius: 14px;
-      border: 1.5px solid rgba(245,158,11,0.18);
-      padding: 1.15em 1.3em;
-      margin: 2.2rem 0 2.2rem 0;
-      color: var(--orange);
+      background: rgba(245,158,11,0.06);
+      border-radius: 18px;
+      border: 1.5px solid rgba(245,158,11,0.22);
+      padding: 1.25em 1.4em;
+      margin: 2.0rem 0 2.0rem 0;
+      color: var(--ink);
       font-style: italic;
-      font-size: 1.1rem;
+      font-size: 1.12rem;
       text-align: center;
+      font-family: var(--serif);
       box-shadow: 0 2px 8px 0 rgba(245,158,11,0.07);
-      max-width: 480px;
+      max-width: 440px;
       margin-left: auto;
       margin-right: auto;
-      font-family: var(--serif);
+      line-height: 1.75;
     }
-
     /* Responsive design */
     @media (max-width: 800px) {
-      .container {
-        max-width: 98vw;
+      .post-card {
+        max-width: 99vw;
         padding: 1.2rem 0.3rem 1.3rem 0.3rem;
       }
       #post-content { max-width: 97vw; }
-      .post-title { font-size: 1.3rem; }
+      .post-title { font-size: 1.23rem; }
+      .quote-box { font-size: 1.02rem; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <a href="index.html" class="chip">← Back to Latest</a>
+  <div class="post-card">
+    <a href="index.html" class="chip" style="align-self:flex-start; margin-bottom:1.9rem; margin-top:0;">← Back to Latest</a>
     <h1 class="post-title" id="post-title">Loading post…</h1>
     <div class="meta">By Boluadeoye · <span id="post-date">2025-09-10</span></div>
     <div id="post-content">Loading content…</div>
-    <a href="index.html#latest" class="chip chip-outline">Read More Posts</a>
+    <a href="index.html#latest" class="chip-outline">Read More Posts</a>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
