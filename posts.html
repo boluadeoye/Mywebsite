@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Boluadeoye — All Writings</title>
+  <base href="/Mywebsite/">
+
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111a2e;
+      --ink: #e5eefc;
+      --muted: #a7b3cc;
+      --orange: #f59e0b;
+      --orange-ink: #0b0f19;
+      --ring: rgba(245, 158, 11, .25);
+      --radius: 16px;
+      --serif: ui-serif, Georgia, "Times New Roman", serif;
+    }
+    * { box-sizing: border-box }
+    html, body { height: 100% }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    img { max-width: 100%; display: block }
+    a { color: inherit; text-decoration: none }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.2rem }
+    header { position: sticky; top: 0; z-index: 50; background: var(--panel); border-bottom: 1px solid rgba(255, 255, 255, .06); }
+    .header-row { display: flex; align-items: center; justify-content: space-between; min-height: 64px; }
+    .brand { display: flex; align-items: center; gap: .5rem; margin-left: 1rem; text-decoration: none; }
+    .brand .dot { width: 28px; height: 28px; border-radius: 50%; background: radial-gradient(65% 65% at 30% 30%, #ffd27a 0%, #f59e0b 55%, #a55e03 100%); box-shadow: 0 0 0 3px rgba(245, 158, 11, .12), 0 6px 26px rgba(245, 158, 11, .25); flex: 0 0 28px; }
+    .brand h1 { margin: 0; font-size: 1.25rem; font-weight: 700; color: var(--ink); letter-spacing: .2px; }
+    .search-bar { position: relative; width: 100%; max-width: 300px; }
+    .search-bar input { width: 100%; padding: .75rem 1rem; border: 1px solid rgba(255, 255, 255, .06); border-radius: 18px; background: var(--panel); color: var(--ink); font-size: 1rem; outline: none; transition: border-color .3s ease; }
+    .search-bar input:focus { border-color: var(--orange); }
+    .search-bar .search-icon { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+    .top-nav { display: none; gap: 1.1rem; align-items: center; }
+    .top-nav a { opacity: .9; color: var(--ink); font-weight: 600; }
+    .top-nav a:hover { color: var(--orange); }
+    .hamburger { width: 42px; height: 42px; margin-right: .5rem; display: flex; align-items: center; justify-content: center; border-radius: 10px; border: 1px solid rgba(255, 255, 255, .06); background: rgba(255, 255, 255, .02); color: var(--ink); }
+    .hamburger svg { width: 22px; height: 22px }
+    .side-menu { position: fixed; top: 0; left: -260px; z-index: 60; width: 240px; height: 100%; padding: 2rem 1rem; display: flex; flex-direction: column; gap: 1rem; background: var(--panel); box-shadow: 2px 0 10px rgba(0, 0, 0, .35); transition: left .3s ease; }
+    .side-menu a { background: var(--chip, #0d1527); color: var(--ink); font-weight: 600; padding: .85rem 1rem; border-radius: 14px; border: 1px solid rgba(255, 255, 255, .06); }
+    .side-menu.active { left: 0 }
+    .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .55); z-index: 40; display: none; }
+    .overlay.show { display: block }
+    .hero { padding: 2.2rem 0 1rem }
+    .hero h2 { font-family: var(--serif); font-weight: 900; line-height: 1.08; margin: .25rem 0 1rem 0; font-size: clamp(2.2rem, 3.8vw, 3.4rem); }
+    .accent { color: var(--orange) }
+    .sub { color: var(--muted); max-width: 60ch; margin: 0 0 1rem }
+    h3.section-title { font-size: clamp(1.4rem, 2.4vw, 2rem); margin: 2.2rem 0 1rem; }
+    #posts { display: grid; gap: 1.5rem; margin-bottom: 2rem; }
+    .post { background: var(--panel); border: 1px solid rgba(255, 255, 255, .06); border-radius: 18px; padding: 1.5rem; transition: transform .2s ease, box-shadow .2s ease; }
+    .post:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(245, 158, 11, .1); }
+    .post h3 { margin: 1rem 0 .35rem; font-size: 1.25rem }
+    .post h3 a { color: var(--ink); }
+    .post h3 a:hover { color: var(--orange); }
+    .post small { color: var(--muted) }
+    .post p { color: var(--muted); margin: .5rem 0 0 }
+    .post .stats { font-style: italic; }
+    .post-buttons { display: flex; gap: 1rem; margin-top: 1rem; }
+    .btn-back { display: inline-flex; align-items: center; gap: .5rem; padding: .5rem 1rem; border: 1px solid rgba(255, 255, 255, .06); border-radius: 18px; background: var(--panel); color: var(--ink); font-weight: 600; transition: background .3s ease; }
+    .btn-back:hover { background: rgba(255, 255, 255, .05); }
+    .btn-readmore { padding: .5rem 1.25rem; border-radius: 18px; background: var(--orange); color: var(--orange-ink); font-weight: 600; transition: background .3s ease; }
+    .btn-readmore:hover { background: #feb47b; }
+    .pagination { display: flex; justify-content: center; gap: 1rem; margin: 2rem 0; }
+    .pagination a { padding: .75rem 1.25rem; border: 1px solid rgba(255, 255, 255, .06); border-radius: 18px; background: var(--panel); color: var(--ink); text-decoration: none; }
+    .pagination a:hover { background: rgba(245, 158, 11, .1); }
+    footer { color: var(--muted); border-top: 1px solid rgba(255, 255, 255, .06); text-align: center; font-size: .85rem; padding: 2rem 0 1.5rem; margin-top: 1rem; }
+    @media (min-width: 880px) { .top-nav { display: flex } .hamburger { display: none } .header-row { justify-content: space-between; } .search-bar { margin-right: 1rem; } }
+    @media (min-width: 680px) { #posts { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); } }
+  </style>
+</head>
+<body>
+  <nav id="sideMenu" class="side-menu" aria-label="Menu">
+    <a href="./" data-filter="all">All writings</a>
+    <a href="#" data-filter="poems">Poems</a>
+    <a href="#" data-filter="stories">Stories</a>
+    <a href="#" data-filter="faith">Faith</a>
+    <a href="#" data-filter="devotional">Devotional</a>
+    <a href="#" data-filter="articles">Articles</a>
+    <a href="#" data-filter="essays">Essays</a>
+    <a href="./about.html">About</a>
+  </nav>
+  <div id="menuOverlay" class="overlay" hidden></div>
+  <header>
+    <div class="wrap header-row">
+      <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-controls="sideMenu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <rect x="3" y="6" width="18" height="2" rx="1"></rect>
+          <rect x="3" y="11" width="18" height="2" rx="1"></rect>
+          <rect x="3" y="16" width="18" height="2" rx="1"></rect>
+        </svg>
+      </button>
+      <a class="brand" href="./">
+        <span class="dot" aria-hidden="true"></span>
+        <h1>Boluadeoye</h1>
+      </a>
+      <div class="search-bar">
+        <input type="text" placeholder="Search writings..." aria-label="Search">
+        <span class="search-icon">🔍</span>
+      </div>
+      <nav class="top-nav" aria-label="Filters">
+        <a href="#" data-filter="all">All</a>
+        <a href="#" data-filter="poems">Poems</a>
+        <a href="#" data-filter="stories">Stories</a>
+        <a href="#" data-filter="faith">Faith</a>
+        <a href="#" data-filter="devotional">Devotional</a>
+        <a href="#" data-filter="articles">Articles</a>
+        <a href="#" data-filter="essays">Essays</a>
+        <a href="./about.html">About</a>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="hero" aria-label="All Writings">
+      <h2><span class="accent">Explore</span> All My Writings</h2>
+      <p class="sub">A collection of essays, poems, and more—updated as of September 10, 2025.</p>
+    </section>
+    <h3 class="section-title">All Posts</h3>
+    <section id="posts" aria-live="polite"></section>
+    <div class="pagination" id="pagination"></div>
+  </main>
+  <footer>
+    <div class="wrap">© Boluadeoye 2025 • All rights reserved.</div>
+  </footer>
+  <script>
+    const menuBtn     = document.getElementById('menuBtn');
+    const sideMenu    = document.getElementById('sideMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+    function closeMenu() { sideMenu.classList.remove('active'); menuOverlay.classList.remove('show'); menuOverlay.hidden = true; menuBtn.setAttribute('aria-expanded', 'false'); }
+    function openMenu() { sideMenu.classList.add('active'); menuOverlay.classList.add('show'); menuOverlay.hidden = false; menuBtn.setAttribute('aria-expanded', 'true'); }
+    menuBtn.addEventListener('click', () => { if (sideMenu.classList.contains('active')) closeMenu(); else openMenu(); });
+    menuOverlay.addEventListener('click', closeMenu);
+
+    let allPosts = [];
+    const postsEl = document.getElementById('posts');
+    const paginationEl = document.getElementById('pagination');
+    const postsPerPage = 6;
+    let currentPage = 1;
+
+    async function loadPosts() {
+      try {
+        const url = new URL('/Mywebsite/Posts.json', location.origin);
+        const res = await fetch(url.toString(), { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}: Posts.json not found at ${url}`);
+        const data = await res.json();
+        if (!Array.isArray(data)) throw new Error('Posts.json must be an array');
+        allPosts = data.map(p => ({ ...p, likes: p.likes || 10, views: p.views || 5 })).sort((a, b) => String(b.date).localeCompare(String(a.date)));
+        renderPosts('all');
+      } catch (err) {
+        postsEl.innerHTML = `<p style="color:#ffbdf2">Couldn't load posts. (${String(err.message)})</p>`;
+        console.error(err);
+      }
+    }
+
+    function renderPosts(filter = 'all', page = currentPage) {
+      const filteredPosts = (filter === 'all') ? allPosts : allPosts.filter(p => (p.type || '').toLowerCase() === filter);
+      const start = (page - 1) * postsPerPage;
+      const end = start + postsPerPage;
+      const paginatedPosts = filteredPosts.slice(start, end);
+
+      if (!paginatedPosts.length) {
+        postsEl.innerHTML = `<p style="color:var(--muted)">No posts found.</p>`;
+        paginationEl.innerHTML = '';
+        return;
+      }
+
+      postsEl.innerHTML = paginatedPosts.map(p => `
+        <article class="post">
+          <h3><a href="post.html?file=${encodeURIComponent(p.file)}">${p.title}</a></h3>
+          <small>${p.date}</small>
+          <p>${p.excerpt}</p>
+          <p class="stats">Likes: ${p.likes} | Views: ${p.views}K</p>
+          <div class="post-buttons">
+            <a href="./" class="btn-back">← Back to Latest</a>
+            <a href="post.html?file=${encodeURIComponent(p.file)}" class="btn-readmore">Read More</a>
+          </div>
+        </article>
+      `).join('');
+
+      const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+      let paginationHTML = '';
+      if (totalPages > 1) {
+        if (page > 1) paginationHTML += `<a href="#" data-page="${page - 1}">&laquo; Previous</a>`;
+        for (let i = 1; i <= totalPages; i++) {
+          paginationHTML += `<a href="#" data-page="${i}" ${i === page ? 'style="background: rgba(245, 158, 11, .1);"' : ''}>${i}</a>`;
+        }
+        if (page < totalPages) paginationHTML += `<a href="#" data-page="${page + 1}">Next &raquo;</a>`;
+        paginationEl.innerHTML = paginationHTML;
+      }
+    }
+
+    document.querySelectorAll('.top-nav a[data-filter], .side-menu a[data-filter]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const f = a.getAttribute('data-filter');
+        currentPage = 1;
+        renderPosts(f, currentPage);
+        closeMenu();
+      });
+    });
+
+    paginationEl.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') {
+        e.preventDefault();
+        const page = parseInt(e.target.getAttribute('data-page'));
+        if (page) {
+          currentPage = page;
+          renderPosts(document.querySelector('.top-nav a.active')?.getAttribute('data-filter') || 'all', currentPage);
+        }
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', loadPosts);
+  </script>
+</body>
+  </html>
