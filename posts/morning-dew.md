@@ -1,5 +1,3 @@
-# Morning Dew
-
 The earth awakens with whispered prayers,  
 As morning dew kisses the grass.  
 Each drop, a blessing suspended in time,  
