@@ -6,90 +6,79 @@
   <title>Boluadeoye — Post</title>
 
   <style>
-    :root {
-      --bg: #0f172a;
-      --panel: #111a2e;
-      --ink: #e5eefc;
-      --muted: #a7b3cc;
-      --orange: #f59e0b;
-      --orange-ink: #0b0f19;
-      --ring: rgba(245,158,11,.25);
-      --radius: 16px;
-      --serif: ui-serif, Georgia, "Times New Roman", serif;
-    }
+    .framed-content {
+  max-width: 620px;
+  margin: auto;
+  padding: 2rem 1.2rem;
+  border-left: 1px solid rgba(255,255,255,0.08);
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
 
-    * { box-sizing: border-box }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font: 16px/1.7 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      padding: 2rem 1.2rem;
-    }
-
-    .container {
-      max-width: 700px;
-      margin: auto;
-    }
-
-    h1 {
-  font-family: var(--serif);
+h1 {
+  font-family: 'Playfair Display', serif;
   font-size: 2.6rem;
   font-weight: 700;
   color: var(--orange);
   margin-bottom: 0.6rem;
-    }
+  text-align: center;
+}
 
-    .meta {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 2rem;
-    }
+.meta {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
 
-    #post-content p {
+#post-content p {
   color: var(--ink);
   font-size: 1.05rem;
   line-height: 1.8;
   margin-bottom: 1.4rem;
-    }
+  text-align: center;
+}
 
-  .quote-box {
+.quote-box {
   background-color: #1a263b;
   border-left: 4px solid var(--orange);
   padding: 1.2rem 1rem;
-  margin: 2rem 0;
+  margin: 2rem auto;
   font-style: italic;
   color: var(--ink);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-    .back-button {
-      display: inline-block;
-      margin-top: 2rem;
-      font-size: 0.85rem;
-      text-decoration: none;
-      color: var(--orange);
-      font-weight: 600;
-      opacity: 0.85;
-    }
+  max-width: 540px;
+  text-align: center;
+}
 
-    .back-button::before {
-      content: "← ";
-    }
+.back-button {
+  display: block;
+  margin: 2rem auto 0;
+  padding: 0.5rem 1rem;
+  background-color: var(--orange);
+  color: var(--orange-ink);
+  font-weight: 600;
+  font-size: 0.85rem;
+  border-radius: 999px;
+  text-align: center;
+  width: fit-content;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: background 0.2s ease;
+}
 
-    .back-button:hover {
-      text-decoration: underline;
-    }
+.back-button:hover {
+  background-color: #f3a637;
+}
   </style>
 </head>
 <body>
   <div class="container">
+  <div class="framed-content">
     <h1 id="post-title">Loading post…</h1>
     <div class="meta">By Boluadeoye · <span id="post-date">September 10, 2025</span></div>
     <div id="post-content">Loading content…</div>
-    <a href="index.html" class="back-button">Back to writings</a>
+    <a href="index.html" class="back-button">← Back to writings</a>
+  </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
