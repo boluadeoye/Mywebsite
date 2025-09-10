@@ -1,85 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Boluadeoye — Post</title>
-  <base href="/Mywebsite/">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post Viewer</title>
   <style>
-    :root{
-      --bg:#0f172a;
-      --panel:#111a2e;
-      --ink:#e5eefc;
-      --muted:#a7b3cc;
-      --orange:#f59e0b;
-      --orange-ink:#0b0f19;
-      --ring:rgba(245,158,11,.25);
-      --radius:16px;
-      --serif: ui-serif, Georgia, "Times New Roman", serif;
+    body {
+      background: #0f172a;
+      color: #e5eefc;
+      font-family: system-ui, sans-serif;
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
     }
-    body{
-      margin:0;
-      background:var(--bg);
-      color:var(--ink);
-      font: 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
-    }
-    .wrap{ max-width:1100px; margin:0 auto; padding:0 1.2rem }
-    .post{ background:var(--panel); border:1px solid rgba(255,255,255,.06); border-radius:18px; padding:1.1rem 1.25rem; margin:2rem 0; }
-    .post h1{ color:var(--orange); }
-    .post p{ color:var(--muted); }
-    .stats{ font-style:italic; }
+    h1 { color: #f59e0b; }
+    a { color: #f59e0b; }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <article class="post">
-      <h1 id="post-title">Loading...</h1>
-      <p id="post-content">Content will appear here based on the URL.</p>
-      <p class="stats" id="post-stats">Likes: 0 | Views: 0</p>
-    </article>
-  </div>
+  <h1>Loading post…</h1>
+  <div id="content">Please wait.</div>
 
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
-    let allPosts = [];
-    const urlParams = new URLSearchParams(window.location.search);
-    const file = urlParams.get('file');
-    const postTitle = document.getElementById('post-title');
-    const postContent = document.getElementById('post-content');
-    const postStats = document.getElementById('post-stats');
+    const params = new URLSearchParams(location.search);
+    const file = params.get('file');
 
-    async function loadPosts(){
-      try{
-        const url = new URL('./posts.json', location.origin); // Explicit relative path
-        url.searchParams.set('v','12'); // Bumped version
-        const res = await fetch(url.toString(), { cache:'no-store' });
-        if(!res.ok) throw new Error(`HTTP ${res.status}: posts.json not found at ${url}`);
-        const data = await res.json();
-        if(!Array.isArray(data)) throw new Error('posts.json must be an array');
-        allPosts = data;
-        displayPost();
-      }catch(err){
-        postTitle.textContent = "Error";
-        postContent.textContent = `Couldn't load posts. (${String(err.message)})`;
-        postStats.textContent = "";
-        console.error(err);
-      }
+    if (!file) {
+      document.getElementById('content').innerHTML = "<p>No file specified.</p>";
+    } else {
+      fetch('posts/' + file)
+        .then(res => {
+          if (!res.ok) throw new Error("File not found");
+          return res.text();
+        })
+        .then(md => {
+          document.querySelector('h1').textContent = file.replace('.md', '').replace(/-/g, ' ');
+          document.getElementById('content').innerHTML = marked.parse(md);
+        })
+        .catch(err => {
+          document.getElementById('content').innerHTML = `<p style="color:#ffbdf2">Error: ${err.message}</p>`;
+        });
     }
-
-    function displayPost(){
-      const post = allPosts.find(p => p.file === file);
-      if(post){
-        postTitle.textContent = post.title;
-        postContent.textContent = post.content;
-        postStats.textContent = `Likes: ${post.likes} | Views: ${post.views}K`;
-      } else {
-        postTitle.textContent = "Post Not Found";
-        postContent.textContent = "Sorry, this post doesn't exist yet.";
-        postStats.textContent = "";
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', loadPosts);
   </script>
 </body>
 </html>
