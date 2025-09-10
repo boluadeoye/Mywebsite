@@ -3,99 +3,174 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reading Page</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+  <title>Boluadeoye — Post</title>
   <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111a2e;
+      --ink: #e5eefc;
+      --muted: #a7b3cc;
+      --orange: #f59e0b;
+      --orange-dark: #be7102;
+      --radius: 18px;
+      --ring: 0 2px 12px rgba(0,0,0,.18);
+      --serif: ui-serif, Georgia, "Times New Roman", serif;
+    }
+    html, body { height: 100%; }
     body {
-      font-family: 'Merriweather', serif;
-      background-color: #fefcf8;
-      color: #2a2a2a;
       margin: 0;
-      padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 17px/1.7 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .profile-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem auto 2rem auto;
+      max-width: 700px;
+      background: var(--panel);
+      border-radius: var(--radius);
+      padding: 1.3rem 1.5rem;
+      box-shadow: var(--ring);
+    }
+    .profile-img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2.5px solid var(--orange);
+      background: #222;
+    }
+    .profile-name {
+      font-size: 1.28rem;
+      font-weight: 700;
+      color: var(--ink);
+      font-family: var(--serif);
+      margin: 0;
     }
 
-    .container {
-      max-width: 680px;
-      margin: auto;
-      padding: 1.5rem;
+    .post-card {
+      background: var(--panel);
+      border-radius: var(--radius);
+      max-width: 700px;
+      margin: 0 auto 2.1rem auto;
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      box-shadow: var(--ring);
     }
-
-    h1 {
-      font-family: 'Playfair Display', serif;
+    .post-card p {
+      color: var(--ink);
+      margin-top: 0.6rem;
+      margin-bottom: 1.2rem;
+      font-size: 1.08rem;
+    }
+    .quote-box {
+      background: rgba(245,158,11,.10);
+      border-left: 4px solid var(--orange);
+      border-radius: 12px;
+      padding: 1.1rem 1.1rem 1.1rem 1.2rem;
+      margin: 2.2rem 0;
+      color: var(--muted);
+      font-style: italic;
+      font-size: 1rem;
+    }
+    .post-title {
+      font-family: var(--serif);
+      font-weight: 700;
+      color: var(--orange);
       font-size: 2rem;
-      margin-bottom: 0.4rem;
-      color: #1a1a1a;
+      margin-bottom: 0.3rem;
+      margin-top: 0;
     }
-
     .meta {
-      font-size: 0.85rem;
-      color: #777;
+      font-size: 0.98rem;
+      color: var(--muted);
       margin-bottom: 2rem;
     }
-
-    #post-content p {
-      line-height: 1.7;
-      margin-bottom: 1.2rem;
+    .button-row {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      align-items: stretch;
+      margin-top: 2.5rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
     }
-
-    .quote-box {
-      background-color: #f4f9ff;
-      border-left: 4px solid #005fa3;
-      padding: 1rem;
-      margin: 2rem 0;
-      font-style: italic;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-
-    .back-button {
-      display: inline-block;
-      margin-top: 2rem;
-      font-size: 0.85rem;
+    .main-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4em;
+      background: var(--orange);
+      color: var(--orange-dark);
+      font-weight: 700;
+      border: none;
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      font-size: 1.08rem;
       text-decoration: none;
-      color: #005fa3;
-      font-weight: bold;
-      padding: 0.3rem 0.5rem;
-      border-radius: 4px;
-      transition: background 0.2s ease;
+      cursor: pointer;
+      box-shadow: 0 2px 14px var(--orange-dark, #be7102, .1);
+      transition: background 0.15s, color 0.2s;
+      font-family: inherit;
     }
-
-    .back-button::before {
-      content: "← ";
+    .main-btn:hover {
+      background: #ffb94b;
+      color: #000;
     }
-
-    .back-button:hover {
-      background-color: #e6f2ff;
+    @media (max-width: 800px) {
+      .profile-card, .post-card, .button-row {
+        max-width: 97vw;
+        padding-left: 0.9rem;
+        padding-right: 0.9rem;
+      }
+      .post-card { padding: 1.2rem 0.9rem 1rem 0.9rem; }
     }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <h1 id="post-title">Loading post…</h1>
-    <div class="meta">By Boluadeoye · <span id="post-date">September 10, 2025</span></div>
-    <div id="post-content">Loading content…</div>
-    <a href="index.html" class="back-button">Back to writings</a>
+  <div class="profile-card">
+    <img class="profile-img" src="images/bolu.jpg" alt="Boluadeoye">
+    <div>
+      <div class="profile-name">Boluadeoye</div>
+    </div>
   </div>
-
+  <div class="post-card">
+    <h1 class="post-title" id="post-title">Loading post…</h1>
+    <div class="meta">By Boluadeoye · <span id="post-date">2025-09-10</span></div>
+    <div id="post-content">Loading content…</div>
+  </div>
+  <div class="button-row">
+    <a href="index.html" class="main-btn">← Back to Latest</a>
+    <a href="index.html#latest" class="main-btn" style="background:transparent;border:2px solid var(--orange);color:var(--orange);">More Posts</a>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
+    // Load the post content from markdown
     const params = new URLSearchParams(window.location.search);
     const file = params.get('file');
-
     if (file) {
-      document.getElementById('post-title').textContent = file.replace('.md', '').replace(/-/g, ' ');
+      document.getElementById('post-title').textContent = file.replace('.md', '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
       fetch('posts/' + file)
         .then(res => {
           if (!res.ok) throw new Error('File not found');
           return res.text();
         })
         .then(text => {
-          document.getElementById('post-content').innerHTML = marked.parse(text);
+          // Replace blockquotes with modern quote styling
+          let html = marked.parse(text);
+          html = html.replace(/<blockquote>/g, '<div class="quote-box">').replace(/<\/blockquote>/g, '</div>');
+          document.getElementById('post-content').innerHTML = html;
         })
         .catch(err => {
-          document.getElementById('post-content').innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
+          document.getElementById('post-content').innerHTML = `<p style="color:var(--orange);">Error: ${err.message}</p>`;
         });
     } else {
-      document.getElementById('post-content').innerHTML = `<p style="color:red;">No file specified.</p>`;
+      document.getElementById('post-content').innerHTML = `<p style="color:var(--orange);">No file specified.</p>`;
     }
   </script>
 </body>
