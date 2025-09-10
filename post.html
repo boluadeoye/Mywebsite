@@ -3,44 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Post Viewer</title>
+  <title>Reading Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      background: #0f172a;
-      color: #e5eefc;
-      font-family: system-ui, sans-serif;
-      padding: 2rem;
-      max-width: 800px;
-      margin: auto;
+      font-family: 'Inter', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
     }
-    h1 { color: #f59e0b; }
-    a { color: #f59e0b; }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #222;
+      margin-bottom: 0.5rem;
+    }
+
+    .meta {
+      font-size: 0.9rem;
+      color: #777;
+      margin-bottom: 2rem;
+    }
+
+    .quote-box {
+      background-color: #e0f0ff;
+      border-left: 4px solid #007acc;
+      padding: 1rem;
+      margin: 2rem 0;
+      font-style: italic;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .back-button {
+      display: inline-block;
+      margin-top: 2rem;
+      text-decoration: none;
+      color: #007acc;
+      font-weight: bold;
+    }
+
+    .back-button:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-  <h1>Loading post…</h1>
-  <div id="content">Please wait.</div>
+  <div class="container">
+    <h1 id="post-title">Loading post…</h1>
+    <div class="meta">By Boluadeoye · <span id="post-date">September 10, 2025</span></div>
+    <div id="post-content">Loading content…</div>
+    <a href="index.html" class="back-button">← Back to writings</a>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
-    const params = new URLSearchParams(location.search);
+    const params = new URLSearchParams(window.location.search);
     const file = params.get('file');
 
-    if (!file) {
-      document.getElementById('content').innerHTML = "<p>No file specified.</p>";
-    } else {
+    if (file) {
+      document.getElementById('post-title').textContent = file.replace('.md', '').replace(/-/g, ' ');
       fetch('posts/' + file)
         .then(res => {
-          if (!res.ok) throw new Error("File not found");
+          if (!res.ok) throw new Error('File not found');
           return res.text();
         })
-        .then(md => {
-          document.querySelector('h1').textContent = file.replace('.md', '').replace(/-/g, ' ');
-          document.getElementById('content').innerHTML = marked.parse(md);
+        .then(text => {
+          document.getElementById('post-content').innerHTML = marked.parse(text);
         })
         .catch(err => {
-          document.getElementById('content').innerHTML = `<p style="color:#ffbdf2">Error: ${err.message}</p>`;
+          document.getElementById('post-content').innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
         });
+    } else {
+      document.getElementById('post-content').innerHTML = `<p style="color:red;">No file specified.</p>`;
     }
   </script>
 </body>
