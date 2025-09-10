@@ -4,178 +4,129 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Boluadeoye — Post</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f172a;
-      --card-bg: #171f33;
-      --ink: #e5eefc;
-      --muted: #a7b3cc;
-      --orange: #f59e0b;
-      --orange-outline: #f59e0b;
-      --radius: 30px;
-      --border: 2px solid rgba(245,158,11,0.19);
-      --chip-radius: 999px;
-      --serif: 'Playfair Display', ui-serif, Georgia, serif;
+      --bg: #10182a;
+      --card-bg: #19213b;
+      --ink: #e8ebf2;
+      --muted: #9dabc6;
+      --orange: #f5b041;
+      --orange-dark: #f59e0b;
+      --radius: 20px;
+      --shadow: 0 6px 24px 0 rgba(245,158,11,0.11), 0 2px 8px 0 rgba(0,0,0,0.10);
+      --serif: 'Playfair Display', serif;
+      --sans: 'Inter', system-ui, sans-serif;
     }
     html, body {
-      height: 100%;
       margin: 0;
       padding: 0;
       background: var(--bg);
       color: var(--ink);
-      font-family: var(--serif);
-      font-size: 1.04rem;
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      font-family: var(--sans);
+      font-size: 1.08rem;
+      min-height: 100vh;
     }
-    .post-card {
+    .container {
+      max-width: 540px;
+      margin: 2.3rem auto 2.5rem auto;
       background: var(--card-bg);
-      border: var(--border);
       border-radius: var(--radius);
-      max-width: 730px;
-      margin: 2.1rem auto 2.5rem auto;
-      padding: 2.2rem 1.5rem 2.5rem 1.5rem;
-      box-shadow: 0 6px 36px 0 rgba(245,158,11,0.07), 0 1.5px 12px 0 rgba(0,0,0,0.08);
+      padding: 2.3rem 1.3rem 2.5rem 1.3rem;
+      box-shadow: var(--shadow);
       display: flex;
       flex-direction: column;
       align-items: center;
       position: relative;
     }
-    .chip {
-      display: inline-block;
-      padding: 0.26em 1.1em;
-      border-radius: var(--chip-radius);
-      font-size: 1em;
+    .author-name {
+      font-family: var(--serif);
+      font-size: 1.37rem;
       font-weight: 700;
-      background: rgba(245,158,11,0.11);
-      color: var(--orange);
-      border: none;
-      outline: none;
-      margin-bottom: 1.4rem;
-      margin-left: 0;
-      margin-right: auto;
-      margin-top: 0;
-      box-shadow: 0 1px 5px rgba(245,158,11,0.06);
-      text-decoration: none;
-      letter-spacing: 0.02em;
-      transition: background .18s, color .18s;
-      cursor: pointer;
-      font-family: var(--serif);
-    }
-    .chip:hover {
-      background: var(--orange);
-      color: #171f33;
-    }
-    .chip-outline {
-      display: inline-block;
-      padding: 0.26em 1.3em;
-      border-radius: var(--chip-radius);
-      font-size: 1.08em;
-      font-weight: 700;
-      background: transparent;
-      color: var(--orange);
-      border: 2px solid var(--orange-outline);
-      margin: 2.1rem auto 0 auto;
-      text-align: center;
-      letter-spacing: 0.02em;
-      transition: background .18s, color .18s;
-      text-decoration: none;
-      cursor: pointer;
-      font-family: var(--serif);
-    }
-    .chip-outline:hover {
-      background: var(--orange);
-      color: #171f33;
-    }
-    .post-title {
-      font-family: var(--serif);
-      font-weight: 700;
-      color: var(--orange);
-      font-size: 2.02rem;
-      text-align: center;
-      margin: 0 0 .5rem 0;
-      letter-spacing: 0.3px;
-    }
-    .meta {
-      font-size: 1.03rem;
-      color: var(--muted);
-      text-align: center;
-      margin-bottom: 2.1rem;
-      font-family: var(--serif);
-    }
-    #post-content {
-      width: 100%;
-      max-width: 640px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    #post-content p {
       color: var(--ink);
-      margin: 1.05rem 0 1.18rem 0;
+      margin: 0 0 1.6rem 0;
       text-align: center;
-      font-size: 1.09rem;
-      font-family: var(--serif);
-      font-weight: 500;
-      letter-spacing: 0.01em;
+      letter-spacing: 0.02em;
+    }
+    .post-content {
+      font-family: var(--sans);
+      font-size: 1.07rem;
+      color: var(--ink);
+      text-align: left;
+      line-height: 1.76;
+      margin-bottom: 2.1rem;
+      width: 100%;
     }
     .quote-box {
-      background: rgba(245,158,11,0.07);
-      border-radius: 15px;
-      border: 1.7px solid rgba(245,158,11,0.24);
-      padding: 1.18em 1.35em;
-      margin: 2.0rem 0 2.0rem 0;
+      background: #232a3e;
+      border-radius: 13px;
+      border-left: 6px solid var(--orange);
+      padding: 1.12rem 1.2rem;
       color: var(--ink);
-      font-style: italic;
-      font-size: 1.07rem;
-      text-align: center;
-      font-family: var(--serif);
-      box-shadow: 0 2px 8px 0 rgba(245,158,11,0.04);
-      max-width: 440px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.75;
-      font-weight: 500;
+      font-size: 1.08rem;
+      font-style: normal;
+      margin: 1.6rem 0 1.7rem 0;
+      box-shadow: 0 1.5px 8px rgba(245,158,11,0.08);
+      letter-spacing: 0.01em;
     }
-    /* Responsive design */
-    @media (max-width: 800px) {
-      .post-card {
-        max-width: 97vw;
-        padding: 1.15rem 0.3rem 1.2rem 0.3rem;
-      }
-      #post-content { max-width: 97vw; }
-      .post-title { font-size: 1.15rem; }
-      .quote-box { font-size: 1.01rem; }
+    .back-btn {
+      display: inline-block;
+      background: var(--orange);
+      color: #1d2233;
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 1.08rem;
+      padding: 0.92em 1.7em;
+      border: none;
+      border-radius: 999px;
+      margin-top: 0.5rem;
+      box-shadow: 0 2px 18px 0 rgba(245,176,65,0.13);
+      text-decoration: none;
+      transition: background 0.18s, box-shadow 0.18s, color 0.18s;
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      text-align: center;
+    }
+    .back-btn:hover, .back-btn:focus {
+      background: var(--orange-dark);
+      color: #fff;
+      box-shadow: 0 4px 24px 0 rgba(245,176,65,0.28);
+    }
+    @media (max-width: 700px) {
+      .container { max-width: 97vw; padding: 1.3rem 0.4rem 1.6rem 0.4rem; }
+      .author-name { font-size: 1.05rem; margin-bottom: 1.2rem; }
+      .post-content { font-size: 0.99rem;}
+      .quote-box { font-size: 0.97rem; }
+      .back-btn { font-size: 0.99rem;}
     }
   </style>
 </head>
 <body>
-  <div class="post-card">
-    <a href="index.html" class="chip" style="align-self:flex-start; margin-bottom:1.7rem; margin-top:0;">← Back to Latest</a>
-    <h1 class="post-title" id="post-title">Loading post…</h1>
-    <div class="meta">By Boluadeoye · <span id="post-date">2025-09-10</span></div>
-    <div id="post-content">Loading content…</div>
-    <a href="index.html#latest" class="chip-outline">Read More Posts</a>
+  <div class="container">
+    <div class="author-name">Boluadeoye</div>
+    <div class="post-content" id="post-content">
+      Loading post...
+    </div>
+    <a class="back-btn" href="index.html">&#8592; Back to Latest</a>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
-    // Load the post content from markdown
+    // Fetch and render post content (from markdown)
     const params = new URLSearchParams(window.location.search);
     const file = params.get('file');
+    function renderQuoteBlocks(html) {
+      // Replace blockquotes with styled quote box
+      return html.replace(/<blockquote>/g, '<div class="quote-box">').replace(/<\/blockquote>/g, '</div>');
+    }
     if (file) {
-      document.getElementById('post-title').textContent = file.replace('.md', '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
       fetch('posts/' + file)
         .then(res => {
           if (!res.ok) throw new Error('File not found');
           return res.text();
         })
         .then(text => {
-          // Replace blockquotes with modern quote styling
           let html = marked.parse(text);
-          html = html.replace(/<blockquote>/g, '<div class="quote-box">').replace(/<\/blockquote>/g, '</div>');
+          html = renderQuoteBlocks(html);
           document.getElementById('post-content').innerHTML = html;
         })
         .catch(err => {
