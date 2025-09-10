@@ -8,13 +8,13 @@
   <style>
     :root {
       --bg: #0f172a;
-      --panel: #141a2a;
+      --card-bg: #171f33;
       --ink: #e5eefc;
       --muted: #a7b3cc;
       --orange: #f59e0b;
       --orange-outline: #f59e0b;
-      --radius: 32px;
-      --border: 1.9px solid rgba(245,158,11,0.19);
+      --radius: 30px;
+      --border: 2px solid rgba(245,158,11,0.19);
       --chip-radius: 999px;
       --serif: 'Playfair Display', ui-serif, Georgia, serif;
     }
@@ -25,19 +25,19 @@
       background: var(--bg);
       color: var(--ink);
       font-family: var(--serif);
-      font-size: 1.08rem;
+      font-size: 1.04rem;
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
     .post-card {
-      background: var(--panel);
+      background: var(--card-bg);
       border: var(--border);
       border-radius: var(--radius);
       max-width: 730px;
       margin: 2.1rem auto 2.5rem auto;
-      padding: 2.1rem 1.3rem 2.2rem 1.3rem;
-      box-shadow: 0 2px 16px rgba(0,0,0,.12);
+      padding: 2.2rem 1.5rem 2.5rem 1.5rem;
+      box-shadow: 0 6px 36px 0 rgba(245,158,11,0.07), 0 1.5px 12px 0 rgba(0,0,0,0.08);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -45,59 +45,61 @@
     }
     .chip {
       display: inline-block;
-      padding: 0.29em 1.1em;
-      border-radius: var(--chip-radius);
-      font-size: 0.95em;
-      font-weight: 700;
-      background: rgba(245,158,11,0.13);
-      color: var(--orange);
-      border: none;
-      outline: none;
-      margin-bottom: 1.2rem;
-      margin-left: 0;
-      margin-right: auto;
-      margin-top: 0;
-      box-shadow: 0 1px 5px rgba(245,158,11,0.07);
-      text-decoration: none;
-      letter-spacing: 0.01em;
-      transition: background .18s, color .18s;
-      cursor: pointer;
-    }
-    .chip:hover {
-      background: var(--orange);
-      color: #0f172a;
-    }
-    .chip-outline {
-      display: inline-block;
-      padding: 0.29em 1.2em;
+      padding: 0.26em 1.1em;
       border-radius: var(--chip-radius);
       font-size: 1em;
       font-weight: 700;
+      background: rgba(245,158,11,0.11);
+      color: var(--orange);
+      border: none;
+      outline: none;
+      margin-bottom: 1.4rem;
+      margin-left: 0;
+      margin-right: auto;
+      margin-top: 0;
+      box-shadow: 0 1px 5px rgba(245,158,11,0.06);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: background .18s, color .18s;
+      cursor: pointer;
+      font-family: var(--serif);
+    }
+    .chip:hover {
+      background: var(--orange);
+      color: #171f33;
+    }
+    .chip-outline {
+      display: inline-block;
+      padding: 0.26em 1.3em;
+      border-radius: var(--chip-radius);
+      font-size: 1.08em;
+      font-weight: 700;
       background: transparent;
       color: var(--orange);
-      border: 1.7px solid var(--orange-outline);
+      border: 2px solid var(--orange-outline);
       margin: 2.1rem auto 0 auto;
       text-align: center;
-      letter-spacing: 0.01em;
+      letter-spacing: 0.02em;
       transition: background .18s, color .18s;
       text-decoration: none;
       cursor: pointer;
+      font-family: var(--serif);
     }
     .chip-outline:hover {
       background: var(--orange);
-      color: #0f172a;
+      color: #171f33;
     }
     .post-title {
       font-family: var(--serif);
       font-weight: 700;
       color: var(--orange);
-      font-size: 2.05rem;
+      font-size: 2.02rem;
       text-align: center;
       margin: 0 0 .5rem 0;
       letter-spacing: 0.3px;
     }
     .meta {
-      font-size: 1.01rem;
+      font-size: 1.03rem;
       color: var(--muted);
       text-align: center;
       margin-bottom: 2.1rem;
@@ -113,45 +115,46 @@
     }
     #post-content p {
       color: var(--ink);
-      margin: 0.9rem 0 1.15rem 0;
+      margin: 1.05rem 0 1.18rem 0;
       text-align: center;
-      font-size: 1.13rem;
+      font-size: 1.09rem;
       font-family: var(--serif);
       font-weight: 500;
       letter-spacing: 0.01em;
     }
     .quote-box {
-      background: rgba(245,158,11,0.06);
-      border-radius: 18px;
-      border: 1.5px solid rgba(245,158,11,0.22);
-      padding: 1.25em 1.4em;
+      background: rgba(245,158,11,0.07);
+      border-radius: 15px;
+      border: 1.7px solid rgba(245,158,11,0.24);
+      padding: 1.18em 1.35em;
       margin: 2.0rem 0 2.0rem 0;
       color: var(--ink);
       font-style: italic;
-      font-size: 1.12rem;
+      font-size: 1.07rem;
       text-align: center;
       font-family: var(--serif);
-      box-shadow: 0 2px 8px 0 rgba(245,158,11,0.07);
+      box-shadow: 0 2px 8px 0 rgba(245,158,11,0.04);
       max-width: 440px;
       margin-left: auto;
       margin-right: auto;
       line-height: 1.75;
+      font-weight: 500;
     }
     /* Responsive design */
     @media (max-width: 800px) {
       .post-card {
-        max-width: 99vw;
-        padding: 1.2rem 0.3rem 1.3rem 0.3rem;
+        max-width: 97vw;
+        padding: 1.15rem 0.3rem 1.2rem 0.3rem;
       }
       #post-content { max-width: 97vw; }
-      .post-title { font-size: 1.23rem; }
-      .quote-box { font-size: 1.02rem; }
+      .post-title { font-size: 1.15rem; }
+      .quote-box { font-size: 1.01rem; }
     }
   </style>
 </head>
 <body>
   <div class="post-card">
-    <a href="index.html" class="chip" style="align-self:flex-start; margin-bottom:1.9rem; margin-top:0;">← Back to Latest</a>
+    <a href="index.html" class="chip" style="align-self:flex-start; margin-bottom:1.7rem; margin-top:0;">← Back to Latest</a>
     <h1 class="post-title" id="post-title">Loading post…</h1>
     <div class="meta">By Boluadeoye · <span id="post-date">2025-09-10</span></div>
     <div id="post-content">Loading content…</div>
