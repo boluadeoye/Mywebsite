@@ -50,31 +50,33 @@
     .side-menu.active { left: 0 }
     .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .55); z-index: 40; display: none; }
     .overlay.show { display: block }
-    .hero { padding: 2.2rem 0 1rem }
+    .hero { padding: 2.2rem 0 1rem; position: relative; }
+    .hero::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(to right, transparent, rgba(245, 158, 11, .3), transparent); }
     .hero h2 { font-family: var(--serif); font-weight: 900; line-height: 1.08; margin: .25rem 0 1rem 0; font-size: clamp(2.2rem, 3.8vw, 3.4rem); }
     .accent { color: var(--orange) }
     .sub { color: var(--muted); max-width: 60ch; margin: 0 0 1rem }
-    h3.section-title { font-size: clamp(1.4rem, 2.4vw, 2rem); margin: 2.2rem 0 1rem; }
-    #posts { display: grid; gap: 1.5rem; margin-bottom: 2rem; }
-    .post { background: var(--panel); border: 1px solid rgba(255, 255, 255, .06); border-radius: 18px; padding: 1.5rem; transition: transform .2s ease, box-shadow .2s ease; }
-    .post:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(245, 158, 11, .1); }
-    .post h3 { margin: 1rem 0 .35rem; font-size: 1.25rem }
+    h3.section-title { font-size: clamp(1.4rem, 2.4vw, 2rem); margin: 2.2rem 0 1rem; font-family: var(--serif); }
+    #posts { display: flex; flex-direction: column; gap: 2rem; margin-bottom: 2rem; }
+    .post { background: linear-gradient(135deg, var(--panel), rgba(245, 158, 11, .05)); border: 1px solid rgba(255, 255, 255, .06); border-radius: var(--radius); padding: 1.5rem; transition: transform .3s ease, box-shadow .3s ease; }
+    .post:hover { transform: translateY(-8px); box-shadow: 0 8px 24px rgba(245, 158, 11, .2); }
+    .post h3 { margin: 0 0 .5rem; font-size: 1.5rem; font-family: var(--serif); }
     .post h3 a { color: var(--ink); }
     .post h3 a:hover { color: var(--orange); }
-    .post small { color: var(--muted) }
-    .post p { color: var(--muted); margin: .5rem 0 0 }
-    .post .stats { font-style: italic; }
-    .post-buttons { display: flex; gap: 1rem; margin-top: 1rem; }
-    .btn-back { display: inline-flex; align-items: center; gap: .5rem; padding: .5rem 1rem; border: 1px solid rgba(255, 255, 255, .06); border-radius: 18px; background: var(--panel); color: var(--ink); font-weight: 600; transition: background .3s ease; }
-    .btn-back:hover { background: rgba(255, 255, 255, .05); }
-    .btn-readmore { padding: .5rem 1.25rem; border-radius: 18px; background: var(--orange); color: var(--orange-ink); font-weight: 600; transition: background .3s ease; }
+    .post small { color: var(--muted); font-size: .9rem; }
+    .post .stats { font-style: italic; font-size: .85rem; }
+    .post-buttons { display: flex; gap: 1rem; margin-top: 1.5rem; }
+    .btn-back { display: inline-flex; align-items: center; gap: .5rem; padding: .6rem 1.2rem; border: 1px solid rgba(255, 255, 255, .06); border-radius: 18px; background: var(--panel); color: var(--ink); font-weight: 600; transition: background .3s ease; }
+    .btn-back:hover { background: rgba(255, 255, 255, .08); }
+    .btn-readmore { padding: .6rem 1.4rem; border-radius: 18px; background: var(--orange); color: var(--orange-ink); font-weight: 600; transition: background .3s ease; }
     .btn-readmore:hover { background: #feb47b; }
+    .quote-box { margin: 1rem 0; padding: 1.2rem; border: 1px solid rgba(245, 158, 11, .2); border-radius: var(--radius); background: rgba(245, 158, 11, .1); box-shadow: 0 4px 12px rgba(0, 0, 0, .1); font-style: italic; font-family: var(--serif); font-size: 1.1rem; color: var(--ink); position: relative; }
+    .quote-box::before { content: '"'; color: var(--orange); font-size: 1.5rem; position: absolute; top: .5rem; left: .5rem; }
     .pagination { display: flex; justify-content: center; gap: 1rem; margin: 2rem 0; }
     .pagination a { padding: .75rem 1.25rem; border: 1px solid rgba(255, 255, 255, .06); border-radius: 18px; background: var(--panel); color: var(--ink); text-decoration: none; }
     .pagination a:hover { background: rgba(245, 158, 11, .1); }
     footer { color: var(--muted); border-top: 1px solid rgba(255, 255, 255, .06); text-align: center; font-size: .85rem; padding: 2rem 0 1.5rem; margin-top: 1rem; }
     @media (min-width: 880px) { .top-nav { display: flex } .hamburger { display: none } .header-row { justify-content: space-between; } .search-bar { margin-right: 1rem; } }
-    @media (min-width: 680px) { #posts { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); } }
+    @media (min-width: 680px) { #posts { flex-direction: row; flex-wrap: wrap; gap: 1.5rem; } .post { width: calc(50% - .75rem); } }
   </style>
 </head>
 <body>
@@ -176,7 +178,7 @@
         <article class="post">
           <h3><a href="post.html?file=${encodeURIComponent(p.file)}">${p.title}</a></h3>
           <small>${p.date}</small>
-          <p>${p.excerpt}</p>
+          <div class="quote-box">${p.excerpt}</div>
           <p class="stats">Likes: ${p.likes} | Views: ${p.views}K</p>
           <div class="post-buttons">
             <a href="./" class="btn-back">← Back to Latest</a>
@@ -221,4 +223,4 @@
     document.addEventListener('DOMContentLoaded', loadPosts);
   </script>
 </body>
-  </html>
+</html>
