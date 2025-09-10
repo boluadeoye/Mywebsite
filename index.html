@@ -44,7 +44,7 @@
       overflow-x: hidden;
     }
     
-    /* Animated Background */
+    /* Subtle Background */
     body::before {
       content: '';
       position: fixed;
@@ -53,8 +53,8 @@
       width: 100%;
       height: 100%;
       background: 
-        radial-gradient(circle at 20% 50%, rgba(245, 158, 11, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.04) 0%, transparent 40%);
+        radial-gradient(circle at 20% 50%, rgba(245, 158, 11, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.02) 0%, transparent 40%);
       pointer-events: none;
       z-index: 0;
     }
@@ -72,14 +72,14 @@
     }
     
     .wrap { 
-      max-width: 1200px; 
+      max-width: 1100px; 
       margin: 0 auto; 
-      padding: 0 1.5rem;
+      padding: 0 1.2rem;
       position: relative;
       z-index: 1;
     }
     
-    /* ========== HEADER ========== */
+    /* ========== STREAMLINED HEADER ========== */
     header { 
       position: sticky;
       top: 0;
@@ -94,14 +94,14 @@
       display: flex; 
       align-items: center; 
       justify-content: space-between; 
-      min-height: 72px;
-      gap: 2rem;
+      min-height: 64px;  /* Reduced from 72px */
+      gap: 1.5rem;
     }
     
     .brand { 
       display: flex; 
       align-items: center; 
-      gap: 0.75rem;
+      gap: 0.6rem;
       flex-shrink: 0;
     }
     
@@ -110,27 +110,27 @@
     }
     
     .brand .dot { 
-      width: 36px; 
-      height: 36px; 
+      width: 32px;  /* Reduced from 36px */
+      height: 32px; 
       border-radius: 50%; 
       background: radial-gradient(circle at 30% 30%, #ffd27a 0%, #f59e0b 40%, #d97706 100%);
       box-shadow: 
-        0 0 0 3px rgba(245, 158, 11, .12),
-        0 4px 20px rgba(245, 158, 11, .3);
+        0 0 0 2px rgba(245, 158, 11, .12),
+        0 4px 15px rgba(245, 158, 11, .25);
       transition: transform 0.6s var(--transition);
     }
     
     .brand h1 { 
-      font-size: 1.4rem; 
+      font-size: 1.25rem;  /* Reduced from 1.4rem */
       font-weight: 800; 
       color: var(--ink); 
       letter-spacing: -0.5px;
     }
     
-    /* Search Bar */
+    /* Search Bar - Simplified */
     .search-container {
       flex: 1;
-      max-width: 420px;
+      max-width: 380px;
       position: relative;
     }
     
@@ -141,12 +141,12 @@
     
     .search-bar input { 
       width: 100%; 
-      padding: 0.75rem 3rem 0.75rem 1.25rem;
-      border: 2px solid rgba(255, 255, 255, .08);
+      padding: 0.6rem 2.5rem 0.6rem 1rem;  /* Reduced padding */
+      border: 1px solid rgba(255, 255, 255, .08);
       border-radius: 999px;
       background: rgba(255, 255, 255, .03);
       color: var(--ink);
-      font-size: 0.95rem;
+      font-size: 0.9rem;  /* Smaller font */
       outline: none;
       transition: all 0.3s var(--transition);
     }
@@ -158,38 +158,30 @@
     .search-bar input:focus { 
       border-color: var(--orange);
       background: rgba(245, 158, 11, .05);
-      box-shadow: 
-        0 0 0 4px var(--ring),
-        0 10px 40px rgba(245, 158, 11, .1);
+      box-shadow: 0 0 0 3px var(--ring);
     }
     
     .search-icon { 
       position: absolute; 
-      right: 18px; 
+      right: 15px; 
       top: 50%; 
       transform: translateY(-50%);
       color: var(--muted);
       pointer-events: none;
-      transition: all 0.3s ease;
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
     
-    .search-bar input:focus ~ .search-icon {
-      color: var(--orange);
-      transform: translateY(-50%) scale(1.1);
-    }
-    
-    /* Search Results */
+    /* Search Results - Cleaner */
     .search-results {
       position: absolute;
-      top: calc(100% + 10px);
+      top: calc(100% + 8px);
       left: 0;
       right: 0;
       background: var(--panel);
-      border-radius: var(--radius);
+      border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, .08);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, .4);
-      max-height: 400px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, .3);
+      max-height: 350px;
       overflow-y: auto;
       display: none;
       z-index: 50;
@@ -197,22 +189,10 @@
     
     .search-results.active {
       display: block;
-      animation: slideDown 0.3s ease;
-    }
-    
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
     
     .search-result-item {
-      padding: 1rem 1.25rem;
+      padding: 0.8rem 1rem;
       border-bottom: 1px solid rgba(255, 255, 255, .05);
       cursor: pointer;
       transition: all 0.2s ease;
@@ -221,54 +201,54 @@
     
     .search-result-item:hover {
       background: rgba(245, 158, 11, .1);
-      padding-left: 1.5rem;
+      padding-left: 1.25rem;
     }
     
     .search-result-title {
       font-weight: 600;
       color: var(--ink);
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.2rem;
+      font-size: 0.9rem;
     }
     
     .search-result-excerpt {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: var(--muted);
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
       overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     
-    /* Navigation */
+    /* Navigation - Compact */
     .top-nav { 
       display: none;
-      gap: 0.5rem;
+      gap: 0.4rem;
       align-items: center;
     }
     
     .top-nav a { 
-      padding: 0.5rem 1rem;
+      padding: 0.4rem 0.8rem;
       border-radius: 999px;
       color: var(--ink);
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       transition: all 0.3s ease;
-      position: relative;
     }
     
     .top-nav a:hover,
     .top-nav a.active {
       color: var(--orange);
+      background: rgba(245, 158, 11, .1);
     }
     
-    /* Hamburger */
+    /* Hamburger - Smaller */
     .hamburger { 
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 12px;
+      border-radius: 10px;
       background: rgba(255, 255, 255, .03);
       border: 1px solid rgba(255, 255, 255, .08);
       color: var(--ink);
@@ -282,8 +262,8 @@
     }
     
     .hamburger svg { 
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
     }
     
     /* Side Menu */
@@ -297,7 +277,7 @@
       padding: 2rem 1rem;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.5rem;
       background: linear-gradient(135deg, var(--panel) 0%, rgba(17, 26, 46, 0.98) 100%);
       box-shadow: 2px 0 20px rgba(0, 0, 0, .5);
       transition: left 0.3s var(--transition);
@@ -308,20 +288,22 @@
     }
     
     .side-menu a { 
-      padding: 1rem 1.25rem;
-      border-radius: 12px;
+      padding: 0.85rem 1.15rem;
+      border-radius: 10px;
       background: rgba(255, 255, 255, .03);
       color: var(--ink);
       font-weight: 600;
+      font-size: 0.9rem;
       border: 1px solid rgba(255, 255, 255, .06);
       transition: all 0.3s ease;
+      cursor: pointer;
     }
     
     .side-menu a:hover,
     .side-menu a.active {
       background: rgba(245, 158, 11, .15);
       border-color: var(--orange);
-      transform: translateX(10px);
+      transform: translateX(8px);
       color: var(--orange);
     }
     
@@ -339,28 +321,26 @@
       display: block;
     }
     
-    /* ========== HERO SECTION ========== */
+    /* ========== CLEANER HERO SECTION ========== */
     .hero { 
-      padding: 3rem 0 2rem;
+      padding: 2.5rem 0 2rem;  /* Reduced padding */
       position: relative;
     }
     
     .hero-split { 
       display: grid;
       align-items: center;
-      gap: 4rem;
-      grid-template-columns: 420px 1fr;
+      gap: 3rem;  /* Reduced from 4rem */
+      grid-template-columns: 380px 1fr;  /* Smaller image */
     }
     
     .hero-photo { 
       position: relative;
-      background: linear-gradient(135deg, rgba(245, 158, 11, .1), rgba(245, 158, 11, .05));
-      border: 2px solid rgba(245, 158, 11, .2);
-      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, .08), rgba(245, 158, 11, .03));
+      border: 1px solid rgba(245, 158, 11, .15);
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 
-        0 20px 60px rgba(0, 0, 0, .3),
-        0 0 60px rgba(245, 158, 11, .1);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, .25);
     }
     
     .hero-photo img { 
@@ -372,25 +352,25 @@
     .chip { 
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.6rem 1.25rem;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem;  /* Smaller padding */
       border-radius: 999px;
-      background: linear-gradient(135deg, rgba(245, 158, 11, .15), rgba(245, 158, 11, .05));
+      background: linear-gradient(135deg, rgba(245, 158, 11, .12), rgba(245, 158, 11, .05));
       color: var(--orange);
-      border: 1px solid rgba(245, 158, 11, .3);
-      font-weight: 700;
-      font-size: 0.9rem;
-      letter-spacing: 0.5px;
+      border: 1px solid rgba(245, 158, 11, .25);
+      font-weight: 600;
+      font-size: 0.8rem;  /* Smaller font */
+      letter-spacing: 0.3px;
       text-transform: uppercase;
     }
     
     .hero h2 { 
       font-family: var(--serif);
       font-weight: 900;
-      line-height: 1.1;
-      margin: 1.5rem 0 1.25rem 0;
-      font-size: clamp(2.5rem, 4.5vw, 3.75rem);
-      letter-spacing: -1px;
+      line-height: 1.15;
+      margin: 1.2rem 0 1rem 0;
+      font-size: clamp(2rem, 3.6vw, 3rem);  /* Reduced by 20% from 2.5rem/4.5vw/3.75rem */
+      letter-spacing: -0.5px;
     }
     
     .accent { 
@@ -402,46 +382,47 @@
     
     .sub { 
       color: var(--muted);
-      font-size: 1.125rem;
-      line-height: 1.7;
-      max-width: 90%;
-      margin: 0 0 2rem;
+      font-size: 1.05rem;  /* Slightly smaller */
+      line-height: 1.6;
+      max-width: 100%;  /* Full width */
+      margin: 0 0 1.5rem;
+      text-align: left;  /* Will be centered on mobile */
     }
     
     .btn { 
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 1rem 2rem;
+      gap: 0.4rem;
+      padding: 0.85rem 1.75rem;  /* Smaller button */
       border-radius: 999px;
       background: linear-gradient(135deg, var(--orange), var(--orange-light));
       color: var(--orange-ink);
       font-weight: 700;
-      font-size: 1rem;
-      box-shadow: 0 10px 30px rgba(245, 158, 11, .3);
+      font-size: 0.95rem;
+      box-shadow: 0 8px 25px rgba(245, 158, 11, .25);
       transition: all 0.3s var(--transition);
     }
     
     .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 40px rgba(245, 158, 11, .4);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(245, 158, 11, .35);
     }
     
-    /* ========== POSTS SECTION ========== */
+    /* ========== POSTS SECTION - CLEANER ========== */
     .section-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 4rem 0 2rem;
+      margin: 3rem 0 1.5rem;  /* Reduced margins */
     }
     
     h3.section-title { 
-      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-size: clamp(1.5rem, 2.5vw, 2rem);  /* Smaller title */
       font-family: var(--serif);
       font-weight: 800;
       color: var(--ink);
       position: relative;
-      padding-left: 1.5rem;
+      padding-left: 1.25rem;
     }
     
     h3.section-title::before {
@@ -450,7 +431,7 @@
       left: 0;
       top: 50%;
       transform: translateY(-50%);
-      width: 4px;
+      width: 3px;
       height: 70%;
       background: linear-gradient(180deg, var(--orange), var(--orange-light));
       border-radius: 2px;
@@ -459,36 +440,37 @@
     .view-all-link {
       color: var(--orange);
       font-weight: 600;
+      font-size: 0.9rem;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
+      gap: 0.4rem;
+      padding: 0.4rem 0.9rem;
       border-radius: 999px;
-      background: rgba(245, 158, 11, .1);
-      border: 1px solid rgba(245, 158, 11, .2);
+      background: rgba(245, 158, 11, .08);
+      border: 1px solid rgba(245, 158, 11, .15);
       transition: all 0.3s ease;
     }
     
     .view-all-link:hover {
       background: var(--orange);
       color: var(--orange-ink);
-      transform: translateX(5px);
+      transform: translateX(3px);
     }
     
     /* Posts Container */
     #posts { 
       display: grid;
-      gap: 1.5rem;
-      margin-bottom: 3rem;
+      gap: 1.25rem;  /* Reduced gap */
+      margin-bottom: 2.5rem;
       min-height: 200px;
     }
     
-    /* Post Card */
+    /* Post Card - Streamlined */
     .post { 
       background: linear-gradient(135deg, var(--panel), rgba(255, 255, 255, .02));
-      border: 1px solid rgba(255, 255, 255, .08);
-      border-radius: 20px;
-      padding: 1.75rem;
+      border: 1px solid rgba(255, 255, 255, .06);
+      border-radius: 16px;
+      padding: 1.5rem;  /* Reduced padding */
       transition: all 0.3s var(--transition);
       position: relative;
       overflow: hidden;
@@ -496,69 +478,68 @@
     }
     
     .post:hover { 
-      transform: translateY(-5px);
-      box-shadow: 
-        0 20px 40px rgba(0, 0, 0, .2),
-        0 0 40px rgba(245, 158, 11, .1);
-      border-color: rgba(245, 158, 11, .3);
+      transform: translateY(-4px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, .2);
+      border-color: rgba(245, 158, 11, .25);
     }
     
     .post-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
     }
     
     .post h3 { 
-      font-size: 1.35rem;
+      font-size: 1.2rem;  /* Smaller title */
       font-weight: 700;
-      margin: 0 0 0.5rem;
+      margin: 0 0 0.4rem;
       color: var(--ink);
       line-height: 1.3;
     }
     
     .post-type {
       display: inline-block;
-      padding: 0.25rem 0.75rem;
+      padding: 0.2rem 0.6rem;
       border-radius: 999px;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      background: rgba(245, 158, 11, .1);
+      background: rgba(245, 158, 11, .08);
       color: var(--orange);
-      border: 1px solid rgba(245, 158, 11, .2);
+      border: 1px solid rgba(245, 158, 11, .15);
     }
     
     .post-date { 
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       display: flex;
       align-items: center;
-      gap: 0.4rem;
-      margin-bottom: 0.75rem;
+      gap: 0.3rem;
+      margin-bottom: 0.6rem;
     }
     
     .post p { 
       color: rgba(229, 238, 252, 0.8);
-      line-height: 1.7;
-      margin: 0.75rem 0;
+      line-height: 1.6;
+      margin: 0.6rem 0;
+      font-size: 0.95rem;
     }
     
     .post .stats { 
       display: flex;
-      gap: 1.5rem;
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid rgba(255, 255, 255, .06);
-      font-size: 0.85rem;
+      gap: 1.25rem;
+      margin-top: 0.85rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid rgba(255, 255, 255, .05);
+      font-size: 0.8rem;
     }
     
     .stat-item {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.3rem;
       color: var(--muted);
     }
     
@@ -570,34 +551,34 @@
     /* Loading State */
     .loading {
       text-align: center;
-      padding: 3rem;
+      padding: 2.5rem;
       color: var(--muted);
     }
     
     .loading-spinner {
       display: inline-block;
-      width: 40px;
-      height: 40px;
+      width: 35px;
+      height: 35px;
       border: 3px solid rgba(245, 158, 11, .2);
       border-top-color: var(--orange);
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
     }
     
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
     
-    /* Footer */
+    /* Footer - Compact */
     footer { 
       background: var(--panel);
       color: var(--muted);
       border-top: 1px solid rgba(255, 255, 255, .06);
       text-align: center;
-      font-size: 0.9rem;
-      padding: 2.5rem 0;
-      margin-top: 4rem;
+      font-size: 0.85rem;
+      padding: 2rem 0;
+      margin-top: 3rem;
     }
     
     /* RESPONSIVE */
@@ -614,11 +595,37 @@
       .hero-split {
         grid-template-columns: 1fr;
         text-align: center;
+        gap: 2rem;
       }
       
       .hero-photo {
-        max-width: 320px;
+        max-width: 300px;
         margin: 0 auto;
+      }
+      
+      .hero h2 {
+        font-size: 1.8rem;
+      }
+      
+      .sub {
+        text-align: center;  /* Center on mobile */
+        margin: 0 auto 1.5rem;
+      }
+      
+      .chip {
+        margin: 0 auto;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .hero {
+        padding: 2rem 0 1.5rem;
+      }
+      
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
       }
     }
   </style>
@@ -626,13 +633,13 @@
 <body>
   <!-- Side Menu -->
   <nav id="sideMenu" class="side-menu">
-    <a href="#" data-filter="all" class="active">All writings</a>
-    <a href="#" data-filter="poems">Poems</a>
-    <a href="#" data-filter="stories">Stories</a>
-    <a href="#" data-filter="faith">Faith</a>
-    <a href="#" data-filter="devotional">Devotional</a>
-    <a href="#" data-filter="articles">Articles</a>
-    <a href="#" data-filter="essays">Essays</a>
+    <a href="#" data-filter="all" class="filter-link active">All writings</a>
+    <a href="#" data-filter="poems" class="filter-link">Poems</a>
+    <a href="#" data-filter="stories" class="filter-link">Stories</a>
+    <a href="#" data-filter="faith" class="filter-link">Faith</a>
+    <a href="#" data-filter="devotional" class="filter-link">Devotional</a>
+    <a href="#" data-filter="articles" class="filter-link">Articles</a>
+    <a href="#" data-filter="essays" class="filter-link">Essays</a>
     <a href="./about.html">About</a>
   </nav>
   
@@ -668,13 +675,13 @@
       </div>
       
       <nav class="top-nav">
-        <a href="#" data-filter="all" class="active">All</a>
-        <a href="#" data-filter="poems">Poems</a>
-        <a href="#" data-filter="stories">Stories</a>
-        <a href="#" data-filter="faith">Faith</a>
-        <a href="#" data-filter="devotional">Devotional</a>
-        <a href="#" data-filter="articles">Articles</a>
-        <a href="#" data-filter="essays">Essays</a>
+        <a href="#" data-filter="all" class="filter-link active">All</a>
+        <a href="#" data-filter="poems" class="filter-link">Poems</a>
+        <a href="#" data-filter="stories" class="filter-link">Stories</a>
+        <a href="#" data-filter="faith" class="filter-link">Faith</a>
+        <a href="#" data-filter="devotional" class="filter-link">Devotional</a>
+        <a href="#" data-filter="articles" class="filter-link">Articles</a>
+        <a href="#" data-filter="essays" class="filter-link">Essays</a>
         <a href="./about.html">About</a>
       </nav>
     </div>
@@ -751,68 +758,72 @@
     
     // Posts functionality
     let allPosts = [];
+    let currentFilter = 'all';
     const postsEl = document.getElementById('posts');
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
     
     // Load posts from JSON
     async function loadPosts() {
-      const postsContainer = document.getElementById('posts');
-      
       try {
-        console.log('Starting to load posts...');
-        
-        // Show loading state
-        postsContainer.innerHTML = `
-          <div class="loading">
-            <div class="loading-spinner"></div>
-            <p>Loading posts...</p>
-          </div>
-        `;
-        
-        // Fetch Posts.json
         const response = await fetch('Posts.json');
-        console.log('Fetch response:', response);
         
         if (!response.ok) {
           throw new Error(`Failed to load Posts.json (Status: ${response.status})`);
         }
         
         const posts = await response.json();
-        console.log('Posts loaded:', posts);
         
         if (!Array.isArray(posts) || posts.length === 0) {
           throw new Error('No posts found in Posts.json');
         }
         
-        // Store posts globally for search
+        // Store posts globally
         allPosts = posts.sort((a, b) => new Date(b.date) - new Date(a.date));
         
-        // Display the first 3 posts
-        displayPosts(allPosts.slice(0, 3));
+        // Display posts based on current filter
+        filterPosts(currentFilter);
         
       } catch (error) {
         console.error('Error loading posts:', error);
-        postsContainer.innerHTML = `
+        postsEl.innerHTML = `
           <div style="text-align: center; padding: 2rem; color: #ff6b6b;">
             <h3>Unable to load posts</h3>
             <p>${error.message}</p>
-            <p style="margin-top: 1rem; color: var(--muted);">
-              Make sure Posts.json exists in your project folder.
-            </p>
           </div>
         `;
       }
     }
     
+    // Filter and display posts
+    function filterPosts(filter) {
+      currentFilter = filter;
+      
+      // Update active states in all menus
+      document.querySelectorAll('.filter-link').forEach(link => {
+        if (link.getAttribute('data-filter') === filter) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+      
+      // Filter posts
+      let filtered = allPosts;
+      if (filter !== 'all') {
+        filtered = allPosts.filter(p => p.type === filter);
+      }
+      
+      // Display only first 3 posts on homepage
+      displayPosts(filtered.slice(0, 3));
+    }
+    
     // Display posts in the container
     function displayPosts(posts) {
-      const postsContainer = document.getElementById('posts');
-      
       if (!posts || posts.length === 0) {
-        postsContainer.innerHTML = `
+        postsEl.innerHTML = `
           <p style="text-align: center; color: var(--muted); padding: 2rem;">
-            No posts available.
+            No ${currentFilter === 'all' ? '' : currentFilter} posts available.
           </p>
         `;
         return;
@@ -849,28 +860,25 @@
         </article>
       `).join('');
       
-      postsContainer.innerHTML = postsHTML;
+      postsEl.innerHTML = postsHTML;
     }
     
-    // Filter functionality
-    document.querySelectorAll('[data-filter]').forEach(link => {
+    // Set up filter links (both side menu and top nav)
+    document.querySelectorAll('.filter-link').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const filter = link.getAttribute('data-filter');
         
-        // Update active states
-        document.querySelectorAll('[data-filter]').forEach(l => l.classList.remove('active'));
-        document.querySelectorAll(`[data-filter="${filter}"]`).forEach(l => l.classList.add('active'));
-        
-        // Filter and display posts
-        if (filter === 'all') {
-          displayPosts(allPosts.slice(0, 3));
-        } else {
-          const filtered = allPosts.filter(p => p.type === filter);
-          displayPosts(filtered.slice(0, 3));
+        if (filter) {
+          filterPosts(filter);
+          closeMenu();
+          
+          // Scroll to posts section
+          document.getElementById('latest').scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          });
         }
-        
-        closeMenu();
       });
     });
     
@@ -888,14 +896,15 @@
       searchTimeout = setTimeout(() => {
         const results = allPosts.filter(post => 
           post.title.toLowerCase().includes(query.toLowerCase()) ||
-          post.excerpt.toLowerCase().includes(query.toLowerCase())
+          post.excerpt.toLowerCase().includes(query.toLowerCase()) ||
+          (post.type || '').toLowerCase().includes(query.toLowerCase())
         );
         
         if (results.length > 0) {
           searchResults.innerHTML = results.slice(0, 5).map(post => `
             <a href="post.html?file=${encodeURIComponent(post.file)}" class="search-result-item">
               <div class="search-result-title">${post.title}</div>
-              <div class="search-result-excerpt">${post.excerpt.substring(0, 100)}...</div>
+              <div class="search-result-excerpt">${post.excerpt.substring(0, 80)}...</div>
             </a>
           `).join('');
           searchResults.classList.add('active');
@@ -919,10 +928,7 @@
     });
     
     // Load posts when page loads
-    document.addEventListener('DOMContentLoaded', () => {
-      console.log('Page loaded, initializing...');
-      loadPosts();
-    });
+    document.addEventListener('DOMContentLoaded', loadPosts);
   </script>
 </body>
 </html>
