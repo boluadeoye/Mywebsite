@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Post - Boluadeoye</title>
+  <base href="/Mywebsite/">
+
+  <style>
+    /* Use the same theme variables from your existing pages */
+    :root {
+      --bg: #0f172a;
+      --panel: #111a2e;
+      --ink: #e5eefc;
+      --muted: #a7b3cc;
+      --orange: #f59e0b;
+      --orange-ink: #0b0f19;
+      --ring: rgba(245, 158, 11, .25);
+      --radius: 16px;
+      --serif: ui-serif, Georgia, "Times New Roman", serif;
+    }
+    
+    * { box-sizing: border-box }
+    html, body { height: 100% }
+    
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    a { color: inherit; text-decoration: none }
+    .wrap { max-width: 800px; margin: 0 auto; padding: 0 1.2rem }
+    
+    /* Header - matching your existing style */
+    header { 
+      position: sticky; 
+      top: 0; 
+      z-index: 50; 
+      background: var(--panel); 
+      border-bottom: 1px solid rgba(255, 255, 255, .06); 
+    }
+    
+    .header-row { 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      min-height: 64px; 
+    }
+    
+    .brand { 
+      display: flex; 
+      align-items: center; 
+      gap: .5rem; 
+      text-decoration: none; 
+    }
+    
+    .brand .dot { 
+      width: 28px; 
+      height: 28px; 
+      border-radius: 50%; 
+      background: radial-gradient(65% 65% at 30% 30%, #ffd27a 0%, #f59e0b 55%, #a55e03 100%); 
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, .12), 0 6px 26px rgba(245, 158, 11, .25); 
+      flex: 0 0 28px; 
+    }
+    
+    .brand h1 { 
+      margin: 0; 
+      font-size: 1.25rem; 
+      font-weight: 700; 
+      color: var(--ink); 
+      letter-spacing: .2px; 
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    
+    .nav-links a {
+      color: var(--ink);
+      font-weight: 600;
+      opacity: 0.9;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+      color: var(--orange);
+    }
+    
+    /* Post Content Styles */
+    .post-header {
+      padding: 3rem 0 2rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, .06);
+    }
+    
+    .post-meta {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-bottom: 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    
+    .post-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin: 1rem 0;
+      color: var(--ink);
+    }
+    
+    .post-content {
+      padding: 3rem 0;
+      max-width: 65ch;
+      margin: 0 auto;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+    
+    /* Markdown content styling */
+    .post-content h1,
+    .post-content h2,
+    .post-content h3 {
+      font-family: var(--serif);
+      color: var(--orange);
+      margin: 2rem 0 1rem;
+    }
+    
+    .post-content h1 { font-size: 2rem; }
+    .post-content h2 { font-size: 1.6rem; }
+    .post-content h3 { font-size: 1.3rem; }
+    
+    .post-content p {
+      margin-bottom: 1.5rem;
+    }
+    
+    .post-content blockquote {
+      border-left: 4px solid var(--orange);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: var(--muted);
+    }
+    
+    .post-content ul, 
+    .post-content ol {
+      margin: 1.5rem 0;
+      padding-left: 2rem;
+    }
+    
+    .post-content li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .post-content code {
+      background: var(--panel);
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    
+    .post-content pre {
+      background: var(--panel);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin: 2rem 0;
+    }
+    
+    .post-content pre code {
+      background: none;
+      padding: 0;
+    }
+    
+    .post-content a {
+      color: var(--orange);
+      text-decoration: underline;
+    }
+    
+    .post-content a:hover {
+      opacity: 0.8;
+    }
+    
+    .post-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      margin: 2rem 0;
+    }
+    
+    /* Navigation buttons */
+    .post-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 2rem 0;
+      border-top: 1px solid rgba(255, 255, 255, .06);
+    }
+    
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, .06);
+      border-radius: 18px;
+      color: var(--ink);
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-back:hover {
+      background: rgba(255, 255, 255, .08);
+      transform: translateX(-5px);
+    }
+    
+    /* Loading and error states */
+    .loading, .error {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+    }
+    
+    .error {
+      color: #ff6b6b;
+    }
+    
+    /* Footer */
+    footer {
+      color: var(--muted);
+      border-top: 1px solid rgba(255, 255, 255, .06);
+      text-align: center;
+      font-size: .85rem;
+      padding: 2rem 0 1.5rem;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap header-row">
+      <a class="brand" href="./">
+        <span class="dot" aria-hidden="true"></span>
+        <h1>Boluadeoye</h1>
+      </a>
+      <nav class="nav-links">
+        <a href="./">Home</a>
+        <a href="./posts.html">All Posts</a>
+        <a href="./about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <article id="post-container">
+      <div class="loading">Loading post...</div>
+    </article>
+  </main>
+
+  <footer>
+    <div class="wrap">© Boluadeoye 2025 • All rights reserved.</div>
+  </footer>
+
+  <script>
+    // Simple markdown parser
+    function parseMarkdown(markdown) {
+      let html = markdown;
+      
+      // Headers
+      html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+      html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+      html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+      
+      // Bold
+      html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      
+      // Italic
+      html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+      
+      // Links
+      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+      
+      // Paragraphs
+      html = html.split('\n\n').map(para => {
+        if (!para.startsWith('<')) {
+          return `<p>${para}</p>`;
+        }
+        return para;
+      }).join('\n');
+      
+      // Line breaks
+      html = html.replace(/\n/g, '<br>');
+      
+      return html;
+    }
+
+    // Load and display post
+    async function loadPost() {
+      const container = document.getElementById('post-container');
+      const urlParams = new URLSearchParams(window.location.search);
+      const file = urlParams.get('file');
+      
+      if (!file) {
+        container.innerHTML = '<div class="error">No post specified. <a href="./" style="color: var(--orange);">Return home</a></div>';
+        return;
+      }
+      
+      try {
+        // First, load the posts.json to get post metadata
+        const postsRes = await fetch('Posts.json');
+        const posts = await postsRes.json();
+        const postData = posts.find(p => p.file === file);
+        
+        if (!postData) {
+          throw new Error('Post not found in database');
+        }
+        
+        // Load the markdown file
+        const mdRes = await fetch(file);
+        if (!mdRes.ok) throw new Error('Post file not found');
+        
+        const markdown = await mdRes.text();
+        const content = parseMarkdown(markdown);
+        
+        // Update page title
+        document.title = `${postData.title} - Boluadeoye`;
+        
+        // Render the post
+        container.innerHTML = `
+          <div class="post-header">
+            <div class="post-meta">
+              <span>📅 ${new Date(postData.date).toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              })}</span>
+              <span>📁 ${postData.type}</span>
+              <span>❤️ ${postData.likes} likes</span>
+              <span>👁️ ${postData.views}K views</span>
+            </div>
+            <h1 class="post-title">${postData.title}</h1>
+          </div>
+          <div class="post-content">
+            ${content}
+          </div>
+          <nav class="post-nav">
+            <a href="./" class="btn-back">← Back to Home</a>
+            <a href="./posts.html" class="btn-back">View All Posts →</a>
+          </nav>
+        `;
+        
+      } catch (error) {
+        container.innerHTML = `
+          <div class="error">
+            <h2>Post Not Found</h2>
+            <p>${error.message}</p>
+            <p style="margin-top: 2rem;">
+              <a href="./" style="color: var(--orange);">← Return to Homepage</a>
+            </p>
+          </div>
+        `;
+      }
+    }
+    
+    // Load post when page loads
+    document.addEventListener('DOMContentLoaded', loadPost);
+  </script>
+</body>
+</html>
