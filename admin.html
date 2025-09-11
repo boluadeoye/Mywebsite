@@ -9,10 +9,10 @@
 *{box-sizing:border-box;font-family:system-ui,sans-serif}
 body{margin:0;padding:1rem;background:var(--bg);color:var(--ink)}
 h1{font-size:1.8rem;text-align:center;color:var(--orange);margin-bottom:1rem}
-.card{background:var(--panel);padding:1rem;border-radius:var(--radius);margin:auto;max-width:500px}
+.card{background:var(--panel);padding:1.5rem;border-radius:var(--radius);margin:auto;max-width:500px}
 label{display:block;margin:.8rem 0 .3rem;font-weight:600}
 input{width:100%;padding:.65rem;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:var(--bg);color:var(--ink)}
-button{margin-top:1rem;width:100%;padding:.8rem;border:none;border-radius:999px;background:var(--orange);color:var(--orange-ink);font-weight:700}
+button{margin-top:1rem;width:100%;padding:.8rem;border:none;border-radius:999px;background:var(--orange);color:var(--orange-ink);font-weight:700;cursor:pointer;}
 button:disabled{opacity:.4}
 .status{margin-top:.8rem;padding:.7rem;border-radius:8px;display:none}
 .status.ok{background:rgba(34,197,94,.14);color:#34d399}
@@ -29,7 +29,8 @@ button:disabled{opacity:.4}
   <label>GitHub username</label><input id="u">
   <label>Repository name</label><input id="r" value="Mywebsite">
   <label>Token (repo scope)</label><input id="t" type="password">
-  <button id="loginBtn">Login</button>
+  <!-- The fix is here: onclick="go()" is directly in the HTML -->
+  <button id="loginBtn" onclick="go()">Login</button>
   <div id="ls" class="status"></div>
 </div>
 
@@ -39,87 +40,110 @@ button:disabled{opacity:.4}
   <div id="ds" class="status"></div>
 </div>
 
+<!-- The script is at the end of the body to ensure all HTML elements exist first -->
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+  const $ = id => document.getElementById(id);
 
-const $=id=>document.getElementById(id);
+  // This banner proves the script is running.
+  $('ls').className = 'status ok';
+  $('ls').style.display = 'block';
+  $('ls').textContent = '✅ JS loaded. Enter credentials.';
 
-// show proof-of-life banner
-$('#ls').className='status ok';$('#ls').style.display='block';
-$('#ls').textContent='✅ JS loaded. Enter credentials.';
+  let cfg = {};
 
-let cfg={};
+  function msg(el, txt, type) {
+    el.className = 'status ' + type;
+    el.textContent = txt;
+    el.style.display = 'block';
+  }
 
-function msg(el,txt,type){el.className='status '+type;el.textContent=txt;el.style.display='block'}
+  function api(method, path, body) {
+    const url = `https://api.github.com/repos/${cfg.u}/${cfg.r}${path}`;
+    return fetch(url, {
+      method,
+      headers: {
+        'Authorization': 'token ' + cfg.t,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: body ? JSON.stringify(body) : null
+    }).then(r => r.ok ? r.json() : r.text().then(t => Promise.reject(`${r.status}: ${t.slice(0, 80)}`)));
+  }
 
-function api(method,path,body){
-  const url=`https://api.github.com/repos/${cfg.u}/${cfg.r}${path}`;
-  return fetch(url,{
-    method,
-    headers:{
-      'Authorization':'token '+cfg.t,
-      'Accept':'application/vnd.github.v3+json',
-      'Content-Type':'application/json'
-    },
-    body:body?JSON.stringify(body):null
-  }).then(r=>r.ok?r.json():r.text().then(t=>Promise.reject(`${r.status}: ${t.slice(0,80)}`)));
-}
+  async function go() {
+    // This alert will prove the button click is working.
+    alert('Login button clicked!');
+    
+    try {
+      cfg = { u: $('u').value.trim(), r: $('r').value.trim(), t: $('t').value.trim() };
+      if (!cfg.u || !cfg.r || !cfg.t) return msg($('ls'), '⚠ Fill every field', 'err');
+      
+      $('loginBtn').disabled = true;
+      msg($('ls'), '⏳ Checking token…', 'ok');
+      
+      await api('GET', ''); // Test credentials
+      
+      localStorage.setItem('gh', JSON.stringify(cfg));
+      $('login').style.display = 'none';
+      $('dash').style.display = 'block';
+      loadPosts();
+    } catch (e) {
+      msg($('ls'), '❌ ' + e, 'err');
+      $('loginBtn').disabled = false;
+    }
+  }
 
-async function go(){
-  cfg={u:$('#u').value.trim(),r:$('#r').value.trim(),t:$('#t').value.trim()};
-  if(!cfg.u||!cfg.r||!cfg.t)return msg($('#ls'),'⚠ Fill every field','err');
-  $('#loginBtn').disabled=true;
-  msg($('#ls'),'⏳ Checking token…','ok');
-  try{
-    await api('GET','');                // test credentials
-    localStorage.setItem('gh',JSON.stringify(cfg));
-    $('#login').style.display='none';$('#dash').style.display='block';
+  async function loadPosts() {
+    try {
+      const data = await api('GET', '/contents/Posts.json');
+      const posts = JSON.parse(atob(data.content));
+      $('ps').innerHTML = '';
+      if (!Array.isArray(posts) || !posts.length) {
+        $('ps').textContent = 'No posts.';
+        return;
+      }
+      posts.forEach(p => {
+        const row = document.createElement('div');
+        row.className = 'post';
+        row.innerHTML = `${p.title}<button onclick="del('${p.file}','${p.title}')">Delete</button>`;
+        $('ps').appendChild(row);
+      });
+    } catch (e) {
+      msg($('ds'), '❌ Load error: ' + e, 'err');
+    }
+  }
+
+  async function del(path, title) {
+    if (!confirm(`Delete "${title}"?`)) return;
+    try {
+      const [file, json] = await Promise.all([
+        api('GET', '/contents/' + path),
+        api('GET', '/contents/Posts.json')
+      ]);
+      const list = JSON.parse(atob(json.content)).filter(p => p.file !== path);
+      await api('PUT', '/contents/Posts.json', {
+        message: `Remove ${title}`,
+        content: btoa(JSON.stringify(list, null, 2)),
+        sha: json.sha
+      });
+      await api('DELETE', '/contents/' + path, { message: 'Delete file', sha: file.sha });
+      msg($('ds'), '✅ Deleted', 'ok');
+      loadPosts();
+    } catch (e) {
+      msg($('ds'), '❌ ' + e, 'err');
+    }
+  }
+
+  // Auto-login if credentials are saved
+  const saved = localStorage.getItem('gh');
+  if (saved) {
+    cfg = JSON.parse(saved);
+    $('u').value = cfg.u;
+    $('r').value = cfg.r;
+    $('login').style.display = 'none';
+    $('dash').style.display = 'block';
     loadPosts();
-  }catch(e){msg($('#ls'),'❌ '+e,'err');$('#loginBtn').disabled=false;}
-}
-
-async function loadPosts(){
-  try{
-    const data=await api('GET','/contents/Posts.json');
-    const posts=JSON.parse(atob(data.content));
-    $('#ps').innerHTML='';
-    if(!Array.isArray(posts)||!posts.length){$('#ps').textContent='No posts.';return;}
-    posts.forEach(p=>{
-      const row=document.createElement('div');row.className='post';
-      row.innerHTML=`${p.title}<button onclick="del('${p.file}','${p.title}')">Delete</button>`;
-      $('#ps').appendChild(row);
-    });
-  }catch(e){msg($('#ds'),'❌ Load error: '+e,'err')}
-}
-
-async function del(path,title){
-  if(!confirm(`Delete "${title}"?`))return;
-  try{
-    const [file,json] = await Promise.all([
-      api('GET','/contents/'+path),
-      api('GET','/contents/Posts.json')
-    ]);
-    const list=JSON.parse(atob(json.content)).filter(p=>p.file!==path);
-    await api('PUT','/contents/Posts.json',
-      {message:`Remove ${title}`,content:btoa(JSON.stringify(list,null,2)),sha:json.sha});
-    await api('DELETE','/contents/'+path,{message:'Delete file',sha:file.sha});
-    msg($('#ds'),'✅ Deleted','ok');loadPosts();
-  }catch(e){msg($('#ds'),'❌ '+e,'err')}
-}
-
-// attach click handler AFTER DOM ready
-$('#loginBtn').addEventListener('click',go);
-
-// auto-login if creds saved
-const saved=localStorage.getItem('gh');
-if(saved){
-  cfg=JSON.parse(saved);
-  $('#u').value=cfg.u;$('#r').value=cfg.r;
-  $('#login').style.display='none';$('#dash').style.display='block';
-  loadPosts();
-}
-
-}); /* DOMContentLoaded */
+  }
 </script>
 </body>
 </html>
