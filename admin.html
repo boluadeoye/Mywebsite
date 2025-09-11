@@ -9,299 +9,253 @@
   <!-- ========== THEME ========== -->
   <style>
     :root{
-      --bg:#0f172a;            --panel:#111a2e;         --panel-hover:#1a2341;
-      --ink:#e5eefc;           --muted:#94a3b8;
-      --orange:#f59e0b;        --orange-light:#fbbf24;  --orange-ink:#0b0f19;
-      --ring:rgba(245,158,11,.15);
-      --radius:16px;           --transition:cubic-bezier(.4,0,.2,1);
+      --bg:#0f172a; --panel:#111a2e; --ink:#e5eefc; --muted:#94a3b8;
+      --orange:#f59e0b; --orange-light:#fbbf24; --orange-ink:#0b0f19;
+      --ring:rgba(245,158,11,.15); --radius:12px;
     }
     *{box-sizing:border-box;margin:0;padding:0}
-    body{background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;min-height:100vh;}
-    body::before{content:'';position:fixed;inset:0;background:
-      radial-gradient(circle at 20% 50%,rgba(245,158,11,.03)0%,transparent40%),
-      radial-gradient(circle at 80% 80%,rgba(245,158,11,.02)0%,transparent40%);
-      pointer-events:none;z-index:0;}
-
-    h1,h2{font-family:ui-serif,Georgia,serif}
-    .container{max-width:1400px;margin:auto;padding:2rem;position:relative;z-index:1}
-    h1{font-size:2.5rem;margin-bottom:.5rem;
-        background:linear-gradient(135deg,var(--orange),var(--orange-light));
-        -webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .subtitle{color:var(--muted);margin-bottom:2rem;text-align:center}
-
-    /* Tabs */
-    .tabs{display:flex;gap:.5rem;background:var(--panel);padding:.5rem;border-radius:var(--radius);
-          border:1px solid rgba(255,255,255,.06);margin-bottom:2rem;flex-wrap:wrap}
-    .tab{flex:1;padding:.75rem 1.5rem;background:transparent;border:none;color:var(--muted);
-         cursor:pointer;border-radius:10px;font-weight:600;font-size:.9rem}
-    .tab.active{background:var(--orange);color:var(--orange-ink)}
-    .tab:hover:not(.active){background:rgba(255,255,255,.05);color:var(--ink)}
-    .tab-content{display:none}.tab-content.active{display:block;animation:fade .3s ease}
-    @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-    /* Card */
-    .card{background:var(--panel);border-radius:var(--radius);padding:2rem;margin-bottom:2rem;
-          border:1px solid rgba(255,255,255,.06);box-shadow:0 4px 20px rgba(0,0,0,.15)}
-    .card h2{color:var(--orange);font-size:1.5rem;margin-bottom:1.5rem}
-
-    /* Grid helpers */
-    .grid{display:grid;gap:2rem}
-    @media(min-width:950px){.grid.two{grid-template-columns:1fr 1fr}}
-
-    /* Form */
-    .form-group{margin-bottom:1.5rem}
-    label{display:block;margin-bottom:.5rem;color:var(--ink);font-weight:600;font-size:.9rem}
-    input,textarea,select{width:100%;padding:.85rem 1rem;background:var(--bg);
-      border:1px solid rgba(255,255,255,.08);border-radius:10px;color:var(--ink);font-size:1rem}
-    input:focus,textarea:focus,select:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--ring);
-      outline:none;background:var(--panel-hover)}
-    textarea{min-height:320px;resize:vertical;font-family:monospace}
-
-    /* Buttons */
-    button{background:var(--orange);color:var(--orange-ink);padding:.8rem 1.6rem;border:none;border-radius:999px;
-      font-weight:700;cursor:pointer;font-size:.9rem;display:inline-flex;gap:.4rem;transition:all .3s var(--transition);
-      align-items:center}
-    button:hover{background:var(--orange-light);transform:translateY(-2px);box-shadow:0 6px 20px rgba(245,158,11,.3)}
-    button:disabled{opacity:.45;cursor:not-allowed;transform:none}
-    button.secondary{background:rgba(255,255,255,.05);color:var(--ink);border:1px solid rgba(255,255,255,.1)}
-    button.secondary:hover{background:rgba(255,255,255,.08);color:var(--orange);border-color:var(--orange)}
-    button.danger{background:rgba(239,68,68,.12);color:#ef4444;border:1px solid rgba(239,68,68,.25);
-      padding:.5rem 1rem;font-size:.8rem}
-    button.danger:hover{background:#ef4444;color:#fff}
-
-    /* Status */
-    .status{padding:1rem;border-radius:10px;margin-bottom:1.2rem;display:none}
-    .status.success{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#22c55e}
-    .status.error{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#ef4444}
-    .status.info{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:var(--orange)}
-
-    /* Preview */
-    .preview{background:var(--bg);padding:1.5rem;border-radius:12px;border:1px solid rgba(255,255,255,.06);
-      max-height:600px;overflow-y:auto}
-    .preview h1,.preview h2,.preview h3{color:var(--orange);margin:1rem 0}
-
-    /* File item */
-    .file-item{background:var(--bg);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:1rem;
-      margin-bottom:.75rem;display:flex;justify-content:space-between;align-items:center}
-    .file-item:hover{border-color:var(--orange);transform:translateX(5px);transition:.2s}
-
-    /* Gallery */
-    .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem}
-    .img-box{position:relative;border-radius:8px;overflow:hidden;border:2px solid transparent;transition:.3s}
-    .img-box:hover{border-color:var(--orange);transform:scale(1.05)}
-    .img-box img{width:100%;height:150px;object-fit:cover}
-    .img-name{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.7);
-      color:#fff;font-size:.75rem;padding:.25rem .5rem;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
-
-    /* Scrollbar */
-    ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:var(--bg)}
-    ::-webkit-scrollbar-thumb{background:rgba(245,158,11,.35);border-radius:4px}
-    ::-webkit-scrollbar-thumb:hover{background:rgba(245,158,11,.55)}
+    body{background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,sans-serif;padding:1rem;}
+    .container{max-width:800px;margin:auto;}
+    h1,h2{font-family:ui-serif,Georgia,serif;color:var(--orange);text-align:center;margin-bottom:1.5rem;}
+    h1{font-size:2rem;} h2{font-size:1.5rem;}
+    .card{background:var(--panel);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem;border:1px solid rgba(255,255,255,.06);}
+    .form-group{margin-bottom:1rem;}
+    label{display:block;margin-bottom:.5rem;font-weight:600;}
+    input,textarea,select{width:100%;padding:.75rem;background:var(--bg);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--ink);font-size:1rem;}
+    input:focus,textarea:focus,select:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px var(--ring);}
+    textarea{min-height:250px;font-family:monospace;}
+    button{background:var(--orange);color:var(--orange-ink);padding:.75rem 1.5rem;border:none;border-radius:999px;font-weight:700;cursor:pointer;font-size:.9rem;}
+    button:hover{opacity:.9;} button:disabled{opacity:.5;cursor:not-allowed;}
+    .status{padding:1rem;border-radius:8px;margin-top:1rem;display:none;}
+    .status.success{background:rgba(34,197,94,.1);color:#22c55e;}
+    .status.error{background:rgba(239,68,68,.1);color:#ef4444;}
+    .file-item{background:var(--bg);padding:.75rem;margin-bottom:.5rem;border-radius:8px;display:flex;justify-content:space-between;align-items:center;}
+    .file-item button{background:rgba(239,68,68,.1);color:#ef4444;padding:.5rem 1rem;font-size:.8rem;}
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <h1>Admin Panel</h1><p class="subtitle">Create, upload and manage your blog content</p>
-    </div>
+    <h1>Admin Panel</h1>
 
     <!-- ========== LOGIN ========= -->
     <div id="loginSection" class="card">
-      <h2>🔐 GitHub Login</h2>
+      <h2>Login</h2>
       <div id="loginStatus" class="status"></div>
-      <div class="grid two">
-        <div class="form-group"><label>GitHub Username</label><input id="username" placeholder="username"></div>
-        <div class="form-group"><label>Repository Name</label><input id="repo" value="Mywebsite"></div>
-      </div>
-      <div class="form-group"><label>Personal Access Token</label><input id="token" type="password" placeholder="ghp_xxxx"></div>
-      <button onclick="login()">🚀 Login</button>
+      <div class="form-group"><label>GitHub Username</label><input id="username" placeholder="your-username"></div>
+      <div class="form-group"><label>Repository Name</label><input id="repo" value="Mywebsite"></div>
+      <div class="form-group"><label>GitHub Token</label><input id="token" type="password" placeholder="ghp_xxxxxxxxx"></div>
+      <button id="loginBtn">Login</button>
     </div>
 
     <!-- ========== DASHBOARD ========= -->
-    <div id="adminPanel" style="display:none">
-      <div class="tabs">
-        <button class="tab active" onclick="switchTab('write',event)">✍️ Write Post</button>
-        <button class="tab" onclick="switchTab('media',event)">📸 Media Library</button>
-        <button class="tab" onclick="switchTab('manage',event)">📂 Manage Posts</button>
-        <button class="tab" onclick="switchTab('tools',event)">🔧 Tools</button>
-      </div>
-
-      <!-- WRITE -->
-      <div id="writeTab" class="tab-content active">
-        <div class="grid two">
-          <div class="card">
-            <h2>Create Post</h2><div id="postStatus" class="status"></div>
-            <div class="form-group"><label>Title</label><input id="postTitle" oninput="updatePreview()"></div>
-            <div class="grid two">
-              <div class="form-group"><label>Category</label>
-                <select id="postType">
-                  <option value="faith">Faith</option><option value="poems">Poems</option>
-                  <option value="stories">Stories</option><option value="devotional">Devotional</option>
-                  <option value="articles">Articles</option><option value="essays">Essays</option>
-                </select></div>
-              <div class="form-group"><label>Date</label><input id="postDate" type="date"></div>
-            </div>
-            <div class="form-group"><label>Excerpt</label><input id="postExcerpt"></div>
-            <div class="form-group"><label>Content (Markdown)</label><textarea id="postContent" oninput="updatePreview()"></textarea></div>
-            <button id="publishBtn" onclick="publishPost()">📤 Publish</button>
-          </div>
-          <div class="card"><h2>Preview</h2><div id="preview" class="preview"><p style="color:var(--muted);text-align:center;">Start typing…</p></div></div>
+    <div id="adminPanel" style="display:none;">
+      <!-- Create Post -->
+      <div class="card">
+        <h2>Create New Post</h2>
+        <div id="postStatus" class="status"></div>
+        <div class="form-group"><label>Title</label><input id="postTitle"></div>
+        <div class="form-group"><label>Category</label>
+          <select id="postType">
+            <option value="faith">Faith</option><option value="poems">Poems</option>
+            <option value="stories">Stories</option><option value="devotional">Devotional</option>
+            <option value="articles">Articles</option><option value="essays">Essays</option>
+          </select>
         </div>
+        <div class="form-group"><label>Excerpt</label><input id="postExcerpt"></div>
+        <div class="form-group"><label>Content (Markdown)</label><textarea id="postContent"></textarea></div>
+        <button id="publishBtn">Publish Post</button>
       </div>
 
-      <!-- MEDIA -->
-      <div id="mediaTab" class="tab-content">
-        <div class="card">
-          <h2>Upload Image</h2><div id="imageStatus" class="status"></div>
-          <div class="form-group">
-            <input id="imageFile" type="file" accept="image/*" style="display:none" onchange="showSelectedImage()">
-            <button onclick="document.getElementById('imageFile').click()">📁 Choose Image</button>
-          </div>
-          <div id="selectedWrap" style="display:none;margin-bottom:1rem;">
-            <img id="selectedPreview" style="max-width:250px;border-radius:8px;">
-            <div style="margin-top:.75rem"><button onclick="uploadImage()">⬆️ Upload</button>
-            <button class="secondary" onclick="clearImage()">Cancel</button></div>
-          </div>
-          <h2 style="margin-top:2rem">Gallery</h2><div id="imageGallery" class="gallery"></div>
-        </div>
-      </div>
-
-      <!-- MANAGE -->
-      <div id="manageTab" class="tab-content">
-        <div class="card"><h2>Posts</h2><div id="manageStatus" class="status"></div><div id="postsList"></div></div>
-      </div>
-
-      <!-- TOOLS -->
-      <div id="toolsTab" class="tab-content">
-        <div class="card"><h2>Maintenance Tools</h2><div id="toolStatus" class="status"></div>
-          <button onclick="checkAndFixPosts()">🔍 Check & Fix Missing Files</button>
-          <div id="fixResults" style="margin-top:1.5rem"></div></div>
+      <!-- Manage Posts -->
+      <div class="card">
+        <h2>Manage Posts</h2>
+        <div id="manageStatus" class="status"></div>
+        <div id="postsList"></div>
       </div>
     </div>
   </div>
 
   <!-- ========= SCRIPT ========= -->
   <script>
-    /* ===== UI helpers ===== */
-    function id(x){return document.getElementById(x)} function val(x){return id(x).value}
-    function switchTab(tab,e){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-      e.target.classList.add('active');document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
-      id(tab+'Tab').classList.add('active'); if(tab==='manage')loadPosts(); if(tab==='media')loadImages();}
-    function showStatus(el,msg,type){const s=id(el);s.textContent=msg;s.className='status '+type;s.style.display='block';
-      if(type!=='error')setTimeout(()=>s.style.display='none',5000);}
+    let githubConfig = {};
 
-    /* ===== GitHub helper with error surfacing ===== */
-    async function fetchGH(method,path,body){
-      const url=`https://api.github.com/repos/${githubConfig.username}/${githubConfig.repo}${path.startsWith('/')?'':'/'}${path}`;
-      const opt={method,headers:{'Authorization':`token ${githubConfig.token}`,'Accept':'application/vnd.github.v3+json'}};
-      if(body){opt.headers['Content-Type']='application/json';opt.body=JSON.stringify(body);}
-      const res=await fetch(url,opt);if(!res.ok){const txt=await res.text();throw new Error(`GitHub ${res.status}: ${txt.slice(0,120)}`);}
+    // DOM Elements
+    const loginBtn = document.getElementById('loginBtn');
+    const publishBtn = document.getElementById('publishBtn');
+
+    // Check for saved config
+    const savedConfig = localStorage.getItem('githubConfig');
+    if (savedConfig) {
+      githubConfig = JSON.parse(savedConfig);
+      showDashboard();
+    }
+
+    // Event Listeners
+    loginBtn.addEventListener('click', login);
+    publishBtn.addEventListener('click', publishPost);
+
+    function showStatus(elId, msg, type) {
+      const el = document.getElementById(elId);
+      el.textContent = msg;
+      el.className = 'status ' + type;
+      el.style.display = 'block';
+      setTimeout(() => { el.style.display = 'none'; }, 5000);
+    }
+
+    function showDashboard() {
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'block';
+      loadPosts();
+    }
+
+    async function login() {
+      const username = document.getElementById('username').value;
+      const repo = document.getElementById('repo').value;
+      const token = document.getElementById('token').value;
+
+      if (!username || !repo || !token) {
+        return showStatus('loginStatus', 'Please fill all fields.', 'error');
+      }
+
+      githubConfig = { username, repo, token };
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Logging in...';
+
+      try {
+        await fetchGH('GET', ''); // Test connection
+        localStorage.setItem('githubConfig', JSON.stringify(githubConfig));
+        showStatus('loginStatus', 'Login successful!', 'success');
+        setTimeout(showDashboard, 800);
+      } catch (e) {
+        showStatus('loginStatus', 'Login failed: ' + e.message, 'error');
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Login';
+      }
+    }
+
+    async function publishPost() {
+      const title = document.getElementById('postTitle').value.trim();
+      const type = document.getElementById('postType').value;
+      const excerpt = document.getElementById('postExcerpt').value.trim();
+      const content = document.getElementById('postContent').value.trim();
+      const date = new Date().toISOString().split('T')[0];
+
+      if (!title || !excerpt || !content) {
+        return showStatus('postStatus', 'Please fill all fields.', 'error');
+      }
+
+      publishBtn.disabled = true;
+      publishBtn.textContent = 'Publishing...';
+
+      const filename = title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-') + '.md';
+      const path = `posts/${filename}`;
+
+      try {
+        // 1. Create markdown file
+        await fetchGH('PUT', `/contents/${path}`, {
+          message: `Create post: ${title}`,
+          content: btoa(unescape(encodeURIComponent(content)))
+        });
+
+        // 2. Update Posts.json
+        const postsRes = await fetchGH('GET', '/contents/Posts.json');
+        let posts = [];
+        try { posts = JSON.parse(atob(postsRes.content)); } catch { posts = []; }
+        if (!Array.isArray(posts)) posts = [];
+
+        posts.unshift({ title, date, type, excerpt, file: path, likes: 0, views: 0 });
+
+        await fetchGH('PUT', '/contents/Posts.json', {
+          message: `Update Posts.json for: ${title}`,
+          content: btoa(JSON.stringify(posts, null, 2)),
+          sha: postsRes.sha
+        });
+
+        showStatus('postStatus', 'Post published successfully!', 'success');
+        document.getElementById('postTitle').value = '';
+        document.getElementById('postExcerpt').value = '';
+        document.getElementById('postContent').value = '';
+        loadPosts();
+
+      } catch (e) {
+        showStatus('postStatus', 'Error publishing: ' + e.message, 'error');
+      } finally {
+        publishBtn.disabled = false;
+        publishBtn.textContent = 'Publish Post';
+      }
+    }
+
+    async function loadPosts() {
+      try {
+        const res = await fetchGH('GET', '/contents/Posts.json');
+        const posts = JSON.parse(atob(res.content));
+        const listEl = document.getElementById('postsList');
+        listEl.innerHTML = posts.map(p => `
+          <div class="file-item">
+            <span>${p.title}</span>
+            <button onclick="deletePost('${p.file}')">Delete</button>
+          </div>
+        `).join('');
+      } catch (e) {
+        document.getElementById('postsList').innerHTML = '<p>Could not load posts.</p>';
+      }
+    }
+
+    async function deletePost(path) {
+      if (!confirm('Are you sure you want to delete this post?')) return;
+
+      try {
+        // 1. Get file SHA to delete it
+        const fileData = await fetchGH('GET', `/contents/${path}`);
+        await fetchGH('DELETE', `/contents/${path}`, {
+          message: `Delete post: ${path}`,
+          sha: fileData.sha
+        });
+
+        // 2. Update Posts.json
+        const postsRes = await fetchGH('GET', '/contents/Posts.json');
+        const posts = JSON.parse(atob(postsRes.content));
+        const updatedPosts = posts.filter(p => p.file !== path);
+
+        await fetchGH('PUT', '/contents/Posts.json', {
+          message: `Remove ${path} from Posts.json`,
+          content: btoa(JSON.stringify(updatedPosts, null, 2)),
+          sha: postsRes.sha
+        });
+
+        showStatus('manageStatus', 'Post deleted successfully!', 'success');
+        loadPosts();
+
+      } catch (e) {
+        showStatus('manageStatus', 'Error deleting post: ' + e.message, 'error');
+      }
+    }
+
+    async function fetchGH(method, path, body) {
+      const url = `https://api.github.com/repos/${githubConfig.username}/${githubConfig.repo}${path.startsWith('/') ? '' : '/'}${path}`;
+      const options = {
+        method,
+        headers: {
+          'Authorization': `token ${githubConfig.token}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      };
+      if (body) {
+        options.headers['Content-Type'] = 'application/json';
+        options.body = JSON.stringify(body);
+      }
+      const res = await fetch(url, options);
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`GitHub API Error (${res.status}): ${errorText.slice(0, 150)}`);
+      }
+      // For DELETE requests, response might be empty
+      if (res.status === 204 || res.status === 200 && method === 'DELETE') {
+        return {};
+      }
       return res.json();
     }
-    const b64=s=>btoa(unescape(encodeURIComponent(s)));
-
-    /* ===== Ensure posts/ & images/ folders exist (fixed 422) ===== */
-    async function ensureFolder(dir){
-      try{await fetchGH('GET',`/contents/${dir}/.gitkeep`);}               // file already there
-      catch(e){ if (/404/.test(e.message)){                                // create only if missing
-          await fetchGH('PUT',`/contents/${dir}/.gitkeep`,{
-            message:`Create ${dir} folder`, content:b64('')});
-      } else { throw e; } }
-    }
-
-    /* ===== Login & init ===== */
-    let githubConfig={};
-    if(localStorage.getItem('githubConfig')){githubConfig=JSON.parse(localStorage.getItem('githubConfig'));showDashboard();}
-    function login(){
-      if(!val('username')||!val('repo')||!val('token'))return showStatus('loginStatus','⚠ Fill all fields','error');
-      githubConfig={username:val('username'),repo:val('repo'),token:val('token')};
-      fetchGH('GET','').then(()=>{
-        localStorage.setItem('githubConfig',JSON.stringify(githubConfig));
-        showStatus('loginStatus','✅ Login success','success');setTimeout(showDashboard,600);
-      }).catch(e=>showStatus('loginStatus','❌ '+e.message,'error'));
-    }
-    function showDashboard(){id('loginSection').style.display='none';id('adminPanel').style.display='block';
-      id('postDate').valueAsDate=new Date();loadPosts();loadImages();}
-
-    /* ===== Markdown live preview ===== */
-    function md2html(md){
-      let h=md.replace(/^### (.*$)/gim,'<h3>$1</h3>')
-              .replace(/^## (.*$)/gim,'<h2>$1</h2>')
-              .replace(/^# (.*$)/gim,'<h1>$1</h1>')
-              .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-              .replace(/\*(.+?)\*/g,'<em>$1</em>')
-              .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2">$1</a>')
-              .replace(/^> (.+)$/gim,'<blockquote>$1</blockquote>');
-      return h.split('\n\n').map(p=>p.startsWith('<')?p:`<p>${p}</p>`).join('\n');}
-    function updatePreview(){id('preview').innerHTML=`<h1>${val('postTitle')||'Untitled'}</h1>`+md2html(val('postContent'));}
-
-    /* ===== Publish post ===== */
-    async function publishPost(){
-      const title=val('postTitle').trim(),ex=val('postExcerpt').trim(),content=val('postContent').trim();
-      if(!title||!ex||!content)return showStatus('postStatus','⚠ Fill title, excerpt & content','error');
-      const date=val('postDate')||new Date().toISOString().split('T')[0];
-      const file=title.toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-')+'.md';
-      const path=`posts/${file}`,btn=id('publishBtn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Publishing…';
-      try{
-        await ensureFolder('posts');await ensureFolder('images');
-        await fetchGH('PUT',`/contents/${path}`,{message:`Add post: ${title}`,content:b64(content)});
-        const res=await fetchGH('GET','/contents/Posts.json');let posts=[];
-        try{posts=JSON.parse(atob(res.content))}catch{}
-        posts.unshift({title,date:type:val('postType'),excerpt:ex,file:path,likes:0,views:0});
-        await fetchGH('PUT','/contents/Posts.json',{message:`Update Posts.json for ${title}`,content:b64(JSON.stringify(posts,null,2)),sha:res.sha});
-        showStatus('postStatus','✅ Published!','success');['postTitle','postExcerpt','postContent'].forEach(x=>id(x).value='');updatePreview();loadPosts();
-      }catch(e){showStatus('postStatus','❌ '+e.message,'error');}
-      btn.disabled=false;btn.innerHTML='📤 Publish';
-    }
-
-    /* ===== Image upload ===== */
-    function showSelectedImage(){const f=id('imageFile').files[0];if(!f)return;const r=new FileReader();
-      r.onload=e=>{id('selectedPreview').src=e.target.result;id('selectedWrap').style.display='block'};r.readAsDataURL(f);}
-    function clearImage(){id('imageFile').value='';id('selectedWrap').style.display='none'}
-    async function uploadImage(){
-      const f=id('imageFile').files[0];if(!f)return showStatus('imageStatus','⚠ Choose an image','error');
-      try{await ensureFolder('images');const b=await new Promise(r=>{const fr=new FileReader();fr.onload=e=>r(e.target.result);fr.readAsDataURL(f);});
-        await fetchGH('PUT',`/contents/images/${f.name}`,{message:`Upload image: ${f.name}`,content:b.split(',')[1]});
-        showStatus('imageStatus',`✅ Uploaded! Use !<!--citation:1-->`,'success');clearImage();loadImages();
-      }catch(e){showStatus('imageStatus','❌ '+e.message,'error');}}
-    async function loadImages(){
-      try{const arr=await fetchGH('GET','/contents/images');const imgs=arr.filter(i=>/\.(jpg|jpeg|png|gif|webp)$/i.test(i.name));
-        id('imageGallery').innerHTML=imgs.length?imgs.map(i=>`<div class="img-box"><img src="${i.download_url}" alt="${i.name}">
-          <div class="img-name">${i.name}</div></div>`).join(''):'<p style="color:var(--muted);text-align:center;">No images</p>'; }catch{}}
-
-    /* ===== Manage posts ===== */
-    async function loadPosts(){
-      try{const res=await fetchGH('GET','/contents/Posts.json');const posts=JSON.parse(atob(res.content));
-        id('postsList').innerHTML=posts.map(p=>`<div class="file-item"><div><strong>${p.title}</strong><br>
-          <small style="color:var(--muted);">${p.date} • ${p.type}</small></div>
-          <button class="danger" onclick="deletePost('${p.file}')">Delete</button></div>`).join(''); }catch{}}
-    async function deletePost(p){
-      if(!confirm('Delete this post?'))return;
-      try{const f=await fetchGH('GET',`/contents/${p}`);await fetchGH('DELETE',`/contents/${p}`,{message:`Delete ${p}`,sha:f.sha});
-        const res=await fetchGH('GET','/contents/Posts.json');const arr=JSON.parse(atob(res.content)).filter(x=>x.file!==p);
-        await fetchGH('PUT','/contents/Posts.json',{message:`Remove ${p}`,content:b64(JSON.stringify(arr,null,2)),sha:res.sha});
-        showStatus('manageStatus','✅ Deleted','success');loadPosts();}catch(e){showStatus('manageStatus','❌ '+e.message,'error');}}
-
-    /* ===== Tools ===== */
-    async function checkAndFixPosts(){
-      showStatus('toolStatus','🔍 Checking…','info');id('fixResults').innerHTML='';
-      try{
-        const posts=JSON.parse(atob((await fetchGH('GET','/contents/Posts.json')).content));
-        const files=(await fetchGH('GET','/contents/posts')).map(f=>'posts/'+f.name);
-        const miss=posts.filter(p=>!files.includes(p.file));
-        if(!miss.length)return showStatus('toolStatus','✅ No missing files','success');
-        showStatus('toolStatus',`⚠ Found ${miss.length} missing`,'error');
-        id('fixResults').innerHTML=miss.map(p=>`<div class="file-item"><div><strong>${p.title}</strong><br><small>${p.file}</small></div>
-          <button onclick="createMissing('${p.file}','${p.title}','${(p.excerpt||'').replace(/'/g,'&#39;')}')">Create</button></div>`).join('');
-      }catch(e){showStatus('toolStatus','❌ '+e.message,'error');}}
-    async function createMissing(path,title,excerpt){
-      try{await ensureFolder('posts');const md=`# ${title}\n\n> ${excerpt}\n\n_This post was restored._\n`;
-        await fetchGH('PUT',`/contents/${path}`,{message:`Restore ${path}`,content:b64(md)});
-        showStatus('toolStatus','✅ File created','success');checkAndFixPosts();
-      }catch(e){showStatus('toolStatus','❌ '+e.message,'error');}}
-
-    /* ===== Utility ===== */
-    async function toBase64(f){return new Promise(r=>{const fr=new FileReader();fr.onload=e=>r(e.target.result);fr.readAsDataURL(f);});}
   </script>
 </body>
 </html>
