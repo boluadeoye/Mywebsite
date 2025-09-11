@@ -1,269 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Blog Admin Panel 2</title>
-  <base href="/Mywebsite/" />
-
-  <style>
-    :root {
-      --bg: #0f172a;
-      --panel: #111a2e;
-      --ink: #e5eefc;
-      --muted: #94a3b8;
-      --orange: #f59e0b;
-      --orange-ink: #0b0f19;
-      --radius: 12px;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font: 16px/1.6 system-ui, sans-serif;
-      padding: 1rem;
-    }
-    .container { max-width: 800px; margin: auto; }
-    h1 { font-family: ui-serif, Georgia, serif; color: var(--orange); text-align: center; margin-bottom: 1.5rem; }
-    .card {
-      background: var(--panel);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      border: 1px solid rgba(255, 255, 255, .06);
-    }
-    .form-group { margin-bottom: 1rem; }
-    label { display: block; margin-bottom: .5rem; font-weight: 600; }
-    input, textarea, select {
-      width: 100%;
-      padding: .75rem;
-      background: var(--bg);
-      border: 1px solid rgba(255, 255, 255, .1);
-      border-radius: 8px;
-      color: var(--ink);
-    }
-    input:focus, textarea:focus, select:focus {
-      outline: none;
-      border-color: var(--orange);
-    }
-    textarea { min-height: 250px; font-family: monospace; }
-    button {
-      background: var(--orange);
-      color: var(--orange-ink);
-      padding: .75rem 1.5rem;
-      border: none;
-      border-radius: 999px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    button:hover { opacity: .9; }
-    .status {
-      padding: 1rem;
-      border-radius: 8px;
-      margin-top: 1rem;
-      display: none;
-    }
-    .status.success { background: rgba(34, 197, 94, .1); color: #22c55e; }
-    .status.error { background: rgba(239, 68, 68, .1); color: #ef4444; }
-    .file-item {
-      background: var(--bg);
-      padding: .75rem;
-      margin-bottom: .5rem;
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-    }
-    .file-item button {
-      background: rgba(239, 68, 68, .1);
-      color: #ef4444;
-      padding: .5rem 1rem;
-      font-size: .8rem;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simple Blog Admin</title>
+<style>
+:root{
+  --bg:#0f172a; --panel:#111a2e; --ink:#e5eefc; --muted:#94a3b8;
+  --orange:#f59e0b; --orange-ink:#0b0f19; --radius:12px;
+}
+*{box-sizing:border-box;font-family:system-ui,sans-serif}
+body{margin:0;padding:1rem;background:var(--bg);color:var(--ink);}
+h1{font-size:1.8rem;text-align:center;color:var(--orange);margin-bottom:1rem}
+.card{background:var(--panel);padding:1rem;border-radius:var(--radius);margin:auto;max-width:500px}
+label{display:block;margin:.8rem 0 .3rem;font-weight:600}
+input{width:100%;padding:.65rem;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:var(--bg);color:var(--ink)}
+button{margin-top:1rem;width:100%;padding:.8rem;border:none;border-radius:999px;
+       background:var(--orange);color:var(--orange-ink);font-weight:700}
+button:disabled{opacity:.4}
+.status{margin-top:.8rem;padding:.7rem;border-radius:8px;display:none}
+.status.ok{background:rgba(34,197,94,.14);color:#34d399}
+.status.err{background:rgba(239,68,68,.14);color:#f87171}
+.post{background:var(--bg);padding:.8rem;border-radius:8px;margin:.6rem 0;
+      display:flex;justify-content:space-between;align-items:center}
+.post button{width:auto;padding:.4rem .8rem;background:#991b1b;color:#fff}
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Blog Admin Panel 2</h1>
 
-    <!-- ========== LOGIN ========= -->
-    <div id="loginSection" class="card">
-      <h2>Login</h2>
-      <div id="loginStatus" class="status"></div>
-      <div class="form-group">
-        <label>GitHub Username</label>
-        <input id="username" placeholder="your-username" />
-      </div>
-      <div class="form-group">
-        <label>Repository Name</label>
-        <input id="repo" value="Mywebsite" />
-      </div>
-      <div class="form-group">
-        <label>Personal Access Token</label>
-        <input id="token" type="password" placeholder="ghp_xxxxx..." />
-      </div>
-      <button id="loginBtn">Login</button>
-    </div>
+<h1>Simple Blog Admin</h1>
 
-    <!-- ========== DASHBOARD ========= -->
-    <div id="dashboard" style="display: none;">
-      <h2>Posts</h2>
-      <div id="postsList"></div>
-    </div>
-  </div>
+<div id="login" class="card">
+  <label>GitHub username</label><input id="u">
+  <label>Repository name</label><input id="r" value="Mywebsite">
+  <label>Token ( repo scope )</label><input id="t" type="password">
+  <button onclick="go()">Login</button>
+  <div id="ls" class="status"></div>
+</div>
 
-  <script>
-    // Configuration - ensure this matches your repo!
-    const githubConfig = {
-      username: 'your-username', // ← Change this to your actual GitHub username
-      repo: 'Mywebsite',         // ← Should match your repo name
-      token: ''                 // ← Will be set from input
-    };
+<div id="dash" class="card" style="display:none">
+  <h2 style="margin:0 0 1rem">Your Posts</h2>
+  <div id="ps"></div>
+  <div id="ds" class="status"></div>
+</div>
 
-    // Store credentials in browser storage after login
-    function login() {
-      const username = document.getElementById('username').value.trim();
-      const repo = document.getElementById('repo').value.trim();
-      const token = document.getElementById('token').value.trim();
+<script>
+const $=id=>document.getElementById(id);                             // shortcut
 
-      if (!username || !repo || !token) {
-        showStatus('Login failed: Please fill all fields', 'error');
-        return;
-      }
+// show “JS loaded” banner – proves script runs
+$('ls').className='status ok';$('ls').style.display='block';
+$('ls').textContent='✅ JS loaded. Enter credentials.';
 
-      // Save to localStorage for future sessions
-      localStorage.setItem('github-auth', JSON.stringify({ username, repo, token }));
-      showStatus('Login successful! Redirecting...', 'success');
+let cfg={};                                                         // will hold creds
 
-      // Update config
-      githubConfig.username = username;
-      githubConfig.repo = repo;
-      githubConfig.token = token;
+function msg(el,txt,type){ el.className='status '+type; el.textContent=txt; el.style.display='block'}
 
-      // Show dashboard, hide login
-      document.getElementById('loginSection').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'block';
+function api(method,path,body){                                     // tiny GitHub wrapper
+  const url=`https://api.github.com/repos/${cfg.u}/${cfg.r}${path}`;
+  return fetch(url,{
+    method, headers:{
+      'Authorization':'token '+cfg.t,'Accept':'application/vnd.github.v3+json',
+      'Content-Type':'application/json'
+    }, body: body?JSON.stringify(body):null
+  }).then(r=>r.ok?r.json():r.text().then(t=>Promise.reject(`${r.status}: ${t.slice(0,80)}`)));
+}
 
+// login → test token by requesting repo root
+function go(){
+  cfg={u:$('#u').value.trim(),r:$('#r').value.trim(),t:$('#t').value.trim()};
+  if(!cfg.u||!cfg.r||!cfg.t) return msg(ls,'⚠ Fill every field','err');
+  msg(ls,'⏳ Contacting GitHub…','ok');
+  api('GET','').then(()=>{              // success
+      localStorage.setItem('gh',JSON.stringify(cfg));
+      $('#login').style.display='none';$('#dash').style.display='block';
       loadPosts();
-    }
+  }).catch(e=>msg(ls,'❌ Login failed: '+e,'err'));
+}
 
-    function showStatus(msg, type) {
-      const el = document.getElementById('loginStatus');
-      el.textContent = msg;
-      el.className = `status ${type}`;
-      el.style.display = 'block';
-    }
+function loadPosts(){
+  api('GET','/contents/Posts.json').then(res=>{
+    const posts=JSON.parse(atob(res.content));
+    if(!Array.isArray(posts)||!posts.length){$('#ps').innerHTML='No posts.';return;}
+    $('#ps').innerHTML=''; posts.forEach(p=>{
+      const row=document.createElement('div');row.className='post';
+      row.innerHTML=`${p.title}<button onclick="del('${p.file}','${p.title}')">Delete</button>`;
+      $('#ps').appendChild(row);
+    });
+  }).catch(e=>msg(ds,'❌ Load error: '+e,'err'));
+}
 
-    // Fetch and display existing posts
-    async function loadPosts() {
-      try {
-        const auth = localStorage.getItem('github-auth');
-        if (!auth) {
-          showStatus('No active session. Please log in.', 'error');
-          return;
-        }
+function del(path,title){
+  if(!confirm(`Delete "${title}"?`))return;
+  Promise.all([
+    api('GET','/contents/'+path),                                    // get sha
+    api('GET','/contents/Posts.json')                                // get Posts.json
+  ]).then(([file,resJSON])=>{
+    const posts=JSON.parse(atob(resJSON.content)).filter(p=>p.file!==path);
+    return api('PUT','/contents/Posts.json',{
+             message:`Remove ${title}`,content:btoa(JSON.stringify(posts,null,2)),sha:resJSON.sha
+           }).then(()=>api('DELETE','/contents/'+path,{message:'Delete file',sha:file.sha}));
+  }).then(()=>{msg(ds,'✅ Deleted','ok');loadPosts();})
+    .catch(e=>msg(ds,'❌ Delete error: '+e,'err'));
+}
 
-        const { repo, token } = JSON.parse(auth);
-        const response = await fetch(
-          `https://api.github.com/repos/${githubConfig.username}/${repo}/contents/Posts.json`,
-          {
-            headers: {
-              'Authorization': `token ${token}`,
-              'Accept': 'application/vnd.github.v3+json'
-            }
-          }
-        );
-
-        if (!response.ok) {
-          const err = await response.json();
-          showStatus(`GitHub API Error (${response.status}): ${err.message}`, 'error');
-          return;
-        }
-
-        const data = await response.json();
-        const posts = JSON.parse(atob(data.content));
-        const listEl = document.getElementById('postsList');
-        listEl.innerHTML = '';
-
-        posts.forEach(post => {
-          const div = document.createElement('div');
-          div.className = 'file-item';
-          div.innerHTML = `
-            <div>
-              <strong>${post.title}</strong><br/>
-              <small style="color: var(--muted);">${post.date} • ${post.type}</small>
-            </div>
-            <button onclick="deletePost('${post.title}')">Delete</button>
-          `;
-          listEl.appendChild(div);
-        });
-      } catch (error) {
-        showStatus(`Failed to load posts: ${error.message}`, 'error');
-      }
-    }
-
-    // Delete post from GitHub
-    async function deletePost(title) {
-      if (!confirm(`Are you sure you want to delete "${title}"?`)) return;
-
-      try {
-        const auth = localStorage.getItem('github-auth');
-        if (!auth) {
-          showStatus('Not logged in', 'error');
-          return;
-        }
-
-        const { username, repo, token } = JSON.parse(auth);
-        const response = await fetch(
-          `https://api.github.com/repos/${username}/${repo}/contents/Posts.json`,
-          {
-            method: 'GET',
-            headers: {
-              'Authorization': `token ${token}`,
-              'Accept': 'application/vnd.github.v3+json'
-            }
-          }
-        );
-
-        const data = await response.json();
-        const posts = JSON.parse(atob(data.content));
-        const newPosts = posts.filter(p => p.title !== title);
-
-        await fetch(
-          `https://api.github.com/repos/${username}/${repo}/contents/Posts.json`,
-          {
-            method: 'PUT',
-            headers: {
-              'Authorization': `token ${token}`,
-              'Accept': 'application/vnd.github.v3+json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              message: `Remove post: ${title}`,
-              content: btoa(JSON.stringify(newPosts, null, 2)),
-              sha: data.sha
-            })
-          }
-        );
-
-        loadPosts(); // Refresh list
-        showStatus(`"${title}" deleted`, 'success');
-      } catch (error) {
-        showStatus(`Delete failed: ${error.message}`, 'error');
-      }
-    }
-
-    // Initialize
-    window.onload = () => {
-      const auth = localStorage.getItem('github-auth');
-      if (auth) {
-        const { username, repo } = JSON.parse(auth);
-        document.getElementById('username').value = username;
-        document.getElementById('repo').value = repo;
-        document.getElementById('loginSection').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
-        loadPosts();
-      }
-    };
-  </script>
+// auto-login if creds saved
+const saved=localStorage.getItem('gh');
+if(saved){
+  cfg=JSON.parse(saved); $('#u').value=cfg.u; $('#r').value=cfg.r;
+  $('#login').style.display='none'; $('#dash').style.display='block'; loadPosts();
+}
+</script>
 </body>
 </html>
