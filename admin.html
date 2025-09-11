@@ -1,962 +1,354 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Panel — Boluadeoye</title>
-    <base href="/Mywebsite/">
-    
-    <style>
-        :root {
-            --bg: #0f172a;
-            --panel: #111a2e;
-            --panel-hover: #1a2341;
-            --ink: #e5eefc;
-            --muted: #94a3b8;
-            --orange: #f59e0b;
-            --orange-light: #fbbf24;
-            --orange-ink: #0b0f19;
-            --ring: rgba(245, 158, 11, .15);
-            --radius: 16px;
-            --transition: cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        body {
-            background: var(--bg);
-            color: var(--ink);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-        
-        /* Background effect */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(245, 158, 11, 0.03) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.02) 0%, transparent 40%);
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-            position: relative;
-            z-index: 1;
-        }
-        
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--orange), var(--orange-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .subtitle {
-            color: var(--muted);
-            font-size: 1rem;
-        }
-        
-        /* Tabs */
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            background: var(--panel);
-            padding: 0.5rem;
-            border-radius: var(--radius);
-            border: 1px solid rgba(255, 255, 255, .06);
-        }
-        
-        .tab {
-            flex: 1;
-            padding: 0.75rem 1.5rem;
-            background: transparent;
-            border: none;
-            color: var(--muted);
-            cursor: pointer;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .tab.active {
-            background: var(--orange);
-            color: var(--orange-ink);
-        }
-        
-        .tab:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--ink);
-        }
-        
-        /* Tab Content */
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Cards */
-        .card {
-            background: var(--panel);
-            border-radius: var(--radius);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, .06);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, .15);
-        }
-        
-        .card h2 {
-            color: var(--orange);
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        /* Grid Layout */
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-        
-        /* Forms */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--ink);
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        
-        input, textarea, select {
-            width: 100%;
-            padding: 0.85rem 1rem;
-            background: var(--bg);
-            border: 1px solid rgba(255, 255, 255, .08);
-            border-radius: 10px;
-            color: var(--ink);
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-        
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: var(--orange);
-            box-shadow: 0 0 0 3px var(--ring);
-            background: var(--panel-hover);
-        }
-        
-        textarea {
-            resize: vertical;
-            min-height: 350px;
-            font-family: 'Monaco', 'Courier New', monospace;
-            line-height: 1.5;
-        }
-        
-        /* Buttons */
-        button {
-            background: var(--orange);
-            color: var(--orange-ink);
-            padding: 0.85rem 1.75rem;
-            border: none;
-            border-radius: 999px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 0.95rem;
-            transition: all 0.3s var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        button:hover {
-            background: var(--orange-light);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(245, 158, 11, .3);
-        }
-        
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        button.secondary {
-            background: rgba(255, 255, 255, .05);
-            color: var(--ink);
-            border: 1px solid rgba(255, 255, 255, .1);
-        }
-        
-        button.secondary:hover {
-            background: rgba(255, 255, 255, .08);
-            border-color: var(--orange);
-            color: var(--orange);
-        }
-        
-        button.danger {
-            background: rgba(239, 68, 68, .1);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, .2);
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
-        }
-        
-        button.danger:hover {
-            background: #ef4444;
-            color: white;
-        }
-        
-        /* Status Messages */
-        .status {
-            padding: 1rem 1.25rem;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
-            display: none;
-            animation: slideIn 0.3s ease;
-        }
-        
-        .status.success {
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.2);
-            color: #22c55e;
-        }
-        
-        .status.error {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-        }
-        
-        .status.info {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            color: var(--orange);
-        }
-        
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Preview */
-        .preview {
-            background: var(--bg);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, .06);
-            min-height: 300px;
-            max-height: 600px;
-            overflow-y: auto;
-        }
-        
-        .preview h1, .preview h2, .preview h3 {
-            color: var(--orange);
-            margin: 1rem 0;
-        }
-        
-        .preview p {
-            margin-bottom: 1rem;
-            line-height: 1.7;
-        }
-        
-        /* File Lists */
-        .file-list {
-            display: grid;
-            gap: 0.75rem;
-            max-height: 400px;
-            overflow-y: auto;
-            padding-right: 0.5rem;
-        }
-        
-        .file-item {
-            background: var(--bg);
-            padding: 1rem;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, .06);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.2s ease;
-        }
-        
-        .file-item:hover {
-            border-color: var(--orange);
-            transform: translateX(5px);
-        }
-        
-        /* Image Upload Section */
-        .image-upload-area {
-            border: 2px dashed rgba(245, 158, 11, .3);
-            border-radius: var(--radius);
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            margin-bottom: 1.5rem;
-        }
-        
-        .image-upload-area:hover {
-            border-color: var(--orange);
-            background: rgba(245, 158, 11, .05);
-        }
-        
-        .image-preview-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        
-        .image-item {
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-        
-        .image-item:hover {
-            border-color: var(--orange);
-            transform: scale(1.05);
-        }
-        
-        .image-item img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-        }
-        
-        .image-name {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 0.25rem 0.5rem;
-            font-size: 0.75rem;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        
-        /* Helper text */
-        .helper {
-            font-size: 0.85rem;
-            color: var(--muted);
-            margin-top: 0.5rem;
-        }
-        
-        /* Loading */
-        .spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid transparent;
-            border-top-color: var(--orange);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Mobile Responsive */
-        @media (max-width: 968px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .tabs {
-                flex-direction: column;
-            }
-            
-            .tab {
-                width: 100%;
-            }
-            
-            .card {
-                padding: 1.5rem;
-            }
-        }
-        
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: var(--bg);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: rgba(245, 158, 11, .3);
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(245, 158, 11, .5);
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Panel — Boluadeoye</title>
+  <base href="/Mywebsite/">
+
+  <!-- ======= THEME ======= -->
+  <style>
+    :root{
+      --bg:#0f172a;
+      --panel:#111a2e;
+      --panel-hover:#1a2341;
+      --ink:#e5eefc;
+      --muted:#94a3b8;
+      --orange:#f59e0b;
+      --orange-light:#fbbf24;
+      --orange-ink:#0b0f19;
+      --ring:rgba(245,158,11,.15);
+      --radius:16px;
+      --transition:cubic-bezier(.4,0,.2,1);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      background:var(--bg);color:var(--ink);
+      font:16px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+      min-height:100vh;
+    }
+    body::before{
+      content:'';position:fixed;inset:0;
+      background:
+        radial-gradient(circle at 20% 50%,rgba(245,158,11,.03)0%,transparent40%),
+        radial-gradient(circle at 80% 80%,rgba(245,158,11,.02)0%,transparent40%);
+      pointer-events:none;z-index:0;
+    }
+    h1,h2{font-family:ui-serif,Georgia,serif}
+    .container{max-width:1400px;margin:auto;padding:2rem;position:relative;z-index:1}
+    h1{font-size:2.5rem;margin-bottom:.5rem;
+        background:linear-gradient(135deg,var(--orange),var(--orange-light));
+        -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .subtitle{color:var(--muted);margin-bottom:2rem;text-align:center}
+    /* Tabs */
+    .tabs{display:flex;gap:.5rem;background:var(--panel);padding:.5rem;border-radius:var(--radius);
+          border:1px solid rgba(255,255,255,.06);margin-bottom:2rem;flex-wrap:wrap}
+    .tab{flex:1;padding:.75rem 1.5rem;background:transparent;border:none;
+         color:var(--muted);cursor:pointer;border-radius:10px;font-weight:600;font-size:.9rem}
+    .tab.active{background:var(--orange);color:var(--orange-ink)}
+    .tab:hover:not(.active){background:rgba(255,255,255,.05);color:var(--ink)}
+    .tab-content{display:none} .tab-content.active{display:block;animation:fade .3s ease}
+    @keyframes fade{from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)}}
+    /* Card */
+    .card{background:var(--panel);border-radius:var(--radius);padding:2rem;margin-bottom:2rem;
+          border:1px solid rgba(255,255,255,.06);box-shadow:0 4px 20px rgba(0,0,0,.15)}
+    .card h2{color:var(--orange);font-size:1.5rem;margin-bottom:1.5rem}
+    /* Grid */
+    .grid{display:grid;gap:2rem}
+    @media(min-width:950px){.grid.two{grid-template-columns:1fr 1fr}}
+    /* Form */
+    .form-group{margin-bottom:1.5rem}
+    label{display:block;margin-bottom:.5rem;color:var(--ink);font-weight:600;font-size:.9rem}
+    input,textarea,select{
+      width:100%;padding:.85rem 1rem;background:var(--bg);
+      border:1px solid rgba(255,255,255,.08);border-radius:10px;color:var(--ink);font-size:1rem
+    }
+    input:focus,textarea:focus,select:focus{
+      border-color:var(--orange);box-shadow:0 0 0 3px var(--ring);outline:none;background:var(--panel-hover)
+    }
+    textarea{min-height:320px;resize:vertical;font-family:monospace}
+    /* Buttons */
+    button{
+      background:var(--orange);color:var(--orange-ink);padding:.8rem 1.6rem;border:none;
+      border-radius:999px;font-weight:700;cursor:pointer;font-size:.9rem;display:inline-flex;gap:.4rem;
+      transition:all .3s var(--transition);align-items:center
+    }
+    button:hover{background:var(--orange-light);transform:translateY(-2px);box-shadow:0 6px 20px rgba(245,158,11,.3)}
+    button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+    button.secondary{background:rgba(255,255,255,.05);color:var(--ink);border:1px solid rgba(255,255,255,.1)}
+    button.secondary:hover{background:rgba(255,255,255,.08);color:var(--orange);border-color:var(--orange)}
+    button.danger{background:rgba(239,68,68,.12);color:#ef4444;border:1px solid rgba(239,68,68,.25);padding:.5rem 1rem;font-size:.8rem}
+    button.danger:hover{background:#ef4444;color:#fff}
+    /* Status */
+    .status{padding:1rem;border-radius:10px;margin-bottom:1.2rem;display:none}
+    .status.success{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#22c55e}
+    .status.error{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#ef4444}
+    .status.info{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:var(--orange)}
+    /* Preview */
+    .preview{background:var(--bg);padding:1.5rem;border-radius:12px;border:1px solid rgba(255,255,255,.06);
+             max-height:600px;overflow-y:auto}
+    .preview h1,.preview h2,.preview h3{color:var(--orange);margin:1rem 0}
+    /* File list */
+    .file-item{background:var(--bg);border:1px solid rgba(255,255,255,.06);border-radius:10px;
+               padding:1rem;margin-bottom:.75rem;display:flex;justify-content:space-between;align-items:center}
+    .file-item:hover{border-color:var(--orange);transform:translateX(5px);transition:.2s}
+    /* Image gallery */
+    .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem}
+    .img-box{position:relative;border-radius:8px;overflow:hidden;border:2px solid transparent;transition:.3s}
+    .img-box:hover{border-color:var(--orange);transform:scale(1.05)}
+    .img-box img{width:100%;height:150px;object-fit:cover}
+    .img-name{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.7);color:#fff;font-size:.75rem;
+              padding:.25rem .5rem;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+    /* Scrollbar */
+    ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:rgba(245,158,11,.35);border-radius:4px}
+    ::-webkit-scrollbar-thumb:hover{background:rgba(245,158,11,.55)}
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Admin Panel</h1>
-            <p class="subtitle">Manage your blog content</p>
+  <div class="container">
+    <h1>Admin Panel</h1>
+    <p class="subtitle">Create, upload and manage your blog content</p>
+
+    <!-- ========== LOGIN ========= -->
+    <div id="loginSection" class="card">
+      <h2>🔐 GitHub Login</h2>
+      <div id="loginStatus" class="status"></div>
+      <div class="grid two">
+        <div class="form-group">
+          <label>GitHub Username</label>
+          <input id="username" placeholder="username">
         </div>
-        
-        <!-- Login Section -->
-        <div id="loginSection" class="card">
-            <h2>🔐 GitHub Authentication</h2>
-            <div id="loginStatus" class="status"></div>
-            
-            <div class="grid">
-                <div class="form-group">
-                    <label>GitHub Username</label>
-                    <input type="text" id="username" placeholder="your-github-username">
-                </div>
-                
-                <div class="form-group">
-                    <label>Repository Name</label>
-                    <input type="text" id="repo" value="Mywebsite">
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label>Personal Access Token</label>
-                <input type="password" id="token" placeholder="ghp_xxxxxxxxxxxx">
-                <p class="helper">Your GitHub token with repo permissions</p>
-            </div>
-            
-            <button onclick="login()">
-                <span>🚀</span>
-                <span>Login to Dashboard</span>
-            </button>
+        <div class="form-group">
+          <label>Repository Name</label>
+          <input id="repo" value="Mywebsite">
         </div>
-        
-        <!-- Admin Dashboard -->
-        <div id="adminPanel" style="display: none;">
-            <!-- Tabs -->
-            <div class="tabs">
-                <button class="tab active" onclick="switchTab('write')">✍️ Write Post</button>
-                <button class="tab" onclick="switchTab('media')">📸 Media Library</button>
-                <button class="tab" onclick="switchTab('manage')">📂 Manage Posts</button>
-                <button class="tab" onclick="switchTab('tools')">🔧 Tools</button>
-            </div>
-            
-            <!-- Write Post Tab -->
-            <div id="writeTab" class="tab-content active">
-                <div class="grid">
-                    <div class="card">
-                        <h2>Create New Post</h2>
-                        <div id="postStatus" class="status"></div>
-                        
-                        <div class="form-group">
-                            <label>Post Title</label>
-                            <input type="text" id="postTitle" placeholder="Enter an engaging title" oninput="updatePreview()">
-                        </div>
-                        
-                        <div class="grid">
-                            <div class="form-group">
-                                <label>Category</label>
-                                <select id="postType">
-                                    <option value="faith">Faith</option>
-                                    <option value="poems">Poems</option>
-                                    <option value="stories">Stories</option>
-                                    <option value="devotional">Devotional</option>
-                                    <option value="articles">Articles</option>
-                                    <option value="essays">Essays</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Date</label>
-                                <input type="date" id="postDate" value="">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Excerpt</label>
-                            <input type="text" id="postExcerpt" placeholder="Brief description for post preview">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Content (Markdown)</label>
-                            <textarea id="postContent" placeholder="Write your post content here..." oninput="updatePreview()"></textarea>
-                            <p class="helper">Use markdown: # Heading, **bold**, *italic*, > quote</p>
-                        </div>
-                        
-                        <button id="publishBtn" onclick="publishPost()">
-                            <span>📤</span>
-                            <span>Publish Post</span>
-                        </button>
-                    </div>
-                    
-                    <div class="card">
-                        <h2>Live Preview</h2>
-                        <div class="preview" id="preview">
-                            <p style="color: var(--muted); text-align: center;">Start typing to see preview...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Media Library Tab -->
-            <div id="mediaTab" class="tab-content">
-                <div class="card">
-                    <h2>Upload Images</h2>
-                    <div id="imageStatus" class="status"></div>
-                    
-                    <div class="image-upload-area">
-                        <input type="file" id="imageFile" accept="image/*" style="display: none;" onchange="handleImageSelect()">
-                        <button onclick="document.getElementById('imageFile').click()">
-                            <span>📁</span>
-                            <span>Choose Image</span>
-                        </button>
-                        <p class="helper" style="margin-top: 1rem;">or drag and drop an image here</p>
-                    </div>
-                    
-                    <div id="selectedImage" style="display: none; margin-bottom: 1.5rem;">
-                        <img id="imagePreview" style="max-width: 300px; border-radius: 8px;">
-                        <div style="margin-top: 1rem;">
-                            <button onclick="uploadImage()">
-                                <span>⬆️</span>
-                                <span>Upload Image</span>
-                            </button>
-                            <button class="secondary" onclick="clearImageSelection()">Cancel</button>
-                        </div>
-                    </div>
-                    
-                    <h3 style="margin-top: 2rem; color: var(--orange);">Image Gallery</h3>
-                    <div class="image-preview-grid" id="imageGallery">
-                        <p style="color: var(--muted);">No images uploaded yet</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Manage Posts Tab -->
-            <div id="manageTab" class="tab-content">
-                <div class="card">
-                    <h2>Published Posts</h2>
-                    <div id="manageStatus" class="status"></div>
-                    <div class="file-list" id="postsList">
-                        <p style="color: var(--muted); text-align: center;">Loading posts...</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tools Tab -->
-            <div id="toolsTab" class="tab-content">
-                <div class="card">
-                    <h2>Maintenance Tools</h2>
-                    <div id="toolStatus" class="status"></div>
-                    
-                    <div style="margin-bottom: 2rem;">
-                        <h3 style="color: var(--orange); margin-bottom: 1rem;">Fix Missing Posts</h3>
-                        <p class="helper" style="margin-bottom: 1rem;">Check for posts that appear on homepage but show "unable to load"</p>
-                        <button onclick="checkAndFixPosts()">
-                            <span>🔍</span>
-                            <span>Check & Fix Posts</span>
-                        </button>
-                    </div>
-                    
-                    <div id="fixResults"></div>
-                </div>
-            </div>
-        </div>
+      </div>
+      <div class="form-group">
+        <label>Personal Access Token</label>
+        <input id="token" type="password" placeholder="ghp_xxxxxxxxx">
+      </div>
+      <button onclick="login()">🚀 Login</button>
     </div>
 
-    <script>
-        let githubConfig = {};
-        
-        // Set today's date as default
-        document.getElementById('postDate').valueAsDate = new Date();
-        
-        // Check saved login
-        const saved = localStorage.getItem('githubConfig');
-        if (saved) {
-            githubConfig = JSON.parse(saved);
-            showAdminPanel();
-        }
-        
-        function login() {
-            const username = document.getElementById('username').value;
-            const repo = document.getElementById('repo').value;
-            const token = document.getElementById('token').value;
-            
-            if (!username || !repo || !token) {
-                showStatus('loginStatus', '⚠️ Please fill all fields', 'error');
-                return;
-            }
-            
-            githubConfig = { username, repo, token };
-            
-            // Test credentials
-            fetch(`https://api.github.com/repos/${username}/${repo}`, {
-                headers: {
-                    'Authorization': `token ${token}`,
-                    'Accept': 'application/vnd.github.v3+json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    localStorage.setItem('githubConfig', JSON.stringify(githubConfig));
-                    showStatus('loginStatus', '✅ Login successful!', 'success');
-                    setTimeout(() => showAdminPanel(), 1000);
-                } else {
-                    throw new Error('Invalid credentials');
-                }
-            })
-            .catch(error => {
-                showStatus('loginStatus', '❌ Login failed. Check your credentials.', 'error');
-            });
-        }
-        
-        function showAdminPanel() {
-            document.getElementById('loginSection').style.display = 'none';
-            document.getElementById('adminPanel').style.display = 'block';
-            loadPosts();
-            loadImages();
-        }
-        
-        function switchTab(tab) {
-            // Update tab buttons
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            // Update tab content
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById(tab + 'Tab').classList.add('active');
-            
-            // Load data for the tab
-            if (tab === 'manage') loadPosts();
-            if (tab === 'media') loadImages();
-        }
-        
-        function showStatus(id, message, type) {
-            const el = document.getElementById(id);
-            el.textContent = message;
-            el.className = `status ${type}`;
-            el.style.display = 'block';
-            if (type !== 'error') {
-                setTimeout(() => el.style.display = 'none', 5000);
-            }
-        }
-        
-        function updatePreview() {
-            const title = document.getElementById('postTitle').value || 'Untitled';
-            const content = document.getElementById('postContent').value;
-            let html = parseMarkdown(content);
-            document.getElementById('preview').innerHTML = `<h1>${title}</h1>${html}`;
-        }
-        
-        function parseMarkdown(md) {
-            let html = md;
-            html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-            html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-            html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
-            html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
-            html = html.replace(/^> (.+)$/gim, '<blockquote>$1</blockquote>');
-            html = html.split('\n\n').map(p => p.startsWith('<') ? p : `<p>${p}</p>`).join('\n');
-            return html;
-        }
-        
-        async function publishPost() {
-            const title = document.getElementById('postTitle').value.trim();
-            const type = document.getElementById('postType').value;
-            const excerpt = document.getElementById('postExcerpt').value.trim();
-            const content = document.getElementById('postContent').value.trim();
-            const date = document.getElementById('postDate').value;
-            
-            if (!title || !excerpt || !content) {
-                showStatus('postStatus', '⚠️ Please fill all fields', 'error');
-                return;
-            }
-            
-            const btn = document.getElementById('publishBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<span class="spinner"></span> Publishing...';
-            
-            const filename = title.toLowerCase()
-                .replace(/[^a-z0-9\s-]/g, '')
-                .replace(/\s+/g, '-')
-                .replace(/-+/g, '-')
-                .trim();
-            
-            try {
-                // Create markdown file first
-                await githubAPI('PUT', `contents/posts/${filename}.md`, {
-                    message: `Add post: ${title}`,
-                    content: btoa(unescape(encodeURIComponent(content)))
-                });
-                
-                // Get and update Posts.json
-                const postsRes = await githubAPI('GET', 'contents/Posts.json');
-                let posts = [];
-                try {
-                    posts = JSON.parse(atob(postsRes.content));
-                } catch (e) {
-                    posts = [];
-                }
-                
-                posts.unshift({
-                    title,
-                    date,
-                    type,
-                    excerpt,
-                    file: `posts/${filename}.md`,
-                    likes: 0,
-                    views: 0
-                });
-                
-                await githubAPI('PUT', 'contents/Posts.json', {
-                    message: `Update Posts.json for: ${title}`,
-                    content: btoa(JSON.stringify(posts, null, 2)),
-                    sha: postsRes.sha
-                });
-                
-                showStatus('postStatus', `✅ Post "${title}" published successfully!`, 'success');
-                
-                // Clear form
-                document.getElementById('postTitle').value = '';
-                document.getElementById('postExcerpt').value = '';
-                document.getElementById('postContent').value = '';
-                updatePreview();
-                
-            } catch (error) {
-                showStatus('postStatus', `❌ Error: ${error.message}`, 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<span>📤</span><span>Publish Post</span>';
-            }
-        }
-        
-        // Image handling
-        function handleImageSelect() {
-            const file = document.getElementById('imageFile').files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    document.getElementById('imagePreview').src = e.target.result;
-                    document.getElementById('selectedImage').style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-        
-        function clearImageSelection() {
-            document.getElementById('imageFile').value = '';
-            document.getElementById('selectedImage').style.display = 'none';
-        }
-        
-        async function uploadImage() {
-            const file = document.getElementById('imageFile').files[0];
-            if (!file) {
-                showStatus('imageStatus', '⚠️ Please select an image', 'error');
-                return;
-            }
-            
-            showStatus('imageStatus', '📤 Uploading image...', 'info');
-            
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                try {
-                    const base64 = e.target.result.split(',')[1];
-                    
-                    await githubAPI('PUT', `contents/images/${file.name}`, {
-                        message: `Upload image: ${file.name}`,
-                        content: base64
-                    });
-                    
-                    showStatus('imageStatus', `✅ Uploaded! Use: ![alt text](images/${file.name})`, 'success');
-                    clearImageSelection();
-                    loadImages();
-                    
-                } catch (error) {
-                    showStatus('imageStatus', '❌ Upload failed: ' + error.message, 'error');
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-        
-        async function loadImages() {
-            try {
-                const images = await githubAPI('GET', 'contents/images');
-                const gallery = document.getElementById('imageGallery');
-                
-                const imageFiles = images.filter(img => /\.(jpg|jpeg|png|gif|webp)$/i.test(img.name));
-                
-                if (imageFiles.length === 0) {
-                    gallery.innerHTML = '<p style="color: var(--muted);">No images uploaded yet</p>';
-                } else {
-                    gallery.innerHTML = imageFiles.map(img => `
-                        <div class="image-item">
-                            <img src="${img.download_url}" alt="${img.name}">
-                            <div class="image-name">${img.name}</div>
-                        </div>
-                    `).join('');
-                }
-            } catch (error) {
-                console.error('Error loading images:', error);
-            }
-        }
-        
-        async function loadPosts() {
-            try {
-                const postsRes = await githubAPI('GET', 'contents/Posts.json');
-                const posts = JSON.parse(atob(postsRes.content));
-                
-                const list = document.getElementById('postsList');
-                list.innerHTML = posts.map(post => `
-                    <div class="file-item">
-                        <div>
-                            <strong style="color: var(--ink);">${post.title}</strong><br>
-                            <small style="color: var(--muted);">${post.date} • ${post.type}</small>
-                        </div>
-                        <button class="danger" onclick="deletePost('${post.file}')">Delete</button>
-                    </div>
-                `).join('');
-                
-            } catch (error) {
-                document.getElementById('postsList').innerHTML = '<p style="color: var(--muted);">Error loading posts</p>';
-            }
-        }
-        
-        async function deletePost(filepath) {
-            if (!confirm(`Delete this post?`)) return;
-            
-            try {
-                // Get file info
-                const fileRes = await githubAPI('GET', `contents/${filepath}`);
-                
-                // Delete file
-                await githubAPI('DELETE', `contents/${filepath}`, {
-                    message: `Delete ${filepath}`,
-                    sha: fileRes.sha
-                });
-                
-                // Update Posts.json
-                const postsRes = await githubAPI('GET', 'contents/Posts.json');
-                const posts = JSON.parse(atob(postsRes.content));
-                const updated = posts.filter(p => p.file !== filepath);
-                
-                await githubAPI('PUT', 'contents/Posts.json', {
-                    message: `Remove ${filepath} from Posts.json`,
-                    content: btoa(JSON.stringify(updated, null, 2)),
-                    sha: postsRes.sha
-                });
-                
-                showStatus('manageStatus', '✅ Post deleted successfully!', 'success');
-                loadPosts();
-                
-            } catch (error) {
-                showStatus('manageStatus', '❌ Error deleting post', 'error');
-            }
-        }
-        
-        async function checkAndFixPosts() {
-            showStatus('toolStatus', '🔍 Checking posts...', 'info');
-            
-            try {
-                const postsRes = await githubAPI('GET', 'contents/Posts.json');
-                const posts = JSON.parse(atob(postsRes.content));
-                
-                const filesRes = await githubAPI('GET', 'contents/posts');
-                const fileNames = filesRes.map(f => `posts/${f.name}`);
-                
-                const missing = posts.filter(post => !fileNames.includes(post.file));
-                
-                const results = document.getElementById('fixResults');
-                
-                if (missing.length === 0) {
-                    showStatus('toolStatus', '✅ All posts are properly linked!', 'success');
-                    results.innerHTML = '';
-                } else {
-                    showStatus('toolStatus', `⚠️ Found ${missing.length} posts with missing files`, 'error');
-                    results.innerHTML = `
-                        <div class="card" style="margin-top: 1rem;">
-                            <h3 style="color: var(--orange);">Missing Files:</h3>
-                            ${missing.map(post => `
-                                <div class="file-item">
-                                    <div>
-                                        <strong>${post.title}</strong><br>
-                                        <small style="color: var(--muted);">Expected: ${post.file}</small>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                showStatus('toolStatus', '❌ Error checking posts', 'error');
-            }
-        }
-        
-        async function githubAPI(method, path, body = null) {
-            const url = `https://api.github.com/repos/${githubConfig.username}/${githubConfig.repo}/${path}`;
-            const options = {
-                method,
-                headers: {
-                    'Authorization': `token ${githubConfig.token}`,
-                    'Accept': 'application/vnd.github.v3+json'
-                }
-            };
-            
-            if (body) {
-                options.body = JSON.stringify(body);
-                options.headers['Content-Type'] = 'application/json';
-            }
-            
-            const response = await fetch(url, options);
-            if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
-            return await response.json();
-        }
-    </script>
+    <!-- ========== DASHBOARD ========= -->
+    <div id="adminPanel" style="display:none">
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('write',event)">✍️ Write Post</button>
+        <button class="tab" onclick="switchTab('media',event)">📸 Media Library</button>
+        <button class="tab" onclick="switchTab('manage',event)">📂 Manage Posts</button>
+        <button class="tab" onclick="switchTab('tools',event)">🔧 Tools</button>
+      </div>
+
+      <!-- WRITE TAB -->
+      <div id="writeTab" class="tab-content active">
+        <div class="grid two">
+          <div class="card">
+            <h2>Create Post</h2>
+            <div id="postStatus" class="status"></div>
+            <div class="form-group"><label>Title</label><input id="postTitle" oninput="updatePreview()"></div>
+            <div class="grid two">
+              <div class="form-group">
+                <label>Category</label>
+                <select id="postType">
+                  <option value="faith">Faith</option><option value="poems">Poems</option>
+                  <option value="stories">Stories</option><option value="devotional">Devotional</option>
+                  <option value="articles">Articles</option><option value="essays">Essays</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Date</label>
+                <input id="postDate" type="date">
+              </div>
+            </div>
+            <div class="form-group"><label>Excerpt</label><input id="postExcerpt"></div>
+            <div class="form-group"><label>Content (Markdown)</label><textarea id="postContent" oninput="updatePreview()"></textarea></div>
+            <button id="publishBtn" onclick="publishPost()">📤 Publish</button>
+          </div>
+          <div class="card">
+            <h2>Preview</h2>
+            <div id="preview" class="preview"><p style="color:var(--muted);text-align:center;">Start typing…</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEDIA TAB -->
+      <div id="mediaTab" class="tab-content">
+        <div class="card">
+          <h2>Upload Image</h2>
+          <div id="imageStatus" class="status"></div>
+          <div class="form-group">
+            <input id="imageFile" type="file" accept="image/*" style="display:none" onchange="showSelectedImage()">
+            <button onclick="document.getElementById('imageFile').click()">📁 Choose Image</button>
+          </div>
+          <div id="selectedWrap" style="display:none;margin-bottom:1rem;">
+            <img id="selectedPreview" style="max-width:250px;border-radius:8px;">
+            <div style="margin-top:.75rem">
+              <button onclick="uploadImage()">⬆️ Upload</button>
+              <button class="secondary" onclick="clearImage()">Cancel</button>
+            </div>
+          </div>
+          <h2 style="margin-top:2rem">Gallery</h2>
+          <div id="imageGallery" class="gallery"></div>
+        </div>
+      </div>
+
+      <!-- MANAGE TAB -->
+      <div id="manageTab" class="tab-content">
+        <div class="card">
+          <h2>Posts</h2>
+          <div id="manageStatus" class="status"></div>
+          <div id="postsList"></div>
+        </div>
+      </div>
+
+      <!-- TOOLS TAB -->
+      <div id="toolsTab" class="tab-content">
+        <div class="card">
+          <h2>Maintenance Tools</h2>
+          <div id="toolStatus" class="status"></div>
+          <button onclick="checkAndFixPosts()">🔍 Check & Fix Missing Files</button>
+          <div id="fixResults" style="margin-top:1.5rem"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= SCRIPT ======= -->
+  <script>
+    /* ---------- Helper UI ---------- */
+    function switchTab(id,e){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      e.target.classList.add('active');document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+      document.getElementById(id+'Tab').classList.add('active');
+      if(id==='manage')loadPosts();if(id==='media')loadImages();}
+    function showStatus(elId,msg,type){
+      const el=document.getElementById(elId);el.textContent=msg;el.className='status '+type;el.style.display='block';
+      if(type!=='error')setTimeout(()=>el.style.display='none',5000)}
+    /* ---------- Login ---------- */
+    let githubConfig={};
+    if(localStorage.getItem('githubConfig')){githubConfig=JSON.parse(localStorage.getItem('githubConfig'));showDashboard();}
+    function login(){
+      const u=val('username'),r=val('repo'),t=val('token');
+      if(!u||!r||!t)return showStatus('loginStatus','⚠ Fill all fields','error');
+      githubConfig={username:u,repo:r,token:t};
+      fetchGH('GET','')
+      .then(()=>{localStorage.setItem('githubConfig',JSON.stringify(githubConfig));
+                 showStatus('loginStatus','✅ Login success','success');setTimeout(showDashboard,800)})
+      .catch(e=>showStatus('loginStatus','❌ '+e.message,'error')); }
+    function showDashboard(){id('loginSection').style.display='none';id('adminPanel').style.display='block';
+      id('postDate').valueAsDate=new Date();loadPosts();loadImages();}
+    /* ---------- Post Preview ---------- */
+    function updatePreview(){
+      const title=val('postTitle')||'Untitled';const md=val('postContent');
+      id('preview').innerHTML=`<h1>${title}</h1>`+md2html(md);}
+    function md2html(md){
+      let h=md.replace(/^### (.*$)/gim,'<h3>$1</h3>')
+              .replace(/^## (.*$)/gim,'<h2>$1</h2>')
+              .replace(/^# (.*$)/gim,'<h1>$1</h1>')
+              .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+              .replace(/\*(.+?)\*/g,'<em>$1</em>')
+              .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2">$1</a>')
+              .replace(/^> (.+)$/gim,'<blockquote>$1</blockquote>');
+      return h.split('\\n\\n').map(p=>p.startsWith('<')?p:`<p>${p}</p>`).join('\\n');}
+    /* ---------- Publish ---------- */
+    async function publishPost(){
+      const title=val('postTitle').trim(),typ=val('postType'),ex=val('postExcerpt').trim(),content=val('postContent').trim(),
+            date=val('postDate')||new Date().toISOString().split('T')[0];
+      if(!title||!ex||!content)return showStatus('postStatus','⚠ Fill title, excerpt & content','error');
+      const btn=id('publishBtn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Publishing…';
+      const file=title.toLowerCase().replace(/[^a-z0-9\\s-]/g,'').replace(/\\s+/g,'-').replace(/-+/g,'-')+'.md',
+            path=`posts/${file}`;
+      try{
+        await ensureFolder('posts');await ensureFolder('images');
+        /* 1. create md file */
+        await fetchGH('PUT',`/contents/${path}`,{
+          message:`Add post: ${title}`,content:b64(content)});
+        /* 2. update Posts.json */
+        const postsRes=await fetchGH('GET','/contents/Posts.json');
+        let posts=[];try{posts=JSON.parse(atob(postsRes.content))}catch{}
+        posts.unshift({title,date:type:typ,excerpt:ex,file:path,likes:0,views:0});
+        await fetchGH('PUT','/contents/Posts.json',{message:`Update Posts.json for ${title}`,
+          content:b64(JSON.stringify(posts,null,2)),sha:postsRes.sha});
+        showStatus('postStatus','✅ Published!','success');
+        ['postTitle','postExcerpt','postContent'].forEach(c=>id(c).value='');updatePreview();loadPosts();
+      }catch(e){showStatus('postStatus','❌ '+e.message,'error');}
+      btn.disabled=false;btn.innerHTML='📤 Publish';}
+    /* ---------- Media ---------- */
+    function showSelectedImage(){const f=id('imageFile').files[0];if(!f)return;
+      const r=new FileReader();r.onload=e=>{id('selectedPreview').src=e.target.result;id('selectedWrap').style.display='block'};
+      r.readAsDataURL(f);}
+    function clearImage(){id('imageFile').value='';id('selectedWrap').style.display='none'}
+    async function uploadImage(){
+      const f=id('imageFile').files[0];if(!f)return showStatus('imageStatus','⚠ Choose an image','error');
+      try{
+        await ensureFolder('images');
+        const b=await toBase64(f);await fetchGH('PUT',`/contents/images/${f.name}`,{
+          message:`Upload image: ${f.name}`,content:b.split(',')[1]});
+        showStatus('imageStatus',`✅ Uploaded! Use: !<!--citation:1-->`,'success');
+        clearImage();loadImages();
+      }catch(e){showStatus('imageStatus','❌ '+e.message,'error');}}
+    async function loadImages(){
+      try{const list=await fetchGH('GET','/contents/images');
+        const gallery=id('imageGallery');
+        const imgs=list.filter(i=>/\\.(jpg|jpeg|png|gif|webp)$/i.test(i.name));
+        gallery.innerHTML=imgs.length?imgs.map(i=>`
+          <div class="img-box"><img src="${i.download_url}" alt="${i.name}">
+          <div class="img-name">${i.name}</div></div>`).join(''):
+          '<p style="color:var(--muted);text-align:center;">No images</p>';
+      }catch(e){id('imageGallery').innerHTML='<p style="color:var(--muted);">Error loading images</p>';}}
+    /* ---------- Manage Posts ---------- */
+    async function loadPosts(){
+      try{const res=await fetchGH('GET','/contents/Posts.json');const posts=JSON.parse(atob(res.content));
+        id('postsList').innerHTML=posts.map(p=>`
+          <div class="file-item"><div><strong>${p.title}</strong><br>
+          <small style="color:var(--muted);">${p.date} • ${p.type}</small></div>
+          <button class="danger" onclick="deletePost('${p.file}')">Delete</button></div>`).join('');}
+      catch{ id('postsList').innerHTML='<p style="color:var(--muted);text-align:center;">Failed to load.</p>'}}
+    async function deletePost(path){
+      if(!confirm('Delete this post?'))return;
+      try{
+        const f=await fetchGH('GET',`/contents/${path}`);
+        await fetchGH('DELETE',`/contents/${path}`,{message:`Delete ${path}`,sha:f.sha});
+        const res=await fetchGH('GET','/contents/Posts.json');
+        const arr=JSON.parse(atob(res.content)).filter(p=>p.file!==path);
+        await fetchGH('PUT','/contents/Posts.json',{message:`Remove ${path}`,content:b64(JSON.stringify(arr,null,2)),sha:res.sha});
+        showStatus('manageStatus','✅ Deleted','success');loadPosts();
+      }catch(e){showStatus('manageStatus','❌ '+e.message,'error');}}
+    /* ---------- Tools ---------- */
+    async function checkAndFixPosts(){
+      showStatus('toolStatus','🔍 Checking…','info');id('fixResults').innerHTML='';
+      try{
+        const postsJson=await fetchGH('GET','/contents/Posts.json');const arr=JSON.parse(atob(postsJson.content));
+        const files=await fetchGH('GET','/contents/posts');const names=files.map(f=>'posts/'+f.name);
+        const missing=arr.filter(p=>!names.includes(p.file));
+        if(!missing.length)return showStatus('toolStatus','✅ No missing files','success');
+        showStatus('toolStatus',`⚠ Found ${missing.length} missing`,'error');
+        id('fixResults').innerHTML=missing.map(p=>`
+          <div class="file-item"><div><strong>${p.title}</strong><br><small>${p.file}</small></div>
+          <button onclick="createMissing('${p.file}','${p.title}','${(p.excerpt||'').replace(/'/g,'&#39;')}')">Create</button></div>`).join('');
+      }catch(e){showStatus('toolStatus','❌ '+e.message,'error');}}
+    async function createMissing(path,title,excerpt){
+      try{
+        await ensureFolder('posts');
+        const md=`# ${title}\n\n> ${excerpt}\n\n_This post was restored. Replace with full content._\n`;
+        await fetchGH('PUT',`/contents/${path}`,{message:`Restore ${path}`,content:b64(md)});
+        showStatus('toolStatus','✅ File created','success');checkAndFixPosts();
+      }catch(e){showStatus('toolStatus','❌ '+e.message,'error');}}
+    /* ---------- GitHub Helpers ---------- */
+    function b64(str){return btoa(unescape(encodeURIComponent(str)));}
+    function val(id){return document.getElementById(id).value}
+    function id(id){return document.getElementById(id)}
+    async function fetchGH(method,path,body){
+      const url=`https://api.github.com/repos/${githubConfig.username}/${githubConfig.repo}${path.startsWith('/')?'':'/'}${path}`;
+      const opt={method,headers:{'Authorization':`token ${githubConfig.token}`,'Accept':'application/vnd.github.v3+json'}};
+      if(body){opt.headers['Content-Type']='application/json';opt.body=JSON.stringify(body);}
+      const res=await fetch(url,opt);if(!res.ok){const t=await res.text();throw new Error(`GitHub ${res.status}: ${t.slice(0,120)}`);}return res.json();}
+    async function ensureFolder(dir){
+      try{await fetchGH('GET',`/contents/${dir}`);}catch(e){
+        if(/404/.test(e.message))await fetchGH('PUT',`/contents/${dir}/.gitkeep`,
+        {message:`Create ${dir} folder`,content:b64('')});else throw e;}}
+    function toBase64(file){return new Promise(r=>{const fr=new FileReader();fr.onload=e=>r(e.target.result);fr.readAsDataURL(file);});}
+  </script>
 </body>
 </html>
