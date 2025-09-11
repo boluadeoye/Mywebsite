@@ -5,24 +5,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Simple Blog Admin</title>
 <style>
-:root{
-  --bg:#0f172a; --panel:#111a2e; --ink:#e5eefc; --muted:#94a3b8;
-  --orange:#f59e0b; --orange-ink:#0b0f19; --radius:12px;
-}
+:root{--bg:#0f172a;--panel:#111a2e;--ink:#e5eefc;--muted:#94a3b8;--orange:#f59e0b;--orange-ink:#0b0f19;--radius:12px}
 *{box-sizing:border-box;font-family:system-ui,sans-serif}
-body{margin:0;padding:1rem;background:var(--bg);color:var(--ink);}
+body{margin:0;padding:1rem;background:var(--bg);color:var(--ink)}
 h1{font-size:1.8rem;text-align:center;color:var(--orange);margin-bottom:1rem}
 .card{background:var(--panel);padding:1rem;border-radius:var(--radius);margin:auto;max-width:500px}
 label{display:block;margin:.8rem 0 .3rem;font-weight:600}
 input{width:100%;padding:.65rem;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:var(--bg);color:var(--ink)}
-button{margin-top:1rem;width:100%;padding:.8rem;border:none;border-radius:999px;
-       background:var(--orange);color:var(--orange-ink);font-weight:700}
+button{margin-top:1rem;width:100%;padding:.8rem;border:none;border-radius:999px;background:var(--orange);color:var(--orange-ink);font-weight:700}
 button:disabled{opacity:.4}
 .status{margin-top:.8rem;padding:.7rem;border-radius:8px;display:none}
 .status.ok{background:rgba(34,197,94,.14);color:#34d399}
 .status.err{background:rgba(239,68,68,.14);color:#f87171}
-.post{background:var(--bg);padding:.8rem;border-radius:8px;margin:.6rem 0;
-      display:flex;justify-content:space-between;align-items:center}
+.post{background:var(--bg);padding:.8rem;border-radius:8px;margin:.6rem 0;display:flex;justify-content:space-between;align-items:center}
 .post button{width:auto;padding:.4rem .8rem;background:#991b1b;color:#fff}
 </style>
 </head>
@@ -33,8 +28,8 @@ button:disabled{opacity:.4}
 <div id="login" class="card">
   <label>GitHub username</label><input id="u">
   <label>Repository name</label><input id="r" value="Mywebsite">
-  <label>Token ( repo scope )</label><input id="t" type="password">
-  <button onclick="go()">Login</button>
+  <label>Token (repo scope)</label><input id="t" type="password">
+  <button id="loginBtn">Login</button>
   <div id="ls" class="status"></div>
 </div>
 
@@ -45,70 +40,86 @@ button:disabled{opacity:.4}
 </div>
 
 <script>
-const $=id=>document.getElementById(id);                             // shortcut
+document.addEventListener('DOMContentLoaded', () => {
 
-// show “JS loaded” banner – proves script runs
-$('ls').className='status ok';$('ls').style.display='block';
-$('ls').textContent='✅ JS loaded. Enter credentials.';
+const $=id=>document.getElementById(id);
 
-let cfg={};                                                         // will hold creds
+// show proof-of-life banner
+$('#ls').className='status ok';$('#ls').style.display='block';
+$('#ls').textContent='✅ JS loaded. Enter credentials.';
 
-function msg(el,txt,type){ el.className='status '+type; el.textContent=txt; el.style.display='block'}
+let cfg={};
 
-function api(method,path,body){                                     // tiny GitHub wrapper
+function msg(el,txt,type){el.className='status '+type;el.textContent=txt;el.style.display='block'}
+
+function api(method,path,body){
   const url=`https://api.github.com/repos/${cfg.u}/${cfg.r}${path}`;
   return fetch(url,{
-    method, headers:{
-      'Authorization':'token '+cfg.t,'Accept':'application/vnd.github.v3+json',
+    method,
+    headers:{
+      'Authorization':'token '+cfg.t,
+      'Accept':'application/vnd.github.v3+json',
       'Content-Type':'application/json'
-    }, body: body?JSON.stringify(body):null
+    },
+    body:body?JSON.stringify(body):null
   }).then(r=>r.ok?r.json():r.text().then(t=>Promise.reject(`${r.status}: ${t.slice(0,80)}`)));
 }
 
-// login → test token by requesting repo root
-function go(){
+async function go(){
   cfg={u:$('#u').value.trim(),r:$('#r').value.trim(),t:$('#t').value.trim()};
-  if(!cfg.u||!cfg.r||!cfg.t) return msg(ls,'⚠ Fill every field','err');
-  msg(ls,'⏳ Contacting GitHub…','ok');
-  api('GET','').then(()=>{              // success
-      localStorage.setItem('gh',JSON.stringify(cfg));
-      $('#login').style.display='none';$('#dash').style.display='block';
-      loadPosts();
-  }).catch(e=>msg(ls,'❌ Login failed: '+e,'err'));
+  if(!cfg.u||!cfg.r||!cfg.t)return msg($('#ls'),'⚠ Fill every field','err');
+  $('#loginBtn').disabled=true;
+  msg($('#ls'),'⏳ Checking token…','ok');
+  try{
+    await api('GET','');                // test credentials
+    localStorage.setItem('gh',JSON.stringify(cfg));
+    $('#login').style.display='none';$('#dash').style.display='block';
+    loadPosts();
+  }catch(e){msg($('#ls'),'❌ '+e,'err');$('#loginBtn').disabled=false;}
 }
 
-function loadPosts(){
-  api('GET','/contents/Posts.json').then(res=>{
-    const posts=JSON.parse(atob(res.content));
-    if(!Array.isArray(posts)||!posts.length){$('#ps').innerHTML='No posts.';return;}
-    $('#ps').innerHTML=''; posts.forEach(p=>{
+async function loadPosts(){
+  try{
+    const data=await api('GET','/contents/Posts.json');
+    const posts=JSON.parse(atob(data.content));
+    $('#ps').innerHTML='';
+    if(!Array.isArray(posts)||!posts.length){$('#ps').textContent='No posts.';return;}
+    posts.forEach(p=>{
       const row=document.createElement('div');row.className='post';
       row.innerHTML=`${p.title}<button onclick="del('${p.file}','${p.title}')">Delete</button>`;
       $('#ps').appendChild(row);
     });
-  }).catch(e=>msg(ds,'❌ Load error: '+e,'err'));
+  }catch(e){msg($('#ds'),'❌ Load error: '+e,'err')}
 }
 
-function del(path,title){
+async function del(path,title){
   if(!confirm(`Delete "${title}"?`))return;
-  Promise.all([
-    api('GET','/contents/'+path),                                    // get sha
-    api('GET','/contents/Posts.json')                                // get Posts.json
-  ]).then(([file,resJSON])=>{
-    const posts=JSON.parse(atob(resJSON.content)).filter(p=>p.file!==path);
-    return api('PUT','/contents/Posts.json',{
-             message:`Remove ${title}`,content:btoa(JSON.stringify(posts,null,2)),sha:resJSON.sha
-           }).then(()=>api('DELETE','/contents/'+path,{message:'Delete file',sha:file.sha}));
-  }).then(()=>{msg(ds,'✅ Deleted','ok');loadPosts();})
-    .catch(e=>msg(ds,'❌ Delete error: '+e,'err'));
+  try{
+    const [file,json] = await Promise.all([
+      api('GET','/contents/'+path),
+      api('GET','/contents/Posts.json')
+    ]);
+    const list=JSON.parse(atob(json.content)).filter(p=>p.file!==path);
+    await api('PUT','/contents/Posts.json',
+      {message:`Remove ${title}`,content:btoa(JSON.stringify(list,null,2)),sha:json.sha});
+    await api('DELETE','/contents/'+path,{message:'Delete file',sha:file.sha});
+    msg($('#ds'),'✅ Deleted','ok');loadPosts();
+  }catch(e){msg($('#ds'),'❌ '+e,'err')}
 }
+
+// attach click handler AFTER DOM ready
+$('#loginBtn').addEventListener('click',go);
 
 // auto-login if creds saved
 const saved=localStorage.getItem('gh');
 if(saved){
-  cfg=JSON.parse(saved); $('#u').value=cfg.u; $('#r').value=cfg.r;
-  $('#login').style.display='none'; $('#dash').style.display='block'; loadPosts();
+  cfg=JSON.parse(saved);
+  $('#u').value=cfg.u;$('#r').value=cfg.r;
+  $('#login').style.display='none';$('#dash').style.display='block';
+  loadPosts();
 }
+
+}); /* DOMContentLoaded */
 </script>
 </body>
 </html>
