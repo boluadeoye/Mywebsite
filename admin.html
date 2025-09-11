@@ -30,8 +30,8 @@
     body::before{
       content:'';position:fixed;inset:0;
       background:
-        radial-gradient(circle at 20% 50%,rgba(245,158,11,.03)0%,transparent40%),
-        radial-gradient(circle at 80% 80%,rgba(245,158,11,.02)0%,transparent40%);
+        radial-gradient(circle at 20% 50%,rgba(245,158,11,.03)0%,transparent 40%),
+        radial-gradient(circle at 80% 80%,rgba(245,158,11,.02)0%,transparent 40%);
       pointer-events:none;z-index:0;
     }
     h1,h2{font-family:ui-serif,Georgia,serif}
@@ -107,8 +107,10 @@
 </head>
 <body>
   <div class="container">
-    <h1>Admin Panel</h1>
-    <p class="subtitle">Create, upload and manage your blog content</p>
+    <div class="header">
+        <h1>Admin Panel</h1>
+        <p class="subtitle">Create, upload and manage your blog content</p>
+    </div>
 
     <!-- ========== LOGIN ========= -->
     <div id="loginSection" class="card">
@@ -250,14 +252,14 @@
               .replace(/\*(.+?)\*/g,'<em>$1</em>')
               .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2">$1</a>')
               .replace(/^> (.+)$/gim,'<blockquote>$1</blockquote>');
-      return h.split('\\n\\n').map(p=>p.startsWith('<')?p:`<p>${p}</p>`).join('\\n');}
+      return h.split('\n\n').map(p=>p.startsWith('<')?p:`<p>${p}</p>`).join('\n');}
     /* ---------- Publish ---------- */
     async function publishPost(){
       const title=val('postTitle').trim(),typ=val('postType'),ex=val('postExcerpt').trim(),content=val('postContent').trim(),
             date=val('postDate')||new Date().toISOString().split('T')[0];
       if(!title||!ex||!content)return showStatus('postStatus','⚠ Fill title, excerpt & content','error');
       const btn=id('publishBtn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Publishing…';
-      const file=title.toLowerCase().replace(/[^a-z0-9\\s-]/g,'').replace(/\\s+/g,'-').replace(/-+/g,'-')+'.md',
+      const file=title.toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-')+'.md',
             path=`posts/${file}`;
       try{
         await ensureFolder('posts');await ensureFolder('images');
@@ -267,7 +269,7 @@
         /* 2. update Posts.json */
         const postsRes=await fetchGH('GET','/contents/Posts.json');
         let posts=[];try{posts=JSON.parse(atob(postsRes.content))}catch{}
-        posts.unshift({title,date:type:typ,excerpt:ex,file:path,likes:0,views:0});
+        posts.unshift({title,date,type:typ,excerpt:ex,file:path,likes:0,views:0});
         await fetchGH('PUT','/contents/Posts.json',{message:`Update Posts.json for ${title}`,
           content:b64(JSON.stringify(posts,null,2)),sha:postsRes.sha});
         showStatus('postStatus','✅ Published!','success');
@@ -285,13 +287,13 @@
         await ensureFolder('images');
         const b=await toBase64(f);await fetchGH('PUT',`/contents/images/${f.name}`,{
           message:`Upload image: ${f.name}`,content:b.split(',')[1]});
-        showStatus('imageStatus',`✅ Uploaded! Use: !<!--citation:1-->`,'success');
+        showStatus('imageStatus',`✅ Uploaded! Use: ![alt](images/${f.name})`,'success');
         clearImage();loadImages();
       }catch(e){showStatus('imageStatus','❌ '+e.message,'error');}}
     async function loadImages(){
       try{const list=await fetchGH('GET','/contents/images');
         const gallery=id('imageGallery');
-        const imgs=list.filter(i=>/\\.(jpg|jpeg|png|gif|webp)$/i.test(i.name));
+        const imgs=list.filter(i=>/\.(jpg|jpeg|png|gif|webp)$/i.test(i.name));
         gallery.innerHTML=imgs.length?imgs.map(i=>`
           <div class="img-box"><img src="${i.download_url}" alt="${i.name}">
           <div class="img-name">${i.name}</div></div>`).join(''):
