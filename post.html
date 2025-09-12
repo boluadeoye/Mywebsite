@@ -12,347 +12,121 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 
   <style>
-    /* Theme Variables */
-    :root {
-      --bg: #0f172a;
-      --panel: #111a2e;
-      --panel-hover: #1a2341;
-      --ink: #e5eefc;
-      --muted: #94a3b8;
-      --orange: #f59e0b;
-      --orange-light: #fbbf24;
-      --orange-dark: #d97706;
-      --orange-ink: #0b0f19;
-      --ring: rgba(245, 158, 11, .25);
-      --radius: 16px;
-      --serif: 'Cormorant Garamond', Georgia, serif;
-      --transition: cubic-bezier(0.4, 0, 0.2, 1);
+    :root{
+      --bg:#0f172a; --panel:#111a2e; --panel-hover:#1a2341;
+      --ink:#e5eefc; --muted:#94a3b8;
+      --orange:#f59e0b; --orange-light:#fbbf24; --orange-dark:#d97706; --orange-ink:#0b0f19;
+      --ring:rgba(245,158,11,.25); --radius:16px; --serif:'Cormorant Garamond', Georgia, serif; --transition:cubic-bezier(.4,0,.2,1);
     }
-    
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font: 16px/1.6 system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      position: relative;
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;scroll-behavior:smooth}
+    body{
+      background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,Inter,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;position:relative
     }
-    
-    body::before {
-      content: '';
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: 
-        radial-gradient(circle at 20% 50%, rgba(245, 158, 11, 0.06) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.03) 0%, transparent 50%);
-      pointer-events: none; z-index: 0; animation: float 25s ease-in-out infinite;
+    body::before{
+      content:'';position:fixed;inset:0;background:
+        radial-gradient(circle at 20% 50%,rgba(245,158,11,.06) 0%,transparent 50%),
+        radial-gradient(circle at 80% 80%,rgba(245,158,11,.03) 0%,transparent 50%);
+      pointer-events:none;z-index:0;animation:float 25s ease-in-out infinite
     }
-    @keyframes float { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.1) rotate(3deg); } }
-    
-    a { color: inherit; text-decoration: none; }
-    .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
-    
+    @keyframes float{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.1) rotate(3deg)}}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:900px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+
     /* Header */
-    header { 
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, .06); transition: all 0.3s ease;
+    header{
+      position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,23,42,.9);
+      backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06);transition:all .3s ease
     }
-    header.scrolled { background: rgba(15, 23, 42, 0.95); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
-    .header-row { 
-      display: flex; align-items: center; justify-content: space-between; min-height: 60px;
-      padding: 0.5rem 1.5rem; max-width: 100%; margin: 0;
+    header.scrolled{background:rgba(15,23,42,.95);box-shadow:0 10px 30px rgba(0,0,0,.3)}
+    .header-row{display:flex;align-items:center;justify-content:space-between;min-height:60px;padding:.5rem 1.5rem;max-width:100%;margin:0}
+    .brand{display:flex;align-items:center;gap:.5rem;transition:transform .3s ease;flex-shrink:0}
+    .brand:hover{transform:translateX(3px)}
+    .brand .dot{
+      width:26px;height:26px;border-radius:50%;
+      background:radial-gradient(circle at 30% 30%,#ffd27a 0%,#f59e0b 40%,#d97706 100%);
+      box-shadow:0 0 0 2px rgba(245,158,11,.12),0 3px 15px rgba(245,158,11,.25);animation:pulse 2s infinite
     }
-    .brand { display: flex; align-items: center; gap: 0.5rem; transition: transform 0.3s ease; flex-shrink: 0; }
-    .brand:hover { transform: translateX(3px); }
-    .brand .dot { 
-      width: 26px; height: 26px; border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #ffd27a 0%, #f59e0b 40%, #d97706 100%);
-      box-shadow: 0 0 0 2px rgba(245, 158, 11, .12), 0 3px 15px rgba(245, 158, 11, .25);
-      animation: pulse 2s infinite;
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+    .brand h1{font-size:1.1rem;font-weight:800;color:var(--ink);letter-spacing:-.5px}
+
+    .nav-links{display:flex;gap:.4rem;align-items:center;margin-left:2rem;flex-shrink:0}
+    .nav-chip{
+      padding:.35rem .8rem;border-radius:999px;background:rgba(245,158,11,.08);color:var(--orange);
+      font-weight:600;font-size:.75rem;border:1px solid rgba(245,158,11,.15);transition:all .3s ease;white-space:nowrap;height:28px;
+      display:flex;align-items:center;justify-content:center
     }
-    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-    .brand h1 { font-size: 1.1rem; font-weight: 800; color: var(--ink); letter-spacing: -0.5px; }
-    
-    /* Nav Links - Redesigned as requested */
-    .nav-links { 
-      display: flex; gap: 0.4rem;
-      align-items: center; 
-      margin-left: 2rem;
-      flex-shrink: 0; 
+    .nav-chip:hover{color:var(--orange-ink);background:var(--orange);transform:translateY(-1px);box-shadow:0 3px 8px rgba(245,158,11,.25);border-color:var(--orange)}
+    .nav-chip.active{background:var(--orange);color:var(--orange-ink)}
+
+    /* Post frame */
+    .post-container{
+      margin-top:75px;margin-bottom:4rem;background:var(--panel);border-radius:24px;border:1px solid rgba(245,158,11,.15);
+      box-shadow:0 20px 60px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.05);overflow:hidden;position:relative
     }
-    .nav-chip {
-      padding: 0.35rem 0.8rem;
-      border-radius: 999px; 
-      background: rgba(245, 158, 11, 0.08); 
-      color: var(--orange);
-      font-weight: 600; font-size: 0.75rem;
-      border: 1px solid rgba(245, 158, 11, 0.15);
-      transition: all 0.3s ease; 
-      white-space: nowrap;
-      height: 28px;
-      display: flex; align-items: center; justify-content: center;
+    .post-container::before,.post-container::after{
+      content:'';position:absolute;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(245,158,11,.3),rgba(245,158,11,.5),rgba(245,158,11,.3),transparent)
     }
-    .nav-chip:hover { 
-      color: var(--orange-ink); 
-      background: var(--orange); 
-      transform: translateY(-1px); 
-      box-shadow: 0 3px 8px rgba(245, 158, 11, 0.25);
-      border-color: var(--orange);
+    .post-container::before{top:0}.post-container::after{bottom:0}
+    .content-wrapper{position:relative;padding:3rem;border-left:1px solid rgba(245,158,11,.1);border-right:1px solid rgba(245,158,11,.1);margin:0 2rem}
+    .content-wrapper::before,.content-wrapper::after{
+      content:'';position:absolute;top:10%;bottom:10%;width:1px;background:linear-gradient(180deg,transparent,rgba(245,158,11,.2),rgba(245,158,11,.2),transparent)
     }
-    .nav-chip.active { 
-      background: var(--orange); 
-      color: var(--orange-ink); 
+    .content-wrapper::before{left:0}.content-wrapper::after{right:0}
+
+    .post-header{text-align:center;padding:3rem 0 2rem;position:relative;animation:fadeInDown .8s ease}
+    @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+    .post-header::after{
+      content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:120px;height:3px;background:linear-gradient(90deg,transparent,var(--orange),transparent);border-radius:2px
     }
-    
-    .post-container {
-      margin-top: 75px; margin-bottom: 4rem; background: var(--panel);
-      border-radius: 24px; border: 1px solid rgba(245, 158, 11, 0.15);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-      overflow: hidden; position: relative;
+    .post-meta{display:flex;gap:1.5rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:2rem}
+    .meta-item{display:flex;align-items:center;gap:.5rem;padding:.5rem 1rem;background:rgba(245,158,11,.08);border-radius:999px;font-size:.9rem;color:var(--muted);border:1px solid rgba(245,158,11,.15)}
+    .post-title{font-family:var(--serif);font-size:clamp(2.3rem,4.5vw,3.3rem);font-weight:900;line-height:1.2;margin:1.2rem 0;
+      background:linear-gradient(135deg,var(--orange),var(--orange-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+    .post-content{padding:2rem 0;max-width:760px;margin:0 auto;font-size:1.125rem;line-height:2;color:rgba(229,238,252,.95);animation:fadeInUp .8s ease .5s both;text-align:center}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .post-content h1,.post-content h2,.post-content h3,.post-content h4{font-family:var(--serif);color:var(--orange);margin:3rem 0 1.5rem;font-weight:700;text-align:center;position:relative}
+    .post-content h1{font-size:2.25rem}
+    .post-content h2{font-size:1.875rem;padding-bottom:1rem}
+    .post-content h2::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:3px;background:linear-gradient(90deg,transparent,var(--orange),transparent);border-radius:2px}
+    .post-content h3{font-size:1.5rem;color:var(--orange-light)}
+    .post-content p{margin-bottom:2rem;text-align:center;max-width:700px;margin-inline:auto;font-weight:400}
+    .post-content blockquote{
+      position:relative;margin:3rem auto;padding:2.5rem 3rem;max-width:85%;
+      background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(245,158,11,.06));border:2px solid rgba(245,158,11,.25);border-radius:20px;box-shadow:0 15px 40px rgba(0,0,0,.2);
+      font-style:italic;font-family:var(--serif);font-size:1.2rem;line-height:1.8;color:var(--ink);text-align:center
     }
-    .post-container::before, .post-container::after {
-      content: ''; position: absolute; left: 10%; right: 10%; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.3), rgba(245, 158, 11, 0.5), rgba(245, 158, 11, 0.3), transparent);
+    .post-content blockquote::before{
+      content:'"';position:absolute;top:1rem;left:1.5rem;font-size:4rem;color:var(--orange);opacity:.2;font-family:var(--serif);font-weight:700;line-height:1
     }
-    .post-container::before { top: 0; } .post-container::after { bottom: 0; }
-    
-    .content-wrapper {
-      position: relative; padding: 3rem;
-      border-left: 1px solid rgba(245, 158, 11, 0.1); border-right: 1px solid rgba(245, 158, 11, 0.1);
-      margin: 0 2rem;
+    .post-content blockquote::after{
+      content:'"';position:absolute;bottom:1rem;right:1.5rem;font-size:4rem;color:var(--orange);opacity:.2;font-family:var(--serif);font-weight:700;line-height:1;transform:rotate(180deg)
     }
-    .content-wrapper::before, .content-wrapper::after {
-      content: ''; position: absolute; top: 10%; bottom: 10%; width: 1px;
-      background: linear-gradient(180deg, transparent, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.2), transparent);
+    .post-content em{color:var(--orange-light);font-style:italic;font-weight:500}
+    .post-content ul,.post-content ol{margin:2rem auto;padding-left:0;max-width:550px;list-style-position:inside;text-align:center}
+    .post-content li{margin-bottom:.75rem;color:rgba(229,238,252,.9);text-align:center}
+    .post-content code{background:rgba(245,158,11,.1);padding:.25em .5em;border-radius:6px;font-size:.9em;color:var(--orange-light);border:1px solid rgba(245,158,11,.2)}
+    .post-content pre{background:var(--panel);padding:1.5rem;border-radius:var(--radius);overflow-x:auto;margin:2rem auto;max-width:90%;border:1px solid rgba(255,255,255,.06)}
+    .post-content a{color:var(--orange);text-decoration:none;position:relative;font-weight:500}
+    .post-content a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:var(--orange);transition:width .3s ease}
+    .post-content a:hover::after{width:100%}
+    .post-content img{max-width:100%;height:auto;border-radius:var(--radius);margin:2.5rem auto;display:block;box-shadow:0 15px 40px rgba(0,0,0,.3)}
+
+    .post-nav{display:flex;justify-content:center;gap:1.5rem;padding:3rem 0;border-top:1px solid rgba(245,158,11,.15);flex-wrap:wrap}
+    .btn-chip{
+      display:inline-flex;align-items:center;gap:.75rem;padding:.85rem 1.75rem;background:linear-gradient(135deg,var(--orange),var(--orange-light));
+      color:var(--orange-ink);border-radius:999px;font-weight:700;font-size:.95rem;position:relative;overflow:hidden;box-shadow:0 4px 15px rgba(245,158,11,.3)
     }
-    .content-wrapper::before { left: 0; } .content-wrapper::after { right: 0; }
-    
-    .post-header { 
-      text-align: center; padding: 3rem 0 2rem; position: relative; 
-      animation: fadeInDown 0.8s ease; 
-    }
-    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-    .post-header::after {
-      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-      width: 120px; height: 3px; background: linear-gradient(90deg, transparent, var(--orange), transparent); border-radius: 2px;
-    }
-    
-    .post-meta {
-      display: flex; gap: 1.5rem; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 2rem;
-    }
-    .meta-item {
-      display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(245, 158, 11, 0.08);
-      border-radius: 999px; font-size: 0.9rem; color: var(--muted); border: 1px solid rgba(245, 158, 11, 0.15);
-    }
-    .post-title {
-      font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 700; line-height: 1.2; margin: 1.5rem 0;
-      color: var(--ink);
-      text-align: center; animation: fadeIn 1s ease 0.3s both;
-    }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    
-    .post-content {
-      padding: 2rem 0; 
-      max-width: 760px; 
-      margin: 0 auto; 
-      font-size: 1.125rem; 
-      line-height: 2.0; 
-      color: rgba(229, 238, 252, 0.95);
-      animation: fadeInUp 0.8s ease 0.5s both; 
-      text-align: center;
-    }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    
-    .post-content h1, .post-content h2, .post-content h3, .post-content h4 {
-      font-family: var(--serif); color: var(--orange); margin: 3rem 0 1.5rem; font-weight: 600; text-align: center; position: relative;
-    }
-    .post-content h1 { font-size: 2.25rem; font-weight: 700; }
-    .post-content h2 { font-size: 1.875rem; padding-bottom: 1rem; font-weight: 600; }
-    .post-content h2::after {
-      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px;
-      background: linear-gradient(90deg, transparent, var(--orange), transparent); border-radius: 2px;
-    }
-    .post-content h3 { font-size: 1.5rem; color: var(--orange-light); font-weight: 500; }
-    
-    .post-content p { 
-      margin-bottom: 2rem; 
-      text-align: center; 
-      max-width: 700px; 
-      margin-left: auto; 
-      margin-right: auto; 
-      font-weight: 400;
-    }
-    
-    .post-content blockquote {
-      position: relative; 
-      margin: 3rem auto; 
-      padding: 2.5rem 3rem; 
-      max-width: 85%;
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(245, 158, 11, 0.06));
-      border: 2px solid rgba(245, 158, 11, 0.25); 
-      border-radius: 20px; 
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-      font-style: italic; 
-      font-family: var(--serif); 
-      font-size: 1.2rem; 
-      line-height: 1.8; 
-      color: var(--ink); 
-      text-align: center;
-    }
-    .post-content blockquote::before {
-      content: '"'; 
-      position: absolute; 
-      top: 1rem; 
-      left: 1.5rem; 
-      font-size: 4rem; 
-      color: var(--orange); 
-      opacity: 0.2; 
-      font-family: var(--serif); 
-      font-weight: 700; 
-      line-height: 1;
-    }
-    .post-content blockquote::after {
-      content: '"'; 
-      position: absolute; 
-      bottom: 1rem; 
-      right: 1.5rem; 
-      font-size: 4rem; 
-      color: var(--orange); 
-      opacity: 0.2; 
-      font-family: var(--serif); 
-      font-weight: 700; 
-      line-height: 1; 
-      transform: rotate(180deg);
-    }
-    
-    .post-content em {
-      color: var(--orange-light);
-      font-style: italic;
-      font-weight: 500;
-    }
-    
-    .post-content ul, .post-content ol { 
-      margin: 2rem auto; 
-      padding-left: 0; 
-      max-width: 550px; 
-      list-style-position: inside; 
-      text-align: center; 
-    }
-    .post-content li { 
-      margin-bottom: 0.75rem; 
-      color: rgba(229, 238, 252, 0.9); 
-      text-align: center;
-    }
-    
-    .post-content code { 
-      background: rgba(245, 158, 11, 0.1); 
-      padding: 0.25em 0.5em; 
-      border-radius: 6px; 
-      font-size: 0.9em; 
-      color: var(--orange-light); 
-      border: 1px solid rgba(245, 158, 11, 0.2); 
-    }
-    .post-content pre { 
-      background: var(--panel); 
-      padding: 1.5rem; 
-      border-radius: var(--radius); 
-      overflow-x: auto; 
-      margin: 2rem auto; 
-      max-width: 90%; 
-      border: 1px solid rgba(255, 255, 255, 0.06); 
-    }
-    
-    .post-content a { 
-      color: var(--orange); 
-      text-decoration: none; 
-      position: relative; 
-      font-weight: 500; 
-    }
-    .post-content a::after { 
-      content: ''; 
-      position: absolute; 
-      bottom: -2px; 
-      left: 0; 
-      width: 0; 
-      height: 2px; 
-      background: var(--orange); 
-      transition: width 0.3s ease; 
-    }
-    .post-content a:hover::after { width: 100%; }
-    
-    .post-content img { 
-      max-width: 100%; 
-      height: auto; 
-      border-radius: var(--radius); 
-      margin: 2.5rem auto; 
-      display: block; 
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); 
-    }
-    
-    .post-nav {
-      display: flex; 
-      justify-content: center; 
-      gap: 1.5rem; 
-      padding: 3rem 0; 
-      border-top: 1px solid rgba(245, 158, 11, 0.15); 
-      flex-wrap: wrap;
-    }
-    .btn-chip {
-      display: inline-flex; 
-      align-items: center; 
-      gap: 0.75rem; 
-      padding: 0.85rem 1.75rem; 
-      background: linear-gradient(135deg, var(--orange), var(--orange-light));
-      color: var(--orange-ink); 
-      border-radius: 999px; 
-      font-weight: 700; 
-      font-size: 0.95rem; 
-      position: relative; 
-      overflow: hidden; 
-      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
-    }
-    .btn-chip:hover { 
-      transform: translateY(-3px); 
-      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4); 
-    }
-    
-    .loading-container {
-      text-align: center; 
-      padding: 4rem 2rem; 
-      color: var(--muted);
-      min-height: 200px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .loading-spinner { 
-      display: inline-block; 
-      width: 40px; 
-      height: 40px; 
-      border: 3px solid rgba(245, 158, 11, 0.2); 
-      border-top-color: var(--orange); 
-      border-radius: 50%; 
-      animation: spin 1s linear infinite; 
-      margin-bottom: 1rem;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .error { 
-      text-align: center; 
-      padding: 3rem; 
-      color: #ff6b6b; 
-    }
-    footer { 
-      background: var(--panel); 
-      color: var(--muted); 
-      border-top: 1px solid rgba(255, 255, 255, 0.06); 
-      text-align: center; 
-      font-size: 0.9rem; 
-      padding: 2.5rem 0; 
-      margin-top: 4rem; 
-    }
+    .btn-chip:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(245,158,11,.4)}
+
+    .loading-container{min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);padding:4rem 2rem;text-align:center}
+    .loading-spinner{width:40px;height:40px;border:3px solid rgba(245,158,11,.2);border-top-color:var(--orange);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:1rem}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .error{text-align:center;padding:3rem;color:#ff6b6b}
+
+    footer{background:var(--panel);color:var(--muted);border-top:1px solid rgba(255,255,255,.06);text-align:center;font-size:.9rem;padding:2.5rem 0;margin-top:4rem}
   </style>
 </head>
 <body>
@@ -362,7 +136,6 @@
         <span class="dot"></span>
         <h1>Boluadeoye</h1>
       </a>
-      <!-- Redesigned Nav Links -->
       <nav class="nav-links">
         <a href="./" class="nav-chip">Home</a>
         <a href="./posts.html" class="nav-chip">All Posts</a>
@@ -380,122 +153,94 @@
             <p>Loading your post...</p>
           </div>
         </article>
+
+        <!-- Comments (giscus) -->
+        <section id="comments" class="wrap" style="margin-top:2rem">
+          <div class="comments-card" style="background:var(--panel);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:1rem 1rem .5rem;">
+            <h3 style="color:#f59e0b;font-family:var(--serif);margin:0 0 1rem;text-align:center;">Comments</h3>
+            <script src="https://giscus.app/client.js"
+                    data-repo="boluadeoye/Mywebsite"
+                    data-repo-id="R_kgDOPrdLFg"
+                    data-category="Comments"
+                    data-category-id="DIC_kwDOPrdLFs4CvVjy"
+                    data-mapping="pathname"
+                    data-strict="0"
+                    data-reactions-enabled="1"
+                    data-emit-metadata="0"
+                    data-input-position="bottom"
+                    data-theme="dark"
+                    data-lang="en"
+                    crossorigin="anonymous"
+                    async>
+            </script>
+            <noscript style="color:#94a3b8;text-align:center;display:block;margin-top:.75rem;">Please enable JavaScript to view comments.</noscript>
+          </div>
+        </section>
       </div>
     </div>
   </main>
 
   <footer>
-    <div class="wrap">
-      <p>© 2025 Boluadeoye • Crafted with passion</p>
-    </div>
+    <div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div>
   </footer>
 
   <script>
     // Header scroll effect
     window.addEventListener('scroll', () => {
       const header = document.getElementById('header');
-      if (window.scrollY > 50) { header.classList.add('scrolled'); } else { header.classList.remove('scrolled'); }
+      if (window.scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled');
     });
-    
-    // Simple Manual Markdown Processor
+
+    // Simple Markdown Processor
     function processMarkdown(text) {
-      // Ensure input is valid
-      if (!text || typeof text !== 'string') {
-        return '<p>Content unavailable.</p>';
-      }
-      
-      // Simple escaping
+      if (!text || typeof text !== 'string') return '<p>Content unavailable.</p>';
       text = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      
-      // Process blockquotes FIRST
       text = text.replace(/^>\s*(.+)$/gm, '<blockquote>$1</blockquote>');
-      
-      // Process headings
       text = text.replace(/^### (.+)$/gm, '<h3>$1</h3>');
       text = text.replace(/^## (.+)$/gm, '<h2>$1</h2>');
       text = text.replace(/^# (.+)$/gm, '<h1>$1</h1>');
-      
-      // Process formatting
       text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
       text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
-      text = text.replace(/_(.+?)_/g, '<em>$1</em>');
-      
-      // Process links
-      text = text.replace(/```math
-(.+?)```KATEX_INLINE_OPEN(.+?)KATEX_INLINE_CLOSE/g, '<a href="$2">$1</a>');
-      
-      // Process paragraphs
+      text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
       let paragraphs = text.split(/\n\n+/);
       return paragraphs.map(p => {
         p = p.trim();
         if (!p) return '';
-        
-        // Skip already processed blocks
-        if (p.startsWith('<h') || p.startsWith('<blockquote')) {
-          return p;
-        }
-        
-        // Process normal paragraphs
+        if (p.startsWith('<h') || p.startsWith('<blockquote')) return p;
         return `<p>${p.replace(/\n/g, '<br>')}</p>`;
-      }).join('\n');
+      }).join('');
     }
 
     // Load and display post
     async function loadPost() {
-      // Always start with loading state
       const container = document.getElementById('post-content-wrapper');
-      
       try {
-        // 1. Get the post file from URL
         const urlParams = new URLSearchParams(window.location.search);
         const file = urlParams.get('file');
-        
-        if (!file) {
-          container.innerHTML = `
-            <div class="error">
-              <h2>No Post Specified</h2>
-              <p>Please select a post to read.</p>
-              <div class="post-nav">
-                <a href="./" class="btn-chip">← Back to Home</a>
-              </div>
-            </div>`;
-          return;
-        }
-        
-        // 2. Get post metadata from Posts.json
-        console.log("Loading Posts.json...");
-        const baseUrl = window.location.origin + window.location.pathname.replace('post.html', '');
-        const postsRes = await fetch('Posts.json');
-        
-        if (!postsRes.ok) {
-          throw new Error(`Failed to load post data (${postsRes.status})`);
-        }
-        
+        if (!file) throw new Error("No post file specified in URL.");
+
+        // Load metadata
+        const postsRes = await fetch('Posts.json', { cache: 'no-store' });
+        if (!postsRes.ok) throw new Error(`Posts.json not found (HTTP ${postsRes.status})`);
         const posts = await postsRes.json();
         const postData = posts.find(p => p.file === file);
-        
-        if (!postData) {
-          throw new Error(`Post "${file}" not found in Posts.json`);
+        if (!postData) throw new Error(`Post "${file}" not found in Posts.json`);
+
+        // Load markdown file with fallback
+        let mdRes = await fetch(file, { cache: 'no-store' });
+        if (!mdRes.ok && mdRes.status === 404) {
+          const parts = file.split('/');
+          const basename = parts.pop();
+          const lowerTry = parts.join('/') + '/' + basename.toLowerCase();
+          const fallbackRes = await fetch(lowerTry, { cache: 'no-store' });
+          if (fallbackRes.ok) mdRes = fallbackRes;
         }
-        
-        // 3. Load the markdown file
-        console.log(`Loading markdown file: ${file}`);
-        const mdRes = await fetch(file);
-        
-        if (!mdRes.ok) {
-          throw new Error(`Failed to load post content (${mdRes.status})`);
-        }
-        
+        if (!mdRes.ok) throw new Error(`Markdown file missing at ${file} (HTTP ${mdRes.status})`);
+
         const markdown = await mdRes.text();
-        
-        // 4. Process the markdown to HTML
-        console.log("Processing markdown...");
         const content = processMarkdown(markdown);
-        
-        // 5. Update page title
         document.title = `${postData.title} - Boluadeoye`;
-        
-        // 6. Display the post
+
         container.innerHTML = `
           <div class="post-header">
             <div class="post-meta">
@@ -511,14 +256,9 @@
             <a href="./" class="btn-chip">← Back to Home</a>
             <a href="./posts.html" class="btn-chip">View All Posts →</a>
           </nav>`;
-        
-        // 7. Scroll to top
         window.scrollTo(0, 0);
-        
       } catch (error) {
         console.error("Error loading post:", error);
-        
-        // Always show a helpful error message
         container.innerHTML = `
           <div class="error">
             <h2>Unable to Load Post</h2>
@@ -529,8 +269,7 @@
           </div>`;
       }
     }
-    
-    // Load the post when DOM is ready
+
     document.addEventListener('DOMContentLoaded', loadPost);
   </script>
 </body>
