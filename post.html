@@ -81,7 +81,7 @@
     .nav-chip:hover { color: var(--orange-ink); transform: translateY(-1px); box-shadow: 0 3px 10px rgba(245, 158, 11, 0.25); }
     .nav-chip.active { background: var(--orange); color: var(--orange-ink); }
     
-    /* Post layout */
+    /* Post Container */
     .post-container {
       margin-top: 75px; margin-bottom: 4rem; background: var(--panel);
       border-radius: 24px; border: 1px solid rgba(245, 158, 11, 0.15);
@@ -93,8 +93,11 @@
       background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.3), rgba(245, 158, 11, 0.5), rgba(245, 158, 11, 0.3), transparent);
     }
     .post-container::before { top: 0; } .post-container::after { bottom: 0; }
+    
     .content-wrapper {
-      position: relative; padding: 3rem; border-left: 1px solid rgba(245, 158, 11, 0.1); border-right: 1px solid rgba(245, 158, 11, 0.1); margin: 0 2rem;
+      position: relative; padding: 3rem;
+      border-left: 1px solid rgba(245, 158, 11, 0.1); border-right: 1px solid rgba(245, 158, 11, 0.1);
+      margin: 0 2rem;
     }
     .content-wrapper::before, .content-wrapper::after {
       content: ''; position: absolute; top: 10%; bottom: 10%; width: 1px;
@@ -108,6 +111,7 @@
       content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
       width: 120px; height: 3px; background: linear-gradient(90deg, transparent, var(--orange), transparent); border-radius: 2px;
     }
+    
     .post-meta {
       display: flex; gap: 1.5rem; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 2rem;
     }
@@ -135,7 +139,8 @@
     .post-content h1 { font-size: 2.25rem; background: linear-gradient(135deg, var(--orange), var(--orange-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .post-content h2 { font-size: 1.875rem; padding-bottom: 1rem; }
     .post-content h2::after {
-      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, transparent, var(--orange), transparent); border-radius: 2px;
+      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--orange), transparent); border-radius: 2px;
     }
     .post-content h3 { font-size: 1.5rem; color: var(--orange-light); }
     .post-content p { margin-bottom: 2rem; text-align: center; max-width: 600px; margin-left: auto; margin-right: auto; }
@@ -143,8 +148,7 @@
     .post-content blockquote, .quote-highlight {
       position: relative; margin: 3rem auto; padding: 2.5rem 3rem 2.5rem 4rem; max-width: 85%;
       background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(245, 158, 11, 0.06));
-      border: 2px solid rgba(245, 158, 11, 0.25); border-radius: 20px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2),
-      0 0 60px rgba(245, 158, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(245, 158, 11, 0.25); border-radius: 20px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2), 0 0 60px rgba(245, 158, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.05);
       font-style: italic; font-family: var(--serif); font-size: 1.2rem; line-height: 1.8; color: var(--ink); text-align: center;
     }
     .post-content blockquote::before, .quote-highlight::before {
@@ -207,20 +211,36 @@
           </div>
         </article>
 
-        <!-- Comments (Utterances) -->
+        <!-- Comments (giscus) -->
         <section id="comments" class="wrap" style="margin-top:2rem">
-          <h3 style="color:#f59e0b;font-family:var(--serif);margin-bottom:1rem;text-align:center;">Comments</h3>
-          <script src="https://utteranc.es/client.js"
-                  repo="boluadeoye/Mywebsite"
-                  issue-term="pathname"
-                  label="comments"
-                  theme="github-dark"
-                  crossorigin="anonymous"
-                  async>
-          </script>
-          <noscript style="color:#94a3b8;text-align:center;display:block;margin-top:.5rem;">
-            Please enable JavaScript to view comments.
-          </noscript>
+          <div class="comments-card" style="
+              background: var(--panel);
+              border: 1px solid rgba(255,255,255,.06);
+              border-radius: 16px;
+              padding: 1rem 1rem 0.5rem;
+          ">
+            <h3 style="color:#f59e0b;font-family:var(--serif);margin:0 0 1rem;text-align:center;">Comments</h3>
+
+            <script src="https://giscus.app/client.js"
+                    data-repo="boluadeoye/Mywebsite"
+                    data-repo-id="R_kgDOPrdLFg"
+                    data-category="Comments"
+                    data-category-id="DIC_kwDOPrdLFs4CvVjy"
+                    data-mapping="pathname"
+                    data-strict="0"
+                    data-reactions-enabled="1"
+                    data-emit-metadata="0"
+                    data-input-position="bottom"
+                    data-theme="dark"
+                    data-lang="en"
+                    crossorigin="anonymous"
+                    async>
+            </script>
+
+            <noscript style="color:#94a3b8;text-align:center;display:block;margin:.75rem 0;">
+              Please enable JavaScript to view comments.
+            </noscript>
+          </div>
         </section>
 
       </div>
@@ -237,41 +257,22 @@
     // Header scroll effect
     window.addEventListener('scroll', () => {
       const header = document.getElementById('header');
-      if (window.scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled');
+      if (window.scrollY > 50) { header.classList.add('scrolled'); } else { header.classList.remove('scrolled'); }
     });
     
-    // Enhanced Markdown Parser
+    // Markdown parser (light)
     function parseMarkdown(markdown) {
       let html = markdown;
-
-      // very light guard
       html = html.replace(/<script/gi, '&lt;script');
-
-      // Headers
       html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
       html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
       html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-      
-      // Bold / italic
       html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
       html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
-      
-      // Links (open in new tab)
       html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-      
-      // Blockquotes
       html = html.replace(/^> (.+)$/gim, '<blockquote>$1<span class="quote-accent"></span></blockquote>');
-      
-      // Highlight boxes (lines starting with >>)
       html = html.replace(/^>> (.+)$/gim, '<div class="highlight-box">$1</div>');
-      
-      // Paragraphs
-      html = html.split('\n\n').map(para => {
-        if (!para.startsWith('<')) return `<p>${para}</p>`;
-        return para;
-      }).join('\n');
-      
-      // Line breaks
+      html = html.split('\n\n').map(para => { if (!para.startsWith('<')) return `<p>${para}</p>`; return para; }).join('\n');
       html = html.replace(/\n/g, '<br>');
       return html;
     }
@@ -295,22 +296,18 @@
       }
 
       try {
-        // Load metadata
         const postsRes = await fetch('Posts.json', { cache: 'no-store' });
         const posts = await postsRes.json();
         const postData = posts.find(p => (p.file || '') === file);
         if (!postData) throw new Error('Post not found in database');
 
-        // Load the markdown file
         const mdRes = await fetch(file, { cache: 'no-store' });
         if (!mdRes.ok) throw new Error('Post file not found');
         const markdown = await mdRes.text();
         const content = parseMarkdown(markdown);
 
-        // Update page title
         document.title = `${postData.title} - Boluadeoye`;
 
-        // Render
         container.innerHTML = `
           <div class="post-header">
             <div class="post-meta">
