@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Post Test - Boluadeoye</title>
+  <style>
+    body { background: #0f172a; color: #e5eefc; font-family: Arial, sans-serif; padding: 20px; }
+    .loading { text-align: center; padding: 50px; }
+    .error { color: red; text-align: center; padding: 50px; }
+    .content { max-width: 800px; margin: 0 auto; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <div id="content">
+    <div class="loading">Loading post...</div>
+  </div>
+
+  <script>
+    async function loadPost() {
+      const container = document.getElementById('content');
+      const urlParams = new URLSearchParams(window.location.search);
+      const file = urlParams.get('file');
+      
+      console.log('Loading file:', file); // Debug log
+      
+      if (!file) {
+        container.innerHTML = '<div class="error">No file specified in URL</div>';
+        return;
+      }
+      
+      try {
+        const response = await fetch(file);
+        console.log('Fetch response:', response.status); // Debug log
+        
+        if (!response.ok) throw new Error('File not found');
+        
+        const text = await response.text();
+        console.log('File loaded, length:', text.length); // Debug log
+        
+        container.innerHTML = `<div class="content"><h1>Post Loaded!</h1><pre>${text.substring(0, 500)}...</pre></div>`;
+      } catch (error) {
+        console.error('Error:', error); // Debug log
+        container.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+      }
+    }
+    
+    loadPost();
+  </script>
+</body>
+</html>
