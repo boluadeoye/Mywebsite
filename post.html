@@ -6,6 +6,11 @@
   <title>Post - Boluadeoye</title>
   <base href="/Mywebsite/">
 
+  <!-- ✨ Google Font: Cormorant Garamond -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
   <style>
     /* Theme Variables */
     :root {
@@ -20,7 +25,7 @@
       --orange-ink: #0b0f19;
       --ring: rgba(245, 158, 11, .25);
       --radius: 16px;
-      --serif: ui-serif, Georgia, "Times New Roman", serif;
+      --serif: 'Cormorant Garamond', Georgia, serif; /* ✨ Google Serif Applied */
       --transition: cubic-bezier(0.4, 0, 0.2, 1);
     }
     
@@ -59,7 +64,7 @@
     header.scrolled { background: rgba(15, 23, 42, 0.95); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
     .header-row { 
       display: flex; align-items: center; justify-content: space-between; min-height: 60px;
-      padding: 0.5rem 1.5rem 0.5rem 1rem; max-width: 100%; margin: 0;
+      padding: 0.5rem 1.5rem; max-width: 100%; margin: 0;
     }
     .brand { display: flex; align-items: center; gap: 0.5rem; transition: transform 0.3s ease; flex-shrink: 0; }
     .brand:hover { transform: translateX(3px); }
@@ -72,14 +77,32 @@
     @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
     .brand h1 { font-size: 1.1rem; font-weight: 800; color: var(--ink); letter-spacing: -0.5px; }
     
-    .nav-links { display: flex; gap: 0.4rem; align-items: center; margin-right: 1rem; flex-shrink: 0; }
-    .nav-chip {
-      padding: 0.3rem 0.75rem; border-radius: 999px; background: rgba(245, 158, 11, 0.08); color: var(--orange);
-      font-weight: 600; font-size: 0.75rem; border: 1px solid rgba(245, 158, 11, 0.15);
-      transition: all 0.3s ease; position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap;
+    /* ✅ NAV LINKS MOVED TO RIGHT + BEAUTIFIED */
+    .nav-links { 
+      display: flex; gap: 0.6rem; align-items: center; 
+      margin-left: auto; /* 👈 Pushed to right */
+      flex-shrink: 0; 
     }
-    .nav-chip:hover { color: var(--orange-ink); transform: translateY(-1px); box-shadow: 0 3px 10px rgba(245, 158, 11, 0.25); }
-    .nav-chip.active { background: var(--orange); color: var(--orange-ink); }
+    .nav-chip {
+      padding: 0.4rem 1rem; border-radius: 999px; 
+      background: rgba(245, 158, 11, 0.08); 
+      color: var(--orange);
+      font-weight: 600; font-size: 0.8rem; 
+      border: 1px solid rgba(245, 158, 11, 0.15);
+      transition: all 0.3s ease; 
+      white-space: nowrap;
+    }
+    .nav-chip:hover { 
+      color: var(--orange-ink); 
+      background: var(--orange); 
+      transform: translateY(-2px); 
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+      border-color: var(--orange);
+    }
+    .nav-chip.active { 
+      background: var(--orange); 
+      color: var(--orange-ink); 
+    }
     
     /* Post Container */
     .post-container {
@@ -105,7 +128,10 @@
     }
     .content-wrapper::before { left: 0; } .content-wrapper::after { right: 0; }
     
-    .post-header { text-align: center; padding: 3rem 0 2rem; position: relative; animation: fadeInDown 0.8s ease; }
+    .post-header { 
+      text-align: center; padding: 3rem 0 2rem; position: relative; 
+      animation: fadeInDown 0.8s ease; 
+    }
     @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
     .post-header::after {
       content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
@@ -120,70 +146,203 @@
       border-radius: 999px; font-size: 0.9rem; color: var(--muted); border: 1px solid rgba(245, 158, 11, 0.15);
     }
     .post-title {
-      font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; line-height: 1.2; margin: 1.5rem 0;
-      background: linear-gradient(135deg, var(--orange), var(--orange-light));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 700; line-height: 1.2; margin: 1.5rem 0;
+      color: var(--ink); /* ✨ Removed gradient for readability */
       text-align: center; animation: fadeIn 1s ease 0.3s both;
     }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     
+    /* ✅ WIDENED + BEAUTIFIED CONTENT */
     .post-content {
-      padding: 2rem 0; max-width: 680px; margin: 0 auto; font-size: 1.125rem; line-height: 1.9; color: rgba(229, 238, 252, 0.95);
-      animation: fadeInUp 0.8s ease 0.5s both; text-align: center;
+      padding: 2rem 0; 
+      max-width: 760px; /* 👈 Widened from 680px */
+      margin: 0 auto; 
+      font-size: 1.125rem; 
+      line-height: 2.0; /* 👈 Increased for elegance */
+      color: rgba(229, 238, 252, 0.95);
+      animation: fadeInUp 0.8s ease 0.5s both; 
+      text-align: center;
     }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     
     .post-content h1, .post-content h2, .post-content h3, .post-content h4 {
-      font-family: var(--serif); color: var(--orange); margin: 3rem 0 1.5rem; font-weight: 700; text-align: center; position: relative;
+      font-family: var(--serif); color: var(--orange); margin: 3rem 0 1.5rem; font-weight: 600; text-align: center; position: relative;
     }
-    .post-content h1 { font-size: 2.25rem; background: linear-gradient(135deg, var(--orange), var(--orange-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .post-content h2 { font-size: 1.875rem; padding-bottom: 1rem; }
+    .post-content h1 { font-size: 2.25rem; font-weight: 700; }
+    .post-content h2 { font-size: 1.875rem; padding-bottom: 1rem; font-weight: 600; }
     .post-content h2::after {
       content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px;
       background: linear-gradient(90deg, transparent, var(--orange), transparent); border-radius: 2px;
     }
-    .post-content h3 { font-size: 1.5rem; color: var(--orange-light); }
-    .post-content p { margin-bottom: 2rem; text-align: center; max-width: 600px; margin-left: auto; margin-right: auto; }
+    .post-content h3 { font-size: 1.5rem; color: var(--orange-light); font-weight: 500; }
     
+    /* ✅ PARAGRAPHS — CENTERED, SPACIOUS, READABLE */
+    .post-content p { 
+      margin-bottom: 2rem; 
+      text-align: center; 
+      max-width: 700px; /* 👈 Widened */
+      margin-left: auto; 
+      margin-right: auto; 
+      font-weight: 400;
+    }
+    
+    /* ✅ FIXED QUOTE BOX — PROPERLY CONTAINED + STYLISH */
     .post-content blockquote, .quote-highlight {
-      position: relative; margin: 3rem auto; padding: 2.5rem 3rem 2.5rem 4rem; max-width: 85%;
+      position: relative; 
+      margin: 3rem auto; 
+      padding: 2.5rem 3rem; /* 👈 Removed left offset for balance */
+      max-width: 85%;
       background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(245, 158, 11, 0.06));
-      border: 2px solid rgba(245, 158, 11, 0.25); border-radius: 20px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2), 0 0 60px rgba(245, 158, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-      font-style: italic; font-family: var(--serif); font-size: 1.2rem; line-height: 1.8; color: var(--ink); text-align: center;
+      border: 2px solid rgba(245, 158, 11, 0.25); 
+      border-radius: 20px; 
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      font-style: italic; 
+      font-family: var(--serif); 
+      font-size: 1.2rem; 
+      line-height: 1.8; 
+      color: var(--ink); 
+      text-align: center;
     }
     .post-content blockquote::before, .quote-highlight::before {
-      content: '"'; position: absolute; top: 1rem; left: 1.5rem; font-size: 4rem; color: var(--orange); opacity: 0.3; font-family: var(--serif); font-weight: 900; line-height: 1;
+      content: '"'; 
+      position: absolute; 
+      top: 1rem; 
+      left: 1.5rem; 
+      font-size: 4rem; 
+      color: var(--orange); 
+      opacity: 0.2; 
+      font-family: var(--serif); 
+      font-weight: 700; 
+      line-height: 1;
     }
     .post-content blockquote::after, .quote-highlight::after {
-      content: '"'; position: absolute; bottom: 0.5rem; right: 1.5rem; font-size: 4rem; color: var(--orange); opacity: 0.3; font-family: var(--serif); font-weight: 900; line-height: 1; transform: rotate(180deg);
+      content: '"'; 
+      position: absolute; 
+      bottom: 1rem; /* 👈 Adjusted from 0.5rem */
+      right: 1.5rem; 
+      font-size: 4rem; 
+      color: var(--orange); 
+      opacity: 0.2; 
+      font-family: var(--serif); 
+      font-weight: 700; 
+      line-height: 1; 
+      transform: rotate(180deg);
     }
     
-    .post-content ul, .post-content ol { margin: 2rem auto; padding-left: 0; max-width: 500px; list-style-position: inside; text-align: center; }
-    .post-content li { margin-bottom: 0.75rem; color: rgba(229, 238, 252, 0.9); }
+    .post-content ul, .post-content ol { 
+      margin: 2rem auto; 
+      padding-left: 0; 
+      max-width: 550px; 
+      list-style-position: inside; 
+      text-align: center; 
+    }
+    .post-content li { 
+      margin-bottom: 0.75rem; 
+      color: rgba(229, 238, 252, 0.9); 
+      text-align: center;
+    }
     
-    .post-content code { background: rgba(245, 158, 11, 0.1); padding: 0.25em 0.5em; border-radius: 6px; font-size: 0.9em; color: var(--orange-light); border: 1px solid rgba(245, 158, 11, 0.2); }
-    .post-content pre { background: var(--panel); padding: 1.5rem; border-radius: var(--radius); overflow-x: auto; margin: 2rem auto; max-width: 90%; border: 1px solid rgba(255, 255, 255, 0.06); }
+    .post-content code { 
+      background: rgba(245, 158, 11, 0.1); 
+      padding: 0.25em 0.5em; 
+      border-radius: 6px; 
+      font-size: 0.9em; 
+      color: var(--orange-light); 
+      border: 1px solid rgba(245, 158, 11, 0.2); 
+    }
+    .post-content pre { 
+      background: var(--panel); 
+      padding: 1.5rem; 
+      border-radius: var(--radius); 
+      overflow-x: auto; 
+      margin: 2rem auto; 
+      max-width: 90%; 
+      border: 1px solid rgba(255, 255, 255, 0.06); 
+    }
     
-    .post-content a { color: var(--orange); text-decoration: none; position: relative; font-weight: 500; }
-    .post-content a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: var(--orange); transition: width 0.3s ease; }
+    .post-content a { 
+      color: var(--orange); 
+      text-decoration: none; 
+      position: relative; 
+      font-weight: 500; 
+    }
+    .post-content a::after { 
+      content: ''; 
+      position: absolute; 
+      bottom: -2px; 
+      left: 0; 
+      width: 0; 
+      height: 2px; 
+      background: var(--orange); 
+      transition: width 0.3s ease; 
+    }
     .post-content a:hover::after { width: 100%; }
     
-    .post-content img { max-width: 100%; height: auto; border-radius: var(--radius); margin: 2rem auto; display: block; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); }
+    .post-content img { 
+      max-width: 100%; 
+      height: auto; 
+      border-radius: var(--radius); 
+      margin: 2.5rem auto; 
+      display: block; 
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); 
+    }
     
     .post-nav {
-      display: flex; justify-content: center; gap: 1.5rem; padding: 3rem 0; border-top: 1px solid rgba(245, 158, 11, 0.15); flex-wrap: wrap;
+      display: flex; 
+      justify-content: center; 
+      gap: 1.5rem; 
+      padding: 3rem 0; 
+      border-top: 1px solid rgba(245, 158, 11, 0.15); 
+      flex-wrap: wrap;
     }
     .btn-chip {
-      display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1.75rem; background: linear-gradient(135deg, var(--orange), var(--orange-light));
-      color: var(--orange-ink); border-radius: 999px; font-weight: 700; font-size: 0.95rem; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+      display: inline-flex; 
+      align-items: center; 
+      gap: 0.75rem; 
+      padding: 0.85rem 1.75rem; 
+      background: linear-gradient(135deg, var(--orange), var(--orange-light));
+      color: var(--orange-ink); 
+      border-radius: 999px; 
+      font-weight: 700; 
+      font-size: 0.95rem; 
+      position: relative; 
+      overflow: hidden; 
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
     }
-    .btn-chip:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4); }
+    .btn-chip:hover { 
+      transform: translateY(-3px); 
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4); 
+    }
     
-    .loading { text-align: center; padding: 4rem 2rem; color: var(--muted); }
-    .loading-spinner { display: inline-block; width: 50px; height: 50px; border: 3px solid rgba(245, 158, 11, 0.2); border-top-color: var(--orange); border-radius: 50%; animation: spin 1s linear infinite; }
+    .loading { 
+      text-align: center; 
+      padding: 4rem 2rem; 
+      color: var(--muted); 
+    }
+    .loading-spinner { 
+      display: inline-block; 
+      width: 50px; 
+      height: 50px; 
+      border: 3px solid rgba(245, 158, 11, 0.2); 
+      border-top-color: var(--orange); 
+      border-radius: 50%; 
+      animation: spin 1s linear infinite; 
+    }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .error { text-align: center; padding: 3rem; color: #ff6b6b; }
-    footer { background: var(--panel); color: var(--muted); border-top: 1px solid rgba(255, 255, 255, 0.06); text-align: center; font-size: 0.9rem; padding: 2.5rem 0; margin-top: 4rem; }
+    .error { 
+      text-align: center; 
+      padding: 3rem; 
+      color: #ff6b6b; 
+    }
+    footer { 
+      background: var(--panel); 
+      color: var(--muted); 
+      border-top: 1px solid rgba(255, 255, 255, 0.06); 
+      text-align: center; 
+      font-size: 0.9rem; 
+      padding: 2.5rem 0; 
+      margin-top: 4rem; 
+    }
   </style>
 </head>
 <body>
@@ -193,6 +352,7 @@
         <span class="dot"></span>
         <h1>Boluadeoye</h1>
       </a>
+      <!-- ✅ NAV LINKS NOW RIGHT-ALIGNED -->
       <nav class="nav-links">
         <a href="./" class="nav-chip"><span>Home</span></a>
         <a href="./posts.html" class="nav-chip"><span>All Posts</span></a>
@@ -211,37 +371,7 @@
           </div>
         </article>
 
-        <!-- Comments (giscus) -->
-        <section id="comments" class="wrap" style="margin-top:2rem">
-          <div class="comments-card" style="
-              background: var(--panel);
-              border: 1px solid rgba(255,255,255,.06);
-              border-radius: 16px;
-              padding: 1rem 1rem 0.5rem;
-          ">
-            <h3 style="color:#f59e0b;font-family:var(--serif);margin:0 0 1rem;text-align:center;">Comments</h3>
-
-            <script src="https://giscus.app/client.js"
-                    data-repo="boluadeoye/Mywebsite"
-                    data-repo-id="R_kgDOPrdLFg"
-                    data-category="Comments"
-                    data-category-id="DIC_kwDOPrdLFs4CvVjy"
-                    data-mapping="pathname"
-                    data-strict="0"
-                    data-reactions-enabled="1"
-                    data-emit-metadata="0"
-                    data-input-position="bottom"
-                    data-theme="dark"
-                    data-lang="en"
-                    crossorigin="anonymous"
-                    async>
-            </script>
-
-            <noscript style="color:#94a3b8;text-align:center;display:block;margin:.75rem 0;">
-              Please enable JavaScript to view comments.
-            </noscript>
-          </div>
-        </section>
+        <!-- ✅ COMMENTS SECTION — COMPLETELY DELETED -->
 
       </div>
     </div>
@@ -269,10 +399,19 @@
       html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
       html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
       html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
-      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-      html = html.replace(/^> (.+)$/gim, '<blockquote>$1<span class="quote-accent"></span></blockquote>');
-      html = html.replace(/^>> (.+)$/gim, '<div class="highlight-box">$1</div>');
-      html = html.split('\n\n').map(para => { if (!para.startsWith('<')) return `<p>${para}</p>`; return para; }).join('\n');
+      html = html.replace(/```math
+([^```]+)```KATEX_INLINE_OPEN([^)]+)KATEX_INLINE_CLOSE/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      
+      // ✅ FIXED BLOCKQUOTE PARSING
+      html = html.replace(/^> (.+)$/gim, '<blockquote>$1</blockquote>');
+      html = html.replace(/^>> (.+)$/gim, '<div class="quote-highlight">$1</div>');
+      
+      html = html.split('\n\n').map(para => { 
+        if (!para.startsWith('<') && !para.startsWith('>') && para.trim() !== '') 
+          return `<p>${para}</p>`; 
+        return para; 
+      }).join('\n');
+      
       html = html.replace(/\n/g, '<br>');
       return html;
     }
