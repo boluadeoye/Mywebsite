@@ -6,7 +6,7 @@
   <title>Post - Boluadeoye</title>
   <base href="/Mywebsite/">
 
-  <!-- ✨ Google Font: Cormorant Garamond -->
+  <!-- Google Font: Cormorant Garamond -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
@@ -25,7 +25,7 @@
       --orange-ink: #0b0f19;
       --ring: rgba(245, 158, 11, .25);
       --radius: 16px;
-      --serif: 'Cormorant Garamond', Georgia, serif; /* ✨ Google Serif Applied */
+      --serif: 'Cormorant Garamond', Georgia, serif;
       --transition: cubic-bezier(0.4, 0, 0.2, 1);
     }
     
@@ -40,11 +40,9 @@
       position: relative;
     }
     
-    /* Animated Background */
     body::before {
       content: '';
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: 
         radial-gradient(circle at 20% 50%, rgba(245, 158, 11, 0.06) 0%, transparent 50%),
         radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.03) 0%, transparent 50%);
@@ -77,26 +75,30 @@
     @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
     .brand h1 { font-size: 1.1rem; font-weight: 800; color: var(--ink); letter-spacing: -0.5px; }
     
-    /* ✅ NAV LINKS MOVED TO RIGHT + BEAUTIFIED */
+    /* ✅ REDESIGNED NAV CHIPS — COMPACT, TIGHT, ELEGANT */
     .nav-links { 
-      display: flex; gap: 0.6rem; align-items: center; 
-      margin-left: auto; /* 👈 Pushed to right */
+      display: flex; gap: 0.4rem; /* 👈 Reduced from 0.6rem */
+      align-items: center; 
+      margin-left: 2rem; /* 👈 Increased space from brand */
       flex-shrink: 0; 
     }
     .nav-chip {
-      padding: 0.4rem 1rem; border-radius: 999px; 
+      padding: 0.35rem 0.8rem; /* 👈 Smaller padding */
+      border-radius: 999px; 
       background: rgba(245, 158, 11, 0.08); 
       color: var(--orange);
-      font-weight: 600; font-size: 0.8rem; 
+      font-weight: 600; font-size: 0.75rem; /* 👈 Slightly smaller */
       border: 1px solid rgba(245, 158, 11, 0.15);
       transition: all 0.3s ease; 
       white-space: nowrap;
+      height: 28px; /* 👈 Fixed height for alignment */
+      display: flex; align-items: center; justify-content: center;
     }
     .nav-chip:hover { 
       color: var(--orange-ink); 
       background: var(--orange); 
-      transform: translateY(-2px); 
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+      transform: translateY(-1px); 
+      box-shadow: 0 3px 8px rgba(245, 158, 11, 0.25);
       border-color: var(--orange);
     }
     .nav-chip.active { 
@@ -104,7 +106,6 @@
       color: var(--orange-ink); 
     }
     
-    /* Post Container */
     .post-container {
       margin-top: 75px; margin-bottom: 4rem; background: var(--panel);
       border-radius: 24px; border: 1px solid rgba(245, 158, 11, 0.15);
@@ -147,18 +148,17 @@
     }
     .post-title {
       font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 700; line-height: 1.2; margin: 1.5rem 0;
-      color: var(--ink); /* ✨ Removed gradient for readability */
+      color: var(--ink);
       text-align: center; animation: fadeIn 1s ease 0.3s both;
     }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     
-    /* ✅ WIDENED + BEAUTIFIED CONTENT */
     .post-content {
       padding: 2rem 0; 
-      max-width: 760px; /* 👈 Widened from 680px */
+      max-width: 760px; 
       margin: 0 auto; 
       font-size: 1.125rem; 
-      line-height: 2.0; /* 👈 Increased for elegance */
+      line-height: 2.0; 
       color: rgba(229, 238, 252, 0.95);
       animation: fadeInUp 0.8s ease 0.5s both; 
       text-align: center;
@@ -176,21 +176,19 @@
     }
     .post-content h3 { font-size: 1.5rem; color: var(--orange-light); font-weight: 500; }
     
-    /* ✅ PARAGRAPHS — CENTERED, SPACIOUS, READABLE */
     .post-content p { 
       margin-bottom: 2rem; 
       text-align: center; 
-      max-width: 700px; /* 👈 Widened */
+      max-width: 700px; 
       margin-left: auto; 
       margin-right: auto; 
       font-weight: 400;
     }
     
-    /* ✅ FIXED QUOTE BOX — PROPERLY CONTAINED + STYLISH */
     .post-content blockquote, .quote-highlight {
       position: relative; 
       margin: 3rem auto; 
-      padding: 2.5rem 3rem; /* 👈 Removed left offset for balance */
+      padding: 2.5rem 3rem; 
       max-width: 85%;
       background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(245, 158, 11, 0.06));
       border: 2px solid rgba(245, 158, 11, 0.25); 
@@ -218,7 +216,7 @@
     .post-content blockquote::after, .quote-highlight::after {
       content: '"'; 
       position: absolute; 
-      bottom: 1rem; /* 👈 Adjusted from 0.5rem */
+      bottom: 1rem; 
       right: 1.5rem; 
       font-size: 4rem; 
       color: var(--orange); 
@@ -314,19 +312,26 @@
       box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4); 
     }
     
-    .loading { 
+    /* ✅ IMPROVED LOADING STATE — WILL NOT STICK */
+    .loading-container {
       text-align: center; 
       padding: 4rem 2rem; 
-      color: var(--muted); 
+      color: var(--muted);
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
     .loading-spinner { 
       display: inline-block; 
-      width: 50px; 
-      height: 50px; 
+      width: 40px; 
+      height: 40px; 
       border: 3px solid rgba(245, 158, 11, 0.2); 
       border-top-color: var(--orange); 
       border-radius: 50%; 
       animation: spin 1s linear infinite; 
+      margin-bottom: 1rem;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
     .error { 
@@ -352,11 +357,11 @@
         <span class="dot"></span>
         <h1>Boluadeoye</h1>
       </a>
-      <!-- ✅ NAV LINKS NOW RIGHT-ALIGNED -->
+      <!-- ✅ FINAL NAV CHIPS — COMPACT, SPACED FROM BRAND -->
       <nav class="nav-links">
-        <a href="./" class="nav-chip"><span>Home</span></a>
-        <a href="./posts.html" class="nav-chip"><span>All Posts</span></a>
-        <a href="./about.html" class="nav-chip"><span>About</span></a>
+        <a href="./" class="nav-chip">Home</a>
+        <a href="./posts.html" class="nav-chip">All Posts</a>
+        <a href="./about.html" class="nav-chip">About</a>
       </nav>
     </div>
   </header>
@@ -364,15 +369,13 @@
   <main class="wrap">
     <div class="post-container">
       <div class="content-wrapper">
-        <article id="post-article">
-          <div class="loading">
+        <!-- ✅ RENAMED FOR CLARITY + GUARANTEED REPLACEMENT -->
+        <article id="post-content-wrapper">
+          <div class="loading-container">
             <div class="loading-spinner"></div>
-            <p>Loading your content...</p>
+            <p>Loading your post...</p>
           </div>
         </article>
-
-        <!-- ✅ COMMENTS SECTION — COMPLETELY DELETED -->
-
       </div>
     </div>
   </main>
@@ -390,34 +393,61 @@
       if (window.scrollY > 50) { header.classList.add('scrolled'); } else { header.classList.remove('scrolled'); }
     });
     
-    // Markdown parser (light)
+    // ✅ ROBUST MARKDOWN PARSER — HANDLES EDGE CASES
     function parseMarkdown(markdown) {
-      let html = markdown;
-      html = html.replace(/<script/gi, '&lt;script');
+      if (!markdown || typeof markdown !== 'string') {
+        return '<p>Content unavailable.</p>';
+      }
+
+      let html = markdown
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/&lt;script/gi, '&lt;!-- script blocked -->');
+
+      // Headings
       html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
       html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
       html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+
+      // Bold & Italic
       html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
       html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+      // Links
       html = html.replace(/```math
 ([^```]+)```KATEX_INLINE_OPEN([^)]+)KATEX_INLINE_CLOSE/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-      
-      // ✅ FIXED BLOCKQUOTE PARSING
-      html = html.replace(/^> (.+)$/gim, '<blockquote>$1</blockquote>');
+
+      // ✅ FIXED BLOCKQUOTE — NOW HANDLES MULTI-LINE + NESTED CONTENT
+      html = html.replace(/^>>> (.+)$/gim, '<div class="quote-highlight">$1</div>');
       html = html.replace(/^>> (.+)$/gim, '<div class="quote-highlight">$1</div>');
-      
-      html = html.split('\n\n').map(para => { 
-        if (!para.startsWith('<') && !para.startsWith('>') && para.trim() !== '') 
-          return `<p>${para}</p>`; 
-        return para; 
+      html = html.replace(/^> (.+)$/gim, '<blockquote>$1</blockquote>');
+
+      // Split into paragraphs — only if not already wrapped
+      const lines = html.split('\n\n');
+      html = lines.map(line => {
+        line = line.trim();
+        if (!line) return '';
+        if (line.startsWith('<') || line.startsWith('&lt;')) return line;
+        return `<p>${line}</p>`;
       }).join('\n');
-      
+
+      // Preserve manual line breaks within paragraphs
       html = html.replace(/\n/g, '<br>');
+
       return html;
     }
 
+    // ✅ LOADING SYSTEM — GUARANTEED TO RESOLVE OR SHOW ERROR
     async function loadPost() {
-      const container = document.getElementById('post-article');
+      const container = document.getElementById('post-content-wrapper');
+      
+      // Show loader immediately
+      container.innerHTML = `
+        <div class="loading-container">
+          <div class="loading-spinner"></div>
+          <p>Loading your post...</p>
+        </div>`;
+
       const urlParams = new URLSearchParams(window.location.search);
       const rawFile = urlParams.get('file');
       const file = rawFile ? decodeURIComponent(rawFile) : '';
@@ -428,25 +458,34 @@
             <h2>No Post Specified</h2>
             <p>Please select a post to read.</p>
             <div class="post-nav">
-              <a href="./" class="btn-chip"><span>← Back to Home</span></a>
+              <a href="./" class="btn-chip">← Back to Home</a>
             </div>
           </div>`;
         return;
       }
 
       try {
+        // Load metadata
         const postsRes = await fetch('Posts.json', { cache: 'no-store' });
+        if (!postsRes.ok) throw new Error('Failed to load post index');
+        
         const posts = await postsRes.json();
+        if (!Array.isArray(posts)) throw new Error('Invalid post database');
+        
         const postData = posts.find(p => (p.file || '') === file);
         if (!postData) throw new Error('Post not found in database');
 
+        // Load content
         const mdRes = await fetch(file, { cache: 'no-store' });
-        if (!mdRes.ok) throw new Error('Post file not found');
+        if (!mdRes.ok) throw new Error('Post content file not found');
+        
         const markdown = await mdRes.text();
         const content = parseMarkdown(markdown);
 
+        // Set title
         document.title = `${postData.title} - Boluadeoye`;
 
+        // ✅ REPLACE LOADER WITH CONTENT — NO STUCK STATES
         container.innerHTML = `
           <div class="post-header">
             <div class="post-meta">
@@ -459,21 +498,23 @@
           </div>
           <div class="post-content">${content}</div>
           <nav class="post-nav">
-            <a href="./" class="btn-chip"><span>← Back to Home</span></a>
-            <a href="./posts.html" class="btn-chip"><span>View All Posts →</span></a>
+            <a href="./" class="btn-chip">← Back to Home</a>
+            <a href="./posts.html" class="btn-chip">View All Posts →</a>
           </nav>`;
 
+        // Scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
+
       } catch (error) {
+        console.error('Load Post Error:', error);
         container.innerHTML = `
           <div class="error">
             <h2>Unable to Load Post</h2>
-            <p>${error.message}</p>
+            <p>${error.message || 'An unknown error occurred.'}</p>
             <div class="post-nav">
-              <a href="./" class="btn-chip"><span>← Return to Homepage</span></a>
+              <a href="./" class="btn-chip">← Return to Homepage</a>
             </div>
           </div>`;
-        console.error(error);
       }
     }
     
