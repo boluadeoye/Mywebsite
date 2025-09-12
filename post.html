@@ -53,7 +53,7 @@
     a { color: inherit; text-decoration: none; }
     .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
     
-    /* ========== FIXED HEADER LAYOUT ========== */
+    /* Header */
     header { 
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(20px);
@@ -75,7 +75,7 @@
     @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
     .brand h1 { font-size: 1.1rem; font-weight: 800; color: var(--ink); letter-spacing: -0.5px; }
     
-    /* Nav Links - Compact Chips with Increased Space from Brand */
+    /* Nav Links - Redesigned as requested */
     .nav-links { 
       display: flex; gap: 0.4rem;
       align-items: center; 
@@ -362,7 +362,7 @@
         <span class="dot"></span>
         <h1>Boluadeoye</h1>
       </a>
-      <!-- Adjusted Nav Links -->
+      <!-- Redesigned Nav Links -->
       <nav class="nav-links">
         <a href="./" class="nav-chip">Home</a>
         <a href="./posts.html" class="nav-chip">All Posts</a>
@@ -397,86 +397,58 @@
       if (window.scrollY > 50) { header.classList.add('scrolled'); } else { header.classList.remove('scrolled'); }
     });
     
-    // Fixed Markdown Parser
-    function parseMarkdown(markdown) {
-      try {
-        if (!markdown || typeof markdown !== 'string') {
-          return '<p>Content unavailable.</p>';
-        }
-
-        // Basic safety
-        let html = markdown.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        
-        // Basic markdown elements
-        html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-        html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-        html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-        
-        // Bold & Italic
-        html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-        html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
-        html = html.replace(/_(.+?)_/g, '<em>$1</em>');
-        
-        // Links
-        html = html.replace(/```math
-([^```]+)```KATEX_INLINE_OPEN([^)]+)KATEX_INLINE_CLOSE/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-        
-        // Blockquotes - Critical fix for proper containment
-        let lines = html.split('\n');
-        let inQuote = false;
-        let quoteContent = [];
-        
-        for (let i = 0; i < lines.length; i++) {
-          if (lines[i].trim().startsWith('&gt;')) {
-            if (!inQuote) {
-              inQuote = true;
-              quoteContent = [];
-            }
-            // Strip the > and add to quote content
-            quoteContent.push(lines[i].trim().replace(/^&gt;\s?/, ''));
-            lines[i] = ''; // Clear this line as we're collecting it
-          } else if (inQuote) {
-            // End of quote
-            lines[i-1] = '<blockquote>' + quoteContent.join(' ') + '</blockquote>';
-            inQuote = false;
-          }
-        }
-        
-        // If quote continues to the end
-        if (inQuote) {
-          lines.push('<blockquote>' + quoteContent.join(' ') + '</blockquote>');
-        }
-        
-        html = lines.join('\n');
-        
-        // Convert remaining line breaks and paragraphs
-        const paragraphs = html.split('\n\n');
-        html = paragraphs.map(para => {
-          para = para.trim();
-          if (!para) return '';
-          if (para.startsWith('<h') || para.startsWith('<blockquote')) return para;
-          return `<p>${para}</p>`;
-        }).join('');
-        
-        // Handle line breaks within paragraphs
-        html = html.replace(/\n/g, '<br>');
-        
-        return html;
-      } catch (err) {
-        console.error('Markdown parsing error:', err);
-        return '<p>Error parsing content. Please try again.</p>';
+    // Simple Manual Markdown Processor
+    function processMarkdown(text) {
+      // Ensure input is valid
+      if (!text || typeof text !== 'string') {
+        return '<p>Content unavailable.</p>';
       }
+      
+      // Simple escaping
+      text = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      
+      // Process blockquotes FIRST
+      text = text.replace(/^>\s*(.+)$/gm, '<blockquote>$1</blockquote>');
+      
+      // Process headings
+      text = text.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+      text = text.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+      text = text.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+      
+      // Process formatting
+      text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+      text = text.replace(/_(.+?)_/g, '<em>$1</em>');
+      
+      // Process links
+      text = text.replace(/```math
+(.+?)```KATEX_INLINE_OPEN(.+?)KATEX_INLINE_CLOSE/g, '<a href="$2">$1</a>');
+      
+      // Process paragraphs
+      let paragraphs = text.split(/\n\n+/);
+      return paragraphs.map(p => {
+        p = p.trim();
+        if (!p) return '';
+        
+        // Skip already processed blocks
+        if (p.startsWith('<h') || p.startsWith('<blockquote')) {
+          return p;
+        }
+        
+        // Process normal paragraphs
+        return `<p>${p.replace(/\n/g, '<br>')}</p>`;
+      }).join('\n');
     }
 
-    // Guaranteed Loading with Error Handling
+    // Load and display post
     async function loadPost() {
+      // Always start with loading state
       const container = document.getElementById('post-content-wrapper');
       
       try {
-        // Get file parameter
+        // 1. Get the post file from URL
         const urlParams = new URLSearchParams(window.location.search);
-        const rawFile = urlParams.get('file');
-        const file = rawFile ? decodeURIComponent(rawFile) : '';
+        const file = urlParams.get('file');
         
         if (!file) {
           container.innerHTML = `
@@ -490,34 +462,47 @@
           return;
         }
         
-        // Step 1: Load metadata
+        // 2. Get post metadata from Posts.json
+        console.log("Loading Posts.json...");
+        const baseUrl = window.location.origin + window.location.pathname.replace('post.html', '');
         const postsRes = await fetch('Posts.json');
-        if (!postsRes.ok) throw new Error(`Failed to load post data (${postsRes.status})`);
+        
+        if (!postsRes.ok) {
+          throw new Error(`Failed to load post data (${postsRes.status})`);
+        }
         
         const posts = await postsRes.json();
-        if (!Array.isArray(posts)) throw new Error('Invalid post database format');
+        const postData = posts.find(p => p.file === file);
         
-        const postData = posts.find(p => (p.file || '') === file);
-        if (!postData) throw new Error('Post not found in database');
+        if (!postData) {
+          throw new Error(`Post "${file}" not found in Posts.json`);
+        }
         
-        // Step 2: Load content
+        // 3. Load the markdown file
+        console.log(`Loading markdown file: ${file}`);
         const mdRes = await fetch(file);
-        if (!mdRes.ok) throw new Error(`Post file not found (${mdRes.status})`);
+        
+        if (!mdRes.ok) {
+          throw new Error(`Failed to load post content (${mdRes.status})`);
+        }
         
         const markdown = await mdRes.text();
-        const content = parseMarkdown(markdown);
         
-        // Update page title
+        // 4. Process the markdown to HTML
+        console.log("Processing markdown...");
+        const content = processMarkdown(markdown);
+        
+        // 5. Update page title
         document.title = `${postData.title} - Boluadeoye`;
         
-        // Replace the loading spinner with content
+        // 6. Display the post
         container.innerHTML = `
           <div class="post-header">
             <div class="post-meta">
               <span class="meta-item">📅 ${new Date(postData.date).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</span>
-              <span class="meta-item">📁 ${(postData.type || 'general')}</span>
-              <span class="meta-item">❤️ ${(postData.likes || 0)} likes</span>
-              <span class="meta-item">👁️ ${(postData.views || 0)}K views</span>
+              <span class="meta-item">📁 ${postData.type || 'general'}</span>
+              <span class="meta-item">❤️ ${postData.likes || 0} likes</span>
+              <span class="meta-item">👁️ ${postData.views || 0}K views</span>
             </div>
             <h1 class="post-title">${postData.title}</h1>
           </div>
@@ -527,15 +512,17 @@
             <a href="./posts.html" class="btn-chip">View All Posts →</a>
           </nav>`;
         
-        // Scroll to top for better UX
+        // 7. Scroll to top
         window.scrollTo(0, 0);
         
       } catch (error) {
-        console.error('Load error:', error);
+        console.error("Error loading post:", error);
+        
+        // Always show a helpful error message
         container.innerHTML = `
           <div class="error">
             <h2>Unable to Load Post</h2>
-            <p>${error.message || 'An unknown error occurred'}</p>
+            <p>${error.message}</p>
             <div class="post-nav">
               <a href="./" class="btn-chip">← Return to Homepage</a>
             </div>
@@ -543,7 +530,7 @@
       }
     }
     
-    // Run on load
+    // Load the post when DOM is ready
     document.addEventListener('DOMContentLoaded', loadPost);
   </script>
 </body>
