@@ -6,12 +6,6 @@
   <title>Post - Boluadeoye</title>
   <base href="/Mywebsite/">
 
-  <!-- Optional: share previews -->
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content="Boluadeoye — Writings" />
-  <meta property="og:site_name" content="Boluadeoye" />
-  <meta name="theme-color" content="#0f172a" />
-
   <style>
     /* Theme Variables */
     :root {
@@ -29,6 +23,7 @@
       --serif: ui-serif, Georgia, "Times New Roman", serif;
       --transition: cubic-bezier(0.4, 0, 0.2, 1);
     }
+    
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; scroll-behavior: smooth; }
     body {
@@ -39,73 +34,76 @@
       -moz-osx-font-smoothing: grayscale;
       position: relative;
     }
+    
+    /* Animated Background */
     body::before {
-      content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background:
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: 
         radial-gradient(circle at 20% 50%, rgba(245, 158, 11, 0.06) 0%, transparent 50%),
         radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.03) 0%, transparent 50%);
       pointer-events: none; z-index: 0; animation: float 25s ease-in-out infinite;
     }
-    @keyframes float { 0%,100%{transform:scale(1) rotate(0deg)} 50%{transform:scale(1.1) rotate(3deg)} }
-
+    @keyframes float { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.1) rotate(3deg); } }
+    
     a { color: inherit; text-decoration: none; }
     .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
-
-    /* Header */
-    header {
+    
+    /* ========== FIXED HEADER LAYOUT ========== */
+    header { 
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255, 255, 255, .06); transition: all 0.3s ease;
     }
-    header.scrolled { background: rgba(15, 23, 42, 0.95); box-shadow: 0 10px 30px rgba(0,0,0,.3); }
-    .header-row {
+    header.scrolled { background: rgba(15, 23, 42, 0.95); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
+    .header-row { 
       display: flex; align-items: center; justify-content: space-between; min-height: 60px;
       padding: 0.5rem 1.5rem 0.5rem 1rem; max-width: 100%; margin: 0;
     }
-    .brand { display: flex; align-items: center; gap: 0.5rem; transition: transform .3s ease; flex-shrink: 0; }
+    .brand { display: flex; align-items: center; gap: 0.5rem; transition: transform 0.3s ease; flex-shrink: 0; }
     .brand:hover { transform: translateX(3px); }
-    .brand .dot {
+    .brand .dot { 
       width: 26px; height: 26px; border-radius: 50%;
       background: radial-gradient(circle at 30% 30%, #ffd27a 0%, #f59e0b 40%, #d97706 100%);
-      box-shadow: 0 0 0 2px rgba(245,158,11,.12), 0 3px 15px rgba(245,158,11,.25);
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, .12), 0 3px 15px rgba(245, 158, 11, .25);
       animation: pulse 2s infinite;
     }
-    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
     .brand h1 { font-size: 1.1rem; font-weight: 800; color: var(--ink); letter-spacing: -0.5px; }
-
+    
     .nav-links { display: flex; gap: 0.4rem; align-items: center; margin-right: 1rem; flex-shrink: 0; }
     .nav-chip {
-      padding: 0.3rem 0.75rem; border-radius: 999px; background: rgba(245,158,11,.08); color: var(--orange);
-      font-weight: 600; font-size: 0.75rem; border: 1px solid rgba(245,158,11,.15);
-      transition: all .3s ease; position: relative; overflow: hidden; display: inline-flex; align-items: center; white-space: nowrap;
+      padding: 0.3rem 0.75rem; border-radius: 999px; background: rgba(245, 158, 11, 0.08); color: var(--orange);
+      font-weight: 600; font-size: 0.75rem; border: 1px solid rgba(245, 158, 11, 0.15);
+      transition: all 0.3s ease; position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap;
     }
-    .nav-chip:hover { color: var(--orange-ink); transform: translateY(-1px); box-shadow: 0 3px 10px rgba(245,158,11,.25); }
+    .nav-chip:hover { color: var(--orange-ink); transform: translateY(-1px); box-shadow: 0 3px 10px rgba(245, 158, 11, 0.25); }
     .nav-chip.active { background: var(--orange); color: var(--orange-ink); }
-
-    /* Post frame */
+    
+    /* Post layout */
     .post-container {
       margin-top: 75px; margin-bottom: 4rem; background: var(--panel);
-      border-radius: 24px; border: 1px solid rgba(245,158,11,.15);
-      box-shadow: 0 20px 60px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.05);
+      border-radius: 24px; border: 1px solid rgba(245, 158, 11, 0.15);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
       overflow: hidden; position: relative;
     }
     .post-container::before, .post-container::after {
       content: ''; position: absolute; left: 10%; right: 10%; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(245,158,11,.3), rgba(245,158,11,.5), rgba(245,158,11,.3), transparent);
+      background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.3), rgba(245, 158, 11, 0.5), rgba(245, 158, 11, 0.3), transparent);
     }
     .post-container::before { top: 0; } .post-container::after { bottom: 0; }
     .content-wrapper {
-      position: relative; padding: 3rem; border-left: 1px solid rgba(245,158,11,.1);
-      border-right: 1px solid rgba(245,158,11,.1); margin: 0 2rem;
+      position: relative; padding: 3rem; border-left: 1px solid rgba(245, 158, 11, 0.1); border-right: 1px solid rgba(245, 158, 11, 0.1); margin: 0 2rem;
     }
     .content-wrapper::before, .content-wrapper::after {
       content: ''; position: absolute; top: 10%; bottom: 10%; width: 1px;
-      background: linear-gradient(180deg, transparent, rgba(245,158,11,.2), rgba(245,158,11,.2), transparent);
+      background: linear-gradient(180deg, transparent, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.2), transparent);
     }
     .content-wrapper::before { left: 0; } .content-wrapper::after { right: 0; }
-
-    .post-header { text-align: center; padding: 3rem 0 2rem; position: relative; animation: fadeInDown .8s ease; }
-    @keyframes fadeInDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+    
+    .post-header { text-align: center; padding: 3rem 0 2rem; position: relative; animation: fadeInDown 0.8s ease; }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
     .post-header::after {
       content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
       width: 120px; height: 3px; background: linear-gradient(90deg, transparent, var(--orange), transparent); border-radius: 2px;
@@ -114,89 +112,74 @@
       display: flex; gap: 1.5rem; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 2rem;
     }
     .meta-item {
-      display: flex; align-items: center; gap: .5rem; padding: .5rem 1rem; background: rgba(245,158,11,.08);
-      border-radius: 999px; font-size: .9rem; color: var(--muted); border: 1px solid rgba(245,158,11,.15);
+      display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(245, 158, 11, 0.08);
+      border-radius: 999px; font-size: 0.9rem; color: var(--muted); border: 1px solid rgba(245, 158, 11, 0.15);
     }
     .post-title {
-      font-family: var(--serif); font-size: clamp(2.3rem, 4.5vw, 3.3rem); font-weight: 900; line-height: 1.2; margin: 1.2rem 0;
-      background: linear-gradient(135deg, var(--orange), var(--orange-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; line-height: 1.2; margin: 1.5rem 0;
+      background: linear-gradient(135deg, var(--orange), var(--orange-light));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      text-align: center; animation: fadeIn 1s ease 0.3s both;
     }
-
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    
     .post-content {
-      padding: 2rem 0; max-width: 680px; margin: 0 auto; font-size: 1.125rem; line-height: 1.9; color: rgba(229,238,252,.95);
-      animation: fadeInUp .8s ease .5s both; text-align: center;
+      padding: 2rem 0; max-width: 680px; margin: 0 auto; font-size: 1.125rem; line-height: 1.9; color: rgba(229, 238, 252, 0.95);
+      animation: fadeInUp 0.8s ease 0.5s both; text-align: center;
     }
-    @keyframes fadeInUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    
     .post-content h1, .post-content h2, .post-content h3, .post-content h4 {
       font-family: var(--serif); color: var(--orange); margin: 3rem 0 1.5rem; font-weight: 700; text-align: center; position: relative;
     }
-    .post-content h1 { font-size: 2.25rem; background: linear-gradient(135deg, var(--orange), var(--orange-light));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .post-content h1 { font-size: 2.25rem; background: linear-gradient(135deg, var(--orange), var(--orange-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .post-content h2 { font-size: 1.875rem; padding-bottom: 1rem; }
     .post-content h2::after {
-      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px;
-      background: linear-gradient(90deg, transparent, var(--orange), transparent); border-radius: 2px;
+      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, transparent, var(--orange), transparent); border-radius: 2px;
     }
     .post-content h3 { font-size: 1.5rem; color: var(--orange-light); }
-    .post-content p { margin-bottom: 2rem; text-align: center; max-width: 600px; margin-inline: auto; }
-
+    .post-content p { margin-bottom: 2rem; text-align: center; max-width: 600px; margin-left: auto; margin-right: auto; }
+    
     .post-content blockquote, .quote-highlight {
       position: relative; margin: 3rem auto; padding: 2.5rem 3rem 2.5rem 4rem; max-width: 85%;
-      background: linear-gradient(135deg, rgba(245,158,11,.12), rgba(245,158,11,.06));
-      border: 2px solid rgba(245,158,11,.25); border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,.2),
-      0 0 60px rgba(245,158,11,.08), inset 0 1px 0 rgba(255,255,255,.05);
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(245, 158, 11, 0.06));
+      border: 2px solid rgba(245, 158, 11, 0.25); border-radius: 20px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2),
+      0 0 60px rgba(245, 158, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.05);
       font-style: italic; font-family: var(--serif); font-size: 1.2rem; line-height: 1.8; color: var(--ink); text-align: center;
     }
     .post-content blockquote::before, .quote-highlight::before {
-      content: '"'; position: absolute; top: 1rem; left: 1.5rem; font-size: 4rem; color: var(--orange); opacity: .3; font-family: var(--serif); font-weight: 900;
+      content: '"'; position: absolute; top: 1rem; left: 1.5rem; font-size: 4rem; color: var(--orange); opacity: 0.3; font-family: var(--serif); font-weight: 900; line-height: 1;
     }
     .post-content blockquote::after, .quote-highlight::after {
-      content: '"'; position: absolute; bottom: .5rem; right: 1.5rem; font-size: 4rem; color: var(--orange); opacity: .3; transform: rotate(180deg);
+      content: '"'; position: absolute; bottom: 0.5rem; right: 1.5rem; font-size: 4rem; color: var(--orange); opacity: 0.3; font-family: var(--serif); font-weight: 900; line-height: 1; transform: rotate(180deg);
     }
+    
     .post-content ul, .post-content ol { margin: 2rem auto; padding-left: 0; max-width: 500px; list-style-position: inside; text-align: center; }
-    .post-content li { margin-bottom: .75rem; color: rgba(229,238,252,.9); }
-    .post-content code { background: rgba(245,158,11,.1); padding: .25em .5em; border-radius: 6px; font-size: .9em; color: var(--orange-light); border: 1px solid rgba(245,158,11,.2); }
-    .post-content pre { background: var(--panel); padding: 1.5rem; border-radius: var(--radius); overflow-x: auto; margin: 2rem auto; max-width: 90%; border: 1px solid rgba(255,255,255,.06); }
+    .post-content li { margin-bottom: 0.75rem; color: rgba(229, 238, 252, 0.9); }
+    
+    .post-content code { background: rgba(245, 158, 11, 0.1); padding: 0.25em 0.5em; border-radius: 6px; font-size: 0.9em; color: var(--orange-light); border: 1px solid rgba(245, 158, 11, 0.2); }
+    .post-content pre { background: var(--panel); padding: 1.5rem; border-radius: var(--radius); overflow-x: auto; margin: 2rem auto; max-width: 90%; border: 1px solid rgba(255, 255, 255, 0.06); }
+    
     .post-content a { color: var(--orange); text-decoration: none; position: relative; font-weight: 500; }
-    .post-content a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: var(--orange); transition: width .3s ease; }
+    .post-content a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: var(--orange); transition: width 0.3s ease; }
     .post-content a:hover::after { width: 100%; }
-    .post-content img { max-width: 100%; height: auto; border-radius: var(--radius); margin: 2rem auto; display: block; box-shadow: 0 15px 40px rgba(0,0,0,.3); }
-
+    
+    .post-content img { max-width: 100%; height: auto; border-radius: var(--radius); margin: 2rem auto; display: block; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); }
+    
     .post-nav {
-      display: flex; justify-content: center; gap: 1.5rem; padding: 3rem 0; border-top: 1px solid rgba(245,158,11,.15); flex-wrap: wrap;
+      display: flex; justify-content: center; gap: 1.5rem; padding: 3rem 0; border-top: 1px solid rgba(245, 158, 11, 0.15); flex-wrap: wrap;
     }
     .btn-chip {
-      display: inline-flex; align-items: center; gap: .75rem; padding: .85rem 1.75rem; background: linear-gradient(135deg, var(--orange), var(--orange-light));
-      color: var(--orange-ink); border-radius: 999px; font-weight: 700; font-size: .95rem; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(245,158,11,.3);
+      display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1.75rem; background: linear-gradient(135deg, var(--orange), var(--orange-light));
+      color: var(--orange-ink); border-radius: 999px; font-weight: 700; font-size: 0.95rem; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
     }
-    .btn-chip:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(245,158,11,.4); }
-
+    .btn-chip:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4); }
+    
     .loading { text-align: center; padding: 4rem 2rem; color: var(--muted); }
-    .loading-spinner { display: inline-block; width: 50px; height: 50px; border: 3px solid rgba(245,158,11,.2); border-top-color: var(--orange); border-radius: 50%; animation: spin 1s linear infinite; }
+    .loading-spinner { display: inline-block; width: 50px; height: 50px; border: 3px solid rgba(245, 158, 11, 0.2); border-top-color: var(--orange); border-radius: 50%; animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
     .error { text-align: center; padding: 3rem; color: #ff6b6b; }
-
-    footer { background: var(--panel); color: var(--muted); border-top: 1px solid rgba(255,255,255,.06); text-align: center; font-size: .9rem; padding: 2.5rem 0; margin-top: 4rem; }
-
-    @media (max-width: 768px){
-      .header-row{ padding:.4rem .5rem .4rem .8rem; min-height:56px }
-      .brand .dot{ width:22px;height:22px }
-      .brand h1{ font-size:.95rem }
-      .nav-links{ gap:.25rem; margin-right:.5rem }
-      .nav-chip{ font-size:.65rem; padding:.2rem .6rem }
-      .post-container{ margin-top:65px }
-      .content-wrapper{ padding:2rem 1.5rem; margin:0 1rem }
-      .post-title{ font-size:2rem }
-      .post-content{ font-size:1rem }
-      .post-content blockquote, .quote-highlight{ padding:2rem 2rem 2rem 3rem; font-size:1.1rem }
-    }
-    @media (max-width: 480px){
-      .header-row{ gap:.3rem; padding:.3rem .4rem }
-      .nav-chip{ font-size:.6rem; padding:.2rem .5rem }
-      .nav-links{ margin-right:.3rem }
-    }
+    footer { background: var(--panel); color: var(--muted); border-top: 1px solid rgba(255, 255, 255, 0.06); text-align: center; font-size: 0.9rem; padding: 2.5rem 0; margin-top: 4rem; }
   </style>
 </head>
 <body>
@@ -224,23 +207,14 @@
           </div>
         </article>
 
-        <!-- Comments -->
+        <!-- Comments (Utterances) -->
         <section id="comments" class="wrap" style="margin-top:2rem">
           <h3 style="color:#f59e0b;font-family:var(--serif);margin-bottom:1rem;text-align:center;">Comments</h3>
-
-          <!-- Replace the placeholders below with the values from giscus.app -->
-          <script src="https://giscus.app/client.js"
-                  data-repo="YOUR-USERNAME/YOUR-REPO"
-                  data-repo-id="REPO_ID"
-                  data-category="Comments"
-                  data-category-id="CATEGORY_ID"
-                  data-mapping="pathname"
-                  data-strict="1"
-                  data-reactions-enabled="1"
-                  data-emit-metadata="0"
-                  data-input-position="bottom"
-                  data-theme="dark"
-                  data-lang="en"
+          <script src="https://utteranc.es/client.js"
+                  repo="boluadeoye/Mywebsite"
+                  issue-term="pathname"
+                  label="comments"
+                  theme="github-dark"
                   crossorigin="anonymous"
                   async>
           </script>
@@ -265,38 +239,38 @@
       const header = document.getElementById('header');
       if (window.scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled');
     });
-
+    
     // Enhanced Markdown Parser
     function parseMarkdown(markdown) {
       let html = markdown;
 
-      // escape <script> tags for safety (very simple guard)
+      // very light guard
       html = html.replace(/<script/gi, '&lt;script');
 
       // Headers
       html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
       html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
       html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-
+      
       // Bold / italic
       html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
       html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
-
+      
       // Links (open in new tab)
       html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-
+      
       // Blockquotes
       html = html.replace(/^> (.+)$/gim, '<blockquote>$1<span class="quote-accent"></span></blockquote>');
-
-      // Custom highlight (>> )
+      
+      // Highlight boxes (lines starting with >>)
       html = html.replace(/^>> (.+)$/gim, '<div class="highlight-box">$1</div>');
-
+      
       // Paragraphs
       html = html.split('\n\n').map(para => {
         if (!para.startsWith('<')) return `<p>${para}</p>`;
         return para;
       }).join('\n');
-
+      
       // Line breaks
       html = html.replace(/\n/g, '<br>');
       return html;
@@ -322,19 +296,18 @@
 
       try {
         // Load metadata
-        const postsRes = await fetch('Posts.json', { cache:'no-store' });
+        const postsRes = await fetch('Posts.json', { cache: 'no-store' });
         const posts = await postsRes.json();
         const postData = posts.find(p => (p.file || '') === file);
-
         if (!postData) throw new Error('Post not found in database');
 
-        // Load markdown
-        const mdRes = await fetch(file, { cache:'no-store' });
+        // Load the markdown file
+        const mdRes = await fetch(file, { cache: 'no-store' });
         if (!mdRes.ok) throw new Error('Post file not found');
         const markdown = await mdRes.text();
         const content = parseMarkdown(markdown);
 
-        // Update title
+        // Update page title
         document.title = `${postData.title} - Boluadeoye`;
 
         // Render
@@ -342,8 +315,8 @@
           <div class="post-header">
             <div class="post-meta">
               <span class="meta-item">📅 ${new Date(postData.date).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</span>
-              <span class="meta-item">📁 ${postData.type || 'general'}</span>
-              <span class="meta-item">❤️ ${postData.likes || 0} likes</span>
+              <span class="meta-item">📁 ${(postData.type || 'general')}</span>
+              <span class="meta-item">❤️ ${(postData.likes || 0)} likes</span>
               <span class="meta-item">👁️ ${(postData.views || 0)}K views</span>
             </div>
             <h1 class="post-title">${postData.title}</h1>
@@ -354,7 +327,6 @@
             <a href="./posts.html" class="btn-chip"><span>View All Posts →</span></a>
           </nav>`;
 
-        // Jump to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (error) {
         container.innerHTML = `
@@ -368,7 +340,7 @@
         console.error(error);
       }
     }
-
+    
     document.addEventListener('DOMContentLoaded', loadPost);
   </script>
 </body>
