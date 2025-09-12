@@ -75,23 +75,23 @@
     @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
     .brand h1 { font-size: 1.1rem; font-weight: 800; color: var(--ink); letter-spacing: -0.5px; }
     
-    /* ✅ REDESIGNED NAV CHIPS — COMPACT, TIGHT, ELEGANT */
+    /* Nav Links - Compact Chips with Increased Space from Brand */
     .nav-links { 
-      display: flex; gap: 0.4rem; /* 👈 Reduced from 0.6rem */
+      display: flex; gap: 0.4rem;
       align-items: center; 
-      margin-left: 2rem; /* 👈 Increased space from brand */
+      margin-left: 2rem;
       flex-shrink: 0; 
     }
     .nav-chip {
-      padding: 0.35rem 0.8rem; /* 👈 Smaller padding */
+      padding: 0.35rem 0.8rem;
       border-radius: 999px; 
       background: rgba(245, 158, 11, 0.08); 
       color: var(--orange);
-      font-weight: 600; font-size: 0.75rem; /* 👈 Slightly smaller */
+      font-weight: 600; font-size: 0.75rem;
       border: 1px solid rgba(245, 158, 11, 0.15);
       transition: all 0.3s ease; 
       white-space: nowrap;
-      height: 28px; /* 👈 Fixed height for alignment */
+      height: 28px;
       display: flex; align-items: center; justify-content: center;
     }
     .nav-chip:hover { 
@@ -185,7 +185,7 @@
       font-weight: 400;
     }
     
-    .post-content blockquote, .quote-highlight {
+    .post-content blockquote {
       position: relative; 
       margin: 3rem auto; 
       padding: 2.5rem 3rem; 
@@ -201,7 +201,7 @@
       color: var(--ink); 
       text-align: center;
     }
-    .post-content blockquote::before, .quote-highlight::before {
+    .post-content blockquote::before {
       content: '"'; 
       position: absolute; 
       top: 1rem; 
@@ -213,7 +213,7 @@
       font-weight: 700; 
       line-height: 1;
     }
-    .post-content blockquote::after, .quote-highlight::after {
+    .post-content blockquote::after {
       content: '"'; 
       position: absolute; 
       bottom: 1rem; 
@@ -225,6 +225,12 @@
       font-weight: 700; 
       line-height: 1; 
       transform: rotate(180deg);
+    }
+    
+    .post-content em {
+      color: var(--orange-light);
+      font-style: italic;
+      font-weight: 500;
     }
     
     .post-content ul, .post-content ol { 
@@ -312,7 +318,6 @@
       box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4); 
     }
     
-    /* ✅ IMPROVED LOADING STATE — WILL NOT STICK */
     .loading-container {
       text-align: center; 
       padding: 4rem 2rem; 
@@ -357,7 +362,7 @@
         <span class="dot"></span>
         <h1>Boluadeoye</h1>
       </a>
-      <!-- ✅ FINAL NAV CHIPS — COMPACT, SPACED FROM BRAND -->
+      <!-- Adjusted Nav Links -->
       <nav class="nav-links">
         <a href="./" class="nav-chip">Home</a>
         <a href="./posts.html" class="nav-chip">All Posts</a>
@@ -369,7 +374,6 @@
   <main class="wrap">
     <div class="post-container">
       <div class="content-wrapper">
-        <!-- ✅ RENAMED FOR CLARITY + GUARANTEED REPLACEMENT -->
         <article id="post-content-wrapper">
           <div class="loading-container">
             <div class="loading-spinner"></div>
@@ -393,99 +397,120 @@
       if (window.scrollY > 50) { header.classList.add('scrolled'); } else { header.classList.remove('scrolled'); }
     });
     
-    // ✅ ROBUST MARKDOWN PARSER — HANDLES EDGE CASES
+    // Fixed Markdown Parser
     function parseMarkdown(markdown) {
-      if (!markdown || typeof markdown !== 'string') {
-        return '<p>Content unavailable.</p>';
-      }
+      try {
+        if (!markdown || typeof markdown !== 'string') {
+          return '<p>Content unavailable.</p>';
+        }
 
-      let html = markdown
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/&lt;script/gi, '&lt;!-- script blocked -->');
-
-      // Headings
-      html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-      html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-      html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-
-      // Bold & Italic
-      html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-      html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
-
-      // Links
-      html = html.replace(/```math
+        // Basic safety
+        let html = markdown.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        
+        // Basic markdown elements
+        html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+        html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+        html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+        
+        // Bold & Italic
+        html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+        html = html.replace(/_(.+?)_/g, '<em>$1</em>');
+        
+        // Links
+        html = html.replace(/```math
 ([^```]+)```KATEX_INLINE_OPEN([^)]+)KATEX_INLINE_CLOSE/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-
-      // ✅ FIXED BLOCKQUOTE — NOW HANDLES MULTI-LINE + NESTED CONTENT
-      html = html.replace(/^>>> (.+)$/gim, '<div class="quote-highlight">$1</div>');
-      html = html.replace(/^>> (.+)$/gim, '<div class="quote-highlight">$1</div>');
-      html = html.replace(/^> (.+)$/gim, '<blockquote>$1</blockquote>');
-
-      // Split into paragraphs — only if not already wrapped
-      const lines = html.split('\n\n');
-      html = lines.map(line => {
-        line = line.trim();
-        if (!line) return '';
-        if (line.startsWith('<') || line.startsWith('&lt;')) return line;
-        return `<p>${line}</p>`;
-      }).join('\n');
-
-      // Preserve manual line breaks within paragraphs
-      html = html.replace(/\n/g, '<br>');
-
-      return html;
+        
+        // Blockquotes - Critical fix for proper containment
+        let lines = html.split('\n');
+        let inQuote = false;
+        let quoteContent = [];
+        
+        for (let i = 0; i < lines.length; i++) {
+          if (lines[i].trim().startsWith('&gt;')) {
+            if (!inQuote) {
+              inQuote = true;
+              quoteContent = [];
+            }
+            // Strip the > and add to quote content
+            quoteContent.push(lines[i].trim().replace(/^&gt;\s?/, ''));
+            lines[i] = ''; // Clear this line as we're collecting it
+          } else if (inQuote) {
+            // End of quote
+            lines[i-1] = '<blockquote>' + quoteContent.join(' ') + '</blockquote>';
+            inQuote = false;
+          }
+        }
+        
+        // If quote continues to the end
+        if (inQuote) {
+          lines.push('<blockquote>' + quoteContent.join(' ') + '</blockquote>');
+        }
+        
+        html = lines.join('\n');
+        
+        // Convert remaining line breaks and paragraphs
+        const paragraphs = html.split('\n\n');
+        html = paragraphs.map(para => {
+          para = para.trim();
+          if (!para) return '';
+          if (para.startsWith('<h') || para.startsWith('<blockquote')) return para;
+          return `<p>${para}</p>`;
+        }).join('');
+        
+        // Handle line breaks within paragraphs
+        html = html.replace(/\n/g, '<br>');
+        
+        return html;
+      } catch (err) {
+        console.error('Markdown parsing error:', err);
+        return '<p>Error parsing content. Please try again.</p>';
+      }
     }
 
-    // ✅ LOADING SYSTEM — GUARANTEED TO RESOLVE OR SHOW ERROR
+    // Guaranteed Loading with Error Handling
     async function loadPost() {
       const container = document.getElementById('post-content-wrapper');
       
-      // Show loader immediately
-      container.innerHTML = `
-        <div class="loading-container">
-          <div class="loading-spinner"></div>
-          <p>Loading your post...</p>
-        </div>`;
-
-      const urlParams = new URLSearchParams(window.location.search);
-      const rawFile = urlParams.get('file');
-      const file = rawFile ? decodeURIComponent(rawFile) : '';
-
-      if (!file) {
-        container.innerHTML = `
-          <div class="error">
-            <h2>No Post Specified</h2>
-            <p>Please select a post to read.</p>
-            <div class="post-nav">
-              <a href="./" class="btn-chip">← Back to Home</a>
-            </div>
-          </div>`;
-        return;
-      }
-
       try {
-        // Load metadata
-        const postsRes = await fetch('Posts.json', { cache: 'no-store' });
-        if (!postsRes.ok) throw new Error('Failed to load post index');
+        // Get file parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const rawFile = urlParams.get('file');
+        const file = rawFile ? decodeURIComponent(rawFile) : '';
+        
+        if (!file) {
+          container.innerHTML = `
+            <div class="error">
+              <h2>No Post Specified</h2>
+              <p>Please select a post to read.</p>
+              <div class="post-nav">
+                <a href="./" class="btn-chip">← Back to Home</a>
+              </div>
+            </div>`;
+          return;
+        }
+        
+        // Step 1: Load metadata
+        const postsRes = await fetch('Posts.json');
+        if (!postsRes.ok) throw new Error(`Failed to load post data (${postsRes.status})`);
         
         const posts = await postsRes.json();
-        if (!Array.isArray(posts)) throw new Error('Invalid post database');
+        if (!Array.isArray(posts)) throw new Error('Invalid post database format');
         
         const postData = posts.find(p => (p.file || '') === file);
         if (!postData) throw new Error('Post not found in database');
-
-        // Load content
-        const mdRes = await fetch(file, { cache: 'no-store' });
-        if (!mdRes.ok) throw new Error('Post content file not found');
+        
+        // Step 2: Load content
+        const mdRes = await fetch(file);
+        if (!mdRes.ok) throw new Error(`Post file not found (${mdRes.status})`);
         
         const markdown = await mdRes.text();
         const content = parseMarkdown(markdown);
-
-        // Set title
+        
+        // Update page title
         document.title = `${postData.title} - Boluadeoye`;
-
-        // ✅ REPLACE LOADER WITH CONTENT — NO STUCK STATES
+        
+        // Replace the loading spinner with content
         container.innerHTML = `
           <div class="post-header">
             <div class="post-meta">
@@ -501,16 +526,16 @@
             <a href="./" class="btn-chip">← Back to Home</a>
             <a href="./posts.html" class="btn-chip">View All Posts →</a>
           </nav>`;
-
-        // Scroll to top
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
+        
+        // Scroll to top for better UX
+        window.scrollTo(0, 0);
+        
       } catch (error) {
-        console.error('Load Post Error:', error);
+        console.error('Load error:', error);
         container.innerHTML = `
           <div class="error">
             <h2>Unable to Load Post</h2>
-            <p>${error.message || 'An unknown error occurred.'}</p>
+            <p>${error.message || 'An unknown error occurred'}</p>
             <div class="post-nav">
               <a href="./" class="btn-chip">← Return to Homepage</a>
             </div>
@@ -518,6 +543,7 @@
       }
     }
     
+    // Run on load
     document.addEventListener('DOMContentLoaded', loadPost);
   </script>
 </body>
