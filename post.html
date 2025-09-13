@@ -19,7 +19,7 @@
     html, body { height: 100%; scroll-behavior: smooth; }
     body {
       background: var(--bg); color: var(--ink); font: 16px/1.6 system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; position: relative;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; position: relative; min-height: 100vh; display: flex; flex-direction: column;
     }
     body::before {
       content: ''; position: fixed; inset: 0; background:
@@ -116,7 +116,7 @@
     .loading-spinner { width: 40px; height: 40px; border: 3px solid rgba(245,158,11,.2); border-top-color: var(--orange); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .error { text-align: center; padding: 3rem; color: #ff6b6b; }
-    footer { background: var(--panel); color: var(--muted); border-top: 1px solid rgba(255,255,255,.06); text-align: center; font-size: .9rem; padding: 2.5rem 0; margin-top: 4rem; }
+    footer { background: var(--panel); color: var(--muted); border-top: 1px solid rgba(255,255,255,.06); text-align: center; font-size: .9rem; padding: 2.5rem 0; margin-top: auto; }
   </style>
 </head>
 <body>
@@ -149,7 +149,7 @@
     <div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div>
   </footer>
   <script>
-    console.log('Starting post.html script...');
+    console.log('Starting post.html script at', new Date().toISOString());
     window.addEventListener('scroll', () => {
       const header = document.getElementById('header');
       if (header) {
@@ -165,7 +165,7 @@
         return '<p>Content unavailable.</p>';
       }
       if (typeof marked === 'undefined') {
-        console.error('Markdown parser (marked) not loaded. Check if /marked.min.js exists at', window.location.origin + '/marked.min.js');
+        console.error('Markdown parser (marked) not loaded. Check if /marked.min.js exists at', window.location.origin + (window.location.pathname.startsWith('/Mywebsite') ? '/Mywebsite/marked.min.js' : '/marked.min.js'));
         return '<p>Error: Markdown parser not loaded. Please ensure marked.min.js is present or contact support.</p>';
       }
       console.log('Markdown parser loaded successfully');
@@ -176,10 +176,10 @@
       if (!container) {
         console.error('Post content wrapper not found');
         document.body.innerHTML = `
-          <div class="error" style="text-align: center; padding: 3rem; color: #ff6b6b;">
+          <div class="error">
             <h2>Unable to Load Post</h2>
             <p>Error: Page structure broken. Please contact support.</p>
-            <a href="./" style="display: inline-block; padding: 0.85rem 1.75rem; background: #f59e0b; color: #0b0f19; border-radius: 999px;">← Return to Homepage</a>
+            <a href="./" class="btn-chip">← Return to Homepage</a>
           </div>`;
         return;
       }
@@ -192,10 +192,12 @@
         const urlParams = new URLSearchParams(window.location.search);
         const file = urlParams.get('file');
         if (!file) throw new Error("No post file specified in URL.");
-        console.log('Fetching Posts.json from:', window.location.origin + '/Posts.json');
-        const postsRes = await fetch('/Posts.json', { cache: 'no-store' });
+        const postsJsonPath = window.location.pathname.startsWith('/Mywebsite') ? '/Mywebsite/Posts.json' : '/Posts.json';
+        console.log('Fetching Posts.json from:', window.location.origin + postsJsonPath);
+        const postsRes = await fetch(postsJsonPath, { cache: 'no-store' });
         if (!postsRes.ok) throw new Error(`Failed to fetch Posts.json (HTTP ${postsRes.status})`);
         const posts = await postsRes.json();
+        if (!Array.isArray(posts)) throw new Error('Posts.json must be an array');
         const postData = posts.find(p => p.file === file);
         if (!postData) throw new Error(`Post "${file}" not found in Posts.json`);
         console.log(`Fetching Markdown file: ${file} from:`, window.location.origin + '/' + file);
@@ -215,7 +217,7 @@
         container.innerHTML = `
           <div class="post-header">
             <div class="post-meta">
-              <span class="meta-item">📅 ${new Date(postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              <span class="meta-item">📅 ${new Date(postData.date || '2025-01-01').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
               <span class="meta-item">📁 ${postData.type || 'general'}</span>
               <span class="meta-item">❤️ ${postData.likes || 0} likes</span>
               <span class="meta-item">👁️ ${postData.views || 0}K views</span>
@@ -229,7 +231,7 @@
           </nav>`;
         window.scrollTo(0, 0);
       } catch (error) {
-        console.error("Error loading post:", error);
+        console.error('Error loading post:', error);
         container.innerHTML = `
           <div class="error">
             <h2>Unable to Load Post</h2>
@@ -242,19 +244,19 @@
       }
     }
     document.addEventListener('DOMContentLoaded', () => {
-      console.log('DOMContentLoaded fired for post.html');
+      console.log('DOMContentLoaded fired for post.html at', new Date().toISOString());
       if (!document.getElementById('post-content-wrapper')) {
         console.error('Post content wrapper missing, rendering fallback');
         document.body.innerHTML = `
-          <div class="error" style="text-align: center; padding: 3rem; color: #ff6b6b;">
+          <div class="error">
             <h2>Unable to Load Post</h2>
             <p>Error: Page structure broken. Please contact support.</p>
-            <a href="./" style="display: inline-block; padding: 0.85rem 1.75rem; background: #f59e0b; color: #0b0f19; border-radius: 999px;">← Return to Homepage</a>
+            <a href="./" class="btn-chip">← Return to Homepage</a>
           </div>`;
         return;
       }
       if (typeof marked === 'undefined') {
-        console.error('Markdown parser (marked) not loaded. Check if /marked.min.js exists at', window.location.origin + '/marked.min.js');
+        console.error('Markdown parser (marked) not loaded. Check if /marked.min.js exists at', window.location.origin + (window.location.pathname.startsWith('/Mywebsite') ? '/Mywebsite/marked.min.js' : '/marked.min.js'));
         document.getElementById('post-content-wrapper').innerHTML = `
           <div class="error">
             <h2>Unable to Load Post</h2>
@@ -269,7 +271,7 @@
       }
     });
     window.addEventListener('load', () => {
-      console.log('Window load fired for post.html');
+      console.log('Window load fired for post.html at', new Date().toISOString());
       if (document.getElementById('post-content-wrapper')) {
         const giscusScript = document.createElement('script');
         giscusScript.src = "https://giscus.app/client.js";
@@ -295,8 +297,14 @@
             <h3 style="color: #f59e0b; font-family: var(--serif); margin: 0 0 1.5rem; text-align: center;">Join the Conversation</h3>
           </div>
         `;
-        document.querySelector('.post-container').after(commentsSection);
-        commentsSection.appendChild(giscusScript);
+        const postContainer = document.querySelector('.post-container');
+        if (postContainer) {
+          postContainer.after(commentsSection);
+          commentsSection.appendChild(giscusScript);
+          console.log('Giscus comments section added');
+        } else {
+          console.error('Post container not found for comments section');
+        }
       }
     });
   </script>
