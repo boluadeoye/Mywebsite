@@ -155,6 +155,7 @@
     });
     function processMarkdown(text) {
       if (!text || typeof text !== 'string') return '<p>Content unavailable.</p>';
+      if (typeof marked === 'undefined') return '<p>Error: Markdown parser not loaded.</p>';
       return marked.parse(text);
     }
     async function loadPost() {
