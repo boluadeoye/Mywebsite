@@ -34,6 +34,9 @@
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     body::before {
       content: '';
@@ -524,6 +527,7 @@
       text-align: center;
       padding: 3rem;
       color: #ff6b6b;
+      grid-column: 1 / -1;
     }
   </style>
 </head>
@@ -594,18 +598,29 @@
     <div class="wrap">© 2025 Boluadeoye • All rights reserved</div>
   </footer>
   <script>
-    console.log('Starting posts.html script...');
+    console.log('Starting posts.html script at', new Date().toISOString());
     const menuBtn = document.getElementById('menuBtn');
     const sideMenu = document.getElementById('sideMenu');
     const menuOverlay = document.getElementById('menuOverlay');
     const header = document.getElementById('header');
+    console.log('Menu elements:', { menuBtn, sideMenu, menuOverlay });
     function closeMenu() { 
-      sideMenu.classList.remove('active'); 
-      menuOverlay.classList.remove('show'); 
+      if (sideMenu && menuOverlay) {
+        sideMenu.classList.remove('active'); 
+        menuOverlay.classList.remove('show'); 
+        console.log('Menu closed');
+      } else {
+        console.error('Cannot close menu: sideMenu or menuOverlay missing');
+      }
     }
     function openMenu() { 
-      sideMenu.classList.add('active'); 
-      menuOverlay.classList.add('show'); 
+      if (sideMenu && menuOverlay) {
+        sideMenu.classList.add('active'); 
+        menuOverlay.classList.add('show'); 
+        console.log('Menu opened');
+      } else {
+        console.error('Cannot open menu: sideMenu or menuOverlay missing');
+      }
     }
     if (menuBtn && sideMenu && menuOverlay) {
       menuBtn.addEventListener('click', () => { 
@@ -613,8 +628,9 @@
         else openMenu(); 
       });
       menuOverlay.addEventListener('click', closeMenu);
+      console.log('Menu event listeners added');
     } else {
-      console.error('Menu elements not found:', { menuBtn, sideMenu, menuOverlay });
+      console.error('Menu elements not found, skipping event listeners:', { menuBtn, sideMenu, menuOverlay });
     }
     window.addEventListener('scroll', () => {
       if (header) {
@@ -635,21 +651,24 @@
     if (!postsEl || !paginationEl) {
       console.error('Posts or pagination elements not found:', { postsEl, paginationEl });
       document.body.innerHTML = `
-        <div class="error" style="text-align: center; padding: 3rem; color: #ff6b6b;">
+        <div class="error">
           <h2>Unable to Load Posts</h2>
           <p>Error: Page structure broken. Please contact support.</p>
-          <a href="./" style="display: inline-block; padding: 0.85rem 1.75rem; background: #f59e0b; color: #0b0f19; border-radius: 999px;">← Return to Homepage</a>
+          <a href="./" class="btn-back">← Return to Homepage</a>
         </div>`;
       return;
     }
     async function loadPosts() {
       try {
-        postsEl.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
-        console.log('Fetching Posts.json from:', window.location.origin + '/Posts.json');
-        const res = await fetch('/Posts.json', { cache: 'no-store' });
+        console.log('Loading posts...');
+        postsEl.innerHTML = '<div class="loading"><div class="loading-spinner"></div><p>Loading posts...</p></div>';
+        const postsJsonPath = window.location.pathname.startsWith('/Mywebsite') ? '/Mywebsite/Posts.json' : '/Posts.json';
+        console.log('Fetching Posts.json from:', window.location.origin + postsJsonPath);
+        const res = await fetch(postsJsonPath, { cache: 'no-store' });
         if (!res.ok) throw new Error(`Failed to load Posts.json (HTTP ${res.status})`);
         const data = await res.json();
         if (!Array.isArray(data)) throw new Error('Posts.json must be an array');
+        console.log('Posts.json loaded:', data);
         allPosts = data.map(p => ({ 
           ...p, 
           likes: p.likes || Math.floor(Math.random() * 50) + 10, 
@@ -668,6 +687,7 @@
     }
     function renderPosts(filter = 'all', page = 1, searchTerm = '') {
       try {
+        console.log('Rendering posts with filter:', filter, 'page:', page, 'search:', searchTerm);
         currentFilter = filter;
         currentPage = page;
         filteredPosts = allPosts;
@@ -677,14 +697,15 @@
         if (searchTerm) {
           const term = searchTerm.toLowerCase();
           filteredPosts = filteredPosts.filter(p => 
-            p.title.toLowerCase().includes(term) || 
-            p.excerpt.toLowerCase().includes(term) ||
+            (p.title || '').toLowerCase().includes(term) || 
+            (p.excerpt || '').toLowerCase().includes(term) ||
             (p.type || '').toLowerCase().includes(term)
           );
         }
         const start = (page - 1) * postsPerPage;
         const end = start + postsPerPage;
         const paginatedPosts = filteredPosts.slice(start, end);
+        console.log('Paginated posts:', paginatedPosts);
         document.querySelectorAll('[data-filter]').forEach(el => {
           if (el.getAttribute('data-filter') === filter) {
             el.classList.add('active');
@@ -702,32 +723,38 @@
           paginationEl.innerHTML = '';
           return;
         }
-        postsEl.innerHTML = paginatedPosts.map((p, index) => `
-          <article class="post" style="animation-delay: ${index * 0.1}s">
-            <span class="post-type ${p.type}">${p.type || 'general'}</span>
-            <h3><a href="post.html?file=${encodeURIComponent(p.file)}">${p.title}</a></h3>
-            <div class="post-date">
-              📅 ${new Date(p.date).toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'short', 
-                day: 'numeric' 
-              })}
-            </div>
-            <div class="quote-box">${p.excerpt}</div>
-            <div class="stats">
-              <span class="stat-item">
-                ❤️ <span class="stat-number">${p.likes}</span> likes
-              </span>
-              <span class="stat-item">
-                👁️ <span class="stat-number">${p.views}K</span> views
-              </span>
-            </div>
-            <div class="post-buttons">
-              <a href="./" class="btn-back">← Back</a>
-              <a href="post.html?file=${encodeURIComponent(p.file)}" class="btn-readmore">Read More →</a>
-            </div>
-          </article>
-        `).join('');
+        postsEl.innerHTML = paginatedPosts.map((p, index) => {
+          if (!p.file || !p.title) {
+            console.warn('Invalid post data:', p);
+            return '';
+          }
+          return `
+            <article class="post" style="animation-delay: ${index * 0.1}s">
+              <span class="post-type ${p.type || 'general'}">${p.type || 'general'}</span>
+              <h3><a href="post.html?file=${encodeURIComponent(p.file)}">${p.title}</a></h3>
+              <div class="post-date">
+                📅 ${new Date(p.date || '2025-01-01').toLocaleDateString('en-US', { 
+                  year: 'numeric', 
+                  month: 'short', 
+                  day: 'numeric' 
+                })}
+              </div>
+              <div class="quote-box">${p.excerpt || 'No excerpt available'}</div>
+              <div class="stats">
+                <span class="stat-item">
+                  ❤️ <span class="stat-number">${p.likes || 0}</span> likes
+                </span>
+                <span class="stat-item">
+                  👁️ <span class="stat-number">${p.views || 0}K</span> views
+                </span>
+              </div>
+              <div class="post-buttons">
+                <a href="./" class="btn-back">← Back</a>
+                <a href="post.html?file=${encodeURIComponent(p.file)}" class="btn-readmore">Read More →</a>
+              </div>
+            </article>
+          `;
+        }).filter(Boolean).join('');
         renderPagination(filteredPosts.length, page);
       } catch (err) {
         console.error('Error rendering posts:', err);
@@ -741,6 +768,7 @@
     }
     function renderPagination(totalPosts, currentPage) {
       try {
+        console.log('Rendering pagination, total posts:', totalPosts, 'current page:', currentPage);
         const totalPages = Math.ceil(totalPosts / postsPerPage);
         if (totalPages <= 1) {
           paginationEl.innerHTML = '';
@@ -769,16 +797,20 @@
     let searchTimeout;
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
+        console.log('Search input:', e.target.value);
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
           renderPosts(currentFilter, 1, e.target.value);
         }, 300);
       });
+    } else {
+      console.warn('Search input not found');
     }
     document.querySelectorAll('[data-filter]').forEach(a => {
       a.addEventListener('click', (e) => {
         e.preventDefault();
         const filter = a.getAttribute('data-filter');
+        console.log('Filter clicked:', filter);
         if (searchInput) searchInput.value = '';
         renderPosts(filter, 1);
         closeMenu();
@@ -795,6 +827,7 @@
         e.preventDefault();
         const page = parseInt(e.target.getAttribute('data-page'));
         if (page) {
+          console.log('Pagination clicked, page:', page);
           renderPosts(currentFilter, page, searchInput?.value || '');
           const sectionTitle = document.querySelector('.section-title');
           if (sectionTitle) {
@@ -806,14 +839,14 @@
       }
     });
     document.addEventListener('DOMContentLoaded', () => {
-      console.log('DOMContentLoaded fired for posts.html');
-      if (!document.getElementById('posts')) {
-        console.error('Posts element missing, rendering fallback');
+      console.log('DOMContentLoaded fired for posts.html at', new Date().toISOString());
+      if (!document.getElementById('posts') || !document.getElementById('pagination')) {
+        console.error('Posts or pagination element missing, rendering fallback');
         document.body.innerHTML = `
-          <div class="error" style="text-align: center; padding: 3rem; color: #ff6b6b;">
+          <div class="error">
             <h2>Unable to Load Page</h2>
             <p>Error: Page structure broken. Please contact support.</p>
-            <a href="./" style="display: inline-block; padding: 0.85rem 1.75rem; background: #f59e0b; color: #0b0f19; border-radius: 999px;">← Return to Homepage</a>
+            <a href="./" class="btn-back">← Return to Homepage</a>
           </div>`;
         return;
       }
