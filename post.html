@@ -1,138 +1,124 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Post - Boluadeoye</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-  <script src="/marked.min.js"></script>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Post — Boluadeoye</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2341;
       --ink: #e5eefc; --muted: #94a3b8;
-      --orange: #f59e0b; --orange-light: #fbbf24; --orange-dark: #d97706; --orange-ink: #0b0f19;
-      --ring: rgba(245,158,11,.25); --radius: 16px; --serif: 'Cormorant Garamond', Georgia, serif; --transition: cubic-bezier(.4,0,.2,1);
+      --orange: #f59e0b; --orange-light: #fbbf24; --orange-ink: #0b0f19;
+      --ring: rgba(245,158,11,.25); --radius: 16px;
+      --serif: ui-serif, Georgia, "Times New Roman", serif;
+      --transition: cubic-bezier(.4,0,.2,1);
+      --red: #ef4444; --red-soft: rgba(239,68,68,.12);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; scroll-behavior: smooth; }
-    body {
-      background: var(--bg); color: var(--ink); font: 16px/1.6 system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; position: relative; min-height: 100vh; display: flex; flex-direction: column;
-    }
-    body::before {
-      content: ''; position: fixed; inset: 0; background:
-        radial-gradient(circle at 20% 50%, rgba(245,158,11,.06) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(245,158,11,.03) 0%, transparent 50%);
-      pointer-events: none; z-index: 0; animation: float 25s ease-in-out infinite;
-    }
-    @keyframes float { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.1) rotate(3deg); } }
-    a { color: inherit; text-decoration: none; }
-    .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
-    header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(15,23,42,.9);
-      backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,.06); transition: all .3s ease;
-    }
-    header.scrolled { background: rgba(15,23,42,.95); box-shadow: 0 10px 30px rgba(0,0,0,.3); }
-    .header-row { display: flex; align-items: center; justify-content: space-between; min-height: 60px; padding: .5rem 1.5rem; max-width: 100%; margin: 0; }
-    .brand { display: flex; align-items: center; gap: .5rem; transition: transform .3s ease; flex-shrink: 0; }
-    .brand:hover { transform: translateX(3px); }
-    .brand .dot {
-      width: 26px; height: 26px; border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #ffd27a 0%, #f59e0b 40%, #d97706 100%);
-      box-shadow: 0 0 0 2px rgba(245,158,11,.12), 0 3px 15px rgba(245,158,11,.25); animation: pulse 2s infinite;
-    }
-    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-    .brand h1 { font-size: 1.1rem; font-weight: 800; color: var(--ink); letter-spacing: -.5px; }
-    .nav-links { display: flex; gap: .4rem; align-items: center; margin-left: 2rem; flex-shrink: 0; }
-    .nav-chip {
-      padding: .35rem .8rem; border-radius: 999px; background: rgba(245,158,11,.08); color: var(--orange);
-      font-weight: 600; font-size: .75rem; border: 1px solid rgba(245,158,11,.15); transition: all .3s ease; white-space: nowrap; height: 28px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .nav-chip:hover { color: var(--orange-ink); background: var(--orange); transform: translateY(-1px); box-shadow: 0 3px 8px rgba(245,158,11,.25); border-color: var(--orange); }
-    .nav-chip.active { background: var(--orange); color: var(--orange-ink); }
-    .post-container {
-      margin-top: 75px; margin-bottom: 4rem; background: var(--panel); border-radius: 24px; border: 1px solid rgba(245,158,11,.15);
-      box-shadow: 0 20px 60px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.05); overflow: hidden; position: relative;
-    }
-    .post-container::before, .post-container::after {
-      content: ''; position: absolute; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, rgba(245,158,11,.3), rgba(245,158,11,.5), rgba(245,158,11,.3), transparent);
-    }
-    .post-container::before { top: 0; } .post-container::after { bottom: 0; }
-    .content-wrapper { position: relative; padding: 3rem; border-left: 1px solid rgba(245,158,11,.1); border-right: 1px solid rgba(245,158,11,.1); margin: 0 2rem; }
-    .post-header { text-align: center; padding: 3rem 0 2rem; position: relative; animation: fadeInDown .8s ease; }
-    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-    .post-header::after {
-      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 120px; height: 3px; background: linear-gradient(90deg, transparent, var(--orange), transparent); border-radius: 2px;
-    }
-    .post-meta { display: flex; gap: 1.5rem; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 2rem; }
-    .meta-item { display: flex; align-items: center; gap: .5rem; padding: .5rem 1rem; background: rgba(245,158,11,.08); border-radius: 999px; font-size: .9rem; color: var(--muted); border: 1px solid rgba(245,158,11,.15); }
-    .post-title { font-family: var(--serif); font-size: clamp(2.3rem, 4.5vw, 3.3rem); font-weight: 900; line-height: 1.2; margin: 1.2rem 0;
-      background: linear-gradient(135deg, var(--orange), var(--orange-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .post-content {
-      padding: 3rem 0; max-width: 900px; margin: 0 auto; font-family: var(--serif); font-size: 1.125rem; line-height: 1.8; color: rgba(229,238,252,.95);
-      animation: fadeInUp .8s ease .5s both; text-align: left; padding-left: 2rem; padding-right: 2rem;
-    }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .post-content h1, .post-content h2, .post-content h3, .post-content h4 {
-      font-family: var(--serif); color: var(--orange); margin: 3rem 0 1.5rem; font-weight: 700; text-align: left; position: relative;
-    }
-    .post-content h1 { font-size: 2.25rem; }
-    .post-content h2 { font-size: 1.875rem; padding-bottom: 1rem; }
-    .post-content h2::after {
-      content: ''; position: absolute; bottom: 0; left: 0; width: 80px; height: 3px; background: linear-gradient(90deg, transparent, var(--orange), transparent); border-radius: 2px; transform: translateY(100%);
-    }
-    .post-content h3 { font-size: 1.5rem; color: var(--orange-light); }
-    .post-content p { margin-bottom: 1.8rem; text-align: left; max-width: 800px; margin-inline: auto; font-weight: 400; }
-    .post-content blockquote {
-      position: relative; margin: 3rem auto; padding: 2rem 2.5rem; max-width: 90%; background: linear-gradient(135deg, rgba(245,158,11,.12), rgba(245,158,11,.06));
-      border: 2px solid rgba(245,158,11,.25); border-radius: 18px; box-shadow: 0 12px 30px rgba(0,0,0,.2); font-style: italic; font-family: var(--serif); font-size: 1.25rem;
-      line-height: 1.8; color: var(--ink); text-align: left; border-left: 4px solid var(--orange);
-    }
-    .post-content blockquote::before {
-      content: '"'; position: absolute; top: 1rem; left: 1rem; font-size: 4rem; color: var(--orange); opacity: .2; font-family: var(--serif); font-weight: 700; line-height: 1;
-    }
-    .post-content blockquote::after {
-      content: '"'; position: absolute; bottom: 1rem; right: 1rem; font-size: 4rem; color: var(--orange); opacity: .2; font-family: var(--serif); font-weight: 700; line-height: 1; transform: rotate(180deg);
-    }
-    .post-content em { color: var(--orange-light); font-style: italic; font-weight: 500; }
-    .post-content ul, .post-content ol { margin: 2rem auto; padding-left: 1.5rem; max-width: 800px; list-style-position: inside; text-align: left; }
-    .post-content li { margin-bottom: .75rem; color: rgba(229,238,252,.9); text-align: left; }
-    .post-content code { background: rgba(245,158,11,.1); padding: .25em .5em; border-radius: 6px; font-size: .9em; color: var(--orange-light); border: 1px solid rgba(245,158,11,.2); font-family: monospace; }
-    .post-content pre { background: var(--panel); padding: 1.5rem; border-radius: var(--radius); overflow-x: auto; margin: 2.5rem auto; max-width: 95%; border: 1px solid rgba(255,255,255,.06); font-family: 'Courier New', Courier, monospace; }
-    .post-content a { color: var(--orange); text-decoration: none; position: relative; font-weight: 500; }
-    .post-content a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: var(--orange); transition: width .3s ease; }
-    .post-content a:hover::after { width: 100%; }
-    .post-content img { max-width: 100%; height: auto; border-radius: var(--radius); margin: 2.5rem auto; display: block; box-shadow: 0 15px 40px rgba(0,0,0,.3); }
-    .post-nav { display: flex; justify-content: center; gap: 1.5rem; padding: 3rem 0; border-top: 1px solid rgba(245,158,11,.15); flex-wrap: wrap; }
-    .btn-chip {
-      display: inline-flex; align-items: center; gap: .75rem; padding: .85rem 1.75rem; background: linear-gradient(135deg, var(--orange), var(--orange-light));
-      color: var(--orange-ink); border-radius: 999px; font-weight: 700; font-size: .95rem; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(245,158,11,.3);
-    }
-    .btn-chip:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(245,158,11,.4); }
-    .loading-container { min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); padding: 4rem 2rem; text-align: center; }
-    .loading-spinner { width: 40px; height: 40px; border: 3px solid rgba(245,158,11,.2); border-top-color: var(--orange); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .error { text-align: center; padding: 3rem; color: #ff6b6b; }
-    footer { background: var(--panel); color: var(--muted); border-top: 1px solid rgba(255,255,255,.06); text-align: center; font-size: .9rem; padding: 2.5rem 0; margin-top: auto; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--ink);font:16px/1.7 system-ui,-apple-system,'Segoe UI',Roboto,Inter,Arial,sans-serif;overflow-x:hidden;position:relative}
+    a{color:inherit;text-decoration:none;transition:all .3s var(--transition)}
+    .wrap{max-width:900px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+
+    /* Header + Side menu (matches homepage) */
+    header{position:sticky;top:0;z-index:100;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(245,158,11,.15)}
+    .header-row{display:flex;align-items:center;justify-content:space-between;min-height:70px;gap:1.5rem;padding:0 .5rem}
+    .brand{display:flex;align-items:center;gap:.75rem;flex-shrink:0;transition:transform .3s var(--transition)}
+    .brand:hover{transform:translateX(3px)}
+    .dot{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffd27a 0%,#f59e0b 40%,#d97706 100%);box-shadow:0 0 0 2px rgba(245,158,11,.15),0 4px 12px rgba(245,158,11,.2);border:1px solid rgba(245,158,11,.3)}
+    .brand h1{font-size:1.3rem;font-weight:800;color:var(--ink);letter-spacing:-.5px;font-family:var(--serif)}
+    .top-nav{display:none;gap:.5rem;align-items:center;flex-wrap:wrap}
+    .top-nav a{padding:.45rem .9rem;border-radius:999px;border:1px solid transparent;font-weight:600;font-size:.87rem}
+    .top-nav a:hover,.top-nav a.active{color:var(--orange);border-color:var(--orange)}
+    .hamburger{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(245,158,11,.2);color:var(--ink);cursor:pointer;transition:all .3s ease}
+    .hamburger:hover{background:rgba(245,158,11,.1);transform:rotate(10deg)}
+    .hamburger svg{width:19px;height:19px}
+    .side-menu{position:fixed;top:0;left:-280px;z-index:200;width:260px;height:100%;padding:2.5rem 1.2rem 2rem;display:flex;flex-direction:column;gap:.6rem;background:var(--panel);border-right:1px solid rgba(245,158,11,.2);transition:left .3s var(--transition)}
+    .side-menu.active{left:0}
+    .side-menu a{padding:.9rem 1.25rem;border-radius:8px;background:transparent;color:var(--ink);font-weight:600;font-size:.92rem;border:1px solid transparent;transition:all .2s ease}
+    .side-menu a:hover,.side-menu a.active{background:rgba(245,158,11,.1);border-color:var(--orange);color:var(--orange);transform:translateX(5px)}
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;display:none;cursor:pointer}
+    .overlay.show{display:block}
+    .search-container{flex:1;max-width:400px;position:relative}
+    .search-bar{position:relative;width:100%}
+    .search-bar input{width:100%;padding:.65rem 2.75rem .65rem 1.25rem;border:1px solid rgba(245,158,11,.2);border-radius:999px;background:rgba(17,26,46,.6);color:var(--ink);font-size:.92rem;outline:none;transition:all .3s var(--transition);caret-color:var(--orange)}
+    .search-bar input::placeholder{color:var(--muted);opacity:.8}
+    .search-bar input:focus{border-color:var(--orange);background:rgba(245,158,11,.05);box-shadow:0 0 0 3px var(--ring);padding-left:1.35rem}
+    .search-icon{position:absolute;right:18px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:1.05rem;transition:color .3s ease}
+    .search-bar input:focus + .search-icon{color:var(--orange)}
+    .search-results{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--panel);border-radius:12px;border:1px solid rgba(245,158,11,.2);box-shadow:0 10px 30px rgba(0,0,0,.3);max-height:380px;overflow-y:auto;display:none;z-index:50;opacity:0;transform:translateY(-5px);transition:all .3s var(--transition)}
+    .search-results.active{display:block;opacity:1;transform:translateY(0)}
+    .search-result-item{padding:.9rem 1.2rem;border-bottom:1px solid rgba(245,158,11,.08);display:block;transition:all .2s ease}
+    .search-result-item:last-child{border-bottom:none}
+    .search-result-item:hover{background:rgba(245,158,11,.1);padding-left:1.35rem}
+    .search-result-title{font-weight:600;color:var(--ink);margin-bottom:.25rem;font-size:.92rem;line-height:1.3}
+    .search-result-excerpt{font-size:.82rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    @media(min-width:880px){.top-nav{display:flex}.hamburger{display:none}}
+
+    /* Post container/content */
+    .post-container{margin:1rem 0 2rem;background:var(--panel);border-radius:24px;border:1px solid rgba(245,158,11,.15);box-shadow:0 20px 60px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.05);overflow:hidden;position:relative}
+    .content-wrapper{padding:2rem 1.5rem;border-left:1px solid rgba(245,158,11,.1);border-right:1px solid rgba(245,158,11,.1);margin:0 1rem}
+    .post-header{text-align:center;padding:1.5rem 0 1rem;position:relative}
+    .post-meta{display:flex;gap:.75rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+    .meta-item{display:flex;align-items:center;gap:.5rem;padding:.4rem .9rem;background:rgba(245,158,11,.08);border-radius:999px;font-size:.9rem;color:var(--muted);border:1px solid rgba(245,158,11,.15)}
+    .meta-red{background:var(--red-soft);color:var(--red);border-color:rgba(239,68,68,.25)}
+    .post-title{font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);font-weight:900;line-height:1.2;margin:.8rem 0;background:linear-gradient(135deg,var(--orange),var(--orange-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .post-content{padding:1rem 0 2rem;max-width:900px;margin:0 auto;font-family:var(--serif);font-size:1.125rem;line-height:1.8;color:rgba(229,238,252,.95);text-align:left}
+    .post-content h2{font-size:1.875rem;color:var(--orange);margin:2rem 0 1rem}
+    .post-content h3{font-size:1.5rem;color:var(--orange-light);margin:1.5rem 0 .75rem}
+    .post-content p{margin-bottom:1.2rem;text-align:left;max-width:800px;margin-inline:auto}
+    .post-content blockquote{position:relative;margin:2rem auto;padding:1.2rem 1.4rem;max-width:90%;background:linear-gradient(135deg, rgba(245,158,11,.12), rgba(245,158,11,.06));border:1px solid rgba(245,158,11,.2);border-radius:14px;font-style:italic;font-family:var(--serif);font-size:1.05rem;line-height:1.7;color:var(--ink);text-align:left;border-left:4px solid var(--orange)}
+    .post-content img{max-width:100%;height:auto;border-radius:12px;margin:1.5rem auto;display:block;box-shadow:0 15px 40px rgba(0,0,0,.3)}
+    .post-nav{display:flex;justify-content:center;gap:1rem;padding:1.25rem 0;border-top:1px solid rgba(245,158,11,.15);flex-wrap:wrap}
+    .btn-chip{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.25rem;background:linear-gradient(135deg,var(--orange),var(--orange-light));color:var(--orange-ink);border-radius:999px;font-weight:700;font-size:.95rem;box-shadow:0 4px 15px rgba(245,158,11,.3)}
+    .loading-container{min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);padding:2rem 1rem;text-align:center}
+    .loading-spinner{width:36px;height:36px;border:3px solid rgba(245,158,11,.2);border-top-color:var(--orange);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:1rem}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .error{text-align:center;padding:2rem;color:#ff6b6b}
+    footer{background:var(--panel);border-top:1px solid rgba(255,255,255,.06);color:var(--muted);text-align:center;font-size:.9rem;padding:2rem 0;margin-top:2rem}
   </style>
 </head>
 <body>
+  <!-- Side Menu -->
+  <nav id="sideMenu" class="side-menu">
+    <a href="./">Home</a>
+    <a href="./posts.html">All Posts</a>
+    <a href="./about.html">About</a>
+  </nav>
+  <div id="menuOverlay" class="overlay"></div>
+
   <header id="header">
-    <div class="header-row">
+    <div class="wrap header-row">
+      <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <rect x="4" y="6" width="16" height="2" rx="1"/>
+          <rect x="4" y="11" width="16" height="2" rx="1"/>
+          <rect x="4" y="16" width="16" height="2" rx="1"/>
+        </svg>
+      </button>
+
       <a class="brand" href="./">
-        <span class="dot"></span>
+        <span class="dot" aria-hidden="true"></span>
         <h1>Boluadeoye</h1>
       </a>
-      <nav class="nav-links">
-        <a href="./" class="nav-chip">Home</a>
-        <a href="./posts.html" class="nav-chip">All Posts</a>
-        <a href="./about.html" class="nav-chip">About</a>
+
+      <div class="search-container">
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="Search writings..." autocomplete="off" aria-label="Search writings">
+          <span class="search-icon">🔍</span>
+          <div id="searchResults" class="search-results" role="listbox"></div>
+        </div>
+      </div>
+
+      <nav class="top-nav" aria-label="Primary">
+        <a href="./" class="">Home</a>
+        <a href="./posts.html" class="">All Posts</a>
+        <a href="./about.html" class="">About</a>
       </nav>
     </div>
   </header>
+
   <main class="wrap">
     <div class="post-container">
       <div class="content-wrapper">
@@ -145,133 +131,161 @@
       </div>
     </div>
   </main>
+
   <footer>
     <div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div>
   </footer>
+
   <script>
-    console.log('Starting post.html script at', new Date().toISOString());
-    window.addEventListener('scroll', () => {
-      const header = document.getElementById('header');
-      if (header) {
-        if (window.scrollY > 50) header.classList.add('scrolled');
-        else header.classList.remove('scrolled');
-      } else {
-        console.error('Header element not found');
-      }
+    const MANY_THRESHOLD = 50;
+
+    // Menu
+    const menuBtn = document.getElementById('menuBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+    function closeMenu(){ sideMenu.classList.remove('active'); menuOverlay.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
+    function openMenu(){ sideMenu.classList.add('active'); menuOverlay.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
+    menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
+    menuOverlay.addEventListener('click', closeMenu);
+
+    // Search (quick lookup from Posts.json)
+    let allPosts = [];
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+
+    async function loadSearchPosts(){
+      try{
+        const res = await fetch('Posts.json', { cache: 'no-store' });
+        if(!res.ok) return;
+        const data = await res.json();
+        allPosts = Array.isArray(data) ? data : [];
+      }catch(e){ /* ignore */ }
+    }
+
+    let searchTimeout;
+    if (searchInput){
+      searchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        const q = e.target.value.trim();
+        if(q.length < 2){ searchResults.classList.remove('active'); return; }
+        searchTimeout = setTimeout(() => {
+          const t = q.toLowerCase();
+          const results = allPosts.filter(post =>
+            (post.title || '').toLowerCase().includes(t) ||
+            (post.excerpt || '').toLowerCase().includes(t) ||
+            (post.type || '').toLowerCase().includes(t)
+          );
+          searchResults.innerHTML = results.length
+            ? results.slice(0, 6).map(p => `
+                <a href="post.html?file=${encodeURIComponent(p.file)}" class="search-result-item">
+                  <div class="search-result-title">${p.title}</div>
+                  <div class="search-result-excerpt">${(p.excerpt || '').slice(0, 80)}...</div>
+                </a>`).join('')
+            : `<div class="search-result-item">
+                 <div class="search-result-title">No results found</div>
+                 <div class="search-result-excerpt">Try different keywords</div>
+               </div>`;
+          searchResults.classList.add('active');
+        }, 250);
+      });
+    }
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.search-container')) searchResults.classList.remove('active');
+      if (e.target.closest('.search-result-item')) searchResults.classList.remove('active');
     });
-    function processMarkdown(text) {
-      if (!text || typeof text !== 'string') {
-        console.error('Invalid Markdown content:', text);
-        return '<p>Content unavailable.</p>';
-      }
-      if (typeof marked === 'undefined') {
-        console.error('Markdown parser (marked) not loaded. Check if /marked.min.js exists at', window.location.origin + (window.location.pathname.startsWith('/Mywebsite') ? '/Mywebsite/marked.min.js' : '/marked.min.js'));
-        return '<p>Error: Markdown parser not loaded. Please ensure marked.min.js is present or contact support.</p>';
-      }
-      console.log('Markdown parser loaded successfully');
+
+    // Markdown rendering
+    function processMarkdown(text){
+      if (!text || typeof text !== 'string') return '<p>Content unavailable.</p>';
+      if (typeof marked === 'undefined') return '<p>Error: Markdown parser not loaded.</p>';
       return marked.parse(text);
     }
-    async function loadPost() {
+
+    async function loadPost(){
       const container = document.getElementById('post-content-wrapper');
-      if (!container) {
-        console.error('Post content wrapper not found');
-        document.body.innerHTML = `
-          <div class="error">
-            <h2>Unable to Load Post</h2>
-            <p>Error: Page structure broken. Please contact support.</p>
-            <a href="./" class="btn-chip">← Return to Homepage</a>
-          </div>`;
-        return;
-      }
       container.innerHTML = `
         <div class="loading-container">
           <div class="loading-spinner"></div>
           <p>Loading your post...</p>
         </div>`;
-      try {
+
+      try{
         const urlParams = new URLSearchParams(window.location.search);
         const file = urlParams.get('file');
         if (!file) throw new Error("No post file specified in URL.");
-        const postsJsonPath = window.location.pathname.startsWith('/Mywebsite') ? '/Mywebsite/Posts.json' : '/Posts.json';
-        console.log('Fetching Posts.json from:', window.location.origin + postsJsonPath);
-        const postsRes = await fetch(postsJsonPath, { cache: 'no-store' });
-        if (!postsRes.ok) throw new Error(`Failed to fetch Posts.json (HTTP ${postsRes.status})`);
-        const posts = await postsRes.json();
-        if (!Array.isArray(posts)) throw new Error('Posts.json must be an array');
-        const postData = posts.find(p => p.file === file);
-        if (!postData) throw new Error(`Post "${file}" not found in Posts.json`);
-        console.log(`Fetching Markdown file: ${file} from:`, window.location.origin + '/' + file);
-        let mdRes = await fetch(file, { cache: 'no-store' });
-        if (!mdRes.ok && mdRes.status === 404) {
-          const parts = file.split('/');
-          const basename = parts.pop();
-          const lowerTry = parts.join('/') + '/' + basename.toLowerCase();
-          console.log(`Trying fallback: ${lowerTry}`);
-          const fallbackRes = await fetch(lowerTry, { cache: 'no-store' });
-          if (fallbackRes.ok) mdRes = fallbackRes;
-        }
+
+        // Try to load metadata (optional)
+        let postData = null;
+        try{
+          const postsRes = await fetch('Posts.json', { cache: 'no-store' });
+          if (postsRes.ok){
+            const posts = await postsRes.json();
+            if (Array.isArray(posts)) postData = posts.find(p => p.file === file) || null;
+          }
+        }catch(e){ /* ignore metadata errors */ }
+
+        // Load Markdown content
+        const mdRes = await fetch(file, { cache: 'no-store' });
         if (!mdRes.ok) throw new Error(`Failed to load Markdown file at ${file} (HTTP ${mdRes.status})`);
         const markdown = await mdRes.text();
         const content = processMarkdown(markdown);
-        document.title = `${postData.title} - Boluadeoye`;
+
+        const viewedLabel = (postData && typeof postData.views === 'number' && postData.views >= MANY_THRESHOLD) ? 'Viewed by many' : 'Viewed';
+        const title = postData?.title || 'Untitled';
+        const dateStr = postData?.date ? new Date(postData.date).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) : '';
+        const typeStr = postData?.type || '';
+
+        document.title = `${title} - Boluadeoye`;
+
         container.innerHTML = `
           <div class="post-header">
             <div class="post-meta">
-              <span class="meta-item">📅 ${new Date(postData.date || '2025-01-01').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-              <span class="meta-item">📁 ${postData.type || 'general'}</span>
-              <span class="meta-item">❤️ ${postData.likes || 0} likes</span>
-              <span class="meta-item">👁️ ${postData.views || 0}K views</span>
+              ${dateStr ? `<span class="meta-item">📅 ${dateStr}</span>` : ''}
+              ${typeStr ? `<span class="meta-item">📁 ${typeStr}</span>` : ''}
+              <span class="meta-item meta-red">❤️ Liked</span>
+              <span class="meta-item meta-red">👁️ ${viewedLabel}</span>
             </div>
-            <h1 class="post-title">${postData.title}</h1>
+            <h1 class="post-title">${title}</h1>
           </div>
           <div class="post-content">${content}</div>
           <nav class="post-nav">
             <a href="./" class="btn-chip">← Back to Home</a>
             <a href="./posts.html" class="btn-chip">View All Posts →</a>
-          </nav>`;
+          </nav>
+        `;
+
         window.scrollTo(0, 0);
-      } catch (error) {
-        console.error('Error loading post:', error);
+      }catch(error){
+        console.error("Error loading post:", error);
         container.innerHTML = `
           <div class="error">
             <h2>Unable to Load Post</h2>
-            <p>Error: ${error.message}</p>
-            <p>Please check if the post file exists or contact support.</p>
-            <div class="post-nav">
+            <p>${error.message}</p>
+            <div class="post-nav" style="justify-content:center;">
               <a href="./" class="btn-chip">← Return to Homepage</a>
             </div>
           </div>`;
       }
     }
+
     document.addEventListener('DOMContentLoaded', () => {
-      console.log('DOMContentLoaded fired for post.html at', new Date().toISOString());
-      if (!document.getElementById('post-content-wrapper')) {
-        console.error('Post content wrapper missing, rendering fallback');
-        document.body.innerHTML = `
-          <div class="error">
-            <h2>Unable to Load Post</h2>
-            <p>Error: Page structure broken. Please contact support.</p>
-            <a href="./" class="btn-chip">← Return to Homepage</a>
-          </div>`;
-        return;
-      }
-      if (typeof marked === 'undefined') {
-        console.error('Markdown parser (marked) not loaded. Check if /marked.min.js exists at', window.location.origin + (window.location.pathname.startsWith('/Mywebsite') ? '/Mywebsite/marked.min.js' : '/marked.min.js'));
+      loadSearchPosts();
+      if (typeof marked === 'undefined'){
         document.getElementById('post-content-wrapper').innerHTML = `
           <div class="error">
             <h2>Unable to Load Post</h2>
-            <p>Error: Markdown parser not loaded. Please ensure marked.min.js is present or contact support.</p>
+            <p>Error: Markdown parser not loaded.</p>
             <div class="post-nav">
               <a href="./" class="btn-chip">← Return to Homepage</a>
             </div>
           </div>`;
       } else {
-        console.log('Starting loadPost...');
         loadPost();
       }
     });
+
+    // Optional: Giscus comments (keep or remove)
     window.addEventListener('load', () => {
-      console.log('Window load fired for post.html at', new Date().toISOString());
       if (document.getElementById('post-content-wrapper')) {
         const giscusScript = document.createElement('script');
         giscusScript.src = "https://giscus.app/client.js";
@@ -288,23 +302,18 @@
         giscusScript.setAttribute("data-lang", "en");
         giscusScript.setAttribute("crossorigin", "anonymous");
         giscusScript.async = true;
+
         const commentsSection = document.createElement('section');
         commentsSection.id = 'comments';
         commentsSection.className = 'wrap';
-        commentsSection.style.marginTop = '4rem';
+        commentsSection.style.marginTop = '2rem';
         commentsSection.innerHTML = `
-          <div style="background: var(--panel); border: 1px solid rgba(255,255,255,.06); border-radius: 16px; padding: 2rem; max-width: 900px; margin: 0 auto;">
-            <h3 style="color: #f59e0b; font-family: var(--serif); margin: 0 0 1.5rem; text-align: center;">Join the Conversation</h3>
+          <div style="background: var(--panel); border: 1px solid rgba(255,255,255,.06); border-radius: 16px; padding: 1.25rem; max-width: 900px; margin: 0 auto;">
+            <h3 style="color: #f59e0b; font-family: var(--serif); margin: 0 0 .5rem; text-align: center;">Join the Conversation</h3>
           </div>
         `;
-        const postContainer = document.querySelector('.post-container');
-        if (postContainer) {
-          postContainer.after(commentsSection);
-          commentsSection.appendChild(giscusScript);
-          console.log('Giscus comments section added');
-        } else {
-          console.error('Post container not found for comments section');
-        }
+        document.querySelector('.post-container').after(commentsSection);
+        commentsSection.appendChild(giscusScript);
       }
     });
   </script>
