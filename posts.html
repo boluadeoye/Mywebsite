@@ -13,7 +13,52 @@
 <body>
   <!-- Same HTML -->
   <script>
-    // Same script, except update loadPosts:
+    console.log('Starting posts.html script...');
+    const menuBtn = document.getElementById('menuBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const header = document.getElementById('header');
+    function closeMenu() { 
+      sideMenu.classList.remove('active'); 
+      menuOverlay.classList.remove('show'); 
+    }
+    function openMenu() { 
+      sideMenu.classList.add('active'); 
+      menuOverlay.classList.add('show'); 
+    }
+    if (menuBtn && sideMenu && menuOverlay) {
+      menuBtn.addEventListener('click', () => { 
+        if (sideMenu.classList.contains('active')) closeMenu(); 
+        else openMenu(); 
+      });
+      menuOverlay.addEventListener('click', closeMenu);
+    } else {
+      console.error('Menu elements not found:', { menuBtn, sideMenu, menuOverlay });
+    }
+    window.addEventListener('scroll', () => {
+      if (header) {
+        if (window.scrollY > 50) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+      }
+    });
+    let allPosts = [];
+    let filteredPosts = [];
+    let currentFilter = 'all';
+    const postsEl = document.getElementById('posts');
+    const paginationEl = document.getElementById('pagination');
+    const searchInput = document.getElementById('searchInput');
+    const postsPerPage = 6;
+    let currentPage = 1;
+    if (!postsEl || !paginationEl) {
+      console.error('Posts or pagination elements not found:', { postsEl, paginationEl });
+      document.body.innerHTML = `
+        <div class="error" style="text-align: center; padding: 3rem; color: #ff6b6b;">
+          <h2>Unable to Load Posts</h2>
+          <p>Error: Page structure broken. Please contact support.</p>
+          <a href="./" style="display: inline-block; padding: 0.85rem 1.75rem; background: #f59e0b; color: #0b0f19; border-radius: 999px;">← Return to Homepage</a>
+        </div>`;
+      return;
+    }
     async function loadPosts() {
       try {
         postsEl.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
@@ -29,17 +74,134 @@
         })).sort((a, b) => String(b.date).localeCompare(String(a.date)));
         renderPosts('all');
       } catch (err) {
+        console.error('Error loading posts:', err);
         postsEl.innerHTML = `
           <div class="no-posts">
             <div style="font-size: 3rem; margin-bottom: 1rem;">📚</div>
             <p>Couldn't load posts. Please try again later.</p>
             <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">(${err.message})</p>
-          </div>
-        `;
-        console.error(err);
+          </div>`;
       }
     }
-    // Rest of the script unchanged
+    function renderPosts(filter = 'all', page = 1, searchTerm = '') {
+      currentFilter = filter;
+      currentPage = page;
+      filteredPosts = allPosts;
+      if (filter !== 'all') {
+        filteredPosts = filteredPosts.filter(p => (p.type || '').toLowerCase() === filter);
+      }
+      if (searchTerm) {
+        const term = searchTerm.toLowerCase();
+        filteredPosts = filteredPosts.filter(p => 
+          p.title.toLowerCase().includes(term) || 
+          p.excerpt.toLowerCase().includes(term) ||
+          (p.type || '').toLowerCase().includes(term)
+        );
+      }
+      const start = (page - 1) * postsPerPage;
+      const end = start + postsPerPage;
+      const paginatedPosts = filteredPosts.slice(start, end);
+      document.querySelectorAll('[data-filter]').forEach(el => {
+        if (el.getAttribute('data-filter') === filter) {
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
+      });
+      if (!paginatedPosts.length) {
+        postsEl.innerHTML = `
+          <div class="no-posts">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+            <p>No posts found${searchTerm ? ` for "${searchTerm}"` : ''}.</p>
+            ${searchTerm ? '<p style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">Try a different search term.</p>' : ''}
+          </div>`;
+        paginationEl.innerHTML = '';
+        return;
+      }
+      postsEl.innerHTML = paginatedPosts.map((p, index) => `
+        <article class="post" style="animation-delay: ${index * 0.1}s">
+          <span class="post-type ${p.type}">${p.type || 'general'}</span>
+          <h3><a href="post.html?file=${encodeURIComponent(p.file)}">${p.title}</a></h3>
+          <div class="post-date">
+            📅 ${new Date(p.date).toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'short', 
+              day: 'numeric' 
+            })}
+          </div>
+          <div class="quote-box">${p.excerpt}</div>
+          <div class="stats">
+            <span class="stat-item">
+              ❤️ <span class="stat-number">${p.likes}</span> likes
+            </span>
+            <span class="stat-item">
+              👁️ <span class="stat-number">${p.views}K</span> views
+            </span>
+          </div>
+          <div class="post-buttons">
+            <a href="./" class="btn-back">← Back</a>
+            <a href="post.html?file=${encodeURIComponent(p.file)}" class="btn-readmore">Read More →</a>
+          </div>
+        </article>
+      `).join('');
+      renderPagination(filteredPosts.length, page);
+    }
+    function renderPagination(totalPosts, currentPage) {
+      const totalPages = Math.ceil(totalPosts / postsPerPage);
+      if (totalPages <= 1) {
+        paginationEl.innerHTML = '';
+        return;
+      }
+      let paginationHTML = '';
+      if (currentPage > 1) {
+        paginationHTML += `<a href="#" data-page="${currentPage - 1}">← Previous</a>`;
+      }
+      for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+          paginationHTML += `<a href="#" data-page="${i}" class="${i === currentPage ? 'active' : ''}">${i}</a>`;
+        } else if (i === currentPage - 2 || i === currentPage + 2) {
+          paginationHTML += `<span class="dots">...</span>`;
+        }
+      }
+      if (currentPage < totalPages) {
+        paginationHTML += `<a href="#" data-page="${currentPage + 1}">Next →</a>`;
+      }
+      paginationEl.innerHTML = paginationHTML;
+    }
+    let searchTimeout;
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          renderPosts(currentFilter, 1, e.target.value);
+        }, 300);
+      });
+    }
+    document.querySelectorAll('[data-filter]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const filter = a.getAttribute('data-filter');
+        if (searchInput) searchInput.value = '';
+        renderPosts(filter, 1);
+        closeMenu();
+        document.getElementById('posts').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+    paginationEl.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') {
+        e.preventDefault();
+        const page = parseInt(e.target.getAttribute('data-page'));
+        if (page) {
+          renderPosts(currentFilter, page, searchInput?.value || '');
+          document.querySelector('.section-title').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOMContentLoaded fired for posts.html');
+      loadPosts();
+    });
   </script>
 </body>
 </html>
+  
