@@ -25,11 +25,21 @@
     .header-row{display:flex;align-items:center;justify-content:space-between;min-height:70px;gap:1.5rem;padding:0 .5rem}
     .brand{display:flex;align-items:center;gap:.75rem;flex-shrink:0;transition:transform .3s var(--transition)}
     .brand:hover{transform:translateX(3px)}
-    .dot{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffd27a 0%,#f59e0b 40%,#d97706 100%);box-shadow:0 0 0 2px rgba(245,158,11,.15),0 4px 12px rgba(245,158,11,.2);border:1px solid rgba(245,158,11,.3)}
+    /* Breathing glowing dot */
+    .dot{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffd27a 0%,#f59e0b 40%,#d97706 100%);box-shadow:0 0 0 2px rgba(245,158,11,.15),0 4px 12px rgba(245,158,11,.2);border:1px solid rgba(245,158,11,.3);position:relative;z-index:0;animation:dot-breathe 3.8s ease-in-out infinite}
+    .dot::after{content:'';position:absolute;inset:-8px;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(245,158,11,.45) 0%,rgba(245,158,11,.16) 35%,rgba(245,158,11,0) 70%);filter:blur(10px);opacity:.75;animation:dot-halo 3.8s ease-in-out infinite;pointer-events:none}
+    @keyframes dot-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+    @keyframes dot-halo{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:.9;transform:scale(1.12)}}
+    @media (prefers-reduced-motion: reduce){ .dot, .dot::after { animation:none !important; } }
+
     .brand h1{font-size:1.3rem;font-weight:800;color:var(--ink);letter-spacing:-.5px;font-family:var(--serif)}
     .top-nav{display:none;gap:.5rem;align-items:center;flex-wrap:wrap}
     .top-nav a{padding:.45rem .9rem;border-radius:999px;border:1px solid transparent;font-weight:600;font-size:.87rem}
     .top-nav a:hover,.top-nav a.active{color:var(--orange);border-color:var(--orange)}
+    /* CTA button in nav */
+    .top-nav .nav-cta{background:linear-gradient(135deg,var(--orange),var(--orange-light));color:var(--orange-ink);border:1px solid var(--orange);border-radius:999px;padding:.45rem 1rem;box-shadow:0 4px 12px rgba(245,158,11,.25);font-weight:700}
+    .top-nav .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(245,158,11,.35)}
+
     .hamburger{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(245,158,11,.2);color:var(--ink);cursor:pointer;transition:all .3s ease}
     .hamburger:hover{background:rgba(245,158,11,.1);transform:rotate(10deg)}
     .hamburger svg{width:19px;height:19px}
@@ -37,6 +47,8 @@
     .side-menu.active{left:0}
     .side-menu a{padding:.9rem 1.25rem;border-radius:8px;background:transparent;color:var(--ink);font-weight:600;font-size:.92rem;border:1px solid transparent;transition:all .2s ease}
     .side-menu a:hover,.side-menu a.active{background:rgba(245,158,11,.1);border-color:var(--orange);color:var(--orange);transform:translateX(5px)}
+    /* Mobile CTA */
+    .side-menu a.nav-cta{background:linear-gradient(135deg,var(--orange),var(--orange-light));color:var(--orange-ink);border-color:var(--orange);font-weight:800}
     .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;display:none;cursor:pointer}
     .overlay.show{display:block}
 
@@ -96,6 +108,7 @@
     <a href="#" data-filter="devotional">Devotional</a>
     <a href="#" data-filter="articles">Articles</a>
     <a href="#" data-filter="essays">Essays</a>
+    <a href="./library.html" class="nav-cta">Library</a>
     <a href="./about.html">About</a>
   </nav>
   <div id="menuOverlay" class="overlay"></div>
@@ -110,10 +123,7 @@
         </svg>
       </button>
 
-      <a class="brand" href="./">
-        <span class="dot" aria-hidden="true"></span>
-        <h1>Boluadeoye</h1>
-      </a>
+      <a class="brand" href="./"><span class="dot"></span><h1>Boluadeoye</h1></a>
 
       <div class="search-container">
         <div class="search-bar">
@@ -131,6 +141,7 @@
         <a href="#" data-filter="devotional">Devotional</a>
         <a href="#" data-filter="articles">Articles</a>
         <a href="#" data-filter="essays">Essays</a>
+        <a href="./library.html" class="nav-cta">Library</a>
         <a href="./about.html">About</a>
       </nav>
     </div>
@@ -263,33 +274,17 @@
       });
     });
 
-    // Pagination
-    paginationEl.addEventListener('click', (e) => {
-      const a = e.target.closest('a'); if (!a) return;
-      e.preventDefault();
-      const page = parseInt(a.getAttribute('data-page'), 10);
-      if (page){
-        renderPosts(currentFilter, page, searchInput?.value || '');
-        document.querySelector('.section-title').scrollIntoView({ behavior:'smooth', block:'start' });
-      }
-    });
-
     // Search
     let searchTimeout;
-    if (searchInput){
-      searchInput.addEventListener('input', (e) => {
-        clearTimeout(searchTimeout);
+    const searchInputEl = document.getElementById('searchInput');
+    if (searchInputEl){
+      searchInputEl.addEventListener('input', (e) => {
         const q = e.target.value.trim();
-        if (q.length < 2){ searchResults.classList.remove('active'); renderPosts(currentFilter, 1, ''); return; }
-        searchTimeout = setTimeout(() => {
-          searchResults.classList.remove('active'); // results list hidden on this page
-          renderPosts(currentFilter, 1, q);
-        }, 250);
+        clearTimeout(searchTimeout);
+        if (q.length < 2){ renderPosts(currentFilter, 1, ''); return; }
+        searchTimeout = setTimeout(() => { renderPosts(currentFilter, 1, q); }, 250);
       });
     }
-    document.addEventListener('click', e => {
-      if (!e.target.closest('.search-container')) searchResults.classList.remove('active');
-    });
 
     document.addEventListener('DOMContentLoaded', loadPosts);
   </script>
