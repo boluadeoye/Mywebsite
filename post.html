@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -6,14 +7,149 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-  <script src="/marked.min.js"></script> <!-- Adjusted path -->
+  <script src="/marked.min.js"></script>
   <style>
-    /* Same as previous */
+    :root {
+      --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2341;
+      --ink: #e5eefc; --muted: #94a3b8;
+      --orange: #f59e0b; --orange-light: #fbbf24; --orange-dark: #d97706; --orange-ink: #0b0f19;
+      --ring: rgba(245,158,11,.25); --radius: 16px; --serif: 'Cormorant Garamond', Georgia, serif; --transition: cubic-bezier(.4,0,.2,1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--ink); font: 16px/1.6 system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; position: relative;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0; background:
+        radial-gradient(circle at 20% 50%, rgba(245,158,11,.06) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(245,158,11,.03) 0%, transparent 50%);
+      pointer-events: none; z-index: 0; animation: float 25s ease-in-out infinite;
+    }
+    @keyframes float { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.1) rotate(3deg); } }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(15,23,42,.9);
+      backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,.06); transition: all .3s ease;
+    }
+    header.scrolled { background: rgba(15,23,42,.95); box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+    .header-row { display: flex; align-items: center; justify-content: space-between; min-height: 60px; padding: .5rem 1.5rem; max-width: 100%; margin: 0; }
+    .brand { display: flex; align-items: center; gap: .5rem; transition: transform .3s ease; flex-shrink: 0; }
+    .brand:hover { transform: translateX(3px); }
+    .brand .dot {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ffd27a 0%, #f59e0b 40%, #d97706 100%);
+      box-shadow: 0 0 0 2px rgba(245,158,11,.12), 0 3px 15px rgba(245,158,11,.25); animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    .brand h1 { font-size: 1.1rem; font-weight: 800; color: var(--ink); letter-spacing: -.5px; }
+    .nav-links { display: flex; gap: .4rem; align-items: center; margin-left: 2rem; flex-shrink: 0; }
+    .nav-chip {
+      padding: .35rem .8rem; border-radius: 999px; background: rgba(245,158,11,.08); color: var(--orange);
+      font-weight: 600; font-size: .75rem; border: 1px solid rgba(245,158,11,.15); transition: all .3s ease; white-space: nowrap; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .nav-chip:hover { color: var(--orange-ink); background: var(--orange); transform: translateY(-1px); box-shadow: 0 3px 8px rgba(245,158,11,.25); border-color: var(--orange); }
+    .nav-chip.active { background: var(--orange); color: var(--orange-ink); }
+    .post-container {
+      margin-top: 75px; margin-bottom: 4rem; background: var(--panel); border-radius: 24px; border: 1px solid rgba(245,158,11,.15);
+      box-shadow: 0 20px 60px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.05); overflow: hidden; position: relative;
+    }
+    .post-container::before, .post-container::after {
+      content: ''; position: absolute; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, rgba(245,158,11,.3), rgba(245,158,11,.5), rgba(245,158,11,.3), transparent);
+    }
+    .post-container::before { top: 0; } .post-container::after { bottom: 0; }
+    .content-wrapper { position: relative; padding: 3rem; border-left: 1px solid rgba(245,158,11,.1); border-right: 1px solid rgba(245,158,11,.1); margin: 0 2rem; }
+    .post-header { text-align: center; padding: 3rem 0 2rem; position: relative; animation: fadeInDown .8s ease; }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    .post-header::after {
+      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 120px; height: 3px; background: linear-gradient(90deg, transparent, var(--orange), transparent); border-radius: 2px;
+    }
+    .post-meta { display: flex; gap: 1.5rem; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 2rem; }
+    .meta-item { display: flex; align-items: center; gap: .5rem; padding: .5rem 1rem; background: rgba(245,158,11,.08); border-radius: 999px; font-size: .9rem; color: var(--muted); border: 1px solid rgba(245,158,11,.15); }
+    .post-title { font-family: var(--serif); font-size: clamp(2.3rem, 4.5vw, 3.3rem); font-weight: 900; line-height: 1.2; margin: 1.2rem 0;
+      background: linear-gradient(135deg, var(--orange), var(--orange-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .post-content {
+      padding: 3rem 0; max-width: 900px; margin: 0 auto; font-family: var(--serif); font-size: 1.125rem; line-height: 1.8; color: rgba(229,238,252,.95);
+      animation: fadeInUp .8s ease .5s both; text-align: left; padding-left: 2rem; padding-right: 2rem;
+    }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .post-content h1, .post-content h2, .post-content h3, .post-content h4 {
+      font-family: var(--serif); color: var(--orange); margin: 3rem 0 1.5rem; font-weight: 700; text-align: left; position: relative;
+    }
+    .post-content h1 { font-size: 2.25rem; }
+    .post-content h2 { font-size: 1.875rem; padding-bottom: 1rem; }
+    .post-content h2::after {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 80px; height: 3px; background: linear-gradient(90deg, transparent, var(--orange), transparent); border-radius: 2px; transform: translateY(100%);
+    }
+    .post-content h3 { font-size: 1.5rem; color: var(--orange-light); }
+    .post-content p { margin-bottom: 1.8rem; text-align: left; max-width: 800px; margin-inline: auto; font-weight: 400; }
+    .post-content blockquote {
+      position: relative; margin: 3rem auto; padding: 2rem 2.5rem; max-width: 90%; background: linear-gradient(135deg, rgba(245,158,11,.12), rgba(245,158,11,.06));
+      border: 2px solid rgba(245,158,11,.25); border-radius: 18px; box-shadow: 0 12px 30px rgba(0,0,0,.2); font-style: italic; font-family: var(--serif); font-size: 1.25rem;
+      line-height: 1.8; color: var(--ink); text-align: left; border-left: 4px solid var(--orange);
+    }
+    .post-content blockquote::before {
+      content: '"'; position: absolute; top: 1rem; left: 1rem; font-size: 4rem; color: var(--orange); opacity: .2; font-family: var(--serif); font-weight: 700; line-height: 1;
+    }
+    .post-content blockquote::after {
+      content: '"'; position: absolute; bottom: 1rem; right: 1rem; font-size: 4rem; color: var(--orange); opacity: .2; font-family: var(--serif); font-weight: 700; line-height: 1; transform: rotate(180deg);
+    }
+    .post-content em { color: var(--orange-light); font-style: italic; font-weight: 500; }
+    .post-content ul, .post-content ol { margin: 2rem auto; padding-left: 1.5rem; max-width: 800px; list-style-position: inside; text-align: left; }
+    .post-content li { margin-bottom: .75rem; color: rgba(229,238,252,.9); text-align: left; }
+    .post-content code { background: rgba(245,158,11,.1); padding: .25em .5em; border-radius: 6px; font-size: .9em; color: var(--orange-light); border: 1px solid rgba(245,158,11,.2); font-family: monospace; }
+    .post-content pre { background: var(--panel); padding: 1.5rem; border-radius: var(--radius); overflow-x: auto; margin: 2.5rem auto; max-width: 95%; border: 1px solid rgba(255,255,255,.06); font-family: 'Courier New', Courier, monospace; }
+    .post-content a { color: var(--orange); text-decoration: none; position: relative; font-weight: 500; }
+    .post-content a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: var(--orange); transition: width .3s ease; }
+    .post-content a:hover::after { width: 100%; }
+    .post-content img { max-width: 100%; height: auto; border-radius: var(--radius); margin: 2.5rem auto; display: block; box-shadow: 0 15px 40px rgba(0,0,0,.3); }
+    .post-nav { display: flex; justify-content: center; gap: 1.5rem; padding: 3rem 0; border-top: 1px solid rgba(245,158,11,.15); flex-wrap: wrap; }
+    .btn-chip {
+      display: inline-flex; align-items: center; gap: .75rem; padding: .85rem 1.75rem; background: linear-gradient(135deg, var(--orange), var(--orange-light));
+      color: var(--orange-ink); border-radius: 999px; font-weight: 700; font-size: .95rem; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(245,158,11,.3);
+    }
+    .btn-chip:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(245,158,11,.4); }
+    .loading-container { min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); padding: 4rem 2rem; text-align: center; }
+    .loading-spinner { width: 40px; height: 40px; border: 3px solid rgba(245,158,11,.2); border-top-color: var(--orange); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error { text-align: center; padding: 3rem; color: #ff6b6b; }
+    footer { background: var(--panel); color: var(--muted); border-top: 1px solid rgba(255,255,255,.06); text-align: center; font-size: .9rem; padding: 2.5rem 0; margin-top: 4rem; }
   </style>
 </head>
 <body>
-  <!-- Same HTML as previous -->
+  <header id="header">
+    <div class="header-row">
+      <a class="brand" href="./">
+        <span class="dot"></span>
+        <h1>Boluadeoye</h1>
+      </a>
+      <nav class="nav-links">
+        <a href="./" class="nav-chip">Home</a>
+        <a href="./posts.html" class="nav-chip">All Posts</a>
+        <a href="./about.html" class="nav-chip">About</a>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <div class="post-container">
+      <div class="content-wrapper">
+        <article id="post-content-wrapper">
+          <div class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Loading your post...</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div>
+  </footer>
   <script>
+    console.log('Starting post.html script...');
     window.addEventListener('scroll', () => {
       const header = document.getElementById('header');
       if (window.scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled');
@@ -32,6 +168,21 @@
     }
     async function loadPost() {
       const container = document.getElementById('post-content-wrapper');
+      if (!container) {
+        console.error('Post content wrapper not found');
+        document.body.innerHTML = `
+          <div class="error" style="text-align: center; padding: 3rem; color: #ff6b6b;">
+            <h2>Unable to Load Post</h2>
+            <p>Error: Page structure broken. Please contact support.</p>
+            <a href="./" style="display: inline-block; padding: 0.85rem 1.75rem; background: #f59e0b; color: #0b0f19; border-radius: 999px;">← Return to Homepage</a>
+          </div>`;
+        return;
+      }
+      container.innerHTML = `
+        <div class="loading-container">
+          <div class="loading-spinner"></div>
+          <p>Loading your post...</p>
+        </div>`;
       try {
         const urlParams = new URLSearchParams(window.location.search);
         const file = urlParams.get('file');
@@ -86,6 +237,7 @@
       }
     }
     document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOMContentLoaded fired');
       if (typeof marked === 'undefined') {
         console.error('Marked library not loaded at DOMContentLoaded. Check if /marked.min.js exists at', window.location.origin + '/marked.min.js');
         document.getElementById('post-content-wrapper').innerHTML = `
@@ -102,6 +254,7 @@
       }
     });
     window.addEventListener('load', () => {
+      console.log('Window load fired');
       if (document.getElementById('post-content-wrapper')) {
         const giscusScript = document.createElement('script');
         giscusScript.src = "https://giscus.app/client.js";
