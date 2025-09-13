@@ -8,6 +8,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/marked@4.0.18/lib/marked.min.js"></script>
+  <script>
+    // Fallback if primary CDN fails
+    if (typeof marked === 'undefined') {
+      document.write('<script src="https://unpkg.com/marked@4.0.18/lib/marked.min.js"><\/script>');
+    }
+  </script>
   <style>
     :root {
       --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2341;
@@ -155,7 +161,10 @@
     });
     function processMarkdown(text) {
       if (!text || typeof text !== 'string') return '<p>Content unavailable.</p>';
-      if (typeof marked === 'undefined') return '<p>Error: Markdown parser not loaded.</p>';
+      if (typeof marked === 'undefined') {
+        console.error('Markdown parser (marked) not loaded.');
+        return '<p>Error: Markdown parser not loaded. Please check your internet connection or try again later.</p>';
+      }
       return marked.parse(text);
     }
     async function loadPost() {
@@ -164,16 +173,19 @@
         const urlParams = new URLSearchParams(window.location.search);
         const file = urlParams.get('file');
         if (!file) throw new Error("No post file specified in URL.");
+        console.log('Fetching Posts.json...');
         const postsRes = await fetch('Posts.json', { cache: 'no-store' });
         if (!postsRes.ok) throw new Error(`Failed to fetch Posts.json (HTTP ${postsRes.status})`);
         const posts = await postsRes.json();
         const postData = posts.find(p => p.file === file);
         if (!postData) throw new Error(`Post "${file}" not found in Posts.json`);
+        console.log(`Fetching Markdown file: ${file}`);
         let mdRes = await fetch(file, { cache: 'no-store' });
         if (!mdRes.ok && mdRes.status === 404) {
           const parts = file.split('/');
           const basename = parts.pop();
           const lowerTry = parts.join('/') + '/' + basename.toLowerCase();
+          console.log(`Trying fallback: ${lowerTry}`);
           const fallbackRes = await fetch(lowerTry, { cache: 'no-store' });
           if (fallbackRes.ok) mdRes = fallbackRes;
         }
@@ -210,7 +222,27 @@
           </div>`;
       }
     }
-    document.addEventListener('DOMContentLoaded', loadPost);
+    // Wait for marked to load before running loadPost
+    window.addEventListener('load', () => {
+      if (typeof marked !== 'undefined') {
+        loadPost();
+      } else {
+        setTimeout(() => {
+          if (typeof marked !== 'undefined') {
+            loadPost();
+          } else {
+            document.getElementById('post-content-wrapper').innerHTML = `
+              <div class="error">
+                <h2>Unable to Load Post</h2>
+                <p>Error: Markdown parser not loaded. Please check your internet connection or try again later.</p>
+                <div class="post-nav">
+                  <a href="./" class="btn-chip">← Return to Homepage</a>
+                </div>
+              </div>`;
+          }
+        }, 2000); // Wait 2 seconds for CDN
+      }
+    });
     window.addEventListener('load', () => {
       if (document.getElementById('post-content-wrapper')) {
         const giscusScript = document.createElement('script');
