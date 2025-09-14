@@ -28,12 +28,10 @@
     a{color:inherit;text-decoration:none;transition:all .3s var(--transition)}
     .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
 
-    /* Header */
     header{position:sticky;top:0;z-index:100;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(245,158,11,.15)}
     .header-row{display:flex;align-items:center;justify-content:space-between;min-height:70px;gap:1.5rem;padding:0 .5rem}
     .brand{display:flex;align-items:center;gap:.75rem;flex-shrink:0;transition:transform .3s var(--transition)}
     .brand:hover{transform:translateX(3px)}
-    /* Breathing glowing dot */
     .dot{
       width:34px;height:34px;border-radius:50%;
       background:radial-gradient(circle at 30% 30%,#ffd27a 0%,#f59e0b 40%,#d97706 100%);
@@ -65,7 +63,6 @@
     .overlay.show{display:block}
     @media(min-width:880px){.top-nav{display:flex}.hamburger{display:none}}
 
-    /* Post container — widened and decluttered */
     .post-container{
       margin:1.25rem 0 2.25rem;
       background:var(--panel); border-radius:24px;
@@ -78,7 +75,6 @@
       margin:0;
     }
 
-    /* Meta + title */
     .post-header{text-align:center;padding:1.25rem 0 .75rem}
     .post-meta{display:flex;gap:.75rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:.5rem}
     .meta-item{display:flex;align-items:center;gap:.5rem;padding:.35rem .85rem;background:rgba(245,158,11,.08);border-radius:999px;font-size:.9rem;color:var(--muted);border:1px solid rgba(245,158,11,.15)}
@@ -91,7 +87,6 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
 
-    /* Cover image at top of article */
     .cover-hero {
       max-width: 1020px;
       margin: 0.75rem auto 1.25rem;
@@ -101,23 +96,14 @@
       background: rgba(255,255,255,.02);
     }
     .cover-hero img {
-      width: 100%;
-      height: auto;
-      display: block;
-      aspect-ratio: 16/9;
-      object-fit: cover;
+      width: 100%; height: auto; display: block;
+      aspect-ratio: 16/9; object-fit: cover;
     }
 
-    /* Content: ~10% smaller, centered, clear */
     .post-content{
-      max-width: 1020px;     /* wider content column to avoid clutter */
-      margin: 0 auto;
-      font-family: var(--font);
-      font-size: 1.0125rem;  /* 10% smaller than ~1.125rem */
-      line-height: 1.85;
-      color: rgba(229,238,252,.96);
-      text-align: left;
-      letter-spacing: 0.005em;
+      max-width: 1020px; margin: 0 auto;
+      font-family: var(--font); font-size: 1.0125rem; line-height: 1.85;
+      color: rgba(229,238,252,.96); text-align: left; letter-spacing: 0.005em;
     }
     .post-content h1{font-size:2.25rem;margin:2rem 0 1rem}
     .post-content h2{font-size:1.875rem;margin:1.75rem auto 1rem;max-width:90ch;color:var(--orange)}
@@ -126,7 +112,7 @@
     .post-content ul, .post-content ol{margin:1.1rem auto; padding-left:1.25rem; max-width: 90ch}
     .post-content li{margin:.5rem 0}
     .post-content blockquote{
-      position:relative;margin:1.6rem auto;padding:1.1rem 1.3rem;max-width: 90ch;
+      position:relative;margin:1.6rem auto;padding:1.1rem 1.3rem;max-width:90ch;
       background:linear-gradient(135deg, rgba(245,158,11,.12), rgba(245,158,11,.06));
       border:1px solid rgba(245,158,11,.2);border-radius:14px;font-style:italic;
       font-size: 1.08rem; line-height:1.75; color:var(--ink);
@@ -134,11 +120,9 @@
     }
     .post-content img{max-width:100%;height:auto;border-radius:12px;margin:1.5rem auto;display:block;box-shadow:0 15px 40px rgba(0,0,0,.3)}
 
-    /* Footer nav under content */
     .post-nav{display:flex;justify-content:center;gap:1rem;padding:1.1rem 0;border-top:1px solid rgba(245,158,11,.15);flex-wrap:wrap}
     .btn-chip{display:inline-flex;align-items:center;gap:.5rem;padding:.72rem 1.2rem;background:linear-gradient(135deg,var(--orange),var(--orange-light));color:var(--orange-ink);border-radius:999px;font-weight:800;font-size:.95rem;box-shadow:0 4px 15px rgba(245,158,11,.3)}
 
-    /* Loading / error */
     .loading-container{min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);padding:2rem 1rem;text-align:center}
     .loading-spinner{width:36px;height:36px;border:3px solid rgba(245,158,11,.2);border-top-color:var(--orange);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:1rem}
     @keyframes spin{to{transform:rotate(360deg)}}
@@ -148,7 +132,6 @@
   </style>
 </head>
 <body>
-  <!-- Side Menu (no search) -->
   <nav id="sideMenu" class="side-menu">
     <a href="./">Home</a>
     <a href="./posts.html">All Posts</a>
@@ -166,10 +149,7 @@
           <rect x="4" y="16" width="16" height="2" rx="1"/>
         </svg>
       </button>
-
       <a class="brand" href="./"><span class="dot" aria-hidden="true"></span><h1>Boluadeoye</h1></a>
-
-      <!-- No search bar on the post page -->
       <nav class="top-nav" aria-label="Primary">
         <a href="./">Home</a>
         <a href="./posts.html">All Posts</a>
@@ -197,135 +177,191 @@
   </footer>
 
   <script>
-    const MANY_THRESHOLD = 50;
+    (function(){
+      var MANY_THRESHOLD = 50;
 
-    // Menu
-    const menuBtn = document.getElementById('menuBtn');
-    const sideMenu = document.getElementById('sideMenu');
-    const menuOverlay = document.getElementById('menuOverlay');
-    function closeMenu(){ sideMenu.classList.remove('active'); menuOverlay.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
-    function openMenu(){ sideMenu.classList.add('active'); menuOverlay.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
-    menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
-    menuOverlay.addEventListener('click', closeMenu);
+      // Menu (bind safely after DOM is ready)
+      function bindMenu(){
+        var menuBtn = document.getElementById('menuBtn');
+        var sideMenu = document.getElementById('sideMenu');
+        var menuOverlay = document.getElementById('menuOverlay');
+        if (!menuBtn || !sideMenu || !menuOverlay) return;
 
-    // Helpers for cover detection and markdown handling
-    function normalizePath(p){ return (p || '').trim().replace(/^\.\/+/, '').replace(/^\/+/, ''); }
-    function firstImageFromMarkdown(md) {
-      const mdImg = md.match(/!```math
-[^```]*```KATEX_INLINE_OPEN([^)]+)KATEX_INLINE_CLOSE/); if (mdImg) return mdImg[1].trim();
-      const htmlImg = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i); if (htmlImg) return htmlImg[1].trim();
-      return '';
-    }
-    function processMarkdown(text){
-      if (!text || typeof text !== 'string') return '<p>Content unavailable.</p>';
-      if (typeof marked === 'undefined') return '<p>Error: Markdown parser not loaded.</p>';
-      return marked.parse(text);
-    }
-
-    async function loadPost(){
-      const container = document.getElementById('post-content-wrapper');
-      container.innerHTML = `
-        <div class="loading-container">
-          <div class="loading-spinner"></div>
-          <p>Loading your post...</p>
-        </div>`;
-
-      try{
-        const urlParams = new URLSearchParams(window.location.search);
-        const file = urlParams.get('file');
-        if (!file) throw new Error("No post file specified in URL.");
-
-        // Optional: load metadata (won't block rendering if missing)
-        let postData = null;
-        try{
-          const postsRes = await fetch('Posts.json', { cache: 'no-store' });
-          if (postsRes.ok){
-            const posts = await postsRes.json();
-            if (Array.isArray(posts)) postData = posts.find(p => p.file === file) || null;
-          }
-        }catch(e){/* ignore */}
-
-        // Load Markdown
-        const mdRes = await fetch(file, { cache: 'no-store' });
-        if (!mdRes.ok) throw new Error(`Failed to load Markdown file at ${file} (HTTP ${mdRes.status})`);
-        const markdown = await mdRes.text();
-
-        // Decide cover URL (prefer Posts.json cover; else first image)
-        const detectedFirst = firstImageFromMarkdown(markdown);
-        const coverUrl = (postData?.cover && postData.cover.trim()) || detectedFirst || '';
-
-        // Avoid duplicate if first inline image equals cover
-        let mdForRender = markdown;
-        if (coverUrl && detectedFirst && normalizePath(coverUrl) === normalizePath(detectedFirst)) {
-          const firstMdImgFull = mdForRender.match(/!```math
-[^```]*```KATEX_INLINE_OPEN[^)]+KATEX_INLINE_CLOSE/);
-          if (firstMdImgFull) mdForRender = mdForRender.replace(firstMdImgFull[0], '');
+        function closeMenu(){
+          sideMenu.classList.remove('active');
+          menuOverlay.classList.remove('show');
+          menuBtn.setAttribute('aria-expanded','false');
         }
-
-        // Render Markdown
-        const content = processMarkdown(mdForRender);
-
-        // Build meta/title
-        const title = postData?.title || 'Untitled';
-        const dateStr = postData?.date ? new Date(postData.date).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) : '';
-        const typeStr = postData?.type || '';
-
-        document.title = `${title} - Boluadeoye`;
-
-        const coverHTML = coverUrl ? `
-          <figure class="cover-hero">
-            <img src="${coverUrl}" alt="${title} cover" loading="lazy" decoding="async">
-          </figure>` : '';
-
-        container.innerHTML = `
-          <div class="post-header">
-            <div class="post-meta">
-              ${dateStr ? `<span class="meta-item">📅 ${dateStr}</span>` : ''}
-              ${typeStr ? `<span class="meta-item">📁 ${typeStr}</span>` : ''}
-              <span class="meta-item meta-red">❤️ Liked</span>
-              <span class="meta-item meta-red">👁️ ${ (postData && typeof postData.views === 'number' && postData.views >= MANY_THRESHOLD) ? 'Viewed by many' : 'Viewed' }</span>
-            </div>
-            <h1 class="post-title">${title}</h1>
-          </div>
-
-          ${coverHTML}
-
-          <div class="post-content">${content}</div>
-
-          <nav class="post-nav">
-            <a href="./" class="btn-chip">← Back to Home</a>
-            <a href="./posts.html" class="btn-chip">View All Posts →</a>
-          </nav>
-        `;
-
-        window.scrollTo(0, 0);
-      }catch(error){
-        console.error("Error loading post:", error);
-        container.innerHTML = `
-          <div class="error">
-            <h2>Unable to Load Post</h2>
-            <p>${error.message}</p>
-            <div class="post-nav" style="justify-content:center;">
-              <a href="./" class="btn-chip">← Return to Homepage</a>
-            </div>
-          </div>`;
+        function openMenu(){
+          sideMenu.classList.add('active');
+          menuOverlay.classList.add('show');
+          menuBtn.setAttribute('aria-expanded','true');
+        }
+        menuBtn.addEventListener('click', function(){
+          if (sideMenu.classList.contains('active')) closeMenu(); else openMenu();
+        });
+        menuOverlay.addEventListener('click', closeMenu);
       }
-    }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      if (typeof marked === 'undefined'){
-        document.getElementById('post-content-wrapper').innerHTML = `
-          <div class="error">
-            <h2>Unable to Load Post</h2>
-            <p>Error: Markdown parser not loaded.</p>
-            <div class="post-nav">
-              <a href="./" class="btn-chip">← Return to Homepage</a>
-            </div>
-          </div>`;
-      } else {
-        loadPost();
+      // Helpers for cover detection and markdown
+      function normalizePath(p){
+        if (!p) return '';
+        return String(p).trim().replace(/^\.\/+/, '').replace(/^\/+/, '');
       }
-    });
+      function firstImageFromMarkdown(md){
+        var m1 = md.match(/!```math
+[^```]*```KATEX_INLINE_OPEN([^)]+)KATEX_INLINE_CLOSE/);
+        if (m1 && m1[1]) return m1[1].trim();
+        var m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
+        if (m2 && m2[1]) return m2[1].trim();
+        return '';
+      }
+      function processMarkdown(text){
+        if (!text || typeof text !== 'string') return '<p>Content unavailable.</p>';
+        if (typeof marked === 'undefined') return '<p>Error: Markdown parser not loaded.</p>';
+        return marked.parse(text);
+      }
+
+      function renderError(container, message){
+        container.innerHTML = '' +
+          '<div class="error">' +
+          '  <h2>Unable to Load Post</h2>' +
+          '  <p>' + message + '</p>' +
+          '  <div class="post-nav" style="justify-content:center;">' +
+          '    <a href="./" class="btn-chip">← Return to Homepage</a>' +
+          '  </div>' +
+          '</div>';
+      }
+
+      function loadPost(){
+        var container = document.getElementById('post-content-wrapper');
+        if (!container){ return; }
+
+        container.innerHTML = '' +
+          '<div class="loading-container">' +
+          '  <div class="loading-spinner"></div>' +
+          '  <p>Loading your post...</p>' +
+          '</div>';
+
+        // Safety timeout in case of unexpected stalls
+        var stalled = setTimeout(function(){
+          renderError(container, 'This is taking longer than expected. Please check your internet and try again.');
+        }, 20000);
+
+        try{
+          var urlParams = new URLSearchParams(window.location.search);
+          var file = urlParams.get('file');
+          if (!file){
+            clearTimeout(stalled);
+            renderError(container, 'No post file specified in URL.');
+            return;
+          }
+
+          // Load metadata (optional)
+          var postData = null;
+
+          fetch('Posts.json', { cache: 'no-store' }).then(function(res){
+            if (res.ok) return res.json();
+            return null;
+          }).then(function(posts){
+            if (posts && posts.length){
+              for (var i=0;i<posts.length;i++){
+                if (posts[i] && posts[i].file === file){ postData = posts[i]; break; }
+              }
+            }
+          }).catch(function(){ /* ignore */ }).finally(function(){
+
+            // Load Markdown
+            fetch(file, { cache: 'no-store' }).then(function(mdRes){
+              if (!mdRes.ok){
+                throw new Error('Failed to load Markdown file at ' + file + ' (HTTP ' + mdRes.status + ')');
+              }
+              return mdRes.text();
+            }).then(function(markdown){
+              // Decide cover (Posts.json cover > first image in MD)
+              var detectedFirst = firstImageFromMarkdown(markdown);
+              var coverUrl = '';
+              if (postData && postData.cover && String(postData.cover).trim()){
+                coverUrl = String(postData.cover).trim();
+              } else if (detectedFirst){
+                coverUrl = detectedFirst;
+              }
+
+              // Avoid duplicate if first inline image equals cover
+              var mdForRender = markdown;
+              if (coverUrl && detectedFirst && normalizePath(coverUrl) === normalizePath(detectedFirst)){
+                var firstMdImgFull = mdForRender.match(/!```math
+[^```]*```KATEX_INLINE_OPEN[^)]+KATEX_INLINE_CLOSE/);
+                if (firstMdImgFull && firstMdImgFull[0]){
+                  mdForRender = mdForRender.replace(firstMdImgFull[0], '');
+                }
+              }
+
+              var content = processMarkdown(mdForRender);
+
+              var title = (postData && postData.title) ? postData.title : 'Untitled';
+              var dateStr = '';
+              if (postData && postData.date){
+                try {
+                  dateStr = new Date(postData.date).toLocaleDateString('en-US',
+                    {year:'numeric',month:'long',day:'numeric'});
+                } catch(e){}
+              }
+              var typeStr = (postData && postData.type) ? postData.type : '';
+
+              document.title = title + ' - Boluadeoye';
+
+              var coverHTML = coverUrl ? (
+                '<figure class="cover-hero">' +
+                '  <img src="' + coverUrl + '" alt="' + title + ' cover" loading="lazy" decoding="async">' +
+                '</figure>'
+              ) : '';
+
+              var viewedLabel = (postData && typeof postData.views === 'number' && postData.views >= MANY_THRESHOLD)
+                ? 'Viewed by many' : 'Viewed';
+
+              container.innerHTML = '' +
+                '<div class="post-header">' +
+                '  <div class="post-meta">' +
+                (dateStr ? ('<span class="meta-item">📅 ' + dateStr + '</span>') : '') +
+                (typeStr ? ('<span class="meta-item">📁 ' + typeStr + '</span>') : '') +
+                '    <span class="meta-item meta-red">❤️ Liked</span>' +
+                '    <span class="meta-item meta-red">👁️ ' + viewedLabel + '</span>' +
+                '  </div>' +
+                '  <h1 class="post-title">' + title + '</h1>' +
+                '</div>' +
+                coverHTML +
+                '<div class="post-content">' + content + '</div>' +
+                '<nav class="post-nav">' +
+                '  <a href="./" class="btn-chip">← Back to Home</a>' +
+                '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
+                '</nav>';
+
+              window.scrollTo(0, 0);
+              clearTimeout(stalled);
+            }).catch(function(err){
+              clearTimeout(stalled);
+              renderError(container, err.message || String(err));
+            });
+
+          });
+
+        } catch(error){
+          clearTimeout(stalled);
+          renderError(container, error.message || String(error));
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function(){
+        bindMenu();
+        if (typeof marked === 'undefined'){
+          var container = document.getElementById('post-content-wrapper');
+          renderError(container, 'Error: Markdown parser not loaded.');
+        } else {
+          loadPost();
+        }
+      });
+    })();
   </script>
 </body>
 </html>
