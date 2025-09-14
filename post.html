@@ -3,202 +3,45 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Post — Boluadeoye</title>
+  <title>Post — Boluadeoye (Minimal)</title>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
-    :root {
-      --bg: #0f172a; --panel: #111a2e; --ink: #e5eefc; --muted: #94a3b8;
-      --orange: #f59e0b; --orange-light: #fbbf24; --orange-ink: #0b0f19;
-      --serif: ui-serif, Georgia, "Times New Roman", serif;
-      --font: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif;
-      --transition: cubic-bezier(.4,0,.2,1);
-      --red: #ef4444; --red-soft: rgba(239,68,68,.12);
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%;scroll-behavior:smooth}
-    body{background:var(--bg);color:var(--ink);font:16px/1.7 var(--font);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden;position:relative;text-rendering:optimizeLegibility}
-    a{color:inherit;text-decoration:none;transition:all .3s var(--transition)}
-    .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
-
-    header{position:sticky;top:0;z-index:100;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(245,158,11,.15)}
-    .header-row{display:flex;align-items:center;justify-content:space-between;min-height:70px;gap:1.5rem;padding:0 .5rem}
-    .brand{display:flex;align-items:center;gap:.75rem;flex-shrink:0;transition:transform .3s var(--transition)}
-    .brand:hover{transform:translateX(3px)}
-    .dot{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffd27a 0%,#f59e0b 40%,#d97706 100%);border:1px solid rgba(245,158,11,.3);box-shadow:0 0 0 2px rgba(245,158,11,.15),0 4px 12px rgba(245,158,11,.2);position:relative;z-index:0;animation:dot-breathe 3.8s ease-in-out infinite;transition:transform .6s var(--transition)}
-    .dot::after{content:'';position:absolute;inset:-8px;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(245,158,11,.45) 0%,rgba(245,158,11,.16) 35%,rgba(245,158,11,0) 70%);filter:blur(10px);opacity:.75;animation:dot-halo 3.8s ease-in-out infinite;pointer-events:none}
-    @keyframes dot-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-    @keyframes dot-halo{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:.9;transform:scale(1.12)}}
-    @media (prefers-reduced-motion: reduce){ .dot, .dot::after { animation:none !important; } }
-    .brand h1{font-size:1.3rem;font-weight:800;color:var(--ink);letter-spacing:-.5px;font-family:var(--serif)}
-
-    .top-nav{display:none;gap:.5rem;align-items:center;flex-wrap:wrap}
-    .top-nav a{padding:.45rem .9rem;border-radius:999px;border:1px solid transparent;font-weight:600;font-size:.87rem}
-    .top-nav a:hover,.top-nav a.active{color:var(--orange);border-color:var(--orange);transform:translateY(-1px)}
-
-    .hamburger{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(245,158,11,.2);color:var(--ink);cursor:pointer;transition:all .3s ease}
-    .hamburger:hover{background:rgba(245,158,11,.1);transform:rotate(10deg)}
-    .hamburger svg{width:19px;height:19px}
-
-    .side-menu{position:fixed;top:0;left:-280px;z-index:200;width:260px;height:100%;padding:2.5rem 1.2rem 2rem;display:flex;flex-direction:column;gap:.6rem;background:var(--panel);border-right:1px solid rgba(245,158,11,.2);transition:left .3s var(--transition)}
-    .side-menu.active{left:0}
-    .side-menu a{padding:.9rem 1.25rem;border-radius:8px;background:transparent;color:var(--ink);font-weight:600;font-size:.92rem;border:1px solid transparent;transition:all .2s ease}
-    .side-menu a:hover,.side-menu a.active{background:rgba(245,158,11,.1);border-color:var(--orange);color:var(--orange);transform:translateX(5px)}
-    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;display:none;cursor:pointer}
-    .overlay.show{display:block}
-    @media(min-width:880px){.top-nav{display:flex}.hamburger{display:none}}
-
-    .post-container{margin:1.25rem 0 2.25rem;background:var(--panel);border-radius:24px;border:1px solid rgba(245,158,11,.15);box-shadow:0 20px 60px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.05);overflow:hidden}
-    .content-wrapper{padding:2.75rem 2.5rem;border-left:1px solid rgba(245,158,11,.1);border-right:1px solid rgba(245,158,11,.1);margin:0}
-
-    .post-header{text-align:center;padding:1.25rem 0 .75rem}
-    .post-meta{display:flex;gap:.75rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:.5rem}
-    .meta-item{display:flex;align-items:center;gap:.5rem;padding:.35rem .85rem;background:rgba(245,158,11,.08);border-radius:999px;font-size:.9rem;color:var(--muted);border:1px solid rgba(245,158,11,.15)}
-    .meta-red{background:var(--red-soft);color:var(--red);border-color:rgba(239,68,68,.25)}
-    .post-title{font-family:var(--font);font-size:clamp(2rem, 4vw, 3rem);font-weight:800;line-height:1.2;margin:.6rem 0 .2rem;background:linear-gradient(135deg,var(--orange),var(--orange-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-
-    .cover-hero{max-width:1020px;margin:.75rem auto 1.25rem;border-radius:14px;overflow:hidden;border:1px solid rgba(245,158,11,.15);background:rgba(255,255,255,.02)}
-    .cover-hero img{width:100%;height:auto;display:block;aspect-ratio:16/9;object-fit:cover}
-
-    .post-content{max-width:1020px;margin:0 auto;font-family:var(--font);font-size:1.0125rem;line-height:1.85;color:rgba(229,238,252,.96);text-align:left;letter-spacing:.005em}
-    .post-content h1{font-size:2.25rem;margin:2rem 0 1rem}
-    .post-content h2{font-size:1.875rem;margin:1.75rem auto 1rem;max-width:90ch;color:var(--orange)}
-    .post-content h3{font-size:1.5rem;margin:1.25rem auto .75rem;max-width:90ch;color:#fbbf24}
-    .post-content p{margin:0 0 1.1rem;max-width:90ch;margin-inline:auto}
-    .post-content ul,.post-content ol{margin:1.1rem auto;padding-left:1.25rem;max-width:90ch}
-    .post-content li{margin:.5rem 0}
-    .post-content blockquote{position:relative;margin:1.6rem auto;padding:1.1rem 1.3rem;max-width:90ch;background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(245,158,11,.06));border:1px solid rgba(245,158,11,.2);border-radius:14px;font-style:italic;font-size:1.08rem;line-height:1.75;color:var(--ink);border-left:4px solid var(--orange)}
-    .post-content img{max-width:100%;height:auto;border-radius:12px;margin:1.5rem auto;display:block;box-shadow:0 15px 40px rgba(0,0,0,.3)}
-
-    .post-nav{display:flex;justify-content:center;gap:1rem;padding:1.1rem 0;border-top:1px solid rgba(245,158,11,.15);flex-wrap:wrap}
-    .btn-chip{display:inline-flex;align-items:center;gap:.5rem;padding:.72rem 1.2rem;background:linear-gradient(135deg,var(--orange),var(--orange-light));color:var(--orange-ink);border-radius:999px;font-weight:800;font-size:.95rem;box-shadow:0 4px 15px rgba(245,158,11,.3)}
-
-    .loading-container{min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);padding:2rem 1rem;text-align:center}
-    .loading-spinner{width:36px;height:36px;border:3px solid rgba(245,158,11,.2);border-top-color:var(--orange);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:1rem}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .error{text-align:center;padding:2rem;color:#ff6b6b}
-    footer{background:var(--panel);border-top:1px solid rgba(255,255,255,.06);color:var(--muted);text-align:center;font-size:.9rem;padding:2rem 0;margin-top:2rem}
+    body { margin: 0; font: 16px/1.65 "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background: #0f172a; color: #e5eefc; }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 1rem; }
+    header { position: sticky; top: 0; background: #0f172a; border-bottom: 1px solid #223; padding: .8rem 1rem; }
+    a { color: #fbbf24; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .title { color: #f59e0b; margin: .6rem 0 .2rem; }
+    .meta { color: #94a3b8; font-size: .9rem; margin-bottom: .8rem; }
+    .content { background: #111a2e; border: 1px solid #223; border-radius: 12px; padding: 1rem; }
+    .error { color: #ff6b6b; margin: 1rem 0; }
+    .muted { color: #94a3b8; font-size: .9rem; }
+    figure.cover { margin: .8rem 0 1rem; }
+    figure.cover img { width: 100%; height: auto; border-radius: 10px; display: block; }
+    .nav { margin: 1rem 0; }
   </style>
 </head>
 <body>
-  <nav id="sideMenu" class="side-menu">
-    <a href="./">Home</a>
-    <a href="./posts.html">All Posts</a>
-    <a href="./library.html">Library</a>
-    <a href="./about.html">About</a>
-  </nav>
-  <div id="menuOverlay" class="overlay"></div>
-
-  <header id="header">
-    <div class="wrap header-row">
-      <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <rect x="4" y="6" width="16" height="2" rx="1"/>
-          <rect x="4" y="11" width="16" height="2" rx="1"/>
-          <rect x="4" y="16" width="16" height="2" rx="1"/>
-        </svg>
-      </button>
-      <a class="brand" href="./"><span class="dot" aria-hidden="true"></span><h1>Boluadeoye</h1></a>
-      <nav class="top-nav" aria-label="Primary">
-        <a href="./">Home</a>
-        <a href="./posts.html">All Posts</a>
-        <a href="./library.html">Library</a>
-        <a href="./about.html">About</a>
-      </nav>
-    </div>
+  <header class="wrap">
+    <a href="./">← Home</a>
   </header>
 
   <main class="wrap">
-    <div class="post-container">
-      <div class="content-wrapper">
-        <article id="post-content-wrapper">
-          <div class="loading-container"><div class="loading-spinner"></div><p>Loading your post...</p></div>
-        </article>
-      </div>
-    </div>
+    <h1 id="post-title" class="title">Loading…</h1>
+    <div id="post-meta" class="meta"></div>
+    <div id="cover"></div>
+    <div id="status" class="muted">Loading your post…</div>
+    <article id="content" class="content"></article>
+    <div class="nav"><a href="./posts.html">All posts →</a></div>
   </main>
 
-  <footer><div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div></footer>
-
   <script>
-  (function(){
-    var MANY_THRESHOLD = 50;
-
-    function bindMenu(){
-      var menuBtn = document.getElementById('menuBtn');
-      var sideMenu = document.getElementById('sideMenu');
-      var menuOverlay = document.getElementById('menuOverlay');
-      if (!menuBtn || !sideMenu || !menuOverlay) return;
-      function closeMenu(){ sideMenu.classList.remove('active'); menuOverlay.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
-      function openMenu(){ sideMenu.classList.add('active'); menuOverlay.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
-      menuBtn.onclick = function(){ if (sideMenu.classList.contains('active')) closeMenu(); else openMenu(); };
-      menuOverlay.onclick = closeMenu;
-    }
-
-    function normalizePath(p){ if (!p) return ''; return String(p).replace(/^\.\/+/, '').replace(/^\/+/, '').trim(); }
-    function firstImageFromMarkdown(md){
-      var m1 = md.match(/!```math
-[^```]*```KATEX_INLINE_OPEN([^)]+)KATEX_INLINE_CLOSE/);
-      if (m1 && m1[1]) return m1[1].trim();
-      var m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
-      if (m2 && m2[1]) return m2[1].trim();
-      return '';
-    }
-    function processMarkdown(text){
-      if (!text || typeof text !== 'string') return '<p>Content unavailable.</p>';
-      if (typeof marked === 'undefined') return '<p>Error: Markdown parser not loaded.</p>';
-      return marked.parse(text);
-    }
-    function renderError(container, message){
-      var msg = String(message || 'An unknown error occurred.').replace(/</g,'&lt;');
-      container.innerHTML = '' +
-        '<div class="error">' +
-        '  <h2>Unable to Load Post</h2>' +
-        '  <p>' + msg + '</p>' +
-        '  <div class="post-nav" style="justify-content:center;">' +
-        '    <a href="./" class="btn-chip">← Return to Homepage</a>' +
-        '  </div>' +
-        '</div>';
-    }
-
-    // Simple XHR helpers (ES5)
-    function xhrJSON(url, cb){
-      try{
-        var x = new XMLHttpRequest();
-        x.open('GET', url, true);
-        x.onreadystatechange = function(){
-          if (x.readyState === 4){
-            if (x.status >= 200 && x.status < 300){
-              try { cb(null, JSON.parse(x.responseText)); }
-              catch(e){ cb(new Error('Invalid JSON at ' + url)); }
-            } else { cb(new Error('HTTP ' + x.status + ' for ' + url)); }
-          }
-        };
-        x.send(null);
-      }catch(e){ cb(e); }
-    }
-
-    function xhrText(url, cb){
-      try{
-        var x = new XMLHttpRequest();
-        x.open('GET', url, true);
-        x.onreadystatechange = function(){
-          if (x.readyState === 4){
-            if (x.status >= 200 && x.status < 300){
-              cb(null, x.responseText);
-            } else { cb(new Error('HTTP ' + x.status + ' for ' + url)); }
-          }
-        };
-        x.send(null);
-      }catch(e){ cb(e); }
-    }
-
-    function loadPost(){
-      var container = document.getElementById('post-content-wrapper');
-      if (!container) return;
-
-      var params = (function(q){
+    (function(){
+      // --- tiny helpers ---
+      function parseQuery(q){
         var out = {}, i, p;
+        if (!q) return out;
         if (q.charAt(0) === '?') q = q.substring(1);
         var arr = q.split('&');
         for (i=0;i<arr.length;i++){
@@ -206,106 +49,101 @@
           if (p[0]) out[decodeURIComponent(p[0])] = decodeURIComponent((p[1]||'').replace(/\+/g,' '));
         }
         return out;
-      })(window.location.search || '');
+      }
+      function xhrJSON(url, cb){
+        try{
+          var x = new XMLHttpRequest();
+          x.open('GET', url, true);
+          x.onreadystatechange = function(){
+            if (x.readyState === 4){
+              if (x.status >= 200 && x.status < 300){
+                try { cb(null, JSON.parse(x.responseText)); }
+                catch(e){ cb(new Error('Invalid JSON at '+url)); }
+              } else { cb(new Error('HTTP '+x.status+' for '+url)); }
+            }
+          };
+          x.send(null);
+        }catch(e){ cb(e); }
+      }
+      function xhrText(url, cb){
+        try{
+          var x = new XMLHttpRequest();
+          x.open('GET', url, true);
+          x.onreadystatechange = function(){
+            if (x.readyState === 4){
+              if (x.status >= 200 && x.status < 300){
+                cb(null, x.responseText);
+              } else { cb(new Error('HTTP '+x.status+' for '+url)); }
+            }
+          };
+          x.send(null);
+        }catch(e){ cb(e); }
+      }
 
-      var file = params.file || '';
+      var q = parseQuery(window.location.search);
+      var file = q.file || '';
+      var statusEl = document.getElementById('status');
+      var contentEl = document.getElementById('content');
+      var titleEl = document.getElementById('post-title');
+      var metaEl = document.getElementById('post-meta');
+      var coverEl = document.getElementById('cover');
+
       if (!file){
-        renderError(container, 'No post file specified in URL.');
+        statusEl.className = 'error';
+        statusEl.innerHTML = 'No post file specified. Try: post.html?file=posts/morning-dew.md';
+        titleEl.innerHTML = 'No file';
         return;
       }
 
-      var stalled = setTimeout(function(){
-        renderError(container, 'Still loading… check the file path: ' + file);
-      }, 20000);
-
+      // Optional metadata
       var postData = null;
-
-      // Load Posts.json (optional), then markdown file
       xhrJSON('Posts.json', function(err, posts){
-        // Ignore Posts.json errors — we can still render the markdown
         if (!err && posts && posts.length){
           for (var i=0;i<posts.length;i++){
             if (posts[i] && posts[i].file === file){ postData = posts[i]; break; }
           }
         }
-
+        // Load the markdown
         xhrText(file, function(err2, md){
           if (err2){
-            clearTimeout(stalled);
-            renderError(container, 'Could not load content at "' + file + '". ' + err2.message);
+            statusEl.className = 'error';
+            statusEl.innerHTML = 'Could not load "'+file+'". ' + err2.message;
+            titleEl.innerHTML = 'Load error';
             return;
           }
-
-          clearTimeout(stalled);
-
-          var detectedFirst = firstImageFromMarkdown(md);
-          var coverUrl = '';
-          if (postData && postData.cover && String(postData.cover).trim()){
-            coverUrl = String(postData.cover).trim();
-          } else if (detectedFirst){
-            coverUrl = detectedFirst;
-          }
-
-          var mdForRender = md;
-          if (coverUrl && detectedFirst && normalizePath(coverUrl) === normalizePath(detectedFirst)){
-            var firstMdImgFull = mdForRender.match(/!```math
-[^```]*```KATEX_INLINE_OPEN[^)]+KATEX_INLINE_CLOSE/);
-            if (firstMdImgFull && firstMdImgFull[0]){
-              mdForRender = mdForRender.replace(firstMdImgFull[0], '');
-            }
-          }
-
-          var content = processMarkdown(mdForRender);
-
+          statusEl.innerHTML = '';
+          // Title & meta
           var title = (postData && postData.title) ? postData.title : 'Untitled';
-          var dateStr = '';
+          document.title = title + ' — Boluadeoye';
+          titleEl.innerHTML = title;
+          var metaTxt = '';
           if (postData && postData.date){
-            try { dateStr = new Date(postData.date).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}); } catch(e){}
+            try { metaTxt += new Date(postData.date).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'}); } catch(e){}
           }
-          var typeStr = (postData && postData.type) ? postData.type : '';
-          document.title = title + ' - Boluadeoye';
+          if (postData && postData.type){ metaTxt += (metaTxt?' • ':'') + postData.type; }
+          metaEl.innerHTML = metaTxt;
 
-          var coverHTML = coverUrl ? '<figure class="cover-hero"><img src="' + coverUrl + '" alt="' + title + ' cover" loading="lazy" decoding="async"></figure>' : '';
-          var viewedLabel = (postData && typeof postData.views === 'number' && postData.views >= MANY_THRESHOLD) ? 'Viewed by many' : 'Viewed';
+          // Cover (front matter cover or first MD image)
+          var cover = (postData && postData.cover) ? String(postData.cover).trim() : '';
+          if (!cover){
+            var m = md.match(/!```math
+[^```]*```KATEX_INLINE_OPEN([^)]+)KATEX_INLINE_CLOSE/);
+            if (m && m[1]) cover = m[1].trim();
+            // If we use the first image as cover, hide that one in content
+            if (cover && m && m[0]) md = md.replace(m[0], '');
+          }
+          coverEl.innerHTML = cover ? '<figure class="cover"><img src="'+cover+'" alt="cover"></figure>' : '';
 
-          container.innerHTML = '' +
-            '<div class="post-header">' +
-            '  <div class="post-meta">' +
-            (dateStr ? '<span class="meta-item">📅 ' + dateStr + '</span>' : '') +
-            (typeStr ? '<span class="meta-item">📁 ' + typeStr + '</span>' : '') +
-            '    <span class="meta-item meta-red">❤️ Liked</span>' +
-            '    <span class="meta-item meta-red">👁️ ' + viewedLabel + '</span>' +
-            '  </div>' +
-            '  <h1 class="post-title">' + title + '</h1>' +
-            '</div>' +
-            coverHTML +
-            '<div class="post-content">' + content + '</div>' +
-            '<nav class="post-nav">' +
-            '  <a href="./" class="btn-chip">← Back to Home</a>' +
-            '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
-            '</nav>';
-
-          window.scrollTo(0, 0);
+          // Render markdown
+          try {
+            contentEl.innerHTML = marked.parse(md);
+          } catch(e) {
+            statusEl.className = 'error';
+            statusEl.innerHTML = 'Markdown render failed: ' + e.message;
+          }
         });
       });
-    }
-
-    function init(){
-      bindMenu();
-      var container = document.getElementById('post-content-wrapper');
-      if (typeof marked === 'undefined'){
-        if (container) renderError(container, 'Error: Markdown parser not loaded.');
-      } else {
-        loadPost();
-      }
-    }
-
-    if (document.readyState === 'loading'){
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
-  })();
+    })();
   </script>
 </body>
 </html>
