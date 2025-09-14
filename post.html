@@ -140,11 +140,7 @@
   <header id="header">
     <div class="wrap header-row">
       <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <rect x="4" y="6" width="16" height="2" rx="1"/>
-          <rect x="4" y="11" width="16" height="2" rx="1"/>
-          <rect x="4" y="16" width="16" height="2" rx="1"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" width="16" height="2" rx="1"/></svg>
       </button>
       <a class="brand" href="./"><span class="dot" aria-hidden="true"></span><h1>Boluadeoye</h1></a>
       <nav class="top-nav" aria-label="Primary">
@@ -169,182 +165,119 @@
     </div>
   </main>
 
-  <footer>
-    <div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div>
-  </footer>
+  <footer><div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div></footer>
 
   <script>
     (function(){
-      var MANY_THRESHOLD = 50;
-
-      function bindMenu(){
+      function init(){
         var menuBtn = document.getElementById('menuBtn');
         var sideMenu = document.getElementById('sideMenu');
         var menuOverlay = document.getElementById('menuOverlay');
-        if (!menuBtn || !sideMenu || !menuOverlay) return;
+        if (menuBtn && sideMenu && menuOverlay){
+          function closeMenu(){ sideMenu.classList.remove('active'); menuOverlay.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
+          function openMenu(){ sideMenu.classList.add('active'); menuOverlay.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
+          menuBtn.addEventListener('click', function() { sideMenu.classList.contains('active') ? closeMenu() : openMenu(); });
+          menuOverlay.addEventListener('click', closeMenu);
+        }
 
-        function closeMenu(){
-          sideMenu.classList.remove('active');
-          menuOverlay.classList.remove('show');
-          menuBtn.setAttribute('aria-expanded','false');
+        var container = document.getElementById('post-content-wrapper');
+        if (typeof marked === 'undefined'){
+          if (container) renderError(container, 'Error: Markdown parser not loaded.');
+          return;
         }
-        function openMenu(){
-          sideMenu.classList.add('active');
-          menuOverlay.classList.add('show');
-          menuBtn.setAttribute('aria-expanded','true');
-        }
-        menuBtn.addEventListener('click', function(){
-          if (sideMenu.classList.contains('active')) closeMenu(); else openMenu();
-        });
-        menuOverlay.addEventListener('click', closeMenu);
+        
+        loadPost();
       }
 
-      function normalizePath(p){
-        if (!p) return '';
-        return String(p).trim().replace(/^\.\/+/, '').replace(/^\/+/, '');
-      }
-      function firstImageFromMarkdown(md){
-        var m1 = md.match(/!```math
-[^```]*```KATEX_INLINE_OPEN([^)]+)KATEX_INLINE_CLOSE/);
-        if (m1 && m1[1]) return m1[1].trim();
-        var m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
-        if (m2 && m2[1]) return m2[1].trim();
-        return '';
-      }
-      function processMarkdown(text){
-        if (!text || typeof text !== 'string') return '<p>Content unavailable.</p>';
-        if (typeof marked === 'undefined') return '<p>Error: Markdown parser not loaded.</p>';
-        return marked.parse(text);
-      }
       function renderError(container, message){
+        var safeMessage = String(message || 'An unknown error occurred.').replace(/</g, '&lt;');
         container.innerHTML = '' +
           '<div class="error">' +
           '  <h2>Unable to Load Post</h2>' +
-          '  <p>' + message + '</p>' +
+          '  <p>' + safeMessage + '</p>' +
           '  <div class="post-nav" style="justify-content:center;">' +
           '    <a href="./" class="btn-chip">← Return to Homepage</a>' +
           '  </div>' +
           '</div>';
       }
 
-      function loadPost(){
+      async function loadPost(){
         var container = document.getElementById('post-content-wrapper');
-        if (!container){ return; }
-
-        try{
+        try {
           var urlParams = new URLSearchParams(window.location.search);
           var rawFile = urlParams.get('file') || '';
-          var file = decodeURIComponent(String(rawFile).replace(/\+/g,' '));
+          var file = decodeURIComponent(rawFile.replace(/\+/g,' '));
 
-          if (!file){
-            renderError(container, 'No post file specified in URL.');
+          if (!file) {
+            renderError(container, 'No post file specified in URL. Please use a valid link.');
             return;
           }
-
-          var stalled = setTimeout(function(){
-            renderError(container, 'This is taking longer than expected. Please check your internet and file path.');
-          }, 15000);
 
           var postData = null;
           var markdown = '';
 
-          // Use relative paths for fetches
-          fetch('Posts.json', { cache: 'no-store' })
-            .then(function(res) {
-              if (res.ok) return res.json();
-              return null;
-            })
-            .catch(function() { return null; })
-            .then(function(posts) {
-              if (posts) {
-                for (var i = 0; i < posts.length; i++) {
-                  if (posts[i] && posts[i].file === file) {
-                    postData = posts[i];
-                    break;
-                  }
+          // Fetch both files. Use relative paths for GitHub Pages.
+          var postsRes = await fetch('./Posts.json', { cache: 'no-store' });
+          if (postsRes.ok) {
+            var posts = await postsRes.json();
+            if (Array.isArray(posts)) {
+              for (var i = 0; i < posts.length; i++) {
+                if (posts[i] && posts[i].file === file) {
+                  postData = posts[i];
+                  break;
                 }
               }
-              return fetch(file, { cache: 'no-store' });
-            })
-            .then(function(mdRes) {
-              if (!mdRes.ok) {
-                throw new Error('Could not load post content. Please check if the file exists at "' + file + '".');
-              }
-              return mdRes.text();
-            })
-            .then(function(mdContent) {
-              clearTimeout(stalled);
-              markdown = mdContent;
+            }
+          }
 
-              var detectedFirst = firstImageFromMarkdown(markdown);
-              var coverUrl = '';
-              if (postData && postData.cover && String(postData.cover).trim()){
-                coverUrl = String(postData.cover).trim();
-              } else if (detectedFirst){
-                coverUrl = detectedFirst;
-              }
+          var mdRes = await fetch('./' + file, { cache: 'no-store' });
+          if (!mdRes.ok) {
+            throw new Error('Could not find the post content. Please check if the file exists at: ' + file);
+          }
+          markdown = await mdRes.text();
 
-              var mdForRender = markdown;
-              if (coverUrl && detectedFirst && normalizePath(coverUrl) === normalizePath(detectedFirst)){
-                var firstMdImgFull = mdForRender.match(/!```math
-[^```]*```KATEX_INLINE_OPEN[^)]+KATEX_INLINE_CLOSE/);
-                if (firstMdImgFull && firstMdImgFull[0]){
-                  mdForRender = mdForRender.replace(firstMdImgFull[0], '');
-                }
-              }
+          // --- Content Rendering Logic ---
+          var firstImgInMd = (markdown.match(/!```math
+[^```]*```KATEX_INLINE_OPEN([^)]+)KATEX_INLINE_CLOSE/) || [])[1] || '';
+          var coverUrl = (postData && postData.cover) || firstImgInMd;
+          
+          var mdForRender = markdown;
+          if (coverUrl && firstImgInMd && coverUrl.trim() === firstImgInMd.trim()) {
+            mdForRender = markdown.replace(/!```math
+[^```]*```KATEX_INLINE_OPEN([^)]+)KATEX_INLINE_CLOSE/, '');
+          }
 
-              var content = processMarkdown(mdForRender);
+          var content = marked.parse(mdForRender);
 
-              var title = (postData && postData.title) ? postData.title : 'Untitled';
-              var dateStr = (postData && postData.date) ? new Date(postData.date).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'}) : '';
-              var typeStr = (postData && postData.type) ? postData.type : '';
+          var title = (postData && postData.title) ? postData.title : 'Untitled Post';
+          document.title = title + ' - Boluadeoye';
+          
+          var dateStr = (postData && postData.date) ? new Date(postData.date).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'}) : '';
+          var typeStr = (postData && postData.type) ? postData.type : '';
+          var coverHTML = coverUrl ? '<figure class="cover-hero"><img src="' + coverUrl + '" alt="' + title + ' cover"></figure>' : '';
 
-              document.title = title + ' - Boluadeoye';
+          container.innerHTML = '' +
+            '<div class="post-header">' +
+            '  <div class="post-meta">' +
+            (dateStr ? '<span class="meta-item">📅 ' + dateStr + '</span>' : '') +
+            (typeStr ? '<span class="meta-item">📁 ' + typeStr + '</span>' : '') +
+            '    <span class="meta-item meta-red">❤️ Liked</span>' +
+            '    <span class="meta-item meta-red">👁️ Viewed</span>' +
+            '  </div>' +
+            '  <h1 class="post-title">' + title + '</h1>' +
+            '</div>' +
+            coverHTML +
+            '<div class="post-content">' + content + '</div>' +
+            '<nav class="post-nav">' +
+            '  <a href="./" class="btn-chip">← Back to Home</a>' +
+            '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
+            '</nav>';
+          
+          window.scrollTo(0, 0);
 
-              var coverHTML = coverUrl ? (
-                '<figure class="cover-hero">' +
-                '  <img src="' + coverUrl + '" alt="' + title + ' cover" loading="lazy" decoding="async">' +
-                '</figure>'
-              ) : '';
-
-              var viewedLabel = (postData && typeof postData.views === 'number' && postData.views >= MANY_THRESHOLD) ? 'Viewed by many' : 'Viewed';
-
-              container.innerHTML = '' +
-                '<div class="post-header">' +
-                '  <div class="post-meta">' +
-                (dateStr ? ('<span class="meta-item">📅 ' + dateStr + '</span>') : '') +
-                (typeStr ? ('<span class="meta-item">📁 ' + typeStr + '</span>') : '') +
-                '    <span class="meta-item meta-red">❤️ Liked</span>' +
-                '    <span class="meta-item meta-red">👁️ ' + viewedLabel + '</span>' +
-                '  </div>' +
-                '  <h1 class="post-title">' + title + '</h1>' +
-                '</div>' +
-                coverHTML +
-                '<div class="post-content">' + content + '</div>' +
-                '<nav class="post-nav">' +
-                '  <a href="./" class="btn-chip">← Back to Home</a>' +
-                '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
-                '</nav>';
-
-              window.scrollTo(0, 0);
-            })
-            .catch(function(err) {
-              clearTimeout(stalled);
-              renderError(container, err.message || 'An unknown error occurred.');
-            });
-
-        } catch(error) {
-          renderError(container, error.message || 'A critical error occurred.');
-        }
-      }
-
-      function init(){
-        bindMenu();
-        if (typeof marked === 'undefined'){
-          var container = document.getElementById('post-content-wrapper');
-          if (container) renderError(container, 'Error: Markdown parser not loaded.');
-        } else {
-          loadPost();
+        } catch (error) {
+          console.error("Failed to load post:", error);
+          renderError(container, error.message);
         }
       }
 
