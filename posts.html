@@ -20,8 +20,7 @@
     a{color:inherit;text-decoration:none;transition:all .3s var(--transition)}
     .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
 
-    /* Header + Side menu (matches homepage) */
-    header{position:sticky;top:0;z-index:100;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(245,158,11,.15);transition:all .3s var(--transition)}
+    header{position:sticky;top:0;z-index:100;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(245,158,11,.15)}
     .header-row{display:flex;align-items:center;justify-content:space-between;min-height:70px;gap:1.5rem;padding:0 .5rem}
     .brand{display:flex;align-items:center;gap:.75rem;flex-shrink:0;transition:transform .3s var(--transition)}
     .brand:hover{transform:translateX(3px)}
@@ -35,38 +34,29 @@
     .brand h1{font-size:1.3rem;font-weight:800;color:var(--ink);letter-spacing:-.5px;font-family:var(--serif)}
     .top-nav{display:none;gap:.5rem;align-items:center;flex-wrap:wrap}
     .top-nav a{padding:.45rem .9rem;border-radius:999px;border:1px solid transparent;font-weight:600;font-size:.87rem}
-    .top-nav a:hover,.top-nav a.active{color:var(--orange);border-color:var(--orange)}
-    /* CTA button in nav */
-    .top-nav .nav-cta{background:linear-gradient(135deg,var(--orange),var(--orange-light));color:var(--orange-ink);border:1px solid var(--orange);border-radius:999px;padding:.45rem 1rem;box-shadow:0 4px 12px rgba(245,158,11,.25);font-weight:700}
-    .top-nav .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(245,158,11,.35)}
+    .top-nav a:hover,.top-nav a.active{color:var(--orange);border-color:var(--orange);transform:translateY(-1px)}
 
     .hamburger{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(245,158,11,.2);color:var(--ink);cursor:pointer;transition:all .3s ease}
     .hamburger:hover{background:rgba(245,158,11,.1);transform:rotate(10deg)}
     .hamburger svg{width:19px;height:19px}
+
     .side-menu{position:fixed;top:0;left:-280px;z-index:200;width:260px;height:100%;padding:2.5rem 1.2rem 2rem;display:flex;flex-direction:column;gap:.6rem;background:var(--panel);border-right:1px solid rgba(245,158,11,.2);transition:left .3s var(--transition)}
     .side-menu.active{left:0}
     .side-menu a{padding:.9rem 1.25rem;border-radius:8px;background:transparent;color:var(--ink);font-weight:600;font-size:.92rem;border:1px solid transparent;transition:all .2s ease}
     .side-menu a:hover,.side-menu a.active{background:rgba(245,158,11,.1);border-color:var(--orange);color:var(--orange);transform:translateX(5px)}
-    /* Mobile CTA */
-    .side-menu a.nav-cta{background:linear-gradient(135deg,var(--orange),var(--orange-light));color:var(--orange-ink);border-color:var(--orange);font-weight:800}
     .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;display:none;cursor:pointer}
     .overlay.show{display:block}
 
-    /* Search (matches homepage) */
+    /* Search (same as homepage) */
     .search-container{flex:1;max-width:400px;position:relative}
     .search-bar{position:relative;width:100%}
-    .search-bar input{width:100%;padding:.65rem 2.75rem .65rem 1.25rem;border:1px solid rgba(245,158,11,.2);border-radius:999px;background:rgba(17,26,46,.6);color:var(--ink);font-size:.92rem;outline:none;transition:all .3s var(--transition);caret-color:var(--orange)}
+    .search-bar input{width:100%;padding:.65rem 2.75rem .65rem 1.25rem;border:1px solid rgba(245,158,11,.2);border-radius:999px;background:rgba(17,26,46,.6);color:var(--ink);font-size:.92rem;outline:none;transition:all .3s var(--transition);caret-color:var(--orange);-webkit-appearance:none;appearance:none;box-shadow:none}
     .search-bar input::placeholder{color:var(--muted);opacity:.8}
     .search-bar input:focus{border-color:var(--orange);background:rgba(245,158,11,.05);box-shadow:0 0 0 3px var(--ring);padding-left:1.35rem}
     .search-icon{position:absolute;right:18px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:1.05rem;transition:color .3s ease}
     .search-bar input:focus + .search-icon{color:var(--orange)}
     .search-results{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--panel);border-radius:12px;border:1px solid rgba(245,158,11,.2);box-shadow:0 10px 30px rgba(0,0,0,.3);max-height:380px;overflow-y:auto;display:none;z-index:50;opacity:0;transform:translateY(-5px);transition:all .3s var(--transition)}
     .search-results.active{display:block;opacity:1;transform:translateY(0)}
-    .search-result-item{padding:.9rem 1.2rem;border-bottom:1px solid rgba(245,158,11,.08);display:block;transition:all .2s ease}
-    .search-result-item:last-child{border-bottom:none}
-    .search-result-item:hover{background:rgba(245,158,11,.1);padding-left:1.35rem}
-    .search-result-title{font-weight:600;color:var(--ink);margin-bottom:.25rem;font-size:.92rem;line-height:1.3}
-    .search-result-excerpt{font-size:.82rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
     main{padding:2rem 0}
     h2.section-title{font-size:clamp(1.6rem,2.8vw,2.1rem);font-family:var(--serif);font-weight:800;margin-bottom:1.5rem;position:relative;padding-left:1rem}
@@ -85,6 +75,10 @@
     .btn-back,.btn-readmore{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1rem;border-radius:999px;border:1px solid rgba(245,158,11,.2)}
     .btn-back{background:transparent;color:var(--ink)}
     .btn-readmore{background:linear-gradient(135deg,var(--orange),var(--orange-light));color:var(--orange-ink);border-color:var(--orange)}
+
+    /* Cover image */
+    .post-cover{width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;margin-bottom:1rem;border:1px solid rgba(245,158,11,.15);background:rgba(255,255,255,.02)}
+    .post-cover img{width:100%;height:100%;object-fit:cover;display:block}
 
     #pagination{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;padding:1rem 0}
     #pagination a{padding:.5rem .9rem;border-radius:8px;border:1px solid rgba(245,158,11,.2)}
@@ -108,7 +102,7 @@
     <a href="#" data-filter="devotional">Devotional</a>
     <a href="#" data-filter="articles">Articles</a>
     <a href="#" data-filter="essays">Essays</a>
-    <a href="./library.html" class="nav-cta">Library</a>
+    <a href="./library.html">Library</a>
     <a href="./about.html">About</a>
   </nav>
   <div id="menuOverlay" class="overlay"></div>
@@ -141,7 +135,7 @@
         <a href="#" data-filter="devotional">Devotional</a>
         <a href="#" data-filter="articles">Articles</a>
         <a href="#" data-filter="essays">Essays</a>
-        <a href="./library.html" class="nav-cta">Library</a>
+        <a href="./library.html">Library</a>
         <a href="./about.html">About</a>
       </nav>
     </div>
@@ -179,7 +173,6 @@
     const postsEl = document.getElementById('posts');
     const paginationEl = document.getElementById('pagination');
     const searchInput = document.getElementById('searchInput');
-    const searchResults = document.getElementById('searchResults');
 
     async function loadPosts(){
       try{
@@ -227,8 +220,13 @@
 
       postsEl.innerHTML = pageItems.map((p, i) => {
         const viewedLabel = (typeof p?.views === 'number' && p.views >= MANY_THRESHOLD) ? 'Viewed by many' : 'Viewed';
+        const coverHTML = p.cover ? `
+          <figure class="post-cover">
+            <img src="${p.cover}" alt="${(p.title || 'Post')} cover" loading="lazy" decoding="async">
+          </figure>` : '';
         return `
           <article class="post" style="animation-delay:${i*0.05}s">
+            ${coverHTML}
             <span class="post-type">${p.type || 'general'}</span>
             <h3><a href="post.html?file=${encodeURIComponent(p.file)}">${p.title}</a></h3>
             <div class="post-date">📅 ${new Date(p.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</div>
@@ -264,7 +262,6 @@
       paginationEl.innerHTML = html;
     }
 
-    // Filters
     document.querySelectorAll('[data-filter]').forEach(el => {
       el.addEventListener('click', (e) => {
         e.preventDefault();
@@ -274,11 +271,9 @@
       });
     });
 
-    // Search
     let searchTimeout;
-    const searchInputEl = document.getElementById('searchInput');
-    if (searchInputEl){
-      searchInputEl.addEventListener('input', (e) => {
+    if (searchInput){
+      searchInput.addEventListener('input', (e) => {
         const q = e.target.value.trim();
         clearTimeout(searchTimeout);
         if (q.length < 2){ renderPosts(currentFilter, 1, ''); return; }
