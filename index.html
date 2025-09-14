@@ -270,12 +270,17 @@
 
     async function loadPosts(){
       try{
-        const res = await fetch('Posts.json', { cache: 'no-store' });
-        if(!res.ok) throw new Error(`Failed to load Posts.json (Status: ${res.status})`);
+        const res = await fetch('posts.json', { cache: 'no-store' });
+        if(!res.ok) throw new Error(`Failed to load posts.json (Status: ${res.status})`);
         const data = await res.json();
         allPosts = (Array.isArray(data) ? data : [])
-          .map(p => ({ ...p, type: (p.type || '').toLowerCase() }))
-          .sort((a, b) => String(b.date).localeCompare(String(a.date)));
+          .map(p => ({ 
+            ...p, 
+            type: (p.type || 'essay').toLowerCase(),
+            views: p.views || 0,
+            cover: p.cover || ''
+          }))
+          .sort((a, b) => new Date(b.date) - new Date(a.date));
         filterPosts(currentFilter);
         postsEl.classList.add('loaded');
       }catch(err){
@@ -300,25 +305,25 @@
         return;
       }
       postsEl.innerHTML = list.map(p => {
-        const viewedLabel = (typeof p.views === 'number' && p.views >= MANY_THRESHOLD) ? 'Viewed by many' : 'Viewed';
+        const viewedLabel = (p.views >= MANY_THRESHOLD) ? 'Viewed by many' : 'Viewed';
         const coverHTML = p.cover ? `
           <figure class="post-cover">
-            <img src="${p.cover}" alt="${(p.title || 'Post')} cover" loading="lazy" decoding="async">
+            <img src="${p.cover}" alt="${p.title} cover" loading="lazy" decoding="async">
           </figure>` : '';
         return `
           <article class="post">
             ${coverHTML}
             <div class="post-header">
               <div>
-                <h3><a href="post.html?file=${encodeURI(p.file)}" style="color:inherit;">${p.title}</a></h3>
+                <h3><a href="post.html?file=${encodeURIComponent(p.file)}" style="color:inherit;">${p.title}</a></h3>
                 <div class="post-date">📅 ${new Date(p.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</div>
               </div>
               <span class="post-type">${p.type || 'reflection'}</span>
             </div>
             <p>${p.excerpt || ''}</p>
             <div class="stats">
-              <span class="stat-item stat-red">❤️ Liked</span>
-              <span class="stat-item stat-red">👁️ ${viewedLabel}</span>
+              <span class="stat-item">⏱️ ${p.minutes} min read</span>
+              <span class="stat-item">👁️ ${viewedLabel}</span>
             </div>
           </article>
         `;
@@ -352,7 +357,7 @@
           );
           searchResults.innerHTML = results.length ?
             results.slice(0, 5).map(p => `
-              <a href="post.html?file=${encodeURI(p.file)}" class="search-result-item">
+              <a href="post.html?file=${encodeURIComponent(p.file)}" class="search-result-item">
                 <div class="search-result-title">${p.title}</div>
                 <div class="search-result-excerpt">${(p.excerpt || '').slice(0, 80)}...</div>
               </a>`).join('')
