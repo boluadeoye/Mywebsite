@@ -260,7 +260,7 @@
 
           var postData = null;
 
-          fetch('posts.json', { cache: 'no-store' })
+          fetch('/Mywebsite/Posts.json', { cache: 'no-store' })
             .then(function(res){ return res.ok ? res.json() : null; })
             .then(function(posts){
               if (posts && posts.length){
