@@ -270,8 +270,8 @@
 
     async function loadPosts(){
       try{
-        const res = await fetch('posts.json', { cache: 'no-store' });
-        if(!res.ok) throw new Error(`Failed to load posts.json (Status: ${res.status})`);
+        const res = await fetch('/Mywebsite/Posts.json', { cache: 'no-store' });
+        if(!res.ok) throw new Error(`Failed to load Posts.json (Status: ${res.status})`);
         const data = await res.json();
         allPosts = (Array.isArray(data) ? data : [])
           .map(p => ({ 
@@ -308,7 +308,7 @@
         const viewedLabel = (p.views >= MANY_THRESHOLD) ? 'Viewed by many' : 'Viewed';
         const coverHTML = p.cover ? `
           <figure class="post-cover">
-            <img src="${p.cover}" alt="${p.title} cover" loading="lazy" decoding="async">
+            <img src="/Mywebsite/${p.cover}" alt="${p.title} cover" loading="lazy" decoding="async">
           </figure>` : '';
         return `
           <article class="post">
