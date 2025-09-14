@@ -260,8 +260,7 @@
 
           var postData = null;
           var jsonPath = '/Mywebsite/Posts.json';
-          
-          // Try primary path, then fallback
+
           fetch(jsonPath, { cache: 'no-store' })
             .then(function(res){
               if (!res.ok) {
@@ -283,12 +282,19 @@
                   }
                 }
               }
-              console.log('Fetching markdown file: /Mywebsite/' + file);
-              return fetch('/Mywebsite/' + file, { cache: 'no-store' });
+              console.log('Attempting to fetch markdown file: /Mywebsite/' + file);
+              return fetch('/Mywebsite/' + file, { cache: 'no-store' })
+                .then(function(mdRes){
+                  if (!mdRes.ok) {
+                    console.error('Failed to load /Mywebsite/' + file + ' (Status: ' + mdRes.status + ')');
+                    return fetch('/' + file, { cache: 'no-store' });
+                  }
+                  return mdRes;
+                });
             })
             .then(function(mdRes){
               if (!mdRes.ok){
-                throw new Error('Failed to load Markdown file at /Mywebsite/' + file + ' (Status: ' + mdRes.status + ')');
+                throw new Error('Failed to load Markdown file at ' + file + ' (Status: ' + mdRes.status + ')');
               }
               return mdRes.text();
             })
