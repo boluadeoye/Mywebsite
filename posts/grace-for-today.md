@@ -1,38 +1,12 @@
-**Scripture:** *"Give us this day our daily bread." - Matthew 6:11*
+“His mercies are new every morning.” — Lamentations 3:22–23
 
-## Morning Meditation
+There are days the to-do lists feel taller than we are. Days we realize yesterday’s strength won’t carry into today. That’s not failure — it’s design. God invites us to receive fresh grace for each day’s assignment.
 
-This morning, I woke up anxious about tomorrow—about exams, about graduation, about the uncertainty that lies ahead. But then I remembered: God's grace comes in daily portions, not yearly supplies.
+### What grace looks like
+- Strength to start again, even if yesterday was messy.
+- Quiet courage to do small things with great faithfulness.
+- Gentleness with yourself while God grows you steadily.
 
-## The Manna Principle
+> Pray: “Lord, I don’t need tomorrow’s power yet — give me grace for today.”
 
-When the Israelites were in the wilderness, God provided manna daily. They couldn't store it for tomorrow (except on the Sabbath). Those who tried found it spoiled. Why? Because God wanted them to trust Him daily.
-
->> "His mercies are new every morning; great is Your faithfulness." - Lamentations 3:23
-
-## Today's Portion
-
-What grace do you need today? Not tomorrow, not next year—today.
-
-- **Strength** for today's challenges
-- **Wisdom** for today's decisions  
-- **Peace** for today's anxieties
-- **Love** for today's relationships
-
-## A Personal Testimony
-
-Last week, I faced a presentation that terrified me. I prayed for confidence for the entire semester. But on that morning, God whispered: "I don't give semester-long confidence. I give moment-by-moment courage."
-
-And He did. One breath, one word, one moment at a time.
-
-## Prayer
-
-*Father, forgive me for trying to carry tomorrow's burden with today's strength. Thank You that Your grace is sufficient—not excessive, not lacking, but perfectly proportioned for this day. Help me to live in the present tense of Your love. Amen.*
-
-## Today's Challenge
-
-Write down three things you're worried about. Next to each, write: "God has grace for this today." Watch how your perspective shifts from future fear to present faith.
-
----
-
-*Remember: Yesterday's grace is a testimony. Tomorrow's grace is a promise. But today's grace is a gift waiting to be unwrapped.*
+When you reach for grace in the morning, you won’t run on fumes by evening. He supplies. You walk.
