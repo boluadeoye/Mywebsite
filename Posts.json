@@ -1,128 +1,30 @@
 [
   {
-    "title": "When God Seems Distant",
-    "date": "2025-09-11",
+    "title": "Grace for Today",
+    "date": "2025-01-22",
     "type": "devotional",
-    "excerpt": "When God seems distant and prayers feel unanswered, discover why divine silence might actually be sacred preparation for your next season",
-    "file": "posts/when-god-seems-distant.md",
-    "likes": 0,
-    "views": 0
+    "excerpt": "His mercies are new every morning — a reminder to receive grace for today's assignments.",
+    "file": "posts/grace-for-today.md"
   },
   {
     "title": "Morning Dew",
-    "date": "2025-09-09",
+    "date": "2025-01-20",
     "type": "poems",
-    "excerpt": "A poem about new beginnings and the freshness of dawn in Nigeria.",
-    "file": "posts/morning-dew.md",
-    "likes": 3,
-    "views": 6
+    "excerpt": "A poem about dawn’s quiet mercies and the gentle promise of new beginnings.",
+    "file": "posts/morning-dew.md"
   },
   {
     "title": "The Mango Tree",
-    "date": "2025-09-08",
+    "date": "2025-01-18",
     "type": "stories",
-    "excerpt": "A short story about childhood memories and lessons learned under grandma's mango tree.",
-    "file": "posts/the-mango-tree.md",
-    "likes": 5,
-    "views": 12
-  },
-  {
-    "title": "Grace for Today",
-    "date": "2025-09-07",
-    "type": "devotional",
-    "excerpt": "His mercies are new every morning. A devotional on daily renewal.",
-    "file": "posts/grace-for-today.md",
-    "likes": 7,
-    "views": 15
+    "excerpt": "Childhood, patience, and lessons learned under grandma’s old mango tree.",
+    "file": "posts/the-mango-tree.md"
   },
   {
     "title": "The Power of Words in African Literature",
-    "date": "2025-09-05",
+    "date": "2025-01-16",
     "type": "articles",
-    "excerpt": "Exploring how African writers use language to preserve culture and inspire change.",
-    "file": "posts/power-of-words.md",
-    "likes": 5,
-    "views": 9
-  },
-  {
-    "title": "Identity in the Digital Age",
-    "date": "2025-09-03",
-    "type": "essays",
-    "excerpt": "An essay on maintaining authenticity while navigating social media and modern life.",
-    "file": "posts/digital-identity.md",
-    "likes": 51,
-    "views": 11
-  },
-  {
-    "title": "Echoes of Silence",
-    "date": "2025-09-01",
-    "type": "poems",
-    "excerpt": "Sometimes the loudest prayers are whispered in silence.",
-    "file": "posts/echoes-of-silence.md",
-    "likes": 3,
-    "views": 7
-  },
-  {
-    "title": "Walking by Faith",
-    "date": "2025-08-28",
-    "type": "faith",
-    "excerpt": "When the path ahead is unclear, faith becomes our guiding light.",
-    "file": "posts/walking-by-faith.md",
-    "likes": 9,
-    "views": 20
-  },
-  {
-    "title": "Purpose in the Waiting",
-    "date": "2025-08-25",
-    "type": "devotional",
-    "excerpt": "God is working even in seasons of waiting. A devotional on patience and trust.",
-    "file": "posts/purpose-waiting.md",
-    "likes": 94,
-    "views": 22
-  },
-  {
-    "title": "The Evolution of Nigerian Poetry",
-    "date": "2025-08-22",
-    "type": "articles",
-    "excerpt": "From Christopher Okigbo to contemporary voices: A journey through Nigerian poetry.",
-    "file": "posts/nigerian-poetry.md",
-    "likes": 37,
-    "views": 8
-  },
-  {
-    "title": "Finding Home",
-    "date": "2025-08-20",
-    "type": "essays",
-    "excerpt": "What does home mean to a young Nigerian in the 21st century?",
-    "file": "posts/finding-home.md",
-    "likes": 62,
-    "views": 14
-  },
-  {
-    "title": "Midnight Thoughts",
-    "date": "2025-08-18",
-    "type": "poems",
-    "excerpt": "When sleep eludes and thoughts dance in the darkness of a student's room.",
-    "file": "posts/midnight-thoughts.md",
-    "likes": 41,
-    "views": 10
-  },
-  {
-    "title": "The Carpenter's Son",
-    "date": "2025-08-15",
-    "type": "faith",
-    "excerpt": "Lessons from Jesus's years of obscurity before His ministry began.",
-    "file": "posts/carpenters-son.md",
-    "likes": 78,
-    "views": 16
-  },
-  {
-    "title": "Campus Revival",
-    "date": "2025-08-12",
-    "type": "stories",
-    "excerpt": "The true story of how prayer transformed our fellowship at FUOYE.",
-    "file": "posts/campus-revival.md",
-    "likes": 103,
-    "views": 25
+    "excerpt": "How language in African writing preserves memory, shapes identity, and inspires change.",
+    "file": "posts/power-of-words.md"
   }
 ]
