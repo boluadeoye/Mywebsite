@@ -20,17 +20,14 @@
       background: var(--bg);
       color: var(--ink);
       font: 16px/1.7 system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      overflow-x: hidden;
-      position: relative;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden; position: relative;
     }
     body::before {
-      content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
       background:
         radial-gradient(circle at 15% 25%, rgba(245, 158, 11, 0.03) 0%, transparent 30%),
         radial-gradient(circle at 85% 75%, rgba(245, 158, 11, 0.02) 0%, transparent 35%);
-      pointer-events: none; z-index: 0;
     }
     img { max-width: 100%; display: block; height: auto; image-rendering: -webkit-optimize-contrast; }
     a { color: inherit; text-decoration: none; transition: all 0.3s var(--transition); }
@@ -52,23 +49,12 @@
       box-shadow: 0 0 0 2px rgba(245, 158, 11, .15), 0 4px 12px rgba(245, 158, 11, .2);
       transition: transform 0.6s var(--transition);
       border: 1px solid rgba(245, 158, 11, 0.3);
-      position: relative;
-      z-index: 0;
-      animation: dot-breathe 3.8s ease-in-out infinite;
+      position: relative; z-index: 0; animation: dot-breathe 3.8s ease-in-out infinite;
     }
     .dot::after {
-      content: '';
-      position: absolute;
-      inset: -8px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 50% 50%,
-        rgba(245,158,11,.45) 0%,
-        rgba(245,158,11,.16) 35%,
-        rgba(245,158,11,0) 70%);
-      filter: blur(10px);
-      opacity: .75;
-      animation: dot-halo 3.8s ease-in-out infinite;
-      pointer-events: none;
+      content: ''; position: absolute; inset: -8px; border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%, rgba(245,158,11,.45) 0%, rgba(245,158,11,.16) 35%, rgba(245,158,11,0) 70%);
+      filter: blur(10px); opacity: .75; animation: dot-halo 3.8s ease-in-out infinite; pointer-events: none;
     }
     @keyframes dot-breathe { 0%,100%{ transform: scale(1); box-shadow: 0 4px 12px rgba(245,158,11,.22); } 50%{ transform: scale(1.06); box-shadow: 0 10px 22px rgba(245,158,11,.36); } }
     @keyframes dot-halo   { 0%,100%{ opacity:.55; transform: scale(1); } 50%{ opacity:.9; transform: scale(1.12); } }
@@ -82,18 +68,11 @@
       width: 100%; padding: 0.65rem 2.75rem 0.65rem 1.25rem;
       border: 1px solid rgba(245, 158, 11, .2);
       border-radius: 999px; background: rgba(17, 26, 46, 0.6);
-      color: var(--ink); font-size: 0.92rem; outline: none;
-      font-family: inherit; transition: all 0.3s var(--transition);
-      caret-color: var(--orange);
-      -webkit-appearance: none; appearance: none; box-shadow: none;
+      color: var(--ink); font-size: 0.92rem; outline: none; transition: all 0.3s var(--transition);
+      caret-color: var(--orange); -webkit-appearance: none; appearance: none; box-shadow: none;
     }
     .search-bar input::placeholder { color: var(--muted); opacity: 0.8; }
-    .search-bar input:focus {
-      border-color: var(--orange);
-      background: rgba(245, 158, 11, .05);
-      box-shadow: 0 0 0 3px var(--ring);
-      padding-left: 1.35rem;
-    }
+    .search-bar input:focus { border-color: var(--orange); background: rgba(245, 158, 11, .05); box-shadow: 0 0 0 3px var(--ring); padding-left: 1.35rem; }
     .search-icon { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; font-size: 1.05rem; transition: color 0.3s ease; }
     .search-bar input:focus + .search-icon { color: var(--orange); }
 
@@ -135,9 +114,6 @@
 
     h3.section-title { font-size: clamp(1.6rem, 2.8vw, 2.1rem); font-family: var(--serif); font-weight: 800; color: var(--ink); position: relative; padding-left: 1.5rem; letter-spacing: -0.5px; }
     h3.section-title::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 70%; background: linear-gradient(180deg, var(--orange), var(--orange-light)); border-radius: 1px; }
-
-    .view-all-link { color: var(--orange); font-weight: 600; font-size: 0.92rem; display: flex; align-items: center; gap: 0.5rem; padding: 0.45rem 1rem; border-radius: 999px; background: rgba(245, 158, 11, .08); border: 1px solid rgba(245, 158, 11, .2); transition: all 0.3s var(--transition); }
-    .view-all-link:hover { background: var(--orange); color: var(--orange-ink); transform: translateX(4px); }
 
     #posts { display: grid; gap: 2rem; margin-bottom: 4rem; min-height: 200px; opacity: 0; transition: opacity 0.5s var(--transition); }
     #posts.loaded { opacity: 1; }
@@ -285,7 +261,7 @@
     menuOverlay.addEventListener('click', closeMenu);
 
     // Posts + search
-    const MANY_THRESHOLD = 50; // views >= 50 => "Viewed by many"
+    const MANY_THRESHOLD = 50;
     let allPosts = [];
     let currentFilter = 'all';
     const postsEl = document.getElementById('posts');
@@ -297,21 +273,14 @@
         const res = await fetch('Posts.json', { cache: 'no-store' });
         if(!res.ok) throw new Error(`Failed to load Posts.json (Status: ${res.status})`);
         const data = await res.json();
-
         allPosts = (Array.isArray(data) ? data : [])
           .map(p => ({ ...p, type: (p.type || '').toLowerCase() }))
           .sort((a, b) => String(b.date).localeCompare(String(a.date)));
-
         filterPosts(currentFilter);
         postsEl.classList.add('loaded');
-
       }catch(err){
         console.error('Error loading posts:', err);
-        postsEl.innerHTML = `
-          <div style="text-align:center;padding:3rem;color:#ff6b6b;">
-            <h3>Unable to load posts</h3>
-            <p>${err.message}</p>
-          </div>`;
+        postsEl.innerHTML = `<div style="text-align:center;padding:3rem;color:#ff6b6b;"><h3>Unable to load posts</h3><p>${err.message}</p></div>`;
       }
     }
 
@@ -320,10 +289,8 @@
       document.querySelectorAll('.filter-link').forEach(link => {
         link.classList.toggle('active', link.getAttribute('data-filter') === filter);
       });
-
       let list = allPosts.slice();
       if(filter !== 'all') list = list.filter(p => p.type === filter);
-
       displayPosts(list.slice(0, 3));
     }
 
@@ -332,9 +299,8 @@
         postsEl.innerHTML = `<p style="text-align:center;color:var(--muted);padding:3rem;">No ${currentFilter==='all'?'':' ' + currentFilter} posts available.</p>`;
         return;
       }
-
       postsEl.innerHTML = list.map(p => {
-        const viewedLabel = (typeof p?.views === 'number' && p.views >= MANY_THRESHOLD) ? 'Viewed by many' : 'Viewed';
+        const viewedLabel = (typeof p.views === 'number' && p.views >= MANY_THRESHOLD) ? 'Viewed by many' : 'Viewed';
         const coverHTML = p.cover ? `
           <figure class="post-cover">
             <img src="${p.cover}" alt="${(p.title || 'Post')} cover" loading="lazy" decoding="async">
@@ -344,8 +310,8 @@
             ${coverHTML}
             <div class="post-header">
               <div>
-                <h3><a href="post.html?file=${encodeURIComponent(p.file)}" style="color:inherit;">${p.title}</a></h3>
-                <div class="post-date">📅 ${new Date(p.date).toLocaleDateString('en-US', {year:'numeric',month:'short',day:'numeric'})}</div>
+                <h3><a href="post.html?file=${encodeURI(p.file)}" style="color:inherit;">${p.title}</a></h3>
+                <div class="post-date">📅 ${new Date(p.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</div>
               </div>
               <span class="post-type">${p.type || 'reflection'}</span>
             </div>
@@ -377,7 +343,6 @@
         clearTimeout(searchTimeout);
         const q = e.target.value.trim();
         if(q.length < 2){ searchResults.classList.remove('active'); return; }
-
         searchTimeout = setTimeout(() => {
           const t = q.toLowerCase();
           const results = allPosts.filter(post =>
@@ -387,7 +352,7 @@
           );
           searchResults.innerHTML = results.length ?
             results.slice(0, 5).map(p => `
-              <a href="post.html?file=${encodeURIComponent(p.file)}" class="search-result-item">
+              <a href="post.html?file=${encodeURI(p.file)}" class="search-result-item">
                 <div class="search-result-title">${p.title}</div>
                 <div class="search-result-excerpt">${(p.excerpt || '').slice(0, 80)}...</div>
               </a>`).join('')
@@ -398,9 +363,7 @@
              </div>`;
           searchResults.classList.add('active');
         }, 300);
-      });
-    }
-
+    })}
     document.addEventListener('click', e => {
       if (!e.target.closest('.search-container')) searchResults.classList.remove('active');
       if (e.target.closest('.search-result-item')) searchResults.classList.remove('active');
