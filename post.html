@@ -207,19 +207,22 @@
         if (!p) return '';
         return String(p).trim().replace(/^\.\/+/, '').replace(/^\/+/, '');
       }
+
       function firstImageFromMarkdown(md){
         var m1 = md.match(/!```math
-[^```]*```KATEX_INLINE_OPEN([^)]+)KATEX_INLINE_CLOSE/);
+.*?```KATEX_INLINE_OPEN(.*?)KATEX_INLINE_CLOSE/);
         if (m1 && m1[1]) return m1[1].trim();
         var m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
         if (m2 && m2[1]) return m2[1].trim();
         return '';
       }
+
       function processMarkdown(text){
         if (!text || typeof text !== 'string') return '<p>Content unavailable.</p>';
         if (typeof marked === 'undefined') return '<p>Error: Markdown parser not loaded.</p>';
         return marked.parse(text);
       }
+
       function renderError(container, message){
         container.innerHTML = '' +
           '<div class="error">' +
@@ -247,7 +250,7 @@
         try{
           var urlParams = new URLSearchParams(window.location.search);
           var rawFile = urlParams.get('file') || '';
-          var file = decodeURIComponent(String(rawFile).replace(/\+/g,' ')); // DECODE FIX
+          var file = decodeURIComponent(String(rawFile).replace(/\+/g,' '));
 
           if (!file){
             clearTimeout(stalled);
@@ -257,12 +260,15 @@
 
           var postData = null;
 
-          fetch('Posts.json', { cache: 'no-store' })
+          fetch('posts.json', { cache: 'no-store' })
             .then(function(res){ return res.ok ? res.json() : null; })
             .then(function(posts){
               if (posts && posts.length){
                 for (var i=0;i<posts.length;i++){
-                  if (posts[i] && posts[i].file === file){ postData = posts[i]; break; }
+                  if (posts[i] && posts[i].file === file){ 
+                    postData = posts[i]; 
+                    break; 
+                  }
                 }
               }
             })
@@ -285,7 +291,7 @@
                 var mdForRender = markdown;
                 if (coverUrl && detectedFirst && normalizePath(coverUrl) === normalizePath(detectedFirst)){
                   var firstMdImgFull = mdForRender.match(/!```math
-[^```]*```KATEX_INLINE_OPEN[^)]+KATEX_INLINE_CLOSE/);
+.*?```KATEX_INLINE_OPEN.*?KATEX_INLINE_CLOSE/);
                   if (firstMdImgFull && firstMdImgFull[0]){
                     mdForRender = mdForRender.replace(firstMdImgFull[0], '');
                   }
@@ -344,7 +350,23 @@
         }
       }
 
-      <script> (function(){ function init(){ bindMenu(); var container = document.getElementById('post-content-wrapper'); if (typeof marked === 'undefined'){ if (container) { container.innerHTML = '<div class="error"><h2>Unable to Load Post</h2><p>Error: Markdown parser not loaded.</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>'; } } else { loadPost(); } } if (document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', init); } else { // DOM is already ready – run now init(); } })(); 
-</script>
+      function init(){ 
+        bindMenu(); 
+        var container = document.getElementById('post-content-wrapper'); 
+        if (typeof marked === 'undefined'){ 
+          if (container) { 
+            container.innerHTML = '<div class="error"><h2>Unable to Load Post</h2><p>Error: Markdown parser not loaded.</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>'; 
+          } 
+        } else { 
+          loadPost(); 
+        } 
+      } 
+      if (document.readyState === 'loading'){ 
+        document.addEventListener('DOMContentLoaded', init); 
+      } else { 
+        init(); 
+      }
+    })();
+  </script>
 </body>
 </html>
