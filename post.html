@@ -244,7 +244,7 @@
           '</div>';
 
         var stalled = setTimeout(function(){
-          renderError(container, 'This is taking longer than expected. Please check your internet and try again.');
+          renderError(container, 'This is taking longer than expected. Please check your internet or file paths.');
         }, 10000);
 
         try {
@@ -259,10 +259,19 @@
           }
 
           var postData = null;
-
-          fetch('/Mywebsite/Posts.json', { cache: 'no-store' })
+          var jsonPath = '/Mywebsite/Posts.json';
+          
+          // Try primary path, then fallback
+          fetch(jsonPath, { cache: 'no-store' })
             .then(function(res){
-              if (!res.ok) throw new Error('Could not load Posts.json. Status: ' + res.status);
+              if (!res.ok) {
+                console.error('Failed to load Posts.json at ' + jsonPath + ' (Status: ' + res.status + ')');
+                return fetch('/Posts.json', { cache: 'no-store' });
+              }
+              return res;
+            })
+            .then(function(res){
+              if (!res.ok) throw new Error('Could not load Posts.json. Status: ' + res.status + ' at both /Mywebsite/Posts.json and /Posts.json');
               return res.json();
             })
             .then(function(posts){
@@ -274,11 +283,12 @@
                   }
                 }
               }
+              console.log('Fetching markdown file: /Mywebsite/' + file);
               return fetch('/Mywebsite/' + file, { cache: 'no-store' });
             })
             .then(function(mdRes){
               if (!mdRes.ok){
-                throw new Error('Failed to load Markdown file at ' + file + ' (HTTP ' + mdRes.status + ')');
+                throw new Error('Failed to load Markdown file at /Mywebsite/' + file + ' (Status: ' + mdRes.status + ')');
               }
               return mdRes.text();
             })
@@ -344,11 +354,13 @@
             })
             .catch(function(err){
               clearTimeout(stalled);
+              console.error('Post load error:', err);
               renderError(container, err.message || String(err));
             });
 
         } catch(error){
           clearTimeout(stalled);
+          console.error('Initialization error:', error);
           renderError(container, error.message || String(error));
         }
       }
