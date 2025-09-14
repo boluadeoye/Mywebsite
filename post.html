@@ -263,14 +263,7 @@
 
           fetch(jsonPath, { cache: 'no-store' })
             .then(function(res){
-              if (!res.ok) {
-                console.error('Failed to load Posts.json at ' + jsonPath + ' (Status: ' + res.status + ')');
-                return fetch('/Posts.json', { cache: 'no-store' });
-              }
-              return res;
-            })
-            .then(function(res){
-              if (!res.ok) throw new Error('Could not load Posts.json. Status: ' + res.status + ' at both /Mywebsite/Posts.json and /Posts.json');
+              if (!res.ok) throw new Error('Could not load Posts.json. Status: ' + res.status);
               return res.json();
             })
             .then(function(posts){
@@ -283,18 +276,11 @@
                 }
               }
               console.log('Attempting to fetch markdown file: /Mywebsite/' + file);
-              return fetch('/Mywebsite/' + file, { cache: 'no-store' })
-                .then(function(mdRes){
-                  if (!mdRes.ok) {
-                    console.error('Failed to load /Mywebsite/' + file + ' (Status: ' + mdRes.status + ')');
-                    return fetch('/' + file, { cache: 'no-store' });
-                  }
-                  return mdRes;
-                });
+              return fetch('/Mywebsite/' + file, { cache: 'no-store' });
             })
             .then(function(mdRes){
               if (!mdRes.ok){
-                throw new Error('Failed to load Markdown file at ' + file + ' (Status: ' + mdRes.status + ')');
+                throw new Error('Failed to load Markdown file at /Mywebsite/' + file + ' (Status: ' + mdRes.status + ')');
               }
               return mdRes.text();
             })
