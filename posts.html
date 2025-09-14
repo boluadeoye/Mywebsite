@@ -167,7 +167,7 @@
           postsEl.innerHTML = '<div class="no-posts">Loading posts…</div>';
           fetch('Posts.json', { cache: 'no-store' })
             .then(function(res){
-              if(!res.ok) throw new Error('Could not load Posts.json. Check file path and name.');
+              if(!res.ok) throw new Error('Could not load Posts.json. Status: ' + res.status + '. Check file path and name.');
               return res.json();
             })
             .then(function(data){
