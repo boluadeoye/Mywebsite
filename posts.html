@@ -73,15 +73,12 @@
     .btn-back,.btn-readmore{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1rem;border-radius:999px;border:1px solid rgba(245,158,11,.2)}
     .btn-back{background:transparent;color:var(--ink)}
     .btn-readmore{background:linear-gradient(135deg,var(--orange),var(--orange-light));color:var(--orange-ink);border-color:var(--orange)}
-
     .post-cover{width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;margin-bottom:1rem;border:1px solid rgba(245,158,11,.15);background:rgba(255,255,255,.02)}
     .post-cover img{width:100%;height:100%;object-fit:cover;display:block}
-
     #pagination{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;padding:1rem 0}
     #pagination a{padding:.5rem .9rem;border-radius:8px;border:1px solid rgba(245,158,11,.2)}
     #pagination a.active{background:var(--orange);color:var(--orange-ink);border-color:var(--orange)}
     .no-posts{text-align:center;color:var(--muted);padding:2.5rem 1rem}
-
     footer{background:var(--panel);border-top:1px solid rgba(245,158,11,.15);color:var(--muted);text-align:center;font-size:.9rem;padding:2rem 0;margin-top:2rem}
 
     @media(min-width:720px){#posts{grid-template-columns:repeat(2,1fr)}}
@@ -106,13 +103,8 @@
   <header id="header">
     <div class="wrap header-row">
       <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <rect x="4" y="6" width="16" height="2" rx="1"/>
-          <rect x="4" y="11" width="16" height="2" rx="1"/>
-          <rect x="4" y="16" width="16" height="2" rx="1"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" width="16" height="2" rx="1"/></svg>
       </button>
-
       <a class="brand" href="./"><span class="dot"></span><h1>Boluadeoye</h1></a>
 
       <div class="search-container">
@@ -143,140 +135,164 @@
     <nav id="pagination" aria-label="Pagination"></nav>
   </main>
 
-  <footer>
-    <div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div>
-  </footer>
+  <footer><div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div></footer>
 
   <script>
-    const MANY_THRESHOLD = 50;
+    (function(){
+      function init(){
+        var MANY_THRESHOLD = 50;
 
-    // Menu
-    const menuBtn = document.getElementById('menuBtn');
-    const sideMenu = document.getElementById('sideMenu');
-    const menuOverlay = document.getElementById('menuOverlay');
-    function closeMenu(){ sideMenu.classList.remove('active'); menuOverlay.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
-    function openMenu(){ sideMenu.classList.add('active'); menuOverlay.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
-    menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
-    menuOverlay.addEventListener('click', closeMenu);
-
-    // Data + rendering
-    let allPosts = [];
-    let filteredPosts = [];
-    let currentFilter = 'all';
-    let currentPage = 1;
-    const postsPerPage = 6;
-
-    const postsEl = document.getElementById('posts');
-    const paginationEl = document.getElementById('pagination');
-    const searchInput = document.getElementById('searchInput');
-
-    async function loadPosts(){
-      try{
-        postsEl.innerHTML = '<div class="no-posts">Loading posts…</div>';
-        const res = await fetch('Posts.json', { cache: 'no-store' });
-        if(!res.ok) throw new Error(`Failed to load Posts.json (HTTP ${res.status})`);
-        const data = await res.json();
-        allPosts = (Array.isArray(data) ? data : [])
-          .map(p => ({ ...p, type: (p.type || 'general').toLowerCase() }))
-          .sort((a,b) => String(b.date).localeCompare(String(a.date)));
-        renderPosts('all', 1);
-      }catch(err){
-        console.error('Error loading posts:', err);
-        postsEl.innerHTML = `<div class="no-posts">Couldn't load posts.<br/><small>${err.message}</small></div>`;
-      }
-    }
-
-    function renderPosts(filter='all', page=1, searchTerm=''){
-      currentFilter = filter; currentPage = page; filteredPosts = allPosts;
-
-      if(filter !== 'all') filteredPosts = filteredPosts.filter(p => (p.type || '') === filter);
-
-      if (searchTerm){
-        const t = searchTerm.toLowerCase();
-        filteredPosts = filteredPosts.filter(p =>
-          (p.title || '').toLowerCase().includes(t) ||
-          (p.excerpt || '').toLowerCase().includes(t) ||
-          (p.type || '').toLowerCase().includes(t)
-        );
-      }
-
-      const start = (page - 1) * postsPerPage;
-      const pageItems = filteredPosts.slice(start, start + postsPerPage);
-
-      document.querySelectorAll('[data-filter]').forEach(el => {
-        el.classList.toggle('active', el.getAttribute('data-filter') === filter);
-      });
-
-      if (!pageItems.length){
-        postsEl.innerHTML = `<div class="no-posts">No ${filter==='all'?'':filter+' '}posts found${searchTerm ? ` for “${searchTerm}”` : ''}.</div>`;
-        paginationEl.innerHTML = '';
-        return;
-      }
-
-      postsEl.innerHTML = pageItems.map((p, i) => {
-        const viewedLabel = (typeof p.views === 'number' && p.views >= MANY_THRESHOLD) ? 'Viewed by many' : 'Viewed';
-        const coverHTML = p.cover ? `
-          <figure class="post-cover">
-            <img src="${p.cover}" alt="${(p.title || 'Post')} cover" loading="lazy" decoding="async">
-          </figure>` : '';
-        return `
-          <article class="post" style="animation-delay:${i*0.05}s">
-            ${coverHTML}
-            <span class="post-type">${p.type || 'general'}</span>
-            <h3><a href="post.html?file=${encodeURI(p.file)}">${p.title}</a></h3>
-            <div class="post-date">📅 ${new Date(p.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</div>
-            <div class="quote-box">${p.excerpt || ''}</div>
-            <div class="stats">
-              <span class="stat-item stat-red">❤️ Liked</span>
-              <span class="stat-item stat-red">👁️ ${viewedLabel}</span>
-            </div>
-            <div class="post-buttons">
-              <a href="./" class="btn-back">← Back</a>
-              <a href="post.html?file=${encodeURI(p.file)}" class="btn-readmore">Read More →</a>
-            </div>
-          </article>
-        `;
-      }).join('');
-
-      renderPagination(filteredPosts.length, page);
-    }
-
-    function renderPagination(total, page){
-      const totalPages = Math.ceil(total / postsPerPage);
-      if (totalPages <= 1){ paginationEl.innerHTML = ''; return; }
-      let html = '';
-      if (page > 1) html += `<a href="#" data-page="${page-1}">← Previous</a>`;
-      for (let i=1;i<=totalPages;i++){
-        if (i===1 || i===totalPages || (i>=page-1 && i<=page+1)){
-          html += `<a href="#" data-page="${i}" class="${i===page?'active':''}">${i}</a>`;
-        } else if (i===page-2 || i===page+2){
-          html += `<span class="dots" aria-hidden="true">…</span>`;
+        var menuBtn = document.getElementById('menuBtn');
+        var sideMenu = document.getElementById('sideMenu');
+        var menuOverlay = document.getElementById('menuOverlay');
+        if (menuBtn && sideMenu && menuOverlay){
+          function closeMenu(){ sideMenu.classList.remove('active'); menuOverlay.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
+          function openMenu(){ sideMenu.classList.add('active'); menuOverlay.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
+          menuBtn.addEventListener('click', function() { sideMenu.classList.contains('active') ? closeMenu() : openMenu(); });
+          menuOverlay.addEventListener('click', closeMenu);
         }
+
+        var allPosts = [];
+        var filteredPosts = [];
+        var currentFilter = 'all';
+        var currentPage = 1;
+        var postsPerPage = 6;
+
+        var postsEl = document.getElementById('posts');
+        var paginationEl = document.getElementById('pagination');
+        var searchInput = document.getElementById('searchInput');
+
+        function loadPosts(){
+          if (!postsEl) return;
+          postsEl.innerHTML = '<div class="no-posts">Loading posts…</div>';
+          fetch('Posts.json', { cache: 'no-store' })
+            .then(function(res){
+              if(!res.ok) throw new Error('Could not load Posts.json. Check file path and name.');
+              return res.json();
+            })
+            .then(function(data){
+              allPosts = (Array.isArray(data) ? data : [])
+                .map(function(p) { p.type = (p.type || 'general').toLowerCase(); return p; })
+                .sort(function(a,b) { return String(b.date).localeCompare(String(a.date)); });
+              renderPosts('all', 1);
+            })
+            .catch(function(err){
+              console.error('Error loading posts:', err);
+              postsEl.innerHTML = '<div class="no-posts">Couldn\'t load posts.<br/><small>' + err.message + '</small></div>';
+            });
+        }
+
+        function renderPosts(filter, page, searchTerm){
+          filter = filter || 'all';
+          page = page || 1;
+          searchTerm = searchTerm || '';
+          currentFilter = filter; currentPage = page; filteredPosts = allPosts;
+
+          if(filter !== 'all') filteredPosts = filteredPosts.filter(function(p) { return (p.type || '') === filter; });
+          if (searchTerm){
+            var t = searchTerm.toLowerCase();
+            filteredPosts = filteredPosts.filter(function(p) {
+              return (p.title || '').toLowerCase().includes(t) ||
+                     (p.excerpt || '').toLowerCase().includes(t) ||
+                     (p.type || '').toLowerCase().includes(t);
+            });
+          }
+          var start = (page - 1) * postsPerPage;
+          var pageItems = filteredPosts.slice(start, start + postsPerPage);
+
+          document.querySelectorAll('[data-filter]').forEach(function(el) {
+            el.classList.toggle('active', el.getAttribute('data-filter') === filter);
+          });
+
+          if (!pageItems.length){
+            postsEl.innerHTML = '<div class="no-posts">No '+(filter==='all'?'':filter+' ')+'posts found'+(searchTerm?' for “'+searchTerm+'”':'')+'.</div>';
+            if (paginationEl) paginationEl.innerHTML = '';
+            return;
+          }
+
+          postsEl.innerHTML = pageItems.map(function(p, i) {
+            var viewedLabel = (typeof p.views === 'number' && p.views >= MANY_THRESHOLD) ? 'Viewed by many' : 'Viewed';
+            var coverHTML = p.cover ?
+              '<figure class="post-cover">' +
+              '  <img src="' + p.cover + '" alt="' + (p.title || 'Post') + ' cover" loading="lazy" decoding="async">' +
+              '</figure>' : '';
+            return '' +
+              '<article class="post" style="animation-delay:'+ (i*0.05) +'s">' +
+                coverHTML +
+                '<span class="post-type">' + (p.type || 'general') + '</span>' +
+                '<h3><a href="post.html?file=' + encodeURI(p.file) + '">' + p.title + '</a></h3>' +
+                '<div class="post-date">📅 ' + new Date(p.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'}) + '</div>' +
+                '<div class="quote-box">' + (p.excerpt || '') + '</div>' +
+                '<div class="stats">' +
+                  '<span class="stat-item stat-red">❤️ Liked</span>' +
+                  '<span class="stat-item stat-red">👁️ ' + viewedLabel + '</span>' +
+                '</div>' +
+                '<div class="post-buttons">' +
+                  '<a href="./" class="btn-back">← Back</a>' +
+                  '<a href="post.html?file=' + encodeURI(p.file) + '" class="btn-readmore">Read More →</a>' +
+                '</div>' +
+              '</article>';
+          }).join('');
+
+          renderPagination(filteredPosts.length, page);
+        }
+
+        function renderPagination(total, page){
+          if (!paginationEl) return;
+          var totalPages = Math.ceil(total / postsPerPage);
+          if (totalPages <= 1){ paginationEl.innerHTML = ''; return; }
+          var html = '';
+          if (page > 1) html += '<a href="#" data-page="' + (page-1) + '">← Previous</a>';
+          for (var i=1;i<=totalPages;i++){
+            if (i===1 || i===totalPages || (i>=page-1 && i<=page+1)){
+              html += '<a href="#" data-page="' + i + '" class="' + (i===page?'active':'') + '">' + i + '</a>';
+            } else if (i===page-2 || i===page+2){
+              html += '<span class="dots" aria-hidden="true">…</span>';
+            }
+          }
+          if (page < totalPages) html += '<a href="#" data-page="' + (page+1) + '">Next →</a>';
+          paginationEl.innerHTML = html;
+        }
+
+        document.querySelectorAll('[data-filter]').forEach(function(el) {
+          el.addEventListener('click', function(e) {
+            e.preventDefault();
+            renderPosts(el.getAttribute('data-filter'), 1);
+            var titleEl = document.querySelector('.section-title');
+            if (titleEl) titleEl.scrollIntoView({ behavior:'smooth', block:'start' });
+            closeMenu();
+          });
+        });
+        if (paginationEl) paginationEl.addEventListener('click', function(e) {
+          var a = e.target.closest('a'); if (!a) return;
+          e.preventDefault();
+          var page = parseInt(a.getAttribute('data-page'), 10);
+          if (page){
+            var searchVal = searchInput ? searchInput.value : '';
+            renderPosts(currentFilter, page, searchVal);
+            var titleEl = document.querySelector('.section-title');
+            if (titleEl) titleEl.scrollIntoView({ behavior:'smooth', block:'start' });
+          }
+        });
+
+        var searchTimeout;
+        if (searchInput){
+          searchInput.addEventListener('input', function(e) {
+            var q = e.target.value.trim();
+            clearTimeout(searchTimeout);
+            if (q.length < 2){ renderPosts(currentFilter, 1, ''); return; }
+            searchTimeout = setTimeout(function() { renderPosts(currentFilter, 1, q); }, 250);
+          });
+        }
+        loadPosts();
       }
-      if (page < totalPages) html += `<a href="#" data-page="${page+1}">Next →</a>`;
-      paginationEl.innerHTML = html;
-    }
 
-    document.querySelectorAll('[data-filter]').forEach(el => {
-      el.addEventListener('click', (e) => {
-        e.preventDefault();
-        renderPosts(el.getAttribute('data-filter'), 1);
-        document.querySelector('.section-title').scrollIntoView({ behavior:'smooth', block:'start' });
-        closeMenu();
-      });
-    });
-
-    let searchTimeout;
-    if (searchInput){
-      searchInput.addEventListener('input', (e) => {
-        const q = e.target.value.trim();
-        clearTimeout(searchTimeout);
-        if (q.length < 2){ renderPosts(currentFilter, 1, ''); return; }
-        searchTimeout = setTimeout(() => { renderPosts(currentFilter, 1, q); }, 250);
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', loadPosts);
+      if (document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
   </script>
 </body>
 </html>
