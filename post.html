@@ -570,6 +570,9 @@
       }
     }
 
+    // FIX: Make the share function globally accessible
+    window.sharePost = sharePost;
+
     function init(){
       bindMenu();
       var container = document.getElementById('post-content-wrapper');
