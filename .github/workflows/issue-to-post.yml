@@ -1,0 +1,73 @@
+name: Issue to Post
+on:
+  issues:
+    types: [opened, edited, labeled]
+
+permissions:
+  contents: write
+  issues: read
+
+jobs:
+  build_post:
+    if: contains(github.event.issue.labels.*.name, 'blog:post')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare post content
+        id: prep
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const body = issue.body || "";
+            const lines = body.split('\n');
+
+            function grab(label) {
+              const idx = lines.findIndex(l => l.toLowerCase().includes(label.toLowerCase()));
+              if (idx === -1) return "";
+              for (let i = idx + 1; i < lines.length; i++) {
+                const t = lines[i].trim();
+                if (t && !t.startsWith('###')) return t;
+              }
+              return "";
+            }
+
+            const rawTitle = grab("Title") || issue.title.replace(/^\[Post\]:\s*/i, '').trim();
+            const title = rawTitle || "Untitled";
+            const rawSlug = grab("Slug") || title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+            const slug = rawSlug.slice(0,80) || "post";
+            const publish = (grab("Publish date") || "").replace(/[^0-9-]/g,'');
+            const tags = (grab("Tags") || "").split(',').map(t => t.trim()).filter(Boolean);
+            const summary = grab("One-paragraph summary") || grab("summary");
+
+            const bodyIdx = lines.findIndex(l => l.toLowerCase().includes("post body"));
+            const md = bodyIdx !== -1 ? lines.slice(bodyIdx + 1).join('\n').trim() : body.trim();
+
+            if (!publish) core.setFailed("Publish date is required (YYYY-MM-DD).");
+            const filename = `_posts/${publish}-${slug}.md`;
+
+            const fm = [
+              '---',
+              `title: "${title.replace(/"/g,'\\"')}"`,
+              `date: ${publish}`,
+              tags.length ? `tags: [${tags.join(', ')}]` : 'tags: []',
+              summary ? `description: "${summary.replace(/"/g,'\\"')}"` : null,
+              '---'
+            ].filter(Boolean).join('\n');
+
+            core.setOutput('filename', filename);
+            core.setOutput('content', `${fm}\n\n${md}\n`);
+
+      - name: Write file
+        run: |
+          mkdir -p _posts
+          printf "%s" "${{ steps.prep.outputs.content }}" > "${{ steps.prep.outputs.filename }}"
+
+      - name: Commit & push
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add "${{ steps.prep.outputs.filename }}"
+          git commit -m "chore(post): publish ${{ steps.prep.outputs.filename }} from issue #${{ github.event.issue.number }}"
+          git push
