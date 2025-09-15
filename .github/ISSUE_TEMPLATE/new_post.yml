@@ -7,7 +7,7 @@ body:
     id: post_title
     attributes:
       label: Title
-      placeholder: e.g., My First Blog Post
+      placeholder: "e.g., My First Blog Post"
     validations:
       required: true
 
@@ -15,15 +15,16 @@ body:
     id: slug
     attributes:
       label: Slug (lowercase-hyphens)
-      placeholder: my-first-post
+      placeholder: "my-first-post"
     validations:
       required: true
 
-  - type: datetime
+  - type: input
     id: publish_date
     attributes:
-      label: Publish date
-      description: "Choose when this post should be published"
+      label: Publish date (YYYY-MM-DD)
+      description: "Type the date like 2025-09-20"
+      placeholder: "2025-09-20"   # quoted to avoid YAML date parsing
     validations:
       required: true
 
@@ -31,7 +32,7 @@ body:
     id: tags
     attributes:
       label: Tags (comma-separated)
-      placeholder: dev, notes, life
+      placeholder: "dev, notes, life"
 
   - type: textarea
     id: summary
