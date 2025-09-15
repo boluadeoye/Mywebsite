@@ -6,32 +6,22 @@
   <title>{{ page.title | default: "Post — Boluadeoye" }}</title>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-  /* === Styles copied from your old post.html to keep design intact === */
-  :root {
-    --bg:#0f172a; --panel:#111a2e; --panel-hover:#1a2341;
-    --ink:#e5eefc; --muted:#94a3b8;
-    --orange:#f59e0b; --orange-light:#fbbf24; --orange-ink:#0b0f19;
-    --ring:rgba(245,158,11,.25); --radius:16px;
-    --serif:ui-serif, Georgia, "Times New Roman", serif;
-    --font:"Open Sans",system-ui,-apple-system,"Segoe UI",Roboto,Inter,Arial,sans-serif;
-    --transition:cubic-bezier(.4,0,.2,1);
-    --red:#ef4444; --red-soft:rgba(239,68,68,.12);
-  }
+  :root{--bg:#0f172a;--panel:#111a2e;--panel-hover:#1a2341;--ink:#e5eefc;--muted:#94a3b8;--orange:#f59e0b;--orange-light:#fbbf24;--orange-ink:#0b0f19;--ring:rgba(245,158,11,.25);--radius:16px;--serif:ui-serif,Georgia,"Times New Roman",serif;--font:"Open Sans",system-ui,-apple-system,"Segoe UI",Roboto,Inter,Arial,sans-serif;--transition:cubic-bezier(.4,0,.2,1);--red:#ef4444;--red-soft:rgba(239,68,68,.12)}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--ink);font:16px/1.7 var(--font);}
+  body{background:var(--bg);color:var(--ink);font:16px/1.7 var(--font)}
   a{color:inherit;text-decoration:none}
   .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem}
   header{position:sticky;top:0;z-index:100;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(245,158,11,.15)}
   .header-row{display:flex;align-items:center;justify-content:space-between;min-height:70px;gap:1.5rem;padding:0 .5rem}
   .brand{display:flex;align-items:center;gap:.75rem}
-  .dot{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffd27a 0%,#f59e0b 40%,#d97706 100%);}
+  .dot{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffd27a 0%,#f59e0b 40%,#d97706 100%)}
   .brand h1{font-size:1.3rem;font-weight:800;color:var(--ink);font-family:var(--serif)}
-  .post-container{margin:1.25rem 0 2.25rem;background:var(--panel);border-radius:24px;padding:2.5rem 1.5rem}
+  .post-container{margin:1.25rem 0 2.25rem;background:var(--panel);border-radius:24px;padding:2.5rem 1.5rem;border:1px solid rgba(245,158,11,.15)}
   .post-header{text-align:center;margin-bottom:1.5rem}
   .post-meta{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem}
-  .meta-item{padding:.35rem .85rem;background:rgba(245,158,11,.08);border-radius:999px;font-size:.9rem;color:var(--muted);}
-  .post-title{font-family:var(--font);font-size:clamp(1.8rem,3.5vw,2.5rem);font-weight:800;line-height:1.2;background:linear-gradient(135deg,var(--orange),var(--orange-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-  .cover-hero{max-width:1020px;margin:1rem auto;border-radius:14px;overflow:hidden}
+  .meta-item{padding:.35rem .85rem;background:rgba(245,158,11,.08);border-radius:999px;font-size:.9rem;color:var(--muted)}
+  .post-title{font-family:var(--font);font-size:clamp(1.8rem,3.5vw,2.5rem);font-weight:800;line-height:1.2;background:linear-gradient(135deg,var(--orange),var(--orange-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .cover-hero{max-width:1020px;margin:1rem auto;border-radius:14px;overflow:hidden;border:1px solid rgba(245,158,11,.15);background:rgba(255,255,255,.02)}
   .cover-hero img{width:100%;height:auto;object-fit:cover;aspect-ratio:16/9}
   .post-content{max-width:90ch;margin:2rem auto;font-size:1.05rem;line-height:1.85;color:rgba(229,238,252,.96)}
   .post-content h2{color:var(--orange);margin:1.75rem 0 1rem;text-align:center}
@@ -62,16 +52,14 @@
         <div class="post-header">
           <div class="post-meta">
             <span class="meta-item">📅 {{ page.date | date: "%B %d, %Y" }}</span>
-            {% if page.tags %}
-              <span class="meta-item">📁 {{ page.tags | join: ", " }}</span>
-            {% endif %}
+            {% if page.tags %}<span class="meta-item">📁 {{ page.tags | join: ", " }}</span>{% endif %}
           </div>
           <h1 class="post-title">{{ page.title }}</h1>
         </div>
 
         {% if page.cover %}
         <figure class="cover-hero">
-          <img src="{{ page.cover | relative_url }}" alt="{{ page.title }} cover">
+          <img src="{{ page.cover | relative_url }}" alt="{{ page.title }} cover" loading="lazy" decoding="async">
         </figure>
         {% endif %}
 
