@@ -1,0 +1,4 @@
+title: "Mywebsite"
+timezone: Africa/Lagos
+permalink: /:year/:month/:day/:title/
+markdown: kramdown
