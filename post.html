@@ -270,7 +270,7 @@
     animation:spin 1s linear infinite;
     margin-bottom:1rem;
   }
-  @keyframes spin{to{transform:rotate(360deg))}
+  @keyframes spin{to{transform:rotate(360deg)}}
   .error{text-align:center;padding:2rem;color:#ff6b6b}
 
   footer{
@@ -278,9 +278,13 @@
     border-top:1px solid rgba(255,255,255,.06);
     color:var(--muted);
     text-align:center;
-    font-size:.9rem;
-    padding:2rem 0;
-    margin-top:2rem;
+    font-size:.85rem; /* Match other pages */
+    padding:1.5rem 0; /* Consistent padding */
+    margin-top:1.5rem;
+  }
+  footer p {
+    font-size: .85rem;
+    line-height: 1.5;
   }
 
   @media (max-width: 600px) {
@@ -295,6 +299,10 @@
     }
     .post-meta {
       gap:.5rem;
+    }
+    footer {
+      padding:1rem 0;
+      font-size:.8rem;
     }
   }
   </style>
@@ -347,6 +355,7 @@
   <script>
     (function(){
       var MANY_THRESHOLD = 50;
+      var postData = null; // Declare globally to ensure scope
 
       function bindMenu(){
         var menuBtn = document.getElementById('menuBtn');
@@ -386,7 +395,7 @@
       function processMarkdown(text){
         if (!text || typeof text !== 'string') return '<p>Content unavailable.</p>';
         if (typeof marked === 'undefined') return '<p>Error: Markdown parser not loaded.</p>';
-        return marked.parse(text);
+        return marked.parse(text, { breaks: true }); // Ensure quotes render
       }
 
       function renderError(container, message){
@@ -425,10 +434,7 @@
             return;
           }
 
-          var postData = null;
-          var jsonPath = '/Mywebsite/Posts.json';
-
-          fetch(jsonPath, { cache: 'no-store' })
+          fetch('/Mywebsite/Posts.json', { cache: 'no-store' })
             .then(function(res){
               if (!res.ok) throw new Error('Could not load Posts.json. Status: ' + res.status);
               return res.json();
@@ -437,7 +443,7 @@
               if (posts && posts.length){
                 for (var i=0; i<posts.length; i++){
                   if (posts[i] && normalizePath(posts[i].file) === normalizePath(file)){
-                    postData = posts[i];
+                    postData = posts[i]; // Assign to global
                     break;
                   }
                 }
@@ -520,7 +526,6 @@
               console.error('Post load error:', err);
               renderError(container, err.message || String(err));
             });
-
         } catch(error){
           clearTimeout(stalled);
           console.error('Initialization error:', error);
@@ -529,10 +534,12 @@
       }
 
       function sharePost() {
+        console.log('Share button clicked'); // Debug
         try {
           var pageUrl = window.location.href;
           var pageTitle = document.title || 'Post from Boluadeoye';
-          var excerpt = (typeof postData !== 'undefined' && postData && postData.excerpt) ? postData.excerpt : 'Check out this inspiring devotional on Boluadeoye\'s blog!';
+          var excerpt = (postData && postData.excerpt) ? postData.excerpt : 'Check out this inspiring devotional on Boluadeoye\'s blog!';
+          console.log('Sharing:', { title: pageTitle, excerpt: excerpt, url: pageUrl }); // Debug
           if (navigator.share) {
             navigator.share({
               title: pageTitle,
