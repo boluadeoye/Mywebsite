@@ -353,240 +353,240 @@
   </footer>
 
   <script>
-    (function(){
-      var MANY_THRESHOLD = 50;
-      var postData = null; // Declare globally to ensure scope
+  (function(){
+    var MANY_THRESHOLD = 50;
+    var postData = null; // Global scope
 
-      function bindMenu(){
-        var menuBtn = document.getElementById('menuBtn');
-        var sideMenu = document.getElementById('sideMenu');
-        var menuOverlay = document.getElementById('menuOverlay');
-        if (!menuBtn || !sideMenu || !menuOverlay) return;
+    function bindMenu(){
+      var menuBtn = document.getElementById('menuBtn');
+      var sideMenu = document.getElementById('sideMenu');
+      var menuOverlay = document.getElementById('menuOverlay');
+      if (!menuBtn || !sideMenu || !menuOverlay) return;
 
-        function closeMenu(){
-          sideMenu.classList.remove('active');
-          menuOverlay.classList.remove('show');
-          menuBtn.setAttribute('aria-expanded','false');
-        }
-        function openMenu(){
-          sideMenu.classList.add('active');
-          menuOverlay.classList.add('show');
-          menuBtn.setAttribute('aria-expanded','true');
-        }
-        menuBtn.addEventListener('click', function(){
-          if (sideMenu.classList.contains('active')) closeMenu(); else openMenu();
-        });
-        menuOverlay.addEventListener('click', closeMenu);
+      function closeMenu(){
+        sideMenu.classList.remove('active');
+        menuOverlay.classList.remove('show');
+        menuBtn.setAttribute('aria-expanded','false');
       }
-
-      function normalizePath(p){
-        if (!p) return '';
-        return String(p).trim().replace(/^\.\/+/, '').replace(/^\/+/, '');
+      function openMenu(){
+        sideMenu.classList.add('active');
+        menuOverlay.classList.add('show');
+        menuBtn.setAttribute('aria-expanded','true');
       }
+      menuBtn.addEventListener('click', function(){
+        if (sideMenu.classList.contains('active')) closeMenu(); else openMenu();
+      });
+      menuOverlay.addEventListener('click', closeMenu);
+    }
 
-      function firstImageFromMarkdown(md){
-        var m1 = md.match(/!\[.*?\]\((.*?)\)/);
-        if (m1 && m1[1]) return m1[1].trim();
-        var m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
-        if (m2 && m2[1]) return m2[1].trim();
-        return '';
-      }
+    function normalizePath(p){
+      if (!p) return '';
+      return String(p).trim().replace(/^\.\/+/, '').replace(/^\/+/, '');
+    }
 
-      function processMarkdown(text){
-        if (!text || typeof text !== 'string') return '<p>Content unavailable.</p>';
-        if (typeof marked === 'undefined') return '<p>Error: Markdown parser not loaded.</p>';
-        return marked.parse(text, { breaks: true }); // Ensure quotes render
-      }
+    function firstImageFromMarkdown(md){
+      var m1 = md.match(/!\[.*?\]\((.*?)\)/);
+      if (m1 && m1[1]) return m1[1].trim();
+      var m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
+      if (m2 && m2[1]) return m2[1].trim();
+      return '';
+    }
 
-      function renderError(container, message){
-        container.innerHTML = '' +
-          '<div class="error">' +
-          '  <h2>Unable to Load Post</h2>' +
-          '  <p>' + message + '</p>' +
-          '  <div class="post-nav" style="justify-content:center;">' +
-          '    <a href="./" class="btn-chip">← Return to Homepage</a>' +
-          '  </div>' +
-          '</div>';
-      }
+    function processMarkdown(text){
+      if (!text || typeof text !== 'string') return '<p>Content unavailable.</p>';
+      if (typeof marked === 'undefined') return '<p>Error: Markdown parser not loaded.</p>';
+      return marked.parse(text, { breaks: true });
+    }
 
-      function loadPost(){
-        var container = document.getElementById('post-content-wrapper');
-        if (!container) return;
+    function renderError(container, message){
+      container.innerHTML = '' +
+        '<div class="error">' +
+        '  <h2>Unable to Load Post</h2>' +
+        '  <p>' + message + '</p>' +
+        '  <div class="post-nav" style="justify-content:center;">' +
+        '    <a href="./" class="btn-chip">← Return to Homepage</a>' +
+        '  </div>' +
+        '</div>';
+    }
 
-        container.innerHTML = '' +
-          '<div class="loading-container">' +
-          '  <div class="loading-spinner"></div>' +
-          '  <p>Loading your post...</p>' +
-          '</div>';
+    function loadPost(){
+      var container = document.getElementById('post-content-wrapper');
+      if (!container) return;
 
-        var stalled = setTimeout(function(){
-          renderError(container, 'This is taking longer than expected. Please check your internet or file paths.');
-        }, 10000);
+      container.innerHTML = '' +
+        '<div class="loading-container">' +
+        '  <div class="loading-spinner"></div>' +
+        '  <p>Loading your post...</p>' +
+        '</div>';
 
-        try {
-          var urlParams = new URLSearchParams(window.location.search);
-          var rawFile = urlParams.get('file') || '';
-          var file = decodeURIComponent(String(rawFile).replace(/\+/g,' '));
+      var stalled = setTimeout(function(){
+        renderError(container, 'This is taking longer than expected. Please check your internet or file paths.');
+      }, 10000);
 
-          if (!file){
-            clearTimeout(stalled);
-            renderError(container, 'No post file specified in URL.');
-            return;
-          }
+      try {
+        var urlParams = new URLSearchParams(window.location.search);
+        var rawFile = urlParams.get('file') || '';
+        var file = decodeURIComponent(String(rawFile).replace(/\+/g,' '));
 
-          fetch('/Mywebsite/Posts.json', { cache: 'no-store' })
-            .then(function(res){
-              if (!res.ok) throw new Error('Could not load Posts.json. Status: ' + res.status);
-              return res.json();
-            })
-            .then(function(posts){
-              if (posts && posts.length){
-                for (var i=0; i<posts.length; i++){
-                  if (posts[i] && normalizePath(posts[i].file) === normalizePath(file)){
-                    postData = posts[i]; // Assign to global
-                    break;
-                  }
-                }
-              }
-              console.log('Attempting to fetch markdown file: /Mywebsite/' + file);
-              return fetch('/Mywebsite/' + file, { cache: 'no-store' });
-            })
-            .then(function(mdRes){
-              if (!mdRes.ok){
-                throw new Error('Failed to load Markdown file at /Mywebsite/' + file + ' (Status: ' + mdRes.status + ')');
-              }
-              return mdRes.text();
-            })
-            .then(function(markdown){
-              clearTimeout(stalled);
-
-              var detectedFirst = firstImageFromMarkdown(markdown);
-              var coverUrl = '';
-              if (postData && postData.cover && String(postData.cover).trim()){
-                coverUrl = String(postData.cover).trim();
-              } else if (detectedFirst){
-                coverUrl = detectedFirst;
-              }
-
-              var mdForRender = markdown;
-              if (coverUrl && detectedFirst && normalizePath(coverUrl) === normalizePath(detectedFirst)){
-                var firstMdImgFull = mdForRender.match(/!\[.*?\]\(.*?\)/);
-                if (firstMdImgFull && firstMdImgFull[0]){
-                  mdForRender = mdForRender.replace(firstMdImgFull[0], '');
-                }
-              }
-
-              var content = processMarkdown(mdForRender);
-
-              var title = (postData && postData.title) ? postData.title : 'Untitled';
-              var dateStr = '';
-              if (postData && postData.date){
-                try {
-                  dateStr = new Date(postData.date).toLocaleDateString('en-US',
-                    {year:'numeric',month:'long',day:'numeric'});
-                } catch(e){}
-              }
-              var typeStr = (postData && postData.type) ? postData.type : '';
-              document.title = title + ' - Boluadeoye';
-
-              var coverHTML = coverUrl ? (
-                '<figure class="cover-hero">' +
-                '  <img src="/Mywebsite/' + coverUrl + '" alt="' + title + ' cover" loading="lazy" decoding="async">' +
-                '</figure>'
-              ) : '';
-
-              var viewedLabel = (postData && typeof postData.views === 'number' && postData.views >= MANY_THRESHOLD)
-                ? 'Viewed by many' : 'Viewed';
-
-              container.innerHTML = '' +
-                '<div class="post-header">' +
-                '  <div class="post-meta">' +
-                (dateStr ? ('<span class="meta-item">📅 ' + dateStr + '</span>') : '') +
-                (typeStr ? ('<span class="meta-item">📁 ' + typeStr + '</span>') : '') +
-                '    <span class="meta-item meta-red">❤️ Liked</span>' +
-                '    <span class="meta-item meta-red">👁️ ' + viewedLabel + '</span>' +
-                '  </div>' +
-                '  <h1 class="post-title">' + title + '</h1>' +
-                '</div>' +
-                coverHTML +
-                '<div class="post-content">' + content + '</div>' +
-                '<nav class="post-nav">' +
-                '  <a href="./" class="btn-chip">← Back to Home</a>' +
-                '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
-                '  <button class="btn-chip share-btn" onclick="sharePost()">Share Post 📤</button>' +
-                '</nav>' +
-                '<div class="share-fallback" id="shareFallback">' +
-                '  <p>Can’t share? Copy this: <input type="text" id="shareLink" value="' + window.location.href + '" readonly onclick="this.select();document.execCommand(\'copy\');alert(\'Link copied!\')"></p>' +
-                '</div>';
-
-              window.scrollTo(0, 0);
-            })
-            .catch(function(err){
-              clearTimeout(stalled);
-              console.error('Post load error:', err);
-              renderError(container, err.message || String(err));
-            });
-        } catch(error){
+        if (!file){
           clearTimeout(stalled);
-          console.error('Initialization error:', error);
-          renderError(container, error.message || String(error));
+          renderError(container, 'No post file specified in URL.');
+          return;
         }
-      }
 
-      function sharePost() {
-        console.log('Share button clicked'); // Debug
-        try {
-          var pageUrl = window.location.href;
-          var pageTitle = document.title || 'Post from Boluadeoye';
-          var excerpt = (postData && postData.excerpt) ? postData.excerpt : 'Check out this inspiring devotional on Boluadeoye\'s blog!';
-          console.log('Sharing:', { title: pageTitle, excerpt: excerpt, url: pageUrl }); // Debug
-          if (navigator.share) {
-            navigator.share({
-              title: pageTitle,
-              text: excerpt,
-              url: pageUrl
-            }).catch(function(err) {
-              console.error('Web Share error:', err);
-              fallbackToWhatsApp();
-            });
-          } else {
-            fallbackToWhatsApp();
-          }
-          function fallbackToWhatsApp() {
-            var whatsappUrl = 'https://wa.me/?text=' + encodeURIComponent(pageTitle + ' - ' + excerpt + ' ' + pageUrl);
-            var shareWindow = window.open(whatsappUrl, '_blank');
-            if (!shareWindow) {
-              console.error('WhatsApp popup blocked or failed.');
-              document.getElementById('shareFallback').style.display = 'block';
-              document.getElementById('shareLink').value = pageTitle + ' - ' + pageUrl;
-              alert('Sharing failed. Copy the link below.');
+        fetch('/Mywebsite/Posts.json', { cache: 'no-store' })
+          .then(function(res){
+            if (!res.ok) throw new Error('Could not load Posts.json. Status: ' + res.status);
+            return res.json();
+          })
+          .then(function(posts){
+            if (posts && posts.length){
+              for (var i=0; i<posts.length; i++){
+                if (posts[i] && normalizePath(posts[i].file) === normalizePath(file)){
+                  postData = posts[i];
+                  break;
+                }
+              }
             }
-          }
-        } catch (err) {
-          console.error('Share error:', err);
-          document.getElementById('shareFallback').style.display = 'block';
-          document.getElementById('shareLink').value = document.title + ' - ' + window.location.href;
-          alert('Sharing failed. Copy the link below.');
-        }
-      }
+            console.log('Fetched postData:', postData); // Debug
+            return fetch('/Mywebsite/' + file, { cache: 'no-store' });
+          })
+          .then(function(mdRes){
+            if (!mdRes.ok){
+              throw new Error('Failed to load Markdown file at /Mywebsite/' + file + ' (Status: ' + mdRes.status + ')');
+            }
+            return mdRes.text();
+          })
+          .then(function(markdown){
+            clearTimeout(stalled);
 
-      function init(){
-        bindMenu();
-        var container = document.getElementById('post-content-wrapper');
-        if (typeof marked === 'undefined'){
-          if (container){
-            container.innerHTML = '<div class="error"><h2>Unable to Load Post</h2><p>Error: Markdown parser not loaded.</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>';
-          }
+            var detectedFirst = firstImageFromMarkdown(markdown);
+            var coverUrl = '';
+            if (postData && postData.cover && String(postData.cover).trim()){
+              coverUrl = String(postData.cover).trim();
+            } else if (detectedFirst){
+              coverUrl = detectedFirst;
+            }
+
+            var mdForRender = markdown;
+            if (coverUrl && detectedFirst && normalizePath(coverUrl) === normalizePath(detectedFirst)){
+              var firstMdImgFull = mdForRender.match(/!\[.*?\]\(.*?\)/);
+              if (firstMdImgFull && firstMdImgFull[0]){
+                mdForRender = mdForRender.replace(firstMdImgFull[0], '');
+              }
+            }
+
+            var content = processMarkdown(mdForRender);
+
+            var title = (postData && postData.title) ? postData.title : 'Untitled';
+            var dateStr = '';
+            if (postData && postData.date){
+              try {
+                dateStr = new Date(postData.date).toLocaleDateString('en-US',
+                  {year:'numeric',month:'long',day:'numeric'});
+              } catch(e){}
+            }
+            var typeStr = (postData && postData.type) ? postData.type : '';
+            document.title = title + ' - Boluadeoye';
+
+            var coverHTML = coverUrl ? (
+              '<figure class="cover-hero">' +
+              '  <img src="/Mywebsite/' + coverUrl + '" alt="' + title + ' cover" loading="lazy" decoding="async">' +
+              '</figure>'
+            ) : '';
+
+            var viewedLabel = (postData && typeof postData.views === 'number' && postData.views >= MANY_THRESHOLD)
+              ? 'Viewed by many' : 'Viewed';
+
+            container.innerHTML = '' +
+              '<div class="post-header">' +
+              '  <div class="post-meta">' +
+              (dateStr ? ('<span class="meta-item">📅 ' + dateStr + '</span>') : '') +
+              (typeStr ? ('<span class="meta-item">📁 ' + typeStr + '</span>') : '') +
+              '    <span class="meta-item meta-red">❤️ Liked</span>' +
+              '    <span class="meta-item meta-red">👁️ ' + viewedLabel + '</span>' +
+              '  </div>' +
+              '  <h1 class="post-title">' + title + '</h1>' +
+              '</div>' +
+              coverHTML +
+              '<div class="post-content">' + content + '</div>' +
+              '<nav class="post-nav">' +
+              '  <a href="./" class="btn-chip">← Back to Home</a>' +
+              '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
+              '  <button class="btn-chip share-btn" onclick="sharePost()">Share Post 📤</button>' +
+              '</nav>' +
+              '<div class="share-fallback" id="shareFallback">' +
+              '  <p>Can’t share? Copy this: <input type="text" id="shareLink" value="' + window.location.href + '" readonly onclick="this.select();document.execCommand(\'copy\');alert(\'Link copied!\')"></p>' +
+              '</div>';
+
+            window.scrollTo(0, 0);
+          })
+          .catch(function(err){
+            clearTimeout(stalled);
+            console.error('Post load error:', err);
+            renderError(container, err.message || String(err));
+          });
+      } catch(error){
+        clearTimeout(stalled);
+        console.error('Initialization error:', error);
+        renderError(container, error.message || String(error));
+      }
+    }
+
+    function sharePost() {
+      alert('Share button clicked!'); // Debug
+      try {
+        var pageUrl = window.location.href;
+        var pageTitle = document.title || 'Post from Boluadeoye';
+        var excerpt = (postData && postData.excerpt) ? postData.excerpt : 'Check out this inspiring devotional on Boluadeoye\'s blog!';
+        alert('Sharing: ' + pageTitle + ' - ' + excerpt); // Debug
+        if (navigator.share) {
+          navigator.share({
+            title: pageTitle,
+            text: excerpt,
+            url: pageUrl
+          }).catch(function(err) {
+            console.error('Web Share error:', err);
+            fallbackToWhatsApp();
+          });
         } else {
-          loadPost();
+          fallbackToWhatsApp();
         }
+        function fallbackToWhatsApp() {
+          var whatsappUrl = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(pageTitle + ' - ' + excerpt + ' ' + pageUrl);
+          var shareWindow = window.open(whatsappUrl, '_blank');
+          if (!shareWindow) {
+            console.error('WhatsApp popup blocked or failed.');
+            document.getElementById('shareFallback').style.display = 'block';
+            document.getElementById('shareLink').value = pageTitle + ' - ' + pageUrl;
+            alert('Sharing failed. Copy the link below.');
+          }
+        }
+      } catch (err) {
+        console.error('Share error:', err);
+        document.getElementById('shareFallback').style.display = 'block';
+        document.getElementById('shareLink').value = document.title + ' - ' + window.location.href;
+        alert('Share error: ' + err.message);
       }
-      if (document.readyState === 'loading'){
-        document.addEventListener('DOMContentLoaded', init);
+    }
+
+    function init(){
+      bindMenu();
+      var container = document.getElementById('post-content-wrapper');
+      if (typeof marked === 'undefined'){
+        if (container){
+          container.innerHTML = '<div class="error"><h2>Unable to Load Post</h2><p>Error: Markdown parser not loaded.</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>';
+        }
       } else {
-        init();
+        loadPost();
       }
-    })();
-  </script>
+    }
+    if (document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>
 </body>
 </html>
