@@ -534,12 +534,10 @@
     }
 
     function sharePost() {
-      alert('Share button clicked!'); // Debug
       try {
         var pageUrl = window.location.href;
         var pageTitle = document.title || 'Post from Boluadeoye';
         var excerpt = (postData && postData.excerpt) ? postData.excerpt : 'Check out this inspiring devotional on Boluadeoye\'s blog!';
-        alert('Sharing: ' + pageTitle + ' - ' + excerpt); // Debug
         if (navigator.share) {
           navigator.share({
             title: pageTitle,
