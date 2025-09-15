@@ -1,15 +1,25 @@
 title: "Boluadeoye — Writings"
+description: "Exploring faith, life, and creativity through thoughtful writings."
 url: "https://boluadeoye.github.io"
-baseurl: "/Mywebsite"   # << important for project sites
+baseurl: "/Mywebsite"   # IMPORTANT: project site path (repo name)
+
 timezone: Africa/Lagos
 
 markdown: kramdown
 permalink: /:year/:month/:day/:title/
 
-# Make every post use our post layout automatically
+# Default layout for posts
 defaults:
   - scope:
       path: ""
       type: "posts"
     values:
       layout: "post"
+
+# Exclude things Jekyll shouldn't try to process
+exclude:
+  - node_modules
+  - vendor
+  - .github
+  - README.md
+  - LICENSE
