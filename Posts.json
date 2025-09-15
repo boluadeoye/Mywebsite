@@ -1,1 +1,52 @@
-[]
+[
+  {
+    "title": "New Mercies Every Morning",
+    "file": "posts/new-mercies.md",
+    "type": "devotional",
+    "date": "2025-09-10",
+    "excerpt": "God’s mercy arrives fresh each morning, ready to lighten your load.",
+    "views": 0,
+    "minutes": 2,
+    "cover": "images/new-mercies-cover.jpg"
+  },
+  {
+    "title": "Faith that Stands in the Storm",
+    "file": "posts/faith-in-storm.md",
+    "type": "devotional",
+    "date": "2025-09-05",
+    "excerpt": "Anchor your faith in Christ to face life’s storms with courage.",
+    "views": 0,
+    "minutes": 2,
+    "cover": ""
+  },
+  {
+    "title": "The Quiet Power of Gratitude",
+    "file": "posts/gratitude-power.md",
+    "type": "devotional",
+    "date": "2025-08-30",
+    "excerpt": "Gratitude transforms pain into perspective, revealing daily miracles.",
+    "views": 0,
+    "minutes": 2,
+    "cover": "images/gratitude-power-cover.jpg"
+  },
+  {
+    "title": "Walking with God in a Noisy World",
+    "file": "posts/walking-with-god.md",
+    "type": "devotional",
+    "date": "2025-08-25",
+    "excerpt": "Find God in life’s noise through small, intentional pauses.",
+    "views": 0,
+    "minutes": 2,
+    "cover": ""
+  },
+  {
+    "title": "Forgiveness as Freedom",
+    "file": "posts/forgiveness-freedom.md",
+    "type": "devotional",
+    "date": "2025-08-20",
+    "excerpt": "Forgiveness releases your future from the weight of past hurts.",
+    "views": 0,
+    "minutes": 2,
+    "cover": ""
+  }
+]
