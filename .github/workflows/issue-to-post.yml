@@ -1,5 +1,11 @@
 name: Create Post from Issue
 
+# --- THIS IS THE NEW PART ---
+permissions:
+  contents: write
+  issues: read
+# --------------------------
+
 on:
   issues:
     types: [opened, edited]
