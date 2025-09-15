@@ -1,22 +1,11 @@
-backend:
-  name: github
-  repo: boluadeoye/Mywebsite
-  branch: main
-
-media_folder: "Mywebsite/images"
-public_folder: "/Mywebsite/images"
-
-collections:
-  - name: "posts"
-    label: "Posts"
-    folder: "Mywebsite/posts"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Publish Date", name: "date", widget: "datetime" }
-      - { label: "Type", name: "type", widget: "string", default: "devotional" }
-      - { label: "Cover Image", name: "cover", widget: "image", required: false }
-      - { label: "Excerpt", name: "excerpt", widget: "text" }
-      - { label: "Reading Time (minutes)", name: "minutes", widget: "number", default: 2 }
-      - { label: "Body", name: "body", widget: "markdown" }
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Content Manager</title>
+</head>
+<body>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+</body>
+</html>
