@@ -16,7 +16,7 @@ defaults:
     values:
       layout: "post"
 
-# Exclude things Jekyll shouldn't try to process
+# Jekyll shouldn't process these
 exclude:
   - node_modules
   - vendor
