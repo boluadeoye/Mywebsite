@@ -72,16 +72,16 @@
     overflow:hidden;
   }
   .content-wrapper{
-    padding:2.75rem 1.5rem; /* Reduced padding for better mobile centering */
+    padding:2.75rem 1.5rem;
     margin:0 auto;
-    max-width:1100px; /* Match .wrap for consistent width */
+    max-width:1100px;
   }
 
   .post-header{
     text-align:center;
     padding:1.5rem 0 1rem;
-    max-width:90ch; /* Constrain header width */
-    margin:0 auto; /* Center header */
+    max-width:90ch;
+    margin:0 auto;
   }
   .post-meta{
     display:flex;
@@ -109,7 +109,7 @@
   }
   .post-title{
     font-family:var(--font);
-    font-size:clamp(1.8rem, 3.5vw, 2.5rem); /* Slightly smaller for balance */
+    font-size:clamp(1.8rem, 3.5vw, 2.5rem);
     font-weight:800;
     line-height:1.2;
     margin:.5rem auto;
@@ -117,7 +117,7 @@
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
     background-clip:text;
-    max-width:90ch; /* Constrain title width */
+    max-width:90ch;
   }
 
   .cover-hero {
@@ -137,43 +137,43 @@
   }
 
   .post-content{
-    max-width:90ch; /* Constrain content width */
-    margin:0 auto; /* Center content */
+    max-width:90ch;
+    margin:0 auto;
     font-family:var(--font);
     font-size:1.0125rem;
     line-height:1.85;
     color:rgba(229,238,252,.96);
-    text-align:left; /* Default left for readability, adjust below */
+    text-align:left;
   }
   .post-content h1{
     font-size:2.25rem;
     margin:2rem auto 1rem;
-    text-align:center; /* Center headings */
+    text-align:center;
   }
   .post-content h2{
     font-size:1.875rem;
     margin:1.75rem auto 1rem;
     max-width:90ch;
     color:var(--orange);
-    text-align:center; /* Center headings */
+    text-align:center;
   }
   .post-content h3{
     font-size:1.5rem;
     margin:1.25rem auto .75rem;
     max-width:90ch;
     color:#fbbf24;
-    text-align:center; /* Center headings */
+    text-align:center;
   }
   .post-content p{
     margin:0 auto 1.1rem;
     max-width:90ch;
-    text-align:center; /* Center paragraphs for poems */
+    text-align:center;
   }
   .post-content ul, .post-content ol{
     margin:1.1rem auto;
     padding-left:1.25rem;
     max-width:90ch;
-    text-align:left; /* Keep lists left-aligned for clarity */
+    text-align:left;
   }
   .post-content li{
     margin:.5rem 0;
@@ -191,7 +191,7 @@
     line-height:1.75;
     color:var(--ink);
     border-left:4px solid var(--orange);
-    text-align:center; /* Center blockquotes */
+    text-align:center;
   }
   .post-content img{
     max-width:100%;
@@ -236,10 +236,19 @@
     box-shadow: 0 4px 15px rgba(245,158,11,.4);
   }
   .share-fallback {
-   display: none;
-   margin-top: 1rem;
-   text-align: center;
-   color: var(--muted);
+    display: none;
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--muted);
+  }
+  .share-fallback input {
+    padding: .5rem;
+    border-radius: 8px;
+    border: 1px solid var(--orange);
+    background: var(--panel);
+    color: var(--ink);
+    width: 80%;
+    max-width: 500px;
   }
 
   .loading-container{
@@ -274,22 +283,21 @@
     margin-top:2rem;
   }
 
-  /* Media query for mobile */
   @media (max-width: 600px) {
     .content-wrapper {
-      padding:1.5rem 1rem; /* Tighter padding on mobile */
+      padding:1.5rem 1rem;
     }
     .post-title {
-      font-size:clamp(1.5rem, 3vw, 2rem); /* Smaller title on mobile */
+      font-size:clamp(1.5rem, 3vw, 2rem);
     }
     .post-content p {
-      font-size:1rem; /* Slightly smaller text */
+      font-size:1rem;
     }
     .post-meta {
-      gap:.5rem; /* Tighter gap for meta items */
+      gap:.5rem;
     }
   }
-   </style>
+  </style>
 </head>
 <body>
   <nav id="sideMenu" class="side-menu">
@@ -401,14 +409,6 @@
           '  <div class="loading-spinner"></div>' +
           '  <p>Loading your post...</p>' +
           '</div>';
-          '<nav class="post-nav">' +
-          '  <a href="./" class="btn-chip">← Back to Home</a>' +
-          '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
-          '  <button class="btn-chip share-btn" onclick="sharePost()">Share Post 📤</button>' +
-          '</nav>' +
-          '<div class="share-fallback" id="shareFallback">' +
-          '  <p>Sharing not supported? Copy this link: <input type="text" value="' + window.location.href + '" readonly onclick="this.select()"></p>' +
-          '</div>';
 
         var stalled = setTimeout(function(){
           renderError(container, 'This is taking longer than expected. Please check your internet or file paths.');
@@ -508,7 +508,10 @@
                 '  <a href="./" class="btn-chip">← Back to Home</a>' +
                 '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
                 '  <button class="btn-chip share-btn" onclick="sharePost()">Share Post 📤</button>' +
-                '</nav>';
+                '</nav>' +
+                '<div class="share-fallback" id="shareFallback">' +
+                '  <p>Sharing not supported? Copy this link: <input type="text" value="' + window.location.href + '" readonly onclick="this.select()"></p>' +
+                '</div>';
 
               window.scrollTo(0, 0);
             })
@@ -526,20 +529,22 @@
       }
 
       function sharePost() {
-  try {
-    var pageUrl = encodeURIComponent(window.location.href);
-    var pageTitle = encodeURIComponent(document.title || 'Post from Boluadeoye');
-    var excerpt = encodeURIComponent((typeof postData !== 'undefined' && postData.excerpt) ? postData.excerpt : 'Check out this inspiring devotional on Boluadeoye\'s blog!');
-    var whatsappUrl = 'https://wa.me/?text=' + pageTitle + ' ' + pageUrl + ' ' + excerpt;
-    var shareWindow = window.open(whatsappUrl, 'share-popup', 'width=600,height=400,left=' + (screen.width - 600)/2 + ',top=' + (screen.height - 400)/2);
-    if (!shareWindow) {
-      console.error('Popup blocked or failed to open.');
-      window.location.href = whatsappUrl; // Fallback to direct redirect
-    }
-  } catch (err) {
-    console.error('Share error:', err);
-    alert('Sorry, sharing failed. Try copying the link manually.');
-  }
+        try {
+          var pageUrl = encodeURIComponent(window.location.href);
+          var pageTitle = encodeURIComponent(document.title || 'Post from Boluadeoye');
+          var excerpt = encodeURIComponent((typeof postData !== 'undefined' && postData && postData.excerpt) ? postData.excerpt : 'Check out this inspiring devotional on Boluadeoye\'s blog!');
+          var whatsappUrl = 'https://wa.me/?text=' + pageTitle + ' - ' + excerpt + ' ' + pageUrl;
+          var shareWindow = window.open(whatsappUrl, '_blank');
+          if (!shareWindow) {
+            console.error('Popup blocked or failed to open.');
+            document.getElementById('shareFallback').style.display = 'block';
+            window.location.href = whatsappUrl; // Fallback redirect
+          }
+        } catch (err) {
+          console.error('Share error:', err);
+          document.getElementById('shareFallback').style.display = 'block';
+          alert('Sorry, sharing failed. Copy the link below.');
+        }
       }
 
       function init(){
