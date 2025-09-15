@@ -1,9 +1,16 @@
-**Scripture**: Lamentations 3:22–23
+### Scripture: **Lamentations 3:22–23**
 
-Thomas Chisholm wrote the hymn “Great Is Thy Faithfulness” while living with fragile health and modest means. No fame, no perfect circumstances—just quiet trust, one day at a time. His life reminds me that mercy doesn’t wait for everything to be neat; it arrives with the morning light.
+The words of this scripture found a powerful echo in the life of Thomas Chisholm, who wrote the beloved hymn “Great Is Thy Faithfulness.” He penned those words not from a place of fame or comfort, but amid the daily realities of fragile health and modest means. His life is a testament to a quiet, resilient trust, lived out one day at a time.
 
-So I’m starting today without yesterday’s weight. God’s love hasn’t run dry. My task is simple: receive grace and take the next faithful step.
+It’s a profound reminder that God’s mercy doesn’t wait for our circumstances to be perfect or for our lives to be neat. It arrives with the certainty of the morning light, cutting through the shadows of whatever came before.
 
-**Prayer**: Lord, thank You for undeserved, daily mercy. Teach me to begin again today.
+That’s why I’m choosing to start today free from the weight of yesterday's regrets or tomorrow's anxieties. God’s love has not run out. Our task, then, is simple: to open our hands, receive His grace, and take the next faithful step forward.
 
-**Quote to carry**: “Great is Thy faithfulness.” — Thomas Chisholm
+---
+
+#### Prayer
+*Lord, thank You for Your mercy, which is undeserved and new each day. Teach me how to truly begin again in Your grace. Amen.*
+
+> “Great is Thy faithfulness.”
+>
+> — Thomas Chisholm
