@@ -5,25 +5,43 @@ labels: ["blog:post"]
 body:
   - type: input
     id: post_title
-    attributes: { label: Title }
-    validations: { required: true }
+    attributes:
+      label: Title
+      placeholder: e.g., My First Blog Post
+    validations:
+      required: true
+
   - type: input
     id: slug
-    attributes: { label: Slug (lowercase-hyphens), placeholder: my-first-post }
-    validations: { required: true }
-  - type: input
+    attributes:
+      label: Slug (lowercase-hyphens)
+      placeholder: my-first-post
+    validations:
+      required: true
+
+  - type: datetime
     id: publish_date
-    attributes: { label: Publish date (YYYY-MM-DD), placeholder: 2025-09-20 }
-    validations: { required: true }
+    attributes:
+      label: Publish date
+      description: "Choose when this post should be published"
+    validations:
+      required: true
+
   - type: input
     id: tags
-    attributes: { label: Tags (comma-separated), placeholder: dev, notes, life }
+    attributes:
+      label: Tags (comma-separated)
+      placeholder: dev, notes, life
+
   - type: textarea
     id: summary
-    attributes: { label: One-paragraph summary }
+    attributes:
+      label: One-paragraph summary
+
   - type: textarea
     id: body
     attributes:
       label: Post body (Markdown)
       placeholder: "## Intro\nWrite in **Markdown**. Drag–drop images here; GitHub will auto-host them."
-    validations: { required: true }
+    validations:
+      required: true
