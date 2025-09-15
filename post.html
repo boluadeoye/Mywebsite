@@ -235,6 +235,12 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(245,158,11,.4);
   }
+  .share-fallback {
+   display: none;
+   margin-top: 1rem;
+   text-align: center;
+   color: var(--muted);
+  }
 
   .loading-container{
     min-height:160px;
@@ -395,6 +401,14 @@
           '  <div class="loading-spinner"></div>' +
           '  <p>Loading your post...</p>' +
           '</div>';
+          '<nav class="post-nav">' +
+          '  <a href="./" class="btn-chip">← Back to Home</a>' +
+          '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
+          '  <button class="btn-chip share-btn" onclick="sharePost()">Share Post 📤</button>' +
+          '</nav>' +
+          '<div class="share-fallback" id="shareFallback">' +
+          '  <p>Sharing not supported? Copy this link: <input type="text" value="' + window.location.href + '" readonly onclick="this.select()"></p>' +
+          '</div>';
 
         var stalled = setTimeout(function(){
           renderError(container, 'This is taking longer than expected. Please check your internet or file paths.');
@@ -512,13 +526,20 @@
       }
 
       function sharePost() {
-        var pageUrl = encodeURIComponent(window.location.href);
-        var pageTitle = encodeURIComponent(document.title);
-        var excerpt = encodeURIComponent((postData && postData.excerpt) || 'Check out this inspiring post on Boluadeoye\'s blog!');
-        var twitterUrl = 'https://twitter.com/intent/tweet?url=' + pageUrl + '&text=' + pageTitle + ' ' + excerpt;
-        var whatsappUrl = 'https://wa.me/?text=' + pageTitle + ' ' + pageUrl;
-        var shareWindow = window.open('', 'share-popup', 'width=600,height=400,left=' + (screen.width - 600)/2 + ',top=' + (screen.height - 400)/2);
-        shareWindow.location = twitterUrl; // Starts with Twitter; WhatsApp for Naija users
+  try {
+    var pageUrl = encodeURIComponent(window.location.href);
+    var pageTitle = encodeURIComponent(document.title || 'Post from Boluadeoye');
+    var excerpt = encodeURIComponent((typeof postData !== 'undefined' && postData.excerpt) ? postData.excerpt : 'Check out this inspiring devotional on Boluadeoye\'s blog!');
+    var whatsappUrl = 'https://wa.me/?text=' + pageTitle + ' ' + pageUrl + ' ' + excerpt;
+    var shareWindow = window.open(whatsappUrl, 'share-popup', 'width=600,height=400,left=' + (screen.width - 600)/2 + ',top=' + (screen.height - 400)/2);
+    if (!shareWindow) {
+      console.error('Popup blocked or failed to open.');
+      window.location.href = whatsappUrl; // Fallback to direct redirect
+    }
+  } catch (err) {
+    console.error('Share error:', err);
+    alert('Sorry, sharing failed. Try copying the link manually.');
+  }
       }
 
       function init(){
