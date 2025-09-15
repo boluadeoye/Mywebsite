@@ -42,7 +42,6 @@
     .brand:hover { transform: translateX(3px); }
     .brand:hover .dot { transform: rotate(360deg) scale(1.12); }
 
-    /* Breathing, glowing brand dot */
     .dot {
       width: 34px; height: 34px; border-radius: 50%;
       background: radial-gradient(circle at 30% 30%, #ffd27a 0%, #f59e0b 40%, #d97706 100%);
@@ -129,7 +128,6 @@
     .stat-item { display: flex; align-items: center; gap: 0.4rem; color: var(--muted); }
     .stat-red { color: var(--red); }
 
-    /* Cover image */
     .post-cover { width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; margin-bottom: 1rem; border: 1px solid rgba(245,158,11,.15); background: rgba(255,255,255,.02); }
     .post-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
@@ -142,80 +140,23 @@
     footer p { margin: 0; letter-spacing: 0.5px; position: relative; display: inline-block; }
     footer p::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--orange), transparent); transition: width 0.4s var(--transition); }
     footer p:hover::after { width: 100%; }
-
-    @media (min-width: 880px) { .top-nav { display: flex; } .hamburger { display: none; } }
-    @media (max-width: 879px) {
-      .search-container { display: none; }
-      .hero-split { grid-template-columns: 1fr; text-align: center; gap: 2.5rem; }
-      .hero-photo { max-width: 320px; margin: 0 auto; }
-      .hero h2 { font-size: 2rem; }
-      .sub { text-align: center; margin: 0 auto 2rem; }
-      .chip { margin: 0 auto; }
-      .btn { align-self: center; }
-    }
-    @media (max-width: 480px) {
-      .hero { padding: 3rem 0 2rem; }
-      .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; margin: 2.5rem 0 1.5rem; }
-      .post { padding: 1.5rem; }
-      h3.section-title { padding-left: 1.2rem; font-size: 1.5rem; }
-      .hero h2 { font-size: 1.8rem; }
-    }
   </style>
 </head>
 <body>
-  <!-- Side Menu -->
-  <nav id="sideMenu" class="side-menu">
-    <a href="#" data-filter="all" class="filter-link active">All writings</a>
-    <a href="#" data-filter="poems" class="filter-link">Poems</a>
-    <a href="#" data-filter="stories" class="filter-link">Stories</a>
-    <a href="#" data-filter="faith" class="filter-link">Faith</a>
-    <a href="#" data-filter="devotional" class="filter-link">Devotional</a>
-    <a href="#" data-filter="articles" class="filter-link">Articles</a>
-    <a href="#" data-filter="essays" class="filter-link">Essays</a>
-    <a href="./library.html">Library</a>
-    <a href="./about.html">About</a>
-  </nav>
-  <div id="menuOverlay" class="overlay"></div>
-
-  <!-- Header -->
   <header>
     <div class="wrap header-row">
-      <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <rect x="4" y="6" width="16" height="2" rx="1"/>
-          <rect x="4" y="11" width="16" height="2" rx="1"/>
-          <rect x="4" y="16" width="16" height="2" rx="1"/>
-        </svg>
-      </button>
-
       <a class="brand" href="./">
         <span class="dot" aria-hidden="true"></span>
         <h1>Boluadeoye</h1>
       </a>
-
-      <div class="search-container">
-        <div class="search-bar">
-          <input type="text" id="searchInput" placeholder="Search writings..." autocomplete="off" aria-label="Search writings">
-          <span class="search-icon">🔍</span>
-          <div id="searchResults" class="search-results" role="listbox"></div>
-        </div>
-      </div>
-
       <nav class="top-nav" aria-label="Filters">
-        <a href="#" data-filter="all" class="filter-link active">All</a>
-        <a href="#" data-filter="poems" class="filter-link">Poems</a>
-        <a href="#" data-filter="stories" class="filter-link">Stories</a>
-        <a href="#" data-filter="faith" class="filter-link">Faith</a>
-        <a href="#" data-filter="devotional" class="filter-link">Devotional</a>
-        <a href="#" data-filter="articles" class="filter-link">Articles</a>
-        <a href="#" data-filter="essays" class="filter-link">Essays</a>
+        <a href="./posts.html">All Posts</a>
         <a href="./library.html">Library</a>
         <a href="./about.html">About</a>
       </nav>
     </div>
   </header>
 
-  <!-- Main -->
   <main class="wrap">
     <section class="hero" aria-label="Intro">
       <div class="hero-split">
@@ -251,22 +192,22 @@
   </footer>
 
   <script>
-    // Menu
-    const menuBtn = document.getElementById('menuBtn');
-    const sideMenu = document.getElementById('sideMenu');
-    const menuOverlay = document.getElementById('menuOverlay');
-    function closeMenu(){ sideMenu.classList.remove('active'); menuOverlay.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
-    function openMenu(){ sideMenu.classList.add('active'); menuOverlay.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
-    menuBtn.addEventListener('click', () => { sideMenu.classList.contains('active') ? closeMenu() : openMenu(); });
-    menuOverlay.addEventListener('click', closeMenu);
+    // -----------------------
+    // IMPORTANT CONSTANT
+    // -----------------------
+    const BASE = '/Mywebsite'; // project-site prefix so links don't 404
 
-    // Posts + search
     const MANY_THRESHOLD = 50;
     let allPosts = [];
     let currentFilter = 'all';
     const postsEl = document.getElementById('posts');
-    const searchInput = document.getElementById('searchInput');
-    const searchResults = document.getElementById('searchResults');
+
+    function withBase(url){
+      if (!url) return '#';
+      if (url.startsWith(BASE)) return url;
+      if (url.startsWith('/')) return BASE + url;
+      return BASE + '/' + url;
+    }
 
     async function loadPosts(){
       try{
@@ -281,7 +222,7 @@
             cover: p.cover || ''
           }))
           .sort((a, b) => new Date(b.date) - new Date(a.date));
-        filterPosts(currentFilter);
+        displayPosts(allPosts.slice(0, 3));
         postsEl.classList.add('loaded');
       }catch(err){
         console.error('Error loading posts:', err);
@@ -289,19 +230,9 @@
       }
     }
 
-    function filterPosts(filter){
-      currentFilter = filter;
-      document.querySelectorAll('.filter-link').forEach(link => {
-        link.classList.toggle('active', link.getAttribute('data-filter') === filter);
-      });
-      let list = allPosts.slice();
-      if(filter !== 'all') list = list.filter(p => p.type === filter);
-      displayPosts(list.slice(0, 3));
-    }
-
     function displayPosts(list){
       if(!list || !list.length){
-        postsEl.innerHTML = `<p style="text-align:center;color:var(--muted);padding:3rem;">No ${currentFilter==='all'?'':' ' + currentFilter} posts available.</p>`;
+        postsEl.innerHTML = `<p style="text-align:center;color:var(--muted);padding:3rem;">No posts available.</p>`;
         return;
       }
       postsEl.innerHTML = list.map(p => {
@@ -310,7 +241,8 @@
           <figure class="post-cover">
             <img src="/Mywebsite/${p.cover}" alt="${p.title} cover" loading="lazy" decoding="async">
           </figure>` : '';
-        const link = p.url || (p.file ? `post.html?file=${encodeURIComponent(p.file)}` : '#');  // ← prefers pretty URL
+        const link = p.url ? withBase(p.url)
+                           : (p.file ? `post.html?file=${encodeURIComponent(p.file)}` : '#');
         return `
           <article class="post">
             ${coverHTML}
@@ -330,53 +262,6 @@
         `;
       }).join('');
     }
-
-    document.querySelectorAll('.filter-link').forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const filter = link.getAttribute('data-filter');
-        if(filter){
-          filterPosts(filter.toLowerCase());
-          closeMenu();
-          document.getElementById('latest').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    });
-
-    let searchTimeout;
-    if (searchInput){
-      searchInput.addEventListener('input', (e) => {
-        clearTimeout(searchTimeout);
-        const q = e.target.value.trim();
-        if(q.length < 2){ searchResults.classList.remove('active'); return; }
-        searchTimeout = setTimeout(() => {
-          const t = q.toLowerCase();
-          const results = allPosts.filter(post =>
-            (post.title || '').toLowerCase().includes(t) ||
-            (post.excerpt || '').toLowerCase().includes(t) ||
-            (post.type || '').toLowerCase().includes(t)
-          );
-          searchResults.innerHTML = results.length ?
-            results.slice(0, 5).map(p => {
-              const link = p.url || (p.file ? `post.html?file=${encodeURIComponent(p.file)}` : '#'); // ← prefers pretty URL
-              return `
-                <a href="${link}" class="search-result-item">
-                  <div class="search-result-title">${p.title}</div>
-                  <div class="search-result-excerpt">${(p.excerpt || '').slice(0, 80)}...</div>
-                </a>`;
-            }).join('')
-            :
-            `<div class="search-result-item">
-               <div class="search-result-title">No results found</div>
-               <div class="search-result-excerpt">Try different keywords</div>
-             </div>`;
-          searchResults.classList.add('active');
-        }, 300);
-    })}
-    document.addEventListener('click', e => {
-      if (!e.target.closest('.search-container')) searchResults.classList.remove('active');
-      if (e.target.closest('.search-result-item')) searchResults.classList.remove('active');
-    });
 
     document.addEventListener('DOMContentLoaded', loadPosts);
   </script>
