@@ -270,7 +270,7 @@
     animation:spin 1s linear infinite;
     margin-bottom:1rem;
   }
-  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes spin{to{transform:rotate(360deg))}
   .error{text-align:center;padding:2rem;color:#ff6b6b}
 
   footer{
@@ -510,7 +510,7 @@
                 '  <button class="btn-chip share-btn" onclick="sharePost()">Share Post 📤</button>' +
                 '</nav>' +
                 '<div class="share-fallback" id="shareFallback">' +
-                '  <p>Sharing not supported? Copy this link: <input type="text" value="' + window.location.href + '" readonly onclick="this.select()"></p>' +
+                '  <p>Can’t share? Copy this: <input type="text" id="shareLink" value="' + window.location.href + '" readonly onclick="this.select();document.execCommand(\'copy\');alert(\'Link copied!\')"></p>' +
                 '</div>';
 
               window.scrollTo(0, 0);
@@ -530,20 +530,36 @@
 
       function sharePost() {
         try {
-          var pageUrl = encodeURIComponent(window.location.href);
-          var pageTitle = encodeURIComponent(document.title || 'Post from Boluadeoye');
-          var excerpt = encodeURIComponent((typeof postData !== 'undefined' && postData && postData.excerpt) ? postData.excerpt : 'Check out this inspiring devotional on Boluadeoye\'s blog!');
-          var whatsappUrl = 'https://wa.me/?text=' + pageTitle + ' - ' + excerpt + ' ' + pageUrl;
-          var shareWindow = window.open(whatsappUrl, '_blank');
-          if (!shareWindow) {
-            console.error('Popup blocked or failed to open.');
-            document.getElementById('shareFallback').style.display = 'block';
-            window.location.href = whatsappUrl; // Fallback redirect
+          var pageUrl = window.location.href;
+          var pageTitle = document.title || 'Post from Boluadeoye';
+          var excerpt = (typeof postData !== 'undefined' && postData && postData.excerpt) ? postData.excerpt : 'Check out this inspiring devotional on Boluadeoye\'s blog!';
+          if (navigator.share) {
+            navigator.share({
+              title: pageTitle,
+              text: excerpt,
+              url: pageUrl
+            }).catch(function(err) {
+              console.error('Web Share error:', err);
+              fallbackToWhatsApp();
+            });
+          } else {
+            fallbackToWhatsApp();
+          }
+          function fallbackToWhatsApp() {
+            var whatsappUrl = 'https://wa.me/?text=' + encodeURIComponent(pageTitle + ' - ' + excerpt + ' ' + pageUrl);
+            var shareWindow = window.open(whatsappUrl, '_blank');
+            if (!shareWindow) {
+              console.error('WhatsApp popup blocked or failed.');
+              document.getElementById('shareFallback').style.display = 'block';
+              document.getElementById('shareLink').value = pageTitle + ' - ' + pageUrl;
+              alert('Sharing failed. Copy the link below.');
+            }
           }
         } catch (err) {
           console.error('Share error:', err);
           document.getElementById('shareFallback').style.display = 'block';
-          alert('Sorry, sharing failed. Copy the link below.');
+          document.getElementById('shareLink').value = document.title + ' - ' + window.location.href;
+          alert('Sharing failed. Copy the link below.');
         }
       }
 
