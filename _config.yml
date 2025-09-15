@@ -1,4 +1,15 @@
-title: "Mywebsite"
+title: "Boluadeoye — Writings"
+url: "https://boluadeoye.github.io"
+baseurl: "/Mywebsite"   # << important for project sites
 timezone: Africa/Lagos
-permalink: /:year/:month/:day/:title/
+
 markdown: kramdown
+permalink: /:year/:month/:day/:title/
+
+# Make every post use our post layout automatically
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
