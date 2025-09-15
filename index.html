@@ -1,3 +1,6 @@
+---
+title: Boluadeoye — Writings
+---
 <!doctype html>
 <html lang="en">
 <head>
@@ -250,6 +253,21 @@
     </div>
   </footer>
 
+  <!-- Embedded Jekyll posts as JSON (fallback if Posts.json is missing/outdated) -->
+  <script id="jekyllPosts" type="application/json">
+  [
+  {% for post in site.posts %}
+    {
+      "title": {{ post.title | jsonify }},
+      "date": {{ post.date | date_to_xmlschema | jsonify }},
+      "url": {{ post.url | relative_url | jsonify }},
+      "excerpt": {{ post.excerpt | strip_html | truncate: 140 | jsonify }},
+      "tags": {{ post.tags | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+  ]
+  </script>
+
   <script>
     // Menu
     const menuBtn = document.getElementById('menuBtn');
@@ -269,24 +287,65 @@
     const searchResults = document.getElementById('searchResults');
 
     async function loadPosts(){
+      // 1) Try your existing JSON (keeps current behavior)
       try{
         const res = await fetch('/Mywebsite/Posts.json', { cache: 'no-store' });
-        if(!res.ok) throw new Error(`Failed to load Posts.json (Status: ${res.status})`);
-        const data = await res.json();
-        allPosts = (Array.isArray(data) ? data : [])
-          .map(p => ({ 
-            ...p, 
-            type: (p.type || 'essay').toLowerCase(),
-            views: p.views || 0,
-            cover: p.cover || ''
-          }))
-          .sort((a, b) => new Date(b.date) - new Date(a.date));
+        if(res.ok){
+          const data = await res.json();
+          if (Array.isArray(data) && data.length){
+            allPosts = normalizeLegacy(data);
+            filterPosts(currentFilter);
+            postsEl.classList.add('loaded');
+            return;
+          }
+        }
+      }catch(_){ /* ignore and fall back */ }
+
+      // 2) Fall back to embedded Jekyll data (auto from _posts/)
+      try{
+        const raw = document.getElementById('jekyllPosts').textContent.trim();
+        const data = raw ? JSON.parse(raw) : [];
+        allPosts = normalizeJekyll(data);
         filterPosts(currentFilter);
         postsEl.classList.add('loaded');
       }catch(err){
         console.error('Error loading posts:', err);
         postsEl.innerHTML = `<div style="text-align:center;padding:3rem;color:#ff6b6b;"><h3>Unable to load posts</h3><p>${err.message}</p></div>`;
       }
+    }
+
+    function normalizeLegacy(arr){
+      return (arr || []).map(p => ({
+        // original JSON shape
+        title: p.title || 'Untitled',
+        date: p.date || new Date().toISOString(),
+        excerpt: p.excerpt || '',
+        type: (p.type || 'essay').toLowerCase(),
+        views: p.views || 0,
+        cover: p.cover || '',
+        minutes: p.minutes || 3,
+        // Prefer file-link route for legacy posts
+        href: p.file ? `post.html?file=${encodeURIComponent(p.file)}` : '#'
+      })).sort((a,b) => new Date(b.date) - new Date(a.date));
+    }
+
+    function normalizeJekyll(arr){
+      const KNOWN = new Set(['poems','stories','faith','devotional','articles','essays']);
+      return (arr || []).map(p => {
+        const tags = Array.isArray(p.tags) ? p.tags.map(t => String(t).toLowerCase()) : [];
+        const firstKnown = tags.find(t => KNOWN.has(t));
+        return {
+          title: p.title || 'Untitled',
+          date: p.date || new Date().toISOString(),
+          excerpt: p.excerpt || '',
+          type: (firstKnown || 'essay'),
+          views: 0,
+          cover: '',        // You can add "cover_image" to front matter later if you like
+          minutes: 3,
+          // Prefer Jekyll URL when present
+          href: p.url || '#'
+        };
+      }).sort((a,b) => new Date(b.date) - new Date(a.date));
     }
 
     function filterPosts(filter){
@@ -315,14 +374,14 @@
             ${coverHTML}
             <div class="post-header">
               <div>
-                <h3><a href="post.html?file=${encodeURIComponent(p.file)}" style="color:inherit;">${p.title}</a></h3>
+                <h3><a href="${p.href}" style="color:inherit;">${p.title}</a></h3>
                 <div class="post-date">📅 ${new Date(p.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</div>
               </div>
               <span class="post-type">${p.type || 'reflection'}</span>
             </div>
             <p>${p.excerpt || ''}</p>
             <div class="stats">
-              <span class="stat-item">⏱️ ${p.minutes} min read</span>
+              <span class="stat-item">⏱️ ${p.minutes || 3} min read</span>
               <span class="stat-item">👁️ ${viewedLabel}</span>
             </div>
           </article>
@@ -357,7 +416,7 @@
           );
           searchResults.innerHTML = results.length ?
             results.slice(0, 5).map(p => `
-              <a href="post.html?file=${encodeURIComponent(p.file)}" class="search-result-item">
+              <a href="${p.href}" class="search-result-item">
                 <div class="search-result-title">${p.title}</div>
                 <div class="search-result-excerpt">${(p.excerpt || '').slice(0, 80)}...</div>
               </a>`).join('')
