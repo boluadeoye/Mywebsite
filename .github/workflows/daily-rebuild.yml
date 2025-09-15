@@ -1,0 +1,22 @@
+name: Daily Rebuild
+on:
+  schedule:
+    - cron: "7 4 * * *"   # runs daily at 04:07 UTC (~05:07 Africa/Lagos)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  nudge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Nudge commit
+        run: |
+          date > .last_rebuild
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .last_rebuild
+          git commit -m "chore: daily rebuild"
+          git push
