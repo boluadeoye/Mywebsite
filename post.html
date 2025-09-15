@@ -224,6 +224,17 @@
     font-size:.95rem;
     box-shadow:0 4px 15px rgba(245,158,11,.3);
   }
+  .btn-chip.share-btn {
+    background: linear-gradient(135deg, var(--orange), var(--orange-light));
+    color: var(--orange-ink);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .btn-chip.share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(245,158,11,.4);
+  }
 
   .loading-container{
     min-height:160px;
@@ -482,6 +493,7 @@
                 '<nav class="post-nav">' +
                 '  <a href="./" class="btn-chip">← Back to Home</a>' +
                 '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
+                '  <button class="btn-chip share-btn" onclick="sharePost()">Share Post 📤</button>' +
                 '</nav>';
 
               window.scrollTo(0, 0);
@@ -497,6 +509,16 @@
           console.error('Initialization error:', error);
           renderError(container, error.message || String(error));
         }
+      }
+
+      function sharePost() {
+        var pageUrl = encodeURIComponent(window.location.href);
+        var pageTitle = encodeURIComponent(document.title);
+        var excerpt = encodeURIComponent((postData && postData.excerpt) || 'Check out this inspiring post on Boluadeoye\'s blog!');
+        var twitterUrl = 'https://twitter.com/intent/tweet?url=' + pageUrl + '&text=' + pageTitle + ' ' + excerpt;
+        var whatsappUrl = 'https://wa.me/?text=' + pageTitle + ' ' + pageUrl;
+        var shareWindow = window.open('', 'share-popup', 'width=600,height=400,left=' + (screen.width - 600)/2 + ',top=' + (screen.height - 400)/2);
+        shareWindow.location = twitterUrl; // Starts with Twitter; WhatsApp for Naija users
       }
 
       function init(){
