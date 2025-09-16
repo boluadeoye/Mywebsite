@@ -1,11 +1,3 @@
----
-title: "The Grace of Second Chances"
-date: "2025-08-23"
-cover: ""
-excerpt: "A reflection on the endless mercy that meets us right where we are, offering a fresh start no matter our past."
-type: "Devotional"
----
-
 I remember once giving a total stranger directions with absolute, unshakeable confidence. I pointed them down a series of roads, smiled, and wished them well, feeling proud of my helpfulness. It was only ten minutes later, as I was walking home, that a cold dread washed over me. I had mixed up two streets. I had sent them in the completely wrong direction. For the rest of the day, I couldn't shake the feeling of foolishness and shame over such a small, clumsy mistake. I wished I could find them again, apologize, and get a do-over.
 
 We’ve all had moments like that, and often, they are far more serious than giving bad directions. We say the wrong thing, make a poor decision, or hurt someone we love. In those moments, the weight of our failure can feel crushing, as if we have permanently ruined the clay. We feel disqualified, believing we’ve used up our last chance.
