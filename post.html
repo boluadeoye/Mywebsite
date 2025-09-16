@@ -462,7 +462,7 @@
           return;
         }
 
-        fetch('/Mywebsite/Posts.json', { cache: 'no-store' })
+        fetch('./Posts.json', { cache: 'no-store' })
           .then(function(res){
             if (!res.ok) throw new Error('Could not load Posts.json. Status: ' + res.status);
             return res.json();
@@ -477,11 +477,11 @@
               }
             }
             console.log('Fetched postData:', postData); // Debug
-            return fetch('/Mywebsite/' + file, { cache: 'no-store' });
+            return fetch(file, { cache: 'no-store' });
           })
           .then(function(mdRes){
             if (!mdRes.ok){
-              throw new Error('Failed to load Markdown file at /Mywebsite/' + file + ' (Status: ' + mdRes.status + ')');
+              throw new Error('Failed to load Markdown file at ' + file + ' (Status: ' + mdRes.status + ')');
             }
             return mdRes.text();
           })
@@ -519,7 +519,7 @@
 
             var coverHTML = coverUrl ? (
               '<figure class="cover-hero">' +
-              '  <img src="/Mywebsite/' + coverUrl + '" alt="' + title + ' cover" loading="lazy" decoding="async">' +
+              '  <img src="' + coverUrl + '" alt="' + title + ' cover" loading="lazy" decoding="async">' +
               '</figure>'
             ) : '';
 
