@@ -1,13 +1,13 @@
 [
   {
     "title": "New Mercies Every Morning",
-    "file": "Mywebsite/posts/new-mercies.md",
+    "file": "posts/new-mercies.md",
     "type": "devotional",
     "date": "2025-09-10",
     "excerpt": "God’s mercy arrives fresh each morning, ready to lighten your load.",
     "views": 0,
     "minutes": 2,
-    "cover": "Mywebsite/images/new-mercies-cover.jpg"
+    "cover": "images/new-mercies-cover.jpg"
   },
   {
     "title": "Faith that Stands in the Storm",
