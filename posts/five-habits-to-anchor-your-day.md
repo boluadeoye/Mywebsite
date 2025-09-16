@@ -1,11 +1,3 @@
----
-title: "Five Habits to Anchor Your Day in Faith"
-date: "2025-08-29"
-cover: ""
-excerpt: "Simple, powerful practices to weave into your daily routine that will strengthen your spiritual foundation."
-type: "Article"
----
-
 Have you ever woken up with the best intentions for a peaceful, faith-filled day, only to be swept away by the current of emails, deadlines, and distractions before you've even had breakfast? It's easy to feel spiritually adrift, tossed about by the worries of the world. The key isn't to find a bigger boat, but to have a stronger anchor.
 
 An anchor doesn't stop the storm, but it holds the ship steady. In the same way, small, consistent habits can anchor our hearts to God, holding us steady no matter what the day brings. Here are five simple habits you can start today.
