@@ -462,7 +462,7 @@
           return;
         }
 
-        fetch('/Posts.json', { cache: 'no-store' })
+        fetch('/Mywebsite/Posts.json', { cache: 'no-store' })
           .then(function(res){
             if (!res.ok) throw new Error('Could not load Posts.json. Status: ' + res.status);
             return res.json();
@@ -477,11 +477,11 @@
               }
             }
             console.log('Fetched postData:', postData); // Debug
-            return fetch('/posts/' + file, { cache: 'no-store' });
+            return fetch('/Mywebsite/' + file, { cache: 'no-store' });
           })
           .then(function(mdRes){
             if (!mdRes.ok){
-              throw new Error('Failed to load Markdown file at /posts/' + file + ' (Status: ' + mdRes.status + ')');
+              throw new Error('Failed to load Markdown file at /Mywebsite/' + file + ' (Status: ' + mdRes.status + ')');
             }
             return mdRes.text();
           })
@@ -519,7 +519,7 @@
 
             var coverHTML = coverUrl ? (
               '<figure class="cover-hero">' +
-              '  <img src="/' + coverUrl + '" alt="' + title + ' cover" loading="lazy" decoding="async">' +
+              '  <img src="/Mywebsite/' + coverUrl + '" alt="' + title + ' cover" loading="lazy" decoding="async">' +
               '</figure>'
             ) : '';
 
@@ -568,7 +568,7 @@
       try {
         var pageUrl = window.location.href;
         var pageTitle = document.title || 'Post from Boluadeoye';
-        var excerpt = (postData && postData.excerpt) ? postData.excerpt : 'Check out this inspiring devotional on Boluadeoye's blog!';
+        var excerpt = (postData && postData.excerpt) ? postData.excerpt : 'Check out this inspiring devotional on Boluadeoye\'s blog!';
         if (navigator.share) {
           navigator.share({
             title: pageTitle,
@@ -619,6 +619,6 @@
       init();
     }
   })();
-  </script>
+</script>
 </body>
 </html>
