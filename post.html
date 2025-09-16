@@ -224,32 +224,6 @@
     font-size:.95rem;
     box-shadow:0 4px 15px rgba(245,158,11,.3);
   }
-  .btn-chip.share-btn {
-    background: linear-gradient(135deg, var(--orange), var(--orange-light));
-    color: var(--orange-ink);
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-  }
-  .btn-chip.share-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(245,158,11,.4);
-  }
-  .share-fallback {
-    display: none;
-    margin-top: 1rem;
-    text-align: center;
-    color: var(--muted);
-  }
-  .share-fallback input {
-    padding: .5rem;
-    border-radius: 8px;
-    border: 1px solid var(--orange);
-    background: var(--panel);
-    color: var(--ink);
-    width: 80%;
-    max-width: 500px;
-  }
 
   .loading-container{
     min-height:160px;
@@ -337,16 +311,11 @@
 
   <main class="wrap">
     <div class="post-container">
-      <div class="content-wrapper">
-        <article id="post-content-wrapper">
-          <div class="loading-container">
+      <div class="content-wrapper" id="main-content">
+        <div class="loading-container">
             <div class="loading-spinner"></div>
             <p>Loading your post...</p>
-          </div>
-        </article>
-        
-        <div id="disqus_thread" style="margin-top: 2rem;"></div>
-        
+        </div>
       </div>
     </div>
   </main>
@@ -357,10 +326,113 @@
 
   <script>
   (function(){
-    var MANY_THRESHOLD = 50;
-    var postData = null; // Global scope
-    var postFile = ''; // Global scope for Disqus
+    // --- Helper Functions ---
+    function normalizePath(p) {
+        if (!p) return '';
+        return String(p).trim().replace(/^\.\/+/, '').replace(/^\/+/, '');
+    }
 
+    function firstImageFromMarkdown(md) {
+        var m1 = md.match(/!\[.*?\]\((.*?)\)/);
+        if (m1 && m1[1]) return m1[1].trim();
+        var m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
+        if (m2 && m2[1]) return m2[1].trim();
+        return '';
+    }
+
+    function processMarkdown(text) {
+        if (!text || typeof text !== 'string') return '<p>Content unavailable.</p>';
+        if (typeof marked === 'undefined') return '<p>Error: Markdown parser not loaded.</p>';
+        return marked.parse(text, { breaks: true });
+    }
+
+    function renderError(container, message) {
+        container.innerHTML = 
+            '<div class="error">' +
+            '  <h2>Unable to Load Post</h2>' +
+            '  <p>' + message + '</p>' +
+            '  <div class="post-nav" style="justify-content:center;">' +
+            '    <a href="./" class="btn-chip">← Return to Homepage</a>' +
+            '  </div>' +
+            '</div>';
+    }
+    
+    // --- Main Post Loading Logic ---
+    function loadPost() {
+        var container = document.getElementById('main-content');
+        if (!container) return;
+
+        try {
+            var urlParams = new URLSearchParams(window.location.search);
+            var file = urlParams.get('file');
+            var postData = null;
+
+            if (!file) {
+                renderError(container, 'No post file specified in URL.');
+                return;
+            }
+
+            fetch('./Posts.json', { cache: 'no-store' })
+                .then(function(res) {
+                    if (!res.ok) throw new Error('Could not load Posts.json (Status: ' + res.status + ')');
+                    return res.json();
+                })
+                .then(function(posts) {
+                    postData = posts.find(function(p) {
+                        return p && normalizePath(p.file) === normalizePath(file);
+                    });
+                    return fetch(file, { cache: 'no-store' });
+                })
+                .then(function(mdRes) {
+                    if (!mdRes.ok) throw new Error('Failed to load Markdown file at ' + file + ' (Status: ' + mdRes.status + ')');
+                    return mdRes.text();
+                })
+                .then(function(markdown) {
+                    var title = (postData && postData.title) ? postData.title : 'Untitled';
+                    document.title = title + ' - Boluadeoye';
+
+                    var coverUrl = (postData && postData.cover) ? postData.cover : firstImageFromMarkdown(markdown);
+                    var mdForRender = markdown;
+
+                    if (coverUrl && firstImageFromMarkdown(markdown) === coverUrl) {
+                        mdForRender = markdown.replace(/!\[.*?\]\(.*?\)/, '');
+                    }
+
+                    var contentHTML = processMarkdown(mdForRender);
+                    var dateStr = (postData && postData.date) ? new Date(postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+                    var typeStr = (postData && postData.type) ? postData.type : '';
+                    
+                    var coverHTML = coverUrl ? 
+                        '<figure class="cover-hero"><img src="' + coverUrl + '" alt="' + title + ' cover"></figure>' : '';
+
+                    container.innerHTML =
+                        '<article id="post-content-wrapper">' +
+                        '  <div class="post-header">' +
+                        '    <div class="post-meta">' +
+                        (dateStr ? '<span class="meta-item">📅 ' + dateStr + '</span>' : '') +
+                        (typeStr ? '<span class="meta-item">📁 ' + typeStr + '</span>' : '') +
+                        '    </div>' +
+                        '    <h1 class="post-title">' + title + '</h1>' +
+                        '  </div>' +
+                        coverHTML +
+                        '  <div class="post-content">' + contentHTML + '</div>' +
+                        '  <nav class="post-nav">' +
+                        '    <a href="./" class="btn-chip">← Back to Home</a>' +
+                        '    <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
+                        '  </nav>' +
+                        '</article>';
+                })
+                .catch(function(err) {
+                    console.error('Post load error:', err);
+                    renderError(container, err.message);
+                });
+        } catch (error) {
+            console.error('Initialization error:', error);
+            renderError(container, error.message);
+        }
+    }
+
+    // --- Menu Logic ---
     function bindMenu(){
       var menuBtn = document.getElementById('menuBtn');
       var sideMenu = document.getElementById('sideMenu');
@@ -383,242 +455,18 @@
       menuOverlay.addEventListener('click', closeMenu);
     }
 
-    function normalizePath(p){
-      if (!p) return '';
-      return String(p).trim().replace(/^\.\/+/, '').replace(/^\/+/, '');
-    }
-
-    function firstImageFromMarkdown(md){
-      var m1 = md.match(/!\[.*?\]\((.*?)\)/);
-      if (m1 && m1[1]) return m1[1].trim();
-      var m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
-      if (m2 && m2[1]) return m2[1].trim();
-      return '';
-    }
-
-    function processMarkdown(text){
-      if (!text || typeof text !== 'string') return '<p>Content unavailable.</p>';
-      if (typeof marked === 'undefined') return '<p>Error: Markdown parser not loaded.</p>';
-      return marked.parse(text, { breaks: true });
-    }
-
-    function renderError(container, message){
-      container.innerHTML = '' +
-        '<div class="error">' +
-        '  <h2>Unable to Load Post</h2>' +
-        '  <p>' + message + '</p>' +
-        '  <div class="post-nav" style="justify-content:center;">' +
-        '    <a href="./" class="btn-chip">← Return to Homepage</a>' +
-        '  </div>' +
-        '</div>';
-    }
-    
-    function loadDisqus(postFileIdentifier) {
-        if (window.DISQUS) {
-            window.DISQUS.reset({
-                reload: true,
-                config: function () {
-                    this.page.url = window.location.href;
-                    this.page.identifier = postFileIdentifier;
-                }
-            });
-        } else {
-            var disqus_config = function () {
-                this.page.url = window.location.href;
-                this.page.identifier = postFileIdentifier;
-            };
-            (function() { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://bolus-personal-blog.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-            })();
-        }
-    }
-
-    function loadPost(){
-      var container = document.getElementById('post-content-wrapper');
-      if (!container) return;
-
-      container.innerHTML = '' +
-        '<div class="loading-container">' +
-        '  <div class="loading-spinner"></div>' +
-        '  <p>Loading your post...</p>' +
-        '</div>';
-
-      var stalled = setTimeout(function(){
-        renderError(container, 'This is taking longer than expected. Please check your internet or file paths.');
-      }, 10000);
-
-      try {
-        var urlParams = new URLSearchParams(window.location.search);
-        var rawFile = urlParams.get('file') || '';
-        var file = decodeURIComponent(String(rawFile).replace(/\+/g,' '));
-        postFile = file; // Set the global variable for Disqus
-
-        if (!file){
-          clearTimeout(stalled);
-          renderError(container, 'No post file specified in URL.');
-          return;
-        }
-
-        fetch('./Posts.json', { cache: 'no-store' })
-          .then(function(res){
-            if (!res.ok) throw new Error('Could not load Posts.json. Status: ' + res.status);
-            return res.json();
-          })
-          .then(function(posts){
-            if (posts && posts.length){
-              for (var i=0; i<posts.length; i++){
-                if (posts[i] && normalizePath(posts[i].file) === normalizePath(file)){
-                  postData = posts[i];
-                  break;
-                }
-              }
-            }
-            console.log('Fetched postData:', postData); // Debug
-            return fetch(file, { cache: 'no-store' });
-          })
-          .then(function(mdRes){
-            if (!mdRes.ok){
-              throw new Error('Failed to load Markdown file at ' + file + ' (Status: ' + mdRes.status + ')');
-            }
-            return mdRes.text();
-          })
-          .then(function(markdown){
-            clearTimeout(stalled);
-
-            var detectedFirst = firstImageFromMarkdown(markdown);
-            var coverUrl = '';
-            if (postData && postData.cover && String(postData.cover).trim()){
-              coverUrl = String(postData.cover).trim();
-            } else if (detectedFirst){
-              coverUrl = detectedFirst;
-            }
-
-            var mdForRender = markdown;
-            if (coverUrl && detectedFirst && normalizePath(coverUrl) === normalizePath(detectedFirst)){
-              var firstMdImgFull = mdForRender.match(/!\[.*?\]\(.*?\)/);
-              if (firstMdImgFull && firstMdImgFull[0]){
-                mdForRender = mdForRender.replace(firstMdImgFull[0], '');
-              }
-            }
-
-            var content = processMarkdown(mdForRender);
-
-            var title = (postData && postData.title) ? postData.title : 'Untitled';
-            var dateStr = '';
-            if (postData && postData.date){
-              try {
-                dateStr = new Date(postData.date).toLocaleDateString('en-US',
-                  {year:'numeric',month:'long',day:'numeric'});
-              } catch(e){}
-            }
-            var typeStr = (postData && postData.type) ? postData.type : '';
-            document.title = title + ' - Boluadeoye';
-
-            var coverHTML = coverUrl ? (
-              '<figure class="cover-hero">' +
-              '  <img src="' + coverUrl + '" alt="' + title + ' cover" loading="lazy" decoding="async">' +
-              '</figure>'
-            ) : '';
-
-            var viewedLabel = (postData && typeof postData.views === 'number' && postData.views >= MANY_THRESHOLD)
-              ? 'Viewed by many' : 'Viewed';
-
-            container.innerHTML = '' +
-              '<div class="post-header">' +
-              '  <div class="post-meta">' +
-              (dateStr ? ('<span class="meta-item">📅 ' + dateStr + '</span>') : '') +
-              (typeStr ? ('<span class="meta-item">📁 ' + typeStr + '</span>') : '') +
-              '    <span class="meta-item meta-red">❤️ Liked</span>' +
-              '    <span class="meta-item meta-red">👁️ ' + viewedLabel + '</span>' +
-              '  </div>' +
-              '  <h1 class="post-title">' + title + '</h1>' +
-              '</div>' +
-              coverHTML +
-              '<div class="post-content">' + content + '</div>' +
-              '<nav class="post-nav">' +
-              '  <a href="./" class="btn-chip">← Back to Home</a>' +
-              '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
-              '  <button class="btn-chip share-btn" onclick="sharePost()">Share Post 📤</button>' +
-              '</nav>' +
-              '<div class="share-fallback" id="shareFallback">' +
-              '  <p>Can’t share? Copy this: <input type="text" id="shareLink" value="' + window.location.href + '" readonly onclick="this.select();document.execCommand(\'copy\');alert(\'Link copied!\')"></p>' +
-              '</div>';
-            
-            // Load Disqus with the correct identifier
-            loadDisqus(postFile);
-
-            window.scrollTo(0, 0);
-          })
-          .catch(function(err){
-            clearTimeout(stalled);
-            console.error('Post load error:', err);
-            renderError(container, err.message || String(err));
-          });
-      } catch(error){
-        clearTimeout(stalled);
-        console.error('Initialization error:', error);
-        renderError(container, error.message || String(error));
-      }
-    }
-
-    function sharePost() {
-      try {
-        var pageUrl = window.location.href;
-        var pageTitle = document.title || 'Post from Boluadeoye';
-        var excerpt = (postData && postData.excerpt) ? postData.excerpt : 'Check out this inspiring devotional on Boluadeoye\'s blog!';
-        if (navigator.share) {
-          navigator.share({
-            title: pageTitle,
-            text: excerpt,
-            url: pageUrl
-          }).catch(function(err) {
-            console.error('Web Share error:', err);
-            fallbackToWhatsApp();
-          });
-        } else {
-          fallbackToWhatsApp();
-        }
-        function fallbackToWhatsApp() {
-          var whatsappUrl = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(pageTitle + ' - ' + excerpt + ' ' + pageUrl);
-          var shareWindow = window.open(whatsappUrl, '_blank');
-          if (!shareWindow) {
-            console.error('WhatsApp popup blocked or failed.');
-            document.getElementById('shareFallback').style.display = 'block';
-            document.getElementById('shareLink').value = pageTitle + ' - ' + pageUrl;
-            alert('Sharing failed. Copy the link below.');
-          }
-        }
-      } catch (err) {
-        console.error('Share error:', err);
-        document.getElementById('shareFallback').style.display = 'block';
-        document.getElementById('shareLink').value = document.title + ' - ' + window.location.href;
-        alert('Share error: ' + err.message);
-      }
-    }
-
-    // FIX: Make the share function globally accessible
-    window.sharePost = sharePost;
-
-    function init(){
-      bindMenu();
-      var container = document.getElementById('post-content-wrapper');
-      if (typeof marked === 'undefined'){
-        if (container){
-          container.innerHTML = '<div class="error"><h2>Unable to Load Post</h2><p>Error: Markdown parser not loaded.</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>';
-        }
-      } else {
+    // --- Initialization ---
+    function init() {
+        bindMenu();
         loadPost();
-      }
     }
-    if (document.readyState === 'loading'){
-      document.addEventListener('DOMContentLoaded', init);
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
     } else {
-      init();
+        init();
     }
   })();
-</script>
+  </script>
 </body>
 </html>
