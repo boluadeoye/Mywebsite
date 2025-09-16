@@ -333,6 +333,7 @@
     }
 
     function firstImageFromMarkdown(md) {
+        if (!md) return '';
         var m1 = md.match(/!\[.*?\]\((.*?)\)/);
         if (m1 && m1[1]) return m1[1].trim();
         var m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
@@ -381,6 +382,9 @@
                     postData = posts.find(function(p) {
                         return p && normalizePath(p.file) === normalizePath(file);
                     });
+                    if (!postData) {
+                        throw new Error('Post data not found in Posts.json for file: ' + file);
+                    }
                     return fetch(file, { cache: 'no-store' });
                 })
                 .then(function(mdRes) {
@@ -388,19 +392,21 @@
                     return mdRes.text();
                 })
                 .then(function(markdown) {
-                    var title = (postData && postData.title) ? postData.title : 'Untitled';
+                    var title = postData.title;
                     document.title = title + ' - Boluadeoye';
 
-                    var coverUrl = (postData && postData.cover) ? postData.cover : firstImageFromMarkdown(markdown);
+                    // Use cover from JSON first, fallback to first image in markdown
+                    var coverUrl = (postData.cover) ? postData.cover : firstImageFromMarkdown(markdown);
                     var mdForRender = markdown;
 
+                    // If the cover image is the first image in the markdown, remove it from the body
                     if (coverUrl && firstImageFromMarkdown(markdown) === coverUrl) {
-                        mdForRender = markdown.replace(/!\[.*?\]\(.*?\)/, '');
+                        mdForRender = markdown.replace(/!\[.*?\]\((.*?)\)/, '');
                     }
 
                     var contentHTML = processMarkdown(mdForRender);
-                    var dateStr = (postData && postData.date) ? new Date(postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
-                    var typeStr = (postData && postData.type) ? postData.type : '';
+                    var dateStr = new Date(postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                    var typeStr = postData.type;
                     
                     var coverHTML = coverUrl ? 
                         '<figure class="cover-hero"><img src="' + coverUrl + '" alt="' + title + ' cover"></figure>' : '';
