@@ -1,5 +1,3 @@
-# New Mercies Every Morning
-
 ### Scripture: **Lamentations 3:22–23**
 
 The words of this scripture found a powerful echo in the life of Thomas Chisholm, who wrote the beloved hymn “Great Is Thy Faithfulness.” He penned those words not from a place of fame or comfort, but amid the daily realities of fragile health and modest means. His life is a testament to a quiet, resilient trust, lived out one day at a time.
