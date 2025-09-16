@@ -1,11 +1,3 @@
----
-title: "The Difference Between Joy and Happiness"
-date: "2025-09-01"
-cover: ""
-excerpt: "Happiness is based on happenings, but joy is a deeper, unshakable foundation. An essay on cultivating lasting joy."
-type: "Essay"
----
-
 We live in a world that is obsessed with the pursuit of happiness. We chase it in our careers, in our relationships, and in our possessions. We scroll through social media feeds filled with smiling faces and exotic holidays, believing that happiness is a destination we can arrive at if we just try hard enough. We treat it like a prize to be won. And sometimes, we do win it. A promotion, a new car, a perfect evening with friends—these moments bring a genuine, wonderful feeling of happiness.
 
 But then, the feeling fades. The car gets a scratch, the evening ends, a difficult day follows a good one. If our spiritual life is built only on the foundation of happiness, it becomes a fragile and exhausting rollercoaster of emotions. This is because happiness is almost always tied to our *happenings*. But the Bible speaks of something deeper, something more resilient. It speaks of joy.
