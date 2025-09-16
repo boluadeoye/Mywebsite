@@ -42,12 +42,12 @@
   {
     "title": "The Old Man and the Broken Pot",
     "file": "posts/the-old-man-and-the-broken-pot.md",
-    "date": "2025-09-06",
+    "date": "2025-16-06",
     "cover": "images/cracked-clay-pot.jpg",
     "excerpt": "A timeless parable that reveals how our perceived flaws can be the very channels through which beauty and purpose grow.",
     "type": "story",
     "views": 0,
-    "minutes": 2
+    "minutes": 3
   },
   {
     "title": "When Silence Becomes a Prayer",
@@ -127,7 +127,7 @@
     "excerpt": "Gratitude transforms pain into perspective, revealing daily miracles.",
     "views": 0,
     "minutes": 2,
-    "cover": "images/gratitude-power-cover.jpg"
+    "cover": ""
   },
   {
     "title": "Walking with God in a Noisy World",
