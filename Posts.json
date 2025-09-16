@@ -11,7 +11,7 @@
   },
   {
     "title": "Faith that Stands in the Storm",
-    "file": "Mywebsite/posts/faith-in-storm.md",
+    "file": "posts/faith-in-storm.md",
     "type": "devotional",
     "date": "2025-09-05",
     "excerpt": "Anchor your faith in Christ to face life’s storms with courage.",
@@ -21,17 +21,17 @@
   },
   {
     "title": "The Quiet Power of Gratitude",
-    "file": "Mywebsite/posts/gratitude-power.md",
+    "file": "posts/gratitude-power.md",
     "type": "devotional",
     "date": "2025-08-30",
     "excerpt": "Gratitude transforms pain into perspective, revealing daily miracles.",
     "views": 0,
     "minutes": 2,
-    "cover": "Mywebsite/images/gratitude-power-cover.jpg"
+    "cover": "images/gratitude-power-cover.jpg"
   },
   {
     "title": "Walking with God in a Noisy World",
-    "file": "Mywebsite/posts/walking-with-god.md",
+    "file": "posts/walking-with-god.md",
     "type": "devotional",
     "date": "2025-08-25",
     "excerpt": "Find God in life’s noise through small, intentional pauses.",
@@ -41,7 +41,7 @@
   },
   {
     "title": "Forgiveness as Freedom",
-    "file": "Mywebsite/posts/forgiveness-freedom.md",
+    "file": "posts/forgiveness-freedom.md",
     "type": "devotional",
     "date": "2025-08-20",
     "excerpt": "Forgiveness releases your future from the weight of past hurts.",
