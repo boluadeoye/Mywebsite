@@ -1,11 +1,3 @@
----
-title: "A Lesson from the Harmattan Wind"
-date: "2025-08-26"
-cover: "images/harmattan-dusty-road.jpg"
-excerpt: "A story from a hazy Nigerian morning that taught a surprising lesson about clarity, patience, and what the dry seasons of life can reveal."
-type: "Story"
----
-
 I have always had a complicated relationship with the Harmattan. As a child, I loved the cool, dry air that was a welcome relief from the humid heat. But as I grew older, I began to resent the haze. The world, once sharp and vibrant, would become muted, shrouded in a fine, reddish dust. The sun was a pale orange disk in the sky, and the horizon simply disappeared.
 
 One year, the haze felt particularly heavy, mirroring a season of confusion in my own life. I felt stuck, unable to see the path forward. My prayers felt like they were being absorbed by the dusty air, never reaching the heavens.
