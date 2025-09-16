@@ -278,8 +278,8 @@
     border-top:1px solid rgba(255,255,255,.06);
     color:var(--muted);
     text-align:center;
-    font-size:.85rem; /* Match other pages */
-    padding:1.5rem 0; /* Consistent padding */
+    font-size:.85rem;
+    padding:1.5rem 0;
     margin-top:1.5rem;
   }
   footer p {
@@ -462,7 +462,7 @@
           return;
         }
 
-        fetch('/Mywebsite/Posts.json', { cache: 'no-store' })
+        fetch('/Posts.json', { cache: 'no-store' })
           .then(function(res){
             if (!res.ok) throw new Error('Could not load Posts.json. Status: ' + res.status);
             return res.json();
@@ -477,11 +477,11 @@
               }
             }
             console.log('Fetched postData:', postData); // Debug
-            return fetch('/Mywebsite/' + file, { cache: 'no-store' });
+            return fetch('/posts/' + file, { cache: 'no-store' });
           })
           .then(function(mdRes){
             if (!mdRes.ok){
-              throw new Error('Failed to load Markdown file at /Mywebsite/' + file + ' (Status: ' + mdRes.status + ')');
+              throw new Error('Failed to load Markdown file at /posts/' + file + ' (Status: ' + mdRes.status + ')');
             }
             return mdRes.text();
           })
@@ -519,7 +519,7 @@
 
             var coverHTML = coverUrl ? (
               '<figure class="cover-hero">' +
-              '  <img src="/Mywebsite/' + coverUrl + '" alt="' + title + ' cover" loading="lazy" decoding="async">' +
+              '  <img src="/' + coverUrl + '" alt="' + title + ' cover" loading="lazy" decoding="async">' +
               '</figure>'
             ) : '';
 
@@ -619,6 +619,6 @@
       init();
     }
   })();
-</script>
+  </script>
 </body>
 </html>
