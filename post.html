@@ -344,6 +344,9 @@
             <p>Loading your post...</p>
           </div>
         </article>
+        
+        <div id="disqus_thread" style="margin-top: 2rem;"></div>
+        
       </div>
     </div>
   </main>
@@ -356,6 +359,7 @@
   (function(){
     var MANY_THRESHOLD = 50;
     var postData = null; // Global scope
+    var postFile = ''; // Global scope for Disqus
 
     function bindMenu(){
       var menuBtn = document.getElementById('menuBtn');
@@ -408,6 +412,29 @@
         '  </div>' +
         '</div>';
     }
+    
+    function loadDisqus(postFileIdentifier) {
+        if (window.DISQUS) {
+            window.DISQUS.reset({
+                reload: true,
+                config: function () {
+                    this.page.url = window.location.href;
+                    this.page.identifier = postFileIdentifier;
+                }
+            });
+        } else {
+            var disqus_config = function () {
+                this.page.url = window.location.href;
+                this.page.identifier = postFileIdentifier;
+            };
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://bolus-personal-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        }
+    }
 
     function loadPost(){
       var container = document.getElementById('post-content-wrapper');
@@ -427,6 +454,7 @@
         var urlParams = new URLSearchParams(window.location.search);
         var rawFile = urlParams.get('file') || '';
         var file = decodeURIComponent(String(rawFile).replace(/\+/g,' '));
+        postFile = file; // Set the global variable for Disqus
 
         if (!file){
           clearTimeout(stalled);
@@ -518,6 +546,9 @@
               '<div class="share-fallback" id="shareFallback">' +
               '  <p>Can’t share? Copy this: <input type="text" id="shareLink" value="' + window.location.href + '" readonly onclick="this.select();document.execCommand(\'copy\');alert(\'Link copied!\')"></p>' +
               '</div>';
+            
+            // Load Disqus with the correct identifier
+            loadDisqus(postFile);
 
             window.scrollTo(0, 0);
           })
