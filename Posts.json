@@ -1,5 +1,85 @@
 [
   {
+    "file": "posts/the-art-of-forgiveness.md",
+    "title": "The Art of Forgiveness: Releasing an Unseen Weight",
+    "date": "2025-09-16",
+    "cover": "",
+    "excerpt": "Discover how the act of forgiveness is not for others, but a gift of freedom you give to yourself.",
+    "type": "Devotional"
+  },
+  {
+    "file": "posts/the-day-i-chose-gratitude.md",
+    "title": "The Day I Chose Gratitude",
+    "date": "2025-09-14",
+    "cover": "Mywebsite/images/gratitude-journal-photo.jpg",
+    "excerpt": "A personal story about a single moment that transformed a life through the simple, powerful choice of gratitude.",
+    "type": "Story"
+  },
+  {
+    "file": "posts/overcoming-fear-of-not-enough.md",
+    "title": "Overcoming the Fear of 'Not Enough'",
+    "date": "2025-09-11",
+    "cover": "",
+    "excerpt": "In a world of comparison, find the spiritual truth that you are already whole and complete in Him.",
+    "type": "Essay"
+  },
+  {
+    "file": "posts/how-to-find-purpose.md",
+    "title": "How to Find Purpose in a World of Distractions",
+    "date": "2025-09-09",
+    "cover": "",
+    "excerpt": "Practical guidance on quieting the noise to hear the calling that has been placed on your heart.",
+    "type": "Article"
+  },
+  {
+    "file": "posts/the-old-man-and-the-broken-pot.md",
+    "title": "The Old Man and the Broken Pot",
+    "date": "2025-09-06",
+    "cover": "Mywebsite/images/cracked-clay-pot.jpg",
+    "excerpt": "A timeless parable that reveals how our perceived flaws can be the very channels through which beauty and purpose grow.",
+    "type": "Story"
+  },
+  {
+    "file": "posts/when-silence-becomes-a-prayer.md",
+    "title": "When Silence Becomes a Prayer",
+    "date": "2025-09-03",
+    "cover": "",
+    "excerpt": "Exploring the profound communication with God that happens when we run out of words.",
+    "type": "Devotional"
+  },
+  {
+    "file": "posts/joy-vs-happiness.md",
+    "title": "The Difference Between Joy and Happiness",
+    "date": "2025-09-01",
+    "cover": "",
+    "excerpt": "Happiness is based on happenings, but joy is a deeper, unshakable foundation. An essay on cultivating lasting joy.",
+    "type": "Essay"
+  },
+  {
+    "file": "posts/five-habits-to-anchor-your-day.md",
+    "title": "Five Habits to Anchor Your Day in Faith",
+    "date": "2025-08-29",
+    "cover": "",
+    "excerpt": "Simple, powerful practices to weave into your daily routine that will strengthen your spiritual foundation.",
+    "type": "Article"
+  },
+  {
+    "file": "posts/a-lesson-from-the-harmattan-wind.md",
+    "title": "A Lesson from the Harmattan Wind",
+    "date": "2025-08-26",
+    "cover": "Mywebsite/images/harmattan-dusty-road.jpg",
+    "excerpt": "A story from a hazy Nigerian morning that taught a surprising lesson about clarity, patience, and what the dry seasons of life can reveal.",
+    "type": "Story"
+  },
+  {
+    "file": "posts/the-grace-of-second-chances.md",
+    "title": "The Grace of Second Chances",
+    "date": "2025-08-23",
+    "cover": "",
+    "excerpt": "A reflection on the endless mercy that meets us right where we are, offering a fresh start no matter our past.",
+    "type": "Devotional"
+  },
+  {
     "title": "New Mercies Every Morning",
     "file": "posts/new-mercies.md",
     "type": "devotional",
@@ -48,12 +128,5 @@
     "views": 0,
     "minutes": 2,
     "cover": ""
-  },
-  {
-        "file": "2025-09-16-finding-strength-in-stillness.md",
-        "title": "Finding Strength in Stillness",
-        "date": "2025-09-16",
-        "cover": "Mywebsite/images/calm-lake-sunrise.jpg",
-        "excerpt": "In a world that constantly demands our attention, we discover that true spiritual strength is often found not in the noise, but in the quiet moments of trust and reflection."
   }
 ]
