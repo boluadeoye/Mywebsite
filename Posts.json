@@ -153,5 +153,15 @@
     "views": 0,
     "minutes": 2,
     "cover": ""
-  }
+  },
+  {
+    "title": "What If?",
+    "file": "posts/what-if.md",
+    "date": "2025-09-17",
+    "cover": "",
+    "excerpt": "A reflection on the paths not taken, the two faces of regret, and how to turn a question of torment into a tool for the present moment.",
+    "type": "essay",
+    "views": 0,
+    "minutes": 2
+  },
 ]
