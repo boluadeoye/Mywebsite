@@ -6,7 +6,6 @@
   <title>Post — Boluadeoye</title>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
   <style>
   :root {
     --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2341;
@@ -96,7 +95,7 @@
   }
   
   #post-content-wrapper {
-    min-height: 50vh; /* This is the fix to prevent the "flash" */
+    min-height: 50vh;
   }
 
   .post-header{
@@ -186,20 +185,6 @@
   }
   .btn-chip:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,.4); }
   
-  .comments-section {
-    max-width: 90ch;
-    margin: 3rem auto 0;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(245,158,11,.15);
-  }
-  .comments-title {
-    font-family: var(--serif);
-    font-size: 1.8rem;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: var(--orange-light);
-  }
-
   .loading-container{min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);padding:2rem 1rem;text-align:center;}
   .loading-spinner{width:36px;height:36px;border:3px solid rgba(245,158,11,.2);border-top-color:var(--orange);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:1rem;}
   @keyframes spin{to{transform:rotate(360deg)}}
@@ -243,19 +228,6 @@
             <p>Loading your post...</p>
           </div>
         </article>
-        
-        <div class="comments-section">
-          <h3 class="comments-title">Join the Discussion</h3>
-          <div
-            id="cusdis_thread"
-            data-host="https://cusdis.com"
-            data-app-id="a24b335a-7140-4252-8787-8e6f5f2d0171"
-            data-page-id=""
-            data-page-url=""
-            data-page-title=""
-          ></div>
-        </div>
-
       </div>
     </div>
   </main>
@@ -340,13 +312,6 @@
         const markdown = await mdRes.text();
         
         document.title = `${postData.title} — Boluadeoye`;
-        
-        const cusdisThread = document.getElementById('cusdis_thread');
-        if (cusdisThread) {
-            cusdisThread.setAttribute('data-page-id', file);
-            cusdisThread.setAttribute('data-page-url', window.location.href);
-            cusdisThread.setAttribute('data-page-title', postData.title);
-        }
 
         let coverUrl = postData.cover || firstImageFromMarkdown(markdown);
         let mdForRender = markdown;
