@@ -26,32 +26,46 @@
     overflow-x:hidden; position:relative; text-rendering:optimizeLegibility;
   }
   body.menu-open {
-    overflow: hidden;
+    overflow: hidden; /* Fix: Prevents background scroll */
   }
   a{color:inherit;text-decoration:none;transition:all .3s var(--transition)}
   .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
 
   header{
     position:sticky; top:0; z-index:100;
-    background:rgba(15,23,42,.85);
+    background:rgba(15,23,42,.85); /* Modern glass effect */
     backdrop-filter: blur(8px);
     border-bottom:1px solid rgba(245,158,11,.15);
     transition: box-shadow 0.3s var(--transition);
   }
   header.scrolled {
-    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2); /* Adds depth on scroll */
   }
   .header-row{display:flex;align-items:center;justify-content:space-between;min-height:70px;gap:1.5rem;padding:0 .5rem}
   .brand{display:flex;align-items:center;gap:.75rem;flex-shrink:0;transition:transform .3s var(--transition)}
   .brand:hover{transform:translateX(3px)}
-  .brand .dot { transition: transform .6s var(--transition); }
-  .brand:hover .dot { transform: rotate(360deg) scale(1.12); }
+  .dot {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ffd27a 0%, #f59e0b 40%, #d97706 100%);
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, .15), 0 4px 12px rgba(245, 158, 11, .2);
+      transition: transform 0.6s var(--transition);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      position: relative; z-index: 0; animation: dot-breathe 3.8s ease-in-out infinite;
+  }
+  .dot::after {
+      content: ''; position: absolute; inset: -8px; border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%, rgba(245,158,11,.45) 0%, rgba(245,158,11,.16) 35%, rgba(245,158,11,0) 70%);
+      filter: blur(10px); opacity: .75; animation: dot-halo 3.8s ease-in-out infinite; pointer-events: none;
+  }
+  @keyframes dot-breathe { 0%,100%{ transform: scale(1); } 50%{ transform: scale(1.06); } }
+  @keyframes dot-halo   { 0%,100%{ opacity:.55; transform: scale(1); } 50%{ opacity:.9; transform: scale(1.12); } }
+  @media (prefers-reduced-motion: reduce) { .dot, .dot::after { animation: none !important; } }
   
   .brand h1{font-size:1.3rem;font-weight:800;color:var(--ink);letter-spacing:-.5px;font-family:var(--serif)}
 
   .top-nav{
     display:none; gap:.5rem; align-items:center; 
-    justify-content: flex-end; flex-wrap:wrap;
+    justify-content: flex-end; flex-wrap:wrap; /* Fix: Allows menu items to wrap */
   }
   .top-nav a{padding:.45rem .9rem;border-radius:999px;border:1px solid transparent;font-weight:600;font-size:.87rem}
   .top-nav a:hover,.top-nav a.active{color:var(--orange);border-color:var(--orange);transform:translateY(-1px)}
@@ -80,7 +94,6 @@
     margin:0 auto;
     max-width:1100px;
   }
-
   .post-header{
     text-align:center;
     padding:1.5rem 0 1rem;
@@ -107,7 +120,7 @@
     border:1px solid rgba(245,158,11,.15);
   }
   .post-title{
-    font-family:var(--font);
+    font-family:var(--serif);
     font-size:clamp(1.8rem, 3.5vw, 2.5rem);
     font-weight:800;
     line-height:1.2;
@@ -118,7 +131,6 @@
     background-clip:text;
     max-width:90ch;
   }
-
   .cover-hero {
     max-width:1020px;
     margin:1rem auto;
@@ -134,29 +146,30 @@
     aspect-ratio:16/9;
     object-fit:cover;
   }
-
+  
+  /* Fix: Restored centered text and breathing space */
   .post-content{
-    max-width:90ch;
+    max-width:80ch; /* Slightly reduced for better readability */
     margin:0 auto;
-    font-family:var(--font);
-    font-size:1.0125rem;
-    line-height:1.85;
-    color:rgba(229,238,252,.96);
+    font-family:var(--serif); /* Using serif for body for a more classic feel */
+    font-size:1.1rem; /* Slightly larger font */
+    line-height:1.9; /* More breathing space */
+    color:rgba(229,238,252,.9);
   }
-  .post-content p{margin-bottom:1.1rem;}
-  .post-content h1, .post-content h2, .post-content h3, .post-content h4 { text-align: left; margin: 2rem 0 1rem; }
+  .post-content p { text-align: center; margin-bottom: 1.5rem; }
+  .post-content h1, .post-content h2, .post-content h3, .post-content h4 { text-align: center; margin: 2.5rem 0 1.5rem; }
   .post-content h1 { font-size: 2rem; color: var(--orange-light); }
   .post-content h2 { font-size: 1.75rem; color: var(--orange); }
   .post-content h3 { font-size: 1.5rem; }
-  .post-content ul, .post-content ol{margin:1.1rem auto;padding-left:1.5rem;}
+  .post-content ul, .post-content ol{margin:1.5rem auto;padding-left:1.5rem; text-align: left; max-width: 60ch;}
   .post-content blockquote{
-    margin:1.6rem 0; padding:1.1rem 1.3rem;
+    margin:2rem auto; padding:1.5rem;
     background:linear-gradient(135deg, rgba(245,158,11,.12), rgba(245,158,11,.06));
     border:1px solid rgba(245,158,11,.2); border-radius:14px;
-    font-style:italic; font-size:1.08rem; color:var(--ink); border-left:4px solid var(--orange);
+    font-style:italic; font-size:1.15rem; color:var(--ink); border-left:4px solid var(--orange); text-align:center;
   }
-  .post-content img{max-width:100%;height:auto;border-radius:12px;margin:1.5rem 0;box-shadow:0 15px 40px rgba(0,0,0,.3);}
-  
+  .post-content img{max-width:100%;height:auto;border-radius:12px;margin:2rem auto;display:block;box-shadow:0 15px 40px rgba(0,0,0,.3);}
+
   .post-nav{
     display:flex;justify-content:center;gap:1rem;padding:1.5rem 0;
     border-top:1px solid rgba(245,158,11,.15);flex-wrap:wrap;max-width:90ch;margin:2rem auto 0;
@@ -168,14 +181,26 @@
     box-shadow:0 4px 15px rgba(245,158,11,.3);
   }
   .btn-chip:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,.4); }
+  
+  .comments-section {
+    max-width: 90ch;
+    margin: 3rem auto 0;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(245,158,11,.15);
+  }
+  .comments-title {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--orange-light);
+  }
 
   .loading-container{min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);padding:2rem 1rem;text-align:center;}
   .loading-spinner{width:36px;height:36px;border:3px solid rgba(245,158,11,.2);border-top-color:var(--orange);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:1rem;}
   @keyframes spin{to{transform:rotate(360deg)}}
   .error{text-align:center;padding:2rem;color:#ff6b6b}
-
   footer{background:var(--panel);border-top:1px solid rgba(255,255,255,.06);color:var(--muted);text-align:center;font-size:.85rem;padding:1.5rem 0;margin-top:1.5rem;}
-  
   </style>
 </head>
 <body>
@@ -215,8 +240,16 @@
           </div>
         </article>
         
-        <div id="comments-section" style="margin-top: 3rem;">
-          </div>
+        <div class="comments-section">
+          <h3 class="comments-title">Join the Discussion</h3>
+          <div
+            data-cusdis-app-id="a24b335a-7140-4252-8787-8e6f5f2d0171"
+            id="cusdis_thread"
+            data-page-id="{{ PAGE_ID }}"
+            data-page-url="{{ PAGE_URL }}"
+            data-page-title="{{ PAGE_TITLE }}"
+          ></div>
+        </div>
 
       </div>
     </div>
@@ -237,13 +270,13 @@
       sideMenu.classList.remove('active');
       menuOverlay.classList.remove('show');
       menuBtn.setAttribute('aria-expanded', 'false');
-      document.body.classList.remove('menu-open');
+      document.body.classList.remove('menu-open'); // Fix: Unlock scroll
     }
     function openMenu() {
       sideMenu.classList.add('active');
       menuOverlay.classList.add('show');
       menuBtn.setAttribute('aria-expanded', 'true');
-      document.body.classList.add('menu-open');
+      document.body.classList.add('menu-open'); // Fix: Lock scroll
     }
     
     menuBtn.addEventListener('click', () => { sideMenu.classList.contains('active') ? closeMenu() : openMenu(); });
@@ -273,6 +306,28 @@
     function renderError(container, message){
       container.innerHTML = `<div class="error"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
     }
+    
+    // --- Cusdis Comment Loading ---
+    function loadComments(pageId, pageUrl, pageTitle) {
+      const cusdisThread = document.getElementById('cusdis_thread');
+      if (!cusdisThread) return;
+
+      // Set attributes for Cusdis
+      cusdisThread.setAttribute('data-page-id', pageId);
+      cusdisThread.setAttribute('data-page-url', pageUrl);
+      cusdisThread.setAttribute('data-page-title', pageTitle);
+
+      // Remove any existing Cusdis script to allow for re-initialization
+      const oldScript = document.querySelector('script[src="https://cusdis.com/js/cusdis.es.js"]');
+      if(oldScript) oldScript.remove();
+      
+      // Add new Cusdis script
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = "https://cusdis.com/js/cusdis.es.js";
+      document.head.appendChild(script);
+    }
+
 
     window.sharePost = function() {
       if(postData && navigator.share) {
@@ -334,24 +389,9 @@
             <button class="btn-chip" onclick="sharePost()">Share Post 📤</button>
           </nav>
         `;
-        
-        // --- CUSDIS INTEGRATION ---
-        const commentsSection = document.getElementById('comments-section');
-        commentsSection.innerHTML = `
-          <div id="cusdis_thread"
-            data-host="https://cusdis.com"
-            data-app-id="c6dc5d18-5de8-4ffe-8566-2a5ca0c6ef1e"
-            data-page-id="${file}"
-            data-page-url="${window.location.href}"
-            data-page-title="${postData.title}"
-          ></div>
-        `;
-        const cusdisScript = document.createElement('script');
-        cusdisScript.async = true;
-        cusdisScript.defer = true;
-        cusdisScript.src = "https://cusdis.com/js/cusdis.es.js";
-        document.body.appendChild(cusdisScript);
-        // --- END CUSDIS INTEGRATION ---
+
+        // Load Cusdis with dynamic data
+        loadComments(file, window.location.href, postData.title);
 
       } catch(err) {
         console.error('Post load error:', err);
