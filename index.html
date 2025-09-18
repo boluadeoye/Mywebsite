@@ -23,7 +23,7 @@
       overflow-x: hidden; position: relative;
     }
     body.menu-open {
-      overflow: hidden; /* Fix: Prevents background scroll when side menu is open */
+      overflow: hidden;
     }
     body::before {
       content: ''; position: fixed; inset: 0; pointer-events: none; z-index: -1;
@@ -37,13 +37,13 @@
 
     header {
       position: sticky; top: 0; z-index: 100; 
-      background: rgba(15,23,42,.85); /* Slightly more transparent for a modern feel */
-      backdrop-filter: blur(8px); /* Modern glass effect */
+      background: rgba(15,23,42,.85);
+      backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(245,158,11,.15);
       transition: box-shadow 0.3s var(--transition);
     }
     header.scrolled {
-      box-shadow: 0 5px 20px rgba(0,0,0,0.2); /* Adds depth on scroll */
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
     }
     .header-row { display: flex; align-items: center; justify-content: space-between; min-height: 70px; gap: 1.5rem; padding: 0 0.5rem; }
     .brand { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; transition: transform 0.3s var(--transition); }
@@ -72,8 +72,8 @@
       display: none; 
       gap: 0.5rem; 
       align-items: center; 
-      justify-content: flex-end; /* Aligns items to the right */
-      flex-wrap: wrap; /* Fix: Allows menu items to wrap on smaller screens */
+      justify-content: flex-end;
+      flex-wrap: wrap;
     }
     .top-nav a { padding: 0.45rem 0.9rem; border-radius: 999px; color: var(--ink); font-weight: 600; font-size: 0.87rem; transition: all 0.2s var(--transition); border: 1px solid transparent; }
     .top-nav a:hover, .top-nav a.active { color: var(--orange); border-color: var(--orange); transform: translateY(-1px); }
@@ -107,20 +107,87 @@
     h3.section-title { font-size: clamp(1.6rem, 2.8vw, 2.1rem); font-family: var(--serif); font-weight: 800; color: var(--ink); position: relative; padding-left: 1.5rem; letter-spacing: -0.5px; }
     h3.section-title::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 70%; background: linear-gradient(180deg, var(--orange), var(--orange-light)); border-radius: 1px; }
 
-    #posts { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); min-height: 200px; }
-    .post { display: flex; flex-direction: column; background: var(--panel); border: 1px solid rgba(245, 158, 11, .15); border-radius: 16px; transition: all 0.3s var(--transition); box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; }
-    .post:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 0, 0, .2); border-color: var(--orange); }
-    .post-content-wrap { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
-    .post-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
-    .post h3 { font-size: 1.2rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--ink); line-height: 1.3; font-family: var(--serif); }
-    .post-type { display: inline-block; padding: 0.25rem 0.7rem; border-radius: 999px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; background: rgba(245, 158, 11, .1); color: var(--orange); border: 1px solid rgba(245, 158, 11, .2); }
+    #posts { 
+      display: grid; 
+      gap: 2rem; /* Fix: Increased gap for more breathing space between cards */
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+      min-height: 200px; 
+    }
+    .post { 
+      display: flex; flex-direction: column; 
+      background: var(--panel); 
+      border: 1px solid rgba(245, 158, 11, .15); 
+      border-radius: 16px; 
+      transition: all 0.3s var(--transition); 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+      overflow: hidden; 
+    }
+    .post:hover { 
+      transform: translateY(-5px); 
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .2); 
+      border-color: var(--orange); 
+    }
+    .post-content-wrap { 
+      padding: 1.25rem 1.75rem 1.75rem; /* Fix: Adjusted padding for better text balance */
+      flex-grow: 1; 
+      display: flex; 
+      flex-direction: column; 
+    }
+    .post-header { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: flex-start; 
+      margin-bottom: 0.75rem; /* Fix: Reduced bottom margin for tighter header */
+    }
+    .post h3 { 
+      font-size: 1.2rem; 
+      font-weight: 700; 
+      margin: 0 0 0.5rem; 
+      color: var(--ink); 
+      line-height: 1.4; /* Fix: Improved line spacing for title */
+      font-family: var(--serif); 
+    }
+    .post-type { 
+      display: inline-block; 
+      padding: 0.25rem 0.7rem; 
+      border-radius: 999px; 
+      font-size: 0.68rem; 
+      font-weight: 700; 
+      text-transform: uppercase; 
+      background: rgba(245, 158, 11, .1); 
+      color: var(--orange); 
+      border: 1px solid rgba(245, 158, 11, .2); 
+    }
     .post-date { color: var(--muted); font-size: 0.87rem; }
-    .post p { color: var(--muted); line-height: 1.7; font-size: 0.95rem; flex-grow: 1; }
-    .post .stats { display: flex; gap: 1.5rem; margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid rgba(245, 158, 11, .1); font-size: 0.83rem; }
+    .post p { 
+      color: var(--muted); 
+      line-height: 1.75; /* Fix: Increased line height for more breathing space */
+      font-size: 0.95rem; 
+      flex-grow: 1;
+      margin-top: 0.5rem; 
+    }
+    .post .stats { 
+      display: flex; 
+      gap: 1.5rem; 
+      margin-top: 1.5rem; /* Fix: Increased top margin for more separation */
+      padding-top: 1rem; 
+      border-top: 1px solid rgba(245, 158, 11, .1); 
+      font-size: 0.83rem; 
+    }
     .stat-item { display: flex; align-items: center; gap: 0.4rem; color: var(--muted); }
     
-    .post-cover { width: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
-    .post-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s var(--transition); }
+    .post-cover { 
+      width: 100%; 
+      max-height: 250px; /* Fix: Set a max-height to prevent overly tall images */
+      overflow: hidden; 
+      background: #0c1425; /* Added a background color for images that are smaller */
+    }
+    .post-cover img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; /* Fix: Changed to 'cover' to fill the frame beautifully */
+      transition: transform 0.4s var(--transition); 
+    }
     .post:hover .post-cover img { transform: scale(1.05); }
 
     .loading { text-align: center; padding: 3rem; color: var(--muted); }
