@@ -6,6 +6,7 @@
   <title>Post — Boluadeoye</title>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
   <style>
   :root {
     --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2341;
@@ -260,7 +261,6 @@
 
   <script>
   (function(){
-    // --- Menu Logic ---
     const menuBtn = document.getElementById('menuBtn');
     const sideMenu = document.getElementById('sideMenu');
     const menuOverlay = document.getElementById('menuOverlay');
@@ -281,13 +281,11 @@
     menuBtn.addEventListener('click', () => { sideMenu.classList.contains('active') ? closeMenu() : openMenu(); });
     menuOverlay.addEventListener('click', closeMenu);
 
-    // --- Header Scroll Effect ---
     const header = document.getElementById('header');
     window.addEventListener('scroll', () => {
       header.classList.toggle('scrolled', window.scrollY > 10);
     });
 
-    // --- Post Loading ---
     const MANY_THRESHOLD = 50;
     let postData = null;
 
@@ -306,27 +304,6 @@
       container.innerHTML = `<div class="error"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
     }
     
-    function loadComments(pageId, pageUrl, pageTitle) {
-      const cusdisThread = document.getElementById('cusdis_thread');
-      if (!cusdisThread) return;
-      
-      // Correctly set the attributes before loading the script
-      cusdisThread.setAttribute('data-page-id', pageId);
-      cusdisThread.setAttribute('data-page-url', pageUrl);
-      cusdisThread.setAttribute('data-page-title', pageTitle);
-
-      // Remove any old script to prevent conflicts
-      const oldScript = document.querySelector('script[src="https://cusdis.com/js/cusdis.es.js"]');
-      if(oldScript) oldScript.remove();
-      
-      // Create and append the new script to trigger Cusdis
-      const script = document.createElement('script');
-      script.async = true;
-      script.defer = true;
-      script.src = "https://cusdis.com/js/cusdis.es.js";
-      document.head.appendChild(script);
-    }
-
     window.sharePost = function() {
       if(postData && navigator.share) {
         navigator.share({ title: postData.title, text: postData.excerpt, url: window.location.href });
@@ -359,6 +336,14 @@
         
         document.title = `${postData.title} — Boluadeoye`;
         
+        // This is the key fix. Set the Cusdis attributes *before* the script runs.
+        const cusdisThread = document.getElementById('cusdis_thread');
+        if (cusdisThread) {
+            cusdisThread.setAttribute('data-page-id', file);
+            cusdisThread.setAttribute('data-page-url', window.location.href);
+            cusdisThread.setAttribute('data-page-title', postData.title);
+        }
+
         let coverUrl = postData.cover || firstImageFromMarkdown(markdown);
         let mdForRender = markdown;
         if (coverUrl && normalizePath(firstImageFromMarkdown(markdown)) === normalizePath(coverUrl)) {
@@ -387,9 +372,6 @@
             <button class="btn-chip" onclick="sharePost()">Share Post 📤</button>
           </nav>
         `;
-
-        // Load Cusdis now that the page data is ready
-        loadComments(file, window.location.href, postData.title);
 
       } catch(err) {
         console.error('Post load error:', err);
