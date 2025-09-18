@@ -5,37 +5,7 @@
       <stop stop-color="#F59E0B" offset="40%" />
       <stop stop-color="#D97706" offset="100%" />
     </radialGradient>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
-      <feMerge>
-        <feMergeNode in="coloredBlur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
   </defs>
-  
-  <style>
-    <![CDATA[
-      .logo-dot {
-        animation: dot-breathe 3.8s ease-in-out infinite;
-        transform-origin: center;
-      }
-      
-      @keyframes dot-breathe {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.08); }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .logo-dot {
-          animation: none;
-        }
-      }
-    ]]>
-  </style>
-
-  <g class="logo-dot">
-    <circle cx="17" cy="17" r="13" fill="url(#dotGradient)" filter="url(#glow)"/>
-    <circle cx="17" cy="17" r="13" stroke="rgba(251, 191, 36, 0.4)" stroke-width="1"/>
-  </g>
+  <circle cx="17" cy="17" r="15" fill="url(#dotGradient)"/>
+  <circle cx="17" cy="17" r="15" stroke="rgba(251, 191, 36, 0.2)" stroke-width="1.5"/>
 </svg>
