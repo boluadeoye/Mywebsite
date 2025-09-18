@@ -232,65 +232,47 @@
   .reflective-nav button.primary { background: var(--orange); color: var(--orange-ink); }
   .reflective-progress { font-size: 0.9rem; color: var(--muted); }
   
-  /* --- QUOTE STYLER STYLES START --- */
-  .quote-styler-popup {
-    position: fixed;
-    z-index: 400;
-    bottom: 2rem;
-    left: 50%;
-    transform: translate(-50%, 150%);
+  .whatsapp-card {
     background: var(--panel);
-    color: var(--ink);
-    border-radius: var(--radius);
-    padding: 1.5rem;
     border: 1px solid rgba(245,158,11,.2);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    width: 90%;
+    border-radius: var(--radius);
+    padding: 2rem;
     max-width: 500px;
+    margin: 3rem auto 0;
     text-align: center;
-    transition: transform .4s cubic-bezier(.2, .8, .2, 1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   }
-  .quote-styler-popup.show {
-    transform: translate(-50%, 0);
-  }
-  .quote-styler-popup blockquote {
-    font-style: italic;
-    color: var(--muted);
-    border-left: 3px solid var(--orange);
-    padding-left: 1rem;
-    text-align: left;
-    margin-bottom: 1.5rem;
-    max-height: 100px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .quote-styler-popup h3 {
+  .whatsapp-card h3 {
     font-family: var(--serif);
-    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    color: var(--ink);
+    margin-bottom: .5rem;
   }
-  .quote-styler-popup-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
+  .whatsapp-card p {
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    font-size: .95rem;
+    text-align: center;
   }
-  .quote-styler-popup-actions button {
-    padding: .6rem 1.2rem;
+  .whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .75rem;
+    background: #25D366;
+    color: white;
+    padding: .8rem 1.5rem;
     border-radius: 999px;
     font-weight: 700;
-    cursor: pointer;
-    border: 1px solid;
+    transition: all .3s ease;
   }
-  .quote-styler-popup-actions .create-btn {
-    background: var(--orange);
-    color: var(--orange-ink);
-    border-color: var(--orange);
+  .whatsapp-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
   }
-  .quote-styler-popup-actions .cancel-btn {
-    background: transparent;
-    color: var(--muted);
-    border-color: var(--muted);
+  .whatsapp-btn svg {
+    width: 24px;
+    height: 24px;
   }
-  /* --- QUOTE STYLER STYLES END --- */
 
   @media (max-width: 600px) {
     .content-wrapper {padding:1.5rem 1rem;}
@@ -336,6 +318,20 @@
         </article>
         
         <div id="disqus_thread" style="margin-top: 2rem;"></div>
+
+        <div class="whatsapp-card">
+          <h3>Never Miss a Post</h3>
+          <p>Join my private WhatsApp list for instant new post notifications. No spam, ever.</p>
+          <a 
+            href="https://wa.me/2348106293674?text=Hi%20Boluadeoye%2C%20please%20add%20me%20to%20your%20notification%20list!" 
+            class="whatsapp-btn"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.31 20.62C8.75 21.41 10.36 21.82 12.04 21.82C17.5 21.82 21.95 17.37 21.95 11.91C21.95 6.45 17.5 2 12.04 2M12.04 3.67C16.56 3.67 20.28 7.39 20.28 11.91C20.28 16.43 16.56 20.15 12.04 20.15C10.48 20.15 8.99 19.74 7.7 19L7.18 18.69L3.92 19.58L4.83 16.41L4.5 15.82C3.73 14.47 3.31 12.93 3.31 11.91C3.31 7.39 7.03 3.67 12.04 3.67M9.13 7.82C8.91 7.32 8.61 7.32 8.46 7.32C8.31 7.32 8.04 7.39 7.8 7.63C7.55 7.88 6.88 8.5 6.88 9.7C6.88 10.9 7.84 12.04 7.99 12.23C8.14 12.42 9.4 14.42 11.33 15.2C13.25 15.98 13.6 15.82 13.91 15.78C14.43 15.71 15.42 15.13 15.64 14.54C15.86 13.95 15.86 13.46 15.78 13.36C15.71 13.26 15.56 13.21 15.28 13.07C15 12.92 13.88 12.38 13.66 12.28C13.44 12.18 13.28 12.15 13.13 12.38C12.98 12.62 12.55 13.1 12.42 13.26C12.3 13.42 12.18 13.44 11.93 13.3C11.68 13.16 10.88 12.89 9.94 12.04C9.21 11.4 8.73 10.63 8.61 10.41C8.49 10.19 8.6 10.08 8.71 9.97C8.81 9.87 8.95 9.69 9.07 9.54C9.2 9.39 9.25 9.28 9.38 9.07C9.51 8.86 9.43 8.69 9.35 8.54C9.28 8.39 9.13 8.32 9.13 7.82Z"/></svg>
+            <span>Get New Post Alerts</span>
+          </a>
+        </div>
         
       </div>
     </div>
@@ -344,15 +340,7 @@
   <div id="reflective-overlay" class="reflective-overlay">
     <div class="reflective-content" id="reflective-content-holder"></div>
   </div>
-  
-  <div id="quote-styler-popup" class="quote-styler-popup">
-    <h3>Share this Quote?</h3>
-    <blockquote id="quote-styler-preview"></blockquote>
-    <div class="quote-styler-popup-actions">
-      <button id="quote-styler-create-btn" class="create-btn">Style It</button>
-      <button id="quote-styler-cancel-btn" class="cancel-btn">Cancel</button>
-    </div>
-  </div>
+
   <footer>
     <div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div>
   </footer>
@@ -547,47 +535,6 @@
         renderStep(0);
     }
     
-    // --- QUOTE STYLER SCRIPT START ---
-    function setupQuoteStyler() {
-        var postContentEl = document.querySelector('.post-content');
-        var popup = document.getElementById('quote-styler-popup');
-        var previewEl = document.getElementById('quote-styler-preview');
-        var createBtn = document.getElementById('quote-styler-create-btn');
-        var cancelBtn = document.getElementById('quote-styler-cancel-btn');
-        var selectedText = '';
-
-        if (!postContentEl || !popup) return;
-        
-        function handleTextSelection(e) {
-            setTimeout(() => {
-                var selection = window.getSelection();
-                var text = selection.toString().trim();
-
-                if (text.length > 10 && text.length < 280 && postContentEl.contains(selection.anchorNode)) {
-                    selectedText = text;
-                    previewEl.textContent = `“${selectedText}”`;
-                    popup.classList.add('show');
-                } else if (!popup.contains(e.target)) {
-                    popup.classList.remove('show');
-                }
-            }, 10);
-        }
-
-        document.addEventListener('mouseup', handleTextSelection);
-        document.addEventListener('touchend', handleTextSelection); // For mobile
-
-        cancelBtn.addEventListener('click', () => popup.classList.remove('show'));
-
-        createBtn.addEventListener('click', () => {
-            popup.classList.remove('show');
-            // Base64 encode the text to make it URL-safe
-            var encodedText = btoa(selectedText);
-            window.open(`quote.html?text=${encodedText}`, '_blank');
-        });
-    }
-    // --- QUOTE STYLER SCRIPT END ---
-
-
     function loadPost(){
       var container = document.getElementById('post-content-wrapper');
       if (!container) return;
@@ -668,7 +615,6 @@
             }
 
             loadDisqus(postFile);
-            setupQuoteStyler(); // ACTIVATE THE NEW, RELIABLE FEATURE
           })
           .catch(err => {
             console.error('Post load error:', err);
