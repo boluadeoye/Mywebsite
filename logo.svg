@@ -5,7 +5,6 @@
       <stop stop-color="#F59E0B" offset="40%" />
       <stop stop-color="#D97706" offset="100%" />
     </radialGradient>
-    
     <filter id="glow">
       <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
       <feMerge>
@@ -16,23 +15,23 @@
   </defs>
   
   <style>
-    .logo-dot {
-      /* The breathing animation for the dot */
-      animation: dot-breathe 3.8s ease-in-out infinite;
-      transform-origin: center;
-    }
-    
-    @keyframes dot-breathe {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-    }
-
-    /* Reduce motion for accessibility */
-    @media (prefers-reduced-motion: reduce) {
+    <![CDATA[
       .logo-dot {
-        animation: none;
+        animation: dot-breathe 3.8s ease-in-out infinite;
+        transform-origin: center;
       }
-    }
+      
+      @keyframes dot-breathe {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.08); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .logo-dot {
+          animation: none;
+        }
+      }
+    ]]>
   </style>
 
   <g class="logo-dot">
