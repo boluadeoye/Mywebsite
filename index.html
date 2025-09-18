@@ -11,8 +11,7 @@
       --orange: #f59e0b; --orange-light: #fbbf24; --orange-dark: #d97706; --orange-ink: #0b0f19;
       --ring: rgba(245, 158, 11, .25); --radius: 16px;
       --serif: ui-serif, Georgia, "Times New Roman", serif;
-      --transition: cubic-bezier(0.4, 0, 0.2, 1); --transition-snap: cubic-bezier(0.3, 0, 0.3, 1);
-      --red: #ef4444; --red-soft: rgba(239,68,68,.12);
+      --transition: cubic-bezier(0.4, 0, 0.2, 1);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; scroll-behavior: smooth; }
@@ -23,53 +22,61 @@
       -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden; position: relative;
     }
-    body::before {
-      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-      background:
-        radial-gradient(circle at 15% 25%, rgba(245, 158, 11, 0.03) 0%, transparent 30%),
-        radial-gradient(circle at 85% 75%, rgba(245, 158, 11, 0.02) 0%, transparent 35%);
+    body.menu-open {
+      overflow: hidden; /* Fix: Prevents background scroll when side menu is open */
     }
-    img { max-width: 100%; display: block; height: auto; image-rendering: -webkit-optimize-contrast; }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+      background:
+        radial-gradient(circle at 15% 25%, rgba(245, 158, 11, 0.04) 0%, transparent 35%),
+        radial-gradient(circle at 85% 75%, rgba(245, 158, 11, 0.03) 0%, transparent 40%);
+    }
+    img { max-width: 100%; display: block; height: auto; }
     a { color: inherit; text-decoration: none; transition: all 0.3s var(--transition); }
     .wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
 
-    section { margin-bottom: 3rem; }
-    .section-header { margin: 3rem 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-
-    header { position: sticky; top: 0; z-index: 100; background: rgba(15,23,42,.98); border-bottom: 1px solid rgba(245,158,11,.15); transition: all 0.3s var(--transition); }
+    header {
+      position: sticky; top: 0; z-index: 100; 
+      background: rgba(15,23,42,.85); /* Slightly more transparent for a modern feel */
+      backdrop-filter: blur(8px); /* Modern glass effect */
+      border-bottom: 1px solid rgba(245,158,11,.15);
+      transition: box-shadow 0.3s var(--transition);
+    }
+    header.scrolled {
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2); /* Adds depth on scroll */
+    }
     .header-row { display: flex; align-items: center; justify-content: space-between; min-height: 70px; gap: 1.5rem; padding: 0 0.5rem; }
     .brand { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; transition: transform 0.3s var(--transition); }
     .brand:hover { transform: translateX(3px); }
-    .brand img { transition: transform .6s var(--transition); } /* Added for smooth rotation */
-    .brand:hover img { transform: rotate(360deg) scale(1.12); }
+
+    .dot {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ffd27a 0%, #f59e0b 40%, #d97706 100%);
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, .15), 0 4px 12px rgba(245, 158, 11, .2);
+      transition: transform 0.6s var(--transition);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      position: relative; z-index: 0; animation: dot-breathe 3.8s ease-in-out infinite;
+    }
+    .dot::after {
+      content: ''; position: absolute; inset: -8px; border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%, rgba(245,158,11,.45) 0%, rgba(245,158,11,.16) 35%, rgba(245,158,11,0) 70%);
+      filter: blur(10px); opacity: .75; animation: dot-halo 3.8s ease-in-out infinite; pointer-events: none;
+    }
+    @keyframes dot-breathe { 0%,100%{ transform: scale(1); } 50%{ transform: scale(1.06); } }
+    @keyframes dot-halo   { 0%,100%{ opacity:.55; transform: scale(1); } 50%{ opacity:.9; transform: scale(1.12); } }
+    @media (prefers-reduced-motion: reduce) { .dot, .dot::after { animation: none !important; } }
 
     .brand h1 { font-size: 1.3rem; font-weight: 800; color: var(--ink); letter-spacing: -0.5px; font-family: var(--serif); }
 
-    .search-container { flex: 1; max-width: 400px; position: relative; }
-    .search-bar { position: relative; width: 100%; }
-    .search-bar input {
-      width: 100%; padding: 0.65rem 2.75rem 0.65rem 1.25rem;
-      border: 1px solid rgba(245, 158, 11, .2);
-      border-radius: 999px; background: rgba(17, 26, 46, 0.6);
-      color: var(--ink); font-size: 0.92rem; outline: none; transition: all 0.3s var(--transition);
-      caret-color: var(--orange); -webkit-appearance: none; appearance: none; box-shadow: none;
+    .top-nav { 
+      display: none; 
+      gap: 0.5rem; 
+      align-items: center; 
+      justify-content: flex-end; /* Aligns items to the right */
+      flex-wrap: wrap; /* Fix: Allows menu items to wrap on smaller screens */
     }
-    .search-bar input::placeholder { color: var(--muted); opacity: 0.8; }
-    .search-bar input:focus { border-color: var(--orange); background: rgba(245, 158, 11, .05); box-shadow: 0 0 0 3px var(--ring); padding-left: 1.35rem; }
-    .search-icon { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; font-size: 1.05rem; transition: color 0.3s ease; }
-    .search-bar input:focus + .search-icon { color: var(--orange); }
-
-    .search-results { position: absolute; top: calc(100% + 8px); left: 0; right: 0; background: var(--panel); border-radius: 12px; border: 1px solid rgba(245, 158, 11, .2); box-shadow: 0 10px 30px rgba(0,0,0,.3); max-height: 380px; overflow-y: auto; display: none; z-index: 50; opacity: 0; transform: translateY(-5px); transition: all 0.3s var(--transition); }
-    .search-results.active { display: block; opacity: 1; transform: translateY(0); }
-    .search-result-item { padding: 0.9rem 1.2rem; border-bottom: 1px solid rgba(245, 158, 11, .08); display: block; transition: all 0.2s ease; }
-    .search-result-item:last-child { border-bottom: none; }
-    .search-result-item:hover { background: rgba(245, 158, 11, .1); padding-left: 1.35rem; }
-    .search-result-title { font-weight: 600; color: var(--ink); margin-bottom: 0.25rem; font-size: 0.92rem; line-height: 1.3; }
-    .search-result-excerpt { font-size: 0.82rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-    .top-nav { display: none; gap: 0.5rem; align-items: center; }
     .top-nav a { padding: 0.45rem 0.9rem; border-radius: 999px; color: var(--ink); font-weight: 600; font-size: 0.87rem; transition: all 0.2s var(--transition); border: 1px solid transparent; }
-    .top-nav a:hover, .top-nav a.active { color: var(--orange); background: transparent; border-color: var(--orange); transform: translateY(-1px); }
+    .top-nav a:hover, .top-nav a.active { color: var(--orange); border-color: var(--orange); transform: translateY(-1px); }
 
     .hamburger { width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: rgba(255, 255, 255, .03); border: 1px solid rgba(245, 158, 11, .2); color: var(--ink); cursor: pointer; transition: all 0.3s ease; }
     .hamburger:hover { background: rgba(245, 158, 11, .1); transform: rotate(10deg); }
@@ -77,161 +84,85 @@
 
     .side-menu { position: fixed; top: 0; left: -280px; z-index: 200; width: 260px; height: 100%; padding: 2.5rem 1.2rem 2rem; display: flex; flex-direction: column; gap: 0.6rem; background: var(--panel); border-right: 1px solid rgba(245, 158, 11, .2); transition: left 0.3s var(--transition); }
     .side-menu.active { left: 0; }
-    .side-menu a { padding: 0.9rem 1.25rem; border-radius: 8px; background: transparent; color: var(--ink); font-weight: 600; font-size: 0.92rem; border: 1px solid transparent; transition: all 0.2s ease; }
+    .side-menu a { padding: 0.9rem 1.25rem; border-radius: 8px; color: var(--ink); font-weight: 600; font-size: 0.92rem; border: 1px solid transparent; transition: all 0.2s ease; }
     .side-menu a:hover, .side-menu a.active { background: rgba(245, 158, 11, .1); border-color: var(--orange); color: var(--orange); transform: translateX(5px); }
-    .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .5); z-index: 150; display: none; cursor: pointer; }
-    .overlay.show { display: block; }
+    .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .5); z-index: 150; display: none; cursor: pointer; opacity: 0; transition: opacity 0.3s ease; }
+    .overlay.show { display: block; opacity: 1; }
 
-    .hero { padding: 4rem 0 3rem; position: relative; }
+    .hero { padding: 4rem 0 3rem; }
     .hero-split { display: grid; align-items: center; gap: 3.5rem; grid-template-columns: 400px 1fr; }
-    .hero-photo { position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0, 0, 0, .2); border: 1px solid rgba(245, 158, 11, .2); transform: translateY(0); animation: floatSharp 4s ease-in-out infinite; }
+    .hero-photo { position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0, 0, 0, .2); border: 1px solid rgba(245, 158, 11, .2); animation: floatSharp 4s ease-in-out infinite; }
     @keyframes floatSharp { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
     .hero-copy { display: flex; flex-direction: column; }
-    .chip { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.55rem 1.1rem; border-radius: 999px; background: rgba(245, 158, 11, .15); color: var(--orange); border: 1px solid rgba(245, 158, 11, .3); font-weight: 600; font-size: 0.82rem; letter-spacing: 0.5px; text-transform: uppercase; align-self: flex-start; box-shadow: 0 2px 6px rgba(245, 158, 11, 0.1); }
-    .hero h2 { font-family: var(--serif); font-weight: 800; line-height: 1.15; margin: 1.25rem 0 1.2rem 0; font-size: clamp(2.1rem, 4vw, 3.2rem); letter-spacing: -0.8px; }
-    .hero h2 .accent { background: linear-gradient(135deg, var(--orange), var(--orange-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 900; }
-    .sub { color: var(--muted); font-size: 1.05rem; line-height: 1.7; margin: 0 0 2rem; max-width: 600px; font-weight: 400; }
+    .chip { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.55rem 1.1rem; border-radius: 999px; background: rgba(245, 158, 11, .15); color: var(--orange); border: 1px solid rgba(245, 158, 11, .3); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; align-self: flex-start; }
+    .hero h2 { font-family: var(--serif); font-weight: 800; line-height: 1.15; margin: 1.25rem 0; font-size: clamp(2.1rem, 4vw, 3.2rem); letter-spacing: -0.8px; }
+    .hero h2 .accent { background: linear-gradient(135deg, var(--orange), var(--orange-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .sub { color: var(--muted); font-size: 1.05rem; line-height: 1.7; margin: 0 0 2rem; max-width: 600px; }
 
-    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2rem; border-radius: 999px; background: linear-gradient(135deg, var(--orange), var(--orange-light)); color: var(--orange-ink); font-weight: 700; font-size: 0.98rem; box-shadow: 0 4px 15px rgba(245, 158, 11, .25); transition: all 0.3s var(--transition); border: none; letter-spacing: -0.2px; align-self: flex-start; }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2rem; border-radius: 999px; background: linear-gradient(135deg, var(--orange), var(--orange-light)); color: var(--orange-ink); font-weight: 700; font-size: 0.98rem; box-shadow: 0 4px 15px rgba(245, 158, 11, .25); transition: all 0.3s var(--transition); border: none; align-self: flex-start; }
     .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(245, 158, 11, .35); }
     
+    .section-header { margin: 3rem 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
     .view-all-link { color: var(--orange); font-weight: 600; }
-
     h3.section-title { font-size: clamp(1.6rem, 2.8vw, 2.1rem); font-family: var(--serif); font-weight: 800; color: var(--ink); position: relative; padding-left: 1.5rem; letter-spacing: -0.5px; }
     h3.section-title::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 70%; background: linear-gradient(180deg, var(--orange), var(--orange-light)); border-radius: 1px; }
 
-    #posts { display: grid; gap: 2rem; margin-bottom: 4rem; min-height: 200px; opacity: 0; transition: opacity 0.5s var(--transition); }
-    #posts.loaded { opacity: 1; }
-
-    .post { background: var(--panel); border: 1px solid rgba(245, 158, 11, .15); border-radius: 16px; padding: 2rem; transition: all 0.3s var(--transition); position: relative; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    #posts { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); min-height: 200px; }
+    .post { display: flex; flex-direction: column; background: var(--panel); border: 1px solid rgba(245, 158, 11, .15); border-radius: 16px; transition: all 0.3s var(--transition); box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; }
     .post:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 0, 0, .2); border-color: var(--orange); }
+    .post-content-wrap { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
     .post-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
-    .post h3 { font-size: 1.25rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--ink); line-height: 1.3; font-family: var(--serif); }
+    .post h3 { font-size: 1.2rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--ink); line-height: 1.3; font-family: var(--serif); }
     .post-type { display: inline-block; padding: 0.25rem 0.7rem; border-radius: 999px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; background: rgba(245, 158, 11, .1); color: var(--orange); border: 1px solid rgba(245, 158, 11, .2); }
-    .post-date { color: var(--muted); font-size: 0.87rem; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.7rem; }
-    .post p { color: rgba(229, 238, 252, 0.85); line-height: 1.7; margin: 0.7rem 0; font-size: 0.97rem; }
+    .post-date { color: var(--muted); font-size: 0.87rem; }
+    .post p { color: var(--muted); line-height: 1.7; font-size: 0.95rem; flex-grow: 1; }
     .post .stats { display: flex; gap: 1.5rem; margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid rgba(245, 158, 11, .1); font-size: 0.83rem; }
     .stat-item { display: flex; align-items: center; gap: 0.4rem; color: var(--muted); }
-    .stat-red { color: var(--red); }
-
-    .post-cover { width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; margin-bottom: 1rem; border: 1px solid rgba(245,158,11,.15); background: rgba(255,255,255,.02); }
-    .post-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    
+    .post-cover { width: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
+    .post-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s var(--transition); }
+    .post:hover .post-cover img { transform: scale(1.05); }
 
     .loading { text-align: center; padding: 3rem; color: var(--muted); }
     .loading-spinner { display: inline-block; width: 36px; height: 36px; border: 2px solid rgba(245, 158, 11, .3); border-top-color: var(--orange); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    
-    .whatsapp-card {
-      background: var(--panel);
-      border: 1px solid rgba(245,158,11,.2);
-      border-radius: var(--radius);
-      padding: 2rem;
-      max-width: 500px;
-      margin: 3rem auto;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-    .whatsapp-card h3 {
-      font-family: var(--serif);
-      font-size: 1.5rem;
-      color: var(--ink);
-      margin-bottom: .5rem;
-    }
-    .whatsapp-card p {
-      color: var(--muted);
-      margin-bottom: 1.5rem;
-      font-size: .95rem;
-    }
-    .whatsapp-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: .75rem;
-      background: #25D366;
-      color: white;
-      padding: .8rem 1.5rem;
-      border-radius: 999px;
-      font-weight: 700;
-      transition: all .3s ease;
-    }
-    .whatsapp-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
-    }
-    .whatsapp-btn svg {
-      width: 24px;
-      height: 24px;
-    }
 
-    footer { background: var(--panel); border-top: 1px solid rgba(245, 158, 11, .2); color: var(--muted); text-align: center; font-size: 0.88rem; padding: 2rem 0; margin-top: 3rem; position: relative; }
-    footer .wrap { display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap; }
-    footer p { margin: 0; letter-spacing: 0.5px; position: relative; display: inline-block; }
-    footer p::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--orange), transparent); transition: width 0.4s var(--transition); }
-    footer p:hover::after { width: 100%; }
+    footer { background: var(--panel); border-top: 1px solid rgba(245, 158, 11, .2); color: var(--muted); text-align: center; font-size: 0.88rem; padding: 2rem 0; margin-top: 3rem; }
+    footer p { margin: 0; }
 
     @media (min-width: 880px) { .top-nav { display: flex; } .hamburger { display: none; } }
     @media (max-width: 879px) {
-      .search-container { display: none; }
       .hero-split { grid-template-columns: 1fr; text-align: center; gap: 2.5rem; }
       .hero-photo { max-width: 320px; margin: 0 auto; }
       .hero h2 { font-size: 2rem; }
       .sub { text-align: center; margin: 0 auto 2rem; }
-      .chip { margin: 0 auto; }
-      .btn { align-self: center; }
-    }
-    @media (max-width: 480px) {
-      .hero { padding: 3rem 0 2rem; }
-      .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; margin: 2.5rem 0 1.5rem; }
-      .post { padding: 1.5rem; }
-      h3.section-title { padding-left: 1.2rem; font-size: 1.5rem; }
-      .hero h2 { font-size: 1.8rem; }
+      .chip, .btn { align-self: center; }
     }
   </style>
 </head>
 <body>
   <nav id="sideMenu" class="side-menu">
-    <a href="#" data-filter="all" class="filter-link active">All writings</a>
-    <a href="#" data-filter="poem" class="filter-link">Poems</a>
-    <a href="#" data-filter="story" class="filter-link">Stories</a>
-    <a href="#" data-filter="faith" class="filter-link">Faith</a>
-    <a href="#" data-filter="devotional" class="filter-link">Devotional</a>
-    <a href="#" data-filter="article" class="filter-link">Articles</a>
-    <a href="#" data-filter="essay" class="filter-link">Essays</a>
+    <a href="./">Home</a>
+    <a href="./posts.html">All Posts</a>
     <a href="./library.html">Library</a>
     <a href="./about.html">About</a>
   </nav>
   <div id="menuOverlay" class="overlay"></div>
 
-  <header>
+  <header id="header">
     <div class="wrap header-row">
       <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <rect x="4" y="6" width="16" height="2" rx="1"/>
-          <rect x="4" y="11" width="16" height="2" rx="1"/>
-          <rect x="4" y="16" width="16" height="2" rx="1"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" width="16" height="2" rx="1"/></svg>
       </button>
 
       <a class="brand" href="./">
-        <img src="logo.svg" alt="Boluadeoye Logo" width="34" height="34">
+        <span class="dot" aria-hidden="true"></span>
         <h1>Boluadeoye</h1>
       </a>
 
-      <div class="search-container">
-        <div class="search-bar">
-          <input type="text" id="searchInput" placeholder="Search writings..." autocomplete="off" aria-label="Search writings">
-          <span class="search-icon">🔍</span>
-          <div id="searchResults" class="search-results" role="listbox"></div>
-        </div>
-      </div>
-
-      <nav class="top-nav" aria-label="Filters">
-        <a href="#" data-filter="all" class="filter-link active">All</a>
-        <a href="#" data-filter="poem" class="filter-link">Poems</a>
-        <a href="#" data-filter="story" class="filter-link">Stories</a>
-        <a href="#" data-filter="faith" class="filter-link">Faith</a>
-        <a href="#" data-filter="devotional" class="filter-link">Devotional</a>
-        <a href="#" data-filter="article" class="filter-link">Articles</a>
-        <a href="#" data-filter="essay" class="filter-link">Essays</a>
+      <nav class="top-nav" aria-label="Primary Navigation">
+        <a href="./">Home</a>
+        <a href="./posts.html">All Posts</a>
         <a href="./library.html">Library</a>
         <a href="./about.html">About</a>
       </nav>
@@ -239,10 +170,10 @@
   </header>
 
   <main class="wrap">
-    <section class="hero" aria-label="Intro">
+    <section class="hero" aria-label="Introduction">
       <div class="hero-split">
         <figure class="hero-photo">
-          <img src="images/Bolu.png" alt="Boluadeoye">
+          <img src="images/Bolu.png" alt="Boluadeoye" width="400" height="400" loading="lazy">
         </figure>
         <div class="hero-copy">
           <span class="chip">✨ Personal Blog</span>
@@ -264,21 +195,6 @@
         <p>Loading posts...</p>
       </div>
     </section>
-    
-    <div class="whatsapp-card">
-      <h3>Never Miss a Post</h3>
-      <p>Join my private WhatsApp list for instant new post notifications. No spam, ever.</p>
-      <a 
-        href="https://wa.me/2348106293674?text=Hi%20Boluadeoye%2C%20please%20add%20me%20to%20your%20notification%20list!" 
-        class="whatsapp-btn"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.31 20.62C8.75 21.41 10.36 21.82 12.04 21.82C17.5 21.82 21.95 17.37 21.95 11.91C21.95 6.45 17.5 2 12.04 2M12.04 3.67C16.56 3.67 20.28 7.39 20.28 11.91C20.28 16.43 16.56 20.15 12.04 20.15C10.48 20.15 8.99 19.74 7.7 19L7.18 18.69L3.92 19.58L4.83 16.41L4.5 15.82C3.73 14.47 3.31 12.93 3.31 11.91C3.31 7.39 7.03 3.67 12.04 3.67M9.13 7.82C8.91 7.32 8.61 7.32 8.46 7.32C8.31 7.32 8.04 7.39 7.8 7.63C7.55 7.88 6.88 8.5 6.88 9.7C6.88 10.9 7.84 12.04 7.99 12.23C8.14 12.42 9.4 14.42 11.33 15.2C13.25 15.98 13.6 15.82 13.91 15.78C14.43 15.71 15.42 15.13 15.64 14.54C15.86 13.95 15.86 13.46 15.78 13.36C15.71 13.26 15.56 13.21 15.28 13.07C15 12.92 13.88 12.38 13.66 12.28C13.44 12.18 13.28 12.15 13.13 12.38C12.98 12.62 12.55 13.1 12.42 13.26C12.3 13.42 12.18 13.44 11.93 13.3C11.68 13.16 10.88 12.89 9.94 12.04C9.21 11.4 8.73 10.63 8.61 10.41C8.49 10.19 8.6 10.08 8.71 9.97C8.81 9.87 8.95 9.69 9.07 9.54C9.2 9.39 9.25 9.28 9.38 9.07C9.51 8.86 9.43 8.69 9.35 8.54C9.28 8.39 9.13 8.32 9.13 7.82Z"/></svg>
-        <span>Get New Post Alerts</span>
-      </a>
-    </div>
-
   </main>
 
   <footer>
@@ -288,131 +204,95 @@
   </footer>
 
   <script>
-    // Menu
-    const menuBtn = document.getElementById('menuBtn');
-    const sideMenu = document.getElementById('sideMenu');
-    const menuOverlay = document.getElementById('menuOverlay');
-    function closeMenu(){ sideMenu.classList.remove('active'); menuOverlay.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
-    function openMenu(){ sideMenu.classList.add('active'); menuOverlay.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
-    menuBtn.addEventListener('click', () => { sideMenu.classList.contains('active') ? closeMenu() : openMenu(); });
-    menuOverlay.addEventListener('click', closeMenu);
-
-    // Posts + search
-    const MANY_THRESHOLD = 50;
-    let allPosts = [];
-    let currentFilter = 'all';
-    const postsEl = document.getElementById('posts');
-    const searchInput = document.getElementById('searchInput');
-    const searchResults = document.getElementById('searchResults');
-
-    async function loadPosts(){
-      try{
-        const res = await fetch('/Mywebsite/Posts.json', { cache: 'no-store' });
-        if(!res.ok) throw new Error(`Failed to load Posts.json (Status: ${res.status})`);
-        const data = await res.json();
-        allPosts = (Array.isArray(data) ? data : [])
-          .map(p => ({ 
-            ...p, 
-            type: (p.type || 'essay').toLowerCase(),
-            views: p.views || 0,
-            cover: p.cover || ''
-          }))
-          .sort((a, b) => new Date(b.date) - new Date(a.date));
-        filterPosts(currentFilter);
-        postsEl.classList.add('loaded');
-      }catch(err){
-        console.error('Error loading posts:', err);
-        postsEl.innerHTML = `<div style="text-align:center;padding:3rem;color:#ff6b6b;"><h3>Unable to load posts</h3><p>${err.message}</p></div>`;
+    (function(){
+      // --- Menu Logic ---
+      const menuBtn = document.getElementById('menuBtn');
+      const sideMenu = document.getElementById('sideMenu');
+      const menuOverlay = document.getElementById('menuOverlay');
+      
+      function closeMenu() {
+        sideMenu.classList.remove('active');
+        menuOverlay.classList.remove('show');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('menu-open'); // Fix: Unlock scroll
       }
-    }
+      function openMenu() {
+        sideMenu.classList.add('active');
+        menuOverlay.classList.add('show');
+        menuBtn.setAttribute('aria-expanded', 'true');
+        document.body.classList.add('menu-open'); // Fix: Lock scroll
+      }
+      
+      menuBtn.addEventListener('click', () => { sideMenu.classList.contains('active') ? closeMenu() : openMenu(); });
+      menuOverlay.addEventListener('click', closeMenu);
 
-    function filterPosts(filter){
-      currentFilter = filter;
-      document.querySelectorAll('.filter-link').forEach(link => {
-        link.classList.toggle('active', link.getAttribute('data-filter') === filter);
+      // --- Header Scroll Effect ---
+      const header = document.getElementById('header');
+      window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 10);
       });
-      let list = allPosts.slice();
-      if(filter !== 'all') list = list.filter(p => p.type === filter);
-      displayPosts(list.slice(0, 3));
-    }
 
-    function displayPosts(list){
-      if(!list || !list.length){
-        postsEl.innerHTML = `<p style="text-align:center;color:var(--muted);padding:3rem;">No ${currentFilter==='all'?'':' ' + currentFilter} posts available.</p>`;
-        return;
-      }
-      postsEl.innerHTML = list.map(p => {
-        const viewedLabel = (p.views >= MANY_THRESHOLD) ? 'Viewed by many' : 'Viewed';
-        const coverHTML = p.cover ? `
-          <figure class="post-cover">
-            <img src="/Mywebsite/${p.cover}" alt="${p.title} cover" loading="lazy" decoding="async">
-          </figure>` : '';
-        return `
-          <article class="post">
-            ${coverHTML}
-            <div class="post-header">
-              <div>
-                <h3><a href="post.html?file=${encodeURIComponent(p.file)}" style="color:inherit;">${p.title}</a></h3>
-                <div class="post-date">📅 ${new Date(p.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</div>
-              </div>
-              <span class="post-type">${p.type || 'reflection'}</span>
-            </div>
-            <p>${p.excerpt || ''}</p>
-            <div class="stats">
-              <span class="stat-item">⏱️ ${p.minutes} min read</span>
-              <span class="stat-item">👁️ ${viewedLabel}</span>
-            </div>
-          </article>
-        `;
-      }).join('');
-    }
+      // --- Post Loading and Display Logic ---
+      const MANY_THRESHOLD = 50;
+      let allPosts = [];
+      const postsEl = document.getElementById('posts');
 
-    document.querySelectorAll('.filter-link').forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const filter = link.getAttribute('data-filter');
-        if(filter){
-          filterPosts(filter.toLowerCase());
-          closeMenu();
-          document.getElementById('latest').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      async function loadPosts() {
+        try {
+          const res = await fetch('./Posts.json', { cache: 'no-store' });
+          if (!res.ok) throw new Error(`Failed to load Posts.json (Status: ${res.status})`);
+          const data = await res.json();
+          allPosts = (Array.isArray(data) ? data : [])
+            .map(p => ({ 
+              ...p, 
+              type: (p.type || 'essay').toLowerCase(),
+              views: p.views || 0,
+              cover: p.cover || ''
+            }))
+            .sort((a, b) => new Date(b.date) - new Date(a.date));
+          displayPosts(allPosts.slice(0, 6)); // Display latest 6 posts
+        } catch(err) {
+          console.error('Error loading posts:', err);
+          postsEl.innerHTML = `<div style="text-align:center;padding:3rem;color:#ff6b6b;"><h3>Unable to load posts</h3><p>${err.message}</p></div>`;
         }
-      });
-    });
+      }
 
-    let searchTimeout;
-    if (searchInput){
-      searchInput.addEventListener('input', (e) => {
-        clearTimeout(searchTimeout);
-        const q = e.target.value.trim();
-        if(q.length < 2){ searchResults.classList.remove('active'); return; }
-        searchTimeout = setTimeout(() => {
-          const t = q.toLowerCase();
-          const results = allPosts.filter(post =>
-            (post.title || '').toLowerCase().includes(t) ||
-            (post.excerpt || '').toLowerCase().includes(t) ||
-            (post.type || '').toLowerCase().includes(t)
-          );
-          searchResults.innerHTML = results.length ?
-            results.slice(0, 5).map(p => `
-              <a href="post.html?file=${encodeURIComponent(p.file)}" class="search-result-item">
-                <div class="search-result-title">${p.title}</div>
-                <div class="search-result-excerpt">${(p.excerpt || '').slice(0, 80)}...</div>
-              </a>`).join('')
-            :
-            `<div class="search-result-item">
-               <div class="search-result-title">No results found</div>
-               <div class="search-result-excerpt">Try different keywords</div>
-             </div>`;
-          searchResults.classList.add(
-'active');
-        }, 300);
-    })}
-    document.addEventListener('click', e => {
-      if (!e.target.closest('.search-container')) searchResults.classList.remove('active');
-      if (e.target.closest('.search-result-item')) searchResults.classList.remove('active');
-    });
-
-    document.addEventListener('DOMContentLoaded', loadPosts);
+      function displayPosts(list) {
+        if (!list || !list.length) {
+          postsEl.innerHTML = `<p style="text-align:center;color:var(--muted);padding:3rem;">No posts available.</p>`;
+          return;
+        }
+        postsEl.innerHTML = list.map(p => {
+          const viewedLabel = (p.views >= MANY_THRESHOLD) ? 'Viewed by many' : 'Viewed';
+          const coverHTML = p.cover ? `
+            <a href="post.html?file=${encodeURIComponent(p.file)}" class="post-cover" aria-hidden="true" tabindex="-1">
+              <img src="${p.cover}" alt="${p.title} cover" loading="lazy" decoding="async" width="400" height="225">
+            </a>` : '';
+          
+          return `
+            <article class="post">
+              ${coverHTML}
+              <div class="post-content-wrap">
+                <header class="post-header">
+                  <div>
+                    <span class="post-date">📅 ${new Date(p.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</span>
+                    <h3><a href="post.html?file=${encodeURIComponent(p.file)}">${p.title}</a></h3>
+                  </div>
+                  <span class="post-type">${p.type}</span>
+                </header>
+                <p>${p.excerpt || ''}</p>
+                <footer class="stats">
+                  <span class="stat-item">⏱️ ${p.minutes} min read</span>
+                  <span class="stat-item">👁️ ${viewedLabel}</span>
+                </footer>
+              </div>
+            </article>
+          `;
+        }).join('');
+      }
+      
+      document.addEventListener('DOMContentLoaded', loadPosts);
+    })();
   </script>
 </body>
 </html>
