@@ -289,7 +289,9 @@
     width: 1080px; /* Standard social media size */
     max-width: 600px;
     aspect-ratio: 1 / 1;
-    background: var(--panel);
+    background-color: var(--panel);
+    background-image: url('images/quote-bg.png'); /* Add your background image path here */
+    background-size: cover;
     border: 1px solid rgba(255,255,255,.1);
     border-radius: var(--radius);
     padding: 4rem;
@@ -299,18 +301,22 @@
     justify-content: center;
     text-align: center;
     margin-bottom: 1.5rem;
+    position: relative;
   }
   .quote-weaver-text {
     font-family: var(--serif);
-    font-size: 3rem; /* Will be adjusted by JS */
+    font-size: 4rem; /* Will be adjusted by JS */
     line-height: 1.3;
     color: var(--ink);
+    font-weight: 700;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
   }
   .quote-weaver-credit {
-    margin-top: 2rem;
+    position: absolute;
+    bottom: 2rem;
     font-weight: 600;
-    color: var(--muted);
-    font-size: 1.5rem; /* Will be adjusted by JS */
+    color: rgba(255,255,255,0.8);
+    font-size: 1.5rem;
   }
   .quote-weaver-actions a {
     display: inline-block;
@@ -381,10 +387,10 @@
     <div class="quote-weaver-modal">
       <div id="quote-template" class="quote-weaver-template">
         <p id="quote-text" class="quote-weaver-text"></p>
-        <p id="quote-credit" class="quote-weaver-credit">boluadeoye.com</p>
+        <p class="quote-weaver-credit">boluadeoye.github.io/Mywebsite/</p>
       </div>
       <div class="quote-weaver-actions">
-        <a id="download-quote-btn" href="#" download="quote.png">Download Image</a>
+        <a id="download-quote-btn" href="#" download="Boluadeoye-Quote.png">Download Image</a>
       </div>
     </div>
   </div>
@@ -594,17 +600,26 @@
 
         if (!postContentEl || !quoteBtn) return;
         
-        document.addEventListener('mouseup', function(e) {
-            // Use setTimeout to allow the selection to finalize
+        // Hide the button if the user clicks away from a selection
+        document.addEventListener('mousedown', function(e) {
+             if (!quoteBtn.contains(e.target)) {
+                quoteBtn.classList.remove('show');
+            }
+        });
+
+        postContentEl.addEventListener('mouseup', function(e) {
             setTimeout(() => {
                 var selection = window.getSelection();
-                selectedText = selection.toString().trim();
+                selectedText = selection.toString().trim().replace(/(\r\n|\n|\r)/gm, " "); // Clean up line breaks
 
-                if (selectedText.length > 10 && postContentEl.contains(selection.anchorNode)) {
+                if (selectedText.length > 10 && selectedText.length < 280) { // Add character limit
                     var range = selection.getRangeAt(0);
                     var rect = range.getBoundingClientRect();
-                    quoteBtn.style.left = (rect.right + window.scrollX) + 'px';
-                    quoteBtn.style.top = (rect.top + window.scrollY - (quoteBtn.offsetHeight / 2) + (rect.height / 2)) + 'px';
+                    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    var scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+                    quoteBtn.style.left = (rect.right + scrollLeft) + 'px';
+                    quoteBtn.style.top = (rect.top + scrollTop - (quoteBtn.offsetHeight / 2) + (rect.height / 2)) + 'px';
                     quoteBtn.classList.add('show');
                 } else {
                     quoteBtn.classList.remove('show');
@@ -614,12 +629,40 @@
 
         quoteBtn.addEventListener('click', function() {
             quoteTextEl.textContent = `“${selectedText}”`;
+            
+            // Adjust font size based on text length for better fit
+            var baseSize = 4; // in rem
+            if (selectedText.length > 150) baseSize = 2.5;
+            else if (selectedText.length > 100) baseSize = 3;
+            else if (selectedText.length > 50) baseSize = 3.5;
+            quoteTextEl.style.fontSize = baseSize + 'rem';
+
             quoteOverlay.classList.add('show');
+            downloadBtn.innerHTML = 'Download Image';
+            downloadBtn.href = "#"; // Reset href
         });
         
         quoteOverlay.addEventListener('click', function(e) {
             if (e.target === quoteOverlay) {
                 quoteOverlay.classList.remove('show');
+            }
+        });
+        
+        downloadBtn.addEventListener('click', function(e) {
+            if (downloadBtn.href === "#") { // Only generate if not already generated
+                e.preventDefault();
+                downloadBtn.innerHTML = 'Generating...';
+
+                html2canvas(quoteTemplateEl, {
+                    scale: 2,
+                    backgroundColor: null,
+                    useCORS: true,
+                    logging: false
+                }).then(canvas => {
+                    downloadBtn.href = canvas.toDataURL('image/png');
+                    downloadBtn.innerHTML = 'Download Ready!';
+                    downloadBtn.click(); // Automatically trigger the download
+                });
             }
         });
     }
@@ -731,4 +774,4 @@
   })();
   </script>
 </body>
-</html>
+  </html>
