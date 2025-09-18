@@ -25,19 +25,34 @@
     -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     overflow-x:hidden; position:relative; text-rendering:optimizeLegibility;
   }
+  body.menu-open {
+    overflow: hidden;
+  }
   a{color:inherit;text-decoration:none;transition:all .3s var(--transition)}
   .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
 
-  header{position:sticky;top:0;z-index:100;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(245,158,11,.15)}
+  header{
+    position:sticky; top:0; z-index:100;
+    background:rgba(15,23,42,.85);
+    backdrop-filter: blur(8px);
+    border-bottom:1px solid rgba(245,158,11,.15);
+    transition: box-shadow 0.3s var(--transition);
+  }
+  header.scrolled {
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  }
   .header-row{display:flex;align-items:center;justify-content:space-between;min-height:70px;gap:1.5rem;padding:0 .5rem}
   .brand{display:flex;align-items:center;gap:.75rem;flex-shrink:0;transition:transform .3s var(--transition)}
   .brand:hover{transform:translateX(3px)}
-  .brand img { transition: transform .6s var(--transition); }
-  .brand:hover img { transform: rotate(360deg) scale(1.12); }
+  .brand .dot { transition: transform .6s var(--transition); }
+  .brand:hover .dot { transform: rotate(360deg) scale(1.12); }
   
   .brand h1{font-size:1.3rem;font-weight:800;color:var(--ink);letter-spacing:-.5px;font-family:var(--serif)}
 
-  .top-nav{display:none;gap:.5rem;align-items:center;flex-wrap:wrap}
+  .top-nav{
+    display:none; gap:.5rem; align-items:center; 
+    justify-content: flex-end; flex-wrap:wrap;
+  }
   .top-nav a{padding:.45rem .9rem;border-radius:999px;border:1px solid transparent;font-weight:600;font-size:.87rem}
   .top-nav a:hover,.top-nav a.active{color:var(--orange);border-color:var(--orange);transform:translateY(-1px)}
 
@@ -49,8 +64,8 @@
   .side-menu.active{left:0}
   .side-menu a{padding:.9rem 1.25rem;border-radius:8px;background:transparent;color:var(--ink);font-weight:600;font-size:.92rem;border:1px solid transparent;transition:all .2s ease}
   .side-menu a:hover,.side-menu a.active{background:rgba(245,158,11,.1);border-color:var(--orange);color:var(--orange);transform:translateX(5px)}
-  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;display:none;cursor:pointer}
-  .overlay.show{display:block}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;display:none;cursor:pointer;opacity:0;transition:opacity 0.3s ease;}
+  .overlay.show{display:block;opacity:1;}
   @media(min-width:880px){.top-nav{display:flex}.hamburger{display:none}}
 
   .post-container{
@@ -91,11 +106,6 @@
     color:var(--muted);
     border:1px solid rgba(245,158,11,.15);
   }
-  .meta-red{
-    background:var(--red-soft);
-    color:var(--red);
-    border-color:rgba(239,68,68,.25);
-  }
   .post-title{
     font-family:var(--font);
     font-size:clamp(1.8rem, 3.5vw, 2.5rem);
@@ -132,26 +142,24 @@
     font-size:1.0125rem;
     line-height:1.85;
     color:rgba(229,238,252,.96);
-    text-align:left;
   }
-  .post-content h1{font-size:2.25rem;margin:2rem auto 1rem;text-align:center;}
-  .post-content h2{font-size:1.875rem;margin:1.75rem auto 1rem;max-width:90ch;color:var(--orange);text-align:center;}
-  .post-content h3{font-size:1.5rem;margin:1.25rem auto .75rem;max-width:90ch;color:#fbbf24;text-align:center;}
-  .post-content p{margin:0 auto 1.1rem;max-width:90ch;text-align:center;}
-  .post-content ul, .post-content ol{margin:1.1rem auto;padding-left:1.25rem;max-width:90ch;text-align:left;}
-  .post-content li{margin:.5rem 0;}
+  .post-content p{margin-bottom:1.1rem;}
+  .post-content h1, .post-content h2, .post-content h3, .post-content h4 { text-align: left; margin: 2rem 0 1rem; }
+  .post-content h1 { font-size: 2rem; color: var(--orange-light); }
+  .post-content h2 { font-size: 1.75rem; color: var(--orange); }
+  .post-content h3 { font-size: 1.5rem; }
+  .post-content ul, .post-content ol{margin:1.1rem auto;padding-left:1.5rem;}
   .post-content blockquote{
-    position:relative;margin:1.6rem auto;padding:1.1rem 1.3rem;max-width:90ch;
+    margin:1.6rem 0; padding:1.1rem 1.3rem;
     background:linear-gradient(135deg, rgba(245,158,11,.12), rgba(245,158,11,.06));
-    border:1px solid rgba(245,158,11,.2);border-radius:14px;
-    font-style:italic;font-size:1.08rem;line-height:1.75;
-    color:var(--ink);border-left:4px solid var(--orange);text-align:center;
+    border:1px solid rgba(245,158,11,.2); border-radius:14px;
+    font-style:italic; font-size:1.08rem; color:var(--ink); border-left:4px solid var(--orange);
   }
-  .post-content img{max-width:100%;height:auto;border-radius:12px;margin:1.5rem auto;display:block;box-shadow:0 15px 40px rgba(0,0,0,.3);}
-
+  .post-content img{max-width:100%;height:auto;border-radius:12px;margin:1.5rem 0;box-shadow:0 15px 40px rgba(0,0,0,.3);}
+  
   .post-nav{
     display:flex;justify-content:center;gap:1rem;padding:1.5rem 0;
-    border-top:1px solid rgba(245,158,11,.15);flex-wrap:wrap;max-width:90ch;margin:0 auto;
+    border-top:1px solid rgba(245,158,11,.15);flex-wrap:wrap;max-width:90ch;margin:2rem auto 0;
   }
   .btn-chip{
     display:inline-flex;align-items:center;gap:.5rem;padding:.72rem 1.2rem;
@@ -159,11 +167,7 @@
     color:var(--orange-ink);border-radius:999px;font-weight:800;font-size:.95rem;
     box-shadow:0 4px 15px rgba(245,158,11,.3);
   }
-  .btn-chip.share-btn {
-    background: linear-gradient(135deg, var(--orange), var(--orange-light));
-    color: var(--orange-ink);border: none;cursor: pointer;font-weight: 600;
-  }
-  .btn-chip.share-btn:hover {transform: translateY(-2px);box-shadow: 0 4px 15px rgba(245,158,11,.4);}
+  .btn-chip:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,.4); }
 
   .loading-container{min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);padding:2rem 1rem;text-align:center;}
   .loading-spinner{width:36px;height:36px;border:3px solid rgba(245,158,11,.2);border-top-color:var(--orange);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:1rem;}
@@ -171,105 +175,7 @@
   .error{text-align:center;padding:2rem;color:#ff6b6b}
 
   footer{background:var(--panel);border-top:1px solid rgba(255,255,255,.06);color:var(--muted);text-align:center;font-size:.85rem;padding:1.5rem 0;margin-top:1.5rem;}
-  footer p {font-size: .85rem;line-height: 1.5;}
-
-  .reflective-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin: 1.5rem 0;
-      padding: 0.9rem 1.75rem;
-      border: 1px solid rgba(245,158,11,.3);
-      background: linear-gradient(135deg, rgba(245,158,11,.1), rgba(245,158,11,.2));
-      color: var(--orange-light);
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      animation: pulse-glow 2.5s infinite ease-in-out;
-  }
-  .reflective-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(245,158,11,.25);
-      border-color: var(--orange);
-      animation-play-state: paused;
-  }
-  .reflective-btn .icon { font-size: 1.2rem; }
-  @keyframes pulse-glow {
-      0% { box-shadow: 0 0 8px rgba(245,158,11,0), 0 0 10px rgba(245,158,11,0); }
-      50% { box-shadow: 0 0 12px rgba(245,158,11,.2), 0 0 16px rgba(245,158,11,.15); }
-      100% { box-shadow: 0 0 8px rgba(245,158,11,0), 0 0 10px rgba(245,158,11,0); }
-  }
-
-  .reflective-overlay {
-      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.98);
-      z-index: 300; display: none; opacity: 0; transition: opacity 0.4s ease;
-      overflow-y: auto; padding: 2rem;
-  }
-  .reflective-overlay.show { display: block; opacity: 1; }
-  .reflective-content { max-width: 700px; margin: 2rem auto; }
-  .reflective-text { font-family: var(--serif); font-size: 1.8rem; line-height: 1.6; margin-bottom: 2rem; color: var(--ink); }
-  .reflective-prompt { font-size: 1.2rem; color: var(--muted); margin-bottom: 1rem; }
-  .reflective-textarea {
-      width: 100%; min-height: 150px; background: var(--bg); border: 1px solid rgba(245,158,11,.2);
-      border-radius: var(--radius); padding: 1rem; color: var(--ink); font-size: 1.1rem; line-height: 1.7; resize: vertical;
-  }
-  .reflective-nav { margin-top: 2rem; display: flex; justify-content: space-between; align-items: center; }
-  .reflective-nav button { padding: 0.75rem 1.5rem; border: 1px solid var(--orange); background: transparent; color: var(--orange); border-radius: 999px; font-weight: 600; cursor: pointer; }
-  .reflective-nav button.primary { background: var(--orange); color: var(--orange-ink); }
-  .reflective-progress { font-size: 0.9rem; color: var(--muted); }
   
-  .whatsapp-card {
-    background: var(--panel);
-    border: 1px solid rgba(245,158,11,.2);
-    border-radius: var(--radius);
-    padding: 2rem;
-    max-width: 500px;
-    margin: 3rem auto 0;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  }
-  .whatsapp-card h3 {
-    font-family: var(--serif);
-    font-size: 1.5rem;
-    color: var(--ink);
-    margin-bottom: .5rem;
-  }
-  .whatsapp-card p {
-    color: var(--muted);
-    margin-bottom: 1.5rem;
-    font-size: .95rem;
-    text-align: center;
-  }
-  .whatsapp-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: .75rem;
-    background: #25D366;
-    color: white;
-    padding: .8rem 1.5rem;
-    border-radius: 999px;
-    font-weight: 700;
-    transition: all .3s ease;
-  }
-  .whatsapp-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
-  }
-  .whatsapp-btn svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  @media (max-width: 600px) {
-    .content-wrapper {padding:1.5rem 1rem;}
-    .post-title {font-size:clamp(1.5rem, 3vw, 2rem);}
-    .post-content p {font-size:1rem;}
-    .post-meta {gap:.5rem;}
-    footer {padding:1rem 0;font-size:.8rem;}
-  }
   </style>
 </head>
 <body>
@@ -287,10 +193,10 @@
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" width="16" height="2" rx="1"/></svg>
       </button>
       <a class="brand" href="./">
-        <img src="logo.svg" alt="Boluadeoye Logo" width="34" height="34">
+        <span class="dot" aria-hidden="true"></span>
         <h1>Boluadeoye</h1>
       </a>
-      <nav class="top-nav" aria-label="Primary">
+      <nav class="top-nav" aria-label="Primary Navigation">
         <a href="./">Home</a>
         <a href="./posts.html">All Posts</a>
         <a href="./library.html">Library</a>
@@ -309,29 +215,12 @@
           </div>
         </article>
         
-        <div id="disqus_thread" style="margin-top: 2rem;"></div>
+        <div id="comments-section" style="margin-top: 3rem;">
+          </div>
 
-        <div class="whatsapp-card">
-          <h3>Never Miss a Post</h3>
-          <p>Join my private WhatsApp list for instant new post notifications. No spam, ever.</p>
-          <a 
-            href="https://wa.me/2348106293674?text=Hi%20Boluadeoye%2C%20please%20add%20me%20to%20your%20notification%20list!" 
-            class="whatsapp-btn"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.31 20.62C8.75 21.41 10.36 21.82 12.04 21.82C17.5 21.82 21.95 17.37 21.95 11.91C21.95 6.45 17.5 2 12.04 2M12.04 3.67C16.56 3.67 20.28 7.39 20.28 11.91C20.28 16.43 16.56 20.15 12.04 20.15C10.48 20.15 8.99 19.74 7.7 19L7.18 18.69L3.92 19.58L4.83 16.41L4.5 15.82C3.73 14.47 3.31 12.93 3.31 11.91C3.31 7.39 7.03 3.67 12.04 3.67M9.13 7.82C8.91 7.32 8.61 7.32 8.46 7.32C8.31 7.32 8.04 7.39 7.8 7.63C7.55 7.88 6.88 8.5 6.88 9.7C6.88 10.9 7.84 12.04 7.99 12.23C8.14 12.42 9.4 14.42 11.33 15.2C13.25 15.98 13.6 15.82 13.91 15.78C14.43 15.71 15.42 15.13 15.64 14.54C15.86 13.95 15.86 13.46 15.78 13.36C15.71 13.26 15.56 13.21 15.28 13.07C15 12.92 13.88 12.38 13.66 12.28C13.44 12.18 13.28 12.15 13.13 12.38C12.98 12.62 12.55 13.1 12.42 13.26C12.3 13.42 12.18 13.44 11.93 13.3C11.68 13.16 10.88 12.89 9.94 12.04C9.21 11.4 8.73 10.63 8.61 10.41C8.49 10.19 8.6 10.08 8.71 9.97C8.81 9.87 8.95 9.69 9.07 9.54C9.2 9.39 9.25 9.28 9.38 9.07C9.51 8.86 9.43 8.69 9.35 8.54C9.28 8.39 9.13 8.32 9.13 7.82Z"/></svg>
-            <span>Get New Post Alerts</span>
-          </a>
-        </div>
-        
       </div>
     </div>
   </main>
-  
-  <div id="reflective-overlay" class="reflective-overlay">
-    <div class="reflective-content" id="reflective-content-holder"></div>
-  </div>
 
   <footer>
     <div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div>
@@ -339,296 +228,143 @@
 
   <script>
   (function(){
-    var MANY_THRESHOLD = 50;
-    var postData = null;
-    var postFile = '';
-    var markdownContent = '';
-
-    function bindMenu(){
-      var menuBtn = document.getElementById('menuBtn');
-      var sideMenu = document.getElementById('sideMenu');
-      var menuOverlay = document.getElementById('menuOverlay');
-      if (!menuBtn || !sideMenu || !menuOverlay) return;
-
-      function closeMenu(){
-        sideMenu.classList.remove('active');
-        menuOverlay.classList.remove('show');
-        menuBtn.setAttribute('aria-expanded','false');
-      }
-      function openMenu(){
-        sideMenu.classList.add('active');
-        menuOverlay.classList.add('show');
-        menuBtn.setAttribute('aria-expanded','true');
-      }
-      menuBtn.addEventListener('click', function(){
-        if (sideMenu.classList.contains('active')) closeMenu(); else openMenu();
-      });
-      menuOverlay.addEventListener('click', closeMenu);
+    // --- Menu Logic ---
+    const menuBtn = document.getElementById('menuBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+    
+    function closeMenu() {
+      sideMenu.classList.remove('active');
+      menuOverlay.classList.remove('show');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-open');
     }
-
-    function normalizePath(p){
-      if (!p) return '';
-      return String(p).trim().replace(/^\.\/+/, '').replace(/^\/+/, '');
+    function openMenu() {
+      sideMenu.classList.add('active');
+      menuOverlay.classList.add('show');
+      menuBtn.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('menu-open');
     }
+    
+    menuBtn.addEventListener('click', () => { sideMenu.classList.contains('active') ? closeMenu() : openMenu(); });
+    menuOverlay.addEventListener('click', closeMenu);
+
+    // --- Header Scroll Effect ---
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    // --- Post Loading ---
+    const MANY_THRESHOLD = 50;
+    let postData = null;
+
+    function normalizePath(p){ return p ? String(p).trim().replace(/^\.?\//, '') : ''; }
 
     function firstImageFromMarkdown(md){
-      if (!md) return '';
-      var m1 = md.match(/!\[.*?\]\((.*?)\)/);
-      if (m1 && m1[1]) return m1[1].trim();
-      var m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
-      if (m2 && m2[1]) return m2[1].trim();
+      if(!md) return '';
+      const m1 = md.match(/!\[.*?\]\((.*?)\)/);
+      if(m1 && m1[1]) return m1[1].trim();
+      const m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
+      if(m2 && m2[1]) return m2[1].trim();
       return '';
     }
 
-    function processMarkdown(text){
-      if (!text || typeof text !== 'string') return '<p>Content unavailable.</p>';
-      if (typeof marked === 'undefined') return '<p>Error: Markdown parser not loaded.</p>';
-      return marked.parse(text, { breaks: true });
-    }
-
     function renderError(container, message){
-      container.innerHTML = 
-        '<div class="error">' +
-        '  <h2>Unable to Load Post</h2>' +
-        '  <p>' + message + '</p>' +
-        '  <div class="post-nav" style="justify-content:center;">' +
-        '    <a href="./" class="btn-chip">← Return to Homepage</a>' +
-        '  </div>' +
-        '</div>';
-    }
-    
-    function loadDisqus(postFileIdentifier) {
-        if (!postFileIdentifier) return;
-        if (window.DISQUS) {
-            window.DISQUS.reset({
-                reload: true,
-                config: function () {
-                    this.page.url = window.location.href;
-                    this.page.identifier = postFileIdentifier;
-                }
-            });
-        } else {
-            var disqus_config = function () {
-                this.page.url = window.location.href;
-                this.page.identifier = postFileIdentifier;
-            };
-            var d = document, s = d.createElement('script');
-            s.src = 'https://bolus-personal-blog.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        }
+      container.innerHTML = `<div class="error"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
     }
 
-    function sharePost() {
-      var pageUrl = window.location.href;
-      var pageTitle = document.title;
-      var excerpt = (postData && postData.excerpt) ? postData.excerpt : 'Check out this post!';
-      if (navigator.share) {
-        navigator.share({ title: pageTitle, text: excerpt, url: pageUrl });
-      } else {
-        var whatsappUrl = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(pageTitle + ' - ' + excerpt + ' ' + pageUrl);
-        window.open(whatsappUrl, '_blank');
+    window.sharePost = function() {
+      if(postData && navigator.share) {
+        navigator.share({ title: postData.title, text: postData.excerpt, url: window.location.href });
+      } else if (postData) {
+        const text = encodeURIComponent(`${postData.title} - ${postData.excerpt} ${window.location.href}`);
+        window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
       }
     }
-    window.sharePost = sharePost;
-    
-    function startReflectiveReading() {
-        var overlay = document.getElementById('reflective-overlay');
-        var contentEl = document.getElementById('reflective-content-holder');
-        var paragraphs = markdownContent.split(/\n\s*\n/).filter(p => p.trim() !== '');
-        var prompts = postData.reflection_prompts;
-        var storageKey = `reflections-${postData.file}`;
-        var responses = JSON.parse(localStorage.getItem(storageKey)) || [];
-        for(let i = 0; i < prompts.length; i++) {
-          if (typeof responses[i] === 'undefined') responses[i] = '';
-        }
 
-        var currentStep = 0;
-        var stepMap = [];
-        var paragraphIndex = 0;
-        var promptIndex = 0;
-        var promptsPerSection = Math.ceil(paragraphs.length / prompts.length);
-        
-        while(paragraphIndex < paragraphs.length || promptIndex < prompts.length) {
-          stepMap.push({ type: 'paragraph', index: paragraphIndex++ });
-          if (paragraphIndex > 0 && paragraphIndex % promptsPerSection === 0 && promptIndex < prompts.length) {
-            stepMap.push({ type: 'prompt', index: promptIndex++ });
-          }
-        }
-        if (promptIndex < prompts.length) {
-           stepMap.push({ type: 'prompt', index: promptIndex++ });
-        }
-        var totalSteps = stepMap.length;
-
-        function renderStep(stepIndex) {
-          if (stepIndex < 0 || stepIndex >= totalSteps) {
-            renderSummary();
-            return;
-          }
-          currentStep = stepIndex;
-          var step = stepMap[stepIndex];
-
-          if (step.type === 'prompt') {
-            var currentPromptIndex = step.index;
-            contentEl.innerHTML = `
-              <p class="reflective-prompt">${prompts[currentPromptIndex]}</p>
-              <textarea class="reflective-textarea" placeholder="Your private thoughts...">${responses[currentPromptIndex]}</textarea>
-              <div class="reflective-nav">
-                <button id="reflective-prev">Back</button>
-                <span class="reflective-progress">Step ${currentStep + 1} of ${totalSteps}</span>
-                <button id="reflective-next" class="primary">Save & Continue</button>
-              </div>
-            `;
-            var textarea = contentEl.querySelector('textarea');
-            textarea.focus();
-            document.getElementById('reflective-next').onclick = function() {
-              responses[currentPromptIndex] = textarea.value;
-              localStorage.setItem(storageKey, JSON.stringify(responses));
-              renderStep(currentStep + 1);
-            };
-            document.getElementById('reflective-prev').onclick = function() { renderStep(currentStep - 1); };
-          } else if (step.type === 'paragraph') {
-             contentEl.innerHTML = `
-              <div class="reflective-text">${processMarkdown(paragraphs[step.index])}</div>
-              <div class="reflective-nav">
-                ${currentStep > 0 ? '<button id="reflective-prev">Back</button>' : '<div></div>'}
-                <span class="reflective-progress">Step ${currentStep + 1} of ${totalSteps}</span>
-                <button id="reflective-next" class="primary">Next</button>
-              </div>
-            `;
-            document.getElementById('reflective-next').onclick = function() { renderStep(currentStep + 1); };
-            if(currentStep > 0) {
-              document.getElementById('reflective-prev').onclick = function() { renderStep(currentStep - 1); };
-            }
-          }
-        }
-        
-        function renderSummary() {
-            var summaryHTML = responses.map((response, index) => `
-              <div style="margin-bottom: 1.5rem;">
-                <p class="reflective-prompt">${prompts[index]}</p>
-                <div class="reflective-text" style="font-size: 1.1rem; background: var(--panel); border: 1px solid rgba(245,158,11,.1); padding: 1rem; border-radius: var(--radius); white-space: pre-wrap;">${response.trim() || '<i>No response saved.</i>'}</div>
-              </div>`).join('');
-
-            contentEl.innerHTML = `
-              <h1 class="post-title" style="text-align:left; font-size: 2rem;">Your Reflections</h1>
-              <p class="reflective-prompt">This is for your eyes only and is stored on this device.</p>
-              ${summaryHTML}
-              <div class="reflective-nav">
-                 <button id="reflective-prev">Back to last step</button>
-                 <button id="reflective-close" class="primary">Finish</button>
-              </div>
-            `;
-            document.getElementById('reflective-close').onclick = function() { overlay.classList.remove('show'); };
-            document.getElementById('reflective-prev').onclick = function() { renderStep(totalSteps - 1); };
-        }
-        
-        overlay.classList.add('show');
-        renderStep(0);
-    }
-    
-    function loadPost(){
-      var container = document.getElementById('post-content-wrapper');
-      if (!container) return;
+    async function loadPost(){
+      const container = document.getElementById('post-content-wrapper');
+      if(!container) return;
       container.innerHTML = '<div class="loading-container"><div class="loading-spinner"></div><p>Loading your post...</p></div>';
+      
       try {
-        var urlParams = new URLSearchParams(window.location.search);
-        var file = urlParams.get('file');
-        postFile = file;
+        const urlParams = new URLSearchParams(window.location.search);
+        const file = urlParams.get('file');
+        if(!file) throw new Error('No post file specified in URL.');
 
-        if (!file) {
-          renderError(container, 'No post file specified in URL.');
-          return;
+        const postsRes = await fetch('./Posts.json', { cache: 'no-store' });
+        if(!postsRes.ok) throw new Error(`Could not load Posts.json (Status: ${postsRes.status})`);
+        const posts = await postsRes.json();
+        
+        postData = posts.find(p => p && normalizePath(p.file) === normalizePath(file));
+        if(!postData) throw new Error(`Post data not found for file: ${file}`);
+        
+        const mdRes = await fetch(file, { cache: 'no-store' });
+        if(!mdRes.ok) throw new Error(`Failed to load Markdown file: ${file} (Status: ${mdRes.status})`);
+        const markdown = await mdRes.text();
+        
+        document.title = `${postData.title} — Boluadeoye`;
+        
+        let coverUrl = postData.cover || firstImageFromMarkdown(markdown);
+        let mdForRender = markdown;
+        if (coverUrl && normalizePath(firstImageFromMarkdown(markdown)) === normalizePath(coverUrl)) {
+            mdForRender = markdown.replace(/!\[.*?\]\(.*?\)/, '');
         }
 
-        fetch('./Posts.json', { cache: 'no-store' })
-          .then(res => {
-            if (!res.ok) throw new Error('Could not load Posts.json (Status: ' + res.status + ')');
-            return res.json();
-          })
-          .then(posts => {
-            postData = posts.find(p => p && normalizePath(p.file) === normalizePath(file));
-            if (!postData) throw new Error('Post data not found in Posts.json for file: ' + file);
-            return fetch(file, { cache: 'no-store' });
-          })
-          .then(mdRes => {
-            if (!mdRes.ok) throw new Error('Failed to load Markdown file at ' + file + ' (Status: ' + mdRes.status + ')');
-            return mdRes.text();
-          })
-          .then(markdown => {
-            markdownContent = markdown;
-            var title = postData.title;
-            document.title = title + ' - Boluadeoye';
-            
-            var coverUrl = postData.cover ? postData.cover : firstImageFromMarkdown(markdown);
-            var mdForRender = markdown;
+        const contentHTML = typeof marked !== 'undefined' ? marked.parse(mdForRender, { breaks: true }) : '<p>Error: Markdown parser not loaded.</p>';
+        const dateStr = new Date(postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        
+        const coverHTML = coverUrl ? `<figure class="cover-hero"><img src="${coverUrl}" alt="${postData.title} cover" loading="lazy" width="1020" height="574"></figure>` : '';
 
-            if (coverUrl && normalizePath(firstImageFromMarkdown(markdown)) === normalizePath(coverUrl)) {
-                mdForRender = markdown.replace(/!\[.*?\]\(.*?\)/, '');
-            }
+        container.innerHTML = `
+          <div class="post-header">
+            <div class="post-meta">
+              <span class="meta-item">📅 ${dateStr}</span>
+              <span class="meta-item">📁 ${postData.type}</span>
+              <span class="meta-item">⏱️ ${postData.minutes} min read</span>
+            </div>
+            <h1 class="post-title">${postData.title}</h1>
+          </div>
+          ${coverHTML}
+          <div class="post-content">${contentHTML}</div>
+          <nav class="post-nav">
+            <a href="./" class="btn-chip">← Back to Home</a>
+            <a href="./posts.html" class="btn-chip">View All Posts →</a>
+            <button class="btn-chip" onclick="sharePost()">Share Post 📤</button>
+          </nav>
+        `;
+        
+        // --- CUSDIS INTEGRATION ---
+        const commentsSection = document.getElementById('comments-section');
+        commentsSection.innerHTML = `
+          <div id="cusdis_thread"
+            data-host="https://cusdis.com"
+            data-app-id="c6dc5d18-5de8-4ffe-8566-2a5ca0c6ef1e"
+            data-page-id="${file}"
+            data-page-url="${window.location.href}"
+            data-page-title="${postData.title}"
+          ></div>
+        `;
+        const cusdisScript = document.createElement('script');
+        cusdisScript.async = true;
+        cusdisScript.defer = true;
+        cusdisScript.src = "https://cusdis.com/js/cusdis.es.js";
+        document.body.appendChild(cusdisScript);
+        // --- END CUSDIS INTEGRATION ---
 
-            var contentHTML = processMarkdown(mdForRender);
-            var dateStr = new Date(postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-            var typeStr = postData.type;
-            
-            var coverHTML = coverUrl ? '<figure class="cover-hero"><img src="' + coverUrl + '" alt="' + title + ' cover"></figure>' : '';
-            var viewedLabel = (postData.views >= MANY_THRESHOLD) ? 'Viewed by many' : 'Viewed';
-
-            var mainHTML =
-              '<div class="post-header">' +
-              '  <div class="post-meta">' +
-              (dateStr ? '<span class="meta-item">📅 ' + dateStr + '</span>' : '') +
-              (typeStr ? '<span class="meta-item">📁 ' + typeStr + '</span>' : '') +
-              '    <span class="meta-item meta-red">❤️ Liked</span>' +
-              '    <span class="meta-item meta-red">👁️ ' + viewedLabel + '</span>' +
-              '  </div>' +
-              '  <h1 class="post-title">' + title + '</h1>' +
-              '</div>' +
-              '<div id="reflective-btn-container" style="text-align:center;"></div>' +
-              coverHTML +
-              '<div class="post-content">' + contentHTML + '</div>' +
-              '<nav class="post-nav">' +
-              '  <a href="./" class="btn-chip">← Back to Home</a>' +
-              '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
-              '  <button class="btn-chip share-btn" onclick="sharePost()">Share Post 📤</button>' +
-              '</nav>';
-            
-            container.innerHTML = mainHTML;
-            
-            if (postData.reflection_prompts && postData.reflection_prompts.length > 0) {
-              var btnContainer = document.getElementById('reflective-btn-container');
-              if (btnContainer) {
-                  var btn = document.createElement('button');
-                  btn.className = 'reflective-btn';
-                  btn.innerHTML = '<span class="icon">📖</span> Read Reflectively';
-                  btn.onclick = startReflectiveReading;
-                  btnContainer.appendChild(btn);
-              }
-            }
-
-            loadDisqus(postFile);
-          })
-          .catch(err => {
-            console.error('Post load error:', err);
-            renderError(container, err.message);
-          });
-      } catch (error) {
-        console.error('Initialization error:', error);
-        renderError(container, error.message);
+      } catch(err) {
+        console.error('Post load error:', err);
+        renderError(container, err.message);
       }
-    }
-
-    function init() {
-      bindMenu();
-      loadPost();
     }
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
+      document.addEventListener('DOMContentLoaded', loadPost);
     } else {
-      init();
+      loadPost();
     }
   })();
   </script>
 </body>
-  </html>
+</html>
