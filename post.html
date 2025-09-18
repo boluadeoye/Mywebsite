@@ -600,7 +600,6 @@
 
         if (!postContentEl || !quoteBtn) return;
         
-        // Hide the button if the user clicks away from a selection
         document.addEventListener('mousedown', function(e) {
              if (!quoteBtn.contains(e.target)) {
                 quoteBtn.classList.remove('show');
@@ -610,9 +609,9 @@
         postContentEl.addEventListener('mouseup', function(e) {
             setTimeout(() => {
                 var selection = window.getSelection();
-                selectedText = selection.toString().trim().replace(/(\r\n|\n|\r)/gm, " "); // Clean up line breaks
+                selectedText = selection.toString().trim().replace(/(\r\n|\n|\r)/gm, " ");
 
-                if (selectedText.length > 10 && selectedText.length < 280) { // Add character limit
+                if (selectedText.length > 10 && selectedText.length < 280) {
                     var range = selection.getRangeAt(0);
                     var rect = range.getBoundingClientRect();
                     var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -630,8 +629,7 @@
         quoteBtn.addEventListener('click', function() {
             quoteTextEl.textContent = `“${selectedText}”`;
             
-            // Adjust font size based on text length for better fit
-            var baseSize = 4; // in rem
+            var baseSize = 4;
             if (selectedText.length > 150) baseSize = 2.5;
             else if (selectedText.length > 100) baseSize = 3;
             else if (selectedText.length > 50) baseSize = 3.5;
@@ -639,7 +637,7 @@
 
             quoteOverlay.classList.add('show');
             downloadBtn.innerHTML = 'Download Image';
-            downloadBtn.href = "#"; // Reset href
+            downloadBtn.href = "#"; 
         });
         
         quoteOverlay.addEventListener('click', function(e) {
@@ -649,7 +647,7 @@
         });
         
         downloadBtn.addEventListener('click', function(e) {
-            if (downloadBtn.href === "#") { // Only generate if not already generated
+            if (downloadBtn.href === "#") { 
                 e.preventDefault();
                 downloadBtn.innerHTML = 'Generating...';
 
@@ -661,7 +659,7 @@
                 }).then(canvas => {
                     downloadBtn.href = canvas.toDataURL('image/png');
                     downloadBtn.innerHTML = 'Download Ready!';
-                    downloadBtn.click(); // Automatically trigger the download
+                    downloadBtn.click();
                 });
             }
         });
@@ -774,4 +772,4 @@
   })();
   </script>
 </body>
-  </html>
+</html>
