@@ -1,5 +1,15 @@
 [
   {
+    "title": "What If?",
+    "file": "posts/what-if.md",
+    "date": "2025-09-17",
+    "cover": "",
+    "excerpt": "A reflection on the paths not taken, the two faces of regret, and how to turn a question of torment into a tool for the present moment.",
+    "type": "essay",
+    "views": 0,
+    "minutes": 2
+  },
+  {
     "title": "The Art of Forgiveness: Releasing an Unseen Weight",
     "file": "posts/the-art-of-forgiveness.md",
     "date": "2025-09-16",
@@ -22,7 +32,12 @@
     "excerpt": "A personal story about a single moment that transformed a life through the simple, powerful choice of gratitude.",
     "type": "story",
     "views": 0,
-    "minutes": 3
+    "minutes": 3,
+    "reflection_prompts": [
+      "What is one small, specific thing you are grateful for at this very moment?",
+      "The story talks about gratitude as a 'choice'. Describe a time you actively chose gratitude over another feeling, like frustration or disappointment.",
+      "How could you practice this 'choice of gratitude' in a situation you expect to face tomorrow?"
+    ]
   },
   {
     "title": "Overcoming the Fear of 'Not Enough'",
@@ -153,15 +168,5 @@
     "views": 0,
     "minutes": 2,
     "cover": ""
-  },
-  {
-    "title": "What If?",
-    "file": "posts/what-if.md",
-    "date": "2025-09-17",
-    "cover": "",
-    "excerpt": "A reflection on the paths not taken, the two faces of regret, and how to turn a question of torment into a tool for the present moment.",
-    "type": "essay",
-    "views": 0,
-    "minutes": 2
   }
 ]
