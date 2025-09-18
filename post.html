@@ -644,8 +644,7 @@
 
         if (!postContentEl || !popup) return;
         
-        document.addEventListener('mouseup', function(e) {
-            // Use a timeout to let the browser finalize the selection
+        function handleTextSelection(e) {
             setTimeout(() => {
                 var selection = window.getSelection();
                 var text = selection.toString().trim();
@@ -655,13 +654,15 @@
                     previewEl.textContent = `“${selectedText}”`;
                     popup.classList.add('show');
                 } else {
-                    // Don't hide if the click is on the popup itself
                     if (!popup.contains(e.target)) {
                         popup.classList.remove('show');
                     }
                 }
             }, 10);
-        });
+        }
+
+        document.addEventListener('mouseup', handleTextSelection);
+        document.addEventListener('touchend', handleTextSelection); // Added for mobile support
 
         cancelBtn.addEventListener('click', function() {
             popup.classList.remove('show');
@@ -671,7 +672,6 @@
             popup.classList.remove('show');
             quoteTextEl.textContent = `“${selectedText}”`;
             
-            // Adjust font size based on text length for a better fit
             var baseSize = 4;
             if (selectedText.length > 150) baseSize = 2.5;
             else if (selectedText.length > 100) baseSize = 3;
@@ -680,7 +680,7 @@
 
             generatorOverlay.classList.add('show');
             downloadBtn.innerHTML = 'Download Image';
-            downloadBtn.href = "#"; // Reset link
+            downloadBtn.href = "#";
         });
         
         generatorOverlay.addEventListener('click', function(e) {
@@ -702,7 +702,6 @@
                 }).then(canvas => {
                     downloadBtn.href = canvas.toDataURL('image/png');
                     downloadBtn.innerHTML = 'Download Ready!';
-                    // Trigger the download automatically
                     downloadBtn.click();
                 });
             }
@@ -816,4 +815,4 @@
   })();
   </script>
 </body>
-</html>
+  </html>
