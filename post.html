@@ -353,14 +353,14 @@
         
         // CORRECTED FETCH PATH FOR THE MARKDOWN FILE
         const mdRes = await fetch(`./${file}`, { cache: 'no-store' });
-        if(!mdRes.ok) throw new Error(`Failed to load Markdown file: ${file} (Status: ${mdRes.status})`);
+        if(!mdRes.ok) throw new Error(`Failed to load Markdown file: ./${file} (Status: ${mdRes.status})`);
         const markdown = await mdRes.text();
         
         document.title = `${postData.title} — Boluadeoye`;
 
-        let coverUrl = postData.cover || firstImageFromMarkdown(markdown);
+        let coverUrl = postData.cover ? `./${postData.cover}` : (firstImageFromMarkdown(markdown) ? `./${firstImageFromMarkdown(markdown)}` : '');
         let mdForRender = markdown;
-        if (coverUrl && normalizePath(firstImageFromMarkdown(markdown)) === normalizePath(coverUrl)) {
+        if (coverUrl && normalizePath(firstImageFromMarkdown(markdown)) === normalizePath(postData.cover)) {
             mdForRender = markdown.replace(/!\[.*?\]\(.*?\)/, '');
         }
 
