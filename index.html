@@ -13,7 +13,6 @@
       --ink: #e5eefc; --muted: #94a3b8;
       --orange: #f59e0b; --orange-light: #fbbf24; --orange-dark: #d97706; --orange-ink: #0b0f19;
       --ring: rgba(245, 158, 11, .25); --radius: 16px;
-      /* New font is now the primary serif font */
       --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
       --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
       --transition: cubic-bezier(0.4, 0, 0.2, 1);
@@ -50,13 +49,23 @@
     header.scrolled {
       box-shadow: 0 5px 20px rgba(0,0,0,0.2);
     }
-    .header-row { display: flex; align-items: center; justify-content: space-between; min-height: 90px; gap: 1rem; padding: 0 1rem; }
-    /* Tighter alignment */
-    .brand { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+    .header-row { display: flex; align-items: center; justify-content: space-between; min-height: 110px; gap: 1rem; padding: 0 1rem; }
+    
+    /* New Stacked Brand Layout */
+    .brand {
+      display: flex;
+      flex-direction: column; /* Stacks logo and name vertically */
+      align-items: center;    /* Centers them horizontally */
+      gap: 0.25rem;           /* Small gap between logo and name */
+      flex-shrink: 0;
+      position: absolute; /* Allows for perfect centering */
+      left: 50%;
+      transform: translateX(-50%);
+    }
     
     .brand-logo {
-      width: 80px;
-      height: 80px;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
       object-fit: cover;
       transition: transform 0.4s var(--transition);
@@ -66,8 +75,9 @@
     }
 
     .brand h1 {
-      font-family: var(--serif); /* Using the new elegant font */
-      font-size: 1.8rem;
+      font-family: var(--serif);
+      font-size: 1.3rem; /* Adjusted for balance */
+      line-height: 1;    /* Tighter line height */
       font-weight: 800;
       letter-spacing: -0.5px;
       background: linear-gradient(135deg, var(--orange), var(--orange-light));
@@ -80,7 +90,7 @@
       display: none; 
       gap: 0.5rem; 
       align-items: center; 
-      justify-content: flex-end;
+      margin-left: auto; /* Pushes nav to the right */
       flex-wrap: wrap;
     }
     .top-nav a { padding: 0.45rem 0.9rem; border-radius: 999px; color: var(--ink); font-weight: 600; font-size: 0.87rem; transition: all 0.2s var(--transition); border: 1px solid transparent; }
@@ -231,7 +241,7 @@
       </button>
 
       <a class="brand" href="./">
-        <img src="images/Logo.png" alt="Boluadeoye Logo" width="80" height="80" class="brand-logo">
+        <img src="images/Logo.png" alt="Boluadeoye Logo" width="64" height="64" class="brand-logo">
         <h1>Boluadeoye</h1>
       </a>
 
