@@ -46,25 +46,17 @@
       box-shadow: 0 5px 20px rgba(0,0,0,0.2);
     }
     .header-row { display: flex; align-items: center; justify-content: space-between; min-height: 70px; gap: 1.5rem; padding: 0 0.5rem; }
-    .brand { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; transition: transform 0.3s var(--transition); }
-    .brand:hover { transform: translateX(3px); }
-
-    .dot {
-      width: 34px; height: 34px; border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #ffd27a 0%, #f59e0b 40%, #d97706 100%);
-      box-shadow: 0 0 0 2px rgba(245, 158, 11, .15), 0 4px 12px rgba(245, 158, 11, .2);
-      transition: transform 0.6s var(--transition);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      position: relative; z-index: 0; animation: dot-breathe 3.8s ease-in-out infinite;
+    .brand { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+    
+    /* Style for your new logo */
+    .brand-logo {
+      border-radius: 50%;
+      border: 2px solid rgba(245, 158, 11, .2);
+      transition: transform 0.4s var(--transition);
     }
-    .dot::after {
-      content: ''; position: absolute; inset: -8px; border-radius: 50%;
-      background: radial-gradient(circle at 50% 50%, rgba(245,158,11,.45) 0%, rgba(245,158,11,.16) 35%, rgba(245,158,11,0) 70%);
-      filter: blur(10px); opacity: .75; animation: dot-halo 3.8s ease-in-out infinite; pointer-events: none;
+    .brand:hover .brand-logo {
+      transform: rotate(10deg) scale(1.1);
     }
-    @keyframes dot-breathe { 0%,100%{ transform: scale(1); } 50%{ transform: scale(1.06); } }
-    @keyframes dot-halo   { 0%,100%{ opacity:.55; transform: scale(1); } 50%{ opacity:.9; transform: scale(1.12); } }
-    @media (prefers-reduced-motion: reduce) { .dot, .dot::after { animation: none !important; } }
 
     .brand h1 { font-size: 1.3rem; font-weight: 800; color: var(--ink); letter-spacing: -0.5px; font-family: var(--serif); }
 
@@ -109,7 +101,7 @@
 
     #posts { 
       display: grid; 
-      gap: 2rem; /* Fix: Increased gap for more breathing space between cards */
+      gap: 2rem;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
       min-height: 200px; 
     }
@@ -128,7 +120,7 @@
       border-color: var(--orange); 
     }
     .post-content-wrap { 
-      padding: 1.25rem 1.75rem 1.75rem; /* Fix: Adjusted padding for better text balance */
+      padding: 1.25rem 1.75rem 1.75rem;
       flex-grow: 1; 
       display: flex; 
       flex-direction: column; 
@@ -137,14 +129,14 @@
       display: flex; 
       justify-content: space-between; 
       align-items: flex-start; 
-      margin-bottom: 0.75rem; /* Fix: Reduced bottom margin for tighter header */
+      margin-bottom: 0.75rem;
     }
     .post h3 { 
       font-size: 1.2rem; 
       font-weight: 700; 
       margin: 0 0 0.5rem; 
       color: var(--ink); 
-      line-height: 1.4; /* Fix: Improved line spacing for title */
+      line-height: 1.4;
       font-family: var(--serif); 
     }
     .post-type { 
@@ -161,7 +153,7 @@
     .post-date { color: var(--muted); font-size: 0.87rem; }
     .post p { 
       color: var(--muted); 
-      line-height: 1.75; /* Fix: Increased line height for more breathing space */
+      line-height: 1.75;
       font-size: 0.95rem; 
       flex-grow: 1;
       margin-top: 0.5rem; 
@@ -169,7 +161,7 @@
     .post .stats { 
       display: flex; 
       gap: 1.5rem; 
-      margin-top: 1.5rem; /* Fix: Increased top margin for more separation */
+      margin-top: 1.5rem;
       padding-top: 1rem; 
       border-top: 1px solid rgba(245, 158, 11, .1); 
       font-size: 0.83rem; 
@@ -178,14 +170,14 @@
     
     .post-cover { 
       width: 100%; 
-      max-height: 250px; /* Fix: Set a max-height to prevent overly tall images */
+      max-height: 250px;
       overflow: hidden; 
-      background: #0c1425; /* Added a background color for images that are smaller */
+      background: #0c1425;
     }
     .post-cover img { 
       width: 100%; 
       height: 100%; 
-      object-fit: cover; /* Fix: Changed to 'cover' to fill the frame beautifully */
+      object-fit: cover;
       transition: transform 0.4s var(--transition); 
     }
     .post:hover .post-cover img { transform: scale(1.05); }
@@ -223,7 +215,7 @@
       </button>
 
       <a class="brand" href="./">
-        <span class="dot" aria-hidden="true"></span>
+        <img src="images/Logo.png" alt="Boluadeoye Logo" width="34" height="34" class="brand-logo">
         <h1>Boluadeoye</h1>
       </a>
 
@@ -281,13 +273,13 @@
         sideMenu.classList.remove('active');
         menuOverlay.classList.remove('show');
         menuBtn.setAttribute('aria-expanded', 'false');
-        document.body.classList.remove('menu-open'); // Fix: Unlock scroll
+        document.body.classList.remove('menu-open');
       }
       function openMenu() {
         sideMenu.classList.add('active');
         menuOverlay.classList.add('show');
         menuBtn.setAttribute('aria-expanded', 'true');
-        document.body.classList.add('menu-open'); // Fix: Lock scroll
+        document.body.classList.add('menu-open');
       }
       
       menuBtn.addEventListener('click', () => { sideMenu.classList.contains('active') ? closeMenu() : openMenu(); });
