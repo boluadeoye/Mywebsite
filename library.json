@@ -1,0 +1,23 @@
+[
+  {
+    "title": "The Purpose Driven Life",
+    "author": "Rick Warren",
+    "description": "A guide to a 40-day spiritual journey that will enable you to discover the answer to life's most important question: What on earth am I here for?",
+    "cover": "https://placehold.co/400x600/0f172a/e5eefc?text=Book+Cover",
+    "link": "#"
+  },
+  {
+    "title": "Mere Christianity",
+    "author": "C. S. Lewis",
+    "description": "One of the great classics of Christian literature, exploring the common ground upon which all of those of Christian faith stand together.",
+    "cover": "https://placehold.co/400x600/1a2341/fbbf24?text=Book+Cover",
+    "link": "#"
+  },
+  {
+    "title": "Atomic Habits",
+    "author": "James Clear",
+    "description": "An easy and proven way to build good habits and break bad ones, showing you how to make small, easy changes that result in remarkable results.",
+    "cover": "https://placehold.co/400x600/f59e0b/0b0f19?text=Book+Cover",
+    "link": "#"
+  }
+]
