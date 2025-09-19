@@ -13,7 +13,8 @@
       --ink: #e5eefc; --muted: #94a3b8;
       --orange: #f59e0b; --orange-light: #fbbf24; --orange-dark: #d97706; --orange-ink: #0b0f19;
       --ring: rgba(245, 158, 11, .25); --radius: 16px;
-      --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
+      /* Only specific elements use Playfair Display, generic --serif remains ui-serif */
+      --serif: ui-serif, Georgia, "Times New Roman", serif;
       --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
       --transition: cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -22,7 +23,7 @@
     body {
       background: var(--bg);
       color: var(--ink);
-      font: 16px/1.7 var(--sans-serif);
+      font: 16px/1.7 var(--sans-serif); /* Ensures body uses default sans-serif */
       -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden; position: relative;
     }
@@ -49,14 +50,14 @@
     header.scrolled {
       box-shadow: 0 5px 20px rgba(0,0,0,0.2);
     }
-    .header-row { display: flex; align-items: center; justify-content: space-between; min-height: 110px; gap: 1rem; padding: 0 1rem; }
+    .header-row { display: flex; align-items: center; justify-content: space-between; min-height: 120px; /* Increased height for larger stacked elements */ gap: 1rem; padding: 0 1rem; }
     
-    /* New Stacked Brand Layout */
+    /* Stacked Brand Layout - Centered */
     .brand {
       display: flex;
       flex-direction: column; /* Stacks logo and name vertically */
       align-items: center;    /* Centers them horizontally */
-      gap: 0.25rem;           /* Small gap between logo and name */
+      gap: 0.15rem;           /* Very small gap between logo and name */
       flex-shrink: 0;
       position: absolute; /* Allows for perfect centering */
       left: 50%;
@@ -64,8 +65,8 @@
     }
     
     .brand-logo {
-      width: 64px;
-      height: 64px;
+      width: 75px; /* Increased logo size */
+      height: 75px; /* Increased logo size */
       border-radius: 50%;
       object-fit: cover;
       transition: transform 0.4s var(--transition);
@@ -75,8 +76,8 @@
     }
 
     .brand h1 {
-      font-family: var(--serif);
-      font-size: 1.3rem; /* Adjusted for balance */
+      font-family: 'Playfair Display', var(--serif); /* Explicitly use Playfair for brand name */
+      font-size: 1.6rem; /* Increased name size */
       line-height: 1;    /* Tighter line height */
       font-weight: 800;
       letter-spacing: -0.5px;
@@ -163,7 +164,7 @@
       margin: 0 0 0.5rem; 
       color: var(--ink); 
       line-height: 1.4;
-      font-family: var(--serif); 
+      font-family: var(--serif); /* Restored to use general serif for posts */
     }
     .post-type { 
       display: inline-block; 
@@ -241,7 +242,7 @@
       </button>
 
       <a class="brand" href="./">
-        <img src="images/Logo.png" alt="Boluadeoye Logo" width="64" height="64" class="brand-logo">
+        <img src="images/Logo.png" alt="Boluadeoye Logo" width="75" height="75" class="brand-logo">
         <h1>Boluadeoye</h1>
       </a>
 
