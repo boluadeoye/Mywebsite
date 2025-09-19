@@ -54,29 +54,30 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      min-height: 100px; /* Reduced header bar size */
-      gap: 1rem;
+      min-height: 90px; /* Slimmer header bar */
+      position: relative;
       padding: 0 1rem;
     }
     .brand {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0; /* Removed gap, using margin now */
-      flex-shrink: 0;
+      gap: 0;
       position: absolute;
       left: 50%;
+      top: 5px; /* Adjusts vertical position */
       transform: translateX(-50%);
+      padding-bottom: 5px;
     }
     .brand-logo {
-      width: 70px; /* Enlarged logo */
-      height: 70px; /* Enlarged logo */
+      width: 90px; /* Dramatically larger logo */
+      height: 90px; /* Dramatically larger logo */
       border-radius: 50%;
       object-fit: cover;
       transition: transform 0.4s var(--transition);
     }
     .brand:hover .brand-logo {
-      transform: rotate(10deg) scale(1.1);
+      transform: rotate(10deg) scale(1.05);
     }
     .brand h1 {
       font-family: var(--serif);
@@ -84,11 +85,9 @@
       font-weight: 800;
       line-height: 1;
       letter-spacing: -0.5px;
-      margin-top: -8px; /* Nudges the name upward */
-      background: linear-gradient(135deg, var(--orange), var(--orange-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      margin-top: -12px; /* Nudges name up tightly */
+      color: var(--ink); /* Changed to white */
+      background: none; /* Removed gradient */
     }
     /* END FINAL HEADER ADJUSTMENTS */
 
@@ -96,7 +95,7 @@
       display: none; 
       gap: 0.5rem; 
       align-items: center; 
-      margin-left: auto; /* Pushes nav to the right */
+      margin-left: auto;
       flex-wrap: wrap;
     }
     .top-nav a { padding: 0.45rem 0.9rem; border-radius: 999px; color: var(--ink); font-weight: 600; font-size: 0.87rem; transition: all 0.2s var(--transition); border: 1px solid transparent; }
@@ -247,7 +246,7 @@
       </button>
 
       <a class="brand" href="./">
-        <img src="images/Logo.png" alt="Boluadeoye Logo" width="70" height="70" class="brand-logo">
+        <img src="images/Logo.png" alt="Boluadeoye Logo" width="90" height="90" class="brand-logo">
         <h1>Boluadeoye</h1>
       </a>
 
