@@ -49,12 +49,11 @@
   header.scrolled {
     box-shadow: 0 5px 20px rgba(0,0,0,0.2);
   }
-  /* FINAL HEADER ADJUSTMENTS */
   .header-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: 80px; /* Slimmer header bar */
+    min-height: 80px;
     position: relative;
     padding: 0 1rem;
   }
@@ -65,30 +64,29 @@
     gap: 0;
     position: absolute;
     left: 50%;
-    top: -20px; /* Drastically pulls the whole block up */
+    top: -20px;
     transform: translateX(-50%);
   }
   .brand-logo {
-    width: 100px; /* Final, larger logo size */
-    height: 100px; /* Final, larger logo size */
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     object-fit: cover;
     transition: transform 0.4s var(--transition);
-    margin-bottom: -35px; /* Adjusted to nudge name down slightly more from logo */
+    margin-bottom: -35px;
   }
   .brand:hover .brand-logo {
     transform: rotate(10deg) scale(1.05);
   }
   .brand h1 {
     font-family: var(--serif);
-    font-size: 1.62rem; /* Reduced by 10% from 1.8rem for better balance */
+    font-size: 1.62rem;
     font-weight: 800;
     line-height: 1;
     letter-spacing: -0.5px;
-    color: var(--ink); /* White text color */
+    color: var(--ink);
     background: none;
   }
-  /* END FINAL HEADER ADJUSTMENTS */
 
   .top-nav { 
     display: none; 
@@ -100,9 +98,10 @@
   .top-nav a { padding: 0.45rem 0.9rem; border-radius: 999px; color: var(--ink); font-weight: 600; font-size: 0.87rem; transition: all 0.2s var(--transition); border: 1px solid transparent; }
   .top-nav a:hover, .top-nav a.active { color: var(--orange); border-color: var(--orange); transform: translateY(-1px); }
 
-  .hamburger { width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: rgba(255, 255, 255, .03); border: 1px solid rgba(245, 158, 11, .2); color: var(--ink); cursor: pointer; transition: all 0.3s ease; }
+  /* Larger Hamburger Icon */
+  .hamburger { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: rgba(255, 255, 255, .03); border: 1px solid rgba(245, 158, 11, .2); color: var(--ink); cursor: pointer; transition: all 0.3s ease; }
   .hamburger:hover { background: rgba(245, 158, 11, .1); transform: rotate(10deg); }
-  .hamburger svg { width: 19px; height: 19px; }
+  .hamburger svg { width: 24px; height: 24px; }
 
   .side-menu { position: fixed; top: 0; left: -280px; z-index: 200; width: 260px; height: 100%; padding: 2.5rem 1.2rem 2rem; display: flex; flex-direction: column; gap: 0.6rem; background: var(--panel); border-right: 1px solid rgba(245, 158, 11, .2); transition: left 0.3s var(--transition); }
   .side-menu.active { left: 0; }
