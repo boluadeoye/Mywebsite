@@ -88,8 +88,17 @@
     .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;display:none;cursor:pointer}
     .overlay.show{display:block}
 
-    .search-container{flex:1;max-width:400px;position:relative}
-    .search-bar{position:relative;width:100%}
+    /* Search Bar Fix */
+    .search-container{
+      flex-grow: 1; /* Allows it to take space */
+      display: flex;
+      justify-content: center; /* Centers the search bar within the container */
+    }
+    .search-bar{
+      position:relative;
+      width:100%;
+      max-width: 450px; /* Restores the max-width */
+    }
     .search-bar input{width:100%;padding:.65rem 2.75rem .65rem 1.25rem;border:1px solid rgba(245,158,11,.2);border-radius:999px;background:rgba(17,26,46,.6);color:var(--ink);font-size:.92rem;outline:none;transition:all .3s var(--transition);caret-color:var(--orange);-webkit-appearance:none;appearance:none;box-shadow:none}
     .search-bar input::placeholder{color:var(--muted);opacity:.8}
     .search-bar input:focus{border-color:var(--orange);background:rgba(245,158,11,.05);box-shadow:0 0 0 3px var(--ring);padding-left:1.35rem}
