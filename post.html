@@ -6,7 +6,7 @@
   <title>Post — Boluadeoye</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
@@ -16,6 +16,8 @@
       --ring: rgba(245, 158, 11, .25); --radius: 16px;
       --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
       --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
+      /* New variable for readable body text */
+      --body-serif: 'Merriweather', serif;
       --transition: cubic-bezier(0.4, 0, 0.2, 1);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -109,7 +111,7 @@
       border: 1px solid rgba(245,158,11,.15);
       box-shadow: 0 20px 60px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.05);
       overflow: hidden;
-      padding-top: 30px; /* Added padding to prevent overlap with the larger logo */
+      padding-top: 30px;
     }
     .content-wrapper{
       padding: 2.75rem 1.5rem;
@@ -174,16 +176,17 @@
       object-fit: cover;
     }
   
+    /* FONT FIX FOR POST CONTENT */
     .post-content{
       max-width: 80ch;
       margin: 0 auto;
-      font-family: var(--serif);
-      font-size: 1.1rem;
+      font-family: var(--body-serif); /* Using new readable font */
+      font-size: 1.05rem; /* Comfortable reading size */
       line-height: 1.9;
       color: rgba(229,238,252,.9);
     }
-    .post-content p { text-align: center; margin-bottom: 1.5rem; }
-    .post-content h1, .post-content h2, .post-content h3, .post-content h4 { text-align: center; margin: 2.5rem 0 1.5rem; }
+    .post-content p { text-align: left; margin-bottom: 1.5rem; } /* Adjusted alignment */
+    .post-content h1, .post-content h2, .post-content h3, .post-content h4 { font-family: var(--serif); text-align: left; margin: 2.5rem 0 1.5rem; } /* Headings still use elegant font */
     .post-content h1 { font-size: 2rem; color: var(--orange-light); }
     .post-content h2 { font-size: 1.75rem; color: var(--orange); }
     .post-content h3 { font-size: 1.5rem; }
@@ -192,7 +195,7 @@
       margin:2rem auto; padding:1.5rem;
       background:linear-gradient(135deg, rgba(245,158,11,.12), rgba(245,158,11,.06));
       border:1px solid rgba(245,158,11,.2); border-radius:14px;
-      font-style:italic; font-size:1.15rem; color:var(--ink); border-left:4px solid var(--orange); text-align:center;
+      font-style:italic; font-size:1.15rem; color:var(--ink); border-left:4px solid var(--orange); text-align:left; /* Adjusted alignment */
     }
     .post-content img{max-width:100%;height:auto;border-radius:12px;margin:2rem auto;display:block;box-shadow:0 15px 40px rgba(0,0,0,.3);}
 
