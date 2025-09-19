@@ -19,7 +19,7 @@
       background: var(--bg);
       color: var(--ink);
       font: 16px/1.7 system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+      -webkit-font-smoothing: antialiased; -moz-osx-osx-font-smoothing: grayscale;
       overflow-x: hidden; position: relative;
     }
     body.menu-open {
@@ -48,14 +48,18 @@
     .header-row { display: flex; align-items: center; justify-content: space-between; min-height: 70px; gap: 1.5rem; padding: 0 0.5rem; }
     .brand { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
     
-    /* Style for your new logo */
+    /* Styles for your new, larger logo */
     .brand-logo {
+      width: 48px; /* Increased size */
+      height: 48px; /* Increased size */
       border-radius: 50%;
       border: 2px solid rgba(245, 158, 11, .2);
-      transition: transform 0.4s var(--transition);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, .2); /* Added a subtle shadow */
+      transition: transform 0.4s var(--transition), box-shadow 0.4s var(--transition);
     }
     .brand:hover .brand-logo {
-      transform: rotate(10deg) scale(1.1);
+      transform: rotate(8deg) scale(1.08); /* Refined hover effect */
+      box-shadow: 0 6px 20px rgba(245, 158, 11, .35); /* Enhanced shadow on hover */
     }
 
     .brand h1 { font-size: 1.3rem; font-weight: 800; color: var(--ink); letter-spacing: -0.5px; font-family: var(--serif); }
@@ -215,7 +219,7 @@
       </button>
 
       <a class="brand" href="./">
-        <img src="images/Logo.png" alt="Boluadeoye Logo" width="34" height="34" class="brand-logo">
+        <img src="images/Logo.png" alt="Boluadeoye Logo" width="48" height="48" class="brand-logo">
         <h1>Boluadeoye</h1>
       </a>
 
