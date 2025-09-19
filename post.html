@@ -15,6 +15,7 @@
     --serif: ui-serif, Georgia, "Times New Roman", serif;
     --font: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif;
     --transition: cubic-bezier(.4,0,.2,1);
+    --red: #ef4444; --red-soft: rgba(239,68,68,.12);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%;scroll-behavior:smooth}
@@ -24,48 +25,30 @@
     -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     overflow-x:hidden; position:relative; text-rendering:optimizeLegibility;
   }
-  body.menu-open {
-    overflow: hidden;
-  }
   a{color:inherit;text-decoration:none;transition:all .3s var(--transition)}
   .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
 
-  header{
-    position:sticky; top:0; z-index:100;
-    background:rgba(15,23,42,.85);
-    backdrop-filter: blur(8px);
-    border-bottom:1px solid rgba(245,158,11,.15);
-    transition: box-shadow 0.3s var(--transition);
-  }
-  header.scrolled {
-    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-  }
+  header{position:sticky;top:0;z-index:100;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(245,158,11,.15)}
   .header-row{display:flex;align-items:center;justify-content:space-between;min-height:70px;gap:1.5rem;padding:0 .5rem}
   .brand{display:flex;align-items:center;gap:.75rem;flex-shrink:0;transition:transform .3s var(--transition)}
   .brand:hover{transform:translateX(3px)}
-  .dot {
-      width: 34px; height: 34px; border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #ffd27a 0%, #f59e0b 40%, #d97706 100%);
-      box-shadow: 0 0 0 2px rgba(245, 158, 11, .15), 0 4px 12px rgba(245, 158, 11, .2);
-      transition: transform 0.6s var(--transition);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      position: relative; z-index: 0; animation: dot-breathe 3.8s ease-in-out infinite;
+  .dot{
+    width:34px;height:34px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%,#ffd27a 0%,#f59e0b 40%,#d97706 100%);
+    border:1px solid rgba(245,158,11,.3);
+    box-shadow:0 0 0 2px rgba(245,158,11,.15),0 4px 12px rgba(245,158,11,.2);
+    position:relative;z-index:0;animation:dot-breathe 3.8s ease-in-out infinite;
+    transition:transform .6s var(--transition)
   }
-  .dot::after {
-      content: ''; position: absolute; inset: -8px; border-radius: 50%;
-      background: radial-gradient(circle at 50% 50%, rgba(245,158,11,.45) 0%, rgba(245,158,11,.16) 35%, rgba(245,158,11,0) 70%);
-      filter: blur(10px); opacity: .75; animation: dot-halo 3.8s ease-in-out infinite; pointer-events: none;
-  }
-  @keyframes dot-breathe { 0%,100%{ transform: scale(1); } 50%{ transform: scale(1.06); } }
-  @keyframes dot-halo   { 0%,100%{ opacity:.55; transform: scale(1); } 50%{ opacity:.9; transform: scale(1.12); } }
-  @media (prefers-reduced-motion: reduce) { .dot, .dot::after { animation: none !important; } }
-  
+  .dot::after{content:'';position:absolute;inset:-8px;border-radius:50%;
+    background:radial-gradient(circle at 50% 50%,rgba(245,158,11,.45) 0%,rgba(245,158,11,.16) 35%,rgba(245,158,11,0) 70%);
+    filter:blur(10px);opacity:.75;animation:dot-halo 3.8s ease-in-out infinite;pointer-events:none}
+  @keyframes dot-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  @keyframes dot-halo{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:.9;transform:scale(1.12)}}
+  @media (prefers-reduced-motion: reduce){ .dot, .dot::after { animation:none !important; } }
   .brand h1{font-size:1.3rem;font-weight:800;color:var(--ink);letter-spacing:-.5px;font-family:var(--serif)}
 
-  .top-nav{
-    display:none; gap:.5rem; align-items:center; 
-    justify-content: flex-end; flex-wrap:wrap;
-  }
+  .top-nav{display:none;gap:.5rem;align-items:center;flex-wrap:wrap}
   .top-nav a{padding:.45rem .9rem;border-radius:999px;border:1px solid transparent;font-weight:600;font-size:.87rem}
   .top-nav a:hover,.top-nav a.active{color:var(--orange);border-color:var(--orange);transform:translateY(-1px)}
 
@@ -77,8 +60,8 @@
   .side-menu.active{left:0}
   .side-menu a{padding:.9rem 1.25rem;border-radius:8px;background:transparent;color:var(--ink);font-weight:600;font-size:.92rem;border:1px solid transparent;transition:all .2s ease}
   .side-menu a:hover,.side-menu a.active{background:rgba(245,158,11,.1);border-color:var(--orange);color:var(--orange);transform:translateX(5px)}
-  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;display:none;cursor:pointer;opacity:0;transition:opacity 0.3s ease;}
-  .overlay.show{display:block;opacity:1;}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;display:none;cursor:pointer}
+  .overlay.show{display:block}
   @media(min-width:880px){.top-nav{display:flex}.hamburger{display:none}}
 
   .post-container{
@@ -92,10 +75,6 @@
     padding:2.75rem 1.5rem;
     margin:0 auto;
     max-width:1100px;
-  }
-  
-  #post-content-wrapper {
-    min-height: 50vh;
   }
 
   .post-header{
@@ -123,8 +102,13 @@
     color:var(--muted);
     border:1px solid rgba(245,158,11,.15);
   }
+  .meta-red{
+    background:var(--red-soft);
+    color:var(--red);
+    border-color:rgba(239,68,68,.25);
+  }
   .post-title{
-    font-family:var(--serif);
+    font-family:var(--font);
     font-size:clamp(1.8rem, 3.5vw, 2.5rem);
     font-weight:800;
     line-height:1.2;
@@ -135,6 +119,7 @@
     background-clip:text;
     max-width:90ch;
   }
+
   .cover-hero {
     max-width:1020px;
     margin:1rem auto;
@@ -150,32 +135,34 @@
     aspect-ratio:16/9;
     object-fit:cover;
   }
-  
+
   .post-content{
-    max-width:80ch;
+    max-width:90ch;
     margin:0 auto;
-    font-family:var(--serif);
-    font-size:1.1rem;
-    line-height:1.9;
-    color:rgba(229,238,252,.9);
+    font-family:var(--font);
+    font-size:1.0125rem;
+    line-height:1.85;
+    color:rgba(229,238,252,.96);
+    text-align:left;
   }
-  .post-content p { text-align: center; margin-bottom: 1.5rem; }
-  .post-content h1, .post-content h2, .post-content h3, .post-content h4 { text-align: center; margin: 2.5rem 0 1.5rem; }
-  .post-content h1 { font-size: 2rem; color: var(--orange-light); }
-  .post-content h2 { font-size: 1.75rem; color: var(--orange); }
-  .post-content h3 { font-size: 1.5rem; }
-  .post-content ul, .post-content ol{margin:1.5rem auto;padding-left:1.5rem; text-align: left; max-width: 60ch;}
+  .post-content h1{font-size:2.25rem;margin:2rem auto 1rem;text-align:center;}
+  .post-content h2{font-size:1.875rem;margin:1.75rem auto 1rem;max-width:90ch;color:var(--orange);text-align:center;}
+  .post-content h3{font-size:1.5rem;margin:1.25rem auto .75rem;max-width:90ch;color:#fbbf24;text-align:center;}
+  .post-content p{margin:0 auto 1.1rem;max-width:90ch;text-align:center;}
+  .post-content ul, .post-content ol{margin:1.1rem auto;padding-left:1.25rem;max-width:90ch;text-align:left;}
+  .post-content li{margin:.5rem 0;}
   .post-content blockquote{
-    margin:2rem auto; padding:1.5rem;
+    position:relative;margin:1.6rem auto;padding:1.1rem 1.3rem;max-width:90ch;
     background:linear-gradient(135deg, rgba(245,158,11,.12), rgba(245,158,11,.06));
-    border:1px solid rgba(245,158,11,.2); border-radius:14px;
-    font-style:italic; font-size:1.15rem; color:var(--ink); border-left:4px solid var(--orange); text-align:center;
+    border:1px solid rgba(245,158,11,.2);border-radius:14px;
+    font-style:italic;font-size:1.08rem;line-height:1.75;
+    color:var(--ink);border-left:4px solid var(--orange);text-align:center;
   }
-  .post-content img{max-width:100%;height:auto;border-radius:12px;margin:2rem auto;display:block;box-shadow:0 15px 40px rgba(0,0,0,.3);}
+  .post-content img{max-width:100%;height:auto;border-radius:12px;margin:1.5rem auto;display:block;box-shadow:0 15px 40px rgba(0,0,0,.3);}
 
   .post-nav{
     display:flex;justify-content:center;gap:1rem;padding:1.5rem 0;
-    border-top:1px solid rgba(245,158,11,.15);flex-wrap:wrap;max-width:90ch;margin:2rem auto 0;
+    border-top:1px solid rgba(245,158,11,.15);flex-wrap:wrap;max-width:90ch;margin:0 auto;
   }
   .btn-chip{
     display:inline-flex;align-items:center;gap:.5rem;padding:.72rem 1.2rem;
@@ -183,27 +170,27 @@
     color:var(--orange-ink);border-radius:999px;font-weight:800;font-size:.95rem;
     box-shadow:0 4px 15px rgba(245,158,11,.3);
   }
-  .btn-chip:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,.4); }
-  
-  .comments-section {
-    max-width: 90ch;
-    margin: 3rem auto 0;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(245,158,11,.15);
+  .btn-chip.share-btn {
+    background: linear-gradient(135deg, var(--orange), var(--orange-light));
+    color: var(--orange-ink);border: none;cursor: pointer;font-weight: 600;
   }
-  .comments-title {
-    font-family: var(--serif);
-    font-size: 1.8rem;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: var(--orange-light);
-  }
+  .btn-chip.share-btn:hover {transform: translateY(-2px);box-shadow: 0 4px 15px rgba(245,158,11,.4);}
 
   .loading-container{min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);padding:2rem 1rem;text-align:center;}
   .loading-spinner{width:36px;height:36px;border:3px solid rgba(245,158,11,.2);border-top-color:var(--orange);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:1rem;}
   @keyframes spin{to{transform:rotate(360deg)}}
   .error{text-align:center;padding:2rem;color:#ff6b6b}
+
   footer{background:var(--panel);border-top:1px solid rgba(255,255,255,.06);color:var(--muted);text-align:center;font-size:.85rem;padding:1.5rem 0;margin-top:1.5rem;}
+  footer p {font-size: .85rem;line-height: 1.5;}
+
+  @media (max-width: 600px) {
+    .content-wrapper {padding:1.5rem 1rem;}
+    .post-title {font-size:clamp(1.5rem, 3vw, 2rem);}
+    .post-content p {font-size:1rem;}
+    .post-meta {gap:.5rem;}
+    footer {padding:1rem 0;font-size:.8rem;}
+  }
   </style>
 </head>
 <body>
@@ -219,12 +206,9 @@
     <div class="wrap header-row">
       <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" width="16" height="2" rx="1"/></svg>
-      </button>      
-      <a class="brand" href="./">
-        <span class="dot" aria-hidden="true"></span>
-        <h1>Boluadeoye</h1>
-      </a>
-      <nav class="top-nav" aria-label="Primary Navigation">
+      </button>
+      <a class="brand" href="./"><span class="dot" aria-hidden="true"></span><h1>Boluadeoye</h1></a>
+      <nav class="top-nav" aria-label="Primary">
         <a href="./">Home</a>
         <a href="./posts.html">All Posts</a>
         <a href="./library.html">Library</a>
@@ -243,11 +227,8 @@
           </div>
         </article>
         
-        <div class="comments-section">
-          <h3 class="comments-title">Join the Discussion</h3>
-          <div id="disqus_thread"></div>
-        </div>
-
+        <div id="disqus_thread" style="margin-top: 3rem; border-top: 1px solid rgba(245,158,11,.15); padding-top: 2rem;"></div>
+        
       </div>
     </div>
   </main>
@@ -258,69 +239,85 @@
 
   <script>
   (function(){
-    const menuBtn = document.getElementById('menuBtn');
-    const sideMenu = document.getElementById('sideMenu');
-    const menuOverlay = document.getElementById('menuOverlay');
-    
-    function closeMenu() {
-      sideMenu.classList.remove('active');
-      menuOverlay.classList.remove('show');
-      menuBtn.setAttribute('aria-expanded', 'false');
-      document.body.classList.remove('menu-open');
+    var MANY_THRESHOLD = 50;
+    var postData = null;
+
+    function bindMenu(){
+      var menuBtn = document.getElementById('menuBtn');
+      var sideMenu = document.getElementById('sideMenu');
+      var menuOverlay = document.getElementById('menuOverlay');
+      if (!menuBtn || !sideMenu || !menuOverlay) return;
+
+      function closeMenu(){
+        sideMenu.classList.remove('active');
+        menuOverlay.classList.remove('show');
+        menuBtn.setAttribute('aria-expanded','false');
+      }
+      function openMenu(){
+        sideMenu.classList.add('active');
+        menuOverlay.classList.add('show');
+        menuBtn.setAttribute('aria-expanded','true');
+      }
+      menuBtn.addEventListener('click', function(){
+        if (sideMenu.classList.contains('active')) closeMenu(); else openMenu();
+      });
+      menuOverlay.addEventListener('click', closeMenu);
     }
-    function openMenu() {
-      sideMenu.classList.add('active');
-      menuOverlay.classList.add('show');
-      menuBtn.setAttribute('aria-expanded', 'true');
-      document.body.classList.add('menu-open');
+
+    function normalizePath(p){
+      if (!p) return '';
+      return String(p).trim().replace(/^\.\/+/, '').replace(/^\/+/, '');
     }
-    
-    menuBtn.addEventListener('click', () => { sideMenu.classList.contains('active') ? closeMenu() : openMenu(); });
-    menuOverlay.addEventListener('click', closeMenu);
-
-    const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 10);
-    });
-
-    const MANY_THRESHOLD = 50;
-    let postData = null;
-
-    function normalizePath(p){ return p ? String(p).trim().replace(/^\.?\//, '') : ''; }
 
     function firstImageFromMarkdown(md){
       if(!md) return '';
-      const m1 = md.match(/!\[.*?\]\((.*?)\)/);
-      if(m1 && m1[1]) return m1[1].trim();
-      const m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
-      if(m2 && m2[1]) return m2[1].trim();
+      var m1 = md.match(/!\[.*?\]\((.*?)\)/);
+      if (m1 && m1[1]) return m1[1].trim();
+      var m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
+      if (m2 && m2[1]) return m2[1].trim();
       return '';
     }
 
+    function processMarkdown(text){
+      if (!text || typeof text !== 'string') return '<p>Content unavailable.</p>';
+      if (typeof marked === 'undefined') return '<p>Error: Markdown parser not loaded.</p>';
+      return marked.parse(text, { breaks: true });
+    }
+
     function renderError(container, message){
-      container.innerHTML = `<div class="error"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
+      container.innerHTML = 
+        '<div class="error">' +
+        '  <h2>Unable to Load Post</h2>' +
+        '  <p>' + message + '</p>' +
+        '  <div class="post-nav" style="justify-content:center;">' +
+        '    <a href="./" class="btn-chip">← Return to Homepage</a>' +
+        '  </div>' +
+        '</div>';
     }
     
     // --- DISQUS SCRIPT ---
     var disqus_config = function () {};
 
     function loadDisqus(postFile, postUrl, postTitle) {
-      disqus_config = function () {
-        this.page.url = postUrl;
-        this.page.identifier = postFile;
-        this.page.title = postTitle;
-      };
-      
-      const oldScript = document.getElementById('disqus-script');
-      if (oldScript) {
-        window.DISQUS.reset({ reload: true, config: disqus_config });
-      } else {
-        const script = document.createElement('script');
-        script.src = 'https://bolus-personal-blog.disqus.com/embed.js';
-        script.id = 'disqus-script';
-        script.setAttribute('data-timestamp', +new Date());
-        (document.head || document.body).appendChild(script);
-      }
+        disqus_config = function () {
+            this.page.url = postUrl;
+            this.page.identifier = postFile;
+            this.page.title = postTitle;
+        };
+        
+        const oldScript = document.getElementById('disqus-script');
+        if (oldScript) {
+            window.DISQUS.reset({
+                reload: true,
+                config: disqus_config
+            });
+        } else {
+            const script = document.createElement('script');
+            script.src = 'https://bolus-personal-blog.disqus.com/embed.js';
+            script.id = 'disqus-script';
+            script.setAttribute('data-timestamp', +new Date());
+            (document.head || document.body).appendChild(script);
+        }
     }
     // --- END DISQUS SCRIPT ---
 
@@ -343,22 +340,22 @@
         const file = urlParams.get('file');
         if(!file) throw new Error('No post file specified in URL.');
 
-        // CORRECTED FETCH PATH FOR Posts.json
-        const postsRes = await fetch('./Posts.json', { cache: 'no-store' });
+        // This is the working path from your original file.
+        const postsRes = await fetch('/Mywebsite/Posts.json', { cache: 'no-store' });
         if(!postsRes.ok) throw new Error(`Could not load Posts.json (Status: ${postsRes.status})`);
         const posts = await postsRes.json();
         
         postData = posts.find(p => p && normalizePath(p.file) === normalizePath(file));
         if(!postData) throw new Error(`Post data not found for file: ${file}`);
         
-        // CORRECTED FETCH PATH FOR THE MARKDOWN FILE
-        const mdRes = await fetch(`./${file}`, { cache: 'no-store' });
-        if(!mdRes.ok) throw new Error(`Failed to load Markdown file: ./${file} (Status: ${mdRes.status})`);
+        // This is the working path from your original file.
+        const mdRes = await fetch(`/Mywebsite/${file}`, { cache: 'no-store' });
+        if(!mdRes.ok) throw new Error(`Failed to load Markdown file: /Mywebsite/${file} (Status: ${mdRes.status})`);
         const markdown = await mdRes.text();
         
         document.title = `${postData.title} — Boluadeoye`;
 
-        let coverUrl = postData.cover ? `./${postData.cover}` : (firstImageFromMarkdown(markdown) ? `./${firstImageFromMarkdown(markdown)}` : '');
+        let coverUrl = postData.cover ? `/Mywebsite/${postData.cover}` : (firstImageFromMarkdown(markdown) ? `/Mywebsite/${firstImageFromMarkdown(markdown)}` : '');
         let mdForRender = markdown;
         if (coverUrl && normalizePath(firstImageFromMarkdown(markdown)) === normalizePath(postData.cover)) {
             mdForRender = markdown.replace(/!\[.*?\]\(.*?\)/, '');
@@ -367,7 +364,7 @@
         const contentHTML = typeof marked !== 'undefined' ? marked.parse(mdForRender, { breaks: true }) : '<p>Error: Markdown parser not loaded.</p>';
         const dateStr = new Date(postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         
-        const coverHTML = coverUrl ? `<figure class="cover-hero"><img src="${coverUrl}" alt="${postData.title} cover" loading="lazy" width="1020" height="574"></figure>` : '';
+        const coverHTML = coverUrl ? `<figure class="cover-hero"><img src="${coverUrl}" alt="${postData.title} cover" loading="lazy"></figure>` : '';
 
         container.innerHTML = `
           <div class="post-header">
