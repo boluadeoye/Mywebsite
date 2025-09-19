@@ -4,13 +4,18 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Boluadeoye — Writings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2341;
       --ink: #e5eefc; --muted: #94a3b8;
       --orange: #f59e0b; --orange-light: #fbbf24; --orange-dark: #d97706; --orange-ink: #0b0f19;
       --ring: rgba(245, 158, 11, .25); --radius: 16px;
-      --serif: ui-serif, Georgia, "Times New Roman", serif;
+      /* New font is now the primary serif font */
+      --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
+      --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
       --transition: cubic-bezier(0.4, 0, 0.2, 1);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -18,7 +23,7 @@
     body {
       background: var(--bg);
       color: var(--ink);
-      font: 16px/1.7 system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
+      font: 16px/1.7 var(--sans-serif);
       -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden; position: relative;
     }
@@ -46,7 +51,8 @@
       box-shadow: 0 5px 20px rgba(0,0,0,0.2);
     }
     .header-row { display: flex; align-items: center; justify-content: space-between; min-height: 90px; gap: 1rem; padding: 0 1rem; }
-    .brand { display: flex; align-items: center; gap: 1.5rem; flex-shrink: 0; }
+    /* Tighter alignment */
+    .brand { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
     
     .brand-logo {
       width: 80px;
@@ -60,7 +66,7 @@
     }
 
     .brand h1 {
-      font-family: var(--serif);
+      font-family: var(--serif); /* Using the new elegant font */
       font-size: 1.8rem;
       font-weight: 800;
       letter-spacing: -0.5px;
