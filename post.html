@@ -16,7 +16,6 @@
       --ring: rgba(245, 158, 11, .25); --radius: 16px;
       --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
       --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
-      /* New variable for readable body text */
       --body-serif: 'Merriweather', serif;
       --transition: cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -176,26 +175,26 @@
       object-fit: cover;
     }
   
-    /* FONT FIX FOR POST CONTENT */
+    /* ALIGNMENT FIX FOR POST CONTENT */
     .post-content{
       max-width: 80ch;
       margin: 0 auto;
-      font-family: var(--body-serif); /* Using new readable font */
-      font-size: 1.05rem; /* Comfortable reading size */
+      font-family: var(--body-serif);
+      font-size: 1.05rem;
       line-height: 1.9;
       color: rgba(229,238,252,.9);
     }
-    .post-content p { text-align: left; margin-bottom: 1.5rem; } /* Adjusted alignment */
-    .post-content h1, .post-content h2, .post-content h3, .post-content h4 { font-family: var(--serif); text-align: left; margin: 2.5rem 0 1.5rem; } /* Headings still use elegant font */
+    .post-content p { text-align: center; margin-bottom: 1.5rem; } /* Restored to center */
+    .post-content h1, .post-content h2, .post-content h3, .post-content h4 { font-family: var(--serif); text-align: center; margin: 2.5rem 0 1.5rem; } /* Restored to center */
     .post-content h1 { font-size: 2rem; color: var(--orange-light); }
     .post-content h2 { font-size: 1.75rem; color: var(--orange); }
     .post-content h3 { font-size: 1.5rem; }
-    .post-content ul, .post-content ol{margin:1.5rem auto;padding-left:1.5rem; text-align: left; max-width: 60ch;}
+    .post-content ul, .post-content ol{margin:1.5rem auto;padding-left:1.5rem; text-align: left; max-width: 60ch;} /* Lists remain left-aligned */
     .post-content blockquote{
       margin:2rem auto; padding:1.5rem;
       background:linear-gradient(135deg, rgba(245,158,11,.12), rgba(245,158,11,.06));
       border:1px solid rgba(245,158,11,.2); border-radius:14px;
-      font-style:italic; font-size:1.15rem; color:var(--ink); border-left:4px solid var(--orange); text-align:left; /* Adjusted alignment */
+      font-style:italic; font-size:1.15rem; color:var(--ink); border-left:4px solid var(--orange); text-align:center; /* Restored to center */
     }
     .post-content img{max-width:100%;height:auto;border-radius:12px;margin:2rem auto;display:block;box-shadow:0 15px 40px rgba(0,0,0,.3);}
 
@@ -232,7 +231,7 @@
   <header id="header">
     <div class="wrap header-row">
       <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" width="16" height="2" rx="1"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" height="2" rx="1"/></svg>
       </button>      
       <a class="brand" href="./">
         <img src="images/Logo.png" alt="Boluadeoye Logo" width="100" height="100" class="brand-logo">
