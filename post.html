@@ -166,23 +166,50 @@
 
   .post-content{
     max-width:90ch;
-    margin:0 auto;
+    margin:2rem auto;
     font-family: var(--body-serif);
     font-size:1.05rem;
     line-height:1.9;
     color:rgba(229,238,252,.96);
-    text-align:center;
   }
   .post-content h1, .post-content h2, .post-content h3{
     font-family: var(--serif);
     text-align:center;
+    margin: 2rem 0 1rem;
   }
-  .post-content p { text-align:center; }
+  .post-content p { 
+    text-align: left; 
+    margin-bottom: 1.5rem;
+  }
   .post-content ul, .post-content ol{
     text-align:left;
+    margin: 1.5rem auto;
+    padding-left: 2rem;
   }
   .post-content blockquote{
-    text-align:center;
+    position: relative;
+    padding: 1.5rem 2rem;
+    margin: 2.5rem auto;
+    text-align: center;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--muted);
+    border-left: 3px solid var(--orange);
+    background: rgba(15,23,42,.5);
+    max-width: 85%;
+    z-index: 1;
+  }
+  .post-content blockquote::before {
+    content: '“';
+    font-family: var(--serif);
+    font-size: 6rem;
+    color: rgba(245, 158, 11, 0.08);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1;
+    z-index: -1;
   }
   
   .post-nav{
@@ -367,7 +394,7 @@
     var sideMenu = document.getElementById('sideMenu');
     var menuOverlay = document.getElementById('menuOverlay');
     var allPosts = [];
-    var postData = null; // Use a single, shared postData variable
+    var postData = null; 
 
     function closeMenu() {
       sideMenu.classList.remove('active');
@@ -405,7 +432,7 @@
       container.innerHTML = '<div class="error"><h2>Unable to Load Post</h2><p>' + message + '</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>';
     }
     
-    window.sharePost = function() { // Relies on the shared postData variable
+    window.sharePost = function() {
       if(postData && navigator.share) {
         navigator.share({ title: postData.title, text: postData.excerpt, url: window.location.href });
       } else if (postData) {
@@ -478,7 +505,7 @@
       var container = document.getElementById('post-content-wrapper');
       if(!container) return;
 
-      postData = allPosts.find(p => p && normalizePath(p.file) === normalizePath(file)); // Assign to the shared variable
+      postData = allPosts.find(p => p && normalizePath(p.file) === normalizePath(file));
       if(!postData) {
           renderError(container, 'Post data not found for file: ' + file);
           return;
