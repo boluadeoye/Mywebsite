@@ -256,7 +256,7 @@
     background: var(--panel);
     border-radius: 12px;
     overflow: hidden;
-    border: 1px solid var(--orange-dark); /* --- EDIT: BORDER COLOR --- */
+    border: 1px solid rgba(245,158,11,.15);
     transition: all .3s var(--transition);
   }
   .related-post-card:hover {
@@ -275,10 +275,10 @@
     flex-grow: 1;
   }
   .related-post-card h4 {
-    font-family: 'Montserrat', var(--sans-serif); /* --- EDIT: FONT FAMILY --- */
+    font-family: 'Montserrat', var(--sans-serif); /* --- FINAL FONT --- */
     font-size: 1.15rem;
     margin-bottom: .5rem;
-    color: var(--orange-dark); /* --- EDIT: FONT COLOR --- */
+    color: var(--ink); /* --- FINAL COLOR --- */
     line-height: 1.4;
   }
   .related-post-card p {
@@ -287,11 +287,11 @@
     line-height: 1.6;
   }
   .related-post-card.no-image {
-    background: linear-gradient(145deg, var(--panel-hover), rgba(245, 158, 11, 0.05));
     align-items: center;
     justify-content: center;
     text-align: center;
     min-height: 220px;
+    background: var(--panel-hover);
   }
   .related-post-card.no-image .content {
     flex-grow: 0;
@@ -404,7 +404,6 @@
       container.innerHTML = '<div class="error"><h2>Unable to Load Post</h2><p>' + message + '</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>';
     }
     
-    // Pass postData to sharePost
     function sharePost(postData) {
       if(postData && navigator.share) {
         navigator.share({ title: postData.title, text: postData.excerpt, url: window.location.href });
@@ -445,7 +444,6 @@
             const excerpt = (post.excerpt || '').substring(0, 80) + '...';
             
             if (post.cover) {
-                // Card WITH image
                 return `
                 <a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card">
                   <div class="cover">
@@ -458,7 +456,6 @@
                 </a>
                 `;
             } else {
-                // Text-only card
                 return `
                 <a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card no-image">
                   <div class="content">
@@ -485,8 +482,7 @@
           renderError(container, 'Post data not found for file: ' + file);
           return;
       }
-
-      // Make postData available to the share button's onclick
+      
       window.currentPostData = postData;
 
       fetch(file, { cache: 'no-store' })
