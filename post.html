@@ -231,12 +231,56 @@
   @keyframes spin{to{transform:rotate(360deg)}}
   .error{text-align:center;padding:2rem;color:#ff6b6b}
 
-  /* Disqus Styling */
-  #disqus_thread {
+  #disqus_thread, .related-posts-container {
     margin-top: 3rem;
     padding-top: 2rem;
     border-top: 1px solid rgba(245,158,11,.15);
   }
+  
+  .related-posts-title {
+    font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+    font-family: var(--serif);
+    font-weight: 800;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .related-posts-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  .related-post-card {
+    background: var(--panel-hover);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid transparent;
+    transition: all .3s var(--transition);
+  }
+  .related-post-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--orange);
+  }
+  .related-post-card .cover img {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+  }
+  .related-post-card .content {
+    padding: 1.25rem;
+  }
+  .related-post-card h4 {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    margin-bottom: .5rem;
+    color: var(--ink);
+  }
+  .related-post-card p {
+    font-size: .9rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
 
   footer{
     background:var(--panel);
@@ -290,6 +334,8 @@
           </div>
         </article>
 
+        <section id="related-posts-container" class="related-posts-container"></section>
+        
         <div id="disqus_thread"></div>
         
       </div>
@@ -305,7 +351,8 @@
     var menuBtn = document.getElementById('menuBtn');
     var sideMenu = document.getElementById('sideMenu');
     var menuOverlay = document.getElementById('menuOverlay');
-    
+    var allPosts = []; // Store all posts here
+
     function closeMenu() {
       sideMenu.classList.remove('active');
       menuOverlay.classList.remove('show');
@@ -327,24 +374,22 @@
       if(header) header.classList.toggle('scrolled', window.scrollY > 10);
     });
 
-    var postData = null;
-
     function normalizePath(p){ return p ? String(p).trim().replace(/^\.?\//, '') : ''; }
 
-    function firstImageFromMarkdown(md){
-      if(!md) return '';
+    function firstImageFromMarkdown(md, postData){
+      if(!md) return postData.cover || '';
       var m1 = md.match(/!\[.*?\]\((.*?)\)/);
       if(m1 && m1[1]) return m1[1].trim();
       var m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
       if(m2 && m2[1]) return m2[1].trim();
-      return '';
+      return postData.cover || '';
     }
 
     function renderError(container, message){
       container.innerHTML = '<div class="error"><h2>Unable to Load Post</h2><p>' + message + '</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>';
     }
     
-    window.sharePost = function() {
+    window.sharePost = function(postData) {
       if(postData && navigator.share) {
         navigator.share({ title: postData.title, text: postData.excerpt, url: window.location.href });
       } else if (postData) {
@@ -353,7 +398,6 @@
       }
     }
 
-    // Disqus Load Function
     function loadDisqus(postIdentifier) {
         if (!postIdentifier) return;
         var disqus_config = function () {
@@ -367,82 +411,128 @@
             (d.head || d.body).appendChild(s);
         })();
     }
+    
+    function displayRelatedPosts(currentPost) {
+        if (!allPosts.length || !currentPost) return;
 
-    function loadPost(){
+        const related = allPosts.filter(p => p.type === currentPost.type && p.file !== currentPost.file);
+        
+        if (related.length === 0) return;
+
+        // Shuffle and pick up to 3
+        const shuffled = related.sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 3);
+
+        const container = document.getElementById('related-posts-container');
+        if (!container) return;
+
+        const cardsHTML = selected.map(post => {
+            const excerpt = (post.excerpt || '').substring(0, 100) + '...';
+            const coverImage = post.cover || 'images/default-cover.png'; // Fallback cover
+            return `
+            <a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card">
+              <div class="cover">
+                <img src="${coverImage}" alt="${post.title}" loading="lazy">
+              </div>
+              <div class="content">
+                <h4>${post.title}</h4>
+                <p>${excerpt}</p>
+              </div>
+            </a>
+            `;
+        }).join('');
+        
+        container.innerHTML = `
+            <h3 class="related-posts-title">You Might Also Like</h3>
+            <div class="related-posts-grid">${cardsHTML}</div>
+        `;
+    }
+
+    function loadPost(file) {
+      var container = document.getElementById('post-content-wrapper');
+      if(!container) return;
+
+      const postData = allPosts.find(p => p && normalizePath(p.file) === normalizePath(file));
+      if(!postData) {
+          renderError(container, 'Post data not found for file: ' + file);
+          return;
+      }
+
+      fetch(file, { cache: 'no-store' })
+        .then(function(mdRes){
+          if(!mdRes.ok) throw new Error('Failed to load Markdown file: ' + file + ' (Status: ' + mdRes.status + ')');
+          return mdRes.text();
+        })
+        .then(function(markdown){
+          document.title = postData.title + ' — Boluadeoye';
+
+          var coverUrl = postData.cover || firstImageFromMarkdown(markdown, postData);
+          var mdForRender = markdown;
+          if (coverUrl && normalizePath(firstImageFromMarkdown(markdown, postData)) === normalizePath(coverUrl)) {
+              var match = markdown.match(/!\[.*?\]\(.*?\)/);
+              if(match) mdForRender = markdown.replace(match[0], '');
+          }
+
+          var contentHTML = typeof marked !== 'undefined' ? marked.parse(mdForRender, { breaks: true }) : '<p>Error: Markdown parser not loaded.</p>';
+          var dateStr = new Date(postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+          
+          var coverHTML = coverUrl ? '<figure class="cover-hero"><img src="' + coverUrl + '" alt="' + postData.title + ' cover" loading="lazy" width="1020" height="574"></figure>' : '';
+
+          container.innerHTML = '' +
+            '<div class="post-header">' +
+            '  <div class="post-meta">' +
+            '    <span class="meta-item">📅 ' + dateStr + '</span>' +
+            '    <span class="meta-item">📁 ' + (postData.type || 'General') + '</span>' +
+            '    <span class="meta-item">⏱️ ' + postData.minutes + ' min read</span>' +
+            '  </div>' +
+            '  <h1 class="post-title">' + postData.title + '</h1>' +
+            '</div>' +
+            coverHTML +
+            '<div class="post-content">' + contentHTML + '</div>' +
+            '<nav class="post-nav">' +
+            '  <a href="./" class="btn-chip">← Back to Home</a>' +
+            '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
+            '  <button class="btn-chip" onclick="sharePost(postData)">Share Post 📤</button>' +
+            '</nav>';
+
+          loadDisqus(file);
+          displayRelatedPosts(postData);
+        })
+        .catch(function(err){
+          console.error('Post load error:', err);
+          renderError(container, err.message);
+        });
+    }
+
+    function init() {
       var container = document.getElementById('post-content-wrapper');
       if(!container) return;
       container.innerHTML = '<div class="loading-container"><div class="loading-spinner"></div><p>Loading your post...</p></div>';
-      
+
       try {
         var urlParams = new URLSearchParams(window.location.search);
         var file = urlParams.get('file');
         if(!file) throw new Error('No post file specified in URL.');
 
         fetch('./Posts.json', { cache: 'no-store' })
-          .then(function(res){
+          .then(res => {
             if(!res.ok) throw new Error('Could not load Posts.json (Status: ' + res.status + ')');
             return res.json();
           })
-          .then(function(posts){
-            postData = posts.find(function(p) { return p && normalizePath(p.file) === normalizePath(file); });
-            if(!postData) throw new Error('Post data not found for file: ' + file);
-            
-            return fetch(file, { cache: 'no-store' });
+          .then(data => {
+            allPosts = Array.isArray(data) ? data : [];
+            loadPost(file);
           })
-          .then(function(mdRes){
-            if(!mdRes.ok) throw new Error('Failed to load Markdown file: ' + file + ' (Status: ' + mdRes.status + ')');
-            return mdRes.text();
-          })
-          .then(function(markdown){
-            document.title = postData.title + ' — Boluadeoye';
-
-            var coverUrl = postData.cover || firstImageFromMarkdown(markdown);
-            var mdForRender = markdown;
-            if (coverUrl && normalizePath(firstImageFromMarkdown(markdown)) === normalizePath(coverUrl)) {
-                var match = markdown.match(/!\[.*?\]\(.*?\)/);
-                if(match) mdForRender = markdown.replace(match[0], '');
-            }
-
-            var contentHTML = typeof marked !== 'undefined' ? marked.parse(mdForRender, { breaks: true }) : '<p>Error: Markdown parser not loaded.</p>';
-            var dateStr = new Date(postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-            
-            var coverHTML = coverUrl ? '<figure class="cover-hero"><img src="' + coverUrl + '" alt="' + postData.title + ' cover" loading="lazy" width="1020" height="574"></figure>' : '';
-
-            container.innerHTML = '' +
-              '<div class="post-header">' +
-              '  <div class="post-meta">' +
-              '    <span class="meta-item">📅 ' + dateStr + '</span>' +
-              '    <span class="meta-item">📁 ' + postData.type + '</span>' +
-              '    <span class="meta-item">⏱️ ' + postData.minutes + ' min read</span>' +
-              '  </div>' +
-              '  <h1 class="post-title">' + postData.title + '</h1>' +
-              '</div>' +
-              coverHTML +
-              '<div class="post-content">' + contentHTML + '</div>' +
-              '<nav class="post-nav">' +
-              '  <a href="./" class="btn-chip">← Back to Home</a>' +
-              '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
-              '  <button class="btn-chip" onclick="sharePost()">Share Post 📤</button>' +
-              '</nav>';
-
-            // Call Disqus Load Function
-            loadDisqus(file);
-
-          })
-          .catch(function(err){
-            console.error('Post load error:', err);
+          .catch(err => {
             renderError(container, err.message);
           });
       } catch(err) {
         renderError(container, err.message);
       }
     }
+    
+    init();
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', loadPost);
-    } else {
-      loadPost();
-    }
   })();
   </script>
 </body>
