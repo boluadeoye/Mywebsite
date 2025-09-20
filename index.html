@@ -111,8 +111,10 @@
   .overlay.show { display: block; opacity: 1; }
 
   .hero { padding: 4rem 0 3rem; }
-  .hero-split { display: grid; align-items: center; gap: 3.5rem; grid-template-columns: 400px 1fr; }
-  .hero-photo { position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0, 0, 0, .2); border: 1px solid rgba(245, 158, 11, .2); animation: floatSharp 4s ease-in-out infinite; }
+  /* --- RESPONSIVE FIX 1 of 2 --- */
+  .hero-split { display: grid; align-items: center; gap: 3.5rem; grid-template-columns: 1fr 1.5fr; }
+  /* --- RESPONSIVE FIX 2 of 2 --- */
+  .hero-photo { position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0, 0, 0, .2); border: 1px solid rgba(245, 158, 11, .2); animation: floatSharp 4s ease-in-out infinite; width: 100%; max-width: 400px; }
   @keyframes floatSharp { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
   .hero-copy { display: flex; flex-direction: column; }
   .chip { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.55rem 1.1rem; border-radius: 999px; background: rgba(245, 158, 11, .15); color: var(--orange); border: 1px solid rgba(245, 158, 11, .3); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; align-self: flex-start; }
