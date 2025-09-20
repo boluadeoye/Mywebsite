@@ -238,49 +238,65 @@
   }
   
   .related-posts-title {
-    font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
     font-family: var(--serif);
     font-weight: 800;
     color: var(--ink);
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
   }
   .related-posts-grid {
     display: grid;
-    gap: 2rem;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
   .related-post-card {
-    background: var(--panel-hover);
+    display: flex;
+    flex-direction: column;
+    background: var(--panel);
     border-radius: 12px;
     overflow: hidden;
-    border: 1px solid transparent;
+    border: 1px solid rgba(255,255,255,0.05);
     transition: all .3s var(--transition);
   }
   .related-post-card:hover {
     transform: translateY(-5px);
     border-color: var(--orange);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   }
   .related-post-card .cover img {
     width: 100%;
     aspect-ratio: 16/10;
     object-fit: cover;
+    display: block;
   }
   .related-post-card .content {
     padding: 1.25rem;
+    flex-grow: 1;
   }
   .related-post-card h4 {
     font-family: var(--serif);
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     margin-bottom: .5rem;
     color: var(--ink);
+    line-height: 1.4;
   }
   .related-post-card p {
     font-size: .9rem;
     color: var(--muted);
     line-height: 1.6;
   }
-
+  /* Style for text-only cards */
+  .related-post-card.no-image {
+    background: linear-gradient(145deg, var(--panel-hover), rgba(245, 158, 11, 0.05));
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 220px; /* Ensures visual consistency in the grid */
+  }
+  .related-post-card.no-image .content {
+    flex-grow: 0;
+  }
 
   footer{
     background:var(--panel);
@@ -333,7 +349,7 @@
             <p>Loading your post...</p>
           </div>
         </article>
-
+        
         <section id="related-posts-container" class="related-posts-container"></section>
         
         <div id="disqus_thread"></div>
@@ -389,7 +405,8 @@
       container.innerHTML = '<div class="error"><h2>Unable to Load Post</h2><p>' + message + '</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>';
     }
     
-    window.sharePost = function(postData) {
+    // Pass postData to sharePost
+    function sharePost(postData) {
       if(postData && navigator.share) {
         navigator.share({ title: postData.title, text: postData.excerpt, url: window.location.href });
       } else if (postData) {
@@ -413,13 +430,12 @@
     }
     
     function displayRelatedPosts(currentPost) {
-        if (!allPosts.length || !currentPost) return;
+        if (!allPosts.length || !currentPost || !currentPost.type) return;
 
         const related = allPosts.filter(p => p.type === currentPost.type && p.file !== currentPost.file);
         
         if (related.length === 0) return;
 
-        // Shuffle and pick up to 3
         const shuffled = related.sort(() => 0.5 - Math.random());
         const selected = shuffled.slice(0, 3);
 
@@ -427,19 +443,32 @@
         if (!container) return;
 
         const cardsHTML = selected.map(post => {
-            const excerpt = (post.excerpt || '').substring(0, 100) + '...';
-            const coverImage = post.cover || 'images/default-cover.png'; // Fallback cover
-            return `
-            <a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card">
-              <div class="cover">
-                <img src="${coverImage}" alt="${post.title}" loading="lazy">
-              </div>
-              <div class="content">
-                <h4>${post.title}</h4>
-                <p>${excerpt}</p>
-              </div>
-            </a>
-            `;
+            const excerpt = (post.excerpt || '').substring(0, 80) + '...';
+            
+            if (post.cover) {
+                // Card WITH image
+                return `
+                <a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card">
+                  <div class="cover">
+                    <img src="${post.cover}" alt="${post.title}" loading="lazy">
+                  </div>
+                  <div class="content">
+                    <h4>${post.title}</h4>
+                    <p>${excerpt}</p>
+                  </div>
+                </a>
+                `;
+            } else {
+                // Text-only card
+                return `
+                <a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card no-image">
+                  <div class="content">
+                    <h4>${post.title}</h4>
+                    <p>${excerpt}</p>
+                  </div>
+                </a>
+                `;
+            }
         }).join('');
         
         container.innerHTML = `
@@ -457,6 +486,9 @@
           renderError(container, 'Post data not found for file: ' + file);
           return;
       }
+
+      // Make postData available to the share button's onclick
+      window.currentPostData = postData;
 
       fetch(file, { cache: 'no-store' })
         .then(function(mdRes){
@@ -492,7 +524,7 @@
             '<nav class="post-nav">' +
             '  <a href="./" class="btn-chip">← Back to Home</a>' +
             '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
-            '  <button class="btn-chip" onclick="sharePost(postData)">Share Post 📤</button>' +
+            '  <button class="btn-chip" onclick="sharePost(window.currentPostData)">Share Post 📤</button>' +
             '</nav>';
 
           loadDisqus(file);
