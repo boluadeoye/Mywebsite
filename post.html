@@ -6,13 +6,13 @@
   <title>Post — Boluadeoye</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@700&family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
   :root {
     --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2341;
     --ink: #e5eefc; --muted: #94a3b8;
-    --orange: #f59e0b; --orange-light: #fbbf24; --orange-ink: #0b0f19;
+    --orange: #f59e0b; --orange-light: #fbbf24; --orange-dark: #d97706; --orange-ink: #0b0f19;
     --ring: rgba(245,158,11,.25); --radius: 16px;
     --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
     --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
@@ -256,7 +256,7 @@
     background: var(--panel);
     border-radius: 12px;
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid var(--orange-dark); /* --- EDIT: BORDER COLOR --- */
     transition: all .3s var(--transition);
   }
   .related-post-card:hover {
@@ -275,10 +275,10 @@
     flex-grow: 1;
   }
   .related-post-card h4 {
-    font-family: var(--serif);
+    font-family: 'Montserrat', var(--sans-serif); /* --- EDIT: FONT FAMILY --- */
     font-size: 1.15rem;
     margin-bottom: .5rem;
-    color: var(--ink);
+    color: var(--orange-dark); /* --- EDIT: FONT COLOR --- */
     line-height: 1.4;
   }
   .related-post-card p {
@@ -286,13 +286,12 @@
     color: var(--muted);
     line-height: 1.6;
   }
-  /* Style for text-only cards */
   .related-post-card.no-image {
     background: linear-gradient(145deg, var(--panel-hover), rgba(245, 158, 11, 0.05));
     align-items: center;
     justify-content: center;
     text-align: center;
-    min-height: 220px; /* Ensures visual consistency in the grid */
+    min-height: 220px;
   }
   .related-post-card.no-image .content {
     flex-grow: 0;
