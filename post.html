@@ -6,217 +6,237 @@
   <title>Post — Boluadeoye</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
-    :root {
-      --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2341;
-      --ink: #e5eefc; --muted: #94a3b8;
-      --orange: #f59e0b; --orange-light: #fbbf24; --orange-dark: #d97706; --orange-ink: #0b0f19;
-      --ring: rgba(245, 158, 11, .25); --radius: 16px;
-      --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
-      --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
-      --body-serif: 'Merriweather', serif;
-      --transition: cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font: 16px/1.7 var(--sans-serif);
-      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-      overflow-x: hidden; position: relative;
-    }
-    body.menu-open {
-      overflow: hidden;
-    }
-    img { max-width: 100%; display: block; height: auto; }
-    a { color: inherit; text-decoration: none; transition: all 0.3s var(--transition); }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
+  :root {
+    --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2341;
+    --ink: #e5eefc; --muted: #94a3b8;
+    --orange: #f59e0b; --orange-light: #fbbf24; --orange-ink: #0b0f19;
+    --ring: rgba(245,158,11,.25); --radius: 16px;
+    --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
+    --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
+    --transition: cubic-bezier(.4,0,.2,1);
+    --red: #ef4444; --red-soft: rgba(239,68,68,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;scroll-behavior:smooth}
+  body{
+    background:var(--bg); color:var(--ink);
+    font:16px/1.7 var(--sans-serif);
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    overflow-x:hidden; position:relative;
+  }
+  a{color:inherit;text-decoration:none;transition:all .3s var(--transition)}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
 
-    header {
-      position: sticky; top: 0; z-index: 100; 
-      background: rgba(15,23,42,.85);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid rgba(245,158,11,.15);
-      transition: box-shadow 0.3s var(--transition);
-    }
-    header.scrolled {
-      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-    }
-    .header-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      min-height: 80px;
-      position: relative;
-      padding: 0 1rem;
-    }
-    .brand {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0;
-      position: absolute;
-      left: 50%;
-      top: -20px;
-      transform: translateX(-50%);
-    }
-    .brand-logo {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      transition: transform 0.4s var(--transition);
-      margin-bottom: -35px;
-    }
-    .brand:hover .brand-logo {
-      transform: rotate(10deg) scale(1.05);
-    }
-    .brand h1 {
-      font-family: var(--serif);
-      font-size: 1.62rem;
-      font-weight: 800;
-      line-height: 1;
-      letter-spacing: -0.5px;
-      color: var(--ink);
-      background: none;
-    }
+  header {
+    position: sticky; top: 0; z-index: 100; 
+    background: rgba(15,23,42,.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(245,158,11,.15);
+    transition: box-shadow 0.3s var(--transition);
+  }
+  header.scrolled {
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  }
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 80px;
+    position: relative;
+    padding: 0 1rem;
+  }
+  .brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    position: absolute;
+    left: 50%;
+    top: -20px;
+    transform: translateX(-50%);
+  }
+  .brand-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: transform 0.4s var(--transition);
+    margin-bottom: -35px;
+  }
+  .brand:hover .brand-logo {
+    transform: rotate(10deg) scale(1.05);
+  }
+  .brand h1 {
+    font-family: var(--serif);
+    font-size: 1.62rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    background: none;
+  }
 
-    .top-nav { 
-      display: none; 
-      gap: 0.5rem; 
-      align-items: center; 
-      margin-left: auto;
-      flex-wrap: wrap;
-    }
-    .top-nav a { padding: 0.45rem 0.9rem; border-radius: 999px; color: var(--ink); font-weight: 600; font-size: 0.87rem; transition: all 0.2s var(--transition); border: 1px solid transparent; }
-    .top-nav a:hover, .top-nav a.active { color: var(--orange); border-color: var(--orange); }
+  .top-nav{display:none;gap:.5rem;align-items:center;margin-left:auto;flex-wrap:wrap}
+  .top-nav a{padding:.45rem .9rem;border-radius:999px;border:1px solid transparent;font-weight:600;font-size:.87rem}
+  .top-nav a:hover,.top-nav a.active{color:var(--orange);border-color:var(--orange);transform:translateY(-1px)}
 
-    .hamburger { width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: rgba(255, 255, 255, .03); border: 1px solid rgba(245, 158, 11, .2); color: var(--ink); cursor: pointer; transition: all 0.3s ease; }
-    .hamburger:hover { background: rgba(245, 158, 11, .1); transform: rotate(10deg); }
-    
-    .side-menu { position: fixed; top: 0; left: -280px; z-index: 200; width: 260px; height: 100%; padding: 2.5rem 1.2rem 2rem; display: flex; flex-direction: column; gap: 0.6rem; background: var(--panel); border-right: 1px solid rgba(245, 158, 11, .2); transition: left 0.3s var(--transition); }
-    .side-menu.active { left: 0; }
-    .side-menu a { padding: 0.9rem 1.25rem; border-radius: 8px; color: var(--ink); font-weight: 600; font-size: 0.92rem; border: 1px solid transparent; transition: all 0.2s ease; }
-    .side-menu a:hover, .side-menu a.active { background: rgba(245, 158, 11, .1); border-color: var(--orange); color: var(--orange); transform: translateX(5px); }
-    .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .5); z-index: 150; display: none; cursor: pointer; opacity: 0; transition: opacity 0.3s ease; }
-    .overlay.show { display: block; opacity: 1; }
-    
-    .post-container{
-      margin: 1.25rem 0 2.25rem;
-      background: var(--panel); border-radius: 24px;
-      border: 1px solid rgba(245,158,11,.15);
-      box-shadow: 0 20px 60px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.05);
-      overflow: hidden;
-      padding-top: 30px;
-    }
-    .content-wrapper{
-      padding: 2.75rem 1.5rem;
-      margin: 0 auto;
-      max-width: 1100px;
-    }
+  .hamburger{width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(245,158,11,.2);color:var(--ink);cursor:pointer;transition:all .3s ease}
+  .hamburger:hover{background:rgba(245,158,11,.1);transform:rotate(10deg)}
+  .hamburger svg{width:24px;height:24px}
   
-    #post-content-wrapper {
-      min-height: 50vh;
-    }
-
-    .post-header{
-      text-align: center;
-      padding: 1.5rem 0 1rem;
-      max-width: 90ch;
-      margin: 0 auto;
-    }
-    .post-meta{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: .75rem;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-    .meta-item{
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      padding: .35rem .85rem;
-      background: rgba(245,158,11,.08);
-      border-radius: 999px;
-      font-size: .9rem;
-      color: var(--muted);
-      border: 1px solid rgba(245,158,11,.15);
-    }
-    .post-title{
-      font-family: var(--serif);
-      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
-      font-weight: 800;
-      line-height: 1.2;
-      margin: .5rem auto;
-      background: linear-gradient(135deg, var(--orange), var(--orange-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      max-width: 90ch;
-    }
-    .cover-hero {
-      max-width: 1020px;
-      margin: 1rem auto;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid rgba(245,158,11,.15);
-      background: rgba(255,255,255,.02);
-    }
-    .cover-hero img {
-      width: 100%;
-      height: auto;
-      display: block;
-      aspect-ratio: 16/9;
-      object-fit: cover;
-    }
+  .side-menu{position:fixed;top:0;left:-280px;z-index:200;width:260px;height:100%;padding:2.5rem 1.2rem 2rem;display:flex;flex-direction:column;gap:.6rem;background:var(--panel);border-right:1px solid rgba(245,158,11,.2);transition:left .3s var(--transition)}
+  .side-menu.active{left:0}
+  .side-menu a{padding:.9rem 1.25rem;border-radius:8px;background:transparent;color:var(--ink);font-weight:600;font-size:.92rem;border:1px solid transparent;transition:all .2s ease}
+  .side-menu a:hover,.side-menu a.active{background:rgba(245,158,11,.1);border-color:var(--orange);color:var(--orange);transform:translateX(5px)}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;display:none;cursor:pointer}
+  .overlay.show{display:block}
+  @media(min-width:880px){.top-nav{display:flex}.hamburger{display:none}}
   
-    /* ALIGNMENT FIX FOR POST CONTENT */
-    .post-content{
-      max-width: 80ch;
-      margin: 0 auto;
-      font-family: var(--body-serif);
-      font-size: 1.05rem;
-      line-height: 1.9;
-      color: rgba(229,238,252,.9);
-    }
-    .post-content p { text-align: center; margin-bottom: 1.5rem; } /* Restored to center */
-    .post-content h1, .post-content h2, .post-content h3, .post-content h4 { font-family: var(--serif); text-align: center; margin: 2.5rem 0 1.5rem; } /* Restored to center */
-    .post-content h1 { font-size: 2rem; color: var(--orange-light); }
-    .post-content h2 { font-size: 1.75rem; color: var(--orange); }
-    .post-content h3 { font-size: 1.5rem; }
-    .post-content ul, .post-content ol{margin:1.5rem auto;padding-left:1.5rem; text-align: left; max-width: 60ch;} /* Lists remain left-aligned */
-    .post-content blockquote{
-      margin:2rem auto; padding:1.5rem;
-      background:linear-gradient(135deg, rgba(245,158,11,.12), rgba(245,158,11,.06));
-      border:1px solid rgba(245,158,11,.2); border-radius:14px;
-      font-style:italic; font-size:1.15rem; color:var(--ink); border-left:4px solid var(--orange); text-align:center; /* Restored to center */
-    }
-    .post-content img{max-width:100%;height:auto;border-radius:12px;margin:2rem auto;display:block;box-shadow:0 15px 40px rgba(0,0,0,.3);}
+  .post-container{
+    margin:1.25rem 0 2.25rem;
+    background:var(--panel); border-radius:24px;
+    border:1px solid rgba(245,158,11,.15);
+    box-shadow:0 20px 60px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.05);
+    overflow:hidden;
+    padding-top: 30px; /* Prevents overlap with header */
+  }
+  .content-wrapper{
+    padding:2.75rem 1.5rem;
+    margin:0 auto;
+    max-width:1100px;
+  }
 
-    .post-nav{
-      display:flex;justify-content:center;gap:1rem;padding:1.5rem 0;
-      border-top:1px solid rgba(245,158,11,.15);flex-wrap:wrap;max-width:90ch;margin:2rem auto 0;
-    }
-    .btn-chip{
-      display:inline-flex;align-items:center;gap:.5rem;padding:.72rem 1.2rem;
-      background:linear-gradient(135deg,var(--orange),var(--orange-light));
-      color:var(--orange-ink);border-radius:999px;font-weight:800;font-size:.95rem;
-      box-shadow:0 4px 15px rgba(245,158,11,.3);
-    }
-    .btn-chip:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,.4); }
+  .post-header{
+    text-align:center;
+    padding:1.5rem 0 1rem;
+    max-width:90ch;
+    margin:0 auto;
+  }
+  .post-meta{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:.75rem;
+    flex-wrap:wrap;
+    margin-bottom:1rem;
+  }
+  .meta-item{
+    display:inline-flex;
+    align-items:center;
+    gap:.5rem;
+    padding:.35rem .85rem;
+    background:rgba(245,158,11,.08);
+    border-radius:999px;
+    font-size:.9rem;
+    color:var(--muted);
+    border:1px solid rgba(245,158,11,.15);
+  }
+  .post-title{
+    font-family:var(--serif);
+    font-size:clamp(1.8rem, 3.5vw, 2.5rem);
+    font-weight:800;
+    line-height:1.2;
+    margin:.5rem auto;
+    background:linear-gradient(135deg, var(--orange), var(--orange-light));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    max-width:90ch;
+  }
+
+  .cover-hero {
+    max-width:1020px;
+    margin:1rem auto;
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid rgba(245,158,11,.15);
+    background:rgba(255,255,255,.02);
+  }
+  .cover-hero img {
+    width:100%;
+    height:auto;
+    display:block;
+    aspect-ratio:16/9;
+    object-fit:cover;
+  }
+
+  .post-content{
+    max-width:90ch;
+    margin:0 auto;
+    font-size:1.0125rem;
+    line-height:1.85;
+    color:rgba(229,238,252,.96);
+    text-align:center;
+  }
+  .post-content h1, .post-content h2, .post-content h3{
+    text-align:center;
+  }
+  .post-content p { text-align:center; }
+  .post-content ul, .post-content ol{
+    text-align:left;
+  }
+  .post-content blockquote{
+    text-align:center;
+  }
   
-    .loading-container{min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);padding:2rem 1rem;text-align:center;}
-    .loading-spinner{width:36px;height:36px;border:3px solid rgba(245,158,11,.2);border-top-color:var(--orange);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:1rem;}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .error{text-align:center;padding:2rem;color:#ff6b6b}
-    footer{background:var(--panel);border-top:1px solid rgba(255,255,255,.06);color:var(--muted);text-align:center;font-size:.85rem;padding:1.5rem 0;margin-top:1.5rem;}
-    
-    @media (min-width: 880px) { .top-nav { display: flex; } .hamburger { display: none; } }
+  .post-nav{
+    display:flex;
+    justify-content:center;
+    gap:1rem;
+    padding:1.5rem 0;
+    border-top:1px solid rgba(245,158,11,.15);
+    flex-wrap:wrap;
+    max-width:90ch;
+    margin:0 auto;
+  }
+  .btn-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:.5rem;
+    padding:.72rem 1.2rem;
+    background:linear-gradient(135deg,var(--orange),var(--orange-light));
+    color:var(--orange-ink);
+    border-radius:999px;
+    font-weight:800;
+    font-size:.95rem;
+    box-shadow:0 4px 15px rgba(245,158,11,.3);
+  }
+  .btn-chip:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(245,158,11,.4)}
+  
+  .loading-container{
+    min-height:160px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:var(--muted);
+    padding:2rem 1rem;
+    text-align:center;
+  }
+  .loading-spinner{
+    width:36px;
+    height:36px;
+    border:3px solid rgba(245,158,11,.2);
+    border-top-color:var(--orange);
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin-bottom:1rem;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .error{text-align:center;padding:2rem;color:#ff6b6b}
+
+  footer{
+    background:var(--panel);
+    border-top:1px solid rgba(255,255,255,.06);
+    color:var(--muted);
+    text-align:center;
+    font-size:.85rem;
+    padding:1.5rem 0;
+    margin-top:1.5rem;
+  }
   </style>
 </head>
 <body>
@@ -231,7 +251,11 @@
   <header id="header">
     <div class="wrap header-row">
       <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" height="2" rx="1"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <rect x="4" y="6" width="16" height="2" rx="1"/>
+          <rect x="4" y="11" width="16" height="2" rx="1"/>
+          <rect x="4" y="16" width="16" height="2" rx="1"/>
+        </svg>
       </button>      
       <a class="brand" href="./">
         <img src="images/Logo.png" alt="Boluadeoye Logo" width="100" height="100" class="brand-logo">
@@ -265,111 +289,119 @@
 
   <script>
   (function(){
-    const menuBtn = document.getElementById('menuBtn');
-    const sideMenu = document.getElementById('sideMenu');
-    const menuOverlay = document.getElementById('menuOverlay');
+    var menuBtn = document.getElementById('menuBtn');
+    var sideMenu = document.getElementById('sideMenu');
+    var menuOverlay = document.getElementById('menuOverlay');
     
     function closeMenu() {
       sideMenu.classList.remove('active');
       menuOverlay.classList.remove('show');
       menuBtn.setAttribute('aria-expanded', 'false');
-      document.body.classList.remove('menu-open');
     }
     function openMenu() {
       sideMenu.classList.add('active');
       menuOverlay.classList.add('show');
       menuBtn.setAttribute('aria-expanded', 'true');
-      document.body.classList.add('menu-open');
     }
     
-    menuBtn.addEventListener('click', () => { sideMenu.classList.contains('active') ? closeMenu() : openMenu(); });
+    menuBtn.addEventListener('click', function() {
+      if (sideMenu.classList.contains('active')) closeMenu(); else openMenu();
+    });
     menuOverlay.addEventListener('click', closeMenu);
 
-    const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 10);
+    var header = document.getElementById('header');
+    window.addEventListener('scroll', function() {
+      if(header) header.classList.toggle('scrolled', window.scrollY > 10);
     });
 
-    let postData = null;
+    var postData = null;
 
     function normalizePath(p){ return p ? String(p).trim().replace(/^\.?\//, '') : ''; }
 
     function firstImageFromMarkdown(md){
       if(!md) return '';
-      const m1 = md.match(/!\[.*?\]\((.*?)\)/);
+      var m1 = md.match(/!\[.*?\]\((.*?)\)/);
       if(m1 && m1[1]) return m1[1].trim();
-      const m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
+      var m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
       if(m2 && m2[1]) return m2[1].trim();
       return '';
     }
 
     function renderError(container, message){
-      container.innerHTML = `<div class="error"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
+      container.innerHTML = '<div class="error"><h2>Unable to Load Post</h2><p>' + message + '</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>';
     }
     
     window.sharePost = function() {
       if(postData && navigator.share) {
         navigator.share({ title: postData.title, text: postData.excerpt, url: window.location.href });
       } else if (postData) {
-        const text = encodeURIComponent(`${postData.title} - ${postData.excerpt} ${window.location.href}`);
-        window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+        var text = encodeURIComponent(postData.title + ' - ' + postData.excerpt + ' ' + window.location.href);
+        window.open('https://api.whatsapp.com/send?text=' + text, '_blank');
       }
     }
 
-    async function loadPost(){
-      const container = document.getElementById('post-content-wrapper');
+    function loadPost(){
+      var container = document.getElementById('post-content-wrapper');
       if(!container) return;
       container.innerHTML = '<div class="loading-container"><div class="loading-spinner"></div><p>Loading your post...</p></div>';
       
       try {
-        const urlParams = new URLSearchParams(window.location.search);
-        const file = urlParams.get('file');
+        var urlParams = new URLSearchParams(window.location.search);
+        var file = urlParams.get('file');
         if(!file) throw new Error('No post file specified in URL.');
 
-        const postsRes = await fetch('./Posts.json', { cache: 'no-store' });
-        if(!postsRes.ok) throw new Error(`Could not load Posts.json (Status: ${postsRes.status})`);
-        const posts = await postsRes.json();
-        
-        postData = posts.find(p => p && normalizePath(p.file) === normalizePath(file));
-        if(!postData) throw new Error(`Post data not found for file: ${file}`);
-        
-        const mdRes = await fetch(file, { cache: 'no-store' });
-        if(!mdRes.ok) throw new Error(`Failed to load Markdown file: ${file} (Status: ${mdRes.status})`);
-        const markdown = await mdRes.text();
-        
-        document.title = `${postData.title} — Boluadeoye`;
+        fetch('./Posts.json', { cache: 'no-store' })
+          .then(function(res){
+            if(!res.ok) throw new Error('Could not load Posts.json (Status: ' + res.status + ')');
+            return res.json();
+          })
+          .then(function(posts){
+            postData = posts.find(function(p) { return p && normalizePath(p.file) === normalizePath(file); });
+            if(!postData) throw new Error('Post data not found for file: ' + file);
+            
+            return fetch(file, { cache: 'no-store' });
+          })
+          .then(function(mdRes){
+            if(!mdRes.ok) throw new Error('Failed to load Markdown file: ' + file + ' (Status: ' + mdRes.status + ')');
+            return mdRes.text();
+          })
+          .then(function(markdown){
+            document.title = postData.title + ' — Boluadeoye';
 
-        let coverUrl = postData.cover || firstImageFromMarkdown(markdown);
-        let mdForRender = markdown;
-        if (coverUrl && normalizePath(firstImageFromMarkdown(markdown)) === normalizePath(coverUrl)) {
-            mdForRender = markdown.replace(/!\[.*?\]\(.*?\)/, '');
-        }
+            var coverUrl = postData.cover || firstImageFromMarkdown(markdown);
+            var mdForRender = markdown;
+            if (coverUrl && normalizePath(firstImageFromMarkdown(markdown)) === normalizePath(coverUrl)) {
+                var match = markdown.match(/!\[.*?\]\(.*?\)/);
+                if(match) mdForRender = markdown.replace(match[0], '');
+            }
 
-        const contentHTML = typeof marked !== 'undefined' ? marked.parse(mdForRender, { breaks: true }) : '<p>Error: Markdown parser not loaded.</p>';
-        const dateStr = new Date(postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-        
-        const coverHTML = coverUrl ? `<figure class="cover-hero"><img src="${coverUrl}" alt="${postData.title} cover" loading="lazy" width="1020" height="574"></figure>` : '';
+            var contentHTML = typeof marked !== 'undefined' ? marked.parse(mdForRender, { breaks: true }) : '<p>Error: Markdown parser not loaded.</p>';
+            var dateStr = new Date(postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            var coverHTML = coverUrl ? '<figure class="cover-hero"><img src="' + coverUrl + '" alt="' + postData.title + ' cover" loading="lazy" width="1020" height="574"></figure>' : '';
 
-        container.innerHTML = `
-          <div class="post-header">
-            <div class="post-meta">
-              <span class="meta-item">📅 ${dateStr}</span>
-              <span class="meta-item">📁 ${postData.type}</span>
-              <span class="meta-item">⏱️ ${postData.minutes} min read</span>
-            </div>
-            <h1 class="post-title">${postData.title}</h1>
-          </div>
-          ${coverHTML}
-          <div class="post-content">${contentHTML}</div>
-          <nav class="post-nav">
-            <a href="./" class="btn-chip">← Back to Home</a>
-            <a href="./posts.html" class="btn-chip">View All Posts →</a>
-            <button class="btn-chip" onclick="sharePost()">Share Post 📤</button>
-          </nav>
-        `;
-
+            container.innerHTML = '' +
+              '<div class="post-header">' +
+              '  <div class="post-meta">' +
+              '    <span class="meta-item">📅 ' + dateStr + '</span>' +
+              '    <span class="meta-item">📁 ' + postData.type + '</span>' +
+              '    <span class="meta-item">⏱️ ' + postData.minutes + ' min read</span>' +
+              '  </div>' +
+              '  <h1 class="post-title">' + postData.title + '</h1>' +
+              '</div>' +
+              coverHTML +
+              '<div class="post-content">' + contentHTML + '</div>' +
+              '<nav class="post-nav">' +
+              '  <a href="./" class="btn-chip">← Back to Home</a>' +
+              '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
+              '  <button class="btn-chip" onclick="sharePost()">Share Post 📤</button>' +
+              '</nav>';
+          })
+          .catch(function(err){
+            console.error('Post load error:', err);
+            renderError(container, err.message);
+          });
       } catch(err) {
-        console.error('Post load error:', err);
         renderError(container, err.message);
       }
     }
