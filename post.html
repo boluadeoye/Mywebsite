@@ -278,7 +278,7 @@
     font-family: var(--serif);
     font-size: 1.15rem;
     margin-bottom: .5rem;
-    color: var(--orange-light); /* --- FINAL COLOR EDIT --- */
+    color: var(--orange-light);
     line-height: 1.4;
   }
   .related-post-card p {
@@ -367,6 +367,7 @@
     var sideMenu = document.getElementById('sideMenu');
     var menuOverlay = document.getElementById('menuOverlay');
     var allPosts = [];
+    var postData = null; // Use a single, shared postData variable
 
     function closeMenu() {
       sideMenu.classList.remove('active');
@@ -391,20 +392,20 @@
 
     function normalizePath(p){ return p ? String(p).trim().replace(/^\.?\//, '') : ''; }
 
-    function firstImageFromMarkdown(md, postData){
-      if(!md) return postData.cover || '';
+    function firstImageFromMarkdown(md, currentPostData){
+      if(!md) return currentPostData.cover || '';
       var m1 = md.match(/!\[.*?\]\((.*?)\)/);
       if(m1 && m1[1]) return m1[1].trim();
       var m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
       if(m2 && m2[1]) return m2[1].trim();
-      return postData.cover || '';
+      return currentPostData.cover || '';
     }
 
     function renderError(container, message){
       container.innerHTML = '<div class="error"><h2>Unable to Load Post</h2><p>' + message + '</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>';
     }
     
-    window.sharePost = function(postData) {
+    window.sharePost = function() { // Relies on the shared postData variable
       if(postData && navigator.share) {
         navigator.share({ title: postData.title, text: postData.excerpt, url: window.location.href });
       } else if (postData) {
@@ -477,14 +478,12 @@
       var container = document.getElementById('post-content-wrapper');
       if(!container) return;
 
-      const postData = allPosts.find(p => p && normalizePath(p.file) === normalizePath(file));
+      postData = allPosts.find(p => p && normalizePath(p.file) === normalizePath(file)); // Assign to the shared variable
       if(!postData) {
           renderError(container, 'Post data not found for file: ' + file);
           return;
       }
       
-      var currentPostDataForShare = postData;
-
       fetch(file, { cache: 'no-store' })
         .then(function(mdRes){
           if(!mdRes.ok) throw new Error('Failed to load Markdown file: ' + file + ' (Status: ' + mdRes.status + ')');
@@ -519,7 +518,7 @@
             '<nav class="post-nav">' +
             '  <a href="./" class="btn-chip">← Back to Home</a>' +
             '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
-            '  <button class="btn-chip" onclick="sharePost(currentPostDataForShare)">Share Post 📤</button>' +
+            '  <button class="btn-chip" onclick="sharePost()">Share Post 📤</button>' +
             '</nav>';
 
           loadDisqus(file);
