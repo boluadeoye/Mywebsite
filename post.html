@@ -6,13 +6,13 @@
   <title>Post — Boluadeoye</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@700&family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
   :root {
     --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2341;
     --ink: #e5eefc; --muted: #94a3b8;
-    --orange: #f59e0b; --orange-light: #fbbf24; --orange-dark: #d97706; --orange-ink: #0b0f19;
+    --orange: #f59e0b; --orange-light: #fbbf24; --orange-ink: #0b0f19;
     --ring: rgba(245,158,11,.25); --radius: 16px;
     --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
     --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
@@ -275,10 +275,10 @@
     flex-grow: 1;
   }
   .related-post-card h4 {
-    font-family: 'Montserrat', var(--sans-serif); /* --- FINAL FONT --- */
+    font-family: var(--serif);
     font-size: 1.15rem;
     margin-bottom: .5rem;
-    color: var(--ink); /* --- FINAL COLOR --- */
+    color: var(--orange-light); /* --- FINAL COLOR EDIT --- */
     line-height: 1.4;
   }
   .related-post-card p {
@@ -366,7 +366,7 @@
     var menuBtn = document.getElementById('menuBtn');
     var sideMenu = document.getElementById('sideMenu');
     var menuOverlay = document.getElementById('menuOverlay');
-    var allPosts = []; // Store all posts here
+    var allPosts = [];
 
     function closeMenu() {
       sideMenu.classList.remove('active');
@@ -404,7 +404,7 @@
       container.innerHTML = '<div class="error"><h2>Unable to Load Post</h2><p>' + message + '</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>';
     }
     
-    function sharePost(postData) {
+    window.sharePost = function(postData) {
       if(postData && navigator.share) {
         navigator.share({ title: postData.title, text: postData.excerpt, url: window.location.href });
       } else if (postData) {
@@ -483,7 +483,7 @@
           return;
       }
       
-      window.currentPostData = postData;
+      var currentPostDataForShare = postData;
 
       fetch(file, { cache: 'no-store' })
         .then(function(mdRes){
@@ -519,7 +519,7 @@
             '<nav class="post-nav">' +
             '  <a href="./" class="btn-chip">← Back to Home</a>' +
             '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
-            '  <button class="btn-chip" onclick="sharePost(window.currentPostData)">Share Post 📤</button>' +
+            '  <button class="btn-chip" onclick="sharePost(currentPostDataForShare)">Share Post 📤</button>' +
             '</nav>';
 
           loadDisqus(file);
