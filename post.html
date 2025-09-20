@@ -6,7 +6,7 @@
   <title>Post — Boluadeoye</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
   :root {
@@ -16,6 +16,8 @@
     --ring: rgba(245,158,11,.25); --radius: 16px;
     --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
     --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
+    /* FONT VARIABLE FOR WRITINGS RESTORED */
+    --body-serif: 'Merriweather', serif;
     --transition: cubic-bezier(.4,0,.2,1);
     --red: #ef4444; --red-soft: rgba(239,68,68,.12);
   }
@@ -163,20 +165,23 @@
     object-fit:cover;
   }
 
+  /* FONT RESTORED */
   .post-content{
     max-width:90ch;
     margin:0 auto;
-    font-size:1.0125rem;
-    line-height:1.85;
+    font-family: var(--body-serif); /* Correct font applied */
+    font-size:1.05rem; /* Standardized size */
+    line-height:1.9;
     color:rgba(229,238,252,.96);
     text-align:center;
   }
   .post-content h1, .post-content h2, .post-content h3{
+    font-family: var(--serif); /* Headings use elegant font */
     text-align:center;
   }
   .post-content p { text-align:center; }
   .post-content ul, .post-content ol{
-    text-align:left;
+    text-align:left; /* Lists remain left for readability */
   }
   .post-content blockquote{
     text-align:center;
