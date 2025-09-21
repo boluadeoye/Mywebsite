@@ -168,5 +168,105 @@
     "views": 0,
     "minutes": 2,
     "cover": ""
+  },
+  {
+    "file": "posts/the-harmattan-season-of-the-soul.md",
+    "title": "The Harmattan Season of the Soul",
+    "date": "2025-09-21",
+    "type": "story",
+    "excerpt": "In a season of spiritual dryness mirrored by the dusty Harmattan wind, a woman learns that the deepest roots often grow in the hardest soil.",
+    "minutes": 4,
+    "cover": "images/harmattan.jpg",
+    "views": 0,
+    "reflection_prompts": [
+      "Describe a 'Harmattan season' you've experienced in your own life or faith.",
+      "The story mentions that the dry season gives the acacia tree 'a strength the gentle rains never could.' What strength might you be gaining in a current period of waiting?",
+      "What is one small 'promise of rain'—a sign of hope—you can look for today?"
+    ]
+  },
+  {
+    "file": "posts/water-in-a-basket.md",
+    "title": "The Man Who Carried Water in a Basket",
+    "date": "2025-09-20",
+    "type": "story",
+    "excerpt": "When his village suffers a drought, a young man's seemingly foolish act teaches the elders a profound lesson about a faith that defies logic.",
+    "minutes": 5,
+    "cover": "images/basket.jpg",
+    "views": 0,
+    "reflection_prompts": [
+      "What is a 'basket' in your life—a situation that seems impossible or inadequate for the task God has given you?",
+      "Adekunle's response was, 'The one who sent me knows the nature of the vessel.' How does this perspective change how you view your own limitations?",
+      "Describe a time you chose to trust the 'Source' even when the circumstances looked illogical."
+    ]
+  },
+  {
+    "file": "posts/the-sacred-in-the-mundane.md",
+    "title": "The Sacred in the Mundane",
+    "date": "2025-09-19",
+    "type": "essay",
+    "excerpt": "An essay on how our small, everyday routines—like a morning cup of coffee—can be transformed into profound moments of peace and connection.",
+    "minutes": 4,
+    "cover": "images/mundane.jpg",
+    "views": 0
+  },
+  {
+    "file": "posts/on-planting-and-waiting.md",
+    "title": "On Planting and Waiting",
+    "date": "2025-09-18",
+    "type": "essay",
+    "excerpt": "A reflective essay on the creative and spiritual journey, using the universal metaphor of a garden to explore the profound importance of patience and trusting in seasons of unseen growth.",
+    "minutes": 4,
+    "cover": "images/planting.jpg",
+    "views": 0
+  },
+  {
+    "file": "posts/the-unseen-work-of-winter.md",
+    "title": "The Unseen Work of Winter",
+    "date": "2025-09-17",
+    "type": "faith",
+    "excerpt": "A reflection on trusting God's process during seasons where nothing seems to be happening, using the metaphor of a tree in winter gathering strength beneath the surface for future growth.",
+    "minutes": 4,
+    "cover": "images/winter.jpg",
+    "views": 0
+  },
+  {
+    "file": "posts/faith-as-a-question.md",
+    "title": "When Faith Feels More Like a Question",
+    "date": "2025-09-16",
+    "type": "faith",
+    "excerpt": "An honest look at how seasons of doubt and questioning are not a failure of faith, but an invitation to a deeper, more authentic spiritual journey.",
+    "minutes": 5,
+    "cover": "images/question.jpg",
+    "views": 0
+  },
+  {
+    "file": "posts/gardeners-trust.md",
+    "title": "The Gardener's Trust",
+    "date": "2025-09-15",
+    "type": "devotional",
+    "excerpt": "A short devotional on our role as 'gardeners' in God's kingdom—called to faithfully plant seeds of kindness and faith, while trusting Him with the growth.",
+    "minutes": 3,
+    "cover": "images/gardener.jpg",
+    "views": 0,
+    "reflection_prompts": [
+      "What is one 'seed' of kindness or encouragement you can plant for someone today?",
+      "How can you practice 'trusting the process' in an area of your life where you feel anxious about the outcome?",
+      "Reflect on the phrase, 'Our responsibility is the faithful act of planting.' What does that mean to you in this season of your life?"
+    ]
+  },
+  {
+    "file": "posts/a-light-in-the-shadows.md",
+    "title": "A Light in the Shadows",
+    "date": "2025-09-14",
+    "type": "devotional",
+    "excerpt": "A comforting devotional on holding onto hope during difficult times, and the profound power of even a small light to overcome the darkness.",
+    "minutes": 3,
+    "cover": "images/light.jpg",
+    "views": 0,
+    "reflection_prompts": [
+      "What is a 'small flame'—a moment of hope or a promise—that God has provided for you in a past or present 'dark room'?",
+      "How does the truth that 'the darkness has not overcome it' encourage you today?",
+      "Who in your life might need you to be a 'small light' for them this week?"
+    ]
   }
 ]
