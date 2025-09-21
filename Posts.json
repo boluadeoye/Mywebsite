@@ -272,8 +272,8 @@
   {
     "title": "Invictus by William Ernest Henley",
     "file": "posts/invictus.md",
-    "date": "2025-09-25",
-    "cover": "images/Henley.jpg",
+    "date": "2025-09-21",
+    "cover": "images/henley.jpg",
     "excerpt": "A timeless poem of resilience, 'Invictus' is a triumphant declaration of the human spirit's unconquerable will against all odds.",
     "type": "poem",
     "views": 0,
@@ -287,8 +287,8 @@
   {
     "title": "Do not go gentle into that good night by Dylan Thomas",
     "file": "posts/do-not-go-gentle.md",
-    "date": "2025-09-24",
-    "cover": "images/Thomas.jpg",
+    "date": "2025-09-22",
+    "cover": "images/thomas.jpg",
     "excerpt": "A raw, passionate plea to fight against the end of life, urging us to 'Rage, rage against the dying of the light.'",
     "type": "poem",
     "views": 0,
@@ -302,8 +302,8 @@
   {
     "title": "Ozymandias by Percy Bysshe Shelley",
     "file": "posts/ozymandias.md",
-    "date": "2025-09-23",
-    "cover": "images/Shelley.jpg",
+    "date": "2025-09-20",
+    "cover": "images/shelley.jpg",
     "excerpt": "A haunting sonnet about the temporary nature of power and the inevitable ruin of even the mightiest empires.",
     "type": "poem",
     "views": 0,
@@ -317,8 +317,8 @@
   {
     "title": "Still I Rise by Maya Angelou",
     "file": "posts/still-i-rise.md",
-    "date": "2025-09-22",
-    "cover": "images/Angelou.jpg",
+    "date": "2025-09-19",
+    "cover": "images/angelou.jpg",
     "excerpt": "A powerful and joyful anthem of resilience, celebrating the indomitable spirit that rises above oppression and injustice.",
     "type": "poem",
     "views": 0,
