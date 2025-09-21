@@ -268,5 +268,65 @@
       "How does the truth that 'the darkness has not overcome it' encourage you today?",
       "Who in your life might need you to be a 'small light' for them this week?"
     ]
+  },
+  {
+    "title": "Invictus by William Ernest Henley",
+    "file": "posts/invictus.md",
+    "date": "2025-09-25",
+    "cover": "images/Henley.jpg",
+    "excerpt": "A timeless poem of resilience, 'Invictus' is a triumphant declaration of the human spirit's unconquerable will against all odds.",
+    "type": "poem",
+    "views": 0,
+    "minutes": 2,
+    "reflection_prompts": [
+      "The poet says, 'My head is bloody, but unbowed.' What does this powerful image mean to you?",
+      "What does it mean to be the 'master of your fate' and 'captain of your soul' in the context of your own life?",
+      "In a moment of difficulty, which line from this poem would you choose as your personal mantra?"
+    ]
+  },
+  {
+    "title": "Do not go gentle into that good night by Dylan Thomas",
+    "file": "posts/do-not-go-gentle.md",
+    "date": "2025-09-24",
+    "cover": "images/Thomas.jpg",
+    "excerpt": "A raw, passionate plea to fight against the end of life, urging us to 'Rage, rage against the dying of the light.'",
+    "type": "poem",
+    "views": 0,
+    "minutes": 2,
+    "reflection_prompts": [
+      "How does the poem's repeated line, 'Rage, rage against the dying of the light,' make you feel?",
+      "The poem speaks of 'wise men,' 'good men,' 'wild men,' and 'grave men.' Which group's perspective resonates most with you?",
+      "Is this poem about death, or is it a poem about how to live life to the fullest?"
+    ]
+  },
+  {
+    "title": "Ozymandias by Percy Bysshe Shelley",
+    "file": "posts/ozymandias.md",
+    "date": "2025-09-23",
+    "cover": "images/Shelley.jpg",
+    "excerpt": "A haunting sonnet about the temporary nature of power and the inevitable ruin of even the mightiest empires.",
+    "type": "poem",
+    "views": 0,
+    "minutes": 2,
+    "reflection_prompts": [
+      "The inscription says, 'Look on my Works, ye Mighty, and despair!' What is the great irony of this statement?",
+      "What does this poem say about the relationship between power, art, and time?",
+      "What 'colossal Wrecks' in the modern world might a future traveller stumble upon?"
+    ]
+  },
+  {
+    "title": "Still I Rise by Maya Angelou",
+    "file": "posts/still-i-rise.md",
+    "date": "2025-09-22",
+    "cover": "images/Angelou.jpg",
+    "excerpt": "A powerful and joyful anthem of resilience, celebrating the indomitable spirit that rises above oppression and injustice.",
+    "type": "poem",
+    "views": 0,
+    "minutes": 3,
+    "reflection_prompts": [
+      "Maya Angelou uses rich metaphors like 'oil wells,' 'gold mines,' and 'diamonds.' What do these images represent?",
+      "The poem builds to the final refrain of 'I rise.' How does the poem's structure contribute to its powerful feeling of triumph?",
+      "Who in your own life embodies the spirit of 'Still I Rise'?"
+    ]
   }
 ]
