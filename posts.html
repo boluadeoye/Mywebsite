@@ -3,98 +3,350 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>All Writings — Boluadeoye</title>
+  <title>Post — Boluadeoye</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
-    :root {
-      --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2341;
-      --ink: #e5eefc; --muted: #94a3b8;
-      --orange: #f59e0b; --orange-light: #fbbf24; --orange-ink: #0b0f19;
-      --ring: rgba(245,158,11,.25); --radius: 16px;
-      --serif: ui-serif, Georgia, "Times New Roman", serif;
-      --transition: cubic-bezier(.4,0,.2,1);
-      --red: #ef4444; --red-soft: rgba(239,68,68,.12);
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%;scroll-behavior:smooth}
-    body{background:var(--bg);color:var(--ink);font:16px/1.7 system-ui,-apple-system,'Segoe UI',Roboto,Inter,Arial,sans-serif;overflow-x:hidden;position:relative}
-    a{color:inherit;text-decoration:none;transition:all .3s var(--transition)}
-    .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+  :root {
+    --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2341;
+    --ink: #e5eefc; --muted: #94a3b8;
+    --orange: #f59e0b; --orange-light: #fbbf24; --orange-ink: #0b0f19;
+    --ring: rgba(245,158,11,.25); --radius: 16px;
+    --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
+    --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
+    --body-serif: 'Merriweather', serif;
+    --transition: cubic-bezier(.4,0,.2,1);
+    --red: #ef4444; --red-soft: rgba(239,68,68,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;scroll-behavior:smooth}
+  body{
+    background:var(--bg); color:var(--ink);
+    font:16px/1.7 var(--sans-serif);
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    overflow-x:hidden; position:relative;
+  }
+  a{color:inherit;text-decoration:none;transition:all .3s var(--transition)}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
 
-    header{position:sticky;top:0;z-index:100;background:rgba(15,23,42,.98);border-bottom:1px solid rgba(245,158,11,.15)}
-    .header-row{display:flex;align-items:center;justify-content:space-between;min-height:70px;gap:1.5rem;padding:0 .5rem}
-    .brand{display:flex;align-items:center;gap:.75rem;flex-shrink:0;transition:transform .3s var(--transition)}
-    .brand:hover{transform:translateX(3px)}
-    .dot{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffd27a 0%,#f59e0b 40%,#d97706 100%);box-shadow:0 0 0 2px rgba(245,158,11,.15),0 4px 12px rgba(245,158,11,.2);border:1px solid rgba(245,158,11,.3);position:relative;z-index:0;animation:dot-breathe 3.8s ease-in-out infinite}
-    .dot::after{content:'';position:absolute;inset:-8px;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(245,158,11,.45) 0%,rgba(245,158,11,.16) 35%,rgba(245,158,11,0) 70%);filter:blur(10px);opacity:.75;animation:dot-halo 3.8s ease-in-out infinite;pointer-events:none}
-    @keyframes dot-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-    @keyframes dot-halo{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:.9;transform:scale(1.12)}}
-    @media (prefers-reduced-motion: reduce){ .dot, .dot::after { animation:none !important; } }
+  header {
+    position: sticky; top: 0; z-index: 100; 
+    background: rgba(15,23,42,.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(245,158,11,.15);
+    transition: box-shadow 0.3s var(--transition);
+  }
+  header.scrolled {
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  }
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 80px;
+    position: relative;
+    padding: 0 1rem;
+  }
+  .brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    position: absolute;
+    left: 50%;
+    top: -20px;
+    transform: translateX(-50%);
+  }
+  .brand-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: transform 0.4s var(--transition);
+    margin-bottom: -35px;
+  }
+  .brand:hover .brand-logo {
+    transform: rotate(10deg) scale(1.05);
+  }
+  .brand h1 {
+    font-family: var(--serif);
+    font-size: 1.62rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    background: none;
+  }
 
-    .brand h1{font-size:1.3rem;font-weight:800;color:var(--ink);letter-spacing:-.5px;font-family:var(--serif)}
-    .top-nav{display:none;gap:.5rem;align-items:center;flex-wrap:wrap}
-    .top-nav a{padding:.45rem .9rem;border-radius:999px;border:1px solid transparent;font-weight:600;font-size:.87rem}
-    .top-nav a:hover,.top-nav a.active{color:var(--orange);border-color:var(--orange);transform:translateY(-1px)}
+  .top-nav{display:none;gap:.5rem;align-items:center;margin-left:auto;flex-wrap:wrap}
+  .top-nav a{padding:.45rem .9rem;border-radius:999px;border:1px solid transparent;font-weight:600;font-size:.87rem}
+  .top-nav a:hover,.top-nav a.active{color:var(--orange);border-color:var(--orange);transform:translateY(-1px)}
 
-    .hamburger{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(245,158,11,.2);color:var(--ink);cursor:pointer;transition:all .3s ease}
-    .hamburger:hover{background:rgba(245,158,11,.1);transform:rotate(10deg)}
-    .hamburger svg{width:19px;height:19px}
+  .hamburger{width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(245,158,11,.2);color:var(--ink);cursor:pointer;transition:all .3s ease}
+  .hamburger:hover{background:rgba(245,158,11,.1);transform:rotate(10deg)}
+  .hamburger svg{width:24px;height:24px}
+  
+  .side-menu{position:fixed;top:0;left:-280px;z-index:200;width:260px;height:100%;padding:2.5rem 1.2rem 2rem;display:flex;flex-direction:column;gap:.6rem;background:var(--panel);border-right:1px solid rgba(245,158,11,.2);transition:left .3s var(--transition)}
+  .side-menu.active{left:0}
+  .side-menu a{padding:.9rem 1.25rem;border-radius:8px;background:transparent;color:var(--ink);font-weight:600;font-size:.92rem;border:1px solid transparent;transition:all .2s ease}
+  .side-menu a:hover,.side-menu a.active{background:rgba(245,158,11,.1);border-color:var(--orange);color:var(--orange);transform:translateX(5px)}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;display:none;cursor:pointer}
+  .overlay.show{display:block}
+  @media(min-width:880px){.top-nav{display:flex}.hamburger{display:none}}
+  
+  .post-container{
+    margin:1.25rem 0 2.25rem;
+    background:var(--panel); border-radius:24px;
+    border:1px solid rgba(245,158,11,.15);
+    box-shadow:0 20px 60px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.05);
+    overflow:hidden;
+    padding-top: 30px;
+  }
+  .content-wrapper{
+    padding:2.75rem 1.5rem;
+    margin:0 auto;
+    max-width:1100px;
+  }
 
-    .side-menu{position:fixed;top:0;left:-280px;z-index:200;width:260px;height:100%;padding:2.5rem 1.2rem 2rem;display:flex;flex-direction:column;gap:.6rem;background:var(--panel);border-right:1px solid rgba(245,158,11,.2);transition:left .3s var(--transition)}
-    .side-menu.active{left:0}
-    .side-menu a{padding:.9rem 1.25rem;border-radius:8px;background:transparent;color:var(--ink);font-weight:600;font-size:.92rem;border:1px solid transparent;transition:all .2s ease}
-    .side-menu a:hover,.side-menu a.active{background:rgba(245,158,11,.1);border-color:var(--orange);color:var(--orange);transform:translateX(5px)}
-    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;display:none;cursor:pointer}
-    .overlay.show{display:block}
+  .post-header{
+    text-align:center;
+    padding:1.5rem 0 1rem;
+    max-width:90ch;
+    margin:0 auto;
+  }
+  .post-meta{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:.75rem;
+    flex-wrap:wrap;
+    margin-bottom:1rem;
+  }
+  .meta-item{
+    display:inline-flex;
+    align-items:center;
+    gap:.5rem;
+    padding:.35rem .85rem;
+    background:rgba(245,158,11,.08);
+    border-radius:999px;
+    font-size:.9rem;
+    color:var(--muted);
+    border:1px solid rgba(245,158,11,.15);
+  }
+  .post-title{
+    font-family:var(--serif);
+    font-size:clamp(1.8rem, 3.5vw, 2.5rem);
+    font-weight:800;
+    line-height:1.2;
+    margin:.5rem auto;
+    background:linear-gradient(135deg, var(--orange), var(--orange-light));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    max-width:90ch;
+  }
 
-    .search-container{flex:1;max-width:400px;position:relative}
-    .search-bar{position:relative;width:100%}
-    .search-bar input{width:100%;padding:.65rem 2.75rem .65rem 1.25rem;border:1px solid rgba(245,158,11,.2);border-radius:999px;background:rgba(17,26,46,.6);color:var(--ink);font-size:.92rem;outline:none;transition:all .3s var(--transition);caret-color:var(--orange);-webkit-appearance:none;appearance:none;box-shadow:none}
-    .search-bar input::placeholder{color:var(--muted);opacity:.8}
-    .search-bar input:focus{border-color:var(--orange);background:rgba(245,158,11,.05);box-shadow:0 0 0 3px var(--ring);padding-left:1.35rem}
-    .search-icon{position:absolute;right:18px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:1.05rem;transition:color .3s ease}
-    .search-bar input:focus + .search-icon{color:var(--orange)}
-    .search-results{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--panel);border-radius:12px;border:1px solid rgba(245,158,11,.2);box-shadow:0 10px 30px rgba(0,0,0,.3);max-height:380px;overflow-y:auto;display:none;z-index:50;opacity:0;transform:translateY(-5px);transition:all .3s var(--transition)}
-    .search-results.active{display:block;opacity:1;transform:translateY(0)}
+  .cover-hero {
+    max-width:1020px;
+    margin:1rem auto;
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid rgba(245,158,11,.15);
+    background:rgba(255,255,255,.02);
+  }
+  .cover-hero img {
+    width:100%;
+    height:auto;
+    display:block;
+    aspect-ratio:16/9;
+    object-fit:cover;
+  }
 
-    main{padding:2rem 0}
-    h2.section-title{font-size:clamp(1.6rem,2.8vw,2.1rem);font-family:var(--serif);font-weight:800;margin-bottom:1.5rem;position:relative;padding-left:1rem}
-    h2.section-title::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:70%;background:linear-gradient(180deg,var(--orange),var(--orange-light))}
-    #posts{display:grid;gap:2rem;margin-bottom:2rem;min-height:180px}
-    .post{background:var(--panel);border:1px solid rgba(245,158,11,.15);border-radius:16px;padding:1.5rem;transition:all .3s var(--transition)}
-    .post:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,.2);border-color:var(--orange)}
-    .post-type{display:inline-block;padding:.25rem .7rem;border-radius:999px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;background:rgba(245,158,11,.1);color:var(--orange);border:1px solid rgba(245,158,11,.2)}
-    .post h3{font-family:var(--serif);font-size:1.25rem;margin:.6rem 0 .3rem}
-    .post-date{color:var(--muted);font-size:.9rem;margin-bottom:.6rem}
-    .quote-box{color:rgba(229,238,252,.85);line-height:1.7;margin:.3rem 0 1rem}
-    .stats{display:flex;gap:1.2rem;padding-top:.8rem;border-top:1px solid rgba(245,158,11,.12);font-size:.85rem}
-    .stat-item{display:flex;align-items:center;gap:.4rem;color:var(--muted)}
-    .stat-red{color:var(--red)}
-    .post-buttons{display:flex;gap:.75rem;margin-top:1rem}
-    .btn-back,.btn-readmore{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1rem;border-radius:999px;border:1px solid rgba(245,158,11,.2)}
-    .btn-back{background:transparent;color:var(--ink)}
-    .btn-readmore{background:linear-gradient(135deg,var(--orange),var(--orange-light));color:var(--orange-ink);border-color:var(--orange)}
-    .post-cover{width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;margin-bottom:1rem;border:1px solid rgba(245,158,11,.15);background:rgba(255,255,255,.02)}
-    .post-cover img{width:100%;height:100%;object-fit:cover;display:block}
-    #pagination{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;padding:1rem 0}
-    #pagination a{padding:.5rem .9rem;border-radius:8px;border:1px solid rgba(245,158,11,.2)}
-    #pagination a.active{background:var(--orange);color:var(--orange-ink);border-color:var(--orange)}
-    .no-posts{text-align:center;color:var(--muted);padding:2.5rem 1rem}
-    footer{background:var(--panel);border-top:1px solid rgba(245,158,11,.15);color:var(--muted);text-align:center;font-size:.9rem;padding:2rem 0;margin-top:2rem}
+  .post-content{
+    max-width:90ch;
+    margin:2rem auto;
+    font-family: var(--body-serif);
+    font-size:1.05rem;
+    line-height:1.9;
+    color:rgba(229,238,252,.96);
+  }
+  .post-content h1, .post-content h2, .post-content h3{
+    font-family: var(--serif);
+    text-align:center;
+    margin: 2rem 0 1rem;
+  }
+  .post-content p { 
+    text-align: center; /* --- TEXT ALIGNMENT FIX --- */
+    margin-bottom: 1.5rem;
+  }
+  .post-content ul, .post-content ol{
+    text-align:left;
+    margin: 1.5rem auto;
+    padding-left: 2rem;
+  }
+  .post-content blockquote{
+    position: relative;
+    padding: 1.5rem 2rem;
+    margin: 2.5rem auto;
+    text-align: center;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--muted);
+    border-left: 3px solid var(--orange);
+    background: rgba(15,23,42,.5);
+    max-width: 85%;
+    z-index: 1;
+  }
+  .post-content blockquote::before {
+    content: '“';
+    font-family: var(--serif);
+    font-size: 6rem;
+    color: rgba(245, 158, 11, 0.08);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1;
+    z-index: -1;
+  }
+  
+  .post-nav{
+    display:flex;
+    justify-content:center;
+    gap:1rem;
+    padding:1.5rem 0;
+    border-top:1px solid rgba(245,158,11,.15);
+    flex-wrap:wrap;
+    max-width:90ch;
+    margin:0 auto;
+  }
+  .btn-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:.5rem;
+    padding:.72rem 1.2rem;
+    background:linear-gradient(135deg,var(--orange),var(--orange-light));
+    color:var(--orange-ink);
+    border-radius:999px;
+    font-weight:800;
+    font-size:.95rem;
+    box-shadow:0 4px 15px rgba(245,158,11,.3);
+  }
+  .btn-chip:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(245,158,11,.4)}
+  
+  .loading-container{
+    min-height:160px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:var(--muted);
+    padding:2rem 1rem;
+    text-align:center;
+  }
+  .loading-spinner{
+    width:36px;
+    height:36px;
+    border:3px solid rgba(245,158,11,.2);
+    border-top-color:var(--orange);
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin-bottom:1rem;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .error{text-align:center;padding:2rem;color:#ff6b6b}
 
-    @media(min-width:720px){#posts{grid-template-columns:repeat(2,1fr)}}
-    @media(min-width:1000px){#posts{grid-template-columns:repeat(3,1fr)}}
-    @media(min-width:880px){.top-nav{display:flex}.hamburger{display:none}}
+  #disqus_thread, .related-posts-container {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(245,158,11,.15);
+  }
+  
+  .related-posts-title {
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    font-family: var(--serif);
+    font-weight: 800;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  .related-posts-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+  .related-post-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--panel);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(245,158,11,.15);
+    transition: all .3s var(--transition);
+  }
+  .related-post-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--orange);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+  .related-post-card .cover img {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+    display: block;
+  }
+  .related-post-card .content {
+    padding: 1.25rem;
+    flex-grow: 1;
+  }
+  .related-post-card h4 {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    margin-bottom: .5rem;
+    color: var(--orange-light);
+    line-height: 1.4;
+  }
+  .related-post-card p {
+    font-size: .9rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .related-post-card.no-image {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 220px;
+    background: var(--panel-hover);
+  }
+  .related-post-card.no-image .content {
+    flex-grow: 0;
+  }
+
+  footer{
+    background:var(--panel);
+    border-top:1px solid rgba(255,255,255,.06);
+    color:var(--muted);
+    text-align:center;
+    font-size:.85rem;
+    padding:1.5rem 0;
+    margin-top:1.5rem;
+  }
   </style>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJVVQDCS32"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WJVVQDCS32');
+</script>
 </head>
 <body>
   <nav id="sideMenu" class="side-menu">
-    <a href="#" data-filter="all" class="active">All writings</a>
-    <a href="#" data-filter="poem">Poems</a>
-    <a href="#" data-filter="story">Stories</a>
-    <a href="#" data-filter="faith">Faith</a>
-    <a href="#" data-filter="devotional">Devotional</a>
-    <a href="#" data-filter="article">Articles</a>
-    <a href="#" data-filter="essay">Essays</a>
+    <a href="./">Home</a>
+    <a href="./posts.html">All Posts</a>
     <a href="./library.html">Library</a>
     <a href="./about.html">About</a>
   </nav>
@@ -103,26 +355,19 @@
   <header id="header">
     <div class="wrap header-row">
       <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" width="16" height="2" rx="1"/></svg>
-      </button>
-      <a class="brand" href="./"><span class="dot"></span><h1>Boluadeoye</h1></a>
-
-      <div class="search-container">
-        <div class="search-bar">
-          <input type="text" id="searchInput" placeholder="Search writings..." autocomplete="off" aria-label="Search writings">
-          <span class="search-icon">🔍</span>
-          <div id="searchResults" class="search-results" role="listbox"></div>
-        </div>
-      </div>
-
-      <nav class="top-nav" aria-label="Filters">
-        <a href="#" data-filter="all" class="active">All</a>
-        <a href="#" data-filter="poem">Poems</a>
-        <a href="#" data-filter="story">Stories</a>
-        <a href="#" data-filter="faith">Faith</a>
-        <a href="#" data-filter="devotional">Devotional</a>
-        <a href="#" data-filter="article">Articles</a>
-        <a href="#" data-filter="essay">Essays</a>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <rect x="4" y="6" width="16" height="2" rx="1"/>
+          <rect x="4" y="11" width="16" height="2" rx="1"/>
+          <rect x="4" y="16" width="16" height="2" rx="1"/>
+        </svg>
+      </button>      
+      <a class="brand" href="./">
+        <img src="images/Logo.png" alt="Boluadeoye Logo" width="100" height="100" class="brand-logo">
+        <h1>Boluadeoye</h1>
+      </a>
+      <nav class="top-nav" aria-label="Primary Navigation">
+        <a href="./">Home</a>
+        <a href="./posts.html">All Posts</a>
         <a href="./library.html">Library</a>
         <a href="./about.html">About</a>
       </nav>
@@ -130,169 +375,226 @@
   </header>
 
   <main class="wrap">
-    <h2 class="section-title">All Writings</h2>
-    <section id="posts" aria-live="polite"></section>
-    <nav id="pagination" aria-label="Pagination"></nav>
+    <div class="post-container">
+      <div class="content-wrapper">
+        <article id="post-content-wrapper">
+          <div class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Loading your post...</p>
+          </div>
+        </article>
+        
+        <section id="related-posts-container" class="related-posts-container"></section>
+        
+        <div id="disqus_thread"></div>
+        
+      </div>
+    </div>
   </main>
 
-  <footer><div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div></footer>
+  <footer>
+    <div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div>
+  </footer>
 
   <script>
-    (function(){
-      function init(){
-        var MANY_THRESHOLD = 50;
+  (function(){
+    var menuBtn = document.getElementById('menuBtn');
+    var sideMenu = document.getElementById('sideMenu');
+    var menuOverlay = document.getElementById('menuOverlay');
+    var allPosts = [];
+    var postData = null; 
 
-        var menuBtn = document.getElementById('menuBtn');
-        var sideMenu = document.getElementById('sideMenu');
-        var menuOverlay = document.getElementById('menuOverlay');
-        if (menuBtn && sideMenu && menuOverlay){
-          function closeMenu(){ sideMenu.classList.remove('active'); menuOverlay.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
-          function openMenu(){ sideMenu.classList.add('active'); menuOverlay.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
-          menuBtn.addEventListener('click', function() { sideMenu.classList.contains('active') ? closeMenu() : openMenu(); });
-          menuOverlay.addEventListener('click', closeMenu);
-        }
+    function closeMenu() {
+      sideMenu.classList.remove('active');
+      menuOverlay.classList.remove('show');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    }
+    function openMenu() {
+      sideMenu.classList.add('active');
+      menuOverlay.classList.add('show');
+      menuBtn.setAttribute('aria-expanded', 'true');
+    }
+    
+    menuBtn.addEventListener('click', function() {
+      if (sideMenu.classList.contains('active')) closeMenu(); else openMenu();
+    });
+    menuOverlay.addEventListener('click', closeMenu);
 
-        var allPosts = [];
-        var filteredPosts = [];
-        var currentFilter = 'all';
-        var currentPage = 1;
-        var postsPerPage = 6;
+    var header = document.getElementById('header');
+    window.addEventListener('scroll', function() {
+      if(header) header.classList.toggle('scrolled', window.scrollY > 10);
+    });
 
-        var postsEl = document.getElementById('posts');
-        var paginationEl = document.getElementById('pagination');
-        var searchInput = document.getElementById('searchInput');
+    function normalizePath(p){ return p ? String(p).trim().replace(/^\.?\//, '') : ''; }
 
-        function loadPosts(){
-          if (!postsEl) return;
-          postsEl.innerHTML = '<div class="no-posts">Loading posts…</div>';
-          fetch('Posts.json', { cache: 'no-store' })
-            .then(function(res){
-              if(!res.ok) throw new Error('Could not load Posts.json. Status: ' + res.status + '. Check file path and name.');
-              return res.json();
-            })
-            .then(function(data){
-              allPosts = (Array.isArray(data) ? data : [])
-                .map(function(p) { p.type = (p.type || 'general').toLowerCase(); return p; })
-                .sort(function(a,b) { return String(b.date).localeCompare(String(a.date)); });
-              renderPosts('all', 1);
-            })
-            .catch(function(err){
-              console.error('Error loading posts:', err);
-              postsEl.innerHTML = '<div class="no-posts">Couldn\'t load posts.<br/><small>' + err.message + '</small></div>';
-            });
-        }
+    function firstImageFromMarkdown(md, currentPostData){
+      if(!md) return currentPostData.cover || '';
+      var m1 = md.match(/!\[.*?\]\((.*?)\)/);
+      if(m1 && m1[1]) return m1[1].trim();
+      var m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
+      if(m2 && m2[1]) return m2[1].trim();
+      return currentPostData.cover || '';
+    }
 
-        function renderPosts(filter, page, searchTerm){
-          filter = filter || 'all';
-          page = page || 1;
-          searchTerm = searchTerm || '';
-          currentFilter = filter; currentPage = page; filteredPosts = allPosts;
+    function renderError(container, message){
+      container.innerHTML = '<div class="error"><h2>Unable to Load Post</h2><p>' + message + '</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>';
+    }
+    
+    window.sharePost = function() {
+      if(postData && navigator.share) {
+        navigator.share({ title: postData.title, text: postData.excerpt, url: window.location.href });
+      } else if (postData) {
+        var text = encodeURIComponent(postData.title + ' - ' + postData.excerpt + ' ' + window.location.href);
+        window.open('https://api.whatsapp.com/send?text=' + text, '_blank');
+      }
+    }
 
-          if(filter !== 'all') filteredPosts = filteredPosts.filter(function(p) { return (p.type || '') === filter; });
-          if (searchTerm){
-            var t = searchTerm.toLowerCase();
-            filteredPosts = filteredPosts.filter(function(p) {
-              return (p.title || '').toLowerCase().includes(t) ||
-                     (p.excerpt || '').toLowerCase().includes(t) ||
-                     (p.type || '').toLowerCase().includes(t);
-            });
-          }
-          var start = (page - 1) * postsPerPage;
-          var pageItems = filteredPosts.slice(start, start + postsPerPage);
+    function loadDisqus(postIdentifier) {
+        if (!postIdentifier) return;
+        var disqus_config = function () {
+            this.page.url = window.location.href;
+            this.page.identifier = postIdentifier;
+        };
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.src = 'https://bolus-personal-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    }
+    
+    function displayRelatedPosts(currentPost) {
+        if (!allPosts.length || !currentPost || !currentPost.type) return;
 
-          document.querySelectorAll('[data-filter]').forEach(function(el) {
-            el.classList.toggle('active', el.getAttribute('data-filter') === filter);
-          });
+        const related = allPosts.filter(p => p.type === currentPost.type && p.file !== currentPost.file);
+        
+        if (related.length === 0) return;
 
-          if (!pageItems.length){
-            postsEl.innerHTML = '<div class="no-posts">No '+(filter==='all'?'':filter+' ')+'posts found'+(searchTerm?' for “'+searchTerm+'”':'')+'.</div>';
-            if (paginationEl) paginationEl.innerHTML = '';
-            return;
-          }
+        const shuffled = related.sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 3);
 
-          postsEl.innerHTML = pageItems.map(function(p, i) {
-            var viewedLabel = (typeof p.views === 'number' && p.views >= MANY_THRESHOLD) ? 'Viewed by many' : 'Viewed';
-            var coverHTML = p.cover ?
-              '<figure class="post-cover">' +
-              '  <img src="' + p.cover + '" alt="' + (p.title || 'Post') + ' cover" loading="lazy" decoding="async">' +
-              '</figure>' : '';
-            return '' +
-              '<article class="post" style="animation-delay:'+ (i*0.05) +'s">' +
-                coverHTML +
-                '<span class="post-type">' + (p.type || 'general') + '</span>' +
-                '<h3><a href="post.html?file=' + encodeURI(p.file) + '">' + p.title + '</a></h3>' +
-                '<div class="post-date">📅 ' + new Date(p.date).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'}) + '</div>' +
-                '<div class="quote-box">' + (p.excerpt || '') + '</div>' +
-                '<div class="stats">' +
-                  '<span class="stat-item stat-red">❤️ Liked</span>' +
-                  '<span class="stat-item stat-red">👁️ ' + viewedLabel + '</span>' +
-                '</div>' +
-                '<div class="post-buttons">' +
-                  '<a href="./" class="btn-back">← Back</a>' +
-                  '<a href="post.html?file=' + encodeURI(p.file) + '" class="btn-readmore">Read More →</a>' +
-                '</div>' +
-              '</article>';
-          }).join('');
+        const container = document.getElementById('related-posts-container');
+        if (!container) return;
 
-          renderPagination(filteredPosts.length, page);
-        }
-
-        function renderPagination(total, page){
-          if (!paginationEl) return;
-          var totalPages = Math.ceil(total / postsPerPage);
-          if (totalPages <= 1){ paginationEl.innerHTML = ''; return; }
-          var html = '';
-          if (page > 1) html += '<a href="#" data-page="' + (page-1) + '">← Previous</a>';
-          for (var i=1;i<=totalPages;i++){
-            if (i===1 || i===totalPages || (i>=page-1 && i<=page+1)){
-              html += '<a href="#" data-page="' + i + '" class="' + (i===page?'active':'') + '">' + i + '</a>';
-            } else if (i===page-2 || i===page+2){
-              html += '<span class="dots" aria-hidden="true">…</span>';
+        const cardsHTML = selected.map(post => {
+            const excerpt = (post.excerpt || '').substring(0, 80) + '...';
+            
+            if (post.cover) {
+                return `
+                <a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card">
+                  <div class="cover">
+                    <img src="${post.cover}" alt="${post.title}" loading="lazy">
+                  </div>
+                  <div class="content">
+                    <h4>${post.title}</h4>
+                    <p>${excerpt}</p>
+                  </div>
+                </a>
+                `;
+            } else {
+                return `
+                <a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card no-image">
+                  <div class="content">
+                    <h4>${post.title}</h4>
+                    <p>${excerpt}</p>
+                  </div>
+                </a>
+                `;
             }
-          }
-          if (page < totalPages) html += '<a href="#" data-page="' + (page+1) + '">Next →</a>';
-          paginationEl.innerHTML = html;
-        }
+        }).join('');
+        
+        container.innerHTML = `
+            <h3 class="related-posts-title">You Might Also Like</h3>
+            <div class="related-posts-grid">${cardsHTML}</div>
+        `;
+    }
 
-        document.querySelectorAll('[data-filter]').forEach(function(el) {
-          el.addEventListener('click', function(e) {
-            e.preventDefault();
-            renderPosts(el.getAttribute('data-filter'), 1);
-            var titleEl = document.querySelector('.section-title');
-            if (titleEl) titleEl.scrollIntoView({ behavior:'smooth', block:'start' });
-            closeMenu();
-          });
-        });
-        if (paginationEl) paginationEl.addEventListener('click', function(e) {
-          var a = e.target.closest('a'); if (!a) return;
-          e.preventDefault();
-          var page = parseInt(a.getAttribute('data-page'), 10);
-          if (page){
-            var searchVal = searchInput ? searchInput.value : '';
-            renderPosts(currentFilter, page, searchVal);
-            var titleEl = document.querySelector('.section-title');
-            if (titleEl) titleEl.scrollIntoView({ behavior:'smooth', block:'start' });
-          }
-        });
+    function loadPost(file) {
+      var container = document.getElementById('post-content-wrapper');
+      if(!container) return;
 
-        var searchTimeout;
-        if (searchInput){
-          searchInput.addEventListener('input', function(e) {
-            var q = e.target.value.trim();
-            clearTimeout(searchTimeout);
-            if (q.length < 2){ renderPosts(currentFilter, 1, ''); return; }
-            searchTimeout = setTimeout(function() { renderPosts(currentFilter, 1, q); }, 250);
-          });
-        }
-        loadPosts();
+      postData = allPosts.find(p => p && normalizePath(p.file) === normalizePath(file));
+      if(!postData) {
+          renderError(container, 'Post data not found for file: ' + file);
+          return;
       }
+      
+      fetch(file, { cache: 'no-store' })
+        .then(function(mdRes){
+          if(!mdRes.ok) throw new Error('Failed to load Markdown file: ' + file + ' (Status: ' + mdRes.status + ')');
+          return mdRes.text();
+        })
+        .then(function(markdown){
+          document.title = postData.title + ' — Boluadeoye';
 
-      if (document.readyState === 'loading'){
-        document.addEventListener('DOMContentLoaded', init);
-      } else {
-        init();
+          var coverUrl = postData.cover || firstImageFromMarkdown(markdown, postData);
+          var mdForRender = markdown;
+          if (coverUrl && normalizePath(firstImageFromMarkdown(markdown, postData)) === normalizePath(coverUrl)) {
+              var match = markdown.match(/!\[.*?\]\(.*?\)/);
+              if(match) mdForRender = markdown.replace(match[0], '');
+          }
+
+          var contentHTML = typeof marked !== 'undefined' ? marked.parse(mdForRender, { breaks: true }) : '<p>Error: Markdown parser not loaded.</p>';
+          var dateStr = new Date(postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+          
+          var coverHTML = coverUrl ? '<figure class="cover-hero"><img src="' + coverUrl + '" alt="' + postData.title + ' cover" loading="lazy" width="1020" height="574"></figure>' : '';
+
+          container.innerHTML = '' +
+            '<div class="post-header">' +
+            '  <div class="post-meta">' +
+            '    <span class="meta-item">📅 ' + dateStr + '</span>' +
+            '    <span class="meta-item">📁 ' + (postData.type || 'General') + '</span>' +
+            '    <span class="meta-item">⏱️ ' + postData.minutes + ' min read</span>' +
+            '  </div>' +
+            '  <h1 class="post-title">' + postData.title + '</h1>' +
+            '</div>' +
+            coverHTML +
+            '<div class="post-content">' + contentHTML + '</div>' +
+            '<nav class="post-nav">' +
+            '  <a href="./" class="btn-chip">← Back to Home</a>' +
+            '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
+            '  <button class="btn-chip" onclick="sharePost()">Share Post 📤</button>' +
+            '</nav>';
+
+          loadDisqus(file);
+          displayRelatedPosts(postData);
+        })
+        .catch(function(err){
+          console.error('Post load error:', err);
+          renderError(container, err.message);
+        });
+    }
+
+    function init() {
+      var container = document.getElementById('post-content-wrapper');
+      if(!container) return;
+      container.innerHTML = '<div class="loading-container"><div class="loading-spinner"></div><p>Loading your post...</p></div>';
+
+      try {
+        var urlParams = new URLSearchParams(window.location.search);
+        var file = urlParams.get('file');
+        if(!file) throw new Error('No post file specified in URL.');
+
+        fetch('./Posts.json', { cache: 'no-store' })
+          .then(res => {
+            if(!res.ok) throw new Error('Could not load Posts.json (Status: ' + res.status + ')');
+            return res.json();
+          })
+          .then(data => {
+            allPosts = Array.isArray(data) ? data : [];
+            loadPost(file);
+          })
+          .catch(err => {
+            renderError(container, err.message);
+          });
+      } catch(err) {
+        renderError(container, err.message);
       }
-    })();
+    }
+    
+    init();
+
+  })();
   </script>
 </body>
 </html>
