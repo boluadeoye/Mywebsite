@@ -122,6 +122,88 @@
   .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2rem; border-radius: 999px; background: linear-gradient(135deg, var(--orange), var(--orange-light)); color: var(--orange-ink); font-weight: 700; font-size: 0.98rem; box-shadow: 0 4px 15px rgba(245, 158, 11, .25); transition: all 0.3s var(--transition); border: none; align-self: flex-start; }
   .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(245, 158, 11, .35); }
   
+  .featured-showcase {
+    margin: 4rem 0;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    border-radius: 24px;
+    overflow: hidden;
+    background: var(--panel);
+    border: 1px solid rgba(245, 158, 11, .2);
+  }
+  .featured-bg {
+    grid-area: 1 / 1;
+    height: 100%;
+    overflow: hidden;
+  }
+  .featured-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.15;
+    transition: transform 0.6s var(--transition);
+  }
+  .featured-showcase:hover .featured-bg img {
+    transform: scale(1.05);
+  }
+  .featured-card {
+    grid-area: 1 / 1;
+    position: relative;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: radial-gradient(circle at 50% 50%, rgba(17, 26, 46, 0.7) 0%, rgba(17, 26, 46, 0.9) 70%);
+  }
+  .featured-card .eyebrow {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--orange);
+    margin-bottom: 1rem;
+  }
+  .featured-card .featured-title {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--ink);
+    margin: 0 0 1rem;
+  }
+  .featured-card .featured-title a:hover {
+    color: var(--orange-light);
+  }
+  .featured-card .featured-excerpt {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.8;
+    max-width: 65ch;
+    margin: 0 0 2rem;
+  }
+  .featured-showcase.animate-in .eyebrow,
+  .featured-showcase.animate-in .featured-title,
+  .featured-showcase.animate-in .featured-excerpt,
+  .featured-showcase.animate-in .btn {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s var(--transition) forwards;
+  }
+  .featured-showcase.animate-in .featured-title { animation-delay: 0.2s; }
+  .featured-showcase.animate-in .featured-excerpt { animation-delay: 0.4s; }
+  .featured-showcase.animate-in .btn { animation-delay: 0.6s; }
+  @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+  @media (min-width: 768px) {
+    .featured-showcase { grid-template-columns: 1.1fr 0.9fr; text-align: left; }
+    .featured-card { align-items: flex-start; text-align: left; padding: 4rem 3rem; background: linear-gradient(to right, rgba(17,26,46,1) 30%, rgba(17,26,46,0.95) 50%, transparent 100%); }
+    .featured-bg { grid-column: 2 / 3; grid-row: 1 / 2; }
+    .featured-bg img { opacity: 0.5; }
+    .featured-showcase:hover .featured-bg img { opacity: 0.7; transform: scale(1.03); }
+  }
+
   .section-header { margin: 3rem 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
   .view-all-link { color: var(--orange); font-weight: 600; }
   h3.section-title { font-size: clamp(1.6rem, 2.8vw, 2.1rem); font-family: var(--sans-serif); font-weight: 800; color: var(--ink); position: relative; padding-left: 1.5rem; letter-spacing: -0.5px; }
@@ -309,6 +391,8 @@
       </div>
     </section>
 
+    <section class="featured-showcase" id="featured-post-container" style="display: none;"></section>
+
     <div class="section-header">
       <h3 id="latest" class="section-title">Latest Writings</h3>
       <a href="./posts.html" class="view-all-link">View All <span>→</span></a>
@@ -368,6 +452,7 @@
       const MANY_THRESHOLD = 50;
       let allPosts = [];
       const postsEl = document.getElementById('posts');
+      const featuredContainer = document.getElementById('featured-post-container');
 
       async function loadPosts() {
         try {
@@ -382,11 +467,50 @@
               cover: p.cover || ''
             }))
             .sort((a, b) => new Date(b.date) - new Date(a.date));
-          displayPosts(allPosts.slice(0, 6)); // Display latest 6 posts
+
+          const featuredPost = allPosts.find(p => p.featured === true);
+          const latestPosts = allPosts.filter(p => !p.featured).slice(0, 6);
+          
+          if (featuredPost) {
+            displayFeaturedPost(featuredPost);
+          }
+          displayPosts(latestPosts);
+
         } catch(err) {
           console.error('Error loading posts:', err);
           postsEl.innerHTML = `<div style="text-align:center;padding:3rem;color:#ff6b6b;"><h3>Unable to load posts</h3><p>${err.message}</p></div>`;
         }
+      }
+
+      function displayFeaturedPost(post) {
+        if (!featuredContainer || !post) return;
+        
+        const postLink = `post.html?file=${encodeURIComponent(post.file)}`;
+        const coverImage = post.cover || 'images/default-cover.jpg'; // Fallback image
+
+        featuredContainer.innerHTML = `
+          <div class="featured-bg">
+            <img src="${coverImage}" alt="" loading="lazy">
+          </div>
+          <div class="featured-card">
+            <span class="eyebrow">EDITOR'S PICK</span>
+            <h3 class="featured-title"><a href="${postLink}">${post.title}</a></h3>
+            <p class="featured-excerpt">${post.excerpt}</p>
+            <a href="${postLink}" class="btn">Read The Full Story</a>
+          </div>
+        `;
+        featuredContainer.style.display = 'grid'; // Make it visible
+
+        // Animation Trigger
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              featuredContainer.classList.add('animate-in');
+              observer.unobserve(featuredContainer);
+            }
+          });
+        }, { threshold: 0.2 });
+        observer.observe(featuredContainer);
       }
 
       function displayPosts(list) {
