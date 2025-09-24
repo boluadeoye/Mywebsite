@@ -10,6 +10,17 @@
     "minutes": 2
   },
   {
+  "title": "The Double-Edged Sword: Why Knowledge is Both Powerful and Perilous",
+  "date": "2025-09-24",
+  "file": "knowledge-double-edged-sword.md",
+  "excerpt": "Knowledge is power, but power is a fire—it can warm a home or burn it to the ground. This article explores its light, its shadow, and the wisdom required to handle it.",
+  "cover": "images/knowledge-sword.jpg",
+  "minutes": 4,
+  "type": "article",
+  "views": 0,
+  "featured": false
+  },
+  {
     "title": "The Art of Forgiveness: Releasing an Unseen Weight",
     "file": "posts/the-art-of-forgiveness.md",
     "date": "2025-09-16",
