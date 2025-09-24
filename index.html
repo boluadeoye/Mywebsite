@@ -184,20 +184,24 @@
   /* --- Live News Hub Styles --- */
   .news-hub {
     margin: 4rem 0;
-    background: rgba(17, 26, 46, 0.5);
+    background: rgba(17, 26, 46, 0.4);
     border: 1px solid rgba(245, 158, 11, .15);
     border-radius: var(--radius);
-    padding: 1.5rem 1rem 2rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    padding: 2.5rem 2rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
     transition: opacity 0.6s var(--transition), transform 0.6s var(--transition);
+  }
+  .news-hub .section-header {
+    margin-top: 0;
   }
   .news-hub .section-title {
     font-family: var(--serif);
+    padding-left: 0.75rem;
   }
   .news-hub-tabs {
     display: flex;
     gap: 0.5rem;
-    margin-top: -1rem; /* Pull tabs up closer to title */
+    margin-top: -1rem;
     margin-bottom: 1.5rem;
     border-bottom: 1px solid rgba(245, 158, 11, .2);
   }
@@ -221,10 +225,9 @@
   .news-hub-tabs button[aria-selected="true"] {
     color: var(--orange);
     border-bottom-color: var(--orange);
-    background: rgba(245, 158, 11, .05);
   }
   .news-hub-content {
-    min-height: 400px;
+    min-height: 450px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -232,12 +235,12 @@
   }
   .news-item {
     display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 1.25rem;
+    grid-template-columns: 90px 1fr;
+    gap: 1.5rem;
     align-items: center;
     background: transparent;
     border: 1px solid transparent;
-    padding: 0.75rem;
+    padding: 1rem;
     border-radius: 12px;
     transition: all 0.3s var(--transition);
   }
@@ -247,7 +250,7 @@
   }
   .news-item-no-img {
     grid-template-columns: 1fr;
-    padding-left: 1.5rem;
+    padding-left: 1.75rem;
     position: relative;
   }
   .news-item-no-img::before {
@@ -257,18 +260,19 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: 1.5rem;
+    line-height: 1;
     color: var(--orange);
   }
   .news-item-img {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     border-radius: 8px;
     object-fit: cover;
     background: #0c1425;
     border: 1px solid rgba(255,255,255,0.05);
   }
   .news-item-text h4 {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     font-weight: 600;
     line-height: 1.5;
     color: var(--ink);
@@ -278,7 +282,7 @@
     color: var(--orange);
   }
   .news-item-meta {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: var(--muted);
     text-transform: uppercase;
     font-weight: 600;
@@ -294,12 +298,7 @@
     color: var(--muted);
     padding: 3rem;
   }
-  @media (min-width: 768px) {
-    .news-hub { padding: 2.5rem; }
-    .news-item-text h4 { font-size: 1rem; }
-  }
-
-
+  
   .whatsapp-card { background: var(--panel); border: 1px solid rgba(245, 158, 11, .15); border-radius: var(--radius); padding: 2.5rem 1.5rem; margin: 4rem 0 0; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
   .whatsapp-card svg { width: 48px; height: 48px; color: #25D366; }
   .whatsapp-card h3 { font-family: var(--serif); font-size: 1.8rem; color: var(--ink); margin: 0; }
@@ -387,7 +386,7 @@
       </div>
       <div class="news-hub-tabs" role="tablist" aria-label="News Sources">
         <button role="tab" aria-selected="true" data-source="foxnews" aria-controls="news-hub-content">FOX NEWS</button>
-        <button role="tab" aria-selected="false" data-source="punch" aria-controls="news-hub-content">PUNCH</button>
+        <button role="tab" aria-selected="false" data-source="channelstv" aria-controls="news-hub-content">CHANNELS TV</button>
         <button role="tab" aria-selected="false" data-source="vanguard" aria-controls="news-hub-content">VANGUARD</button>
       </div>
       <div id="news-hub-content" class="news-hub-content" role="tabpanel">
@@ -398,10 +397,10 @@
     </section>
 
     <section class="whatsapp-card">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 14c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.7-.8.9-.1.1-.3.1-.5 0-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5.1-.1.2-.2.4-.4.1-.1.2-.2.2-.4.1-.1.1-.3 0-.4-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2 1 2.4c.1.1 1.5 2.3 3.7 3.2.5.2.9.4 1.2.5.5.2 1 .1 1.4-.1.4-.2.6-.4.8-.8.2-.3.2-.6.1-.7l-.6-.3zM12 2a10 10 0 100 20 10 10 0 000-20zm0 18.2c-4.5 0-8.2-3.7-8.2-8.2S7.5 3.8 12 3.8s8.2 3.7 8.2 8.2-3.7 8.2-8.2 8.2z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 14c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2-.2-.6.7-.8.9-.1.1-.3.1-.5 0-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5.1-.1.2-.2.4-.4.1-.1.2-.2.2-.4.1-.1.1-.3 0-.4-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2 1 2.4c.1.1 1.5 2.3 3.7 3.2.5.2.9.4 1.2.5.5.2 1 .1 1.4-.1.4-.2.6-.4.8-.8.2-.3.2-.6.1-.7l-.6-.3zM12 2a10 10 0 100 20 10 10 0 000-20zm0 18.2c-4.5 0-8.2-3.7-8.2-8.2S7.5 3.8 12 3.8s8.2 3.7 8.2 8.2-3.7 8.2-8.2 8.2z"/></svg>
       <h3>Never Miss a New Post</h3>
       <p>Join my WhatsApp broadcast to get a direct notification whenever a new writing is published.</p>
-      <a class="btn" href="https://wa.me/2348106293674?text=Hi%20Bolu!%20Add%20me%20to%20your%20broadcast%20list%20for%20updates%20on%20your%20latest%20writings." target="_blank" rel="noopener noreferrer"><span>Join Now</span></a>
+      <a class="btn" href="https://wa.me/2348106293674?text=Hi%20Bolu!%20Add%20me%20to%20your%20broadcast%20list%20for%20updates%_on_your%_latest%_writings." target="_blank" rel="noopener noreferrer"><span>Join Now</span></a>
     </section>
   </main>
 
@@ -535,7 +534,7 @@
 
       const newsSources = {
           foxnews: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ffeeds.foxnews.com%2Ffoxnews%2Flatest',
-          punch: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fpunchng.com%2Ftopics%2Fnews%2Ffeed%2F',
+          channelstv: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.channelstv.com%2Ffeed%2F',
           vanguard: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.vanguardngr.com%2Ffeed%2F'
       };
       
@@ -583,13 +582,17 @@
               const timeSince = Date.now() - pubDate.getTime();
               const hoursAgo = Math.round(timeSince / (1000 * 60 * 60));
               let timeDisplay;
+
               if (hoursAgo < 1) {
                   const minutesAgo = Math.round(timeSince / (1000 * 60));
                   timeDisplay = `${minutesAgo}m ago`;
-              } else {
+              } else if (hoursAgo < 24) {
                   timeDisplay = `${hoursAgo}h ago`;
+              } else {
+                  const daysAgo = Math.round(hoursAgo / 24);
+                  timeDisplay = `${daysAgo}d ago`;
               }
-
+              
               if (image) {
                   return `
                       <div class="news-item">
