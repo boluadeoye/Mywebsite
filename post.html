@@ -31,11 +31,10 @@
   a{color:inherit;text-decoration:none;transition:all .3s var(--transition)}
   .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
 
-  /* --- CORRECTED: Header is no longer sticky on the post page --- */
   header {
-    position: relative; /* Was 'sticky' */
+    position: relative;
     z-index: 100; 
-    background: var(--panel); /* Solid background for a cleaner look */
+    background: var(--panel);
     border-bottom: 1px solid rgba(245,158,11,.15);
   }
   .header-row {
@@ -172,6 +171,7 @@
   }
   .post-content p { 
     margin-bottom: 1.5rem;
+    text-align: justify; /* --- TEXT ALIGNMENT FIX --- */
   }
   .post-content a {
     color: var(--orange);
@@ -242,6 +242,63 @@
   }
   @keyframes spin{to{transform:rotate(360deg)}}
   .error-container h2 { font-family:var(--serif); color:var(--red); }
+
+  #disqus_thread, #related-posts-container {
+    max-width: 75ch;
+    margin: 3rem auto;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(245,158,11,.15);
+  }
+  
+  .related-posts-title {
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    font-family: var(--serif);
+    font-weight: 800;
+    color: var(--ink);
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  .related-posts-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+  .related-post-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--panel-hover);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(245,158,11,.15);
+    transition: all .3s var(--transition);
+  }
+  .related-post-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--orange);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+  .related-post-card .cover img {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+    display: block;
+  }
+  .related-post-card .content {
+    padding: 1.25rem;
+    flex-grow: 1;
+  }
+  .related-post-card h4 {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    margin-bottom: .5rem;
+    color: var(--orange-light);
+    line-height: 1.4;
+  }
+  .related-post-card p {
+    font-size: .9rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
 
   footer{
     background:var(--panel);
@@ -315,7 +372,8 @@
     const header = document.getElementById('header');
     const progressBar = document.getElementById('progress-bar');
     const postWrapper = document.getElementById('post-content-wrapper');
-    let postData = null; // Store current post data
+    let allPosts = [];
+    let postData = null; 
 
     function closeMenu() {
       sideMenu.classList.remove('active');
@@ -332,7 +390,6 @@
     menuOverlay.addEventListener('click', closeMenu);
 
     window.addEventListener('scroll', () => {
-      // Note: The header scroll effect is now controlled by CSS (position: relative)
       updateProgressBar();
     });
 
@@ -347,15 +404,57 @@
         }
     }
     
-    // --- CORRECTED: Share function restored ---
     window.sharePost = function() {
       if(postData && navigator.share) {
         navigator.share({ title: postData.title, text: postData.excerpt, url: window.location.href });
       } else if (postData) {
-        // Fallback for desktop browsers
-        const text = encodeURIComponent(`Check out this article: "${postData.title}" ${window.location.href}`);
+        const text = encodeURIComponent(`Check out: "${postData.title}" ${window.location.href}`);
         window.open('https://api.whatsapp.com/send?text=' + text, '_blank');
       }
+    }
+
+    function loadDisqus(postIdentifier) {
+        if (!postIdentifier) return;
+        var disqus_config = function () {
+            this.page.url = window.location.href;
+            this.page.identifier = postIdentifier;
+        };
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.src = 'https://bolus-personal-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    }
+    
+    function displayRelatedPosts(currentPost) {
+        if (!allPosts.length || !currentPost || !currentPost.type) return;
+        const container = document.getElementById('related-posts-container');
+        if (!container) return;
+
+        const related = allPosts.filter(p => p.type === currentPost.type && p.file !== currentPost.file);
+        if (related.length === 0) return;
+
+        const shuffled = related.sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 3);
+
+        const cardsHTML = selected.map(post => {
+            const excerpt = (post.excerpt || '').substring(0, 80) + '...';
+            const coverHTML = post.cover ? `<div class="cover"><img src="${post.cover}" alt="${post.title}" loading="lazy"></div>` : '';
+            return `
+            <a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card">
+              ${coverHTML}
+              <div class="content">
+                <h4>${post.title}</h4>
+                <p>${excerpt}</p>
+              </div>
+            </a>`;
+        }).join('');
+        
+        container.innerHTML = `
+            <h3 class="related-posts-title">You Might Also Like</h3>
+            <div class="related-posts-grid">${cardsHTML}</div>
+        `;
     }
 
     function renderError(container, message){
@@ -372,7 +471,7 @@
 
         const postsRes = await fetch('./Posts.json', { cache: 'no-store' });
         if(!postsRes.ok) throw new Error('Could not load Posts.json (Status: ' + postsRes.status + ')');
-        const allPosts = await postsRes.json();
+        allPosts = await postsRes.json();
         
         postData = allPosts.find(p => p && p.file && p.file.trim() === file.trim());
         if(!postData) throw new Error('Post data not found for file: ' + file);
@@ -407,8 +506,12 @@
             <a href="./posts.html" class="btn-chip">View All Posts →</a>
             <button class="btn-chip" onclick="sharePost()">Share Post 📤</button>
           </nav>
+          <section id="related-posts-container"></section>
+          <div id="disqus_thread"></div>
         `;
 
+        displayRelatedPosts(postData);
+        loadDisqus(file);
         setTimeout(updateProgressBar, 100);
 
       } catch(err) {
