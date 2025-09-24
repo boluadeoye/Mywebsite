@@ -6,388 +6,220 @@
   <title>Post — Boluadeoye</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
   <style>
   :root {
     --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2341;
     --ink: #e5eefc; --muted: #94a3b8;
     --orange: #f59e0b; --orange-light: #fbbf24; --orange-ink: #0b0f19;
-    --ring: rgba(245,158,11,.25); --radius: 16px;
     --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
-    --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
+    --sans-serif: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
     --body-serif: 'Merriweather', serif;
     --transition: cubic-bezier(.4,0,.2,1);
-    --red: #ef4444; --red-soft: rgba(239,68,68,.12);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%;scroll-behavior:smooth}
+  html{scroll-behavior:smooth}
   body{
     background:var(--bg); color:var(--ink);
     font:16px/1.7 var(--sans-serif);
     -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    overflow-x:hidden; position:relative;
+    overflow-x:hidden;
   }
   a{color:inherit;text-decoration:none;transition:all .3s var(--transition)}
-  .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem}
 
-  header {
-    position: sticky; top: 0; z-index: 100; 
-    background: rgba(15,23,42,.85);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(245,158,11,.15);
-    transition: box-shadow 0.3s var(--transition);
-  }
-  header.scrolled {
-    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-  }
-  .header-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 80px;
-    position: relative;
-    padding: 0 1rem;
-  }
-  .brand {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
-    position: absolute;
-    left: 50%;
-    top: -20px;
-    transform: translateX(-50%);
-  }
-  .brand-logo {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    transition: transform 0.4s var(--transition);
-    margin-bottom: -35px;
-  }
-  .brand:hover .brand-logo {
-    transform: rotate(10deg) scale(1.05);
-  }
-  .brand h1 {
-    font-family: var(--serif);
-    font-size: 1.62rem;
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.5px;
-    color: var(--ink);
-    background: none;
-  }
-
-  .top-nav{display:none;gap:.5rem;align-items:center;margin-left:auto;flex-wrap:wrap}
+  /* --- Header & Nav --- */
+  header{position:sticky;top:0;z-index:200;background:rgba(15,23,42,.85);backdrop-filter:blur(8px);border-bottom:1px solid rgba(245,158,11,.15)}
+  .header-row{display:flex;align-items:center;justify-content:space-between;min-height:80px;position:relative;padding:0 1rem}
+  .brand{display:flex;flex-direction:column;align-items:center;position:absolute;left:50%;top:-20px;transform:translateX(-50%)}
+  .brand-logo{width:100px;height:100px;border-radius:50%;object-fit:cover;transition:transform .4s var(--transition);margin-bottom:-35px}
+  .brand:hover .brand-logo{transform:rotate(10deg) scale(1.05)}
+  .brand h1{font-family:var(--serif);font-size:1.62rem;font-weight:800;letter-spacing:-.5px;color:var(--ink)}
+  .top-nav{display:none;gap:.5rem;align-items:center;margin-left:auto}
   .top-nav a{padding:.45rem .9rem;border-radius:999px;border:1px solid transparent;font-weight:600;font-size:.87rem}
-  .top-nav a:hover,.top-nav a.active{color:var(--orange);border-color:var(--orange);transform:translateY(-1px)}
-
-  .hamburger{width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(245,158,11,.2);color:var(--ink);cursor:pointer;transition:all .3s ease}
-  .hamburger:hover{background:rgba(245,158,11,.1);transform:rotate(10deg)}
-  .hamburger svg{width:24px;height:24px}
-  
-  .side-menu{position:fixed;top:0;left:-280px;z-index:200;width:260px;height:100%;padding:2.5rem 1.2rem 2rem;display:flex;flex-direction:column;gap:.6rem;background:var(--panel);border-right:1px solid rgba(245,158,11,.2);transition:left .3s var(--transition)}
+  .top-nav a:hover,.top-nav a.active{color:var(--orange);border-color:var(--orange)}
+  .hamburger{width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(245,158,11,.2);cursor:pointer}
+  .side-menu{position:fixed;top:0;left:-280px;z-index:300;width:260px;height:100%;padding:2.5rem 1.2rem 2rem;display:flex;flex-direction:column;gap:.6rem;background:var(--panel);border-right:1px solid rgba(245,158,11,.2);transition:left .3s var(--transition)}
   .side-menu.active{left:0}
-  .side-menu a{padding:.9rem 1.25rem;border-radius:8px;background:transparent;color:var(--ink);font-weight:600;font-size:.92rem;border:1px solid transparent;transition:all .2s ease}
-  .side-menu a:hover,.side-menu a.active{background:rgba(245,158,11,.1);border-color:var(--orange);color:var(--orange);transform:translateX(5px)}
-  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;display:none;cursor:pointer}
-  .overlay.show{display:block}
+  .side-menu a{padding:.9rem 1.25rem;border-radius:8px;font-weight:600;font-size:.92rem;border:1px solid transparent}
+  .side-menu a:hover,.side-menu a.active{background:rgba(245,158,11,.1);border-color:var(--orange);color:var(--orange)}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:250;opacity:0;pointer-events:none;transition:opacity .3s ease}
+  .overlay.show{opacity:1;pointer-events:auto}
   @media(min-width:880px){.top-nav{display:flex}.hamburger{display:none}}
   
-  .post-container{
-    margin:1.25rem 0 2.25rem;
-    background:var(--panel); border-radius:24px;
-    border:1px solid rgba(245,158,11,.15);
-    box-shadow:0 20px 60px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.05);
-    overflow:hidden;
-    padding-top: 30px;
-  }
-  .content-wrapper{
-    padding:2.75rem 1.5rem;
-    margin:0 auto;
-    max-width:1100px;
-  }
-
-  .post-header{
-    text-align:center;
-    padding:1.5rem 0 1rem;
-    max-width:90ch;
-    margin:0 auto;
-  }
-  .post-meta{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:.75rem;
-    flex-wrap:wrap;
-    margin-bottom:1rem;
-  }
-  .meta-item{
-    display:inline-flex;
-    align-items:center;
-    gap:.5rem;
-    padding:.35rem .85rem;
-    background:rgba(245,158,11,.08);
-    border-radius:999px;
-    font-size:.9rem;
-    color:var(--muted);
-    border:1px solid rgba(245,158,11,.15);
-  }
-  .post-title{
-    font-family:var(--serif);
-    font-size:clamp(1.8rem, 3.5vw, 2.5rem);
-    font-weight:800;
-    line-height:1.2;
-    margin:.5rem auto;
-    background:linear-gradient(135deg, var(--orange), var(--orange-light));
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
-    max-width:90ch;
-  }
-
-  .cover-hero {
-    max-width:1020px;
-    margin:1rem auto;
-    border-radius:14px;
-    overflow:hidden;
-    border:1px solid rgba(245,158,11,.15);
-    background:rgba(255,255,255,.02);
-  }
-  .cover-hero img {
-    width:100%;
-    height:auto;
-    display:block;
-    aspect-ratio:16/9;
-    object-fit:cover;
-  }
-
-  .post-content{
-    max-width:90ch;
-    margin:2rem auto;
-    font-family: var(--body-serif);
-    font-size:1.05rem;
-    line-height:1.9;
-    color:rgba(229,238,252,.96);
-  }
-  .post-content h1, .post-content h2, .post-content h3{
-    font-family: var(--serif);
-    text-align:center;
-    margin: 2rem 0 1rem;
-  }
-  .post-content p { 
-    text-align: center; /* --- TEXT ALIGNMENT FIX --- */
-    margin-bottom: 1.5rem;
-  }
-  .post-content ul, .post-content ol{
-    text-align:left;
-    margin: 1.5rem auto;
-    padding-left: 2rem;
-  }
-  .post-content blockquote{
-    position: relative;
-    padding: 1.5rem 2rem;
-    margin: 2.5rem auto;
-    text-align: center;
-    font-style: italic;
-    font-size: 1.15rem;
-    color: var(--muted);
-    border-left: 3px solid var(--orange);
-    background: rgba(15,23,42,.5);
-    max-width: 85%;
-    z-index: 1;
-  }
-  .post-content blockquote::before {
-    content: '“';
-    font-family: var(--serif);
-    font-size: 6rem;
-    color: rgba(245, 158, 11, 0.08);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    line-height: 1;
-    z-index: -1;
-  }
-  
-  .post-nav{
-    display:flex;
-    justify-content:center;
-    gap:1rem;
-    padding:1.5rem 0;
-    border-top:1px solid rgba(245,158,11,.15);
-    flex-wrap:wrap;
-    max-width:90ch;
-    margin:0 auto;
-  }
-  .btn-chip{
-    display:inline-flex;
-    align-items:center;
-    gap:.5rem;
-    padding:.72rem 1.2rem;
-    background:linear-gradient(135deg,var(--orange),var(--orange-light));
-    color:var(--orange-ink);
-    border-radius:999px;
-    font-weight:800;
-    font-size:.95rem;
-    box-shadow:0 4px 15px rgba(245,158,11,.3);
-  }
-  .btn-chip:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(245,158,11,.4)}
-  
-  .loading-container{
-    min-height:160px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    color:var(--muted);
-    padding:2rem 1rem;
-    text-align:center;
-  }
-  .loading-spinner{
-    width:36px;
-    height:36px;
-    border:3px solid rgba(245,158,11,.2);
-    border-top-color:var(--orange);
-    border-radius:50%;
-    animation:spin 1s linear infinite;
-    margin-bottom:1rem;
-  }
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .error{text-align:center;padding:2rem;color:#ff6b6b}
-
-  #disqus_thread, .related-posts-container {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(245,158,11,.15);
-  }
-  
-  .related-posts-title {
-    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
-    font-family: var(--serif);
-    font-weight: 800;
-    color: var(--ink);
-    text-align: center;
-    margin-bottom: 2.5rem;
-  }
-  .related-posts-grid {
+  /* --- Pillar 1: Focused Reading Pane & Layout --- */
+  .article-layout{
     display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
   }
-  .related-post-card {
-    display: flex;
-    flex-direction: column;
+  .post-container {
     background: var(--panel);
-    border-radius: 12px;
+    border-radius: 24px;
+    border: 1px solid rgba(245, 158, 11, .15);
+    box-shadow: 0 20px 60px rgba(0,0,0,.3);
     overflow: hidden;
-    border: 1px solid rgba(245,158,11,.15);
-    transition: all .3s var(--transition);
   }
-  .related-post-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--orange);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  .post-content-body {
+    max-width: 720px; /* Optimal reading width */
+    margin: 0 auto;
+    padding: 1rem 1.5rem 3rem;
   }
-  .related-post-card .cover img {
-    width: 100%;
-    aspect-ratio: 16/10;
-    object-fit: cover;
+  
+  /* --- Pillar 2: Journey Bar (Progress) & Article Map (TOC) --- */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--orange), var(--orange-light));
+    width: 0%;
+    z-index: 300;
+    transition: width 0.1s linear;
+  }
+  .article-map {
+    position: sticky;
+    top: 120px; /* Below header */
+    height: calc(100vh - 140px);
+    overflow-y: auto;
+    padding: 1.5rem 1rem;
+    border-left: 1px solid rgba(245,158,11,.15);
+  }
+  .article-map-title { font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; color: var(--muted); margin-bottom: 1.5rem; }
+  .article-map ol { list-style: none; padding-left: 0; }
+  .article-map li { margin-bottom: 1rem; }
+  .article-map a {
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    padding-left: 1rem;
+    border-left: 2px solid rgba(245,158,11,.2);
     display: block;
   }
-  .related-post-card .content {
-    padding: 1.25rem;
-    flex-grow: 1;
+  .article-map a:hover { color: var(--orange-light); border-left-color: var(--orange-light); }
+  .article-map a.active { color: var(--orange); border-left-color: var(--orange); }
+
+  /* --- Pillar 4: Article Header & Intelligent Excerpt --- */
+  .post-header{text-align:center;padding:1.5rem 0;max-width:90ch;margin:0 auto}
+  .post-meta{display:flex;justify-content:center;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem}
+  .meta-item{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .85rem;background:rgba(245,158,11,.08);border-radius:999px;font-size:.9rem;color:var(--muted);border:1px solid rgba(245,158,11,.15)}
+  .post-title{font-family:var(--serif);font-size:clamp(2rem, 4vw, 3rem);font-weight:800;line-height:1.2;margin:.5rem auto;color:var(--ink)}
+  .cover-hero{margin:1.5rem 0;border-radius:14px;overflow:hidden;border:1px solid rgba(245,158,11,.15)}
+  .cover-hero img{width:100%;height:auto;display:block;aspect-ratio:16/9;object-fit:cover}
+
+  .intelligent-excerpt {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+    border: 1px solid rgba(245,158,11,.1);
   }
-  .related-post-card h4 {
-    font-family: var(--serif);
-    font-size: 1.15rem;
-    margin-bottom: .5rem;
-    color: var(--orange-light);
-    line-height: 1.4;
-  }
-  .related-post-card p {
-    font-size: .9rem;
+  .excerpt-toggle {
+    cursor: pointer;
+    font-weight: 600;
     color: var(--muted);
-    line-height: 1.6;
-  }
-  .related-post-card.no-image {
-    align-items: center;
-    justify-content: center;
     text-align: center;
-    min-height: 220px;
-    background: var(--panel-hover);
   }
-  .related-post-card.no-image .content {
-    flex-grow: 0;
+  .excerpt-toggle:hover { color: var(--orange); }
+  .excerpt-content {
+    display: none;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(245,158,11,.1);
+  }
+  .excerpt-content ul { padding-left: 1.5rem; color: var(--muted); line-height: 1.8; }
+  
+  /* --- Pillar 3: Enhanced Typography & Content Styling --- */
+  .post-content{font-family:var(--body-serif);font-size:1.1rem;line-height:2;color:rgba(229,238,252,.96)}
+  .post-content p:first-of-type::first-letter { /* Drop Cap */
+    font-family: var(--serif);
+    float: left;
+    font-size: 5rem;
+    line-height: 0.8;
+    padding: 0.5rem 0.8rem 0.2rem 0;
+    color: var(--orange-light);
+  }
+  .post-content h2, .post-content h3{font-family:var(--serif);margin:2.5rem 0 1.25rem;line-height:1.3}
+  .post-content h2 { font-size: 1.8rem; } .post-content h3 { font-size: 1.5rem; }
+  .post-content p{margin-bottom:1.75rem}
+  .post-content ul, .post-content ol{margin:1.75rem 0;padding-left:2rem}
+  .post-content a { color: var(--orange-light); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  
+  /* Socratic Prompt */
+  .post-content blockquote.socratic-prompt {
+    padding: 1.5rem;
+    margin: 2.5rem 0;
+    text-align: left;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--muted);
+    border: none;
+    border-left: 3px solid var(--orange);
+    background: transparent;
+  }
+  /* Author's Emphasis */
+  .post-content p.authors-emphasis {
+    background: rgba(245, 158, 11, .05);
+    padding: 1rem 1.5rem;
+    border-left: 3px solid var(--orange);
+    border-radius: 0 8px 8px 0;
+    font-size: 1.05rem;
   }
 
-  footer{
-    background:var(--panel);
-    border-top:1px solid rgba(255,255,255,.06);
-    color:var(--muted);
-    text-align:center;
-    font-size:.85rem;
-    padding:1.5rem 0;
-    margin-top:1.5rem;
+  /* --- Post Navigation & Loading States --- */
+  .post-nav{display:flex;justify-content:center;gap:1rem;padding:2rem 0;border-top:1px solid rgba(245,158,11,.15);flex-wrap:wrap;margin-top:2rem}
+  .btn-chip{display:inline-flex;align-items:center;gap:.5rem;padding:.72rem 1.2rem;background:var(--orange);color:var(--orange-ink);border-radius:999px;font-weight:700}
+  .btn-chip:hover{background:var(--orange-light);transform:translateY(-2px)}
+  .loading-container{min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem}
+  .loading-spinner{width:36px;height:36px;border:3px solid rgba(245,158,11,.2);border-top-color:var(--orange);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:1rem}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .error{text-align:center;padding:3rem;color:#ff6b6b}
+
+  footer{background:var(--panel);border-top:1px solid rgba(255,255,255,.06);color:var(--muted);text-align:center;font-size:.85rem;padding:1.5rem 0;margin-top:1.5rem}
+
+  @media(min-width: 1024px) {
+    .article-layout { grid-template-columns: 240px 1fr; }
   }
   </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJVVQDCS32"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-WJVVQDCS32');
+  gtag('js', new Date()); gtag('config', 'G-WJVVQDCS32');
 </script>
 </head>
 <body>
+  <div id="progress-bar"></div>
+  
   <nav id="sideMenu" class="side-menu">
-    <a href="./">Home</a>
-    <a href="./posts.html">All Posts</a>
-    <a href="./library.html">Library</a>
-    <a href="./about.html">About</a>
+    <a href="./">Home</a><a href="./posts.html">All Posts</a><a href="./library.html">Library</a><a href="./about.html">About</a>
   </nav>
   <div id="menuOverlay" class="overlay"></div>
 
   <header id="header">
     <div class="wrap header-row">
       <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <rect x="4" y="6" width="16" height="2" rx="1"/>
-          <rect x="4" y="11" width="16" height="2" rx="1"/>
-          <rect x="4" y="16" width="16" height="2" rx="1"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" width="16" height="2" rx="1"/></svg>
       </button>      
-      <a class="brand" href="./">
-        <img src="images/Logo.png" alt="Boluadeoye Logo" width="100" height="100" class="brand-logo">
-        <h1>Boluadeoye</h1>
-      </a>
-      <nav class="top-nav" aria-label="Primary Navigation">
-        <a href="./">Home</a>
-        <a href="./posts.html">All Posts</a>
-        <a href="./library.html">Library</a>
-        <a href="./about.html">About</a>
-      </nav>
+      <a class="brand" href="./"><img src="images/Logo.png" alt="Boluadeoye Logo" width="100" height="100" class="brand-logo"><h1>Boluadeoye</h1></a>
+      <nav class="top-nav"><a href="./">Home</a><a href="./posts.html">All Posts</a><a href="./library.html">Library</a><a href="./about.html">About</a></nav>
     </div>
   </header>
 
   <main class="wrap">
-    <div class="post-container">
-      <div class="content-wrapper">
+    <div class="article-layout">
+      <aside class="article-map" id="article-map-container" style="display: none;">
+        <div class="article-map-title">In this Article</div>
+        <ol id="article-map-list"></ol>
+      </aside>
+      <div class="post-container">
         <article id="post-content-wrapper">
           <div class="loading-container">
-            <div class="loading-spinner"></div>
-            <p>Loading your post...</p>
+            <div class="loading-spinner"></div><p>Loading your post...</p>
           </div>
         </article>
-        
-        <section id="related-posts-container" class="related-posts-container"></section>
-        
-        <div id="disqus_thread"></div>
-        
       </div>
     </div>
   </main>
@@ -398,202 +230,181 @@
 
   <script>
   (function(){
-    var menuBtn = document.getElementById('menuBtn');
-    var sideMenu = document.getElementById('sideMenu');
-    var menuOverlay = document.getElementById('menuOverlay');
-    var allPosts = [];
-    var postData = null; 
+    // --- Global State & Elements ---
+    const menuBtn = document.getElementById('menuBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const header = document.getElementById('header');
+    const progressBar = document.getElementById('progress-bar');
+    const articleMapContainer = document.getElementById('article-map-container');
+    const articleMapList = document.getElementById('article-map-list');
+    const contentWrapper = document.getElementById('post-content-wrapper');
+    let allPosts = [];
+    let postData = null;
+    let headings = [];
 
-    function closeMenu() {
-      sideMenu.classList.remove('active');
-      menuOverlay.classList.remove('show');
-      menuBtn.setAttribute('aria-expanded', 'false');
-    }
-    function openMenu() {
-      sideMenu.classList.add('active');
-      menuOverlay.classList.add('show');
-      menuBtn.setAttribute('aria-expanded', 'true');
-    }
-    
-    menuBtn.addEventListener('click', function() {
-      if (sideMenu.classList.contains('active')) closeMenu(); else openMenu();
-    });
+    // --- Menu Logic ---
+    function toggleMenu(){sideMenu.classList.contains('active')?closeMenu():openMenu()}
+    function closeMenu(){sideMenu.classList.remove('active');menuOverlay.classList.remove('show')}
+    function openMenu(){sideMenu.classList.add('active');menuOverlay.classList.add('show')}
+    menuBtn.addEventListener('click', toggleMenu);
     menuOverlay.addEventListener('click', closeMenu);
 
-    var header = document.getElementById('header');
-    window.addEventListener('scroll', function() {
+    // --- Scroll-based UI Updates ---
+    function handleScroll() {
       if(header) header.classList.toggle('scrolled', window.scrollY > 10);
-    });
+      
+      const contentHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = (window.scrollY / contentHeight) * 100;
+      if(progressBar) progressBar.style.width = scrollPercent + '%';
 
-    function normalizePath(p){ return p ? String(p).trim().replace(/^\.?\//, '') : ''; }
+      let activeHeadingId = '';
+      for (let i = headings.length - 1; i >= 0; i--) {
+        const heading = headings[i];
+        if (heading.offsetTop <= window.scrollY + 120) {
+          activeHeadingId = heading.id;
+          break;
+        }
+      }
+      
+      articleMapList.querySelectorAll('a').forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === `#${activeHeadingId}`);
+      });
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // --- Core Post Loading & Rendering ---
+    function renderError(message){
+      contentWrapper.innerHTML = `<div class="error"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Back to Homepage</a></div></div>`;
+    }
 
     function firstImageFromMarkdown(md, currentPostData){
       if(!md) return currentPostData.cover || '';
-      var m1 = md.match(/!\[.*?\]\((.*?)\)/);
+      const m1 = md.match(/!\[.*?\]\((.*?)\)/);
       if(m1 && m1[1]) return m1[1].trim();
-      var m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
+      const m2 = md.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
       if(m2 && m2[1]) return m2[1].trim();
       return currentPostData.cover || '';
     }
 
-    function renderError(container, message){
-      container.innerHTML = '<div class="error"><h2>Unable to Load Post</h2><p>' + message + '</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>';
-    }
-    
-    window.sharePost = function() {
-      if(postData && navigator.share) {
-        navigator.share({ title: postData.title, text: postData.excerpt, url: window.location.href });
-      } else if (postData) {
-        var text = encodeURIComponent(postData.title + ' - ' + postData.excerpt + ' ' + window.location.href);
-        window.open('https://api.whatsapp.com/send?text=' + text, '_blank');
-      }
-    }
-
-    function loadDisqus(postIdentifier) {
-        if (!postIdentifier) return;
-        var disqus_config = function () {
-            this.page.url = window.location.href;
-            this.page.identifier = postIdentifier;
-        };
-        (function() {
-            var d = document, s = d.createElement('script');
-            s.src = 'https://bolus-personal-blog.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        })();
-    }
-    
-    function displayRelatedPosts(currentPost) {
-        if (!allPosts.length || !currentPost || !currentPost.type) return;
-
-        const related = allPosts.filter(p => p.type === currentPost.type && p.file !== currentPost.file);
-        
-        if (related.length === 0) return;
-
-        const shuffled = related.sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, 3);
-
-        const container = document.getElementById('related-posts-container');
-        if (!container) return;
-
-        const cardsHTML = selected.map(post => {
-            const excerpt = (post.excerpt || '').substring(0, 80) + '...';
-            
-            if (post.cover) {
-                return `
-                <a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card">
-                  <div class="cover">
-                    <img src="${post.cover}" alt="${post.title}" loading="lazy">
-                  </div>
-                  <div class="content">
-                    <h4>${post.title}</h4>
-                    <p>${excerpt}</p>
-                  </div>
-                </a>
-                `;
-            } else {
-                return `
-                <a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card no-image">
-                  <div class="content">
-                    <h4>${post.title}</h4>
-                    <p>${excerpt}</p>
-                  </div>
-                </a>
-                `;
-            }
+    function createIntelligentExcerpt(headings) {
+        if (headings.length < 2) return '';
+        const keyIdeas = headings.map(h => {
+            let nextEl = h.nextElementSibling;
+            while(nextEl && nextEl.tagName !== 'P') { nextEl = nextEl.nextElementSibling; }
+            const firstSentence = nextEl ? (nextEl.textContent.split('.')[0] + '.') : '';
+            return `<li><strong>${h.textContent}:</strong> ${firstSentence}</li>`;
         }).join('');
         
-        container.innerHTML = `
-            <h3 class="related-posts-title">You Might Also Like</h3>
-            <div class="related-posts-grid">${cardsHTML}</div>
-        `;
+        return `
+        <div class="intelligent-excerpt">
+            <div class="excerpt-toggle" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'block' ? 'none' : 'block';">
+                View the key ideas...
+            </div>
+            <div class="excerpt-content"><ul>${keyIdeas}</ul></div>
+        </div>`;
     }
 
-    function loadPost(file) {
-      var container = document.getElementById('post-content-wrapper');
-      if(!container) return;
-
-      postData = allPosts.find(p => p && normalizePath(p.file) === normalizePath(file));
-      if(!postData) {
-          renderError(container, 'Post data not found for file: ' + file);
-          return;
-      }
-      
-      fetch(file, { cache: 'no-store' })
-        .then(function(mdRes){
-          if(!mdRes.ok) throw new Error('Failed to load Markdown file: ' + file + ' (Status: ' + mdRes.status + ')');
-          return mdRes.text();
-        })
-        .then(function(markdown){
-          document.title = postData.title + ' — Boluadeoye';
-
-          var coverUrl = postData.cover || firstImageFromMarkdown(markdown, postData);
-          var mdForRender = markdown;
-          if (coverUrl && normalizePath(firstImageFromMarkdown(markdown, postData)) === normalizePath(coverUrl)) {
-              var match = markdown.match(/!\[.*?\]\(.*?\)/);
-              if(match) mdForRender = markdown.replace(match[0], '');
-          }
-
-          var contentHTML = typeof marked !== 'undefined' ? marked.parse(mdForRender, { breaks: true }) : '<p>Error: Markdown parser not loaded.</p>';
-          var dateStr = new Date(postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-          
-          var coverHTML = coverUrl ? '<figure class="cover-hero"><img src="' + coverUrl + '" alt="' + postData.title + ' cover" loading="lazy" width="1020" height="574"></figure>' : '';
-
-          container.innerHTML = '' +
-            '<div class="post-header">' +
-            '  <div class="post-meta">' +
-            '    <span class="meta-item">📅 ' + dateStr + '</span>' +
-            '    <span class="meta-item">📁 ' + (postData.type || 'General') + '</span>' +
-            '    <span class="meta-item">⏱️ ' + postData.minutes + ' min read</span>' +
-            '  </div>' +
-            '  <h1 class="post-title">' + postData.title + '</h1>' +
-            '</div>' +
-            coverHTML +
-            '<div class="post-content">' + contentHTML + '</div>' +
-            '<nav class="post-nav">' +
-            '  <a href="./" class="btn-chip">← Back to Home</a>' +
-            '  <a href="./posts.html" class="btn-chip">View All Posts →</a>' +
-            '  <button class="btn-chip" onclick="sharePost()">Share Post 📤</button>' +
-            '</nav>';
-
-          loadDisqus(file);
-          displayRelatedPosts(postData);
-        })
-        .catch(function(err){
-          console.error('Post load error:', err);
-          renderError(container, err.message);
-        });
-    }
-
-    function init() {
-      var container = document.getElementById('post-content-wrapper');
-      if(!container) return;
-      container.innerHTML = '<div class="loading-container"><div class="loading-spinner"></div><p>Loading your post...</p></div>';
-
+    async function loadPost(file) {
       try {
-        var urlParams = new URLSearchParams(window.location.search);
-        var file = urlParams.get('file');
+        postData = allPosts.find(p => p && (p.file || '').trim() === file.trim());
+        if(!postData) throw new Error('Post data not found for file: ' + file);
+        
+        const mdResponse = await fetch(file, { cache: 'no-store' });
+        if(!mdResponse.ok) throw new Error(`Failed to load Markdown file (Status: ${mdResponse.status})`);
+        const markdown = await mdResponse.text();
+
+        document.title = postData.title + ' — Boluadeoye';
+
+        // --- Custom Markdown Rendering Rules ---
+        const converter = new showdown.Converter({ simplifiedAutoLink: true, tables: true });
+        converter.addExtension({
+          type: 'output',
+          regex: /<blockquote>\s*<p>\? (.*?)<\/p>\s*<\/blockquote>/g,
+          replace: '<blockquote class="socratic-prompt"><p>$1</p></blockquote>'
+        });
+        converter.addExtension({
+          type: 'output',
+          regex: /<p>~~~\s*(.*?)\s*~~~<\/p>/g,
+          replace: '<p class="authors-emphasis">$1</p>'
+        });
+        
+        const coverUrl = postData.cover || firstImageFromMarkdown(markdown, postData);
+        let mdForRender = markdown;
+        if (coverUrl && firstImageFromMarkdown(markdown, postData) === coverUrl) {
+            const match = markdown.match(/!\[.*?\]\(.*?\)/);
+            if(match) mdForRender = markdown.replace(match[0], '');
+        }
+        
+        const contentHTML = converter.makeHtml(mdForRender);
+        const dateStr = new Date(postData.date).toLocaleDateString('en-US', { year: 'long', month: 'long', day: 'numeric' });
+        const coverHTML = coverUrl ? `<figure class="cover-hero"><img src="${coverUrl}" alt="${postData.title} cover" loading="lazy"></figure>` : '';
+
+        contentWrapper.innerHTML = `
+          <div class="post-header">
+            <div class="post-meta">
+              <span class="meta-item">📅 ${dateStr}</span>
+              <span class="meta-item">📁 ${postData.type || 'General'}</span>
+              <span class="meta-item">⏱️ ${postData.minutes} min read</span>
+            </div>
+            <h1 class="post-title">${postData.title}</h1>
+          </div>
+          <div class="post-content-body">
+              ${coverHTML}
+              <div id="intelligent-excerpt-container"></div>
+              <div class="post-content" id="post-content">${contentHTML}</div>
+              <nav class="post-nav">
+                <a href="./" class="btn-chip">← Back to Home</a>
+              </nav>
+          </div>`;
+        
+        // --- Post-Render Enhancements ---
+        const postContentEl = document.getElementById('post-content');
+        headings = Array.from(postContentEl.querySelectorAll('h2, h3'));
+        
+        // Build Article Map
+        if (headings.length > 1) {
+          let tocHTML = '';
+          headings.forEach((h, index) => {
+            const id = `heading-${index}`;
+            h.id = id;
+            tocHTML += `<li><a href="#${id}">${h.textContent}</a></li>`;
+          });
+          articleMapList.innerHTML = tocHTML;
+          articleMapContainer.style.display = 'block';
+        }
+        
+        // Build Intelligent Excerpt
+        const excerptContainer = document.getElementById('intelligent-excerpt-container');
+        if (excerptContainer) {
+            excerptContainer.innerHTML = createIntelligentExcerpt(headings);
+        }
+
+      } catch(err) {
+        console.error('Post load error:', err);
+        renderError(err.message);
+      }
+    }
+
+    // --- Initialization ---
+    async function init() {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const file = urlParams.get('file');
         if(!file) throw new Error('No post file specified in URL.');
 
-        fetch('./Posts.json', { cache: 'no-store' })
-          .then(res => {
-            if(!res.ok) throw new Error('Could not load Posts.json (Status: ' + res.status + ')');
-            return res.json();
-          })
-          .then(data => {
-            allPosts = Array.isArray(data) ? data : [];
-            loadPost(file);
-          })
-          .catch(err => {
-            renderError(container, err.message);
-          });
+        const res = await fetch('./Posts.json', { cache: 'no-store' });
+        if(!res.ok) throw new Error(`Could not load Posts.json (Status: ${res.status})`);
+        allPosts = await res.json();
+        
+        await loadPost(file.trim());
+
       } catch(err) {
-        renderError(container, err.message);
+        renderError(err.message);
       }
     }
     
     init();
-
   })();
   </script>
 </body>
