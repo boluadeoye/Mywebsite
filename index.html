@@ -181,14 +181,23 @@
   .loading-spinner { display: inline-block; width: 36px; height: 36px; border: 2px solid rgba(245, 158, 11, .3); border-top-color: var(--orange); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* --- NEW: Live News Hub Styles --- */
+  /* --- Live News Hub Styles --- */
   .news-hub {
     margin: 4rem 0;
+    background: rgba(17, 26, 46, 0.5);
+    border: 1px solid rgba(245, 158, 11, .15);
+    border-radius: var(--radius);
+    padding: 1.5rem 1rem 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     transition: opacity 0.6s var(--transition), transform 0.6s var(--transition);
+  }
+  .news-hub .section-title {
+    font-family: var(--serif);
   }
   .news-hub-tabs {
     display: flex;
     gap: 0.5rem;
+    margin-top: -1rem; /* Pull tabs up closer to title */
     margin-bottom: 1.5rem;
     border-bottom: 1px solid rgba(245, 158, 11, .2);
   }
@@ -197,13 +206,14 @@
     border: none;
     color: var(--muted);
     font-family: var(--sans-serif);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 700;
-    padding: 0.75rem 1.25rem;
+    padding: 0.75rem 1rem;
     cursor: pointer;
     border-bottom: 3px solid transparent;
     transform: translateY(1px);
     transition: all 0.3s var(--transition);
+    text-transform: uppercase;
   }
   .news-hub-tabs button:hover {
     color: var(--orange-light);
@@ -211,6 +221,7 @@
   .news-hub-tabs button[aria-selected="true"] {
     color: var(--orange);
     border-bottom-color: var(--orange);
+    background: rgba(245, 158, 11, .05);
   }
   .news-hub-content {
     min-height: 400px;
@@ -222,16 +233,15 @@
   .news-item {
     display: grid;
     grid-template-columns: 80px 1fr;
-    gap: 1rem;
+    gap: 1.25rem;
     align-items: center;
-    background: var(--panel);
+    background: transparent;
     border: 1px solid transparent;
-    padding: 1rem;
+    padding: 0.75rem;
     border-radius: 12px;
     transition: all 0.3s var(--transition);
   }
   .news-item:hover {
-    transform: translateX(5px);
     background: var(--panel-hover);
     border-color: rgba(245, 158, 11, .2);
   }
@@ -241,10 +251,12 @@
     position: relative;
   }
   .news-item-no-img::before {
-    content: '•';
+    content: '›';
     position: absolute;
     left: 0.5rem;
-    top: 0.9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
     color: var(--orange);
   }
   .news-item-img {
@@ -253,9 +265,10 @@
     border-radius: 8px;
     object-fit: cover;
     background: #0c1425;
+    border: 1px solid rgba(255,255,255,0.05);
   }
   .news-item-text h4 {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     line-height: 1.5;
     color: var(--ink);
@@ -265,7 +278,7 @@
     color: var(--orange);
   }
   .news-item-meta {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--muted);
     text-transform: uppercase;
     font-weight: 600;
@@ -281,6 +294,11 @@
     color: var(--muted);
     padding: 3rem;
   }
+  @media (min-width: 768px) {
+    .news-hub { padding: 2.5rem; }
+    .news-item-text h4 { font-size: 1rem; }
+  }
+
 
   .whatsapp-card { background: var(--panel); border: 1px solid rgba(245, 158, 11, .15); border-radius: var(--radius); padding: 2.5rem 1.5rem; margin: 4rem 0 0; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
   .whatsapp-card svg { width: 48px; height: 48px; color: #25D366; }
@@ -368,9 +386,9 @@
         <h3 class="section-title">Live Headlines</h3>
       </div>
       <div class="news-hub-tabs" role="tablist" aria-label="News Sources">
-        <button role="tab" aria-selected="true" data-source="punch" aria-controls="news-hub-content">PUNCH</button>
+        <button role="tab" aria-selected="true" data-source="foxnews" aria-controls="news-hub-content">FOX NEWS</button>
+        <button role="tab" aria-selected="false" data-source="punch" aria-controls="news-hub-content">PUNCH</button>
         <button role="tab" aria-selected="false" data-source="vanguard" aria-controls="news-hub-content">VANGUARD</button>
-        <button role="tab" aria-selected="false" data-source="foxnews" aria-controls="news-hub-content">FOX NEWS</button>
       </div>
       <div id="news-hub-content" class="news-hub-content" role="tabpanel">
         <div class="loading">
@@ -510,15 +528,15 @@
       
       document.addEventListener('DOMContentLoaded', loadPosts);
 
-      // --- NEW: Live News Hub Logic ---
+      // --- Live News Hub Logic ---
       const newsHubContainer = document.getElementById('news-hub-container');
       const newsHubContent = document.getElementById('news-hub-content');
       const newsHubTabs = document.querySelector('.news-hub-tabs');
 
       const newsSources = {
-          punch: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fpunchng.com%2Ffeed%2F',
-          vanguard: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.vanguardngr.com%2Ffeed%2F',
-          foxnews: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ffeeds.foxnews.com%2Ffoxnews%2Flatest'
+          foxnews: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ffeeds.foxnews.com%2Ffoxnews%2Flatest',
+          punch: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fpunchng.com%2Ftopics%2Fnews%2Ffeed%2F',
+          vanguard: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.vanguardngr.com%2Ffeed%2F'
       };
       
       const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
@@ -555,15 +573,22 @@
 
       function renderNews(items, source) {
           if (!items || items.length === 0) {
-              newsHubContent.innerHTML = `<div class="error-message">No articles found for ${source}.</div>`;
+              newsHubContent.innerHTML = `<div class="error-message">No articles found for ${source.toUpperCase()}.</div>`;
               return;
           }
 
           newsHubContent.innerHTML = items.slice(0, 7).map(item => {
               const image = item.thumbnail || (item.enclosure && item.enclosure.link) || '';
               const pubDate = new Date(item.pubDate);
-              const timeAgo = Math.round((Date.now() - pubDate.getTime()) / (1000 * 60 * 60)); // hours ago
-              const timeDisplay = timeAgo < 1 ? 'Less than an hour ago' : `${timeAgo} hours ago`;
+              const timeSince = Date.now() - pubDate.getTime();
+              const hoursAgo = Math.round(timeSince / (1000 * 60 * 60));
+              let timeDisplay;
+              if (hoursAgo < 1) {
+                  const minutesAgo = Math.round(timeSince / (1000 * 60));
+                  timeDisplay = `${minutesAgo}m ago`;
+              } else {
+                  timeDisplay = `${hoursAgo}h ago`;
+              }
 
               if (image) {
                   return `
@@ -573,7 +598,7 @@
                               <a href="${item.link}" target="_blank" rel="noopener noreferrer">
                                   <h4>${item.title}</h4>
                               </a>
-                              <p class="news-item-meta">${source} &bull; ${timeDisplay}</p>
+                              <p class="news-item-meta">${source.toUpperCase()} &bull; ${timeDisplay}</p>
                           </div>
                       </div>`;
               } else {
@@ -583,7 +608,7 @@
                               <a href="${item.link}" target="_blank" rel="noopener noreferrer">
                                   <h4>${item.title}</h4>
                               </a>
-                              <p class="news-item-meta">${source} &bull; ${timeDisplay}</p>
+                              <p class="news-item-meta">${source.toUpperCase()} &bull; ${timeDisplay}</p>
                           </div>
                       </div>`;
               }
@@ -591,7 +616,7 @@
       }
 
       function renderNewsError(source) {
-          newsHubContent.innerHTML = `<div class="error-message">Could not load updates from ${source}. Please try again later.</div>`;
+          newsHubContent.innerHTML = `<div class="error-message">Could not load updates from ${source.toUpperCase()}. Please try again later.</div>`;
       }
 
       function handleTabClick(e) {
@@ -613,7 +638,7 @@
                       newsHubContainer.style.opacity = '1';
                       newsHubContainer.style.transform = 'translateY(0)';
                       newsHubTabs.addEventListener('click', handleTabClick);
-                      fetchNews('punch'); // Load default source
+                      fetchNews('foxnews'); // Load default source
                       obs.unobserve(newsHubContainer); // Run only once
                   }
               });
