@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2341;
+    --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2441;
     --ink: #e5eefc; --muted: #94a3b8;
     --orange: #f59e0b; --orange-light: #fbbf24; --orange-dark: #d97706; --orange-ink: #0b0f19;
     --ring: rgba(245, 158, 11, .25); --radius: 16px;
@@ -161,6 +161,12 @@
   .view-all-link { color: var(--orange); font-weight: 600; }
   h3.section-title { font-size: clamp(1.6rem, 2.8vw, 2.1rem); font-family: var(--sans-serif); font-weight: 800; color: var(--ink); position: relative; padding-left: 1.5rem; letter-spacing: -0.5px; }
   h3.section-title::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 70%; background: linear-gradient(180deg, var(--orange), var(--orange-light)); border-radius: 1px; }
+
+  /* --- NEW: Rule for Latest Writings Title --- */
+  #latest.section-title {
+    font-family: var(--serif);
+    padding-left: 0.75rem;
+  }
 
   #posts { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); min-height: 200px; }
   .post { display: flex; flex-direction: column; background: var(--panel); border: 1px solid rgba(245, 158, 11, .15); border-radius: 16px; transition: all 0.3s var(--transition); box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; }
