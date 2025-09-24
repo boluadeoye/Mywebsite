@@ -209,13 +209,16 @@
   .news-hub-tabs button {
     display: flex;
     align-items: center;
+    justify-content: center; /* Centering content */
+    gap: 8px; /* Adds space between logo and text */
+    flex-grow: 1; /* Allows buttons to share space */
     background: transparent;
     border: none;
     color: var(--muted);
     font-family: var(--sans-serif);
     font-size: 0.9rem;
     font-weight: 700;
-    padding: 0.75rem 0;
+    padding: 0.75rem 0.5rem; /* Adjusted padding */
     cursor: pointer;
     border-bottom: 3px solid transparent;
     transform: translateY(1px);
@@ -223,14 +226,26 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     white-space: nowrap;
-    line-height: 1.5;
-    text-align: center;
+    line-height: 1;
   }
+
+  /* Base style for all logos */
   .news-hub-tabs button img {
-    height: 18px;
     width: auto;
-    margin-right: 8px;
+    object-fit: contain;
   }
+  
+  /* --- Custom sizes for each logo --- */
+  .news-hub-tabs button[data-source="foxnews"] img {
+    height: 28px; 
+  }
+  .news-hub-tabs button[data-source="channelstv"] img {
+    height: 32px;
+  }
+  .news-hub-tabs button[data-source="vanguard"] img {
+    height: 24px;
+  }
+
   .news-hub-tabs button:hover {
     color: var(--orange-light);
   }
@@ -399,10 +414,10 @@
       </div>
       <div class="news-hub-tabs" role="tablist" aria-label="News Sources">
         <button role="tab" aria-selected="true" data-source="foxnews" aria-controls="news-hub-content">
-          <img src="images/foxnews-logo.png" alt="Fox News"> <span>FOX NEWS</span>
+          <img src="images/foxnews-logo.png" alt="Fox News">
         </button>
         <button role="tab" aria-selected="false" data-source="channelstv" aria-controls="news-hub-content">
-          <img src="images/channels-logo.png" alt="Channels TV"> <span>CHANNELS</span>
+          <img src="images/channels-logo.png" alt="Channels TV">
         </button>
         <button role="tab" aria-selected="false" data-source="vanguard" aria-controls="news-hub-content">
           <img src="images/vanguard-logo.png" alt="Vanguard News"> <span>VANGUARD</span>
@@ -628,7 +643,7 @@
                       <div class="news-item news-item-no-img">
                           <div class="news-item-text">
                               <a href="${item.link}" target="_blank" rel="noopener noreferrer">
-                                  <h4>${p.title}</h4>
+                                  <h4>${item.title}</h4>
                               </a>
                               <p class="news-item-meta">${source.toUpperCase()} &bull; ${timeDisplay}</p>
                           </div>
@@ -643,11 +658,12 @@
 
       function handleTabClick(e) {
           if (e.target.tagName !== 'BUTTON') return;
+          const button = e.currentTarget;
           
           newsHubTabs.querySelectorAll('button').forEach(tab => tab.setAttribute('aria-selected', 'false'));
-          e.target.setAttribute('aria-selected', 'true');
+          button.setAttribute('aria-selected', 'true');
           
-          const source = e.target.dataset.source;
+          const source = button.dataset.source;
           fetchNews(source);
       }
 
@@ -659,7 +675,14 @@
                   if (entry.isIntersecting) {
                       newsHubContainer.style.opacity = '1';
                       newsHubContainer.style.transform = 'translateY(0)';
-                      newsHubTabs.addEventListener('click', handleTabClick);
+                      // Correctly attach listener to the container, not individual buttons
+                      newsHubTabs.addEventListener('click', (e) => {
+                          // Use event delegation to handle clicks on buttons within the container
+                          const button = e.target.closest('button');
+                          if (button) {
+                              handleTabClick({currentTarget: button});
+                          }
+                      });
                       fetchNews('foxnews'); // Load default source
                       obs.unobserve(newsHubContainer); // Run only once
                   }
