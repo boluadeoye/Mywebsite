@@ -133,65 +133,18 @@
     background: var(--panel);
     border: 1px solid rgba(245, 158, 11, .2);
   }
-  .featured-bg {
-    grid-area: 1 / 1;
-    height: 100%;
-    overflow: hidden;
-  }
-  .featured-bg img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.15;
-    transition: transform 0.6s var(--transition);
-  }
-  .featured-showcase:hover .featured-bg img {
-    transform: scale(1.05);
-  }
-  .featured-card {
-    grid-area: 1 / 1;
-    position: relative;
-    padding: 3rem 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    background: radial-gradient(circle at 50% 50%, rgba(17, 26, 46, 0.7) 0%, rgba(17, 26, 46, 0.9) 70%);
-  }
-  .featured-card .eyebrow {
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--orange);
-    margin-bottom: 1rem;
-  }
-  .featured-card .featured-title {
-    font-family: var(--serif);
-    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-    font-weight: 800;
-    line-height: 1.2;
-    color: var(--ink);
-    margin: 0 0 1rem;
-  }
-  .featured-card .featured-title a:hover {
-    color: var(--orange-light);
-  }
-  .featured-card .featured-excerpt {
-    color: var(--muted);
-    font-size: 1rem;
-    line-height: 1.8;
-    max-width: 65ch;
-    margin: 0 0 2rem;
-  }
+  .featured-bg { grid-area: 1 / 1; height: 100%; overflow: hidden; }
+  .featured-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.15; transition: transform 0.6s var(--transition); }
+  .featured-showcase:hover .featured-bg img { transform: scale(1.05); }
+  .featured-card { grid-area: 1 / 1; position: relative; padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center; text-align: center; background: radial-gradient(circle at 50% 50%, rgba(17, 26, 46, 0.7) 0%, rgba(17, 26, 46, 0.9) 70%); }
+  .featured-card .eyebrow { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--orange); margin-bottom: 1rem; }
+  .featured-card .featured-title { font-family: var(--serif); font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; line-height: 1.2; color: var(--ink); margin: 0 0 1rem; }
+  .featured-card .featured-title a:hover { color: var(--orange-light); }
+  .featured-card .featured-excerpt { color: var(--muted); font-size: 1rem; line-height: 1.8; max-width: 65ch; margin: 0 0 2rem; }
   .featured-showcase.animate-in .eyebrow,
   .featured-showcase.animate-in .featured-title,
   .featured-showcase.animate-in .featured-excerpt,
-  .featured-showcase.animate-in .btn {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.8s var(--transition) forwards;
-  }
+  .featured-showcase.animate-in .btn { opacity: 0; transform: translateY(20px); animation: fadeInUp 0.8s var(--transition) forwards; }
   .featured-showcase.animate-in .featured-title { animation-delay: 0.2s; }
   .featured-showcase.animate-in .featured-excerpt { animation-delay: 0.4s; }
   .featured-showcase.animate-in .btn { animation-delay: 0.6s; }
@@ -209,122 +162,130 @@
   h3.section-title { font-size: clamp(1.6rem, 2.8vw, 2.1rem); font-family: var(--sans-serif); font-weight: 800; color: var(--ink); position: relative; padding-left: 1.5rem; letter-spacing: -0.5px; }
   h3.section-title::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 70%; background: linear-gradient(180deg, var(--orange), var(--orange-light)); border-radius: 1px; }
 
-  #posts { 
-    display: grid; 
-    gap: 2rem;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-    min-height: 200px; 
-  }
-  .post { 
-    display: flex; flex-direction: column; 
-    background: var(--panel); 
-    border: 1px solid rgba(245, 158, 11, .15); 
-    border-radius: 16px; 
-    transition: all 0.3s var(--transition); 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-    overflow: hidden; 
-  }
-  .post:hover { 
-    transform: translateY(-5px); 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, .2); 
-    border-color: var(--orange); 
-  }
-  .post-content-wrap { 
-    padding: 1.25rem 1.75rem 1.75rem;
-    flex-grow: 1; 
-    display: flex; 
-    flex-direction: column; 
-  }
-  .post-header { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: flex-start; 
-    margin-bottom: 0.75rem;
-  }
-  .post h3 { 
-    font-size: 1.2rem; 
-    font-weight: 700; 
-    margin: 0 0 0.5rem; 
-    color: var(--ink); 
-    line-height: 1.4;
-    font-family: var(--sans-serif);
-  }
-  .post-type { 
-    display: inline-block; 
-    padding: 0.25rem 0.7rem; 
-    border-radius: 999px; 
-    font-size: 0.68rem; 
-    font-weight: 700; 
-    text-transform: uppercase; 
-    background: rgba(245, 158, 11, .1); 
-    color: var(--orange); 
-    border: 1px solid rgba(245, 158, 11, .2); 
-  }
+  #posts { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); min-height: 200px; }
+  .post { display: flex; flex-direction: column; background: var(--panel); border: 1px solid rgba(245, 158, 11, .15); border-radius: 16px; transition: all 0.3s var(--transition); box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; }
+  .post:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 0, 0, .2); border-color: var(--orange); }
+  .post-content-wrap { padding: 1.25rem 1.75rem 1.75rem; flex-grow: 1; display: flex; flex-direction: column; }
+  .post-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+  .post h3 { font-size: 1.2rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--ink); line-height: 1.4; font-family: var(--sans-serif); }
+  .post-type { display: inline-block; padding: 0.25rem 0.7rem; border-radius: 999px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; background: rgba(245, 158, 11, .1); color: var(--orange); border: 1px solid rgba(245, 158, 11, .2); }
   .post-date { color: var(--muted); font-size: 0.87rem; }
-  .post p { 
-    color: var(--muted); 
-    line-height: 1.75;
-    font-size: 0.95rem; 
-    flex-grow: 1;
-    margin-top: 0.5rem; 
-  }
-  .post .stats { 
-    display: flex; 
-    gap: 1.5rem; 
-    margin-top: 1.5rem;
-    padding-top: 1rem; 
-    border-top: 1px solid rgba(245, 158, 11, .1); 
-    font-size: 0.83rem; 
-  }
+  .post p { color: var(--muted); line-height: 1.75; font-size: 0.95rem; flex-grow: 1; margin-top: 0.5rem; }
+  .post .stats { display: flex; gap: 1.5rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(245, 158, 11, .1); font-size: 0.83rem; }
   .stat-item { display: flex; align-items: center; gap: 0.4rem; color: var(--muted); }
-  
-  .post-cover { 
-    width: 100%; 
-    max-height: 250px;
-    overflow: hidden; 
-    background: #0c1425;
-  }
-  .post-cover img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover;
-    transition: transform 0.4s var(--transition); 
-  }
+  .post-cover { width: 100%; max-height: 250px; overflow: hidden; background: #0c1425; }
+  .post-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s var(--transition); }
   .post:hover .post-cover img { transform: scale(1.05); }
 
   .loading { text-align: center; padding: 3rem; color: var(--muted); }
   .loading-spinner { display: inline-block; width: 36px; height: 36px; border: 2px solid rgba(245, 158, 11, .3); border-top-color: var(--orange); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  .whatsapp-card {
-    background: var(--panel);
-    border: 1px solid rgba(245, 158, 11, .15);
-    border-radius: var(--radius);
-    padding: 2.5rem 1.5rem;
-    margin: 4rem 0 0;
-    text-align: center;
+  /* --- NEW: Live News Hub Styles --- */
+  .news-hub {
+    margin: 4rem 0;
+    transition: opacity 0.6s var(--transition), transform 0.6s var(--transition);
+  }
+  .news-hub-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(245, 158, 11, .2);
+  }
+  .news-hub-tabs button {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: var(--sans-serif);
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transform: translateY(1px);
+    transition: all 0.3s var(--transition);
+  }
+  .news-hub-tabs button:hover {
+    color: var(--orange-light);
+  }
+  .news-hub-tabs button[aria-selected="true"] {
+    color: var(--orange);
+    border-bottom-color: var(--orange);
+  }
+  .news-hub-content {
+    min-height: 400px;
+    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 1rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   }
-  .whatsapp-card svg {
-    width: 48px;
-    height: 48px;
-    color: #25D366;
+  .news-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1rem;
+    align-items: center;
+    background: var(--panel);
+    border: 1px solid transparent;
+    padding: 1rem;
+    border-radius: 12px;
+    transition: all 0.3s var(--transition);
   }
-  .whatsapp-card h3 {
-    font-family: var(--serif);
-    font-size: 1.8rem;
+  .news-item:hover {
+    transform: translateX(5px);
+    background: var(--panel-hover);
+    border-color: rgba(245, 158, 11, .2);
+  }
+  .news-item-no-img {
+    grid-template-columns: 1fr;
+    padding-left: 1.5rem;
+    position: relative;
+  }
+  .news-item-no-img::before {
+    content: '•';
+    position: absolute;
+    left: 0.5rem;
+    top: 0.9rem;
+    color: var(--orange);
+  }
+  .news-item-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #0c1425;
+  }
+  .news-item-text h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
     color: var(--ink);
-    margin: 0;
+    margin-bottom: 0.25rem;
   }
-  .whatsapp-card p {
+  .news-item-text a:hover h4 {
+    color: var(--orange);
+  }
+  .news-item-meta {
+    font-size: 0.8rem;
     color: var(--muted);
-    max-width: 50ch;
-    margin: 0 auto 0.5rem;
+    text-transform: uppercase;
+    font-weight: 600;
   }
+  .news-hub-content .loading-spinner {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .news-hub-content .error-message {
+    text-align: center;
+    color: var(--muted);
+    padding: 3rem;
+  }
+
+  .whatsapp-card { background: var(--panel); border: 1px solid rgba(245, 158, 11, .15); border-radius: var(--radius); padding: 2.5rem 1.5rem; margin: 4rem 0 0; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+  .whatsapp-card svg { width: 48px; height: 48px; color: #25D366; }
+  .whatsapp-card h3 { font-family: var(--serif); font-size: 1.8rem; color: var(--ink); margin: 0; }
+  .whatsapp-card p { color: var(--muted); max-width: 50ch; margin: 0 auto 0.5rem; }
 
   footer { background: var(--panel); border-top: 1px solid rgba(245, 158, 11, .2); color: var(--muted); text-align: center; font-size: 0.88rem; padding: 2rem 0; margin-top: 3rem; }
   footer p { margin: 0; }
@@ -343,7 +304,6 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-WJVVQDCS32');
 </script>
 </head>
@@ -361,12 +321,10 @@
       <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" width="16" height="2" rx="1"/></svg>
       </button>
-
       <a class="brand" href="./">
         <img src="images/Logo.png" alt="Boluadeoye Logo" width="100" height="100" class="brand-logo">
         <h1>Boluadeoye</h1>
       </a>
-
       <nav class="top-nav" aria-label="Primary Navigation">
         <a href="./">Home</a>
         <a href="./posts.html">All Posts</a>
@@ -402,6 +360,22 @@
       <div class="loading">
         <div class="loading-spinner"></div>
         <p>Loading posts...</p>
+      </div>
+    </section>
+
+    <section id="news-hub-container" class="news-hub" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease;">
+      <div class="section-header">
+        <h3 class="section-title">Live Headlines</h3>
+      </div>
+      <div class="news-hub-tabs" role="tablist" aria-label="News Sources">
+        <button role="tab" aria-selected="true" data-source="punch" aria-controls="news-hub-content">PUNCH</button>
+        <button role="tab" aria-selected="false" data-source="vanguard" aria-controls="news-hub-content">VANGUARD</button>
+        <button role="tab" aria-selected="false" data-source="foxnews" aria-controls="news-hub-content">FOX NEWS</button>
+      </div>
+      <div id="news-hub-content" class="news-hub-content" role="tabpanel">
+        <div class="loading">
+            <div class="loading-spinner"></div>
+        </div>
       </div>
     </section>
 
@@ -450,7 +424,6 @@
 
       // --- Post Loading and Display Logic ---
       const MANY_THRESHOLD = 50;
-      let allPosts = [];
       const postsEl = document.getElementById('posts');
       const featuredContainer = document.getElementById('featured-post-container');
 
@@ -459,7 +432,7 @@
           const res = await fetch('./Posts.json', { cache: 'no-store' });
           if (!res.ok) throw new Error(`Failed to load Posts.json (Status: ${res.status})`);
           const data = await res.json();
-          allPosts = (Array.isArray(data) ? data : [])
+          const allPosts = (Array.isArray(data) ? data : [])
             .map(p => ({ 
               ...p, 
               type: (p.type || 'essay').toLowerCase(),
@@ -484,24 +457,17 @@
 
       function displayFeaturedPost(post) {
         if (!featuredContainer || !post) return;
-        
         const postLink = `post.html?file=${encodeURIComponent(post.file)}`;
-        const coverImage = post.cover || 'images/default-cover.jpg'; // Fallback image
-
+        const coverImage = post.cover || 'images/default-cover.jpg';
         featuredContainer.innerHTML = `
-          <div class="featured-bg">
-            <img src="${coverImage}" alt="" loading="lazy">
-          </div>
+          <div class="featured-bg"><img src="${coverImage}" alt="" loading="lazy"></div>
           <div class="featured-card">
             <span class="eyebrow">EDITOR'S PICK</span>
             <h3 class="featured-title"><a href="${postLink}">${post.title}</a></h3>
             <p class="featured-excerpt">${post.excerpt}</p>
             <a href="${postLink}" class="btn">Read The Full Story</a>
-          </div>
-        `;
-        featuredContainer.style.display = 'grid'; // Make it visible
-
-        // Animation Trigger
+          </div>`;
+        featuredContainer.style.display = 'grid';
         const observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -520,11 +486,7 @@
         }
         postsEl.innerHTML = list.map(p => {
           const viewedLabel = (p.views >= MANY_THRESHOLD) ? 'Viewed by many' : 'Viewed';
-          const coverHTML = p.cover ? `
-            <a href="post.html?file=${encodeURIComponent(p.file)}" class="post-cover" aria-hidden="true" tabindex="-1">
-              <img src="${p.cover}" alt="${p.title} cover" loading="lazy" decoding="async" width="400" height="225">
-            </a>` : '';
-          
+          const coverHTML = p.cover ? `<a href="post.html?file=${encodeURIComponent(p.file)}" class="post-cover" aria-hidden="true" tabindex="-1"><img src="${p.cover}" alt="${p.title} cover" loading="lazy" decoding="async" width="400" height="225"></a>` : '';
           return `
             <article class="post">
               ${coverHTML}
@@ -542,12 +504,126 @@
                   <span class="stat-item">👁️ ${viewedLabel}</span>
                 </footer>
               </div>
-            </article>
-          `;
+            </article>`;
         }).join('');
       }
       
       document.addEventListener('DOMContentLoaded', loadPosts);
+
+      // --- NEW: Live News Hub Logic ---
+      const newsHubContainer = document.getElementById('news-hub-container');
+      const newsHubContent = document.getElementById('news-hub-content');
+      const newsHubTabs = document.querySelector('.news-hub-tabs');
+
+      const newsSources = {
+          punch: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fpunchng.com%2Ffeed%2F',
+          vanguard: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.vanguardngr.com%2Ffeed%2F',
+          foxnews: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ffeeds.foxnews.com%2Ffoxnews%2Flatest'
+      };
+      
+      const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
+
+      async function fetchNews(source) {
+          newsHubContent.innerHTML = `<div class="loading"><div class="loading-spinner"></div></div>`;
+          const cacheKey = `news_${source}`;
+          const cachedData = localStorage.getItem(cacheKey);
+
+          if (cachedData) {
+              const { items, timestamp } = JSON.parse(cachedData);
+              if (Date.now() - timestamp < CACHE_DURATION) {
+                  renderNews(items, source);
+                  return;
+              }
+          }
+
+          try {
+              const response = await fetch(newsSources[source]);
+              if (!response.ok) throw new Error(`Network response was not ok for ${source}`);
+              const data = await response.json();
+              
+              if (data.status === 'ok' && data.items) {
+                  localStorage.setItem(cacheKey, JSON.stringify({ items: data.items, timestamp: Date.now() }));
+                  renderNews(data.items, source);
+              } else {
+                  throw new Error(data.message || 'Invalid data structure from API');
+              }
+          } catch (error) {
+              console.error('Error fetching news:', error);
+              renderNewsError(source);
+          }
+      }
+
+      function renderNews(items, source) {
+          if (!items || items.length === 0) {
+              newsHubContent.innerHTML = `<div class="error-message">No articles found for ${source}.</div>`;
+              return;
+          }
+
+          newsHubContent.innerHTML = items.slice(0, 7).map(item => {
+              const image = item.thumbnail || (item.enclosure && item.enclosure.link) || '';
+              const pubDate = new Date(item.pubDate);
+              const timeAgo = Math.round((Date.now() - pubDate.getTime()) / (1000 * 60 * 60)); // hours ago
+              const timeDisplay = timeAgo < 1 ? 'Less than an hour ago' : `${timeAgo} hours ago`;
+
+              if (image) {
+                  return `
+                      <div class="news-item">
+                          <img src="${image}" alt="" class="news-item-img" loading="lazy">
+                          <div class="news-item-text">
+                              <a href="${item.link}" target="_blank" rel="noopener noreferrer">
+                                  <h4>${item.title}</h4>
+                              </a>
+                              <p class="news-item-meta">${source} &bull; ${timeDisplay}</p>
+                          </div>
+                      </div>`;
+              } else {
+                  return `
+                      <div class="news-item news-item-no-img">
+                          <div class="news-item-text">
+                              <a href="${item.link}" target="_blank" rel="noopener noreferrer">
+                                  <h4>${item.title}</h4>
+                              </a>
+                              <p class="news-item-meta">${source} &bull; ${timeDisplay}</p>
+                          </div>
+                      </div>`;
+              }
+          }).join('');
+      }
+
+      function renderNewsError(source) {
+          newsHubContent.innerHTML = `<div class="error-message">Could not load updates from ${source}. Please try again later.</div>`;
+      }
+
+      function handleTabClick(e) {
+          if (e.target.tagName !== 'BUTTON') return;
+          
+          newsHubTabs.querySelectorAll('button').forEach(tab => tab.setAttribute('aria-selected', 'false'));
+          e.target.setAttribute('aria-selected', 'true');
+          
+          const source = e.target.dataset.source;
+          fetchNews(source);
+      }
+
+      function initNewsHub() {
+          if (!newsHubContainer) return;
+
+          const observer = new IntersectionObserver((entries, obs) => {
+              entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                      newsHubContainer.style.opacity = '1';
+                      newsHubContainer.style.transform = 'translateY(0)';
+                      newsHubTabs.addEventListener('click', handleTabClick);
+                      fetchNews('punch'); // Load default source
+                      obs.unobserve(newsHubContainer); // Run only once
+                  }
+              });
+          }, { threshold: 0.1 });
+
+          observer.observe(newsHubContainer);
+      }
+
+      document.addEventListener('DOMContentLoaded', initNewsHub);
+
     })();
   </script>
 </body>
