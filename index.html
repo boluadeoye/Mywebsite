@@ -209,16 +209,16 @@
   .news-hub-tabs button {
     display: flex;
     align-items: center;
-    justify-content: center; /* Centering content */
-    gap: 8px; /* Adds space between logo and text */
-    flex-grow: 1; /* Allows buttons to share space */
+    justify-content: center;
+    gap: 8px;
+    flex-grow: 1;
     background: transparent;
     border: none;
     color: var(--muted);
     font-family: var(--sans-serif);
     font-size: 0.9rem;
     font-weight: 700;
-    padding: 0.75rem 0.5rem; /* Adjusted padding */
+    padding: 0.75rem 0.5rem;
     cursor: pointer;
     border-bottom: 3px solid transparent;
     transform: translateY(1px);
@@ -228,24 +228,11 @@
     white-space: nowrap;
     line-height: 1;
   }
-
-  /* Base style for all logos */
   .news-hub-tabs button img {
+    height: 24px;
     width: auto;
     object-fit: contain;
   }
-  
-  /* --- Custom sizes for each logo --- */
-  .news-hub-tabs button[data-source="foxnews"] img {
-    height: 28px; 
-  }
-  .news-hub-tabs button[data-source="channelstv"] img {
-    height: 32px;
-  }
-  .news-hub-tabs button[data-source="vanguard"] img {
-    height: 24px;
-  }
-
   .news-hub-tabs button:hover {
     color: var(--orange-light);
   }
@@ -657,8 +644,8 @@
       }
 
       function handleTabClick(e) {
-          if (e.target.tagName !== 'BUTTON') return;
-          const button = e.currentTarget;
+          const button = e.target.closest('button');
+          if (!button) return;
           
           newsHubTabs.querySelectorAll('button').forEach(tab => tab.setAttribute('aria-selected', 'false'));
           button.setAttribute('aria-selected', 'true');
@@ -675,14 +662,7 @@
                   if (entry.isIntersecting) {
                       newsHubContainer.style.opacity = '1';
                       newsHubContainer.style.transform = 'translateY(0)';
-                      // Correctly attach listener to the container, not individual buttons
-                      newsHubTabs.addEventListener('click', (e) => {
-                          // Use event delegation to handle clicks on buttons within the container
-                          const button = e.target.closest('button');
-                          if (button) {
-                              handleTabClick({currentTarget: button});
-                          }
-                      });
+                      newsHubTabs.addEventListener('click', handleTabClick);
                       fetchNews('foxnews'); // Load default source
                       obs.unobserve(newsHubContainer); // Run only once
                   }
