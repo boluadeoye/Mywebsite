@@ -207,6 +207,8 @@
     border-bottom: 1px solid rgba(245, 158, 11, .2);
   }
   .news-hub-tabs button {
+    display: flex;
+    align-items: center;
     background: transparent;
     border: none;
     color: var(--muted);
@@ -223,6 +225,11 @@
     white-space: nowrap;
     line-height: 1.5;
     text-align: center;
+  }
+  .news-hub-tabs button img {
+    height: 18px;
+    width: auto;
+    margin-right: 8px;
   }
   .news-hub-tabs button:hover {
     color: var(--orange-light);
@@ -342,7 +349,7 @@
   <header id="header">
     <div class="wrap header-row">
       <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" width="16" height="2" rx="1"/></svg>
+        <svg viewBox="0-0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" width="16" height="2" rx="1"/></svg>
       </button>
       <a class="brand" href="./">
         <img src="images/Logo.png" alt="Boluadeoye Logo" width="100" height="100" class="brand-logo">
@@ -391,9 +398,15 @@
         <h3 class="section-title">Live Headlines</h3>
       </div>
       <div class="news-hub-tabs" role="tablist" aria-label="News Sources">
-        <button role="tab" aria-selected="true" data-source="foxnews" aria-controls="news-hub-content">FOX NEWS</button>
-        <button role="tab" aria-selected="false" data-source="channelstv" aria-controls="news-hub-content">CHANNELS</button>
-        <button role="tab" aria-selected="false" data-source="vanguard" aria-controls="news-hub-content">VANGUARD</button>
+        <button role="tab" aria-selected="true" data-source="foxnews" aria-controls="news-hub-content">
+          <img src="images/foxnews-logo.png" alt="Fox News"> <span>FOX NEWS</span>
+        </button>
+        <button role="tab" aria-selected="false" data-source="channelstv" aria-controls="news-hub-content">
+          <img src="images/channels-logo.png" alt="Channels TV"> <span>CHANNELS</span>
+        </button>
+        <button role="tab" aria-selected="false" data-source="vanguard" aria-controls="news-hub-content">
+          <img src="images/vanguard-logo.png" alt="Vanguard News"> <span>VANGUARD</span>
+        </button>
       </div>
       <div id="news-hub-content" class="news-hub-content" role="tabpanel">
         <div class="loading">
@@ -615,7 +628,7 @@
                       <div class="news-item news-item-no-img">
                           <div class="news-item-text">
                               <a href="${item.link}" target="_blank" rel="noopener noreferrer">
-                                  <h4>${item.title}</h4>
+                                  <h4>${p.title}</h4>
                               </a>
                               <p class="news-item-meta">${source.toUpperCase()} &bull; ${timeDisplay}</p>
                           </div>
