@@ -255,12 +255,12 @@
     </div>
   </header>
   
-  <div id="post-page-container">
+  <main id="post-page-container">
     <div class="loading-container">
       <div class="loading-spinner"></div>
       <p>Loading your article...</p>
     </div>
-  </div>
+  </main>
   
   <footer>
     <div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div>
@@ -320,12 +320,14 @@
         const indicator = navEl.querySelector('.page-indicator');
         
         prevButton.disabled = state.currentPage === 1;
-        nextButton.disabled = state.currentPage >= totalPages; // Also disable on last page
+        nextButton.disabled = state.currentPage >= totalPages;
         indicator.textContent = `Page ${state.currentPage} / ${totalPages}`;
         indicator.style.display = state.currentPage > totalPages ? 'none' : 'block';
         
         const mainContent = document.getElementById('main-content-area');
-        if (mainContent) mainContent.scrollIntoView({ behavior: 'smooth' });
+        if (mainContent) {
+            mainContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
         updateProgressBar();
     }
     
@@ -339,7 +341,9 @@
     function beginReading() {
         const mainContent = document.getElementById('main-content-area');
         if (mainContent) {
+            mainContent.style.display = 'grid';
             mainContent.classList.add('visible');
+            mainContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
             renderPage(state.currentPage);
             attachPageNavListeners(); 
         }
@@ -392,7 +396,7 @@
         state.postData = state.allPosts.find(p => p && p.file && p.file.trim() === state.file.trim());
         if(!state.postData) throw new Error('Post data not found');
         
-        document.body.className = state.postData.type ? 'post-type-' + state.postData.type.toLowerCase().trim() : '';
+        const postType = state.postData.type ? 'post-type-' + state.postData.type.toLowerCase().trim() : '';
         
         const mdRes = await fetch(state.file, { cache: 'no-store' });
         if(!mdRes.ok) throw new Error('Failed to load Markdown file');
@@ -402,9 +406,11 @@
         
         const pageSeparator = /\n---\s*page\s*---\n/;
         if (markdown.includes('---page---')) {
+            document.body.className = `mode-paginated ${postType}`;
             state.mode = 'paginated';
             state.pages = markdown.split(pageSeparator);
         } else {
+            document.body.className = `mode-simple ${postType}`;
             state.mode = 'simple';
             state.pages = [markdown];
         }
@@ -439,7 +445,7 @@
         `;
         
         pageContainer.innerHTML = `
-            <section class="feature-cover mode-${state.mode}" id="feature-cover">
+            <section class="feature-cover" id="feature-cover">
                 ${coverImageHTML}
                 <div class="post-header wrap">
                     <div class="post-meta">
@@ -451,7 +457,7 @@
                     ${state.mode === 'paginated' ? '<button class="begin-reading-btn" id="begin-reading">Begin Reading</button>' : ''}
                 </div>
             </section>
-            <main class="main-content-area wrap" id="main-content-area">${mainContentHTML}</main>
+            <div class="main-content-area wrap" id="main-content-area">${mainContentHTML}</div>
         `;
         
         if (state.mode === 'paginated') {
@@ -493,11 +499,14 @@
     
     function handleAuthorSidebar() {
       const sidebar = document.getElementById('author-sidebar');
-      const mainContent = document.getElementById('main-content-area');
-      if (!sidebar || !mainContent.classList.contains('visible')) return;
+      const cover = document.querySelector('.feature-cover');
+      if (!sidebar || !cover) return;
       
-      const startVisible = mainContent.offsetTop;
-      if (window.scrollY > startVisible - 100) {
+      const coverHeight = cover.offsetHeight;
+      const mainContent = document.getElementById('main-content-area');
+      const isVisible = mainContent.classList.contains('visible');
+
+      if (isVisible && window.scrollY > coverHeight) {
         sidebar.classList.add('visible');
       } else {
         sidebar.classList.remove('visible');
