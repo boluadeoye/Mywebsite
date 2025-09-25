@@ -73,20 +73,21 @@
     background: linear-gradient(90deg, var(--orange-light), var(--orange));
     width: 0%;
     z-index: 201;
+    transition: width 0.2s linear;
   }
-
   .feature-cover {
     width: 100%;
-    height: 70vh;
-    min-height: 450px;
-    max-height: 700px;
+    height: 100vh;
     position: relative;
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
     text-align: left;
     color: var(--ink);
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
   }
+  @keyframes fadeIn { to { opacity: 1; } }
   .feature-cover-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
   .feature-cover::after {
     content: '';
@@ -102,6 +103,9 @@
     max-width: 1100px;
     margin: 0 auto;
     width: 100%;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 1s .5s ease-out forwards;
   }
   .post-meta{
     display:flex;
@@ -122,18 +126,32 @@
     line-height:1.2;
     text-shadow: 0 2px 20px rgba(0,0,0,.6);
   }
+  .begin-reading-btn {
+    margin-top: 2rem;
+    border: 1px solid var(--orange);
+    background: transparent;
+    color: var(--orange);
+    padding: .8rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .3s var(--transition);
+    opacity: 0;
+    animation: fadeIn 1s 1s ease-out forwards;
+  }
+  .begin-reading-btn:hover { background: var(--orange); color: var(--orange-ink); transform: translateY(-2px); }
 
   .main-content-area {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
+    padding-top: 3rem; /* Add space from the top for scroll target */
   }
   @media(min-width: 1024px) {
     .main-content-area {
       grid-template-columns: 200px 1fr;
     }
   }
-
   .author-sidebar { display: none; }
   @media(min-width: 1024px) {
     .author-sidebar { display: block; position: sticky; top: 100px; align-self: start; text-align: center; opacity: 0; transform: translateY(20px); transition: all 0.5s var(--transition); }
@@ -144,13 +162,7 @@
   }
 
   .post-content-wrapper { max-width: 75ch; margin: 0 auto; }
-  .post-content{
-    font-family: var(--body-serif);
-    font-size: 1.125rem;
-    line-height: 1.9;
-    color:rgba(229,238,252,.9);
-    padding-top: 3rem;
-  }
+  .post-content{ font-family: var(--body-serif); font-size: 1.125rem; line-height: 1.9; color:rgba(229,238,252,.9); }
   .post-content p:first-of-type::first-letter { font-family: var(--serif); color: var(--orange-light); float: left; font-size: 5rem; line-height: 0.8; padding: .2rem .6rem 0 0; }
   .post-content h2, .post-content h3, .post-content h4 { font-family: var(--serif); line-height: 1.3; color: var(--ink); }
   .post-content h2 { font-size: 1.8rem; margin-top: 3rem; margin-bottom: 1rem; border-bottom: 1px solid rgba(245,158,11,.15); padding-bottom: .5rem; }
@@ -167,34 +179,19 @@
   .post-type-poem .post-content p:first-of-type::first-letter { float: none; font-size: inherit; padding: 0; color: inherit; }
   .post-type-devotional .post-content blockquote { background: transparent; border-color: rgba(245,158,11,.5); font-size: 1.15rem; font-style: normal; color: var(--ink); }
 
+  .page-navigation { max-width: 75ch; margin: 2rem auto 0; display: flex; justify-content: space-between; align-items: center; }
+  .page-indicator { font-size: .9rem; color: var(--muted); }
+
+  .epilogue-page { text-align: center; padding: 4rem 1rem; }
+  .epilogue-page .brand-logo { width: 80px; height: 80px; margin: 0 auto 1.5rem; opacity: .5; }
+  .epilogue-page h2 { font-family: var(--serif); font-size: 2rem; margin-bottom: 1rem; }
+  .epilogue-page p { color: var(--muted); max-width: 60ch; margin: 0 auto 2rem; }
+
   .article-ender { border: none; height: 1px; background: rgba(245,158,11,.15); margin: 3rem auto 0; max-width: 75ch; }
-  .post-nav{
-    display:flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    padding: 2.5rem 0 1rem;
-    flex-wrap:wrap;
-    max-width:75ch;
-    margin:0 auto;
-  }
-  .btn-chip{
-    padding: .6rem 1.1rem;
-    background: transparent;
-    color: var(--orange);
-    border: 1px solid var(--orange);
-    border-radius: 999px;
-    font-weight: 700;
-    font-size: .85rem;
-    box-shadow: none;
-    transition: all .2s var(--transition);
-  }
-  .btn-chip:hover{
-    background: var(--orange);
-    color: var(--orange-ink);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(245,158,11,.2);
-  }
+  .post-nav{ display:flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 2.5rem 0 1rem; flex-wrap:wrap; max-width:75ch; margin:0 auto; }
+  .btn-chip{ padding: .6rem 1.1rem; background: transparent; color: var(--orange); border: 1px solid var(--orange); border-radius: 999px; font-weight: 700; font-size: .85rem; box-shadow: none; transition: all .2s var(--transition); cursor: pointer; }
+  .btn-chip:hover{ background: var(--orange); color: var(--orange-ink); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,.2); }
+  .btn-chip:disabled { opacity: .3; cursor: not-allowed; }
   
   .loading-container, .error-container { min-height:300px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--muted); padding:2rem 1rem; text-align:center; }
   .loading-spinner{ width:36px; height:36px; border:3px solid rgba(245,158,11,.2); border-top-color:var(--orange); border-radius:50%; animation:spin 1s linear infinite; margin-bottom:1rem; }
@@ -263,14 +260,22 @@
 
   <script>
   (function(){
+    // --- STATE MANAGEMENT ---
+    const state = {
+      allPosts: [],
+      postData: null,
+      pages: [],
+      currentPage: 1,
+    };
+
+    // --- DOM ELEMENTS ---
     const menuBtn = document.getElementById('menuBtn');
     const sideMenu = document.getElementById('sideMenu');
     const menuOverlay = document.getElementById('menuOverlay');
     const progressBar = document.getElementById('progress-bar');
     const pageContainer = document.getElementById('post-page-container');
-    let allPosts = [];
-    let postData = null; 
 
+    // --- CORE FUNCTIONS ---
     function closeMenu() {
       sideMenu.classList.remove('active');
       menuOverlay.classList.remove('show');
@@ -282,166 +287,174 @@
       menuBtn.setAttribute('aria-expanded', 'true');
     }
     
-    menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
-    menuOverlay.addEventListener('click', closeMenu);
-
-    window.addEventListener('scroll', () => {
-      updateProgressBar();
-      handleAuthorSidebar();
-    });
-
     function updateProgressBar() {
-        if(!progressBar) return;
-        const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-        if(scrollHeight > clientHeight) {
-            const scrollPercent = (scrollTop / (scrollHeight - clientHeight)) * 100;
+        if (!progressBar) return;
+        const totalPages = state.pages.length;
+        if (totalPages <= 1) {
+            const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+            const scrollableHeight = scrollHeight - clientHeight;
+            const scrollPercent = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 100;
             progressBar.style.width = scrollPercent + '%';
         } else {
-            progressBar.style.width = '100%';
+            const progress = ((state.currentPage - 1) / (totalPages - 1)) * 100;
+            progressBar.style.width = progress + '%';
         }
     }
     
     function handleAuthorSidebar() {
       const sidebar = document.getElementById('author-sidebar');
-      const cover = document.querySelector('.feature-cover');
-      if (!sidebar || !cover) return;
-
-      const coverHeight = cover.offsetHeight;
-      if (window.scrollY > coverHeight) {
+      const mainContent = document.querySelector('.main-content-area');
+      if (!sidebar || !mainContent) return;
+      
+      const startVisible = mainContent.offsetTop;
+      if (window.scrollY > startVisible - 100) {
         sidebar.classList.add('visible');
       } else {
         sidebar.classList.remove('visible');
       }
     }
 
-    window.sharePost = function() {
-      if(postData && navigator.share) {
-        navigator.share({ title: postData.title, text: postData.excerpt, url: window.location.href });
-      } else if (postData) {
-        const text = encodeURIComponent(`Check out: "${postData.title}" ${window.location.href}`);
+    function sharePost() {
+      if(state.postData && navigator.share) {
+        navigator.share({ title: state.postData.title, text: state.postData.excerpt, url: window.location.href });
+      } else if (state.postData) {
+        const text = encodeURIComponent(`Check out: "${state.postData.title}" ${window.location.href}`);
         window.open('https://api.whatsapp.com/send?text=' + text, '_blank');
       }
     }
 
-    function loadDisqus(postIdentifier) {
-        if (!postIdentifier) return;
-        var disqus_config = function () {
-            this.page.url = window.location.href;
-            this.page.identifier = postIdentifier;
-        };
-        (function() {
-            var d = document, s = d.createElement('script');
-            s.src = 'https://bolus-personal-blog.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        })();
-    }
-    
-    function displayRelatedPosts(currentPost) {
-        if (!allPosts.length || !currentPost || !currentPost.type) return;
-        const container = document.getElementById('related-posts-container');
-        if (!container) return;
-
-        const related = allPosts.filter(p => p.type === currentPost.type && p.file !== currentPost.file);
-        if (related.length === 0) return;
-
-        const shuffled = related.sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, 3);
-
-        const cardsHTML = selected.map(post => {
-            const excerpt = (post.excerpt || '').substring(0, 80) + '...';
-            const coverHTML = post.cover ? `<div class="cover"><img src="${post.cover}" alt="${post.title}" loading="lazy"></div>` : '';
-            return `
-            <a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card">
-              ${coverHTML}
-              <div class="content">
-                <h4>${post.title}</h4>
-                <p>${excerpt}</p>
-              </div>
-            </a>`;
-        }).join('');
+    function renderPage(pageNumber) {
+        state.currentPage = pageNumber;
+        const totalPages = state.pages.length;
+        const mainContentArea = document.querySelector('.main-content-area');
         
-        container.innerHTML = `
-            <h3 class="related-posts-title">You Might Also Like</h3>
-            <div class="related-posts-grid">${cardsHTML}</div>
-        `;
+        // Update URL
+        const url = new URL(window.location);
+        url.searchParams.set('page', state.currentPage);
+        window.history.pushState({page: state.currentPage}, '', url);
+
+        // Render Content
+        const contentEl = document.getElementById('article-content');
+        if (state.currentPage > totalPages) { // Epilogue page
+            contentEl.innerHTML = `
+                <div class="epilogue-page">
+                    <img src="images/Logo.png" alt="Boluadeoye Logo" class="brand-logo" style="width:80px;height:80px;margin-bottom:1.5rem;opacity:.5;">
+                    <h2>Thank you for reading</h2>
+                    <p>Your time and attention are deeply appreciated. If this story resonated with you, please consider sharing it or leaving your thoughts in the comments below.</p>
+                </div>`;
+        } else {
+            contentEl.innerHTML = marked.parse(state.pages[state.currentPage - 1], { breaks: true });
+        }
+
+        // Update Navigation
+        const navEl = document.getElementById('page-navigation');
+        const prevButton = navEl.querySelector('.prev-page');
+        const nextButton = navEl.querySelector('.next-page');
+        const indicator = navEl.querySelector('.page-indicator');
+
+        prevButton.disabled = state.currentPage === 1;
+        nextButton.disabled = state.currentPage > totalPages; // Disabled on epilogue
+        indicator.textContent = `Page ${state.currentPage} / ${totalPages}`;
+
+        if(state.currentPage > totalPages) {
+            indicator.style.display = 'none';
+        } else {
+            indicator.style.display = 'block';
+        }
+        
+        // Cinematic Scroll
+        if (mainContentArea) {
+            mainContentArea.scrollIntoView({ behavior: 'smooth' });
+        }
+        updateProgressBar();
     }
 
-    function renderError(container, message){
-      container.innerHTML = `<div class="error-container"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
-    }
-
+    // --- INITIAL PAGE LOAD ---
     async function loadPost() {
       if(!pageContainer) return;
       
       try {
         const urlParams = new URLSearchParams(window.location.search);
         const file = urlParams.get('file');
+        const startPage = parseInt(urlParams.get('page')) || 1;
         if(!file) throw new Error('No post file specified in URL.');
 
         const postsRes = await fetch('./Posts.json', { cache: 'no-store' });
-        if(!postsRes.ok) throw new Error('Could not load Posts.json (Status: ' + postsRes.status + ')');
-        allPosts = await postsRes.json();
+        if(!postsRes.ok) throw new Error('Could not load Posts.json');
+        state.allPosts = await postsRes.json();
         
-        postData = allPosts.find(p => p && p.file && p.file.trim() === file.trim());
-        if(!postData) throw new Error('Post data not found for file: ' + file);
+        state.postData = state.allPosts.find(p => p && p.file && p.file.trim() === file.trim());
+        if(!state.postData) throw new Error('Post data not found');
         
-        const postType = postData.type ? postData.type.toLowerCase().trim() : 'article';
+        const postType = state.postData.type ? state.postData.type.toLowerCase().trim() : 'article';
         document.body.className = 'post-type-' + postType;
         
         const mdRes = await fetch(file, { cache: 'no-store' });
-        if(!mdRes.ok) throw new Error('Failed to load Markdown file: ' + file + ' (Status: ' + mdRes.status + ')');
+        if(!mdRes.ok) throw new Error('Failed to load Markdown file');
         const markdown = await mdRes.text();
         
-        document.title = postData.title + ' — Boluadeoye';
+        document.title = state.postData.title + ' — Boluadeoye';
 
-        const coverUrl = postData.cover || '';
-        const contentHTML = typeof marked !== 'undefined' ? marked.parse(markdown, { breaks: true }) : '<p>Error: Markdown parser not loaded.</p>';
-        const dateStr = new Date(postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-        
+        // Split markdown into pages
+        state.pages = markdown.split(/\n---\s*page\s*---\n/);
+        state.currentPage = startPage > state.pages.length ? 1 : startPage;
+
+        const coverUrl = state.postData.cover || '';
+        const dateStr = new Date(state.postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         const coverImageHTML = coverUrl ? `<img src="${coverUrl}" alt="" class="feature-cover-bg">` : '';
 
         pageContainer.innerHTML = `
-          <section class="feature-cover">
+          <section class="feature-cover" id="feature-cover">
             ${coverImageHTML}
             <div class="post-header wrap">
               <div class="post-meta">
                 <span>📅 ${dateStr}</span>
-                <span>📁 ${postData.type || 'General'}</span>
-                <span>⏱️ ${postData.minutes} min read</span>
+                <span>📁 ${state.postData.type || 'General'}</span>
+                <span>⏱️ ${state.postData.minutes} min read</span>
               </div>
-              <h1 class="post-title">${postData.title}</h1>
+              <h1 class="post-title">${state.postData.title}</h1>
+              <button class="begin-reading-btn" id="begin-reading">Begin Reading</button>
             </div>
           </section>
 
-          <main class="main-content-area wrap">
+          <main class="main-content-area wrap" id="main-content-area" style="display:none;">
             <aside id="author-sidebar" class="author-sidebar">
               <img src="images/Logo.png" alt="Adeoye Boluwatife">
               <div class="name">Adeoye Boluwatife</div>
               <div class="title">Author</div>
             </aside>
             <div class="post-content-wrapper">
-              <article class="post-content">
-                ${contentHTML}
-              </article>
+              <article class="post-content" id="article-content"></article>
+              <div class="page-navigation" id="page-navigation">
+                <button class="btn-chip prev-page">← Previous</button>
+                <span class="page-indicator"></span>
+                <button class="btn-chip next-page">Next →</button>
+              </div>
               <hr class="article-ender">
               <nav class="post-nav">
-                <a href="./" class="btn-chip">← Back to Home</a>
-                <a href="./posts.html" class="btn-chip">View All Posts →</a>
-                <button class="btn-chip" onclick="sharePost()">Share Post 📤</button>
+                <button class="btn-chip" onclick="window.sharePost()">Share Post 📤</button>
               </nav>
               <section id="related-posts-container"></section>
               <div id="disqus_thread"></div>
             </div>
           </main>
         `;
-
-        displayRelatedPosts(postData);
-        loadDisqus(file);
-        setTimeout(() => {
-          updateProgressBar();
-          handleAuthorSidebar();
-        }, 100);
+        
+        // --- EVENT LISTENERS ---
+        document.getElementById('begin-reading').addEventListener('click', () => {
+            const mainContent = document.getElementById('main-content-area');
+            mainContent.style.display = 'grid';
+            renderPage(1);
+        });
+        document.querySelector('.prev-page').addEventListener('click', () => renderPage(state.currentPage - 1));
+        document.querySelector('.next-page').addEventListener('click', () => renderPage(state.currentPage + 1));
+        
+        // Make sharePost globally accessible
+        window.sharePost = sharePost;
+        
+        // Load secondary content
+        // displayRelatedPosts(state.postData); // Moved to display after reading
+        // loadDisqus(file); // Moved to display after reading
 
       } catch(err) {
         console.error('Post load error:', err);
