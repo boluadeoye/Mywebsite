@@ -205,6 +205,9 @@
   .toc-sidebar li a { color: var(--muted); display: block; padding: 0.5rem 0; }
   .toc-sidebar li a:hover { color: var(--orange); }
   .toc-sidebar li.active a { color: var(--orange); font-weight: 700; }
+  @media (max-width: 1023px) {
+    .toc-sidebar { display: none !important; }
+  }
 
   .page-navigation { max-width: 75ch; margin: 2.5rem auto 0; display: flex; justify-content: space-between; align-items: center; }
   @media (max-width: 768px) {
@@ -595,6 +598,10 @@
     menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
     menuOverlay.addEventListener('click', closeMenu);
     window.addEventListener('scroll', () => { updateProgressBar(); handleAuthorSidebar(); });
+    window.addEventListener('resize', () => {
+      const toc = document.querySelector('.toc-sidebar');
+      if (window.innerWidth < 1024 && toc) toc.style.display = 'none';
+    });
 
     document.addEventListener('DOMContentLoaded', loadPost);
   })();
