@@ -140,7 +140,7 @@
   .begin-reading-btn:hover { background: var(--orange); color: var(--orange-ink); transform: translateY(-2px); }
 
   .main-content-area {
-    background: var(--bg); /* Ensures solid background */
+    background: var(--bg);
     display: none;
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -249,12 +249,13 @@
     </div>
   </header>
   
-  <section class="feature-cover" id="feature-cover" style="display:none;"></section>
-  <main class="main-content-area wrap" id="main-content-area" style="display:none;"></main>
-  
-  <div id="loading-container" class="loading-container">
-    <div class="loading-spinner"></div>
-    <p>Loading your article...</p>
+  <div id="post-page-wrapper">
+    <section class="feature-cover" id="feature-cover" style="display:none;"></section>
+    <main class="main-content-area wrap" id="main-content-area" style="display:none;"></main>
+    <div id="loading-container" class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Loading your article...</p>
+    </div>
   </div>
   
   <footer>
@@ -278,39 +279,6 @@
     const mainContent = document.getElementById('main-content-area');
     const loadingContainer = document.getElementById('loading-container');
 
-    // --- CORE FUNCTIONS ---
-    function closeMenu() {
-      sideMenu.classList.remove('active');
-      menuOverlay.classList.remove('show');
-      menuBtn.setAttribute('aria-expanded', 'false');
-    }
-    function openMenu() {
-      sideMenu.classList.add('active');
-      menuOverlay.classList.add('show');
-      menuBtn.setAttribute('aria-expanded', 'true');
-    }
-    
-    function updateProgressBar() {
-        if (!progressBar) return;
-        const totalPages = state.pages.length;
-        if (totalPages < 1) return;
-        
-        const progress = ((state.currentPage - 1) / totalPages) * 100;
-        progressBar.style.width = progress + '%';
-    }
-    
-    function handleAuthorSidebar() {
-      const sidebar = document.getElementById('author-sidebar');
-      if (!sidebar || !mainContent.classList.contains('visible')) return;
-      
-      const startVisible = mainContent.offsetTop;
-      if (window.scrollY > startVisible - 100) {
-        sidebar.classList.add('visible');
-      } else {
-        sidebar.classList.remove('visible');
-      }
-    }
-    
     function sharePost() {
       if(state.postData && navigator.share) {
         navigator.share({ title: state.postData.title, text: state.postData.excerpt, url: window.location.href });
@@ -320,44 +288,6 @@
       }
     }
     window.sharePost = sharePost;
-
-    function loadDisqus(postIdentifier) {
-        const container = document.getElementById('disqus_thread');
-        if (!postIdentifier || !container) return;
-        var disqus_config = function () {
-            this.page.url = window.location.href;
-            this.page.identifier = postIdentifier;
-        };
-        (function() {
-            var d = document, s = d.createElement('script');
-            s.src = 'https://bolus-personal-blog.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        })();
-    }
-    
-    function displayRelatedPosts(currentPost) {
-        if (!state.allPosts.length || !currentPost || !currentPost.type) return;
-        const container = document.getElementById('related-posts-container');
-        if (!container) return;
-
-        const related = state.allPosts.filter(p => p.type === currentPost.type && p.file !== currentPost.file);
-        if (related.length === 0) return;
-
-        const shuffled = related.sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, 3);
-
-        const cardsHTML = selected.map(post => {
-            const excerpt = (post.excerpt || '').substring(0, 80) + '...';
-            const coverHTML = post.cover ? `<div class="cover"><img src="${post.cover}" alt="${post.title}" loading="lazy"></div>` : '';
-            return `<a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card">
-                      ${coverHTML}
-                      <div class="content"><h4>${post.title}</h4><p>${excerpt}</p></div>
-                    </a>`;
-        }).join('');
-        
-        container.innerHTML = `<h3 class="related-posts-title">You Might Also Like</h3><div class="related-posts-grid">${cardsHTML}</div>`;
-    }
 
     function renderPage(pageNumber) {
         if (pageNumber < 1) return;
@@ -391,15 +321,50 @@
         indicator.textContent = `Page ${state.currentPage} / ${totalPages}`;
         indicator.style.display = state.currentPage > totalPages ? 'none' : 'block';
         
-        if (mainContent) {
-            mainContent.scrollIntoView({ behavior: 'smooth' });
-        }
+        mainContent.scrollIntoView({ behavior: 'smooth' });
         updateProgressBar();
     }
     
     function beginReading() {
         mainContent.classList.add('visible');
         renderPage(state.currentPage);
+    }
+    
+    function attachPageNavListeners() {
+      document.querySelector('.prev-page').addEventListener('click', () => renderPage(state.currentPage - 1));
+      document.querySelector('.next-page').addEventListener('click', () => renderPage(state.currentPage + 1));
+    }
+    
+    function loadDisqus(postIdentifier) {
+        const container = document.getElementById('disqus_thread');
+        if (!postIdentifier || !container) return;
+        var disqus_config = function () {
+            this.page.url = window.location.href;
+            this.page.identifier = postIdentifier;
+        };
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.src = 'https://bolus-personal-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    }
+    
+    function displayRelatedPosts(currentPost) {
+        if (!state.allPosts.length || !currentPost || !currentPost.type) return;
+        const container = document.getElementById('related-posts-container');
+        if (!container) return;
+        const related = state.allPosts.filter(p => p.type === currentPost.type && p.file !== currentPost.file);
+        if (related.length === 0) return;
+        const shuffled = related.sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 3);
+        const cardsHTML = selected.map(post => {
+            const excerpt = (post.excerpt || '').substring(0, 80) + '...';
+            const coverHTML = post.cover ? `<div class="cover"><img src="${post.cover}" alt="${post.title}" loading="lazy"></div>` : '';
+            return `<a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card">
+                      ${coverHTML}<div class="content"><h4>${post.title}</h4><p>${excerpt}</p></div></a>`;
+        }).join('');
+        container.innerHTML = `<h3 class="related-posts-title">You Might Also Like</h3><div class="related-posts-grid">${cardsHTML}</div>`;
     }
 
     async function loadPost() {
@@ -471,15 +436,10 @@
             </div>
         `;
         
-        document.getElementById('begin-reading').addEventListener('click', beginReading);
-        document.querySelector('.prev-page').addEventListener('click', () => renderPage(state.currentPage - 1));
-        document.querySelector('.next-page').addEventListener('click', () => renderPage(state.currentPage + 1));
-        
-        menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
-        menuOverlay.addEventListener('click', closeMenu);
-        window.addEventListener('scroll', () => {
-          updateProgressBar();
-          handleAuthorSidebar();
+        document.getElementById('begin-reading').addEventListener('click', () => {
+          mainContent.classList.add('visible');
+          renderPage(state.currentPage);
+          attachPageNavListeners();
         });
 
       } catch(err) {
@@ -490,14 +450,30 @@
     
     function renderError(container, message){
         const errorHTML = `<div class="error-container"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
-        const targetContainer = container || pageContainer;
+        const targetContainer = container || document.getElementById('post-page-wrapper');
         if (targetContainer) {
             targetContainer.innerHTML = errorHTML;
-            targetContainer.style.display = 'flex';
         }
         if (featureCover) featureCover.style.display = 'none';
         if (mainContent) mainContent.style.display = 'none';
     }
+    
+    function closeMenu() {
+      sideMenu.classList.remove('active');
+      menuOverlay.classList.remove('show');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    }
+    function openMenu() {
+      sideMenu.classList.add('active');
+      menuOverlay.classList.add('show');
+      menuBtn.setAttribute('aria-expanded', 'true');
+    }
+    menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
+    menuOverlay.addEventListener('click', closeMenu);
+    window.addEventListener('scroll', () => {
+      updateProgressBar();
+      handleAuthorSidebar();
+    });
 
     document.addEventListener('DOMContentLoaded', loadPost);
   })();
