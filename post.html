@@ -42,7 +42,7 @@
     padding: 0 1rem;
   }
   .brand { display: flex; flex-direction: column; align-items: center; gap: 0; position: absolute; left: 50%; top: -20px; transform: translateX(-50%); }
-  .brand-logo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; transition: transform 0.4s var(--transition); margin-bottom: -30px; border: 3px solid rgba(255,152,0,.4); }
+  .brand-logo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; transition: transform 0.4s var(--transition); margin-bottom: -30px; } /* Removed orange border */
   .brand:hover .brand-logo { transform: rotate(10deg) scale(1.05); }
   .brand h1 { font-family: var(--serif); font-size: 1.3rem; font-weight: 800; line-height: 1; letter-spacing: -0.5px; color: var(--ink); text-shadow: 0 1px 3px rgba(0,0,0,0.2); }
 
@@ -152,9 +152,7 @@
   .post-content-wrapper { 
     max-width: 75ch; 
     margin: 0 auto; 
-    border-left: 2px solid rgba(255, 152, 0, 0.3); /* Increased thickness and opacity */
-    border-right: 2px solid rgba(255, 152, 0, 0.3); /* Increased thickness and opacity */
-    padding: 0 2rem; /* Increased padding for better framing */
+    padding: 0 2rem; /* Removed borders, kept padding for framing */
     box-shadow: 0 0 15px rgba(0,0,0,0.2); /* Subtle shadow for depth */
   }
   .post-content {
