@@ -4,11 +4,17 @@ One of the pots was perfect, and it always delivered a full portion of water aft
 
 For two years, this went on daily. The perfect pot was proud of its accomplishments, flawless in its service. But the poor cracked pot was deeply ashamed of its own imperfection, miserable that it could only do half of what it had been made to do.
 
+---
+page ---
+
 Finally, after two years of what it perceived as bitter failure, the cracked pot spoke to the old man one day by the river. "I am so ashamed of myself," it cried. "Because of this crack in my side, water leaks out all the way back to your house. You do all of this work, but because of my flaw, you only get half the reward."
 
 The old man smiled kindly. "As we return to the house," he said gently, "I want you to notice the beautiful flowers growing along the path."
 
 Indeed, as they went up the hill, the cracked pot noticed the sun warming the beautiful wild flowers on its side of the path, and it was cheered for a moment. But at the end of the trail, it still felt the sting of its failure, as it had once again leaked out half its load. It began to apologize again.
+
+---
+page ---
 
 The old man simply said:
 
