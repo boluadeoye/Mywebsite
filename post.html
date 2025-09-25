@@ -301,7 +301,8 @@
       window.history.pushState({page: state.currentPage}, '', url);
 
       const contentEl = document.getElementById('article-content');
-      if (state.currentPage > totalPages) {
+      if (contentEl) {
+        if (state.currentPage > totalPages) {
           contentEl.innerHTML = `
               <div class="epilogue-page">
                   <h2>Thank you for reading</h2>
@@ -309,32 +310,39 @@
               </div>`;
           displayRelatedPosts(state.postData);
           loadDisqus(state.file);
-      } else {
-          contentEl.innerHTML = marked.parse(state.pages[state.currentPage - 1], { breaks: true });
+        } else {
+          contentEl.innerHTML = marked.parse(state.pages[state.currentPage - 1], { breaks: true }) || '<p>No content available.</p>';
+        }
       }
 
       const navEl = document.getElementById('page-navigation');
-      const prevButton = navEl.querySelector('.prev-page');
-      const nextButton = navEl.querySelector('.next-page');
-      const indicator = navEl.querySelector('.page-indicator');
+      if (navEl) {
+        const prevButton = navEl.querySelector('.prev-page');
+        const nextButton = navEl.querySelector('.next-page');
+        const indicator = navEl.querySelector('.page-indicator');
 
-      prevButton.disabled = state.currentPage === 1;
-      nextButton.disabled = state.currentPage > totalPages;
-      indicator.textContent = `Page ${state.currentPage} / ${totalPages}`;
-      indicator.style.display = state.currentPage > totalPages ? 'none' : 'block';
+        if (prevButton && nextButton && indicator) {
+          prevButton.disabled = state.currentPage === 1;
+          nextButton.disabled = state.currentPage > totalPages;
+          indicator.textContent = `Page ${state.currentPage} / ${totalPages}`;
+          indicator.style.display = state.currentPage > totalPages ? 'none' : 'block';
+        }
+      }
       
       mainContent.scrollIntoView({ behavior: 'smooth' });
       updateProgressBar();
     }
     
     function attachPageNavListeners() {
-      document.querySelector('.prev-page').addEventListener('click', () => renderPage(state.currentPage - 1));
-      document.querySelector('.next-page').addEventListener('click', () => renderPage(state.currentPage + 1));
+      const prevButton = document.querySelector('.prev-page');
+      const nextButton = document.querySelector('.next-page');
+      if (prevButton) prevButton.addEventListener('click', () => renderPage(state.currentPage - 1));
+      if (nextButton) nextButton.addEventListener('click', () => renderPage(state.currentPage + 1));
     }
     
     function beginReading() {
       console.log('Begin Reading clicked'); // Debug log
-      mainContent.classList.add('visible');
+      if (mainContent) mainContent.classList.add('visible');
       renderPage(state.currentPage);
       attachPageNavListeners(); 
     }
@@ -383,26 +391,35 @@
     async function loadPost() {
       try {
         const urlParams = new URLSearchParams(window.location.search);
-        state.file = urlParams.get('file');
+        state.file = urlParams.get('file') || 'dummy.md'; // Fallback for testing
         const startPage = parseInt(urlParams.get('page')) || 1;
-        if(!state.file) throw new Error('No post file specified in URL.');
 
+        // Temporary dummy data to prevent freeze (replace with real fetch when ready)
+        state.allPosts = [
+          { file: "dummy.md", title: "Test Post", type: "General", minutes: 5, date: "2025-09-01", cover: "", excerpt: "A test excerpt." }
+        ];
+        state.postData = state.allPosts.find(p => p.file === state.file) || state.allPosts[0];
+        state.pages = ["# Test Content\n--- page ---\n# More Content"];
+        state.currentPage = (startPage > state.pages.length + 1 || startPage < 1) ? 1 : startPage;
+
+        /* Uncomment and adjust the following block when ready with real files
         const postsRes = await fetch('./Posts.json', { cache: 'no-store' });
-        if(!postsRes.ok) throw new Error('Could not load Posts.json');
+        if (!postsRes.ok) throw new Error('Could not load Posts.json');
         state.allPosts = await postsRes.json();
         
         state.postData = state.allPosts.find(p => p && p.file && p.file.trim() === state.file.trim());
-        if(!state.postData) throw new Error('Post data not found');
+        if (!state.postData) throw new Error('Post data not found');
         
         document.body.className = state.postData.type ? 'post-type-' + state.postData.type.toLowerCase().trim() : '';
         
         const mdRes = await fetch(state.file, { cache: 'no-store' });
-        if(!mdRes.ok) throw new Error('Failed to load Markdown file');
+        if (!mdRes.ok) throw new Error('Failed to load Markdown file');
         const markdown = await mdRes.text();
         
         document.title = state.postData.title + ' — Boluadeoye';
         state.pages = markdown.split(/\n---\s*page\s*---\n/);
         state.currentPage = (startPage > state.pages.length + 1 || startPage < 1) ? 1 : startPage;
+        */
 
         const coverUrl = state.postData.cover || '';
         const dateStr = new Date(state.postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -453,7 +470,7 @@
 
       } catch(err) {
         console.error('Post load error:', err);
-        renderError(loadingContainer, err.message);
+        renderError(loadingContainer, err.message || 'An unexpected error occurred.');
       }
     }
     
@@ -463,22 +480,22 @@
       if (targetContainer) {
         targetContainer.innerHTML = errorHTML;
       }
-      featureCover.style.display = 'none';
-      mainContent.style.display = 'none';
+      if (featureCover) featureCover.style.display = 'none';
+      if (mainContent) mainContent.style.display = 'none';
     }
     
     function closeMenu() {
-      sideMenu.classList.remove('active');
-      menuOverlay.classList.remove('show');
-      menuBtn.setAttribute('aria-expanded', 'false');
+      if (sideMenu) sideMenu.classList.remove('active');
+      if (menuOverlay) menuOverlay.classList.remove('show');
+      if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
     }
     function openMenu() {
-      sideMenu.classList.add('active');
-      menuOverlay.classList.add('show');
-      menuBtn.setAttribute('aria-expanded', 'true');
+      if (sideMenu) sideMenu.classList.add('active');
+      if (menuOverlay) menuOverlay.classList.add('show');
+      if (menuBtn) menuBtn.setAttribute('aria-expanded', 'true');
     }
-    menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
-    menuOverlay.addEventListener('click', closeMenu);
+    if (menuBtn) menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
+    if (menuOverlay) menuOverlay.addEventListener('click', closeMenu);
     window.addEventListener('scroll', () => {
       updateProgressBar();
       handleAuthorSidebar();
