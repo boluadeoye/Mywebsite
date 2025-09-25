@@ -145,7 +145,7 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
-    padding-top: 3rem; /* Add space from the top for scroll target */
+    padding-top: 3rem;
   }
   @media(min-width: 1024px) {
     .main-content-area {
@@ -180,18 +180,18 @@
   .post-type-devotional .post-content blockquote { background: transparent; border-color: rgba(245,158,11,.5); font-size: 1.15rem; font-style: normal; color: var(--ink); }
 
   .page-navigation { max-width: 75ch; margin: 2rem auto 0; display: flex; justify-content: space-between; align-items: center; }
-  .page-indicator { font-size: .9rem; color: var(--muted); }
+  .page-indicator { font-size: .9rem; color: var(--muted); font-weight: 700; }
 
   .epilogue-page { text-align: center; padding: 4rem 1rem; }
-  .epilogue-page .brand-logo { width: 80px; height: 80px; margin: 0 auto 1.5rem; opacity: .5; }
   .epilogue-page h2 { font-family: var(--serif); font-size: 2rem; margin-bottom: 1rem; }
   .epilogue-page p { color: var(--muted); max-width: 60ch; margin: 0 auto 2rem; }
 
   .article-ender { border: none; height: 1px; background: rgba(245,158,11,.15); margin: 3rem auto 0; max-width: 75ch; }
-  .post-nav{ display:flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 2.5rem 0 1rem; flex-wrap:wrap; max-width:75ch; margin:0 auto; }
-  .btn-chip{ padding: .6rem 1.1rem; background: transparent; color: var(--orange); border: 1px solid var(--orange); border-radius: 999px; font-weight: 700; font-size: .85rem; box-shadow: none; transition: all .2s var(--transition); cursor: pointer; }
+  .post-nav{ display:flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 2.5rem 0 1rem; flex-wrap:nowrap; max-width:75ch; margin:0 auto; }
+  .btn-chip{ padding: .6rem 1.1rem; background: transparent; color: var(--orange); border: 1px solid var(--orange); border-radius: 999px; font-weight: 700; font-size: .85rem; box-shadow: none; transition: all .2s var(--transition); cursor: pointer; white-space: nowrap; }
   .btn-chip:hover{ background: var(--orange); color: var(--orange-ink); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,.2); }
-  .btn-chip:disabled { opacity: .3; cursor: not-allowed; }
+  .btn-chip:disabled { opacity: .3; cursor: not-allowed; pointer-events: none; }
+  .btn-chip.share-btn { margin: 0 auto; }
   
   .loading-container, .error-container { min-height:300px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--muted); padding:2rem 1rem; text-align:center; }
   .loading-spinner{ width:36px; height:36px; border:3px solid rgba(245,158,11,.2); border-top-color:var(--orange); border-radius:50%; animation:spin 1s linear infinite; margin-bottom:1rem; }
@@ -262,10 +262,8 @@
   (function(){
     // --- STATE MANAGEMENT ---
     const state = {
-      allPosts: [],
-      postData: null,
-      pages: [],
-      currentPage: 1,
+      allPosts: [], postData: null,
+      pages: [], currentPage: 1, file: null
     };
 
     // --- DOM ELEMENTS ---
@@ -290,20 +288,15 @@
     function updateProgressBar() {
         if (!progressBar) return;
         const totalPages = state.pages.length;
-        if (totalPages <= 1) {
-            const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-            const scrollableHeight = scrollHeight - clientHeight;
-            const scrollPercent = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 100;
-            progressBar.style.width = scrollPercent + '%';
-        } else {
-            const progress = ((state.currentPage - 1) / (totalPages - 1)) * 100;
-            progressBar.style.width = progress + '%';
-        }
+        if (totalPages < 1) return; // Don't divide by zero
+        
+        const progress = ((state.currentPage - 1) / totalPages) * 100;
+        progressBar.style.width = progress + '%';
     }
     
     function handleAuthorSidebar() {
       const sidebar = document.getElementById('author-sidebar');
-      const mainContent = document.querySelector('.main-content-area');
+      const mainContent = document.getElementById('main-content-area');
       if (!sidebar || !mainContent) return;
       
       const startVisible = mainContent.offsetTop;
@@ -313,7 +306,7 @@
         sidebar.classList.remove('visible');
       }
     }
-
+    
     function sharePost() {
       if(state.postData && navigator.share) {
         navigator.share({ title: state.postData.title, text: state.postData.excerpt, url: window.location.href });
@@ -322,82 +315,109 @@
         window.open('https://api.whatsapp.com/send?text=' + text, '_blank');
       }
     }
+    window.sharePost = sharePost; // Make it globally accessible
+
+    function loadDisqus(postIdentifier) {
+        if (!postIdentifier) return;
+        var disqus_config = function () {
+            this.page.url = window.location.href;
+            this.page.identifier = postIdentifier;
+        };
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.src = 'https://bolus-personal-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    }
+    
+    function displayRelatedPosts(currentPost) {
+        if (!state.allPosts.length || !currentPost || !currentPost.type) return;
+        const container = document.getElementById('related-posts-container');
+        if (!container) return;
+
+        const related = state.allPosts.filter(p => p.type === currentPost.type && p.file !== currentPost.file);
+        if (related.length === 0) return;
+
+        const shuffled = related.sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 3);
+
+        const cardsHTML = selected.map(post => {
+            const excerpt = (post.excerpt || '').substring(0, 80) + '...';
+            const coverHTML = post.cover ? `<div class="cover"><img src="${post.cover}" alt="${post.title}" loading="lazy"></div>` : '';
+            return `<a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card">
+                      ${coverHTML}
+                      <div class="content"><h4>${post.title}</h4><p>${excerpt}</p></div>
+                    </a>`;
+        }).join('');
+        
+        container.innerHTML = `<h3 class="related-posts-title">You Might Also Like</h3><div class="related-posts-grid">${cardsHTML}</div>`;
+    }
 
     function renderPage(pageNumber) {
+        if (pageNumber < 1) return;
         state.currentPage = pageNumber;
         const totalPages = state.pages.length;
-        const mainContentArea = document.querySelector('.main-content-area');
+        const mainContentArea = document.getElementById('main-content-area');
         
-        // Update URL
         const url = new URL(window.location);
         url.searchParams.set('page', state.currentPage);
         window.history.pushState({page: state.currentPage}, '', url);
 
-        // Render Content
         const contentEl = document.getElementById('article-content');
         if (state.currentPage > totalPages) { // Epilogue page
             contentEl.innerHTML = `
                 <div class="epilogue-page">
-                    <img src="images/Logo.png" alt="Boluadeoye Logo" class="brand-logo" style="width:80px;height:80px;margin-bottom:1.5rem;opacity:.5;">
                     <h2>Thank you for reading</h2>
-                    <p>Your time and attention are deeply appreciated. If this story resonated with you, please consider sharing it or leaving your thoughts in the comments below.</p>
+                    <p>Your time and attention are deeply appreciated. If this story resonated with you, please consider sharing it or leaving your thoughts below.</p>
                 </div>`;
+            displayRelatedPosts(state.postData);
+            loadDisqus(state.file);
         } else {
             contentEl.innerHTML = marked.parse(state.pages[state.currentPage - 1], { breaks: true });
         }
 
-        // Update Navigation
         const navEl = document.getElementById('page-navigation');
         const prevButton = navEl.querySelector('.prev-page');
         const nextButton = navEl.querySelector('.next-page');
         const indicator = navEl.querySelector('.page-indicator');
 
         prevButton.disabled = state.currentPage === 1;
-        nextButton.disabled = state.currentPage > totalPages; // Disabled on epilogue
+        nextButton.disabled = state.currentPage > totalPages;
         indicator.textContent = `Page ${state.currentPage} / ${totalPages}`;
-
-        if(state.currentPage > totalPages) {
-            indicator.style.display = 'none';
-        } else {
-            indicator.style.display = 'block';
-        }
         
-        // Cinematic Scroll
+        indicator.style.display = state.currentPage > totalPages ? 'none' : 'block';
+        
         if (mainContentArea) {
             mainContentArea.scrollIntoView({ behavior: 'smooth' });
         }
         updateProgressBar();
     }
 
-    // --- INITIAL PAGE LOAD ---
     async function loadPost() {
-      if(!pageContainer) return;
-      
       try {
         const urlParams = new URLSearchParams(window.location.search);
-        const file = urlParams.get('file');
+        state.file = urlParams.get('file');
         const startPage = parseInt(urlParams.get('page')) || 1;
-        if(!file) throw new Error('No post file specified in URL.');
+        if(!state.file) throw new Error('No post file specified in URL.');
 
         const postsRes = await fetch('./Posts.json', { cache: 'no-store' });
         if(!postsRes.ok) throw new Error('Could not load Posts.json');
         state.allPosts = await postsRes.json();
         
-        state.postData = state.allPosts.find(p => p && p.file && p.file.trim() === file.trim());
+        state.postData = state.allPosts.find(p => p && p.file && p.file.trim() === state.file.trim());
         if(!state.postData) throw new Error('Post data not found');
         
         const postType = state.postData.type ? state.postData.type.toLowerCase().trim() : 'article';
         document.body.className = 'post-type-' + postType;
         
-        const mdRes = await fetch(file, { cache: 'no-store' });
+        const mdRes = await fetch(state.file, { cache: 'no-store' });
         if(!mdRes.ok) throw new Error('Failed to load Markdown file');
         const markdown = await mdRes.text();
         
         document.title = state.postData.title + ' — Boluadeoye';
-
-        // Split markdown into pages
         state.pages = markdown.split(/\n---\s*page\s*---\n/);
-        state.currentPage = startPage > state.pages.length ? 1 : startPage;
+        state.currentPage = startPage > state.pages.length + 1 ? 1 : startPage;
 
         const coverUrl = state.postData.cover || '';
         const dateStr = new Date(state.postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -416,7 +436,6 @@
               <button class="begin-reading-btn" id="begin-reading">Begin Reading</button>
             </div>
           </section>
-
           <main class="main-content-area wrap" id="main-content-area" style="display:none;">
             <aside id="author-sidebar" class="author-sidebar">
               <img src="images/Logo.png" alt="Adeoye Boluwatife">
@@ -425,14 +444,16 @@
             </aside>
             <div class="post-content-wrapper">
               <article class="post-content" id="article-content"></article>
-              <div class="page-navigation" id="page-navigation">
+              <nav class="page-navigation" id="page-navigation">
                 <button class="btn-chip prev-page">← Previous</button>
                 <span class="page-indicator"></span>
                 <button class="btn-chip next-page">Next →</button>
-              </div>
+              </nav>
               <hr class="article-ender">
-              <nav class="post-nav">
-                <button class="btn-chip" onclick="window.sharePost()">Share Post 📤</button>
+              <nav class="post-nav" id="post-nav">
+                <a href="./" class="btn-chip">← Back to Home</a>
+                <button class="btn-chip share-btn" onclick="window.sharePost()">Share Post 📤</button>
+                <a href="./posts.html" class="btn-chip">All Posts →</a>
               </nav>
               <section id="related-posts-container"></section>
               <div id="disqus_thread"></div>
@@ -440,21 +461,20 @@
           </main>
         `;
         
-        // --- EVENT LISTENERS ---
         document.getElementById('begin-reading').addEventListener('click', () => {
             const mainContent = document.getElementById('main-content-area');
             mainContent.style.display = 'grid';
-            renderPage(1);
+            renderPage(state.currentPage);
         });
         document.querySelector('.prev-page').addEventListener('click', () => renderPage(state.currentPage - 1));
         document.querySelector('.next-page').addEventListener('click', () => renderPage(state.currentPage + 1));
         
-        // Make sharePost globally accessible
-        window.sharePost = sharePost;
-        
-        // Load secondary content
-        // displayRelatedPosts(state.postData); // Moved to display after reading
-        // loadDisqus(file); // Moved to display after reading
+        menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
+        menuOverlay.addEventListener('click', closeMenu);
+        window.addEventListener('scroll', () => {
+          updateProgressBar();
+          handleAuthorSidebar();
+        });
 
       } catch(err) {
         console.error('Post load error:', err);
@@ -462,6 +482,10 @@
       }
     }
     
+    function renderError(container, message){
+      container.innerHTML = `<div class="error-container"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
+    }
+
     document.addEventListener('DOMContentLoaded', loadPost);
   })();
   </script>
