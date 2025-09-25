@@ -278,17 +278,19 @@
     const featureCover = document.getElementById('feature-cover');
     const mainContent = document.getElementById('main-content-area');
     const loadingContainer = document.getElementById('loading-container');
+    const pageWrapper = document.getElementById('post-page-wrapper');
 
-    function sharePost() {
+    // --- GLOBAL FUNCTIONS ---
+    window.sharePost = function() {
       if(state.postData && navigator.share) {
         navigator.share({ title: state.postData.title, text: state.postData.excerpt, url: window.location.href });
       } else if (state.postData) {
         const text = encodeURIComponent(`Check out: "${state.postData.title}" ${window.location.href}`);
         window.open('https://api.whatsapp.com/send?text=' + text, '_blank');
       }
-    }
-    window.sharePost = sharePost;
-
+    };
+    
+    // --- CORE LOGIC ---
     function renderPage(pageNumber) {
         if (pageNumber < 1) return;
         state.currentPage = pageNumber;
@@ -325,46 +327,15 @@
         updateProgressBar();
     }
     
-    function beginReading() {
-        mainContent.classList.add('visible');
-        renderPage(state.currentPage);
-    }
-    
     function attachPageNavListeners() {
       document.querySelector('.prev-page').addEventListener('click', () => renderPage(state.currentPage - 1));
       document.querySelector('.next-page').addEventListener('click', () => renderPage(state.currentPage + 1));
     }
     
-    function loadDisqus(postIdentifier) {
-        const container = document.getElementById('disqus_thread');
-        if (!postIdentifier || !container) return;
-        var disqus_config = function () {
-            this.page.url = window.location.href;
-            this.page.identifier = postIdentifier;
-        };
-        (function() {
-            var d = document, s = d.createElement('script');
-            s.src = 'https://bolus-personal-blog.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        })();
-    }
-    
-    function displayRelatedPosts(currentPost) {
-        if (!state.allPosts.length || !currentPost || !currentPost.type) return;
-        const container = document.getElementById('related-posts-container');
-        if (!container) return;
-        const related = state.allPosts.filter(p => p.type === currentPost.type && p.file !== currentPost.file);
-        if (related.length === 0) return;
-        const shuffled = related.sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, 3);
-        const cardsHTML = selected.map(post => {
-            const excerpt = (post.excerpt || '').substring(0, 80) + '...';
-            const coverHTML = post.cover ? `<div class="cover"><img src="${post.cover}" alt="${post.title}" loading="lazy"></div>` : '';
-            return `<a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card">
-                      ${coverHTML}<div class="content"><h4>${post.title}</h4><p>${excerpt}</p></div></a>`;
-        }).join('');
-        container.innerHTML = `<h3 class="related-posts-title">You Might Also Like</h3><div class="related-posts-grid">${cardsHTML}</div>`;
+    function beginReading() {
+        mainContent.classList.add('visible');
+        renderPage(state.currentPage);
+        attachPageNavListeners(); 
     }
 
     async function loadPost() {
@@ -381,8 +352,7 @@
         state.postData = state.allPosts.find(p => p && p.file && p.file.trim() === state.file.trim());
         if(!state.postData) throw new Error('Post data not found');
         
-        const postType = state.postData.type ? state.postData.type.toLowerCase().trim() : 'article';
-        document.body.className = 'post-type-' + postType;
+        document.body.className = state.postData.type ? 'post-type-' + state.postData.type.toLowerCase().trim() : '';
         
         const mdRes = await fetch(state.file, { cache: 'no-store' });
         if(!mdRes.ok) throw new Error('Failed to load Markdown file');
@@ -436,11 +406,7 @@
             </div>
         `;
         
-        document.getElementById('begin-reading').addEventListener('click', () => {
-          mainContent.classList.add('visible');
-          renderPage(state.currentPage);
-          attachPageNavListeners();
-        });
+        document.getElementById('begin-reading').addEventListener('click', beginReading);
 
       } catch(err) {
         console.error('Post load error:', err);
@@ -450,12 +416,38 @@
     
     function renderError(container, message){
         const errorHTML = `<div class="error-container"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
-        const targetContainer = container || document.getElementById('post-page-wrapper');
+        const targetContainer = container || pageWrapper;
         if (targetContainer) {
             targetContainer.innerHTML = errorHTML;
+            targetContainer.style.display = 'flex';
         }
-        if (featureCover) featureCover.style.display = 'none';
-        if (mainContent) mainContent.style.display = 'none';
+        featureCover.style.display = 'none';
+        mainContent.style.display = 'none';
+    }
+    
+    function updateProgressBar() {
+        if (!progressBar) return;
+        const totalPages = state.pages.length;
+        if (totalPages === 0) { // Fallback for non-paginated or single page
+            const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+            const scrollableHeight = scrollHeight - clientHeight;
+            progressBar.style.width = scrollableHeight > 0 ? `${(scrollTop / scrollableHeight) * 100}%` : '100%';
+        } else {
+            const progress = (state.currentPage / (totalPages + 1)) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+    }
+    
+    function handleAuthorSidebar() {
+      const sidebar = document.getElementById('author-sidebar');
+      if (!sidebar || !mainContent.classList.contains('visible')) return;
+      
+      const startVisible = mainContent.offsetTop;
+      if (window.scrollY > startVisible - 100) {
+        sidebar.classList.add('visible');
+      } else {
+        sidebar.classList.remove('visible');
+      }
     }
     
     function closeMenu() {
