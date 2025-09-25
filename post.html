@@ -148,11 +148,12 @@
     object-fit:cover;
   }
 
+  /* --- TYPOGRAPHIC ENHANCEMENTS START --- */
   .post-content{
     max-width: 75ch;
     margin: 2rem auto;
     font-family: var(--body-serif);
-    font-size: 1.1rem;
+    font-size: 1.125rem; /* Base font size increased slightly for readability */
     line-height: 1.9;
     color:rgba(229,238,252,.9);
   }
@@ -164,19 +165,33 @@
     line-height: 0.8;
     padding: .2rem .6rem 0 0;
   }
-  .post-content h1, .post-content h2, .post-content h3{
+  /* Heading Rhythm and Scale */
+  .post-content h1, .post-content h2, .post-content h3, .post-content h4 {
     font-family: var(--serif);
     line-height: 1.3;
-    margin: 2.5rem 0 1.25rem;
+    color: var(--ink);
+  }
+  .post-content h2 {
+    font-size: 1.8rem;
+    margin-top: 3rem;   /* More space above */
+    margin-bottom: 1rem; /* Less space below */
+    border-bottom: 1px solid rgba(245,158,11,.15); /* Subtle separator */
+    padding-bottom: .5rem;
+  }
+  .post-content h3 {
+    font-size: 1.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
   }
   .post-content p { 
     margin-bottom: 1.5rem;
-    text-align: left; /* --- REVERTED ALIGNMENT --- */
+    text-align: left;
   }
   .post-content a {
     color: var(--orange);
     text-decoration: underline;
     text-underline-offset: 4px;
+    transition: color .2s var(--transition);
   }
   .post-content a:hover {
     color: var(--orange-light);
@@ -185,16 +200,21 @@
     margin: 1.5rem auto;
     padding-left: 2rem;
   }
+  .post-content li {
+    margin-bottom: .75rem; /* Spacing for list items */
+  }
   .post-content blockquote{
     position: relative;
-    padding: 1rem 1.5rem;
+    padding: 1.5rem 2rem;
     margin: 3rem auto;
     font-style: italic;
-    font-size: 1.2rem;
+    font-size: 1.25rem; /* Slightly larger */
     color: var(--muted);
     border-left: 3px solid var(--orange);
-    background: rgba(15,23,42,.5);
+    background: rgba(15,23,42,.6);
+    border-radius: 8px;
   }
+  /* --- TYPOGRAPHIC ENHANCEMENTS END --- */
   
   .post-nav{
     display:flex;
