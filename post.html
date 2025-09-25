@@ -504,7 +504,12 @@
       
       const coverHeight = cover.offsetHeight;
       const mainContent = document.getElementById('main-content-area');
-      const isVisible = mainContent.classList.contains('visible');
+      
+      let isVisible = false;
+      if (mainContent) {
+        const style = window.getComputedStyle(mainContent);
+        isVisible = style.display !== 'none';
+      }
 
       if (isVisible && window.scrollY > coverHeight) {
         sidebar.classList.add('visible');
