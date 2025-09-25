@@ -72,7 +72,7 @@
     height: 4px;
     background: linear-gradient(90deg, var(--orange-light), var(--orange));
     width: 0%;
-    z-index: 101;
+    z-index: 201;
   }
 
   .feature-cover {
@@ -99,7 +99,7 @@
     position: relative;
     z-index: 3;
     padding: 3rem;
-    max-width: 1200px; /* Wider to allow for page padding */
+    max-width: 1100px;
     margin: 0 auto;
     width: 100%;
   }
@@ -126,9 +126,6 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
-    max-width: 1100px;
-    margin: 3rem auto;
-    padding: 0 1rem;
   }
   @media(min-width: 1024px) {
     .main-content-area {
@@ -151,6 +148,7 @@
     font-size: 1.125rem;
     line-height: 1.9;
     color:rgba(229,238,252,.9);
+    padding-top: 3rem;
   }
   .post-content p:first-of-type::first-letter { font-family: var(--serif); color: var(--orange-light); float: left; font-size: 5rem; line-height: 0.8; padding: .2rem .6rem 0 0; }
   .post-content h2, .post-content h3, .post-content h4 { font-family: var(--serif); line-height: 1.3; color: var(--ink); }
@@ -284,7 +282,7 @@
       if (!sidebar || !cover) return;
 
       const coverHeight = cover.offsetHeight;
-      if (window.scrollY > coverHeight - 50) {
+      if (window.scrollY > coverHeight) {
         sidebar.classList.add('visible');
       } else {
         sidebar.classList.remove('visible');
@@ -378,19 +376,22 @@
         
         const coverImageHTML = coverUrl ? `<img src="${coverUrl}" alt="" class="feature-cover-bg">` : '';
 
+        // --- INTELLIGENT BYLINE LOGIC ---
+        const authorName = postData.author || 'Adeoye Boluwatife';
+        const bylineHTML = `<p class="post-byline">By ${authorName}</p>`;
+
+        // --- CORRECTED ARCHITECTURE ---
         pageContainer.innerHTML = `
           <section class="feature-cover">
             ${coverImageHTML}
-            <div class="wrap">
-              <header class="post-header">
-                <div class="post-meta">
-                  <span>📅 ${dateStr}</span>
-                  <span>📁 ${postData.type || 'General'}</span>
-                  <span>⏱️ ${postData.minutes} min read</span>
-                </div>
-                <h1 class="post-title">${postData.title}</h1>
-                <p class="post-byline">By Adeoye Boluwatife</p>
-              </header>
+            <div class="post-header wrap">
+              <div class="post-meta">
+                <span>📅 ${dateStr}</span>
+                <span>📁 ${postData.type || 'General'}</span>
+                <span>⏱️ ${postData.minutes} min read</span>
+              </div>
+              <h1 class="post-title">${postData.title}</h1>
+              ${bylineHTML}
             </div>
           </section>
 
@@ -433,4 +434,4 @@
   })();
   </script>
 </body>
-</html>
+</html>I
