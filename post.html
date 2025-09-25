@@ -87,12 +87,12 @@
     z-index: 2;
   }
   .post-header {
-    position: relative; z-index: 3; padding: 1.5rem; /* Reduced from 2rem to lessen padding */
-    width: 100%; opacity: 0; transform: translateY(0); margin-top: 5rem; /* Nudge down by 5rem */
+    position: relative; z-index: 3; padding: 1.5rem;
+    width: 100%; opacity: 0; transform: translateY(0); margin-top: 5rem;
     animation: fadeIn 1s .5s ease-out forwards;
   }
   @media (max-width: 768px) {
-    .post-header { padding: 1rem; margin-top: 3rem; /* Adjusted nudge for mobile */ }
+    .post-header { padding: 1rem; margin-top: 3rem; }
   }
   .post-meta {
     display: flex; justify-content: flex-start; align-items: center; gap: 1rem;
@@ -100,7 +100,7 @@
   }
   .post-meta span { color: var(--ink); }
   .post-title {
-    font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 3.8rem);
+    font-family: var(--serif); font-size: clamp(3rem, 6vw, 4.5rem); /* Increased from 2.5rem, 5vw, 3.8rem */
     font-weight: 800; line-height: 1.2; text-shadow: 0 2px 20px rgba(0,0,0,.6);
   }
   .begin-reading-btn {
@@ -112,8 +112,9 @@
   .begin-reading-btn:hover { background: var(--orange); color: var(--orange-ink); transform: translateY(-2px); }
 
   .main-content-area {
-    background: var(--bg);
+    background: transparent; /* Changed from var(--bg) to prevent overlay */
     display: grid; grid-template-columns: 1fr; gap: 2rem; padding: 2rem;
+    position: relative; z-index: 4; /* Ensure it sits above the cover but below header */
   }
   .mode-paginated .main-content-area { display: none; }
   .main-content-area.visible { display: grid; }
@@ -139,9 +140,12 @@
 
   .post-content-wrapper { max-width: 75ch; margin: 0 auto; }
   .post-content {
-    font-family: var(--body-serif); font-size: 1.25rem; /* Increased from default */
-    line-height: 1.8; color: rgba(229,238,252,.9); /* Increased line height for breathing space */
-    margin-bottom: 2rem; /* Added extra bottom margin for breathing space */
+    font-family: var(--body-serif); font-size: 1.25rem;
+    line-height: 1.8; color: rgba(229,238,252,.9);
+    margin-bottom: 2rem;
+    background: rgba(15,23,42,0.9); /* Added semi-transparent background to post content */
+    padding: 1.5rem; /* Added padding for content separation */
+    border-radius: 8px; /* Optional: adds a subtle container effect */
   }
   @media (max-width: 768px) {
     .post-content { font-size: 1rem; }
