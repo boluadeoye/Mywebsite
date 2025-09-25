@@ -100,8 +100,6 @@
     position: relative;
     z-index: 3;
     padding: 3rem;
-    max-width: 1100px;
-    margin: 0 auto;
     width: 100%;
     opacity: 0;
     transform: translateY(20px);
@@ -142,10 +140,13 @@
   .begin-reading-btn:hover { background: var(--orange); color: var(--orange-ink); transform: translateY(-2px); }
 
   .main-content-area {
-    display: grid;
+    display: none; /* Initially hidden */
     grid-template-columns: 1fr;
     gap: 2rem;
     padding-top: 3rem;
+  }
+  .main-content-area.visible {
+    display: grid;
   }
   @media(min-width: 1024px) {
     .main-content-area {
@@ -246,12 +247,13 @@
       </nav>
     </div>
   </header>
-
-  <div id="post-page-container">
-    <div class="loading-container">
-      <div class="loading-spinner"></div>
-      <p>Loading your article...</p>
-    </div>
+  
+  <section class="feature-cover" id="feature-cover" style="display:none;"></section>
+  <main class="main-content-area wrap" id="main-content-area" style="display:none;"></main>
+  
+  <div id="loading-container" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Loading your article...</p>
   </div>
   
   <footer>
@@ -271,7 +273,9 @@
     const sideMenu = document.getElementById('sideMenu');
     const menuOverlay = document.getElementById('menuOverlay');
     const progressBar = document.getElementById('progress-bar');
-    const pageContainer = document.getElementById('post-page-container');
+    const featureCover = document.getElementById('feature-cover');
+    const mainContent = document.getElementById('main-content-area');
+    const loadingContainer = document.getElementById('loading-container');
 
     // --- CORE FUNCTIONS ---
     function closeMenu() {
@@ -288,7 +292,7 @@
     function updateProgressBar() {
         if (!progressBar) return;
         const totalPages = state.pages.length;
-        if (totalPages < 1) return; // Don't divide by zero
+        if (totalPages < 1) return;
         
         const progress = ((state.currentPage - 1) / totalPages) * 100;
         progressBar.style.width = progress + '%';
@@ -296,9 +300,7 @@
     
     function handleAuthorSidebar() {
       const sidebar = document.getElementById('author-sidebar');
-      const mainContent = document.getElementById('main-content-area');
-      if (!sidebar || !mainContent) return;
-      
+      if (!sidebar) return;
       const startVisible = mainContent.offsetTop;
       if (window.scrollY > startVisible - 100) {
         sidebar.classList.add('visible');
@@ -315,10 +317,11 @@
         window.open('https://api.whatsapp.com/send?text=' + text, '_blank');
       }
     }
-    window.sharePost = sharePost; // Make it globally accessible
+    window.sharePost = sharePost;
 
     function loadDisqus(postIdentifier) {
-        if (!postIdentifier) return;
+        const container = document.getElementById('disqus_thread');
+        if (!postIdentifier || !container) return;
         var disqus_config = function () {
             this.page.url = window.location.href;
             this.page.identifier = postIdentifier;
@@ -358,14 +361,13 @@
         if (pageNumber < 1) return;
         state.currentPage = pageNumber;
         const totalPages = state.pages.length;
-        const mainContentArea = document.getElementById('main-content-area');
         
         const url = new URL(window.location);
         url.searchParams.set('page', state.currentPage);
         window.history.pushState({page: state.currentPage}, '', url);
 
         const contentEl = document.getElementById('article-content');
-        if (state.currentPage > totalPages) { // Epilogue page
+        if (state.currentPage > totalPages) {
             contentEl.innerHTML = `
                 <div class="epilogue-page">
                     <h2>Thank you for reading</h2>
@@ -385,13 +387,17 @@
         prevButton.disabled = state.currentPage === 1;
         nextButton.disabled = state.currentPage > totalPages;
         indicator.textContent = `Page ${state.currentPage} / ${totalPages}`;
-        
         indicator.style.display = state.currentPage > totalPages ? 'none' : 'block';
         
-        if (mainContentArea) {
-            mainContentArea.scrollIntoView({ behavior: 'smooth' });
+        if (mainContent) {
+            mainContent.scrollIntoView({ behavior: 'smooth' });
         }
         updateProgressBar();
+    }
+    
+    function beginReading() {
+        mainContent.style.display = 'grid';
+        renderPage(state.currentPage);
     }
 
     async function loadPost() {
@@ -417,26 +423,30 @@
         
         document.title = state.postData.title + ' — Boluadeoye';
         state.pages = markdown.split(/\n---\s*page\s*---\n/);
-        state.currentPage = startPage > state.pages.length + 1 ? 1 : startPage;
+        state.currentPage = (startPage > state.pages.length + 1 || startPage < 1) ? 1 : startPage;
 
         const coverUrl = state.postData.cover || '';
         const dateStr = new Date(state.postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         const coverImageHTML = coverUrl ? `<img src="${coverUrl}" alt="" class="feature-cover-bg">` : '';
+        
+        // --- Populate the static containers ---
+        featureCover.style.display = 'flex';
+        loadingContainer.style.display = 'none';
 
-        pageContainer.innerHTML = `
-          <section class="feature-cover" id="feature-cover">
+        featureCover.innerHTML = `
             ${coverImageHTML}
             <div class="post-header wrap">
-              <div class="post-meta">
-                <span>📅 ${dateStr}</span>
-                <span>📁 ${state.postData.type || 'General'}</span>
-                <span>⏱️ ${state.postData.minutes} min read</span>
-              </div>
-              <h1 class="post-title">${state.postData.title}</h1>
-              <button class="begin-reading-btn" id="begin-reading">Begin Reading</button>
+                <div class="post-meta">
+                    <span>📅 ${dateStr}</span>
+                    <span>📁 ${state.postData.type || 'General'}</span>
+                    <span>⏱️ ${state.postData.minutes} min read</span>
+                </div>
+                <h1 class="post-title">${state.postData.title}</h1>
+                <button class="begin-reading-btn" id="begin-reading">Begin Reading</button>
             </div>
-          </section>
-          <main class="main-content-area wrap" id="main-content-area" style="display:none;">
+        `;
+
+        mainContent.innerHTML = `
             <aside id="author-sidebar" class="author-sidebar">
               <img src="images/Logo.png" alt="Adeoye Boluwatife">
               <div class="name">Adeoye Boluwatife</div>
@@ -458,14 +468,10 @@
               <section id="related-posts-container"></section>
               <div id="disqus_thread"></div>
             </div>
-          </main>
         `;
         
-        document.getElementById('begin-reading').addEventListener('click', () => {
-            const mainContent = document.getElementById('main-content-area');
-            mainContent.style.display = 'grid';
-            renderPage(state.currentPage);
-        });
+        // Attach all event listeners
+        document.getElementById('begin-reading').addEventListener('click', beginReading);
         document.querySelector('.prev-page').addEventListener('click', () => renderPage(state.currentPage - 1));
         document.querySelector('.next-page').addEventListener('click', () => renderPage(state.currentPage + 1));
         
@@ -478,12 +484,17 @@
 
       } catch(err) {
         console.error('Post load error:', err);
-        renderError(pageContainer, err.message);
+        renderError(loadingContainer, err.message);
       }
     }
     
     function renderError(container, message){
-      container.innerHTML = `<div class="error-container"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
+        const errorHTML = `<div class="error-container"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
+        if (container) {
+            container.innerHTML = errorHTML;
+        } else if (pageContainer) {
+            pageContainer.innerHTML = errorHTML;
+        }
     }
 
     document.addEventListener('DOMContentLoaded', loadPost);
