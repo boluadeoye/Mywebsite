@@ -148,12 +148,11 @@
     object-fit:cover;
   }
 
-  /* --- TYPOGRAPHIC ENHANCEMENTS START --- */
   .post-content{
     max-width: 75ch;
     margin: 2rem auto;
     font-family: var(--body-serif);
-    font-size: 1.125rem; /* Base font size increased slightly for readability */
+    font-size: 1.125rem;
     line-height: 1.9;
     color:rgba(229,238,252,.9);
   }
@@ -165,7 +164,6 @@
     line-height: 0.8;
     padding: .2rem .6rem 0 0;
   }
-  /* Heading Rhythm and Scale */
   .post-content h1, .post-content h2, .post-content h3, .post-content h4 {
     font-family: var(--serif);
     line-height: 1.3;
@@ -173,9 +171,9 @@
   }
   .post-content h2 {
     font-size: 1.8rem;
-    margin-top: 3rem;   /* More space above */
-    margin-bottom: 1rem; /* Less space below */
-    border-bottom: 1px solid rgba(245,158,11,.15); /* Subtle separator */
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(245,158,11,.15);
     padding-bottom: .5rem;
   }
   .post-content h3 {
@@ -201,21 +199,41 @@
     padding-left: 2rem;
   }
   .post-content li {
-    margin-bottom: .75rem; /* Spacing for list items */
+    margin-bottom: .75rem;
   }
   .post-content blockquote{
     position: relative;
     padding: 1.5rem 2rem;
     margin: 3rem auto;
     font-style: italic;
-    font-size: 1.25rem; /* Slightly larger */
+    font-size: 1.25rem;
     color: var(--muted);
     border-left: 3px solid var(--orange);
     background: rgba(15,23,42,.6);
     border-radius: 8px;
   }
-  /* --- TYPOGRAPHIC ENHANCEMENTS END --- */
   
+  /* --- NEW: Category-Specific Layouts --- */
+  .post-type-poem .post-content {
+    text-align: center;
+  }
+  .post-type-poem .post-content p {
+    text-align: center;
+  }
+  .post-type-poem .post-content p:first-of-type::first-letter {
+    float: none;
+    font-size: inherit;
+    padding: 0;
+    color: inherit;
+  }
+  .post-type-devotional .post-content blockquote {
+    background: transparent;
+    border-color: rgba(245,158,11,.5);
+    font-size: 1.15rem;
+    font-style: normal;
+    color: var(--ink);
+  }
+
   .post-nav{
     display:flex;
     justify-content:center;
@@ -389,7 +407,6 @@
     const menuBtn = document.getElementById('menuBtn');
     const sideMenu = document.getElementById('sideMenu');
     const menuOverlay = document.getElementById('menuOverlay');
-    const header = document.getElementById('header');
     const progressBar = document.getElementById('progress-bar');
     const postWrapper = document.getElementById('post-content-wrapper');
     let allPosts = [];
@@ -495,7 +512,11 @@
         
         postData = allPosts.find(p => p && p.file && p.file.trim() === file.trim());
         if(!postData) throw new Error('Post data not found for file: ' + file);
-
+        
+        // --- NEW: Apply post type as a class to the body ---
+        const postType = postData.type ? postData.type.toLowerCase().trim() : 'article';
+        document.body.className = 'post-type-' + postType;
+        
         const mdRes = await fetch(file, { cache: 'no-store' });
         if(!mdRes.ok) throw new Error('Failed to load Markdown file: ' + file + ' (Status: ' + mdRes.status + ')');
         const markdown = await mdRes.text();
