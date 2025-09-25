@@ -42,7 +42,7 @@
     padding: 0 1rem;
   }
   .brand { display: flex; flex-direction: column; align-items: center; gap: 0; position: absolute; left: 50%; top: -20px; transform: translateX(-50%); }
-  .brand-logo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; transition: transform 0.4s var(--transition); margin-bottom: -30px; } /* Removed orange border */
+  .brand-logo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; transition: transform 0.4s var(--transition); margin-bottom: -30px; }
   .brand:hover .brand-logo { transform: rotate(10deg) scale(1.05); }
   .brand h1 { font-family: var(--serif); font-size: 1.3rem; font-weight: 800; line-height: 1; letter-spacing: -0.5px; color: var(--ink); text-shadow: 0 1px 3px rgba(0,0,0,0.2); }
 
@@ -195,6 +195,16 @@
   .post-type-poem .post-content p:first-of-type::first-letter { float: none; font-size: inherit; padding: 0; color: inherit; }
   .post-type-devotional .post-content blockquote { background: transparent; border-color: rgba(255,152,0,.6);
     font-size: 1.2rem; font-style: normal; color: var(--ink); }
+
+  .toc-sidebar {
+    position: sticky; top: 120px; width: 200px; padding: 1rem; background: var(--panel-hover);
+    border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); display: none;
+  }
+  .toc-sidebar h3 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--ink); }
+  .toc-sidebar ul { list-style: none; }
+  .toc-sidebar li a { color: var(--muted); display: block; padding: 0.5rem 0; }
+  .toc-sidebar li a:hover { color: var(--orange); }
+  .toc-sidebar li.active a { color: var(--orange); font-weight: 700; }
 
   .page-navigation { max-width: 75ch; margin: 2.5rem auto 0; display: flex; justify-content: space-between; align-items: center; }
   @media (max-width: 768px) {
@@ -441,6 +451,7 @@
         const coverImageHTML = coverUrl ? `<img src="${coverUrl}" alt="" class="feature-cover-bg">` : '';
         
         const mainContentHTML = `
+            <nav class="toc-sidebar"></nav>
             <aside id="author-sidebar" class="author-sidebar">
               <img src="images/Logo.png" alt="Adeoye Boluwatife">
               <div class="name">Adeoye Boluwatife</div>
@@ -488,6 +499,8 @@
             document.getElementById('article-content').innerHTML = marked.parse(state.pages[0] || '', { breaks: true });
             displayRelatedPosts(state.postData);
             loadDisqus(state.file);
+            createTOC();
+            setupTOCObserver();
         }
 
       } catch(err) {
@@ -534,6 +547,39 @@
       } else {
         sidebar.classList.remove('visible');
       }
+    }
+    
+    function createTOC() {
+      const headings = document.querySelectorAll('.post-content h2, .post-content h3');
+      if (headings.length === 0) return;
+      const toc = document.querySelector('.toc-sidebar');
+      toc.style.display = 'block';
+      toc.innerHTML = '<h3>Contents</h3><ul></ul>';
+      headings.forEach(heading => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.textContent = heading.textContent;
+        a.href = `#${heading.id || heading.textContent.replace(/\s+/g, '-').toLowerCase()}`;
+        heading.id = heading.id || heading.textContent.replace(/\s+/g, '-').toLowerCase();
+        li.appendChild(a);
+        toc.querySelector('ul').appendChild(li);
+      });
+    }
+
+    function setupTOCObserver() {
+      const headings = document.querySelectorAll('.post-content h2, .post-content h3');
+      const tocLinks = document.querySelectorAll('.toc-sidebar a');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const id = entry.target.getAttribute('id');
+          const tocLink = document.querySelector(`.toc-sidebar a[href="#${id}"]`);
+          if (entry.isIntersecting) {
+            tocLinks.forEach(link => link.parentElement.classList.remove('active'));
+            tocLink.parentElement.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-50% 0px -50% 0px' });
+      headings.forEach(heading => observer.observe(heading));
     }
     
     function closeMenu() {
