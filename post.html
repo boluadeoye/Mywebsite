@@ -140,7 +140,8 @@
   .begin-reading-btn:hover { background: var(--orange); color: var(--orange-ink); transform: translateY(-2px); }
 
   .main-content-area {
-    display: none; /* Initially hidden */
+    background: var(--bg); /* Ensures solid background */
+    display: none;
     grid-template-columns: 1fr;
     gap: 2rem;
     padding-top: 3rem;
@@ -300,7 +301,8 @@
     
     function handleAuthorSidebar() {
       const sidebar = document.getElementById('author-sidebar');
-      if (!sidebar) return;
+      if (!sidebar || !mainContent.classList.contains('visible')) return;
+      
       const startVisible = mainContent.offsetTop;
       if (window.scrollY > startVisible - 100) {
         sidebar.classList.add('visible');
@@ -396,7 +398,7 @@
     }
     
     function beginReading() {
-        mainContent.style.display = 'grid';
+        mainContent.classList.add('visible');
         renderPage(state.currentPage);
     }
 
@@ -429,10 +431,9 @@
         const dateStr = new Date(state.postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         const coverImageHTML = coverUrl ? `<img src="${coverUrl}" alt="" class="feature-cover-bg">` : '';
         
-        // --- Populate the static containers ---
-        featureCover.style.display = 'flex';
         loadingContainer.style.display = 'none';
-
+        featureCover.style.display = 'flex';
+        
         featureCover.innerHTML = `
             ${coverImageHTML}
             <div class="post-header wrap">
@@ -470,7 +471,6 @@
             </div>
         `;
         
-        // Attach all event listeners
         document.getElementById('begin-reading').addEventListener('click', beginReading);
         document.querySelector('.prev-page').addEventListener('click', () => renderPage(state.currentPage - 1));
         document.querySelector('.next-page').addEventListener('click', () => renderPage(state.currentPage + 1));
@@ -490,11 +490,13 @@
     
     function renderError(container, message){
         const errorHTML = `<div class="error-container"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
-        if (container) {
-            container.innerHTML = errorHTML;
-        } else if (pageContainer) {
-            pageContainer.innerHTML = errorHTML;
+        const targetContainer = container || pageContainer;
+        if (targetContainer) {
+            targetContainer.innerHTML = errorHTML;
+            targetContainer.style.display = 'flex';
         }
+        if (featureCover) featureCover.style.display = 'none';
+        if (mainContent) mainContent.style.display = 'none';
     }
 
     document.addEventListener('DOMContentLoaded', loadPost);
