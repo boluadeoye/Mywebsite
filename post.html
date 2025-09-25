@@ -26,8 +26,8 @@
     font:16px/1.7 var(--sans-serif);
     -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     overflow-x:hidden; position:relative;
-    border-left: 10px solid rgba(245, 158, 11, 0.05);
-    border-right: 10px solid rgba(245, 158, 11, 0.05);
+    border-left: 10px solid rgba(245, 158, 11, 0.08);
+    border-right: 10px solid rgba(245, 158, 11, 0.08);
   }
   a{color:inherit;text-decoration:none;transition:all .3s var(--transition)}
   .wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
@@ -107,10 +107,11 @@
     display:flex;
     justify-content: flex-start;
     align-items:center;
-    gap:.75rem;
+    gap: 1.25rem; /* Increased gap */
     flex-wrap:wrap;
     margin-bottom:1.5rem;
     font-size:.9rem;
+    font-weight: 700; /* --- BOLDED METADATA --- */
     color:var(--muted);
   }
   .post-title{
@@ -120,7 +121,6 @@
     line-height:1.2;
     text-shadow: 0 2px 20px rgba(0,0,0,.6);
   }
-  .post-byline { font-family: var(--sans-serif); font-weight: 700; font-size: 1rem; color: var(--orange-light); margin-top: 1.5rem; }
 
   .main-content-area {
     display: grid;
@@ -376,11 +376,7 @@
         
         const coverImageHTML = coverUrl ? `<img src="${coverUrl}" alt="" class="feature-cover-bg">` : '';
 
-        // --- INTELLIGENT BYLINE LOGIC ---
-        const authorName = postData.author || 'Adeoye Boluwatife';
-        const bylineHTML = `<p class="post-byline">By ${authorName}</p>`;
-
-        // --- CORRECTED ARCHITECTURE ---
+        // --- FINAL CORRECTED ARCHITECTURE ---
         pageContainer.innerHTML = `
           <section class="feature-cover">
             ${coverImageHTML}
@@ -391,7 +387,6 @@
                 <span>⏱️ ${postData.minutes} min read</span>
               </div>
               <h1 class="post-title">${postData.title}</h1>
-              ${bylineHTML}
             </div>
           </section>
 
@@ -434,4 +429,4 @@
   })();
   </script>
 </body>
-</html>I
+</html>
