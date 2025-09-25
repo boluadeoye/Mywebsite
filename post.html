@@ -73,8 +73,8 @@
     background: linear-gradient(90deg, var(--orange-light), var(--orange));
     width: 0%;
     z-index: 201;
+    transition: width 0.2s linear;
   }
-
   .feature-cover {
     width: 100%;
     height: 70vh;
@@ -86,7 +86,10 @@
     justify-content: flex-start;
     text-align: left;
     color: var(--ink);
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
   }
+  @keyframes fadeIn { to { opacity: 1; } }
   .feature-cover-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
   .feature-cover::after {
     content: '';
@@ -102,18 +105,22 @@
     max-width: 1100px;
     margin: 0 auto;
     width: 100%;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 1s .5s ease-out forwards;
   }
   .post-meta{
     display:flex;
     justify-content: flex-start;
     align-items:center;
-    gap: 1.25rem; /* Increased gap */
+    gap: 1.25rem;
     flex-wrap:wrap;
     margin-bottom:1.5rem;
     font-size:.9rem;
-    font-weight: 700; /* --- BOLDED METADATA --- */
+    font-weight: 700;
     color:var(--muted);
   }
+  .post-meta span { color: var(--ink); }
   .post-title{
     font-family:var(--serif);
     font-size:clamp(2.5rem, 5vw, 3.8rem);
@@ -121,11 +128,29 @@
     line-height:1.2;
     text-shadow: 0 2px 20px rgba(0,0,0,.6);
   }
+  .begin-reading-btn {
+    margin-top: 2rem;
+    border: 1px solid var(--orange);
+    background: transparent;
+    color: var(--orange);
+    padding: .8rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .3s var(--transition);
+    opacity: 0;
+    animation: fadeIn 1s 1s ease-out forwards;
+  }
+  .begin-reading-btn:hover { background: var(--orange); color: var(--orange-ink); transform: translateY(-2px); }
 
   .main-content-area {
-    display: grid;
+    display: none;
     grid-template-columns: 1fr;
     gap: 2rem;
+    padding-top: 3rem;
+  }
+  .main-content-area.visible {
+    display: grid;
   }
   @media(min-width: 1024px) {
     .main-content-area {
@@ -165,6 +190,9 @@
   .post-type-poem .post-content p { text-align: center; }
   .post-type-poem .post-content p:first-of-type::first-letter { float: none; font-size: inherit; padding: 0; color: inherit; }
   .post-type-devotional .post-content blockquote { background: transparent; border-color: rgba(245,158,11,.5); font-size: 1.15rem; font-style: normal; color: var(--ink); }
+
+  .page-navigation { max-width: 75ch; margin: 2rem auto 0; display: flex; justify-content: space-between; align-items: center; }
+  .page-indicator { font-size: .9rem; color: var(--muted); font-weight: 700; }
 
   .article-ender { border: none; height: 1px; background: rgba(245,158,11,.15); margin: 3rem auto 0; max-width: 75ch; }
   .post-nav{ display:flex; justify-content:center; gap:1rem; padding:2.5rem 0 1rem; flex-wrap:wrap; max-width:75ch; margin:0 auto; }
@@ -238,27 +266,35 @@
 
   <script>
   (function(){
+    // --- STATE MANAGEMENT ---
+    const state = {
+      allPosts: [],
+      postData: null,
+      pages: [],
+      currentPage: 1,
+      file: null
+    };
+
+    // --- DOM ELEMENTS ---
     const menuBtn = document.getElementById('menuBtn');
     const sideMenu = document.getElementById('sideMenu');
     const menuOverlay = document.getElementById('menuOverlay');
     const progressBar = document.getElementById('progress-bar');
     const pageContainer = document.getElementById('post-page-container');
-    let allPosts = [];
-    let postData = null; 
 
+    // --- MENU AND SCROLL FUNCTIONS ---
     function closeMenu() {
-      sideMenu.classList.remove('active');
-      menuOverlay.classList.remove('show');
-      menuBtn.setAttribute('aria-expanded', 'false');
+      if (sideMenu) sideMenu.classList.remove('active');
+      if (menuOverlay) menuOverlay.classList.remove('show');
+      if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
     }
     function openMenu() {
-      sideMenu.classList.add('active');
-      menuOverlay.classList.add('show');
-      menuBtn.setAttribute('aria-expanded', 'true');
+      if (sideMenu) sideMenu.classList.add('active');
+      if (menuOverlay) menuOverlay.classList.add('show');
+      if (menuBtn) menuBtn.setAttribute('aria-expanded', 'true');
     }
-    
-    menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
-    menuOverlay.addEventListener('click', closeMenu);
+    if (menuBtn) menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
+    if (menuOverlay) menuOverlay.addEventListener('click', closeMenu);
 
     window.addEventListener('scroll', () => {
       updateProgressBar();
@@ -266,14 +302,14 @@
     });
 
     function updateProgressBar() {
-        if(!progressBar) return;
-        const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-        if(scrollHeight > clientHeight) {
-            const scrollPercent = (scrollTop / (scrollHeight - clientHeight)) * 100;
-            progressBar.style.width = scrollPercent + '%';
-        } else {
-            progressBar.style.width = '100%';
-        }
+      if (!progressBar) return;
+      const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+      if (scrollHeight > clientHeight) {
+        const scrollPercent = (scrollTop / (scrollHeight - clientHeight)) * 100;
+        progressBar.style.width = scrollPercent + '%';
+      } else {
+        progressBar.style.width = '100%';
+      }
     }
     
     function handleAuthorSidebar() {
@@ -289,117 +325,176 @@
       }
     }
 
+    // --- GLOBAL FUNCTIONS ---
     window.sharePost = function() {
-      if(postData && navigator.share) {
-        navigator.share({ title: postData.title, text: postData.excerpt, url: window.location.href });
-      } else if (postData) {
-        const text = encodeURIComponent(`Check out: "${postData.title}" ${window.location.href}`);
+      if (state.postData && navigator.share) {
+        navigator.share({ title: state.postData.title, text: state.postData.excerpt, url: window.location.href });
+      } else if (state.postData) {
+        const text = encodeURIComponent(`Check out: "${state.postData.title}" ${window.location.href}`);
         window.open('https://api.whatsapp.com/send?text=' + text, '_blank');
       }
-    }
-
+    };
+    
     function loadDisqus(postIdentifier) {
-        if (!postIdentifier) return;
-        var disqus_config = function () {
-            this.page.url = window.location.href;
-            this.page.identifier = postIdentifier;
-        };
-        (function() {
-            var d = document, s = d.createElement('script');
-            s.src = 'https://bolus-personal-blog.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        })();
+      const container = document.getElementById('disqus_thread');
+      if (!postIdentifier || !container) return;
+      var disqus_config = function () {
+        this.page.url = window.location.href;
+        this.page.identifier = postIdentifier;
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://bolus-personal-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
     }
     
     function displayRelatedPosts(currentPost) {
-        if (!allPosts.length || !currentPost || !currentPost.type) return;
-        const container = document.getElementById('related-posts-container');
-        if (!container) return;
-
-        const related = allPosts.filter(p => p.type === currentPost.type && p.file !== currentPost.file);
-        if (related.length === 0) return;
-
-        const shuffled = related.sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, 3);
-
-        const cardsHTML = selected.map(post => {
-            const excerpt = (post.excerpt || '').substring(0, 80) + '...';
-            const coverHTML = post.cover ? `<div class="cover"><img src="${post.cover}" alt="${post.title}" loading="lazy"></div>` : '';
-            return `
-            <a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card">
-              ${coverHTML}
-              <div class="content">
-                <h4>${post.title}</h4>
-                <p>${excerpt}</p>
-              </div>
-            </a>`;
-        }).join('');
-        
-        container.innerHTML = `
-            <h3 class="related-posts-title">You Might Also Like</h3>
-            <div class="related-posts-grid">${cardsHTML}</div>
-        `;
+      if (!state.allPosts.length || !currentPost || !currentPost.type) return;
+      const container = document.getElementById('related-posts-container');
+      if (!container) return;
+      const related = state.allPosts.filter(p => p.type === currentPost.type && p.file !== currentPost.file);
+      if (related.length === 0) return;
+      const shuffled = related.sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, 3);
+      const cardsHTML = selected.map(post => {
+        const excerpt = (post.excerpt || '').substring(0, 80) + '...';
+        const coverHTML = post.cover ? `<div class="cover"><img src="${post.cover}" alt="${post.title}" loading="lazy"></div>` : '';
+        return `
+          <a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card">
+            ${coverHTML}
+            <div class="content">
+              <h4>${post.title}</h4>
+              <p>${excerpt}</p>
+            </div>
+          </a>`;
+      }).join('');
+      container.innerHTML = `
+          <h3 class="related-posts-title">You Might Also Like</h3>
+          <div class="related-posts-grid">${cardsHTML}</div>`;
     }
 
-    function renderError(container, message){
-      container.innerHTML = `<div class="error-container"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
+    function renderError(container, message) {
+      if (container) {
+        container.innerHTML = `<div class="error-container"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
+      }
+    }
+
+    function renderPage(pageNumber) {
+      if (pageNumber < 1) return;
+      state.currentPage = pageNumber;
+      const totalPages = state.pages.length || 1;
+      const contentEl = document.getElementById('article-content');
+      const navEl = document.getElementById('page-navigation');
+
+      if (contentEl && navEl) {
+        if (state.currentPage > totalPages) {
+          contentEl.innerHTML = `
+              <div class="epilogue-page">
+                  <h2>Thank you for reading</h2>
+                  <p>Your time and attention are deeply appreciated. If this story resonated with you, please consider sharing it or leaving your thoughts below.</p>
+              </div>`;
+          displayRelatedPosts(state.postData);
+          loadDisqus(state.file);
+        } else {
+          const pageContent = state.pages[state.currentPage - 1] || 'No content for this page.';
+          contentEl.innerHTML = marked.parse(pageContent, { breaks: true }) || '<p>Failed to parse content.</p>';
+        }
+
+        const prevButton = navEl.querySelector('.prev-page');
+        const nextButton = navEl.querySelector('.next-page');
+        const indicator = navEl.querySelector('.page-indicator');
+
+        if (prevButton && nextButton && indicator) {
+          prevButton.disabled = state.currentPage === 1;
+          nextButton.disabled = state.currentPage >= totalPages;
+          indicator.textContent = `Page ${state.currentPage} / ${totalPages}`;
+          indicator.style.display = state.currentPage > totalPages ? 'none' : 'block';
+        }
+      }
+    }
+
+    function attachPageNavListeners() {
+      const prevButton = document.querySelector('.prev-page');
+      const nextButton = document.querySelector('.next-page');
+      if (prevButton) prevButton.addEventListener('click', () => renderPage(state.currentPage - 1));
+      if (nextButton) nextButton.addEventListener('click', () => renderPage(state.currentPage + 1));
+    }
+
+    function beginReading() {
+      console.log('Begin Reading clicked');
+      const mainContent = document.getElementById('main-content-area');
+      if (mainContent) mainContent.classList.add('visible');
+      renderPage(state.currentPage);
+      attachPageNavListeners();
+    }
+
+    function attachBeginReadingListener() {
+      const beginButton = document.getElementById('begin-reading');
+      if (beginButton) {
+        beginButton.addEventListener('click', beginReading);
+      } else {
+        console.warn('Begin Reading button not found in DOM.');
+      }
     }
 
     async function loadPost() {
-      if(!pageContainer) return;
+      if (!pageContainer) return;
       
       try {
         const urlParams = new URLSearchParams(window.location.search);
-        const file = urlParams.get('file');
-        if(!file) throw new Error('No post file specified in URL.');
+        state.file = urlParams.get('file');
+        if (!state.file) throw new Error('No post file specified in URL.');
 
         const postsRes = await fetch('./Posts.json', { cache: 'no-store' });
-        if(!postsRes.ok) throw new Error('Could not load Posts.json (Status: ' + postsRes.status + ')');
-        allPosts = await postsRes.json();
+        if (!postsRes.ok) throw new Error('Could not load Posts.json (Status: ' + postsRes.status + ')');
+        state.allPosts = await postsRes.json();
         
-        postData = allPosts.find(p => p && p.file && p.file.trim() === file.trim());
-        if(!postData) throw new Error('Post data not found for file: ' + file);
+        state.postData = state.allPosts.find(p => p && p.file && p.file.trim() === state.file.trim());
+        if (!state.postData) throw new Error('Post data not found for file: ' + state.file);
         
-        const postType = postData.type ? postData.type.toLowerCase().trim() : 'article';
+        const postType = state.postData.type ? state.postData.type.toLowerCase().trim() : 'article';
         document.body.className = 'post-type-' + postType;
         
-        const mdRes = await fetch(file, { cache: 'no-store' });
-        if(!mdRes.ok) throw new Error('Failed to load Markdown file: ' + file + ' (Status: ' + mdRes.status + ')');
+        const mdRes = await fetch(state.file, { cache: 'no-store' });
+        if (!mdRes.ok) throw new Error('Failed to load Markdown file: ' + state.file + ' (Status: ' + mdRes.status + ')');
         const markdown = await mdRes.text();
         
-        document.title = postData.title + ' — Boluadeoye';
+        document.title = state.postData.title + ' — Boluadeoye';
+        state.pages = markdown.split(/\n---\s*page\s*---\n/).filter(page => page.trim().length > 0) || ['No pages found.'];
+        if (state.pages.length === 0) state.pages = ['No content available.'];
 
-        const coverUrl = postData.cover || '';
-        const contentHTML = typeof marked !== 'undefined' ? marked.parse(markdown, { breaks: true }) : '<p>Error: Markdown parser not loaded.</p>';
-        const dateStr = new Date(postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-        
+        const coverUrl = state.postData.cover || '';
+        const dateStr = new Date(state.postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         const coverImageHTML = coverUrl ? `<img src="${coverUrl}" alt="" class="feature-cover-bg">` : '';
 
-        // --- FINAL CORRECTED ARCHITECTURE ---
         pageContainer.innerHTML = `
           <section class="feature-cover">
             ${coverImageHTML}
             <div class="post-header wrap">
               <div class="post-meta">
                 <span>📅 ${dateStr}</span>
-                <span>📁 ${postData.type || 'General'}</span>
-                <span>⏱️ ${postData.minutes} min read</span>
+                <span>📁 ${state.postData.type || 'General'}</span>
+                <span>⏱️ ${state.postData.minutes} min read</span>
               </div>
-              <h1 class="post-title">${postData.title}</h1>
+              <h1 class="post-title">${state.postData.title}</h1>
+              <button class="begin-reading-btn" id="begin-reading">Begin Reading</button>
             </div>
           </section>
-
-          <main class="main-content-area wrap">
+          <main class="main-content-area wrap" id="main-content-area" style="display:none;">
             <aside id="author-sidebar" class="author-sidebar">
               <img src="images/Logo.png" alt="Adeoye Boluwatife">
               <div class="name">Adeoye Boluwatife</div>
               <div class="title">Author</div>
             </aside>
             <div class="post-content-wrapper">
-              <article class="post-content">
-                ${contentHTML}
-              </article>
+              <article class="post-content" id="article-content"></article>
+              <nav class="page-navigation" id="page-navigation">
+                <button class="btn-chip prev-page">← Previous</button>
+                <span class="page-indicator"></span>
+                <button class="btn-chip next-page">Next →</button>
+              </nav>
               <hr class="article-ender">
               <nav class="post-nav">
                 <a href="./" class="btn-chip">← Back to Home</a>
@@ -412,14 +507,13 @@
           </main>
         `;
 
-        displayRelatedPosts(postData);
-        loadDisqus(file);
+        attachBeginReadingListener();
         setTimeout(() => {
           updateProgressBar();
           handleAuthorSidebar();
         }, 100);
 
-      } catch(err) {
+      } catch (err) {
         console.error('Post load error:', err);
         renderError(pageContainer, err.message);
       }
