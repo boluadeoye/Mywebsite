@@ -144,10 +144,13 @@
 
   .main-content-area {
     background: var(--bg);
-    display: none;
+    display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
     padding-top: 3rem;
+  }
+  .mode-paginated .main-content-area {
+      display: none;
   }
   .main-content-area.visible {
     display: grid;
@@ -317,7 +320,7 @@
         const indicator = navEl.querySelector('.page-indicator');
         
         prevButton.disabled = state.currentPage === 1;
-        nextButton.disabled = state.currentPage >= totalPages;
+        nextButton.disabled = state.currentPage >= totalPages; // Also disable on last page
         indicator.textContent = `Page ${state.currentPage} / ${totalPages}`;
         indicator.style.display = state.currentPage > totalPages ? 'none' : 'block';
         
@@ -335,9 +338,11 @@
     
     function beginReading() {
         const mainContent = document.getElementById('main-content-area');
-        mainContent.classList.add('visible');
-        renderPage(state.currentPage);
-        attachPageNavListeners(); 
+        if (mainContent) {
+            mainContent.classList.add('visible');
+            renderPage(state.currentPage);
+            attachPageNavListeners(); 
+        }
     }
     
     function loadDisqus(postIdentifier) {
