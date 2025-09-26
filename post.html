@@ -193,22 +193,22 @@
   /* Category-Specific Styles (Lowercase) */
   .post-type-essay .post-content {
     background: rgba(13,21,37,0.95); border: 1px solid var(--orange); text-align: justify;
-    line-height: 1.6; /* Reduced from 1.7 for tighter spacing */
-    padding: 1.5rem; /* Reduced from 2.5rem */
-    margin: 0; /* Prevent margin stacking */
+    line-height: 1.6;
+    padding: 1.5rem;
+    margin: 0;
   }
   .post-type-essay .post-content p {
-    margin-bottom: 1rem; /* Tighter paragraph spacing */
+    margin-bottom: 1rem;
     text-align: justify;
-    hyphens: auto; /* Improve justification by allowing hyphenation */
+    hyphens: auto;
   }
   .post-type-essay .post-content h2, .post-type-essay .post-content h3, .post-type-essay .post-content h4 {
     text-align: left; border-bottom: 3px double var(--orange); text-decoration: underline;
-    margin-top: 2rem; margin-bottom: 0.8rem; /* Adjusted for consistency */
+    margin-top: 2rem; margin-bottom: 0.8rem;
   }
   .post-type-essay .post-content blockquote {
-    text-align: left; font-size: 1.2rem; margin: 1.5rem 0; /* Reduced from 3rem */
-    padding: 1.2rem; /* Reduced from 1.8rem */
+    text-align: left; font-size: 1.2rem; margin: 1.5rem 0;
+    padding: 1.2rem;
   }
   .post-type-essay .feature-cover::after { background: linear-gradient(to top, rgba(15,23,42,0.95), rgba(15,23,42,0.7) 50%, rgba(255,255,255,0.05)); }
 
@@ -232,8 +232,14 @@
   .post-type-poem .feature-cover::after { background: linear-gradient(to top, rgba(15,23,42,0.95), rgba(30,46,84,0.7) 50%, transparent); }
 
   .post-type-story .post-content {
-    text-align: justify; font-size: 1.4rem; line-height: 1.9; padding: 2.5rem;
+    text-align: justify; font-size: 1.4rem; line-height: 1.9; padding: 1.5rem; /* Reduced from 2.5rem */
     background: rgba(13,21,37,0.9); position: relative;
+    margin: 0; /* Prevent margin stacking */
+  }
+  .post-type-story .post-content p {
+    margin-bottom: 1rem; /* Tighter paragraph spacing */
+    text-align: justify;
+    hyphens: auto; /* Improve justification */
   }
   .post-type-story .post-content::before, .post-type-story .post-content::after {
     content: ''; position: absolute; width: 20px; height: 20px; background: var(--orange);
@@ -241,7 +247,10 @@
   }
   .post-type-story .post-content::before { top: 10px; left: 10px; }
   .post-type-story .post-content::after { bottom: 10px; right: 10px; }
-  .post-type-story .post-content blockquote { background: rgba(15,23,42,0.95); border-radius: 8px; font-style: normal; }
+  .post-type-story .post-content blockquote {
+    background: rgba(15,23,42,0.95); border-radius: 8px; font-style: normal;
+    margin: 1.5rem 0; /* Reduced from 3rem */ padding: 1.2rem; /* Reduced from 1.8rem */
+  }
   .post-type-story .feature-cover { background: linear-gradient(to bottom, rgba(15,23,42,0.95), rgba(30,46,84,0.6)); }
   .post-type-story .post-content p { animation: fadeIn 1s ease-out; }
 
