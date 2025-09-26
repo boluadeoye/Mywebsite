@@ -109,7 +109,11 @@
   .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .5); z-index: 150; display: none; cursor: pointer; opacity: 0; transition: opacity 0.3s ease; }
   .overlay.show { display: block; opacity: 1; }
 
-  /* --- Muse Icon --- */
+  /* --- Muse Icon & Menu --- */
+  @keyframes muse-glow {
+    0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.3), 0 4px 15px rgba(245, 158, 11, .25); }
+    50% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.5), 0 4px 15px rgba(245, 158, 11, .25); }
+  }
   #muse-icon {
     position: fixed;
     top: 20px;
@@ -128,12 +132,49 @@
     font-weight: 800;
     box-shadow: 0 4px 15px rgba(245, 158, 11, .25);
     transition: all 0.3s var(--transition);
+    animation: muse-glow 3s ease-in-out infinite;
   }
   #muse-icon:hover {
     background: var(--orange-light);
     transform: translateY(-2px) scale(1.05);
     box-shadow: 0 8px 25px rgba(245, 158, 11, .35);
   }
+  .muse-menu {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 101;
+    width: 220px;
+    background: var(--panel);
+    border-radius: 12px;
+    border: 1px solid rgba(245, 158, 11, .2);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+    pointer-events: none;
+    transition: all 0.2s var(--transition);
+  }
+  .muse-menu.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+  .muse-menu a {
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+  .muse-menu a:hover {
+    background: var(--panel-hover);
+    color: var(--orange-light);
+  }
+
 
   .hero { padding: 4rem 0 3rem; }
   .hero-split { display: grid; align-items: center; gap: 3.5rem; grid-template-columns: 1fr 1.5fr; }
