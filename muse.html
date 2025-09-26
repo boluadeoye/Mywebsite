@@ -351,13 +351,13 @@
         let text = await response.text();
         
         // --- 4. Display the Result ---
-        // Convert any markdown in the AI response to HTML for safety and consistency
         const htmlResponse = marked.parse(text);
         outputEl.innerHTML = `<div class="output-content">${htmlResponse}</div>`;
 
       } catch (error) {
+        // --- DEBUG MODE: Display the full error on screen ---
         console.error("AI Error:", error);
-        outputEl.innerHTML = `<div class="output-placeholder"><p>Sorry, the Muse is having trouble connecting. Please check the API key and try again.</p></div>`;
+        outputEl.innerHTML = `<div class="output-content" style="color: #ffb8b8; font-family: monospace; font-size: 0.8rem; white-space: pre-wrap; word-break: break-all;"><h3>Technical Error Details:</h3><p>${error.toString()}</p></div>`;
       } finally {
         // --- 5. Reset UI State ---
         grammarBtn.disabled = false;
