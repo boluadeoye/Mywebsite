@@ -109,6 +109,32 @@
   .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .5); z-index: 150; display: none; cursor: pointer; opacity: 0; transition: opacity 0.3s ease; }
   .overlay.show { display: block; opacity: 1; }
 
+  /* --- Muse Icon --- */
+  #muse-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 101;
+    width: 50px;
+    height: 50px;
+    background: var(--orange);
+    color: var(--orange-ink);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    font-weight: 800;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, .25);
+    transition: all 0.3s var(--transition);
+  }
+  #muse-icon:hover {
+    background: var(--orange-light);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(245, 158, 11, .35);
+  }
+
   .hero { padding: 4rem 0 3rem; }
   .hero-split { display: grid; align-items: center; gap: 3.5rem; grid-template-columns: 1fr 1.5fr; }
   .hero-photo { position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0, 0, 0, .2); border: 1px solid rgba(245, 158, 11, .2); animation: floatSharp 4s ease-in-out infinite; width: 100%; max-width: 400px; }
@@ -340,6 +366,9 @@
 </script>
 </head>
 <body>
+
+  <a href="muse.html" id="muse-icon" aria-label="Open Bolu's Writing Muse">M</a>
+
   <nav id="sideMenu" class="side-menu">
     <a href="./">Home</a>
     <a href="./posts.html">All Posts</a>
