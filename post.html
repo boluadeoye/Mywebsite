@@ -193,13 +193,24 @@
   /* Category-Specific Styles (Lowercase) */
   .post-type-essay .post-content {
     background: rgba(13,21,37,0.95); border: 1px solid var(--orange); text-align: justify;
-    line-height: 1.7; padding: 2.5rem;
+    line-height: 1.6; /* Reduced from 1.7 for tighter spacing */
+    padding: 1.5rem; /* Reduced from 2.5rem */
+    margin: 0; /* Prevent margin stacking */
+  }
+  .post-type-essay .post-content p {
+    margin-bottom: 1rem; /* Tighter paragraph spacing */
+    text-align: justify;
+    hyphens: auto; /* Improve justification by allowing hyphenation */
   }
   .post-type-essay .post-content h2, .post-type-essay .post-content h3, .post-type-essay .post-content h4 {
     text-align: left; border-bottom: 3px double var(--orange); text-decoration: underline;
+    margin-top: 2rem; margin-bottom: 0.8rem; /* Adjusted for consistency */
+  }
+  .post-type-essay .post-content blockquote {
+    text-align: left; font-size: 1.2rem; margin: 1.5rem 0; /* Reduced from 3rem */
+    padding: 1.2rem; /* Reduced from 1.8rem */
   }
   .post-type-essay .feature-cover::after { background: linear-gradient(to top, rgba(15,23,42,0.95), rgba(15,23,42,0.7) 50%, rgba(255,255,255,0.05)); }
-  .post-type-essay .post-content blockquote { text-align: left; font-size: 1.2rem; }
 
   .post-type-article .post-content {
     text-align: left; line-height: 1.6; padding: 2rem; background: rgba(13,21,37,0.9);
