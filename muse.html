@@ -309,11 +309,12 @@
     import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 
     // --- CRITICAL: PASTE YOUR API KEY HERE ---
-    const API_KEY = 'AIzaSyDaIw81BvpbJhrlEX-fBN77G3A5NHFf7Vo';
+    const API_KEY = 'PASTE_YOUR_API_KEY_HERE';
     // -----------------------------------------
 
     const genAI = new GoogleGenerativeAI(API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-pro"});
+    // --- THE FIX: Use the new, correct model name ---
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest"});
 
     const grammarBtn = document.getElementById('muse-check-grammar');
     const inputEl = document.getElementById('muse-input');
@@ -355,9 +356,9 @@
         outputEl.innerHTML = `<div class="output-content">${htmlResponse}</div>`;
 
       } catch (error) {
-        // --- DEBUG MODE: Display the full error on screen ---
         console.error("AI Error:", error);
-        outputEl.innerHTML = `<div class="output-content" style="color: #ffb8b8; font-family: monospace; font-size: 0.8rem; white-space: pre-wrap; word-break: break-all;"><h3>Technical Error Details:</h3><p>${error.toString()}</p></div>`;
+        // Revert to the user-friendly error message
+        outputEl.innerHTML = `<div class="output-placeholder"><p>Sorry, the Muse is having trouble connecting. Please check the API key and try again.</p></div>`;
       } finally {
         // --- 5. Reset UI State ---
         grammarBtn.disabled = false;
