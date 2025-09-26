@@ -18,7 +18,7 @@
   "minutes": 4,
   "type": "article",
   "views": 0,
-  "featured": true,
+  "featured": false
   },
   {
     "title": "The Art of Forgiveness: Releasing an Unseen Weight",
@@ -42,6 +42,7 @@
     "cover": "images/religion-vs-relationship-cover.jpg",
     "excerpt": "Tired of empty rituals? Explore the profound difference between 'religion' and a true, personal relationship with God. This post guides you on a path to a more authentic faith.",
     "type": "faith",
+    "featured": true,
     "views": 0,
     "minutes": 3
   },
@@ -350,4 +351,4 @@
       "Who in your own life embodies the spirit of 'Still I Rise'?"
     ]
   }
-]
+    ]
