@@ -272,7 +272,7 @@
   .post-type-devotional .post-content {
     text-align: center; /* Center alignment for devotional posts */
     font-size: 1.1rem; padding: 2.5rem 3rem; /* Increased horizontal padding to spread text */
-    line-height: 1.8;
+    line-height: 1.6; /* Reduced from 1.8 for smoother shape */
     background: rgba(13,21,37,0.85); box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   }
   .post-type-devotional .post-content p {
@@ -280,18 +280,33 @@
     text-align: center; /* Ensure paragraphs are centered */
   }
   .post-type-devotional .post-content blockquote {
-    background: transparent; border-left: 6px solid var(--orange); font-size: 1.2rem; font-style: normal;
+    background: transparent; border-left: 6px solid var(--orange); font-size: 1.1rem; /* Same size as other text */
+    font-style: normal;
     color: var(--ink); padding: 1.2rem; /* Adjusted for smoother integration */
     position: relative;
     margin: 1.5rem auto; /* Centered blockquote with reduced margin */
     max-width: 80%; /* Spread blockquote a little more */
   }
   .post-type-devotional .post-content blockquote::before {
-    content: '✝'; position: absolute; left: -1.5rem; top: 0.5rem; color: var(--orange); font-size: 1.5rem;
+    content: '✝'; position: absolute; left: -1.5rem; top: 0.5rem; color: var(--orange); font-size: 1.1rem; /* Same size as other text */
   }
   .post-type-devotional .feature-cover { background: linear-gradient(to bottom, rgba(15,23,42,0.95), rgba(15,23,42,0.7)); }
   .post-type-devotional .feature-cover::after { background: linear-gradient(to top, rgba(15,23,42,0.98), rgba(15,23,42,0.8) 50%, transparent); }
   .post-type-devotional .post-content p { animation: fadeIn 1.5s ease-out; }
+  .post-type-devotional .post-content h2, .post-type-devotional .post-content h3, .post-type-devotional .post-content h4 { 
+    font-size: 1.1rem; /* Same size as other text */
+    text-align: center; /* Center headings */
+    margin-bottom: 1rem; /* Reduced for clean layout */
+  }
+  .post-type-devotional .post-content ul, .post-type-devotional .post-content ol { 
+    margin: 1rem auto; /* Reduced margin */
+    padding-left: 0; /* Center lists */
+    list-style-position: inside; /* For centered alignment */
+    text-align: center; 
+  }
+  .post-type-devotional .post-content li { 
+    margin-bottom: 0.5rem; /* Reduced for clean layout */
+  }
 
   .toc-sidebar {
     position: sticky; top: 120px; width: 200px; padding: 1rem; background: var(--panel-hover);
