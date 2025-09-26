@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
   :root {
     --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2441;
@@ -15,6 +16,7 @@
     --ring: rgba(245, 158, 11, .25); --radius: 16px;
     --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
     --sans-serif: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+    --body-serif: 'Merriweather', serif;
     --transition: cubic-bezier(0.4, 0, 0.2, 1);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -191,13 +193,34 @@
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(245,158,11,.2);
   }
+  .muse-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
   .muse-output-area {
     background: var(--panel);
     border-radius: var(--radius);
     padding: 2rem;
     min-height: 300px;
     border: 1px solid rgba(245, 158, 11, .15);
+    transition: all 0.3s var(--transition);
   }
+  .muse-output-area .loading-spinner {
+    display: block;
+    width: 36px; height: 36px;
+    border: 3px solid rgba(245,158,11,.2);
+    border-top-color:var(--orange);
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin: 2rem auto;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .muse-output-area .output-content {
+    font-family: var(--body-serif);
+    line-height: 1.8;
+  }
+  .muse-output-area .output-content strong { color: var(--orange-light); }
+  .muse-output-area .output-content hr { border: none; height: 1px; background: rgba(245,158,11,.15); margin: 1.5rem 0; }
   .output-placeholder {
     display: flex;
     flex-direction: column;
@@ -264,8 +287,8 @@
         <textarea id="muse-input" placeholder="Paste your text here..." rows="15"></textarea>
         <div class="muse-controls">
           <button id="muse-check-grammar">Check Grammar & Style</button>
-          <button id="muse-rephrase">Help Me Rephrase</button>
-          <button id="muse-analyze">Analyze My Writing</button>
+          <button id="muse-rephrase" disabled>Help Me Rephrase</button>
+          <button id="muse-analyze" disabled>Analyze My Writing</button>
         </div>
       </div>
       <div class="muse-output-area" id="muse-output">
@@ -281,6 +304,71 @@
       <p>© 2025 Boluadeoye • Crafted with passion</p>
     </div>
   </footer>
+
+  <script type="module">
+    import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
+    // --- CRITICAL: PASTE YOUR API KEY HERE ---
+    const API_KEY = 'AIzaSyCRzQ078Y-JJjSs0JsUWBNPYaEvJR94ZbA';
+    // -----------------------------------------
+
+    const genAI = new GoogleGenerativeAI(API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-pro"});
+
+    const grammarBtn = document.getElementById('muse-check-grammar');
+    const inputEl = document.getElementById('muse-input');
+    const outputEl = document.getElementById('muse-output');
+    
+    const rephraseBtn = document.getElementById('muse-rephrase');
+    const analyzeBtn = document.getElementById('muse-analyze');
+
+    async function checkGrammar() {
+      const inputText = inputEl.value;
+      if (inputText.trim().length < 10) {
+        outputEl.innerHTML = `<div class="output-placeholder"><p>Please enter at least 10 characters for the Muse to analyze.</p></div>`;
+        return;
+      }
+
+      // --- 1. Show Loading State ---
+      outputEl.innerHTML = `<div class="loading-spinner"></div>`;
+      grammarBtn.disabled = true;
+      rephraseBtn.disabled = true;
+      analyzeBtn.disabled = true;
+
+      // --- 2. Prepare the Prompt ---
+      const prompt = `You are an expert editor and writing coach named the "Muse". Your tone is encouraging and helpful. Analyze the following text for grammatical errors, spelling mistakes, and awkward phrasing. For each issue you find, provide the corrected text and then a brief, clear explanation of the grammatical rule or principle that was violated. Respond in clean HTML format, using <strong> for corrected text and <hr> to separate different points. If there are no issues, simply say "This piece looks solid! The grammar and style are clear and correct."
+
+      TEXT TO ANALYZE:
+      ---
+      ${inputText}
+      ---
+      `;
+
+      try {
+        // --- 3. Call the AI Model ---
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        let text = await response.text();
+        
+        // --- 4. Display the Result ---
+        // Convert any markdown in the AI response to HTML for safety and consistency
+        const htmlResponse = marked.parse(text);
+        outputEl.innerHTML = `<div class="output-content">${htmlResponse}</div>`;
+
+      } catch (error) {
+        console.error("AI Error:", error);
+        outputEl.innerHTML = `<div class="output-placeholder"><p>Sorry, the Muse is having trouble connecting. Please check the API key and try again.</p></div>`;
+      } finally {
+        // --- 5. Reset UI State ---
+        grammarBtn.disabled = false;
+        // rephraseBtn.disabled = false; // Keep these disabled for now
+        // analyzeBtn.disabled = false;
+      }
+    }
+
+    grammarBtn.addEventListener('click', checkGrammar);
+
+  </script>
 
   <script>
     (function(){
@@ -302,14 +390,16 @@
         document.body.classList.add('menu-open');
       }
       
-      menuBtn.addEventListener('click', () => { sideMenu.classList.contains('active') ? closeMenu() : openMenu(); });
-      menuOverlay.addEventListener('click', closeMenu);
+      if (menuBtn) menuBtn.addEventListener('click', () => { sideMenu.classList.contains('active') ? closeMenu() : openMenu(); });
+      if (menuOverlay) menuOverlay.addEventListener('click', closeMenu);
 
       // --- Header Scroll Effect ---
       const header = document.getElementById('header');
-      window.addEventListener('scroll', () => {
-        header.classList.toggle('scrolled', window.scrollY > 10);
-      });
+      if (header) {
+        window.addEventListener('scroll', () => {
+          header.classList.toggle('scrolled', window.scrollY > 10);
+        });
+      }
     })();
   </script>
 </body>
