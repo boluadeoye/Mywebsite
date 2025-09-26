@@ -190,49 +190,49 @@
     .post-content blockquote { font-size: 1.2rem; padding: 1.2rem; }
   }
 
-  /* Category-Specific Styles */
-  .post-type-essays .post-content {
+  /* Category-Specific Styles (Lowercase) */
+  .post-type-essay .post-content {
     background: rgba(13,21,37,0.95); border: 1px solid var(--orange); text-align: justify;
     line-height: 1.7; padding: 2.5rem;
   }
-  .post-type-essays .post-content h2, .post-type-essays .post-content h3, .post-type-essays .post-content h4 {
+  .post-type-essay .post-content h2, .post-type-essay .post-content h3, .post-type-essay .post-content h4 {
     text-align: left; border-bottom: 3px double var(--orange); text-decoration: underline;
   }
-  .post-type-essays .feature-cover::after { background: linear-gradient(to top, rgba(15,23,42,0.95), rgba(15,23,42,0.7) 50%, rgba(255,255,255,0.05)); }
-  .post-type-essays .post-content blockquote { text-align: left; font-size: 1.2rem; }
+  .post-type-essay .feature-cover::after { background: linear-gradient(to top, rgba(15,23,42,0.95), rgba(15,23,42,0.7) 50%, rgba(255,255,255,0.05)); }
+  .post-type-essay .post-content blockquote { text-align: left; font-size: 1.2rem; }
 
-  .post-type-articles .post-content {
+  .post-type-article .post-content {
     text-align: left; line-height: 1.6; padding: 2rem; background: rgba(13,21,37,0.9);
   }
-  .post-type-articles .post-content h2 { border-bottom: 2px solid var(--orange); }
-  .post-type-articles .post-content blockquote { border-left: 5px solid var(--orange); }
-  .post-type-articles .feature-cover { background: linear-gradient(to bottom, rgba(15,23,42,0.85), rgba(15,23,42,0.6)); }
-  .post-type-articles .post-content p { animation: fadeIn 0.5s ease-out; }
+  .post-type-article .post-content h2 { border-bottom: 2px solid var(--orange); }
+  .post-type-article .post-content blockquote { border-left: 5px solid var(--orange); }
+  .post-type-article .feature-cover { background: linear-gradient(to bottom, rgba(15,23,42,0.85), rgba(15,23,42,0.6)); }
+  .post-type-article .post-content p { animation: fadeIn 0.5s ease-out; }
   @keyframes fadeInScroll { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-  .post-type-poems .post-content {
+  .post-type-poem .post-content {
     text-align: center; line-height: 2; background: linear-gradient(to bottom, rgba(15,23,42,0.7), rgba(30,46,84,0.9));
     border: 2px dashed var(--orange); padding: 2.5rem;
   }
-  .post-type-poems .post-content p { text-align: center; }
-  .post-type-poems .post-content p:first-of-type::first-letter { float: none; font-size: inherit; padding: 0; color: inherit; }
-  .post-type-poems .post-content p:hover { color: var(--orange-light); transition: color 0.3s var(--transition); }
-  .post-type-poems .feature-cover { background: linear-gradient(to bottom, rgba(15,23,42,0.8), rgba(30,46,84,0.95)); }
-  .post-type-poems .feature-cover::after { background: linear-gradient(to top, rgba(15,23,42,0.95), rgba(30,46,84,0.7) 50%, transparent); }
+  .post-type-poem .post-content p { text-align: center; }
+  .post-type-poem .post-content p:first-of-type::first-letter { float: none; font-size: inherit; padding: 0; color: inherit; }
+  .post-type-poem .post-content p:hover { color: var(--orange-light); transition: color 0.3s var(--transition); }
+  .post-type-poem .feature-cover { background: linear-gradient(to bottom, rgba(15,23,42,0.8), rgba(30,46,84,0.95)); }
+  .post-type-poem .feature-cover::after { background: linear-gradient(to top, rgba(15,23,42,0.95), rgba(30,46,84,0.7) 50%, transparent); }
 
-  .post-type-stories .post-content {
+  .post-type-story .post-content {
     text-align: justify; font-size: 1.4rem; line-height: 1.9; padding: 2.5rem;
     background: rgba(13,21,37,0.9); position: relative;
   }
-  .post-type-stories .post-content::before, .post-type-stories .post-content::after {
+  .post-type-story .post-content::before, .post-type-story .post-content::after {
     content: ''; position: absolute; width: 20px; height: 20px; background: var(--orange);
     border-radius: 50%; z-index: 1;
   }
-  .post-type-stories .post-content::before { top: 10px; left: 10px; }
-  .post-type-stories .post-content::after { bottom: 10px; right: 10px; }
-  .post-type-stories .post-content blockquote { background: rgba(15,23,42,0.95); border-radius: 8px; font-style: normal; }
-  .post-type-stories .feature-cover { background: linear-gradient(to bottom, rgba(15,23,42,0.95), rgba(30,46,84,0.6)); }
-  .post-type-stories .post-content p { animation: fadeIn 1s ease-out; }
+  .post-type-story .post-content::before { top: 10px; left: 10px; }
+  .post-type-story .post-content::after { bottom: 10px; right: 10px; }
+  .post-type-story .post-content blockquote { background: rgba(15,23,42,0.95); border-radius: 8px; font-style: normal; }
+  .post-type-story .feature-cover { background: linear-gradient(to bottom, rgba(15,23,42,0.95), rgba(30,46,84,0.6)); }
+  .post-type-story .post-content p { animation: fadeIn 1s ease-out; }
 
   .post-type-faith .post-content {
     text-align: left; font-size: 1.2rem; padding: 2.5rem; line-height: 1.8;
