@@ -18,7 +18,7 @@
   "minutes": 4,
   "type": "article",
   "views": 0,
-  "featured": false
+  "featured": true,
   },
   {
     "title": "The Art of Forgiveness: Releasing an Unseen Weight",
@@ -42,7 +42,6 @@
     "cover": "images/religion-vs-relationship-cover.jpg",
     "excerpt": "Tired of empty rituals? Explore the profound difference between 'religion' and a true, personal relationship with God. This post guides you on a path to a more authentic faith.",
     "type": "faith",
-    "featured": true,
     "views": 0,
     "minutes": 3
   },
@@ -279,7 +278,7 @@
   {
     "file": "posts/a-light-in-the-shadows.md",
     "title": "A Light in the Shadows",
-    "date": "2025-09-14",
+    "date": "2025-09-26",
     "type": "devotional",
     "excerpt": "A comforting devotional on holding onto hope during difficult times, and the profound power of even a small light to overcome the darkness.",
     "minutes": 3,
