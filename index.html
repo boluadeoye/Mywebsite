@@ -330,6 +330,94 @@
     .sub { text-align: center; margin: 0 auto 2rem; }
     .chip, .btn { align-self: center; }
   }
+
+  .muse-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    color: var(--orange);
+    cursor: pointer;
+    transition: all 0.3s var(--transition);
+  }
+  .muse-icon:hover {
+    background: rgba(245, 158, 11, 0.2);
+    transform: scale(1.1);
+  }
+  .muse-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .muse-popup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.9);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .muse-popup.active {
+    display: flex;
+  }
+  .popup-content {
+    background: var(--panel);
+    border-radius: var(--radius);
+    padding: 2rem;
+    text-align: center;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    animation: fadeIn 0.3s var(--transition);
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .popup-content h3 {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+  .popup-content p {
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  .popup-btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    margin: 0 0.5rem;
+    border-radius: 999px;
+    background: var(--orange);
+    color: var(--orange-ink);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s var(--transition);
+  }
+  .popup-btn:hover {
+    background: var(--orange-light);
+    transform: translateY(-2px);
+  }
+  .popup-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.3s var(--transition);
+  }
+  .popup-close:hover {
+    color: var(--orange);
+  }
 </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJVVQDCS32"></script>
 <script>
@@ -351,7 +439,11 @@
   <header id="header">
     <div class="wrap header-row">
       <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-expanded="false">
-        <svg viewBox="0-0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" width="16" height="2" rx="1"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <rect x="4" y="6" width="16" height="2" rx="1"/>
+          <rect x="4" y="11" width="16" height="2" rx="1"/>
+          <rect x="4" y="16" width="16" height="2" rx="1"/>
+        </svg>
       </button>
       <a class="brand" href="./">
         <img src="images/Logo.png" alt="Boluadeoye Logo" width="100" height="100" class="brand-logo">
@@ -363,6 +455,20 @@
         <a href="./library.html">Library</a>
         <a href="./about.html">About</a>
       </nav>
+      <button id="museBtn" class="muse-icon" aria-label="Open Writing Muse">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+        </svg>
+      </button>
+      <div id="musePopup" class="muse-popup">
+        <div class="popup-content">
+          <h3>Welcome to Bolu's Writing Muse</h3>
+          <p>Enhance your skills with personalized guidance!</p>
+          <a href="./ai.html" class="popup-btn">Chat with my AI</a>
+          <a href="./ai.html" class="popup-btn">Learn Writing Skills</a>
+          <button id="closePopup" class="popup-close">×</button>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -672,7 +778,26 @@
           observer.observe(newsHubContainer);
       }
 
-      document.addEventListener('DOMContentLoaded', initNewsHub);
+      document.addEventListener('DOMContentLoaded', () => {
+        const museBtn = document.getElementById('museBtn');
+        const musePopup = document.getElementById('musePopup');
+        const closePopup = document.getElementById('closePopup');
+
+        museBtn.addEventListener('click', () => {
+          musePopup.classList.add('active');
+        });
+
+        closePopup.addEventListener('click', () => {
+          musePopup.classList.remove('active');
+        });
+
+        // Close popup when clicking outside
+        musePopup.addEventListener('click', (e) => {
+          if (e.target === musePopup) {
+            musePopup.classList.remove('active');
+          }
+        });
+      });
 
     })();
   </script>
