@@ -282,6 +282,14 @@
     font-size: 1.1rem; /* Uniform font size */
     color: var(--muted); /* Muted color for paragraphs */
   }
+  .post-type-devotional .post-content p:first-of-type::first-letter {
+    font-size: 1.1rem; /* Disable drop cap */
+    float: none; /* Remove float */
+    color: var(--orange); /* Apply orange color */
+    padding: 0; /* Remove padding */
+    text-shadow: none; /* Remove shadow */
+    line-height: inherit; /* Align with text */
+  }
   .post-type-devotional .post-content blockquote {
     background: rgba(13,21,37,0.95); /* Subtle background to match content area */
     border: 6px solid var(--orange); /* Enhanced border for definition */
