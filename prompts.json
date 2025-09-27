@@ -1,0 +1,163 @@
+{
+  "genres": [
+    {
+      "name": "Short Story",
+      "sentence": "Write a short story about..."
+    },
+    {
+      "name": "Flash Fiction",
+      "sentence": "Write a piece of flash fiction (under 500 words) about..."
+    },
+    {
+      "name": "Micro-Fiction",
+      "sentence": "Write a micro-fiction story (under 100 words) about..."
+    },
+    {
+      "name": "Poem",
+      "sentence": "Write a poem that captures the feeling of..."
+    },
+    {
+      "name": "Personal Essay",
+      "sentence": "Write a personal essay exploring the idea of..."
+    },
+    {
+      "name": "Op-Ed Article",
+      "sentence": "Write an opinion article arguing for or against..."
+    },
+    {
+      "name": "Blog Post",
+      "sentence": "Write a blog post titled..."
+    },
+    {
+      "name": "Scene (Screenplay)",
+      "sentence": "Write a single scene for a screenplay about..."
+    },
+    {
+      "name": "Dialogue Only",
+      "sentence": "Write a scene using only dialogue that reveals..."
+    },
+    {
+      "name": "Monologue",
+      "sentence": "Write a monologue from the perspective of a character dealing with..."
+    },
+    {
+      "name": "Journal Entry",
+      "sentence": "Write a journal entry from the perspective of someone experiencing..."
+    },
+    {
+      "name": "Devotional",
+      "sentence": "Write a devotional reflection on the theme of..."
+    },
+    {
+      "name": "Character Sketch",
+      "sentence": "Write a detailed character sketch of someone defined by their..."
+    },
+    {
+      "name": "World-Building Snippet",
+      "sentence": "Describe a specific aspect of a fantasy or sci-fi world, focusing on..."
+    },
+    {
+      "name": "Opening Chapter",
+      "sentence": "Write the compelling opening chapter to a novel about..."
+    }
+  ],
+  "themes": [
+    "Redemption",
+    "Betrayal",
+    "Forbidden Love",
+    "Vengeance",
+    "Sacrifice",
+    "The loss of innocence",
+    "A journey of self-discovery",
+    "Technology vs. Nature",
+    "A secret history",
+    "An impossible choice",
+    "Finding beauty in imperfection",
+    "The meaning of home",
+    "A forgotten promise",
+    "Surviving an apocalypse",
+    "The price of ambition",
+    "A search for truth",
+    "An unlikely friendship",
+    "The struggle for power",
+    "Escaping the past",
+    "The courage to change",
+    "A battle against fate",
+    "The loneliness of command",
+    "The shadow of a parent",
+    "First contact with the unknown",
+    "The cost of a lie",
+    "Rebellion against tyranny",
+    "The mystery of a small town",
+    "A pilgrimage to a sacred place",
+    "The magic in everyday life",
+    "A dream that feels too real",
+    "The burden of a gift",
+    "A society without emotions",
+    "The nature of memory",
+    "Justice vs. mercy",
+    "The weight of tradition",
+    "An ancient curse",
+    "The illusion of control",
+    "A desperate heist",
+    "The search for belonging",
+    "The consequences of greed",
+    "A dying world",
+    "The whisper of a ghost",
+    "A conspiracy of silence",
+    "The challenge of forgiveness",
+    "A festival that goes wrong",
+    "The bond between siblings",
+    "A rivalry that turns deadly",
+    "The last of a kind",
+    "A message from the future",
+    "The allure of the forbidden"
+  ],
+  "twists": [
+    "that begins with an unexpected inheritance.",
+    "where the villain is the hero's sibling.",
+    "set in a world where no one can lie.",
+    "involving a mysterious, unmarked map.",
+    "triggered by a song on the radio.",
+    "and the main character has only 24 hours.",
+    "but the narrator is unreliable.",
+    "set in a library of souls.",
+    "where a forgotten childhood memory holds the key.",
+    "that must be kept secret at all costs.",
+    "involving a character who can talk to animals.",
+    "set during a once-in-a-century storm.",
+    "where the protagonist is wrongly accused.",
+    "sparked by a cryptic message in a bottle.",
+    "in a city that floats in the sky.",
+    "where technology has made emotions obsolete.",
+    "and the only clue is a strange photograph.",
+    "that takes place entirely on a train.",
+    "where a minor character is secretly in control.",
+    "that turns out to be a simulation.",
+    "involving a pact with a supernatural being.",
+    "where people's shadows are alive.",
+    "where the ending is also the beginning.",
+    "told from the perspective of the antagonist.",
+    "in which a prophecy turns out to be a lie.",
+    "set in a world without color.",
+    "where music is illegal.",
+    "and time flows backwards.",
+    "involving a character who remembers their past lives.",
+    "that all takes place in a single room.",
+    "where the main character is already dead.",
+    "and everyone has a personal dragon.",
+    "triggered by a mysterious power outage.",
+    "in a world where your dreams are broadcast for entertainment.",
+    "where a magical artifact is disguised as a common object.",
+    "and the hero slowly becomes the villain.",
+    "set in an underwater city.",
+    "where plants have become sentient.",
+    "and the story is told in reverse chronological order.",
+    "involving a book that writes itself.",
+    "where the moon is about to crash into the Earth.",
+    "set in a society governed by artificial intelligence.",
+    "where everyone gets a superpower on their 18th birthday.",
+    "and the characters are aware they are in a story.",
+    "that starts with the final line of the story."
+  ]
+}
