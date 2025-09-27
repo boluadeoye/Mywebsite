@@ -283,13 +283,29 @@
     color: var(--muted); /* Muted color for paragraphs */
   }
   .post-type-devotional .post-content blockquote {
-    background: transparent; border-left: 6px solid var(--orange); font-size: 1.1rem; /* Uniform font size */
+    background: rgba(13,21,37,0.95); /* Subtle background to match content area */
+    border: 6px solid var(--orange); /* Enhanced border for definition */
+    border-radius: 12px; /* Rounded corners for a card effect */
+    font-size: 1.1rem; /* Uniform font size */
     font-style: normal;
-    color: var(--ink); /* Default ink color for blockquotes */
-    padding: 1.2rem; /* Adjusted for smoother integration */
+    color: var(--ink); /* Readable ink color */
+    padding: 1.5rem; /* Increased padding for better spacing */
     position: relative;
-    margin: 1.5rem auto; /* Centered blockquote with reduced margin */
-    max-width: 80%; /* Spread blockquote a little more */
+    margin: 1.5rem auto; /* Centered with reduced margin */
+    max-width: 85%; /* Slightly wider for prominence */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* Subtle shadow for depth */
+    transition: transform 0.3s var(--transition); /* Smooth hover effect */
+  }
+  .post-type-devotional .post-content blockquote:hover {
+    transform: translateY(-3px); /* Lift on hover for interactivity */
+  }
+  .post-type-devotional .post-content blockquote p:first-of-type::first-letter {
+    font-size: 1.1rem; /* Disable drop cap */
+    float: none; /* Remove float */
+    color: inherit; /* Match text color */
+    padding: 0; /* Remove padding */
+    text-shadow: none; /* Remove shadow */
+    line-height: inherit; /* Align with text */
   }
   .post-type-devotional .post-content blockquote::before {
     content: '✝'; position: absolute; left: -1.5rem; top: 0.5rem; color: var(--orange); font-size: 1.1rem; /* Uniform font size */
