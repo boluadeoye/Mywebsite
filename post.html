@@ -31,8 +31,8 @@
   .wrap{margin:0 auto; position:relative; z-index:1; max-width:1200px; padding:0 2rem;}
 
   header {
-    position: relative; z-index: 100; 
-    background: var(--panel);
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100; 
+    background: rgba(13,21,37,0.95); backdrop-filter: blur(8px);
     border-bottom: 2px solid rgba(255,152,0,.35);
     box-shadow: 0 2px 10px rgba(0,0,0,0.3);
   }
@@ -65,351 +65,147 @@
     position: fixed; top: 0; left: 0; right: 0;
     height: 4px;
     background: linear-gradient(90deg, var(--orange-light), var(--orange));
-    width: 0%; z-index: 201; transition: width 0.2s linear;
-    box-shadow: 0 1px 5px rgba(255,152,0,.5);
+    width: 0%; z-index: 201; transition: width 0.3s var(--transition);
+    box-shadow: 0 1px 8px rgba(255,152,0,.4);
   }
   .feature-cover {
-    width: 100%; position: relative; display: flex; align-items: center;
-    justify-content: center; text-align: center; color: var(--ink); opacity: 0;
-    animation: fadeIn 1s ease-out forwards; min-height: 85vh;
-    background: linear-gradient(to bottom, rgba(15,23,42,0.9), rgba(15,23,42,0.6));
+    width: 100%; position: relative; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; color: var(--ink); opacity: 0;
+    animation: fadeIn 1.2s var(--transition) forwards; min-height: 100vh;
+    background: linear-gradient(to bottom, rgba(15,23,42,0.85), rgba(15,23,42,0.5));
   }
-  @media (max-width: 768px) {
-    .feature-cover { min-height: 65vh; }
-  }
-  .mode-simple .feature-cover { min-height: 85vh; max-height: 850px; }
-  .mode-paginated .feature-cover { min-height: 100vh; }
   @keyframes fadeIn { to { opacity: 1; } }
-
-  .feature-cover-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; filter: brightness(0.8); }
+  .mode-simple .feature-cover {
+    min-height: 85vh;
+  }
+  .mode-paginated .feature-cover {
+    min-height: 100vh; transition: opacity 0.5s var(--transition), transform 0.5s var(--transition);
+  }
+  .mode-paginated .feature-cover.hidden {
+    opacity: 0; transform: scale(0.95); pointer-events: none;
+  }
+  .feature-cover-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; filter: brightness(0.7) contrast(1.1); transition: transform 0.5s var(--transition); }
   .feature-cover::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0.7) 50%, transparent 100%);
-    z-index: 2;
+    content: ''; position: absolute; inset: 0; z-index: 2;
+    background: linear-gradient(to bottom, rgba(15,23,42,0.3) 0%, rgba(15,23,42,0.7) 100%);
   }
   .post-header {
-    position: relative; z-index: 3; padding: 2rem;
-    width: 100%; opacity: 0; transform: translateY(20px); margin-top: 0;
-    animation: fadeIn 1s .5s ease-out forwards;
+    position: relative; z-index: 3; padding: 2rem 1rem; width: 100%; max-width: 800px;
+    opacity: 0; transform: translateY(30px); animation: slideIn 0.8s 0.3s var(--transition) forwards;
     text-align: center;
   }
-  @media (max-width: 768px) {
-    .post-header { padding: 1.5rem; }
-  }
+  @keyframes slideIn { to { opacity: 1; transform: translateY(0); } }
   .post-title {
-    font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 900; line-height: 1.1; text-shadow: 0 3px 15px rgba(0,0,0,.7);
-    margin-bottom: 1.5rem;
+    font-family: var(--serif); font-size: clamp(2.8rem, 5.5vw, 4.5rem); font-weight: 800;
+    line-height: 1.15; text-shadow: 0 4px 20px rgba(0,0,0,0.6); margin-bottom: 1.5rem;
+    background: linear-gradient(180deg, var(--ink), var(--orange-light));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   }
   .post-meta {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem; padding: 1rem; background: var(--panel); border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4); margin-bottom: 2rem;
-    font-size: 1rem; font-weight: 700; color: var(--ink); text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; padding: 1rem 1.5rem;
+    background: rgba(13,21,37,0.9); border-radius: 12px; border: 1px solid rgba(255,152,0,.3);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.4); font-size: 0.95rem; font-weight: 700;
+    color: var(--muted); margin-bottom: 2rem;
   }
   .post-meta span {
-    display: flex; align-items: center; gap: 0.5rem; color: var(--muted);
-    padding: 0.5rem; border-left: 3px solid rgba(255,152,0,.3);
+    display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem;
+    border-left: 3px solid var(--orange); border-radius: 4px;
   }
   .post-meta span:first-child { border-left: none; }
   .begin-reading-btn {
-    margin-top: 2rem; border: 3px solid var(--orange);
-    background: transparent; color: var(--orange); padding: .75rem 1.5rem;
-    border-radius: 999px; font-weight: 800; cursor: pointer; transition: all .3s var(--transition);
-    opacity: 0; animation: fadeIn 1s 1s ease-out forwards;
-    text-transform: uppercase; letter-spacing: 1px;
+    margin: 2rem auto 0; padding: 0.9rem 2rem; border-radius: 999px; font-family: var(--serif);
+    font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px;
+    background: linear-gradient(135deg, var(--orange), var(--orange-light));
+    color: var(--orange-ink); border: none; box-shadow: 0 4px 15px rgba(255,152,0,.4);
+    cursor: pointer; transition: all 0.3s var(--transition); opacity: 0;
+    animation: slideIn 0.8s 0.6s var(--transition) forwards;
   }
-  .begin-reading-btn:hover { background: var(--orange); color: var(--orange-ink); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(255,152,0,.5); }
-
+  .begin-reading-btn:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(255,152,0,.6); }
+  .begin-reading-btn:active { transform: translateY(-2px); }
   .main-content-area {
-    background: transparent;
-    display: grid; grid-template-columns: 1fr; gap: 2.5rem; padding: 0;
-    position: relative; z-index: 4;
+    background: transparent; display: grid; grid-template-columns: 1fr; gap: 2.5rem; padding: 2rem 0;
+    position: relative; z-index: 4; opacity: 0; transform: translateY(20px);
+    transition: opacity 0.5s var(--transition), transform 0.5s var(--transition);
   }
+  .main-content-area.visible { opacity: 1; transform: translateY(0); }
   .mode-paginated .main-content-area { display: none; }
-  .main-content-area.visible { display: grid; }
-  @media (max-width: 768px) {
-    .main-content-area { padding: 0; }
-  }
+  .mode-paginated .main-content-area.visible { display: grid; }
   @media (min-width: 1024px) {
     .main-content-area { grid-template-columns: 250px 1fr; }
   }
   .author-sidebar { display: none; }
   @media (min-width: 1024px) {
     .author-sidebar { display: block; position: sticky; top: 120px; align-self: start; text-align: center;
-      opacity: 0; transform: translateY(20px); transition: all 0.5s var(--transition);
-      background: var(--panel-hover); padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+      background: var(--panel); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255,152,0,.2);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3); opacity: 0; transform: translateY(20px);
+      transition: opacity 0.5s var(--transition), transform 0.5s var(--transition); }
     .author-sidebar.visible { opacity: 1; transform: translateY(0); }
     .author-sidebar img { width: 70px; height: 70px; border-radius: 50%; margin: 0 auto 1rem;
       border: 3px solid rgba(255,152,0,.5); }
     .author-sidebar .name { font-weight: 800; font-size: .9rem; color: var(--ink); text-transform: uppercase; }
     .author-sidebar .title { font-size: .8rem; color: var(--muted); font-style: italic; }
   }
-  @media (max-width: 768px) {
-    .author-sidebar { display: none; }
-  }
-
   .post-content-wrapper { 
-    max-width: 75ch; 
-    margin: 0 auto; 
-    padding: 0 2rem;
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    max-width: 75ch; margin: 0 auto; padding: 0 2rem;
   }
   .post-content {
-    font-family: var(--body-serif); font-size: 1.3rem;
-    line-height: 1.9; color: rgba(229,238,252,0.98);
-    margin-bottom: 2.5rem; background: rgba(13,21,37,0.9);
-    padding: 2rem; border-radius: 10px; box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+    font-family: var(--body-serif); font-size: 1.3rem; line-height: 1.9; color: var(--ink);
+    margin-bottom: 2.5rem; background: rgba(13,21,37,0.95); padding: 2.5rem;
+    border-radius: 12px; border: 1px solid rgba(255,152,0,.2);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: opacity 0.5s var(--transition), transform 0.5s var(--transition);
   }
-  @media (max-width: 768px) {
-    .post-content { font-size: 1.1rem; padding: 1.5rem; }
-    .post-content p:first-of-type::first-letter { font-size: 3.5rem; padding: .1rem .4rem 0 0; }
-  }
+  .post-content.page-transition { opacity: 0; transform: translateX(20px); }
+  .post-content h2, .post-content h3, .post-content h4 { font-family: var(--serif); line-height: 1.3; color: var(--ink); }
+  .post-content h2 { font-size: 2rem; margin-top: 3rem; margin-bottom: 1.2rem;
+    border-bottom: 2px solid rgba(255,152,0,.35); padding-bottom: .6rem; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+  .post-content h3 { font-size: 1.7rem; margin-top: 2.5rem; margin-bottom: 1rem; }
+  .post-content p { margin-bottom: 1.8rem; }
   .post-content p:first-of-type::first-letter {
     font-family: var(--serif); color: var(--orange-light); float: left; font-size: 5.5rem;
     line-height: 0.8; padding: .3rem .8rem 0 0; text-shadow: 0 2px 5px rgba(0,0,0,0.4);
   }
-  .post-content h2, .post-content h3, .post-content h4 { font-family: var(--serif); line-height: 1.3; color: var(--ink); }
-  .post-content h2 { font-size: 2rem; margin-top: 3rem; margin-bottom: 1.2rem;
-    border-bottom: 2px solid rgba(255,152,0,.35); padding-bottom: .6rem; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
-  @media (max-width: 768px) {
-    .post-content h2 { font-size: 1.5rem; }
-  }
-  .post-content h3 { font-size: 1.7rem; margin-top: 2.5rem; margin-bottom: 1rem; }
-  .post-content p { margin-bottom: 1.8rem; }
   .post-content a { color: var(--orange); text-decoration: underline; text-underline-offset: 5px; }
-  .post-content a:hover { color: var(--orange-light); }
-  .post-content ul, .post-content ol{ margin: 1.8rem auto; padding-left: 2rem; }
-  .post-content li { margin-bottom: .6rem; }
-  .post-content blockquote{
+  .post-content blockquote {
     position: relative; padding: 1.8rem; margin: 3rem auto; font-style: italic; font-size: 1.4rem;
     color: var(--muted); border-left: 4px solid var(--orange); background: rgba(13,21,37,0.95);
     border-radius: 10px; box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
   }
-  @media (max-width: 768px) {
-    .post-content blockquote { font-size: 1.2rem; padding: 1.2rem; }
+  .post-type-essay .post-content { background: rgba(13,21,37,0.95); border: 1px solid var(--orange); text-align: justify; line-height: 1.6; padding: 1.5rem; }
+  .mode-toggle {
+    position: fixed; top: 80px; right: 1.5rem; z-index: 5; padding: 0.5rem 1rem;
+    font-size: 0.85rem; border-radius: 999px; background: rgba(13,21,37,0.9);
+    border: 2px solid rgba(255,152,0,.3); color: var(--orange); font-weight: 700;
+    transition: all 0.3s var(--transition); box-shadow: 0 2px 10px rgba(0,0,0,0.3);
   }
-
-  /* Category-Specific Styles (Lowercase) */
-  .post-type-essay .post-content {
-    background: rgba(13,21,37,0.95); border: 1px solid var(--orange); text-align: justify;
-    line-height: 1.6;
-    padding: 1.5rem;
-    margin: 0;
+  .mode-toggle:hover { background: var(--orange); color: var(--orange-ink); transform: translateY(-2px); box-shadow: 0 6px 15px rgba(255,152,0,.4); }
+  .page-navigation {
+    max-width: 75ch; margin: 2rem auto 0; display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem; background: rgba(13,21,37,0.9); border-radius: 12px; border: 1px solid rgba(255,152,0,.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   }
-  .post-type-essay .post-content p {
-    margin-bottom: 1rem;
-    text-align: justify;
-    hyphens: auto;
+  .page-navigation .btn-chip {
+    padding: 0.7rem 1.5rem; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem;
+    background: rgba(255,152,0,.1); border: 2px solid var(--orange); transition: all 0.3s var(--transition);
   }
-  .post-type-essay .post-content h2, .post-type-essay .post-content h3, .post-type-essay .post-content h4 {
-    text-align: left; border-bottom: 3px double var(--orange); text-decoration: underline;
-    margin-top: 2rem; margin-bottom: 0.8rem;
-  }
-  .post-type-essay .post-content blockquote {
-    text-align: left; font-size: 1.2rem; margin: 1.5rem 0;
-    padding: 1.2rem;
-  }
-  .post-type-essay .feature-cover::after { background: linear-gradient(to top, rgba(15,23,42,0.95), rgba(15,23,42,0.7) 50%, rgba(255,255,255,0.05)); }
-
-  .post-type-article .post-content {
-    text-align: left; line-height: 1.6; padding: 2rem; background: rgba(13,21,37,0.9);
-  }
-  .post-type-article .post-content h2 { border-bottom: 2px solid var(--orange); }
-  .post-type-article .post-content blockquote { border-left: 5px solid var(--orange); }
-  .post-type-article .feature-cover { background: linear-gradient(to bottom, rgba(15,23,42,0.85), rgba(15,23,42,0.6)); }
-  .post-type-article .post-content p { animation: fadeIn 0.5s ease-out; }
-  @keyframes fadeInScroll { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-  .post-type-poem .post-content {
-    text-align: center; line-height: 2; background: linear-gradient(to bottom, rgba(15,23,42,0.7), rgba(30,46,84,0.9));
-    border: 2px dashed var(--orange); padding: 2.5rem;
-  }
-  .post-type-poem .post-content p { text-align: center; }
-  .post-type-poem .post-content p:first-of-type::first-letter { float: none; font-size: inherit; padding: 0; color: inherit; }
-  .post-type-poem .post-content p:hover { color: var(--orange-light); transition: color 0.3s var(--transition); }
-  .post-type-poem .feature-cover { background: linear-gradient(to bottom, rgba(15,23,42,0.8), rgba(30,46,84,0.95)); }
-  .post-type-poem .feature-cover::after { background: linear-gradient(to top, rgba(15,23,42,0.95), rgba(30,46,84,0.7) 50%, transparent); }
-
-  .post-type-story .post-content {
-    text-align: justify; font-size: 1.4rem; line-height: 1.9; padding: 1.5rem;
-    background: rgba(13,21,37,0.9); position: relative;
-    margin: 0;
-  }
-  .post-type-story .post-content p {
-    margin-bottom: 1rem;
-    text-align: justify;
-    hyphens: auto;
-  }
-  .post-type-story .post-content::before, .post-type-story .post-content::after {
-    content: ''; position: absolute; width: 20px; height: 20px; background: var(--orange);
-    border-radius: 50%; z-index: 1;
-  }
-  .post-type-story .post-content::before { top: 10px; left: 10px; }
-  .post-type-story .post-content::after { bottom: 10px; right: 10px; }
-  .post-type-story .post-content blockquote {
-    background: rgba(15,23,42,0.95); border-radius: 8px; font-style: normal;
-    margin: 1.5rem 0; padding: 1.2rem;
-  }
-  .post-type-story .feature-cover { background: linear-gradient(to bottom, rgba(15,23,42,0.95), rgba(30,46,84,0.6)); }
-  .post-type-story .post-content p { animation: fadeIn 1s ease-out; }
-
-  .post-type-faith .post-content {
-    text-align: left; font-size: 1.2rem; padding: 2.5rem; line-height: 1.8;
-    background: rgba(13,21,37,0.85); border: 2px solid var(--orange);
-  }
-  .post-type-faith .post-content blockquote {
-    background: transparent; border-left: 6px solid var(--orange); font-size: 1.2rem; font-style: normal;
-    color: var(--ink); padding: 1.5rem; position: relative;
-  }
-  .post-type-faith .post-content blockquote::before {
-    content: '✝'; position: absolute; left: -1.5rem; top: 0.5rem; color: var(--orange); font-size: 1.5rem;
-  }
-  .post-type-faith .feature-cover { background: linear-gradient(to bottom, rgba(15,23,42,0.95), rgba(15,23,42,0.7)); }
-  .post-type-faith .feature-cover::after { background: linear-gradient(to top, rgba(15,23,42,0.98), rgba(15,23,42,0.8) 50%, transparent); }
-  .post-type-faith .post-content p { animation: fadeIn 1.5s ease-out; }
-
-  .post-type-devotional .post-content {
-    text-align: center; /* Center alignment for devotional posts */
-    font-size: 1.1rem; /* Uniform base font size */
-    line-height: 1.6; /* Reduced from 1.8 for smoother shape */
-    background: rgba(13,21,37,0.85); box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    padding: 2.5rem 3rem; /* Increased horizontal padding to spread text */
-  }
-  .post-type-devotional .post-content p {
-    margin-bottom: 1rem; /* Reduced margin to eliminate gaps */
-    text-align: center; /* Ensure paragraphs are centered */
-    font-size: 1.1rem; /* Uniform font size */
-    color: var(--muted); /* Muted color for paragraphs */
-  }
-  .post-type-devotional .post-content p:first-of-type::first-letter {
-    font-size: 1.1rem; /* Disable drop cap */
-    float: none; /* Remove float */
-    color: var(--orange); /* Apply orange color */
-    padding: 0; /* Remove padding */
-    text-shadow: none; /* Remove shadow */
-    line-height: inherit; /* Align with text */
-  }
-  .post-type-devotional .post-content blockquote {
-    background: rgba(13,21,37,0.95); /* Subtle background to match content area */
-    border: 6px solid var(--orange); /* Enhanced border for definition */
-    border-radius: 12px; /* Rounded corners for a card effect */
-    font-size: 1.1rem; /* Uniform font size */
-    font-style: normal;
-    color: var(--ink); /* Readable ink color */
-    padding: 1.5rem; /* Increased padding for better spacing */
-    position: relative;
-    margin: 1.5rem auto; /* Centered with reduced margin */
-    max-width: 85%; /* Slightly wider for prominence */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* Subtle shadow for depth */
-    transition: transform 0.3s var(--transition); /* Smooth hover effect */
-  }
-  .post-type-devotional .post-content blockquote:hover {
-    transform: translateY(-3px); /* Lift on hover for interactivity */
-  }
-  .post-type-devotional .post-content blockquote p:first-of-type::first-letter {
-    font-size: 1.1rem; /* Disable drop cap */
-    float: none; /* Remove float */
-    color: inherit; /* Match text color */
-    padding: 0; /* Remove padding */
-    text-shadow: none; /* Remove shadow */
-    line-height: inherit; /* Align with text */
-  }
-  .post-type-devotional .post-content blockquote::before {
-    content: '✝'; position: absolute; left: -1.5rem; top: 0.5rem; color: var(--orange); font-size: 1.1rem; /* Uniform font size */
-  }
-  .post-type-devotional .post-content h2, .post-type-devotional .post-content h3, .post-type-devotional .post-content h4 { 
-    font-size: 1.1rem; /* Uniform font size */
-    text-align: center; /* Center headings */
-    margin-bottom: 1rem; /* Reduced for clean layout */
-    color: var(--orange); /* Orange for headings to stand out */
-  }
-  .post-type-devotional .post-content ul, .post-type-devotional .post-content ol { 
-    margin: 1rem auto; /* Reduced margin */
-    padding-left: 0; /* Center lists */
-    list-style-position: inside; /* For centered alignment */
-    text-align: center; 
-    font-size: 1.1rem; /* Uniform font size */
-    color: var(--ink); /* Ink color for lists */
-  }
-  .post-type-devotional .post-content li { 
-    margin-bottom: 0.5rem; /* Reduced for clean layout */
-    font-size: 1.1rem; /* Uniform font size */
-  }
-  .post-type-devotional .feature-cover { background: linear-gradient(to bottom, rgba(15,23,42,0.95), rgba(15,23,42,0.7)); }
-  .post-type-devotional .feature-cover::after { background: linear-gradient(to top, rgba(15,23,42,0.98), rgba(15,23,42,0.8) 50%, transparent); }
-  .post-type-devotional .post-content p { animation: fadeIn 1.5s ease-out; }
-
-  .toc-sidebar {
-    position: sticky; top: 120px; width: 200px; padding: 1rem; background: var(--panel-hover);
-    border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); display: none;
-  }
-  .toc-sidebar h3 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--ink); }
-  .toc-sidebar ul { list-style: none; }
-  .toc-sidebar li a { color: var(--muted); display: block; padding: 0.5rem 0; }
-  .toc-sidebar li a:hover { color: var(--orange); }
-  .toc-sidebar li.active a { color: var(--orange); font-weight: 700; transition: color 0.3s var(--transition); }
-  @media (max-width: 1023px) {
-    .toc-sidebar { display: none !important; }
-  }
-
-  .page-navigation { max-width: 75ch; margin: 2.5rem auto 0; display: flex; justify-content: space-between; align-items: center; }
-  @media (max-width: 768px) {
-    .page-navigation { flex-direction: column; gap: 1.2rem; }
-  }
-  .page-indicator { font-size: 1rem; color: var(--muted); font-weight: 800; }
-
-  .epilogue-page { text-align: center; padding: 3.5rem 2rem; background: var(--panel-hover); border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-  @media (max-width: 768px) {
-    .epilogue-page { padding: 2rem 1rem; }
-  }
-  .epilogue-page h2 { font-family: var(--serif); font-size: 2.2rem; margin-bottom: 1.8rem; }
-  .epilogue-page p { color: var(--muted); max-width: 65ch; margin: 0 auto 2.5rem; }
-
+  .page-navigation .btn-chip:hover { background: var(--orange); color: var(--orange-ink); transform: translateY(-2px); }
+  .page-navigation .btn-chip:disabled { opacity: 0.4; background: rgba(255,152,0,.05); border-color: rgba(255,152,0,.2); }
+  .page-indicator { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--orange); }
+  .epilogue-page { text-align: center; padding: 3rem 2rem; background: var(--panel); border-radius: 12px; border: 1px solid rgba(255,152,0,.2); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+  .epilogue-page h2 { font-family: var(--serif); font-size: 2.2rem; margin-bottom: 1.8rem; color: var(--ink); }
   .article-ender { border: none; height: 2px; background: linear-gradient(to right, transparent, rgba(255,152,0,.35), transparent); margin: 3.5rem auto 0; max-width: 75ch; }
-  .post-nav{ display:flex; justify-content: space-between; align-items: center; gap: .75rem;
-    padding: 2.5rem 0; flex-wrap: wrap; max-width: 75ch; margin: 0 auto; }
-  @media (max-width: 768px) {
-    .post-nav { flex-direction: column; gap: 1.2rem; }
-  }
-  .btn-chip{
-    padding: .6rem 1.2rem; background: transparent; color: var(--orange); border: 3px solid var(--orange);
-    border-radius: 999px; font-weight: 800; font-size: .85rem; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    transition: all .2s var(--transition); cursor: pointer; white-space: nowrap;
-  }
-  .btn-chip:hover{
-    background: var(--orange); color: var(--orange-ink); transform: translateY(-3px);
-    box-shadow: 0 6px 25px rgba(255,152,0,.6);
-  }
+  .post-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 2.5rem 0; flex-wrap: wrap; max-width: 75ch; margin: 0 auto; }
+  .btn-chip { padding: .6rem 1.2rem; background: transparent; color: var(--orange); border: 3px solid var(--orange); border-radius: 999px; font-weight: 800; font-size: .85rem; box-shadow: 0 2px 10px rgba(0,0,0,0.2); transition: all .2s var(--transition); cursor: pointer; white-space: nowrap; }
+  .btn-chip:hover { background: var(--orange); color: var(--orange-ink); transform: translateY(-3px); box-shadow: 0 6px 25px rgba(255,152,0,.6); }
   .btn-chip:disabled { opacity: .3; cursor: not-allowed; pointer-events: none; }
-  .btn-chip.share-btn { margin: 0 auto; }
-
-  .loading-container, .error-container { min-height:250px; display:flex; flex-direction:column; align-items:center;
-    justify-content:center; color:var(--muted); padding:1.5rem; text-align:center; background: var(--panel); border-radius: 10px; }
-  .loading-spinner{ width:35px; height:35px; border:4px solid rgba(255,152,0,.4); border-top-color:var(--orange);
-    border-radius:50%; animation:spin 1s linear infinite; margin-bottom:.75rem; }
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .error-container h2 { font-family:var(--serif); color:var(--red); font-size: 1.5rem; }
-
-  #disqus_thread, #related-posts-container { max-width: 75ch; margin: 3.5rem auto; padding-top: 2.5rem;
-    border-top: 2px solid rgba(255,152,0,.35); }
-  .related-posts-title { font-size: clamp(1.6rem, 3vw, 2rem); font-family: var(--serif); font-weight: 900;
-    color: var(--ink); text-align: center; margin-bottom: 2.5rem; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+  .loading-container, .error-container { min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); padding: 1.5rem; text-align: center; background: var(--panel); border-radius: 10px; }
+  .loading-spinner { width: 35px; height: 35px; border: 4px solid rgba(255,152,0,.4); border-top-color: var(--orange); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: .75rem; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error-container h2 { font-family: var(--serif); color: var(--red); font-size: 1.5rem; }
+  #disqus_thread, #related-posts-container { max-width: 75ch; margin: 3.5rem auto; padding-top: 2.5rem; border-top: 2px solid rgba(255,152,0,.35); }
+  .related-posts-title { font-size: clamp(1.6rem, 3vw, 2rem); font-family: var(--serif); font-weight: 900; color: var(--ink); text-align: center; margin-bottom: 2.5rem; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
   .related-posts-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
-  @media (max-width: 768px) {
-    .related-posts-grid { grid-template-columns: 1fr; }
-  }
-  .related-post-card { display: flex; flex-direction: column; background: var(--panel-hover); border-radius: 12px;
-    overflow: hidden; border: 2px solid rgba(255,152,0,.3); transition: all .3s var(--transition);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+  .related-post-card { display: flex; flex-direction: column; background: var(--panel-hover); border-radius: 12px; overflow: hidden; border: 2px solid rgba(255,152,0,.3); transition: all .3s var(--transition); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
   .related-post-card:hover { transform: translateY(-6px); border-color: var(--orange); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-  .related-post-card .cover img { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; }
-  .related-post-card .content { padding: 1.2rem; flex-grow: 1; }
-  .related-post-card h4 { font-family: var(--serif); font-size: 1.1rem; margin-bottom: .5rem; color: var(--orange-light); line-height: 1.4; }
-  .related-post-card p { font-size: .9rem; color: var(--muted); line-height: 1.6; }
-
-  footer{ background: var(--panel); border-top:2px solid rgba(255,255,255,.15); color:var(--muted);
-    text-align:center; font-size:.85rem; padding:1.5rem 0; margin-top:2rem; box-shadow: 0 -2px 10px rgba(0,0,0,0.2); }
   </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJVVQDCS32"></script>
 <script>
@@ -461,13 +257,23 @@
 
   <script>
   (function(){
-    const state = { allPosts: [], postData: null, pages: [], currentPage: 1, file: null, mode: 'simple' };
+    // --- STATE MANAGEMENT ---
+    const state = {
+      allPosts: [], postData: null,
+      pages: [], currentPage: 1, file: null, mode: 'simple',
+      wordCount: 0, totalPages: 0
+    };
+
+    // --- DOM ELEMENTS & CONSTANTS ---
     const menuBtn = document.getElementById('menuBtn');
     const sideMenu = document.getElementById('sideMenu');
     const menuOverlay = document.getElementById('menuOverlay');
     const progressBar = document.getElementById('progress-bar');
     const pageContainer = document.getElementById('post-page-container');
-    
+    const WORD_COUNT_THRESHOLD = 1500;
+    const PAGE_SEPARATOR = /\n---\s*page\s*---\n/;
+
+    // --- GLOBAL FUNCTIONS ---
     window.sharePost = function() {
       if(state.postData && navigator.share) {
         navigator.share({ title: state.postData.title, text: state.postData.excerpt, url: window.location.href });
@@ -477,37 +283,75 @@
       }
     };
     
-    function renderPage(pageNumber) {
-        if (pageNumber < 1) return;
-        state.currentPage = pageNumber;
-        const totalPages = state.pages.length;
-        
-        const url = new URL(window.location);
-        url.searchParams.set('page', state.currentPage);
-        window.history.pushState({page: state.currentPage}, '', url);
-
-        const contentEl = document.getElementById('article-content');
-        if (state.currentPage > totalPages) {
-            contentEl.innerHTML = `<div class="epilogue-page"><h2>Thank you for reading</h2><p>Your time and attention are deeply appreciated. If this story resonated with you, please consider sharing it or leaving your thoughts below.</p></div>`;
-            displayRelatedPosts(state.postData);
-            loadDisqus(state.file);
-        } else {
-            contentEl.innerHTML = marked.parse(state.pages[state.currentPage - 1] || '', { breaks: true });
+    // --- HELPER FUNCTIONS ---
+    function getWordCount(text) { return text.trim().split(/\s+/).length; }
+    
+    function createSEOTags() {
+      document.querySelectorAll('link[rel="next"], link[rel="prev"], link[rel="canonical"]').forEach(tag => tag.remove());
+      const head = document.head;
+      const canonicalUrl = `${window.location.origin}${window.location.pathname}?file=${encodeURIComponent(state.file)}`;
+      const canonicalTag = document.createElement('link');
+      canonicalTag.rel = 'canonical';
+      canonicalTag.href = canonicalUrl;
+      head.appendChild(canonicalTag);
+      
+      if (state.mode === 'paginated') {
+        if (state.currentPage < state.totalPages) {
+          const nextTag = document.createElement('link');
+          nextTag.rel = 'next';
+          nextTag.href = `${canonicalUrl}&page=${state.currentPage + 1}`;
+          head.appendChild(nextTag);
         }
+        if (state.currentPage > 1) {
+          const prevTag = document.createElement('link');
+          prevTag.rel = 'prev';
+          prevTag.href = `${canonicalUrl}&page=${state.currentPage - 1}`;
+          head.appendChild(prevTag);
+        }
+      }
+    }
+    
+    // --- RENDER & LOGIC FUNCTIONS ---
+    function renderPage(pageNumber) {
+      if (pageNumber < 1) return;
+      state.currentPage = pageNumber;
+      const totalPages = state.totalPages;
+      
+      const url = new URL(window.location);
+      url.searchParams.set('page', state.currentPage);
+      window.history.replaceState({page: state.currentPage}, '', url);
 
-        const navEl = document.getElementById('page-navigation');
-        const prevButton = navEl.querySelector('.prev-page');
-        const nextButton = navEl.querySelector('.next-page');
-        const indicator = navEl.querySelector('.page-indicator');
-        
-        prevButton.disabled = state.currentPage === 1;
-        nextButton.disabled = state.currentPage >= totalPages;
-        indicator.textContent = `Page ${state.currentPage} / ${totalPages}`;
-        indicator.style.display = state.currentPage > totalPages ? 'none' : 'block';
-        
-        const mainContent = document.getElementById('main-content-area');
-        if (mainContent) mainContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        updateProgressBar();
+      const contentEl = document.getElementById('article-content');
+      if (!contentEl) return;
+
+      contentEl.classList.add('page-transition');
+      setTimeout(() => {
+        if (state.currentPage > totalPages) {
+          contentEl.innerHTML = `<div class="epilogue-page"><h2>Thank you for reading</h2><p>Your time and attention are deeply appreciated. If this story resonated with you, please consider sharing it or leaving your thoughts below.</p></div>`;
+          document.getElementById('related-posts-container').style.display = 'block';
+          document.getElementById('disqus_thread').style.display = 'block';
+          loadDisqus(state.file);
+        } else {
+          contentEl.innerHTML = marked.parse(state.pages[state.currentPage - 1] || '', { breaks: true });
+        }
+        contentEl.classList.remove('page-transition');
+      }, 300);
+
+      const navEl = document.getElementById('page-navigation');
+      const prevButton = navEl.querySelector('.prev-page');
+      const nextButton = navEl.querySelector('.next-page');
+      const indicator = navEl.querySelector('.page-indicator');
+      
+      prevButton.disabled = state.currentPage === 1;
+      nextButton.disabled = state.currentPage > totalPages;
+      indicator.textContent = state.currentPage > totalPages ? 'The End' : `Page ${state.currentPage} / ${totalPages}`;
+      
+      const mainContentEl = document.getElementById('main-content-area');
+      if (mainContentEl) {
+        mainContentEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      updateProgressBar();
+      createSEOTags();
     }
     
     function attachPageNavListeners() {
@@ -518,52 +362,59 @@
     }
     
     function beginReading() {
-        const mainContent = document.getElementById('main-content-area');
-        if (mainContent) {
-            mainContent.style.display = 'grid';
-            mainContent.classList.add('visible');
-            mainContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            renderPage(state.currentPage);
-            attachPageNavListeners(); 
-        }
+      const cover = document.getElementById('feature-cover');
+      const mainContent = document.getElementById('main-content-area');
+      if (cover && mainContent) {
+        cover.classList.add('hidden');
+        mainContent.classList.add('visible');
+        mainContent.style.display = 'grid';
+        mainContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setTimeout(() => {
+          renderPage(state.currentPage);
+          attachPageNavListeners(); 
+        }, 500);
+      }
     }
     
+    let disqusLoaded = false;
     function loadDisqus(postIdentifier) {
-        const container = document.getElementById('disqus_thread');
-        if (!postIdentifier || !container) return;
-        var disqus_config = function () {
-            this.page.url = window.location.href;
-            this.page.identifier = postIdentifier;
-        };
-        (function() {
-            var d = document, s = d.createElement('script');
-            s.src = 'https://bolus-personal-blog.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        })();
+      const container = document.getElementById('disqus_thread');
+      if (!postIdentifier || !container || disqusLoaded) return;
+      disqusLoaded = true;
+      var disqus_config = function () {
+        this.page.url = window.location.href;
+        this.page.identifier = postIdentifier;
+      };
+      (function() {
+        var d = document, s = document.createElement('script');
+        s.src = 'https://bolus-personal-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (document.head || document.body).appendChild(s);
+      })();
     }
     
     function displayRelatedPosts(currentPost) {
-        if (!state.allPosts.length || !currentPost || !currentPost.type) return;
-        const container = document.getElementById('related-posts-container');
-        if (!container) return;
-        const related = state.allPosts.filter(p => p.type === currentPost.type && p.file !== currentPost.file);
-        if (related.length === 0) return;
-        const shuffled = related.sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, 3);
-        const cardsHTML = selected.map(post => {
-            const excerpt = (post.excerpt || '').substring(0, 80) + '...';
-            const coverHTML = post.cover ? `<div class="cover"><img src="${post.cover}" alt="${post.title}" loading="lazy"></div>` : '';
-            return `<a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card">${coverHTML}<div class="content"><h4>${post.title}</h4><p>${excerpt}</p></div></a>`;
-        }).join('');
-        container.innerHTML = `<h3 class="related-posts-title">You Might Also Like</h3><div class="related-posts-grid">${cardsHTML}</div>`;
+      if (!state.allPosts.length || !currentPost || !currentPost.type) return;
+      const container = document.getElementById('related-posts-container');
+      if (!container) return;
+      const related = state.allPosts.filter(p => p.type === currentPost.type && p.file !== currentPost.file);
+      if (related.length === 0) return;
+      const shuffled = related.sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, 3);
+      const cardsHTML = selected.map(post => {
+        const excerpt = (post.excerpt || '').substring(0, 80) + '...';
+        const coverHTML = post.cover ? `<div class="cover"><img src="${post.cover}" alt="${post.title}" loading="lazy"></div>` : '';
+        return `<a href="post.html?file=${encodeURIComponent(post.file)}" class="related-post-card">${coverHTML}<div class="content"><h4>${post.title}</h4><p>${excerpt}</p></div></a>`;
+      }).join('');
+      container.innerHTML = `<h3 class="related-posts-title">You Might Also Like</h3><div class="related-posts-grid">${cardsHTML}</div>`;
     }
 
+    // --- MAIN INITIALIZATION ---
     async function loadPost() {
       try {
         const urlParams = new URLSearchParams(window.location.search);
         state.file = urlParams.get('file');
-        const startPage = parseInt(urlParams.get('page')) || 1;
+        const forceMode = urlParams.get('mode');
         if(!state.file) throw new Error('No post file specified in URL.');
 
         const postsRes = await fetch('./Posts.json', { cache: 'no-store' });
@@ -580,75 +431,91 @@
         const markdown = await mdRes.text();
         
         document.title = state.postData.title + ' — Boluadeoye';
+        state.wordCount = getWordCount(markdown);
         
-        const pageSeparator = /\n---\s*page\s*---\n/;
-        if (markdown.includes('---page---')) {
-            document.body.className = `mode-paginated ${postType}`;
-            state.mode = 'paginated';
-            state.pages = markdown.split(pageSeparator);
+        const hasManualPages = PAGE_SEPARATOR.test(markdown);
+        
+        if (forceMode === 'scroll') { state.mode = 'simple'; } 
+        else if (forceMode === 'paginated') { state.mode = 'paginated'; } 
+        else { state.mode = hasManualPages || state.wordCount > WORD_COUNT_THRESHOLD ? 'paginated' : 'simple'; }
+
+        document.body.className = `mode-${state.mode} ${postType}`;
+        
+        if (state.mode === 'paginated') {
+          state.pages = markdown.split(PAGE_SEPARATOR);
         } else {
-            document.body.className = `mode-simple ${postType}`;
-            state.mode = 'simple';
-            state.pages = [markdown];
+          state.pages = [markdown];
         }
-        state.currentPage = (startPage > state.pages.length + 1 || startPage < 1) ? 1 : startPage;
+        state.totalPages = state.pages.length;
+        
+        const startPage = parseInt(urlParams.get('page')) || 1;
+        state.currentPage = (startPage > state.totalPages + 1 || startPage < 1) ? 1 : startPage;
 
         const coverUrl = state.postData.cover || '';
         const dateStr = new Date(state.postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-        const coverImageHTML = coverUrl ? `<img src="${coverUrl}" alt="" class="feature-cover-bg">` : '';
         
         const mainContentHTML = `
-            <nav class="toc-sidebar"></nav>
-            <aside id="author-sidebar" class="author-sidebar">
-              <img src="images/Logo.png" alt="Adeoye Boluwatife">
-              <div class="name">Adeoye Boluwatife</div>
-              <div class="title">Author</div>
-            </aside>
-            <div class="post-content-wrapper">
-              <article class="post-content" id="article-content"></article>
-              <nav class="page-navigation" id="page-navigation" style="display:${state.mode === 'paginated' ? 'flex' : 'none'};">
-                <button class="btn-chip prev-page">← Previous</button>
-                <span class="page-indicator"></span>
-                <button class="btn-chip next-page">Next →</button>
-              </nav>
-              <hr class="article-ender">
-              <nav class="post-nav" id="post-nav">
-                <a href="./" class="btn-chip">← Back to Home</a>
-                <button class="btn-chip share-btn" onclick="window.sharePost()">Share Post 📤</button>
-                <a href="./posts.html" class="btn-chip">All Posts →</a>
-              </nav>
-              <section id="related-posts-container"></section>
-              <div id="disqus_thread"></div>
-            </div>
+          <nav class="toc-sidebar"></nav>
+          <aside id="author-sidebar" class="author-sidebar">
+            <img src="images/Logo.png" alt="Adeoye Boluwatife">
+            <div class="name">Adeoye Boluwatife</div>
+          </aside>
+          <div class="post-content-wrapper">
+            <article class="post-content" id="article-content"></article>
+            <nav class="page-navigation" id="page-navigation" style="display:${state.mode === 'paginated' ? 'flex' : 'none'};">
+              <button class="btn-chip prev-page" aria-label="Previous page"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg> Previous</button>
+              <span class="page-indicator"></span>
+              <button class="btn-chip next-page" aria-label="Next page"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg> Next</button>
+            </nav>
+            <hr class="article-ender">
+            <nav class="post-nav" id="post-nav">
+              <a href="./" class="btn-chip">← Back to Home</a>
+              <button class="btn-chip share-btn" onclick="window.sharePost()">Share Post 📤</button>
+              <a href="./posts.html" class="btn-chip">All Posts →</a>
+            </nav>
+            <section id="related-posts-container"></section>
+            <div id="disqus_thread"></div>
+          </div>
         `;
         
+        const modeToggleURL = state.mode === 'paginated' 
+          ? `?file=${encodeURIComponent(state.file)}&mode=scroll`
+          : `?file=${encodeURIComponent(state.file)}&mode=paginated`;
+        const modeToggleText = state.mode === 'paginated' ? 'Scroll View' : 'Book View';
+        
         pageContainer.innerHTML = `
-            <section class="feature-cover" id="feature-cover">
-                ${coverImageHTML}
-                <div class="post-header wrap">
-                    <h1 class="post-title">${state.postData.title}</h1>
-                    <div class="post-meta">
-                        <span>📅 ${dateStr}</span>
-                        <span>📁 ${state.postData.type || 'General'}</span>
-                        <span>⏱️ ${state.postData.minutes} min read</span>
-                    </div>
-                    ${state.mode === 'paginated' ? '<button class="begin-reading-btn" id="begin-reading">Begin Reading</button>' : ''}
-                </div>
-            </section>
-            <div class="main-content-area wrap" id="main-content-area">${mainContentHTML}</div>
+          <section class="feature-cover" id="feature-cover">
+            <img src="${coverUrl}" alt="" class="feature-cover-bg">
+            <div class="post-header wrap">
+              <h1 class="post-title">${state.postData.title}</h1>
+              <div class="post-meta">
+                <span>📅 ${dateStr}</span>
+                <span>📁 ${state.postData.type || 'General'}</span>
+                <span>⏱️ ${state.postData.minutes} min read</span>
+              </div>
+              ${state.mode === 'paginated' ? '<button class="begin-reading-btn" id="begin-reading" aria-label="Begin reading the article">Begin Reading</button>' : ''}
+            </div>
+          </section>
+          <div class="main-content-area wrap" id="main-content-area">
+            <a href="${modeToggleURL}" class="btn-chip mode-toggle" aria-label="Switch to ${modeToggleText.toLowerCase()}">${modeToggleText}</a>
+            ${mainContentHTML}
+          </div>
         `;
         
         if (state.mode === 'paginated') {
-            document.getElementById('begin-reading').addEventListener('click', beginReading);
+          document.getElementById('begin-reading').addEventListener('click', beginReading);
+          document.getElementById('related-posts-container').style.display = 'none';
+          document.getElementById('disqus_thread').style.display = 'none';
         } else {
-            const mainContentEl = document.getElementById('main-content-area');
-            mainContentEl.classList.add('visible');
-            document.getElementById('article-content').innerHTML = marked.parse(state.pages[0] || '', { breaks: true });
-            displayRelatedPosts(state.postData);
-            loadDisqus(state.file);
-            createTOC();
-            setupTOCObserver();
+          const mainContentEl = document.getElementById('main-content-area');
+          mainContentEl.classList.add('visible');
+          document.getElementById('article-content').innerHTML = marked.parse(state.pages[0] || '', { breaks: true });
+          displayRelatedPosts(state.postData);
+          loadDisqus(state.file);
+          createTOC();
+          setupTOCObserver();
         }
+        createSEOTags();
 
       } catch(err) {
         console.error('Post load error:', err);
@@ -657,22 +524,20 @@
     }
     
     function renderError(container, message){
-        const errorHTML = `<div class="error-container"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
-        if (container) container.innerHTML = errorHTML;
+      const errorHTML = `<div class="error-container"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
+      if (container) container.innerHTML = errorHTML;
     }
     
     function updateProgressBar() {
-        if (!progressBar) return;
-        if (state.mode === 'simple') {
-            const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-            const scrollableHeight = scrollHeight - clientHeight;
-            progressBar.style.width = scrollableHeight > 0 ? `${(scrollTop / scrollableHeight) * 100}%` : '100%';
-        } else {
-            const totalPages = state.pages.length;
-            if (totalPages === 0) return;
-            const progress = ((state.currentPage - 1) / totalPages) * 100;
-            progressBar.style.width = `${progress}%`;
-        }
+      if (!progressBar) return;
+      if (state.mode === 'simple') {
+        const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+        const scrollableHeight = scrollHeight - clientHeight;
+        progressBar.style.width = scrollableHeight > 0 ? `${(scrollTop / scrollableHeight) * 100}%` : '0%';
+      } else {
+        const progress = state.totalPages > 0 ? (state.currentPage / (state.totalPages + 1)) * 100 : 0;
+        progressBar.style.width = `${progress}%`;
+      }
     }
     
     function handleAuthorSidebar() {
@@ -683,11 +548,7 @@
       const coverHeight = cover.offsetHeight;
       const mainContent = document.getElementById('main-content-area');
       
-      let isVisible = false;
-      if (mainContent) {
-        const style = window.getComputedStyle(mainContent);
-        isVisible = style.display !== 'none';
-      }
+      let isVisible = mainContent.classList.contains('visible');
 
       if (isVisible && window.scrollY > coverHeight) {
         sidebar.classList.add('visible');
@@ -698,34 +559,36 @@
     
     function createTOC() {
       const headings = document.querySelectorAll('.post-content h2, .post-content h3');
-      if (headings.length === 0) return;
-      const toc = document.querySelector('.toc-sidebar');
-      toc.style.display = 'block';
-      toc.innerHTML = '<h3>Contents</h3><ul></ul>';
+      const tocContainer = document.querySelector('.toc-sidebar');
+      if (headings.length < 2 || !tocContainer) return;
+      
+      tocContainer.innerHTML = '<h3>Contents</h3><ul></ul>';
+      const tocList = tocContainer.querySelector('ul');
+      
       headings.forEach(heading => {
+        const id = heading.textContent.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+        heading.id = id;
         const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.textContent = heading.textContent;
-        a.href = `#${heading.id || heading.textContent.replace(/\s+/g, '-').toLowerCase()}`;
-        heading.id = heading.id || heading.textContent.replace(/\s+/g, '-').toLowerCase();
-        li.appendChild(a);
-        toc.querySelector('ul').appendChild(li);
+        li.innerHTML = `<a href="#${id}">${heading.textContent}</a>`;
+        tocList.appendChild(li);
       });
     }
 
     function setupTOCObserver() {
       const headings = document.querySelectorAll('.post-content h2, .post-content h3');
       const tocLinks = document.querySelectorAll('.toc-sidebar a');
+      if(headings.length < 2 || tocLinks.length < 2) return;
+      
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           const id = entry.target.getAttribute('id');
           const tocLink = document.querySelector(`.toc-sidebar a[href="#${id}"]`);
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && tocLink) {
             tocLinks.forEach(link => link.parentElement.classList.remove('active'));
             tocLink.parentElement.classList.add('active');
           }
         });
-      }, { rootMargin: '-50% 0px -50% 0px' });
+      }, { rootMargin: '-20% 0px -70% 0px' });
       headings.forEach(heading => observer.observe(heading));
     }
     
@@ -742,11 +605,7 @@
     menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
     menuOverlay.addEventListener('click', closeMenu);
     window.addEventListener('scroll', () => { updateProgressBar(); handleAuthorSidebar(); });
-    window.addEventListener('resize', () => {
-      const toc = document.querySelector('.toc-sidebar');
-      if (window.innerWidth < 1024 && toc) toc.style.display = 'none';
-    });
-
+    
     document.addEventListener('DOMContentLoaded', loadPost);
   })();
   </script>
