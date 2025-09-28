@@ -1,0 +1,15 @@
+{
+  "excerpt": "Once upon a midnight dreary, while I pondered, weak and weary,\nOver many a quaint and curious volume of forgotten lore—\nWhile I nodded, nearly napping, suddenly there came a tapping,\nAs of some one gently rapping, rapping at my chamber door.",
+  "lenses": {
+    "rhythm_meter": {
+      "lens_name": "Rhythm & Meter",
+      "note": "Poe uses a very specific meter called trochaic octameter. Each line has eight 'feet,' and each foot follows a pattern of one stressed syllable followed by one unstressed syllable (DA-dum). This creates a driving, almost hypnotic rhythm that pulls the reader forward.",
+      "highlights": [ { "pattern": "Once upon a midnight dreary, while I pondered, weak and weary," } ]
+    },
+    "sound_devices": {
+      "lens_name": "Sound Devices",
+      "note": "This stanza is a masterclass in using sound. Notice the internal rhyme ('dreary' and 'weary'), alliteration ('weak and weary'), and repetition or 'epizeuxis' ('rapping, rapping'). These devices make the poem musical and enhance its melancholic, haunting atmosphere.",
+      "highlights": [ { "pattern": "dreary" }, { "pattern": "weary" }, { "pattern": "napping" }, { "pattern": "tapping" }, { "pattern": "rapping, rapping" } ]
+    }
+  }
+}
