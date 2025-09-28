@@ -16,6 +16,7 @@
     --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
     --sans-serif: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
     --transition: cubic-bezier(0.4, 0, 0.2, 1);
+    --body-serif: 'Merriweather', serif; /* Added for consistency */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; scroll-behavior: smooth; }
@@ -121,6 +122,8 @@
 
   .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2rem; border-radius: 999px; background: linear-gradient(135deg, var(--orange), var(--orange-light)); color: var(--orange-ink); font-weight: 700; font-size: 0.98rem; box-shadow: 0 4px 15px rgba(245, 158, 11, .25); transition: all 0.3s var(--transition); border: none; align-self: flex-start; }
   .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(245, 158, 11, .35); }
+  .btn-chip{ padding: .6rem 1.1rem; background: transparent; color: var(--orange); border: 1px solid var(--orange); border-radius: 999px; font-weight: 700; font-size: .85rem; box-shadow: none; transition: all .2s var(--transition); cursor: pointer; white-space: nowrap; }
+  .btn-chip:hover{ background: var(--orange); color: var(--orange-ink); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,.2); }
   
   .featured-showcase {
     margin: 4rem 0;
@@ -330,6 +333,60 @@
     .sub { text-align: center; margin: 0 auto 2rem; }
     .chip, .btn { align-self: center; }
   }
+
+  /* --- The Daily Muse Styles --- */
+  .muse-container {
+    margin: 4rem 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s var(--transition), transform 0.6s var(--transition);
+  }
+  .muse-card {
+    background: var(--panel);
+    border: 1px solid rgba(245, 158, 11, .15);
+    border-left: 3px solid var(--orange);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .muse-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .muse-headline {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .muse-headline a:hover { color: var(--orange-light); }
+  .muse-source {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .muse-prompt {
+    font-family: var(--body-serif);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--ink);
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(245, 158, 11, .1);
+  }
+  .muse-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .muse-angle-control { display: flex; align-items: center; gap: 0.75rem; }
+  .muse-angle-counter { font-size: 0.8rem; font-weight: 700; color: var(--muted); }
 </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJVVQDCS32"></script>
 <script>
@@ -396,6 +453,12 @@
         <p>Loading posts...</p>
       </div>
     </section>
+
+    <div class="section-header">
+      <h3 class="section-title">The Daily Muse</h3>
+    </div>
+    <section id="daily-muse-container" class="muse-container">
+      </section>
 
     <section id="news-hub-container" class="news-hub" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease;">
       <div class="section-header">
@@ -675,6 +738,73 @@
       }
 
       document.addEventListener('DOMContentLoaded', initNewsHub);
+
+      // --- The Daily Muse Logic ---
+      const museContainer = document.getElementById('daily-muse-container');
+
+      function renderMuse(muse, index) {
+        const card = document.createElement('div');
+        card.className = 'muse-card';
+        
+        let currentPromptIndex = 0;
+        const totalPrompts = muse.prompts.length;
+
+        function updateCardContent() {
+          const forgeLink = `craft-forge.html?text=${encodeURIComponent(muse.headline)}`;
+          card.innerHTML = `
+            <div class="muse-header">
+              <h4 class="muse-headline"><a href="${muse.link}" target="_blank" rel="noopener noreferrer">${muse.headline}</a></h4>
+              <span class="muse-source">${muse.source}</span>
+            </div>
+            <p class="muse-prompt">${muse.prompts[currentPromptIndex]}</p>
+            <div class="muse-actions">
+              <div class="muse-angle-control">
+                <button class="btn-chip new-angle-btn">New Angle</button>
+                <span class="muse-angle-counter">${currentPromptIndex + 1} / ${totalPrompts}</span>
+              </div>
+              <a href="${forgeLink}" class="btn-chip">Dissect This Headline →</a>
+            </div>
+          `;
+
+          card.querySelector('.new-angle-btn').addEventListener('click', () => {
+            currentPromptIndex = (currentPromptIndex + 1) % totalPrompts;
+            updateCardContent();
+          });
+        }
+        
+        updateCardContent();
+        return card;
+      }
+
+      async function loadMuses() {
+        if (!museContainer) return;
+        try {
+          const res = await fetch('./muse.json', { cache: 'no-store' });
+          if (!res.ok) throw new Error('Could not load muses.');
+          const muses = await res.json();
+          
+          museContainer.innerHTML = '';
+          muses.slice(0, 5).forEach((muse, index) => {
+            museContainer.appendChild(renderMuse(muse, index));
+          });
+          
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                museContainer.style.opacity = '1';
+                museContainer.style.transform = 'translateY(0)';
+                observer.unobserve(museContainer);
+              }
+            });
+          }, { threshold: 0.1 });
+          observer.observe(museContainer);
+
+        } catch (err) {
+          museContainer.innerHTML = `<p style="text-align:center; color: var(--muted);">${err.message}</p>`;
+        }
+      }
+      
+      document.addEventListener('DOMContentLoaded', loadMuses);
 
     })();
   </script>
