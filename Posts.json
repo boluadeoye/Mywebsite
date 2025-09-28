@@ -1,301 +1,36 @@
 [
   {
-    "title": "What If?",
-    "file": "posts/what-if.md",
-    "date": "2025-09-17",
-    "cover": "",
-    "excerpt": "A reflection on the paths not taken, the two faces of regret, and how to turn a question of torment into a tool for the present moment.",
-    "type": "essay",
-    "views": 0,
-    "minutes": 2
-  },
-  {
-  "title": "The Double-Edged Sword: Why Knowledge is Both Powerful and Perilous",
-  "date": "2025-09-24",
-  "file": "knowledge-double-edged-sword.md",
-  "excerpt": "Knowledge is power, but power is a fire—it can warm a home or burn it to the ground. This article explores its light, its shadow, and the wisdom required to handle it.",
-  "cover": "images/knowledge-sword.jpg",
-  "minutes": 4,
-  "type": "article",
-  "views": 0,
-  "featured": false
-  },
-  {
-  "title": "The Messy, Beautiful Middle of Everything",
-  "file": "posts/finding-purpose-in-waiting.md",
-  "cover": "images/finding-purpose-in-waiting.jpg",
-  "date": "2025-09-27",
-  "type": "article",
-  "featured": false,
-  "excerpt": "Feeling stuck? Learn to find meaning in life's uncertain moments. This article explores how trusting God's timing through the 'messy middle' is where true growth happens.",
-  "minutes": 4,
-  "views": 0
-  },
-  {
-    "title": "The Art of Forgiveness: Releasing an Unseen Weight",
-    "file": "posts/the-art-of-forgiveness.md",
-    "date": "2025-09-16",
-    "cover": "",
-    "excerpt": "Discover how the act of forgiveness is not for others, but a gift of freedom you give to yourself.",
-    "type": "devotional",
-    "views": 0,
-    "minutes": 2,
-    "reflection_prompts": [
-      "After reading the first section, what one word about 'forgiveness' stands out to you the most?",
-      "The article mentions an 'unseen weight'. Describe a time you felt this weight in your own life.",
-      "What is one small, practical step you could take this week to release a piece of that weight?"
-    ]
-  },
-  {
-    "title": "Religion vs. Relationship: Discovering a More Personal Faith",
-    "file": "posts/religion-vs-relationship.md",
-    "date": "2025-09-23",
-    "cover": "images/religion-vs-relationship-cover.jpg",
-    "excerpt": "Tired of empty rituals? Explore the profound difference between 'religion' and a true, personal relationship with God. This post guides you on a path to a more authentic faith.",
-    "type": "faith",
-    "featured": true,
-    "views": 0,
-    "minutes": 3
-  },
-  {
-    "title": "The Day I Chose Gratitude",
-    "file": "posts/the-day-i-chose-gratitude.md",
-    "date": "2025-09-14",
-    "cover": "images/gratitude-journal-photo.jpg",
-    "excerpt": "A personal story about a single moment that transformed a life through the simple, powerful choice of gratitude.",
-    "type": "story",
-    "views": 0,
-    "minutes": 3,
-    "reflection_prompts": [
-      "What is one small, specific thing you are grateful for at this very moment?",
-      "The story talks about gratitude as a 'choice'. Describe a time you actively chose gratitude over another feeling, like frustration or disappointment.",
-      "How could you practice this 'choice of gratitude' in a situation you expect to face tomorrow?"
-    ]
-  },
-  {
-    "title": "Overcoming the Fear of 'Not Enough'",
-    "file": "posts/overcoming-fear-of-not-enough.md",
-    "date": "2025-09-11",
-    "cover": "",
-    "excerpt": "In a world of comparison, find the spiritual truth that you are already whole and complete in Him.",
-    "type": "essay",
-    "views": 0,
-    "minutes": 3
-  },
-  {
-    "title": "How to Find Purpose in a World of Distractions",
-    "file": "posts/how-to-find-purpose.md",
-    "date": "2025-09-09",
-    "cover": "",
-    "excerpt": "Practical guidance on quieting the noise to hear the calling that has been placed on your heart.",
+    "file": "posts/the-four-mirrors.md",
+    "title": "The Four Mirrors of the Self",
+    "excerpt": "Pride is often mistaken for confidence, and humility for weakness. An examination of pride, humility, high self-esteem, and low self-esteem to find our true worth.",
+    "date": "2025-09-28",
     "type": "article",
+    "minutes": 7,
+    "cover": "images/mirrors-cover.jpg",
     "views": 0,
-    "minutes": 3
+    "featured": true
   },
   {
-    "title": "The Old Man and the Broken Pot",
-    "file": "posts/the-old-man-and-the-broken-pot.md",
-    "date": "2025-09-21",
-    "cover": "images/cracked-clay-pot.jpg",
-    "excerpt": "A timeless parable that reveals how our perceived flaws can be the very channels through which beauty and purpose grow.",
-    "type": "story",
-    "views": 0,
-    "minutes": 2
-  },
-  {
-    "title": "When Silence Becomes a Prayer",
-    "file": "posts/when-silence-becomes-a-prayer.md",
-    "date": "2025-09-03",
-    "cover": "",
-    "excerpt": "Exploring the profound communication with God that happens when we run out of words.",
-    "type": "devotional",
-    "views": 0,
-    "minutes": 2
-  },
-  {
-    "title": "The Difference Between Joy and Happiness",
-    "file": "posts/joy-vs-happiness.md",
-    "date": "2025-09-01",
-    "cover": "",
-    "excerpt": "Happiness is based on happenings, but joy is a deeper, unshakable foundation. An essay on cultivating lasting joy.",
-    "type": "essay",
-    "views": 0,
-    "minutes": 3
-  },
-  {
-    "title": "Five Habits to Anchor Your Day in Faith",
-    "file": "posts/five-habits-to-anchor-your-day.md",
-    "date": "2025-08-29",
-    "cover": "",
-    "excerpt": "Simple, powerful practices to weave into your daily routine that will strengthen your spiritual foundation.",
+    "file": "posts/finding-purpose-in-waiting.md",
+    "title": "The Messy, Beautiful Middle of Everything",
+    "excerpt": "Feeling stuck? Learn to find meaning in life's uncertain moments. This article explores how trusting God's timing through the 'messy middle' is where true growth happens.",
+    "date": "2025-09-27",
     "type": "article",
-    "views": 0,
-    "minutes": 3
-  },
-  {
-    "title": "A Lesson from the Harmattan Wind",
-    "file": "posts/a-lesson-from-the-harmattan-wind.md",
-    "date": "2025-08-26",
-    "cover": "images/harmattan-dusty-road.jpg",
-    "excerpt": "A story from a hazy Nigerian morning that taught a surprising lesson about clarity, patience, and what the dry seasons of life can reveal.",
-    "type": "story",
-    "views": 0,
-    "minutes": 3
-  },
-  {
-    "title": "The Grace of Second Chances",
-    "file": "posts/the-grace-of-second-chances.md",
-    "date": "2025-08-23",
-    "cover": "",
-    "excerpt": "A reflection on the endless mercy that meets us right where we are, offering a fresh start no matter our past.",
-    "type": "devotional",
-    "views": 0,
-    "minutes": 2
-  },
-  {
-    "title": "New Mercies Every Morning",
-    "file": "posts/new-mercies.md",
-    "type": "devotional",
-    "date": "2025-09-10",
-    "excerpt": "God’s mercy arrives fresh each morning, ready to lighten your load.",
-    "views": 0,
-    "minutes": 2,
-    "cover": "images/new-mercies-cover.jpg"
-  },
-  {
-    "title": "Faith that Stands in the Storm",
-    "file": "posts/faith-in-storm.md",
-    "type": "devotional",
-    "date": "2025-09-05",
-    "excerpt": "Anchor your faith in Christ to face life’s storms with courage.",
-    "views": 0,
-    "minutes": 2,
-    "cover": ""
-  },
-  {
-    "title": "The Quiet Power of Gratitude",
-    "file": "posts/gratitude-power.md",
-    "type": "devotional",
-    "date": "2025-08-30",
-    "excerpt": "Gratitude transforms pain into perspective, revealing daily miracles.",
-    "views": 0,
-    "minutes": 2,
-    "cover": ""
-  },
-  {
-    "title": "Walking with God in a Noisy World",
-    "file": "posts/walking-with-god.md",
-    "type": "devotional",
-    "date": "2025-08-25",
-    "excerpt": "Find God in life’s noise through small, intentional pauses.",
-    "views": 0,
-    "minutes": 2,
-    "cover": ""
-  },
-  {
-    "title": "Forgiveness as Freedom",
-    "file": "posts/forgiveness-freedom.md",
-    "type": "devotional",
-    "date": "2025-08-20",
-    "excerpt": "Forgiveness releases your future from the weight of past hurts.",
-    "views": 0,
-    "minutes": 2,
-    "cover": ""
-  },
-  {
-    "file": "posts/the-harmattan-season-of-the-soul.md",
-    "title": "The Harmattan Season of the Soul",
-    "date": "2025-09-21",
-    "type": "story",
-    "excerpt": "In a season of spiritual dryness mirrored by the dusty Harmattan wind, a woman learns that the deepest roots often grow in the hardest soil.",
     "minutes": 4,
-    "cover": "images/Harmattan.jpg",
+    "cover": "images/finding-purpose-in-waiting.jpg",
     "views": 0,
-    "reflection_prompts": [
-      "Describe a 'Harmattan season' you've experienced in your own life or faith.",
-      "The story mentions that the dry season gives the acacia tree 'a strength the gentle rains never could.' What strength might you be gaining in a current period of waiting?",
-      "What is one small 'promise of rain'—a sign of hope—you can look for today?"
-    ]
-  },
-  {
-    "file": "posts/water-in-a-basket.md",
-    "title": "The Man Who Carried Water in a Basket",
-    "date": "2025-09-20",
-    "type": "story",
-    "excerpt": "When his village suffers a drought, a young man's seemingly foolish act teaches the elders a profound lesson about a faith that defies logic.",
-    "minutes": 5,
-    "cover": "images/Basket.jpg",
-    "views": 0,
-    "reflection_prompts": [
-      "What is a 'basket' in your life—a situation that seems impossible or inadequate for the task God has given you?",
-      "Adekunle's response was, 'The one who sent me knows the nature of the vessel.' How does this perspective change how you view your own limitations?",
-      "Describe a time you chose to trust the 'Source' even when the circumstances looked illogical."
-    ]
-  },
-  {
-    "file": "posts/the-sacred-in-the-mundane.md",
-    "title": "The Sacred in the Mundane",
-    "date": "2025-09-22",
-    "type": "essay",
-    "excerpt": "An essay on how our small, everyday routines—like a morning cup of coffee—can be transformed into profound moments of peace and connection.",
-    "minutes": 4,
-    "cover": "images/mundane.jpg",
-    "views": 0
-  },
-  {
-    "file": "posts/on-planting-and-waiting.md",
-    "title": "On Planting and Waiting",
-    "date": "2025-09-18",
-    "type": "essay",
-    "excerpt": "A reflective essay on the creative and spiritual journey, using the universal metaphor of a garden to explore the profound importance of patience and trusting in seasons of unseen growth.",
-    "minutes": 4,
-    "cover": "images/Planting.jpg",
-    "views": 0
-  },
-  {
-    "file": "posts/the-unseen-work-of-winter.md",
-    "title": "The Unseen Work of Winter",
-    "date": "2025-09-17",
-    "type": "faith",
-    "excerpt": "A reflection on trusting God's process during seasons where nothing seems to be happening, using the metaphor of a tree in winter gathering strength beneath the surface for future growth.",
-    "minutes": 4,
-    "cover": "images/Winter.jpg",
-    "views": 0
-  },
-  {
-    "file": "posts/faith-as-a-question.md",
-    "title": "When Faith Feels More Like a Question",
-    "date": "2025-09-16",
-    "type": "faith",
-    "excerpt": "An honest look at how seasons of doubt and questioning are not a failure of faith, but an invitation to a deeper, more authentic spiritual journey.",
-    "minutes": 5,
-    "cover": "images/Faith.jpg",
-    "views": 0
-  },
-  {
-    "file": "posts/gardeners-trust.md",
-    "title": "The Gardener's Trust",
-    "date": "2025-09-15",
-    "type": "devotional",
-    "excerpt": "A short devotional on our role as 'gardeners' in God's kingdom—called to faithfully plant seeds of kindness and faith, while trusting Him with the growth.",
-    "minutes": 3,
-    "cover": "images/Gardner.jpg",
-    "views": 0,
-    "reflection_prompts": [
-      "What is one 'seed' of kindness or encouragement you can plant for someone today?",
-      "How can you practice 'trusting the process' in an area of your life where you feel anxious about the outcome?",
-      "Reflect on the phrase, 'Our responsibility is the faithful act of planting.' What does that mean to you in this season of your life?"
-    ]
+    "featured": false
   },
   {
     "file": "posts/a-light-in-the-shadows.md",
     "title": "A Light in the Shadows",
+    "excerpt": "A comforting devotional on holding onto hope during difficult times, and the profound power of even a small light to overcome the darkness.",
     "date": "2025-09-26",
     "type": "devotional",
-    "excerpt": "A comforting devotional on holding onto hope during difficult times, and the profound power of even a small light to overcome the darkness.",
     "minutes": 3,
     "cover": "images/Light.jpg",
     "views": 0,
+    "featured": false,
     "reflection_prompts": [
       "What is a 'small flame'—a moment of hope or a promise—that God has provided for you in a past or present 'dark room'?",
       "How does the truth that 'the darkness has not overcome it' encourage you today?",
@@ -303,14 +38,75 @@
     ]
   },
   {
-    "title": "Invictus by William Ernest Henley",
-    "file": "posts/invictus.md",
-    "date": "2025-09-21",
-    "cover": "images/henley.jpg",
-    "excerpt": "A timeless poem of resilience, 'Invictus' is a triumphant declaration of the human spirit's unconquerable will against all odds.",
-    "type": "poem",
+    "file": "knowledge-double-edged-sword.md",
+    "title": "The Double-Edged Sword: Why Knowledge is Both Powerful and Perilous",
+    "excerpt": "Knowledge is power, but power is a fire—it can warm a home or burn it to the ground. This article explores its light, its shadow, and the wisdom required to handle it.",
+    "date": "2025-09-24",
+    "type": "article",
+    "minutes": 4,
+    "cover": "images/knowledge-sword.jpg",
     "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/religion-vs-relationship.md",
+    "title": "Religion vs. Relationship: Discovering a More Personal Faith",
+    "excerpt": "Tired of empty rituals? Explore the profound difference between 'religion' and a true, personal relationship with God. This post guides you on a path to a more authentic faith.",
+    "date": "2025-09-23",
+    "type": "faith",
+    "minutes": 3,
+    "cover": "images/religion-vs-relationship-cover.jpg",
+    "views": 0,
+    "featured": true
+  },
+  {
+    "file": "posts/the-sacred-in-the-mundane.md",
+    "title": "The Sacred in the Mundane",
+    "excerpt": "An essay on how our small, everyday routines—like a morning cup of coffee—can be transformed into profound moments of peace and connection.",
+    "date": "2025-09-22",
+    "type": "essay",
+    "minutes": 4,
+    "cover": "images/mundane.jpg",
+    "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/the-harmattan-season-of-the-soul.md",
+    "title": "The Harmattan Season of the Soul",
+    "excerpt": "In a season of spiritual dryness mirrored by the dusty Harmattan wind, a woman learns that the deepest roots often grow in the hardest soil.",
+    "date": "2025-09-21",
+    "type": "story",
+    "minutes": 4,
+    "cover": "images/Harmattan.jpg",
+    "views": 0,
+    "featured": false,
+    "reflection_prompts": [
+      "Describe a 'Harmattan season' you've experienced in your own life or faith.",
+      "The story mentions that the dry season gives the acacia tree 'a strength the gentle rains never could.' What strength might you be gaining in a current period of waiting?",
+      "What is one small 'promise of rain'—a sign of hope—you can look for today?"
+    ]
+  },
+  {
+    "file": "posts/the-old-man-and-the-broken-pot.md",
+    "title": "The Old Man and the Broken Pot",
+    "excerpt": "A timeless parable that reveals how our perceived flaws can be the very channels through which beauty and purpose grow.",
+    "date": "2025-09-21",
+    "type": "story",
     "minutes": 2,
+    "cover": "images/cracked-clay-pot.jpg",
+    "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/invictus.md",
+    "title": "Invictus by William Ernest Henley",
+    "excerpt": "A timeless poem of resilience, 'Invictus' is a triumphant declaration of the human spirit's unconquerable will against all odds.",
+    "date": "2025-09-21",
+    "type": "poem",
+    "minutes": 2,
+    "cover": "images/henley.jpg",
+    "views": 0,
+    "featured": false,
     "reflection_prompts": [
       "The poet says, 'My head is bloody, but unbowed.' What does this powerful image mean to you?",
       "What does it mean to be the 'master of your fate' and 'captain of your soul' in the context of your own life?",
@@ -318,29 +114,31 @@
     ]
   },
   {
-    "title": "Do not go gentle into that good night by Dylan Thomas",
-    "file": "posts/do-not-go-gentle.md",
-    "date": "2025-09-21",
-    "cover": "images/thomas.jpg",
-    "excerpt": "A raw, passionate plea to fight against the end of life, urging us to 'Rage, rage against the dying of the light.'",
-    "type": "poem",
+    "file": "posts/water-in-a-basket.md",
+    "title": "The Man Who Carried Water in a Basket",
+    "excerpt": "When his village suffers a drought, a young man's seemingly foolish act teaches the elders a profound lesson about a faith that defies logic.",
+    "date": "2025-09-20",
+    "type": "story",
+    "minutes": 5,
+    "cover": "images/Basket.jpg",
     "views": 0,
-    "minutes": 2,
+    "featured": false,
     "reflection_prompts": [
-      "How does the poem's repeated line, 'Rage, rage against the dying of the light,' make you feel?",
-      "The poem speaks of 'wise men,' 'good men,' 'wild men,' and 'grave men.' Which group's perspective resonates most with you?",
-      "Is this poem about death, or is it a poem about how to live life to the fullest?"
+      "What is a 'basket' in your life—a situation that seems impossible or inadequate for the task God has given you?",
+      "Adekunle's response was, 'The one who sent me knows the nature of the vessel.' How does this perspective change how you view your own limitations?",
+      "Describe a time you chose to trust the 'Source' even when the circumstances looked illogical."
     ]
   },
   {
-    "title": "Ozymandias by Percy Bysshe Shelley",
     "file": "posts/ozymandias.md",
-    "date": "2025-09-20",
-    "cover": "images/shelley.jpg",
+    "title": "Ozymandias by Percy Bysshe Shelley",
     "excerpt": "A haunting sonnet about the temporary nature of power and the inevitable ruin of even the mightiest empires.",
+    "date": "2025-09-20",
     "type": "poem",
-    "views": 0,
     "minutes": 2,
+    "cover": "images/shelley.jpg",
+    "views": 0,
+    "featured": false,
     "reflection_prompts": [
       "The inscription says, 'Look on my Works, ye Mighty, and despair!' What is the great irony of this statement?",
       "What does this poem say about the relationship between power, art, and time?",
@@ -348,18 +146,259 @@
     ]
   },
   {
-    "title": "Still I Rise by Maya Angelou",
     "file": "posts/still-i-rise.md",
-    "date": "2025-09-19",
-    "cover": "images/angelou.jpg",
+    "title": "Still I Rise by Maya Angelou",
     "excerpt": "A powerful and joyful anthem of resilience, celebrating the indomitable spirit that rises above oppression and injustice.",
+    "date": "2025-09-19",
     "type": "poem",
-    "views": 0,
     "minutes": 3,
+    "cover": "images/angelou.jpg",
+    "views": 0,
+    "featured": false,
     "reflection_prompts": [
       "Maya Angelou uses rich metaphors like 'oil wells,' 'gold mines,' and 'diamonds.' What do these images represent?",
       "The poem builds to the final refrain of 'I rise.' How does the poem's structure contribute to its powerful feeling of triumph?",
       "Who in your own life embodies the spirit of 'Still I Rise'?"
     ]
-  }
+  },
+  {
+    "file": "posts/on-planting-and-waiting.md",
+    "title": "On Planting and Waiting",
+    "excerpt": "A reflective essay on the creative and spiritual journey, using the universal metaphor of a garden to explore the profound importance of patience and trusting in seasons of unseen growth.",
+    "date": "2025-09-18",
+    "type": "essay",
+    "minutes": 4,
+    "cover": "images/Planting.jpg",
+    "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/what-if.md",
+    "title": "What If?",
+    "excerpt": "A reflection on the paths not taken, the two faces of regret, and how to turn a question of torment into a tool for the present moment.",
+    "date": "2025-09-17",
+    "type": "essay",
+    "minutes": 2,
+    "cover": "",
+    "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/the-unseen-work-of-winter.md",
+    "title": "The Unseen Work of Winter",
+    "excerpt": "A reflection on trusting God's process during seasons where nothing seems to be happening, using the metaphor of a tree in winter gathering strength beneath the surface for future growth.",
+    "date": "2025-09-17",
+    "type": "faith",
+    "minutes": 4,
+    "cover": "images/Winter.jpg",
+    "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/the-art-of-forgiveness.md",
+    "title": "The Art of Forgiveness: Releasing an Unseen Weight",
+    "excerpt": "Discover how the act of forgiveness is not for others, but a gift of freedom you give to yourself.",
+    "date": "2025-09-16",
+    "type": "devotional",
+    "minutes": 2,
+    "cover": "",
+    "views": 0,
+    "featured": false,
+    "reflection_prompts": [
+      "After reading the first section, what one word about 'forgiveness' stands out to you the most?",
+      "The article mentions an 'unseen weight'. Describe a time you felt this weight in your own life.",
+      "What is one small, practical step you could take this week to release a piece of that weight?"
     ]
+  },
+  {
+    "file": "posts/faith-as-a-question.md",
+    "title": "When Faith Feels More Like a Question",
+    "excerpt": "An honest look at how seasons of doubt and questioning are not a failure of faith, but an invitation to a deeper, more authentic spiritual journey.",
+    "date": "2025-09-16",
+    "type": "faith",
+    "minutes": 5,
+    "cover": "images/Faith.jpg",
+    "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/gardeners-trust.md",
+    "title": "The Gardener's Trust",
+    "excerpt": "A short devotional on our role as 'gardeners' in God's kingdom—called to faithfully plant seeds of kindness and faith, while trusting Him with the growth.",
+    "date": "2025-09-15",
+    "type": "devotional",
+    "minutes": 3,
+    "cover": "images/Gardner.jpg",
+    "views": 0,
+    "featured": false,
+    "reflection_prompts": [
+      "What is one 'seed' of kindness or encouragement you can plant for someone today?",
+      "How can you practice 'trusting the process' in an area of your life where you feel anxious about the outcome?",
+      "Reflect on the phrase, 'Our responsibility is the faithful act of planting.' What does that mean to you in this season of your life?"
+    ]
+  },
+  {
+    "file": "posts/the-day-i-chose-gratitude.md",
+    "title": "The Day I Chose Gratitude",
+    "excerpt": "A personal story about a single moment that transformed a life through the simple, powerful choice of gratitude.",
+    "date": "2025-09-14",
+    "type": "story",
+    "minutes": 3,
+    "cover": "images/gratitude-journal-photo.jpg",
+    "views": 0,
+    "featured": false,
+    "reflection_prompts": [
+      "What is one small, specific thing you are grateful for at this very moment?",
+      "The story talks about gratitude as a 'choice'. Describe a time you actively chose gratitude over another feeling, like frustration or disappointment.",
+      "How could you practice this 'choice of gratitude' in a situation you expect to face tomorrow?"
+    ]
+  },
+  {
+    "file": "posts/overcoming-fear-of-not-enough.md",
+    "title": "Overcoming the Fear of 'Not Enough'",
+    "excerpt": "In a world of comparison, find the spiritual truth that you are already whole and complete in Him.",
+    "date": "2025-09-11",
+    "type": "essay",
+    "minutes": 3,
+    "cover": "",
+    "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/new-mercies.md",
+    "title": "New Mercies Every Morning",
+    "excerpt": "God’s mercy arrives fresh each morning, ready to lighten your load.",
+    "date": "2025-09-10",
+    "type": "devotional",
+    "minutes": 2,
+    "cover": "images/new-mercies-cover.jpg",
+    "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/how-to-find-purpose.md",
+    "title": "How to Find Purpose in a World of Distractions",
+    "excerpt": "Practical guidance on quieting the noise to hear the calling that has been placed on your heart.",
+    "date": "2025-09-09",
+    "type": "article",
+    "minutes": 3,
+    "cover": "",
+    "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/faith-in-storm.md",
+    "title": "Faith that Stands in the Storm",
+    "excerpt": "Anchor your faith in Christ to face life’s storms with courage.",
+    "date": "2025-09-05",
+    "type": "devotional",
+    "minutes": 2,
+    "cover": "",
+    "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/when-silence-becomes-a-prayer.md",
+    "title": "When Silence Becomes a Prayer",
+    "excerpt": "Exploring the profound communication with God that happens when we run out of words.",
+    "date": "2025-09-03",
+    "type": "devotional",
+    "minutes": 2,
+    "cover": "",
+    "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/gratitude-power.md",
+    "title": "The Quiet Power of Gratitude",
+    "excerpt": "Gratitude transforms pain into perspective, revealing daily miracles.",
+    "date": "2025-08-30",
+    "type": "devotional",
+    "minutes": 2,
+    "cover": "",
+    "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/five-habits-to-anchor-your-day.md",
+    "title": "Five Habits to Anchor Your Day in Faith",
+    "excerpt": "Simple, powerful practices to weave into your daily routine that will strengthen your spiritual foundation.",
+    "date": "2025-08-29",
+    "type": "article",
+    "minutes": 3,
+    "cover": "",
+    "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/a-lesson-from-the-harmattan-wind.md",
+    "title": "A Lesson from the Harmattan Wind",
+    "excerpt": "A story from a hazy Nigerian morning that taught a surprising lesson about clarity, patience, and what the dry seasons of life can reveal.",
+    "date": "2025-08-26",
+    "type": "story",
+    "minutes": 3,
+    "cover": "images/harmattan-dusty-road.jpg",
+    "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/walking-with-god.md",
+    "title": "Walking with God in a Noisy World",
+    "excerpt": "Find God in life’s noise through small, intentional pauses.",
+    "date": "2025-08-25",
+    "type": "devotional",
+    "minutes": 2,
+    "cover": "",
+    "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/the-grace-of-second-chances.md",
+    "title": "The Grace of Second Chances",
+    "excerpt": "A reflection on the endless mercy that meets us right where we are, offering a fresh start no matter our past.",
+    "date": "2025-08-23",
+    "type": "devotional",
+    "minutes": 2,
+    "cover": "",
+    "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/forgiveness-freedom.md",
+    "title": "Forgiveness as Freedom",
+    "excerpt": "Forgiveness releases your future from the weight of past hurts.",
+    "date": "2025-08-20",
+    "type": "devotional",
+    "minutes": 2,
+    "cover": "",
+    "views": 0,
+    "featured": false
+  },
+  {
+    "file": "posts/do-not-go-gentle.md",
+    "title": "Do not go gentle into that good night by Dylan Thomas",
+    "excerpt": "A raw, passionate plea to fight against the end of life, urging us to 'Rage, rage against the dying of the light.'",
+    "date": "2025-09-21",
+    "type": "poem",
+    "minutes": 2,
+    "cover": "images/thomas.jpg",
+    "views": 0,
+    "featured": false,
+    "reflection_prompts": [
+      "How does the poem's repeated line, 'Rage, rage against the dying of the light,' make you feel?",
+      "The poem speaks of 'wise men,' 'good men,' 'wild men,' and 'grave men.' Which group's perspective resonates most with you?",
+      "Is this poem about death, or is it a poem about how to live life to the fullest?"
+    ]
+  },
+  {
+    "file": "posts/joy-vs-happiness.md",
+    "title": "The Difference Between Joy and Happiness",
+    "excerpt": "Happiness is based on happenings, but joy is a deeper, unshakable foundation. An essay on cultivating lasting joy.",
+    "date": "2025-09-01",
+    "type": "essay",
+    "minutes": 3,
+    "cover": "",
+    "views": 0,
+    "featured": false
+  }
+]
