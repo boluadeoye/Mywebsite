@@ -1,0 +1,20 @@
+{
+  "excerpt": "It was a bright cold day in April, and the clocks were striking thirteen. Winston Smith, his chin nuzzled into his breast in an effort to escape the vile wind, slipped quickly through the glass doors of Victory Mansions, though not quickly enough to prevent a swirl of gritty dust from entering along with him.",
+  "lenses": {
+    "tone_atmosphere": {
+      "lens_name": "Tone & Atmosphere",
+      "note": "Notice how Orwell immediately creates a sense of unease? He pairs the familiar ('a bright cold day') with the impossible ('striking thirteen'). This single detail breaks our reality and establishes a dissonant, oppressive tone, hinting that this world is fundamentally broken.",
+      "highlights": [ { "pattern": "bright cold day" }, { "pattern": "striking thirteen" }, { "pattern": "vile wind" }, { "pattern": "swirl of gritty dust" } ]
+    },
+    "syntax": {
+      "lens_name": "Syntax",
+      "note": "The structure here is deceptively simple. The first sentence is a straightforward compound sentence, presenting the impossible as fact. The second, longer sentence is complex, full of clauses that make Winston's actions feel hurried and slightly breathless, mirroring his desire to escape.",
+      "highlights": [ { "pattern": "It was a bright cold day in April, and the clocks were striking thirteen." }, { "pattern": "Winston Smith, his chin nuzzled into his breast in an effort to escape the vile wind, slipped quickly through the glass doors of Victory Mansions, though not quickly enough to prevent a swirl of gritty dust from entering along with him." } ]
+    },
+    "imagery": {
+      "lens_name": "Imagery",
+      "note": "Orwell doesn't use poetic language, but the imagery is sharp and tactile. We feel the 'vile wind' and almost taste the 'gritty dust.' These aren't just descriptions; they are sensory details that build a world that is physically unpleasant and decaying.",
+      "highlights": [ { "pattern": "chin nuzzled into his breast" }, { "pattern": "vile wind" }, { "pattern": "swirl of gritty dust" } ]
+    }
+  }
+}
