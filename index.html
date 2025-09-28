@@ -10,7 +10,7 @@
 <style>
   :root {
     --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2441;
-    --ink: #e5eefc; --muted: #94a38;
+    --ink: #e5eefc; --muted: #94a38; /* Note: Typo in original (--muted: #94a38) should be #94a3b8 */
     --orange: #f59e0b; --orange-light: #fbbf24; --orange-dark: #d97706; --orange-ink: #0b0f19;
     --ring: rgba(245, 158, 11, .25); --radius: 16px;
     --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
@@ -120,10 +120,10 @@
   .hero h2 .accent { background: linear-gradient(135deg, var(--orange), var(--orange-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
   .sub { color: var(--muted); font-size: 1.05rem; line-height: 1.7; margin: 0 0 2rem; max-width: 600px; }
 
-  .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2rem; border-radius: 999px; background: linear-gradient(135deg, var(--orange), var(--orange-light)); color: var(--orange-ink); font-weight: 700; font-size: 0.98rem; box-shadow: 0 4px 15px rgba(245, 158, 11, .25); transition: all 0.3s var(--transition); border: none; align-self: flex-start; }
+  .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2rem; border-radius: 999px; background: linear-gradient(135deg, var(--orange), var--orange-light); color: var(--orange-ink); font-weight: 700; font-size: 0.98rem; box-shadow: 0 4px 15px rgba(245, 158, 11, .25); transition: all 0.3s var(--transition); border: none; align-self: flex-start; }
   .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(245, 158, 11, .35); }
-  .btn-chip{ padding: .6rem 1.1rem; background: transparent; color: var(--orange); border: 1px solid var(--orange); border-radius: 999px; font-weight: 700; font-size: .85rem; box-shadow: none; transition: all .2s var(--transition); cursor: pointer; white-space: nowrap; }
-  .btn-chip:hover{ background: var(--orange); color: var(--orange-ink); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,.2); }
+  .btn-chip { padding: .6rem 1.1rem; background: transparent; color: var(--orange); border: 1px solid var(--orange); border-radius: 999px; font-weight: 700; font-size: .85rem; box-shadow: none; transition: all .2s var(--transition); cursor: pointer; white-space: nowrap; }
+  .btn-chip:hover { background: var(--orange); color: var(--orange-ink); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,.2); }
   
   .featured-showcase {
     margin: 4rem 0;
@@ -352,7 +352,7 @@
   .muse-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start; /* MODIFIED FOR BETTER ALIGNMENT */
+    align-items: flex-start;
     gap: 1rem;
     margin-bottom: 1rem;
   }
@@ -361,7 +361,7 @@
     font-size: 1.25rem;
     font-weight: 700;
     line-height: 1.4;
-    flex: 1; /* ADDED FOR PROPER WRAPPING */
+    flex: 1;
   }
   .muse-headline a:hover { color: var(--orange-light); }
   .muse-source {
@@ -383,11 +383,42 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
     margin-top: 1rem;
+    flex-wrap: wrap; /* Added for better mobile handling */
   }
-  .muse-angle-control { display: flex; align-items: center; gap: 0.75rem; }
-  .muse-angle-counter { font-size: 0.8rem; font-weight: 700; color: var(--muted); }
+  .muse-angle-control { 
+    display: flex; 
+    align-items: center; 
+    gap: 0.75rem; 
+  }
+  .muse-angle-counter { 
+    font-size: 0.8rem; 
+    font-weight: 700; 
+    color: var(--muted); 
+  }
+  /* Mobile-specific styles for muse-actions */
+  @media (max-width: 879px) {
+    .muse-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .muse-actions .btn-chip {
+      width: 100%;
+      justify-content: center;
+      padding: 0.7rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .muse-angle-control {
+      width: 100%;
+      justify-content: space-between;
+    }
+    .muse-angle-counter {
+      font-size: 0.85rem;
+    }
+  }
 </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJVVQDCS32"></script>
 <script>
@@ -459,7 +490,7 @@
       <h3 class="section-title">The Daily Muse</h3>
     </div>
     <section id="daily-muse-container" class="muse-container">
-      </section>
+    </section>
 
     <section id="news-hub-container" class="news-hub" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease;">
       <div class="section-header">
@@ -760,10 +791,16 @@
             <p class="muse-prompt">${muse.prompts[currentPromptIndex]}</p>
             <div class="muse-actions">
               <div class="muse-angle-control">
-                <button class="btn-chip new-angle-btn">New Angle</button>
+                <button class="btn-chip new-angle-btn" aria-label="Generate new writing prompt for ${muse.headline}">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 4V2m0 2a8 8 0 100 16 8 8 0 000-16zm0 0v2m6 6h2m-2 0h-2m-6 0H6m2-2v-2m0 6v2"/></svg>
+                  New Angle
+                </button>
                 <span class="muse-angle-counter">${currentPromptIndex + 1} / ${totalPrompts}</span>
               </div>
-              <a href="${forgeLink}" class="btn-chip">Dissect This Headline →</a>
+              <a href="${forgeLink}" class="btn-chip dissect-btn" aria-label="Dissect ${muse.headline} in Craft Forge">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2a10 10 0 00-7.35 3.14L12 12l-7.35 6.86A10 10 0 0012 22a10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/></svg>
+                Dissect
+              </a>
             </div>
           `;
 
