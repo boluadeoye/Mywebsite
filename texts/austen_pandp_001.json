@@ -1,0 +1,15 @@
+{
+  "excerpt": "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife. However little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of the surrounding families, that he is considered the rightful property of some one or other of their daughters.",
+  "lenses": {
+    "irony_subtext": {
+      "lens_name": "Irony & Subtext",
+      "note": "This is one of the most famous examples of irony in literature. Austen states that a rich man 'must be in want of a wife' as a 'universal truth,' but the rest of the sentence reveals the truth is actually held by the gossiping families. The subtext is a witty critique of marriage markets and societal expectations.",
+      "highlights": [ { "pattern": "It is a truth universally acknowledged" }, { "pattern": "this truth is so well fixed in the minds of the surrounding families" } ]
+    },
+    "point_of_view": {
+      "lens_name": "Point of View",
+      "note": "The narrator's voice here is key. It's a third-person omniscient narrator, but it's not neutral. The narrator adopts a witty, satirical perspective, guiding the reader to see the absurdity of the situation. This judgmental yet amused voice is central to the novel's charm.",
+      "highlights": [ { "pattern": "It is a truth universally acknowledged" }, { "pattern": "he is considered the rightful property of some one or other of their daughters" } ]
+    }
+  }
+}
