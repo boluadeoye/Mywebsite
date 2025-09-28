@@ -1,0 +1,19 @@
+{
+  "texts": [
+    {
+      "id": "orwell_1984_001",
+      "title": "Nineteen Eighty-Four",
+      "author": "George Orwell"
+    },
+    {
+      "id": "austen_pandp_001",
+      "title": "Pride and Prejudice",
+      "author": "Jane Austen"
+    },
+    {
+      "id": "poe_raven_001",
+      "title": "The Raven",
+      "author": "Edgar Allan Poe"
+    }
+  ]
+}
