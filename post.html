@@ -584,13 +584,13 @@
     text-align: center;
   }
   </style>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WJVVQDCS32"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-WJVVQDCS32');
-</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJVVQDCS32"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WJVVQDCS32');
+  </script>
 </head>
 <body>
   <div id="progress-bar"></div>
@@ -652,7 +652,7 @@
 
     // --- GLOBAL FUNCTIONS ---
     window.sharePost = function() {
-      if(state.postData && navigator.share) {
+      if (state.postData && navigator.share) {
         navigator.share({ title: state.postData.title, text: state.postData.excerpt, url: window.location.href });
       } else if (state.postData) {
         const text = encodeURIComponent(`Check out: "${state.postData.title}" ${window.location.href}`);
@@ -688,6 +688,18 @@
       }
     }
 
+    function renderError(container, message) {
+      const errorHTML = `
+        <div class="error-container">
+          <h2>Unable to Load Post</h2>
+          <p>${message}</p>
+          <div class="post-nav" style="justify-content:center;">
+            <a href="./" class="btn-chip">← Return to Homepage</a>
+          </div>
+        </div>`;
+      if (container) container.innerHTML = errorHTML;
+    }
+
     // --- RENDER & LOGIC FUNCTIONS ---
     function renderPage(pageNumber) {
       if (pageNumber < 1) return;
@@ -698,14 +710,23 @@
       window.history.replaceState({page: state.currentPage}, '', url);
 
       const contentEl = document.getElementById('article-content');
-      if (!contentEl) return;
+      if (!contentEl) {
+        renderError(pageContainer, 'Content area not found.');
+        return;
+      }
 
       contentEl.style.opacity = 0;
       setTimeout(() => {
         if (state.currentPage > state.totalPages) {
-          contentEl.innerHTML = `<div class="epilogue-page"><h2>Thank you for reading</h2><p>Your time and attention are deeply appreciated. If this story resonated with you, please consider sharing it or leaving your thoughts below.</p></div>`;
-          document.getElementById('related-posts-container').style.display = 'block';
-          document.getElementById('disqus_thread').style.display = 'block';
+          contentEl.innerHTML = `
+            <div class="epilogue-page">
+              <h2>Thank you for reading</h2>
+              <p>Your time and attention are deeply appreciated. If this story resonated with you, please consider sharing it or leaving your thoughts below.</p>
+            </div>`;
+          const relatedContainer = document.getElementById('related-posts-container');
+          const disqusContainer = document.getElementById('disqus_thread');
+          if (relatedContainer) relatedContainer.style.display = 'block';
+          if (disqusContainer) disqusContainer.style.display = 'block';
           loadDisqus(state.file);
         } else {
           contentEl.innerHTML = marked.parse(state.pages[state.currentPage - 1] || '', { breaks: true });
@@ -714,13 +735,15 @@
       }, 250);
 
       const navEl = document.getElementById('page-navigation');
-      const prevButton = navEl.querySelector('.prev-page');
-      const nextButton = navEl.querySelector('.next-page');
-      const indicator = navEl.querySelector('.page-indicator');
+      if (navEl) {
+        const prevButton = navEl.querySelector('.prev-page');
+        const nextButton = navEl.querySelector('.next-page');
+        const indicator = navEl.querySelector('.page-indicator');
 
-      prevButton.disabled = state.currentPage === 1;
-      nextButton.disabled = state.currentPage > state.totalPages;
-      indicator.textContent = state.currentPage > state.totalPages ? 'The End' : `Page ${state.currentPage} / ${state.totalPages}`;
+        if (prevButton) prevButton.disabled = state.currentPage === 1;
+        if (nextButton) nextButton.disabled = state.currentPage > state.totalPages;
+        if (indicator) indicator.textContent = state.currentPage > state.totalPages ? 'The End' : `Page ${state.currentPage} / ${state.totalPages}`;
+      }
 
       const mainContentEl = document.getElementById('main-content-area');
       if (mainContentEl) {
@@ -746,6 +769,8 @@
         setTimeout(() => {
           renderPage(state.currentPage);
           attachPageNavListeners();
+          createTOC();
+          setupTOCObserver();
         }, 500);
       }
     }
@@ -825,19 +850,35 @@
         const urlParams = new URLSearchParams(window.location.search);
         state.file = urlParams.get('file');
         const forceMode = urlParams.get('mode');
-        if (!state.file) throw new Error('No post file specified in URL.');
+        if (!state.file) {
+          throw new Error('No post file specified in URL.');
+        }
+
+        // Normalize file path
+        if (!state.file.startsWith('posts/')) {
+          state.file = `posts/${state.file}`;
+        }
 
         const postsRes = await fetch('./Posts.json', { cache: 'no-store' });
-        if (!postsRes.ok) throw new Error('Could not load Posts.json');
+        if (!postsRes.ok) {
+          console.error('Failed to fetch Posts.json:', postsRes.status);
+          throw new Error('Could not load post data.');
+        }
         state.allPosts = await postsRes.json();
 
         state.postData = state.allPosts.find(p => p && p.file && p.file.trim() === state.file.trim());
-        if (!state.postData) throw new Error('Post data not found');
+        if (!state.postData) {
+          console.error('Post not found in Posts.json:', state.file);
+          throw new Error('Post data not found.');
+        }
 
         const postType = state.postData.type ? 'post-type-' + state.postData.type.toLowerCase().trim() : 'post-type-general';
 
         const mdRes = await fetch(state.file, { cache: 'no-store' });
-        if (!mdRes.ok) throw new Error('Failed to load Markdown file');
+        if (!mdRes.ok) {
+          console.error('Failed to fetch Markdown file:', state.file, mdRes.status);
+          throw new Error('Failed to load post content.');
+        }
         const markdown = await mdRes.text();
 
         document.title = state.postData.title + ' — Boluadeoye';
@@ -845,9 +886,13 @@
 
         const hasManualPages = PAGE_SEPARATOR.test(markdown);
 
-        if (forceMode === 'scroll') { state.mode = 'simple'; }
-        else if (forceMode === 'paginated') { state.mode = 'paginated'; }
-        else { state.mode = hasManualPages || state.wordCount > WORD_COUNT_THRESHOLD ? 'paginated' : 'simple'; }
+        if (forceMode === 'scroll') {
+          state.mode = 'simple';
+        } else if (forceMode === 'paginated') {
+          state.mode = 'paginated';
+        } else {
+          state.mode = hasManualPages || state.wordCount > WORD_COUNT_THRESHOLD ? 'paginated' : 'simple';
+        }
 
         document.body.className = `mode-${state.mode} ${postType}`;
 
@@ -865,23 +910,23 @@
         const dateStr = new Date(state.postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
         const mainContentHTML = `
-            <nav class="toc-sidebar"></nav>
-            <div class="post-content-wrapper">
-              <article class="post-content" id="article-content"></article>
-              <nav class="page-navigation" id="page-navigation" style="display:${state.mode === 'paginated' ? 'flex' : 'none'};">
-                <button class="btn-chip prev-page">← Previous</button>
-                <span class="page-indicator"></span>
-                <button class="btn-chip next-page">Next →</button>
-              </nav>
-              <hr class="article-ender">
-              <nav class="post-nav" id="post-nav">
-                <a href="./" class="btn-chip">← Back to Home</a>
-                <button class="btn-chip share-btn" onclick="window.sharePost()">Share Post 📤</button>
-                <a href="./posts.html" class="btn-chip">All Posts →</a>
-              </nav>
-              <section id="related-posts-container"></section>
-              <div id="disqus_thread"></div>
-            </div>
+          <nav class="toc-sidebar"></nav>
+          <div class="post-content-wrapper">
+            <article class="post-content" id="article-content"></article>
+            <nav class="page-navigation" id="page-navigation" style="display:${state.mode === 'paginated' ? 'flex' : 'none'};">
+              <button class="btn-chip prev-page">← Previous</button>
+              <span class="page-indicator"></span>
+              <button class="btn-chip next-page">Next →</button>
+            </nav>
+            <hr class="article-ender">
+            <nav class="post-nav" id="post-nav">
+              <a href="./" class="btn-chip">← Back to Home</a>
+              <button class="btn-chip share-btn" onclick="window.sharePost()">Share Post 📤</button>
+              <a href="./posts.html" class="btn-chip">All Posts →</a>
+            </nav>
+            <section id="related-posts-container"></section>
+            <div id="disqus_thread"></div>
+          </div>
         `;
 
         const modeToggleURL = state.mode === 'paginated'
@@ -890,48 +935,49 @@
         const modeToggleText = state.mode === 'paginated' ? 'Switch to Scroll View' : 'Switch to Book View';
 
         pageContainer.innerHTML = `
-            <section class="feature-cover" id="feature-cover">
-                ${coverUrl ? `<img src="${coverUrl}" alt="${state.postData.title}" class="feature-cover-bg">` : ''}
-                <div class="post-header wrap">
-                    <h1 class="post-title">${state.postData.title}</h1>
-                    <div class="post-meta">
-                        <span>📅 ${dateStr}</span>
-                        <span>📁 ${state.postData.type || 'General'}</span>
-                        <span>⏱️ ${state.postData.minutes} min read</span>
-                    </div>
-                    ${state.mode === 'paginated' ? '<button class="begin-reading-btn" id="begin-reading">Begin Reading</button>' : ''}
-                </div>
-            </section>
-            <div class="main-content-area wrap" id="main-content-area">
-                <a href="${modeToggleURL}" class="btn-chip mode-toggle">${modeToggleText}</a>
-                ${mainContentHTML}
+          <section class="feature-cover" id="feature-cover">
+            ${coverUrl ? `<img src="${coverUrl}" alt="${state.postData.title}" class="feature-cover-bg">` : ''}
+            <div class="post-header wrap">
+              <h1 class="post-title">${state.postData.title}</h1>
+              <div class="post-meta">
+                <span>📅 ${dateStr}</span>
+                <span>📁 ${state.postData.type || 'General'}</span>
+                <span>⏱️ ${state.postData.minutes} min read</span>
+              </div>
+              ${state.mode === 'paginated' ? '<button class="begin-reading-btn" id="begin-reading">Begin Reading</button>' : ''}
             </div>
+          </section>
+          <div class="main-content-area wrap" id="main-content-area">
+            <a href="${modeToggleURL}" class="btn-chip mode-toggle">${modeToggleText}</a>
+            ${mainContentHTML}
+          </div>
         `;
 
         if (state.mode === 'paginated') {
-          document.getElementById('begin-reading').addEventListener('click', beginReading);
-          document.getElementById('related-posts-container').style.display = 'none';
-          document.getElementById('disqus_thread').style.display = 'none';
+          const beginButton = document.getElementById('begin-reading');
+          if (beginButton) beginButton.addEventListener('click', beginReading);
+          const relatedContainer = document.getElementById('related-posts-container');
+          const disqusContainer = document.getElementById('disqus_thread');
+          if (relatedContainer) relatedContainer.style.display = 'none';
+          if (disqusContainer) disqusContainer.style.display = 'none';
         } else {
           const mainContentEl = document.getElementById('main-content-area');
-          mainContentEl.classList.add('visible');
-          document.getElementById('article-content').innerHTML = marked.parse(state.pages[0] || '', { breaks: true });
-          displayRelatedPosts(state.postData);
-          loadDisqus(state.file);
-          createTOC();
-          setupTOCObserver();
+          const contentEl = document.getElementById('article-content');
+          if (mainContentEl && contentEl) {
+            mainContentEl.classList.add('visible');
+            contentEl.innerHTML = marked.parse(state.pages[0] || '', { breaks: true });
+            displayRelatedPosts(state.postData);
+            loadDisqus(state.file);
+            createTOC();
+            setupTOCObserver();
+          }
         }
         createSEOTags();
 
-      } catch(err) {
-        console.error('Post load error:', err);
+      } catch (err) {
+        console.error('Post load error:', err.message);
         renderError(pageContainer, err.message);
       }
-    }
-
-    function renderError(container, message) {
-      const errorHTML = `<div class="error-container"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
-      if (container) container.innerHTML = errorHTML;
     }
 
     function updateProgressBar() {
