@@ -939,7 +939,7 @@
       if (state.mode === 'simple') {
         const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
         const scrollableHeight = scrollHeight - clientHeight;
-        progressBar.style.width = scrollableHeight > 0 ? `${(scrollTop / scrollableHeight) * 100}%` : '0%';
+        progressBar.style.width = scrollableHeight > 0 ? `${(scrollTop / scrollHeight) * 100}%` : '0%';
       } else {
         const progress = state.totalPages > 0 ? (state.currentPage / (state.totalPages + 1)) * 100 : 0;
         progressBar.style.width = `${progress}%`;
