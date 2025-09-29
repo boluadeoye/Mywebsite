@@ -647,7 +647,6 @@
     const menuOverlay = document.getElementById('menuOverlay');
     const progressBar = document.getElementById('progress-bar');
     const pageContainer = document.getElementById('post-page-container');
-    const authorSidebar = document.getElementById('author-sidebar');
     const WORD_COUNT_THRESHOLD = 1500;
     const PAGE_SEPARATOR = /\n---\s*page\s*---\n/;
 
@@ -784,31 +783,7 @@
       }).join('');
       container.innerHTML = `<h3 class="related-posts-title">You Might Also Like</h3><div class="related-posts-grid">${cardsHTML}</div>`;
     }
-
-    // --- SCROLL-AWAY BEHAVIOR FOR AUTHOR SIDEBAR ---
-    let lastScrollY = window.scrollY;
-    function handleAuthorSidebar() {
-      const sidebar = document.getElementById('author-sidebar');
-      const cover = document.querySelector('.feature-cover');
-      if (!sidebar || !cover) return;
-
-      const coverHeight = cover.offsetHeight;
-      const mainContent = document.getElementById('main-content-area');
-      const currentScrollY = window.scrollY;
-      const isVisible = mainContent.classList.contains('visible');
-
-      if (isVisible && currentScrollY > coverHeight) {
-        if (currentScrollY < lastScrollY) {
-          sidebar.classList.add('visible');
-        } else {
-          sidebar.classList.remove('visible');
-        }
-      } else {
-        sidebar.classList.remove('visible');
-      }
-      lastScrollY = currentScrollY;
-    }
-
+    
     function createTOC() {
       const headings = document.querySelectorAll('.post-content h2, .post-content h3');
       const tocContainer = document.querySelector('.toc-sidebar');
