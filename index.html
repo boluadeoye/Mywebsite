@@ -462,7 +462,7 @@
       </div>
     </section>
 
-    <section id="news-hub-container" class="news-hub" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease;">
+    <section id="news-hub-container" class="news-hub">
       <div class="section-header">
         <h3 class="section-title">Live Headlines</h3>
       </div>
@@ -497,6 +497,17 @@
       <p>© 2025 Boluadeoye • Crafted with passion</p>
     </div>
   </footer>
+  
+  <div class="echo-chamber-widget">
+    <div class="echo-chamber-window" id="echo-window">
+      <div class="echo-header" id="echo-header">Your Guide</div>
+      <div class="echo-messages" id="echo-messages"></div>
+      <div class="echo-input-area" id="echo-input-area" style="display: none;"></div>
+    </div>
+    <button class="echo-chamber-button" id="echo-toggle-button" aria-label="Open your guide">
+       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#0f172a"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+    </button>
+  </div>
 
   <script>
     (function(){
@@ -743,5 +754,6 @@
 
     })();
   </script>
+  <script src="echo-chamber.js" defer></script>
 </body> 
 </html>
