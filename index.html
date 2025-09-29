@@ -206,7 +206,7 @@
     .hero-photo { max-width: 320px; margin: 0 auto; }
   }
 
-  /* --- ECHO CHAMBER STYLES (Designer-Ready Prototype) --- */
+  /* --- ECHO CHAMBER STYLES --- */
   .echo-chamber-widget {
     position: fixed;
     bottom: 20px;
@@ -364,6 +364,7 @@
     </button>
   </div>
 
+  <script src="echo-chamber.js"></script>
   <script>
     (function(){
       // --- Existing Menu, Header, and Post Loading Logic... ---
@@ -394,194 +395,8 @@
       function displayPosts(list) { /* existing function */ }
       document.addEventListener('DOMContentLoaded', loadPosts);
 
-      // --- THE ECHO CHAMBER ENGINE ---
-      const echoState = {
-        paths: {},
-        echoes: [],
-        user: {
-          currentPath: null,
-          currentStep: 0,
-          reflections: {}
-        }
-      };
-
-      const echoWindow = document.getElementById('echo-window');
-      const echoToggleButton = document.getElementById('echo-toggle-button');
-      const echoMessages = document.getElementById('echo-messages');
-      const echoInputArea = document.getElementById('echo-input-area');
-
-      function toggleEchoWindow() {
-        echoWindow.classList.toggle('active');
-      }
-
-      function addMessage(text, type = 'guide-message') {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `echo-message ${type}`;
-        messageDiv.innerHTML = text; // Using innerHTML to support links
-        echoMessages.appendChild(messageDiv);
-        echoMessages.scrollTop = echoMessages.scrollHeight;
-      }
-
-      function showChoices(choices) {
-        echoInputArea.style.display = 'none';
-        const choicesDiv = document.createElement('div');
-        choicesDiv.className = 'echo-choices';
-        choices.forEach(choice => {
-          const button = document.createElement('button');
-          button.textContent = choice.text;
-          button.onclick = choice.action;
-          choicesDiv.appendChild(button);
-        });
-        echoMessages.appendChild(choicesDiv);
-        echoMessages.scrollTop = echoMessages.scrollHeight;
-      }
-      
-      function showReflectionInput(pathKey, step) {
-        echoInputArea.innerHTML = `
-          <textarea id="reflection-textarea" placeholder="Write your reflection here..."></textarea>
-          <button id="save-reflection-btn">Save Reflection</button>
-        `;
-        echoInputArea.style.display = 'block';
-        document.getElementById('save-reflection-btn').onclick = () => saveReflection(pathKey, step);
-      }
-
-      async function saveReflection(pathKey, step) {
-        const textarea = document.getElementById('reflection-textarea');
-        const reflectionText = textarea.value.trim();
-        if (reflectionText) {
-          echoState.user.reflections[`${pathKey}_${step.day}`] = reflectionText;
-          await localforage.setItem('echoUser', echoState.user);
-          addMessage(reflectionText, 'user-reflection');
-          echoInputArea.innerHTML = '';
-          echoInputArea.style.display = 'none';
-          
-          const nextStep = echoState.paths[pathKey].steps.find(s => s.day === step.day + 1);
-          if (nextStep) {
-            echoState.user.currentStep = step.day + 1;
-            await localforage.setItem('echoUser', echoState.user);
-            addMessage(`Thank you for sharing. Your reflection is saved.<br><br>When you are ready for the next step of your journey, I will be here.`);
-          } else {
-            addMessage(`You have completed the **${echoState.paths[pathKey].title}**.`);
-            showChoices([{ text: 'Download My Journal PDF', action: () => generatePDF(pathKey) }, { text: 'Start a New Path', action: startJourneyDecision }]);
-          }
-        }
-      }
-
-      function presentStep(pathKey, step) {
-        addMessage(`**Step ${step.day} of your journey:**<br>Please take some time to read the following article: <a href="post.html?file=${step.file}" target="_blank">${step.file.split('/')[1].replace('.md','')}</a>`);
-        addMessage(`When you have finished reading, come back and I will have a reflection prompt waiting for you.`);
-        showChoices([{ text: "I've Finished Reading", action: () => {
-          addMessage(step.prompt);
-          showReflectionInput(pathKey, step);
-        }}]);
-      }
-
-      async function startJourneyDecision() {
-        echoMessages.innerHTML = '';
-        addMessage("What are you seeking today?");
-        const choices = Object.keys(echoState.paths).map(key => ({
-          text: echoState.paths[key].title,
-          action: () => startPath(key)
-        }));
-        showChoices(choices);
-      }
-      
-      async function startPath(pathKey) {
-        echoState.user.currentPath = pathKey;
-        echoState.user.currentStep = 1;
-        await localforage.setItem('echoUser', echoState.user);
-        
-        echoMessages.innerHTML = '';
-        addMessage(`You have begun the **${echoState.paths[pathKey].title}**. A wise choice.`);
-        
-        const randomEcho = echoState.echoes.find(e => e.path === pathKey);
-        if (randomEcho) {
-            setTimeout(() => addMessage(randomEcho.reflection, 'community-echo'), 1000);
-        }
-
-        setTimeout(() => {
-            const firstStep = echoState.paths[pathKey].steps[0];
-            presentStep(pathKey, firstStep);
-        }, 2000);
-      }
-
-      async function resumeJourney() {
-        const { currentPath, currentStep } = echoState.user;
-        const pathData = echoState.paths[currentPath];
-        addMessage(`Welcome back. You are on Step ${currentStep} of the **${pathData.title}**.`);
-        
-        const stepData = pathData.steps.find(s => s.day === currentStep);
-        if (stepData) {
-            presentStep(currentPath, stepData);
-        } else {
-            addMessage("It seems you've completed this path. Congratulations!");
-            startJourneyDecision();
-        }
-      }
-
-      async function generatePDF(pathKey) {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        const path = echoState.paths[pathKey];
-
-        doc.setFontSize(18);
-        doc.text(path.title, 10, 20);
-        doc.setFontSize(12);
-        doc.text("A Personal Journal of Reflection", 10, 28);
-        doc.text(`Completed on: ${new Date().toLocaleDateString()}`, 10, 36);
-        
-        let y = 50;
-        path.steps.forEach(step => {
-          if (y > 250) { doc.addPage(); y = 20; }
-          doc.setFont(undefined, 'bold');
-          doc.text(`Step ${step.day}: Reflection on "${step.file.split('/')[1].replace('.md','')}"`, 10, y);
-          y += 7;
-          doc.setFont(undefined, 'italic');
-          doc.text(step.prompt, 15, y, { maxWidth: 180 });
-          y += 15;
-          doc.setFont(undefined, 'normal');
-          const reflection = echoState.user.reflections[`${pathKey}_${step.day}`] || "No reflection written.";
-          const lines = doc.splitTextToSize(reflection, 180);
-          doc.text(lines, 15, y);
-          y += (lines.length * 5) + 15;
-        });
-
-        doc.save(`${path.title.replace(/\s/g, '_')}_Journal.pdf`);
-        addMessage("Your PDF has been downloaded.");
-      }
-
-      async function initEchoChamber() {
-        try {
-          const [pathsRes, echoesRes, userData] = await Promise.all([
-            fetch('./paths.json'),
-            fetch('./echoes.json'),
-            localforage.getItem('echoUser')
-          ]);
-          
-          echoState.paths = await pathsRes.json();
-          echoState.echoes = await echoesRes.json();
-          
-          if (userData) {
-            echoState.user = userData;
-          }
-
-          if (echoState.user.currentPath && echoState.user.currentStep > 0) {
-            resumeJourney();
-          } else {
-            startJourneyDecision();
-          }
-
-          echoToggleButton.addEventListener('click', toggleEchoWindow);
-
-        } catch (error) {
-          console.error("Could not initialize The Echo Chamber:", error);
-          // Silently fail, don't show the widget.
-          document.querySelector('.echo-chamber-widget').style.display = 'none';
-        }
-      }
-
+      // --- Init Echo Chamber from separate file ---
       document.addEventListener('DOMContentLoaded', initEchoChamber);
-      
     })();
   </script>
 </body> 
