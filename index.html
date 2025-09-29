@@ -206,69 +206,76 @@
     .hero-photo { max-width: 320px; margin: 0 auto; }
   }
 
-  /* --- ECHO CHAMBER STYLES (Designer-Ready Prototype) --- */
+  /* --- ECHO CHAMBER STYLES (Polished Design) --- */
   .echo-chamber-widget {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 25px;
+    right: 25px;
     z-index: 1000;
   }
   .echo-chamber-button {
-    width: 60px; height: 60px; border-radius: 50%;
-    background: var(--orange); border: none; color: var(--bg);
+    width: 55px; height: 55px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--orange), var(--orange-light)); color: var(--orange-ink);
     display: flex; align-items: center; justify-content: center;
-    cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    cursor: pointer; box-shadow: 0 4px 15px rgba(245,158,11,.3);
     transition: all 0.3s var(--transition);
+    border: none;
   }
   .echo-chamber-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 25px rgba(245,158,11,.4);
+    transform: rotate(15deg) scale(1.1);
+    box-shadow: 0 8px 25px rgba(245,158,11,.5);
   }
+  .echo-chamber-button svg { width: 28px; height: 28px; }
   .echo-chamber-window {
-    position: fixed; bottom: 90px; right: 20px;
-    width: 350px; max-height: 500px; background: var(--panel);
-    border: 1px solid var(--orange); border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    position: fixed; bottom: 90px; right: 25px;
+    width: 360px; max-height: 520px; background: linear-gradient(to bottom, var(--panel-hover), var(--panel));
+    border: 1px solid rgba(245,158,11,.2); border-radius: 20px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.4);
     display: flex; flex-direction: column; overflow: hidden;
-    transform: translateY(20px) scale(0.95); opacity: 0;
+    transform: scale(0.8) translateY(50px); opacity: 0;
     visibility: hidden; transition: all 0.4s var(--transition);
     transform-origin: bottom right;
   }
   .echo-chamber-window.active {
-    transform: translateY(0) scale(1); opacity: 1; visibility: visible;
+    transform: scale(1) translateY(0); opacity: 1; visibility: visible;
   }
   .echo-header {
-    padding: 1rem; background: var(--bg);
-    border-bottom: 1px solid var(--orange);
-    text-align: center; font-weight: 700; flex-shrink: 0;
+    padding: 1.2rem; background: rgba(15,23,42,.95); backdrop-filter: blur(5px);
+    border-bottom: 1px solid rgba(245,158,11,.2);
+    text-align: center; font-family: var(--serif); font-weight: 800; font-size: 1.1rem;
+    color: var(--ink); text-shadow: 0 1px 3px rgba(0,0,0,0.3); flex-shrink: 0;
   }
   .echo-messages {
-    flex-grow: 1; padding: 1rem; overflow-y: auto;
-    display: flex; flex-direction: column; gap: 1rem;
+    flex-grow: 1; padding: 1.2rem; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 1.2rem;
   }
   .echo-message {
-    padding: 0.75rem 1rem; border-radius: 12px;
-    line-height: 1.6; max-width: 90%;
-    animation: popIn .3s var(--transition);
+    padding: 1rem 1.2rem; border-radius: 16px;
+    line-height: 1.6; max-width: 85%; font-size: 0.95rem;
+    animation: messageFadeIn 0.3s var(--transition); position: relative;
   }
-  @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .guide-message { background: rgba(255,255,255,0.05); align-self: flex-start; }
-  .user-reflection { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); align-self: flex-end; font-style: italic; }
-  .community-echo { background: transparent; border: 1px dashed var(--muted); color: var(--muted); align-self: center; text-align: center; font-size: 0.9rem; max-width: 100%; }
-  .echo-choices { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
+  @keyframes messageFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .guide-message { background: rgba(255,255,255,0.05); align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+  .user-reflection { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.15); align-self: flex-end; font-style: italic; border-bottom-right-radius: 4px; color: var(--muted); box-shadow: 0 2px 8px rgba(245,158,11,0.1); }
+  .community-echo { background: rgba(255,255,255,0.03); border: 1px dashed rgba(245,158,11,0.3); color: var(--muted); align-self: center; text-align: center; font-size: 0.9rem; max-width: 100%; font-style: italic; padding: 1.2rem; border-radius: 12px; position: relative; }
+  .community-echo::before { content: '🕊️ Echo from a Fellow Traveler'; display: block; font-size: 0.8rem; color: var(--orange); margin-bottom: 0.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .echo-choices { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.75rem; }
   .echo-choices button, .echo-input-area button {
-    width: 100%; background: var(--panel-hover); border: 1px solid var(--orange);
-    color: var(--orange); padding: 0.75rem; border-radius: 8px;
-    cursor: pointer; font-weight: 700; transition: all 0.2s var(--transition);
+    width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(245,158,11,0.3);
+    color: var(--orange); padding: 0.85rem; border-radius: 12px;
+    cursor: pointer; font-weight: 600; transition: all 0.3s var(--transition); font-size: 0.95rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   }
-  .echo-choices button:hover, .echo-input-area button:hover { background: var(--orange); color: var(--bg); }
-  .echo-input-area { padding: 1rem; border-top: 1px solid var(--orange); flex-shrink: 0; }
+  .echo-choices button:hover, .echo-input-area button:hover { background: var(--orange); color: var(--orange-ink); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(245,158,11,0.3); }
+  .echo-input-area { padding: 1.2rem; border-top: 1px solid rgba(245,158,11,0.2); flex-shrink: 0; background: rgba(15,23,42,0.95); backdrop-filter: blur(5px); }
   .echo-input-area textarea {
-    width: 100%; background: var(--bg); border: 1px solid var(--muted);
-    border-radius: 8px; color: var(--ink); padding: 0.75rem;
-    resize: vertical; min-height: 80px; font-family: var(--sans-serif);
+    width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 12px; color: var(--ink); padding: 1rem;
+    resize: vertical; min-height: 100px; font-family: var(--sans-serif); font-size: 0.95rem;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.2); transition: border-color 0.3s var(--transition);
   }
-  .echo-input-area button { margin-top: 0.5rem; background: var(--orange); color: var(--bg); }
+  .echo-input-area textarea:focus { border-color: var(--orange); outline: none; }
+  .echo-input-area button { margin-top: 0.75rem; background: var(--orange); color: var(--orange-ink); border: none; }
 </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJVVQDCS32"></script>
 <script>
@@ -523,31 +530,68 @@
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
         const path = echoState.paths[pathKey];
+        const pageWidth = doc.internal.pageSize.width;
+        const pageHeight = doc.internal.pageSize.height;
+        const margin = 20;
 
-        doc.setFontSize(18);
-        doc.text(path.title, 10, 20);
+        // Title Page
+        doc.setFillColor(15, 23, 42); // Dark background
+        doc.rect(0, 0, pageWidth, pageHeight, 'F');
+        doc.setFont('Playfair Display', 'bold');
+        doc.setFontSize(32);
+        doc.setTextColor(229, 238, 252); // Ink color
+        doc.text(path.title, pageWidth / 2, pageHeight / 2 - 20, { align: 'center' });
+        doc.setFontSize(16);
+        doc.setTextColor(245, 158, 11); // Orange accent
+        doc.text("A Personal Journal of Reflection", pageWidth / 2, pageHeight / 2, { align: 'center' });
         doc.setFontSize(12);
-        doc.text("A Personal Journal of Reflection", 10, 28);
-        doc.text(`Completed on: ${new Date().toLocaleDateString()}`, 10, 36);
+        doc.setTextColor(148, 163, 184); // Muted color
+        doc.text(`Completed on: ${new Date().toLocaleDateString()}`, pageWidth / 2, pageHeight / 2 + 20, { align: 'center' });
+        doc.setLineWidth(1);
+        doc.setDrawColor(245, 158, 11); // Orange border
+        doc.line(margin, margin, pageWidth - margin, margin);
+        doc.line(margin, pageHeight - margin, pageWidth - margin, pageHeight - margin);
+
+        doc.addPage();
+
+        // Content Pages
+        doc.setFont('Merriweather', 'normal');
+        doc.setFontSize(12);
+        doc.setTextColor(229, 238, 252); // Ink
+        doc.setFillColor(13, 21, 37); // Panel background for pages
+        doc.rect(0, 0, pageWidth, pageHeight, 'F');
         
-        let y = 50;
+        let y = margin + 20;
+        doc.setFont('Playfair Display', 'bold');
+        doc.setFontSize(18);
+        doc.text(path.title, margin, margin + 10);
+        doc.setLineWidth(0.5);
+        doc.setDrawColor(245, 158, 11);
+        doc.line(margin, margin + 15, pageWidth - margin, margin + 15);
+
+        doc.setFont('Merriweather', 'normal');
+        doc.setFontSize(12);
         path.steps.forEach(step => {
-          if (y > 250) { doc.addPage(); y = 20; }
-          doc.setFont(undefined, 'bold');
-          doc.text(`Step ${step.day}: Reflection on "${step.file.split('/')[1].replace('.md','')}"`, 10, y);
-          y += 7;
-          doc.setFont(undefined, 'italic');
-          doc.text(step.prompt, 15, y, { maxWidth: 180 });
-          y += 15;
-          doc.setFont(undefined, 'normal');
-          const reflection = echoState.user.reflections[`${pathKey}_${step.day}`] || "No reflection written.";
-          const lines = doc.splitTextToSize(reflection, 180);
-          doc.text(lines, 15, y);
-          y += (lines.length * 5) + 15;
+          if (y > pageHeight - margin - 50) { doc.addPage(); y = margin; doc.setFillColor(13, 21, 37); doc.rect(0, 0, pageWidth, pageHeight, 'F'); }
+          doc.setFont('Playfair Display', 'bold');
+          doc.setFontSize(14);
+          doc.text(`Step ${step.day}: Reflection on "${step.file.split('/')[1].replace('.md','')}"`, margin, y);
+          y += 10;
+          doc.setFont('Merriweather', 'italic');
+          doc.setFontSize(12);
+          doc.text(step.prompt, margin + 5, y, { maxWidth: pageWidth - 2 * margin - 5 });
+          y += 20;
+          doc.setFont('Merriweather', 'normal');
+          const reflection = echoState.user.reflections[`${pathKey}_${step.day}`] || "No reflection written for this step.";
+          const lines = doc.splitTextToSize(reflection, pageWidth - 2 * margin - 5);
+          doc.text(lines, margin + 5, y);
+          y += (lines.length * 6) + 25; // Adjusted line height
+          doc.setDrawColor(148, 163, 184); // Muted divider
+          doc.line(margin, y - 10, pageWidth - margin, y - 10);
         });
 
         doc.save(`${path.title.replace(/\s/g, '_')}_Journal.pdf`);
-        addMessage("Your PDF has been downloaded.");
+        addMessage("Your journal PDF has been downloaded. May it serve as a cherished record of your journey.");
       }
 
       async function initEchoChamber() {
