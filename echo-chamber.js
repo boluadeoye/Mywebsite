@@ -226,8 +226,8 @@
 
     try {
       const [pathsRes, echoesRes, userData] = await Promise.all([
-        fetch('/paths.json'),
-        fetch('/echoes.json'),
+        fetch('./paths.json'),
+        fetch('./echoes.json'),
         localforage.getItem('echoUser')
       ]);
       
