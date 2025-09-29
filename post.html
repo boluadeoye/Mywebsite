@@ -683,7 +683,7 @@
           const prevTag = document.createElement('link');
           prevTag.rel = 'prev';
           prevTag.href = `${canonicalUrl}&page=${state.currentPage - 1}`;
-          head.appendChild(prevTag);
+          head.appendChild(nextTag);
         }
       }
     }
@@ -817,6 +817,133 @@
         });
       }, { rootMargin: '-20% 0px -70% 0px' });
       headings.forEach(heading => observer.observe(heading));
+    }
+
+    // --- MAIN INITIALIZATION ---
+    async function loadPost() {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        state.file = urlParams.get('file');
+        const forceMode = urlParams.get('mode');
+        if (!state.file) throw new Error('No post file specified in URL.');
+
+        const postsRes = await fetch('./Posts.json', { cache: 'no-store' });
+        if (!postsRes.ok) throw new Error('Could not load Posts.json');
+        state.allPosts = await postsRes.json();
+
+        state.postData = state.allPosts.find(p => p && p.file && p.file.trim() === state.file.trim());
+        if (!state.postData) throw new Error('Post data not found');
+
+        const postType = state.postData.type ? 'post-type-' + state.postData.type.toLowerCase().trim() : 'post-type-general';
+
+        const mdRes = await fetch(state.file, { cache: 'no-store' });
+        if (!mdRes.ok) throw new Error('Failed to load Markdown file');
+        const markdown = await mdRes.text();
+
+        document.title = state.postData.title + ' — Boluadeoye';
+        state.wordCount = getWordCount(markdown);
+
+        const hasManualPages = PAGE_SEPARATOR.test(markdown);
+
+        if (forceMode === 'scroll') { state.mode = 'simple'; }
+        else if (forceMode === 'paginated') { state.mode = 'paginated'; }
+        else { state.mode = hasManualPages || state.wordCount > WORD_COUNT_THRESHOLD ? 'paginated' : 'simple'; }
+
+        document.body.className = `mode-${state.mode} ${postType}`;
+
+        if (state.mode === 'paginated') {
+          state.pages = markdown.split(PAGE_SEPARATOR);
+        } else {
+          state.pages = [markdown];
+        }
+        state.totalPages = state.pages.length;
+
+        const startPage = parseInt(urlParams.get('page')) || 1;
+        state.currentPage = (startPage > state.totalPages + 1 || startPage < 1) ? 1 : startPage;
+
+        const coverUrl = state.postData.cover || '';
+        const dateStr = new Date(state.postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        const mainContentHTML = `
+            <nav class="toc-sidebar"></nav>
+            <div class="post-content-wrapper">
+              <article class="post-content" id="article-content"></article>
+              <nav class="page-navigation" id="page-navigation" style="display:${state.mode === 'paginated' ? 'flex' : 'none'};">
+                <button class="btn-chip prev-page">← Previous</button>
+                <span class="page-indicator"></span>
+                <button class="btn-chip next-page">Next →</button>
+              </nav>
+              <hr class="article-ender">
+              <nav class="post-nav" id="post-nav">
+                <a href="./" class="btn-chip">← Back to Home</a>
+                <button class="btn-chip share-btn" onclick="window.sharePost()">Share Post 📤</button>
+                <a href="./posts.html" class="btn-chip">All Posts →</a>
+              </nav>
+              <section id="related-posts-container"></section>
+              <div id="disqus_thread"></div>
+            </div>
+        `;
+
+        const modeToggleURL = state.mode === 'paginated'
+          ? `?file=${encodeURIComponent(state.file)}&mode=scroll`
+          : `?file=${encodeURIComponent(state.file)}&mode=paginated`;
+        const modeToggleText = state.mode === 'paginated' ? 'Switch to Scroll View' : 'Switch to Book View';
+
+        pageContainer.innerHTML = `
+            <section class="feature-cover" id="feature-cover">
+                ${coverUrl ? `<img src="${coverUrl}" alt="${state.postData.title}" class="feature-cover-bg">` : ''}
+                <div class="post-header wrap">
+                    <h1 class="post-title">${state.postData.title}</h1>
+                    <div class="post-meta">
+                        <span>📅 ${dateStr}</span>
+                        <span>📁 ${state.postData.type || 'General'}</span>
+                        <span>⏱️ ${state.postData.minutes} min read</span>
+                    </div>
+                    ${state.mode === 'paginated' ? '<button class="begin-reading-btn" id="begin-reading">Begin Reading</button>' : ''}
+                </div>
+            </section>
+            <div class="main-content-area wrap" id="main-content-area">
+                <a href="${modeToggleURL}" class="btn-chip mode-toggle">${modeToggleText}</a>
+                ${mainContentHTML}
+            </div>
+        `;
+
+        if (state.mode === 'paginated') {
+          document.getElementById('begin-reading').addEventListener('click', beginReading);
+          document.getElementById('related-posts-container').style.display = 'none';
+          document.getElementById('disqus_thread').style.display = 'none';
+        } else {
+          const mainContentEl = document.getElementById('main-content-area');
+          mainContentEl.classList.add('visible');
+          document.getElementById('article-content').innerHTML = marked.parse(state.pages[0] || '', { breaks: true });
+          displayRelatedPosts(state.postData);
+          loadDisqus(state.file);
+          createTOC();
+          setupTOCObserver();
+        }
+        createSEOTags();
+
+      } catch(err) {
+        console.error('Post load error:', err);
+        renderError(pageContainer, err.message);
+      }
+    }
+
+    function renderError(container, message) {
+      const errorHTML = `<div class="error-container"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
+      if (container) container.innerHTML = errorHTML;
+    }
+
+    function updateProgressBar() {
+      if (!progressBar) return;
+      if (state.mode === 'simple') {
+        const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+        const scrollableHeight = scrollHeight - clientHeight;
+        progressBar.style.width = scrollableHeight > 0 ? `${(scrollTop / scrollableHeight) * 100}%` : '0%';
+      } else {
+        const progress = state.totalPages > 0 ? (state.currentPage / (state.totalPages + 1)) * 100 : 0;
+        progressBar.style.width = `${progress}%`;
+      }
     }
 
     function closeMenu() {
