@@ -35,7 +35,6 @@
         const button = document.createElement('button');
         button.textContent = choice.text;
         button.onclick = () => {
-          // Disable all buttons in this choice block after one is clicked
           choicesDiv.querySelectorAll('button').forEach(btn => btn.disabled = true);
           choice.action();
         };
@@ -82,7 +81,6 @@
           addMessage(`Thank you for sharing. Your reflection is saved.<br><br>When you are ready for the next step of your journey, I will be here.`);
         }, 500);
       } else {
-        // Path is complete
         state.user.currentPath = null;
         state.user.currentStep = 0;
         await localforage.setItem('echoUser', state.user);
@@ -121,7 +119,7 @@
   async function startPath(pathKey) {
     state.user.currentPath = pathKey;
     state.user.currentStep = 1;
-    state.user.reflections = state.user.reflections || {}; // Ensure reflections object exists
+    state.user.reflections = state.user.reflections || {};
     await localforage.setItem('echoUser', state.user);
     
     echoMessages.innerHTML = '';
@@ -143,7 +141,6 @@
     const pathData = state.paths[currentPath];
 
     if (!pathData) {
-      // Handle case where path might have been removed
       state.user.currentPath = null;
       state.user.currentStep = 0;
       await localforage.setItem('echoUser', state.user);
@@ -215,9 +212,7 @@
     addMessage("Your PDF journal has been created and downloaded.");
   }
 
-  // --- INITIALIZATION ---
   async function initEchoChamber() {
-    // Assign DOM elements
     echoWindow = document.getElementById('echo-window');
     echoToggleButton = document.getElementById('echo-toggle-button');
     echoMessages = document.getElementById('echo-messages');
@@ -244,7 +239,7 @@
       state.echoes = await echoesRes.json();
       
       if (userData) {
-        state.user = { ...state.user, ...userData }; // Merge to ensure new properties are added
+        state.user = { ...state.user, ...userData };
       }
 
       if (state.user.currentPath && state.user.currentStep > 0) {
@@ -262,7 +257,6 @@
     }
   }
 
-  // --- START THE ENGINE ---
   document.addEventListener('DOMContentLoaded', initEchoChamber);
 
 })();
