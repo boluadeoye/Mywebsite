@@ -152,6 +152,62 @@
   .overlay.show { display: block; opacity: 1; }
   @media (min-width: 880px) { .top-nav { display: flex; } .hamburger { display: none; } }
 
+  /* Sticky Sub-Header (Author Sidebar) */
+  .author-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    background: rgba(17, 26, 46, 0.95);
+    backdrop-filter: blur(8px);
+    padding: 0.75rem 1.5rem;
+    text-align: center;
+    transform: translateY(-100%);
+    transition: transform 0.3s var(--transition);
+    border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  .author-sidebar.visible {
+    transform: translateY(0);
+  }
+  .author-sidebar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+  }
+  .author-sidebar .name {
+    font-family: var(--sans-serif);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--ink);
+    display: inline-block;
+    vertical-align: middle;
+  }
+  @media (min-width: 1024px) {
+    .author-sidebar {
+      position: sticky;
+      top: 90px;
+      left: auto;
+      right: auto;
+      width: 200px;
+      padding: 1.5rem;
+      background: var(--panel);
+      border-radius: var(--radius);
+      border: 1px solid rgba(245, 158, 11, 0.15);
+      transform: none;
+      display: none;
+    }
+    .author-sidebar.visible { display: block; }
+    .author-sidebar img {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 1rem;
+    }
+  }
+
   /* Progress Bar */
   #progress-bar {
     position: fixed;
@@ -168,7 +224,7 @@
   /* Feature Cover */
   .feature-cover {
     position: relative;
-    padding: 4rem 0 5rem;
+    padding: 4rem 0 6rem;
     background: linear-gradient(to bottom, rgba(15, 23, 42, 0.9), var(--bg));
     text-align: center;
     overflow: hidden;
@@ -619,6 +675,11 @@
     </div>
   </header>
 
+  <aside id="author-sidebar" class="author-sidebar">
+    <img src="images/Logo.png" alt="Adeoye Boluwatife">
+    <span class="name">Adeoye Boluwatife</span>
+  </aside>
+
   <main id="post-page-container">
     <div class="loading-container">
       <div class="loading-spinner"></div>
@@ -645,6 +706,7 @@
     const menuOverlay = document.getElementById('menuOverlay');
     const progressBar = document.getElementById('progress-bar');
     const pageContainer = document.getElementById('post-page-container');
+    const authorSidebar = document.getElementById('author-sidebar');
     const WORD_COUNT_THRESHOLD = 1500;
     const PAGE_SEPARATOR = /\n---\s*page\s*---\n/;
 
@@ -681,7 +743,7 @@
           const prevTag = document.createElement('link');
           prevTag.rel = 'prev';
           prevTag.href = `${canonicalUrl}&page=${state.currentPage - 1}`;
-          head.appendChild(prevTag);
+          head.appendChild(nextTag);
         }
       }
     }
@@ -782,16 +844,28 @@
       container.innerHTML = `<h3 class="related-posts-title">You Might Also Like</h3><div class="related-posts-grid">${cardsHTML}</div>`;
     }
 
-    function updateProgressBar() {
-      if (!progressBar) return;
-      if (state.mode === 'simple') {
-        const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-        const scrollableHeight = scrollHeight - clientHeight;
-        progressBar.style.width = scrollableHeight > 0 ? `${(scrollTop / scrollableHeight) * 100}%` : '0%';
+    // --- SCROLL-AWAY BEHAVIOR FOR AUTHOR SIDEBAR ---
+    let lastScrollY = window.scrollY;
+    function handleAuthorSidebar() {
+      const sidebar = document.getElementById('author-sidebar');
+      const cover = document.querySelector('.feature-cover');
+      if (!sidebar || !cover) return;
+
+      const coverHeight = cover.offsetHeight;
+      const mainContent = document.getElementById('main-content-area');
+      const currentScrollY = window.scrollY;
+      const isVisible = mainContent.classList.contains('visible');
+
+      if (isVisible && currentScrollY > coverHeight) {
+        if (currentScrollY < lastScrollY) {
+          sidebar.classList.add('visible');
+        } else {
+          sidebar.classList.remove('visible');
+        }
       } else {
-        const progress = state.totalPages > 0 ? (state.currentPage / (state.totalPages + 1)) * 100 : 0;
-        progressBar.style.width = `${progress}%`;
+        sidebar.classList.remove('visible');
       }
+      lastScrollY = currentScrollY;
     }
 
     function createTOC() {
@@ -829,6 +903,133 @@
       headings.forEach(heading => observer.observe(heading));
     }
 
+    // --- MAIN INITIALIZATION ---
+    async function loadPost() {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        state.file = urlParams.get('file');
+        const forceMode = urlParams.get('mode');
+        if (!state.file) throw new Error('No post file specified in URL.');
+
+        const postsRes = await fetch('./Posts.json', { cache: 'no-store' });
+        if (!postsRes.ok) throw new Error('Could not load Posts.json');
+        state.allPosts = await postsRes.json();
+
+        state.postData = state.allPosts.find(p => p && p.file && p.file.trim() === state.file.trim());
+        if (!state.postData) throw new Error('Post data not found');
+
+        const postType = state.postData.type ? 'post-type-' + state.postData.type.toLowerCase().trim() : 'post-type-general';
+
+        const mdRes = await fetch(state.file, { cache: 'no-store' });
+        if (!mdRes.ok) throw new Error('Failed to load Markdown file');
+        const markdown = await mdRes.text();
+
+        document.title = state.postData.title + ' — Boluadeoye';
+        state.wordCount = getWordCount(markdown);
+
+        const hasManualPages = PAGE_SEPARATOR.test(markdown);
+
+        if (forceMode === 'scroll') { state.mode = 'simple'; }
+        else if (forceMode === 'paginated') { state.mode = 'paginated'; }
+        else { state.mode = hasManualPages || state.wordCount > WORD_COUNT_THRESHOLD ? 'paginated' : 'simple'; }
+
+        document.body.className = `mode-${state.mode} ${postType}`;
+
+        if (state.mode === 'paginated') {
+          state.pages = markdown.split(PAGE_SEPARATOR);
+        } else {
+          state.pages = [markdown];
+        }
+        state.totalPages = state.pages.length;
+
+        const startPage = parseInt(urlParams.get('page')) || 1;
+        state.currentPage = (startPage > state.totalPages + 1 || startPage < 1) ? 1 : startPage;
+
+        const coverUrl = state.postData.cover || '';
+        const dateStr = new Date(state.postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        const mainContentHTML = `
+            <nav class="toc-sidebar"></nav>
+            <div class="post-content-wrapper">
+              <article class="post-content" id="article-content"></article>
+              <nav class="page-navigation" id="page-navigation" style="display:${state.mode === 'paginated' ? 'flex' : 'none'};">
+                <button class="btn-chip prev-page">← Previous</button>
+                <span class="page-indicator"></span>
+                <button class="btn-chip next-page">Next →</button>
+              </nav>
+              <hr class="article-ender">
+              <nav class="post-nav" id="post-nav">
+                <a href="./" class="btn-chip">← Back to Home</a>
+                <button class="btn-chip share-btn" onclick="window.sharePost()">Share Post 📤</button>
+                <a href="./posts.html" class="btn-chip">All Posts →</a>
+              </nav>
+              <section id="related-posts-container"></section>
+              <div id="disqus_thread"></div>
+            </div>
+        `;
+
+        const modeToggleURL = state.mode === 'paginated'
+          ? `?file=${encodeURIComponent(state.file)}&mode=scroll`
+          : `?file=${encodeURIComponent(state.file)}&mode=paginated`;
+        const modeToggleText = state.mode === 'paginated' ? 'Switch to Scroll View' : 'Switch to Book View';
+
+        pageContainer.innerHTML = `
+            <section class="feature-cover" id="feature-cover">
+                ${coverUrl ? `<img src="${coverUrl}" alt="${state.postData.title}" class="feature-cover-bg">` : ''}
+                <div class="post-header wrap">
+                    <h1 class="post-title">${state.postData.title}</h1>
+                    <div class="post-meta">
+                        <span>📅 ${dateStr}</span>
+                        <span>📁 ${state.postData.type || 'General'}</span>
+                        <span>⏱️ ${state.postData.minutes} min read</span>
+                    </div>
+                    ${state.mode === 'paginated' ? '<button class="begin-reading-btn" id="begin-reading">Begin Reading</button>' : ''}
+                </div>
+            </section>
+            <div class="main-content-area wrap" id="main-content-area">
+                <a href="${modeToggleURL}" class="btn-chip mode-toggle">${modeToggleText}</a>
+                ${mainContentHTML}
+            </div>
+        `;
+
+        if (state.mode === 'paginated') {
+          document.getElementById('begin-reading').addEventListener('click', beginReading);
+          document.getElementById('related-posts-container').style.display = 'none';
+          document.getElementById('disqus_thread').style.display = 'none';
+        } else {
+          const mainContentEl = document.getElementById('main-content-area');
+          mainContentEl.classList.add('visible');
+          document.getElementById('article-content').innerHTML = marked.parse(state.pages[0] || '', { breaks: true });
+          displayRelatedPosts(state.postData);
+          loadDisqus(state.file);
+          createTOC();
+          setupTOCObserver();
+        }
+        createSEOTags();
+
+      } catch(err) {
+        console.error('Post load error:', err);
+        renderError(pageContainer, err.message);
+      }
+    }
+
+    function renderError(container, message) {
+      const errorHTML = `<div class="error-container"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
+      if (container) container.innerHTML = errorHTML;
+    }
+
+    function updateProgressBar() {
+      if (!progressBar) return;
+      if (state.mode === 'simple') {
+        const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+        const scrollableHeight = scrollHeight - clientHeight;
+        progressBar.style.width = scrollableHeight > 0 ? `${(scrollTop / scrollableHeight) * 100}%` : '0%';
+      } else {
+        const progress = state.totalPages > 0 ? (state.currentPage / (state.totalPages + 1)) * 100 : 0;
+        progressBar.style.width = `${progress}%`;
+      }
+    }
+
     function closeMenu() {
       sideMenu.classList.remove('active');
       menuOverlay.classList.remove('show');
@@ -841,7 +1042,7 @@
     }
     menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
     menuOverlay.addEventListener('click', closeMenu);
-    window.addEventListener('scroll', updateProgressBar);
+    window.addEventListener('scroll', () => { updateProgressBar(); handleAuthorSidebar(); });
 
     document.addEventListener('DOMContentLoaded', loadPost);
   })();
