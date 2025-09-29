@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<style>
+  <style>
   :root {
     --bg: #0f172a;
     --panel: #111a2e;
@@ -17,14 +17,13 @@
     --muted: #94a3b8;
     --orange: #f59e0b;
     --orange-light: #fbbf24;
-    --orange-dark: #d97706;
     --orange-ink: #0b0f19;
     --serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
     --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
     --body-serif: 'Merriweather', serif;
     --transition: cubic-bezier(0.4, 0, 0.2, 1);
     --red: #f44336;
-    --radius: 16px;
+    --radius: 12px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { background: var(--bg); scroll-behavior: smooth; }
@@ -39,9 +38,9 @@
   }
   a { color: var(--orange); text-decoration: none; transition: all 0.3s var(--transition); }
   a:hover { color: var(--orange-light); text-decoration: underline; text-underline-offset: 4px; }
-  .wrap { margin: 0 auto; max-width: 1100px; padding: 0 1.5rem; position: relative; z-index: 1; }
+  .wrap { margin: 0 auto; max-width: 1000px; padding: 0 1.5rem; position: relative; z-index: 1; }
 
-  /* Header */
+  /* Main Header */
   header {
     position: sticky;
     top: 0;
@@ -55,7 +54,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: 80px;
+    min-height: 70px;
     padding: 0 1rem;
   }
   .brand {
@@ -69,18 +68,17 @@
     transform: translateX(-50%);
   }
   .brand-logo {
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     object-fit: cover;
     transition: transform 0.4s var(--transition);
-    margin-bottom: -30px;
-    border: 2px solid rgba(245, 158, 11, 0.3);
+    margin-bottom: -25px;
   }
   .brand:hover .brand-logo { transform: scale(1.05); }
   .brand h1 {
     font-family: var(--serif);
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 800;
     line-height: 1;
     letter-spacing: -0.5px;
@@ -100,12 +98,12 @@
     background: rgba(245, 158, 11, 0.1);
   }
   .hamburger {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    border-radius: 8px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(245, 158, 11, 0.2);
     color: var(--ink);
@@ -113,13 +111,13 @@
     transition: all 0.3s ease;
   }
   .hamburger:hover { background: rgba(245, 158, 11, 0.15); }
-  .hamburger svg { width: 24px; height: 24px; }
+  .hamburger svg { width: 22px; height: 22px; }
   .side-menu {
     position: fixed;
     top: 0;
-    left: -280px;
+    left: -260px;
     z-index: 200;
-    width: 260px;
+    width: 240px;
     height: 100%;
     padding: 2rem 1.5rem;
     display: flex;
@@ -154,6 +152,62 @@
   .overlay.show { display: block; opacity: 1; }
   @media (min-width: 880px) { .top-nav { display: flex; } .hamburger { display: none; } }
 
+  /* Sticky Sub-Header (Author Sidebar) */
+  .author-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    background: rgba(17, 26, 46, 0.95);
+    backdrop-filter: blur(8px);
+    padding: 0.75rem 1.5rem;
+    text-align: center;
+    transform: translateY(-100%);
+    transition: transform 0.3s var(--transition);
+    border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  .author-sidebar.visible {
+    transform: translateY(0);
+  }
+  .author-sidebar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+  }
+  .author-sidebar .name {
+    font-family: var(--sans-serif);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--ink);
+    display: inline-block;
+    vertical-align: middle;
+  }
+  @media (min-width: 1024px) {
+    .author-sidebar {
+      position: sticky;
+      top: 90px;
+      left: auto;
+      right: auto;
+      width: 200px;
+      padding: 1.5rem;
+      background: var(--panel);
+      border-radius: var(--radius);
+      border: 1px solid rgba(245, 158, 11, 0.15);
+      transform: none;
+      display: none;
+    }
+    .author-sidebar.visible { display: block; }
+    .author-sidebar img {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 1rem;
+    }
+  }
+
   /* Progress Bar */
   #progress-bar {
     position: fixed;
@@ -167,7 +221,7 @@
     transition: width 0.3s var(--transition);
   }
 
-  /* Feature Cover (Elegant Header) */
+  /* Feature Cover */
   .feature-cover {
     position: relative;
     padding: 4rem 0 6rem;
@@ -195,14 +249,14 @@
   .post-header {
     position: relative;
     z-index: 3;
-    max-width: 800px;
+    max-width: 700px;
     margin: 0 auto;
     color: var(--ink);
     animation: fadeInUp 0.8s var(--transition);
   }
   .post-title {
     font-family: var(--serif);
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-size: clamp(2.25rem, 4.5vw, 3.25rem);
     font-weight: 800;
     line-height: 1.2;
     margin-bottom: 1.5rem;
@@ -221,7 +275,6 @@
     padding: 0.75rem 1.5rem;
     border-radius: 999px;
     border: 1px solid rgba(245, 158, 11, 0.2);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   }
   .post-meta span {
     display: flex;
@@ -235,7 +288,7 @@
     color: var(--orange-ink);
     font-family: var(--sans-serif);
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.95rem;
     border-radius: 999px;
     border: none;
     cursor: pointer;
@@ -244,8 +297,8 @@
     letter-spacing: 0.5px;
   }
   .begin-reading-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(245, 158, 11, 0.3);
   }
   @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -254,18 +307,18 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
-    padding: 3rem 0;
-    max-width: 800px;
+    padding: 2.5rem 0;
+    max-width: 700px;
     margin: 0 auto;
   }
   .mode-paginated .main-content-area { display: none; }
   .main-content-area.visible { display: grid; }
   @media (min-width: 1024px) {
-    .main-content-area { grid-template-columns: 220px 1fr; }
+    .main-content-area { grid-template-columns: 200px 1fr; }
   }
   .toc-sidebar {
     position: sticky;
-    top: 100px;
+    top: 90px;
     align-self: start;
     padding: 1.5rem;
     background: var(--panel);
@@ -277,7 +330,7 @@
   }
   .toc-sidebar h3 {
     font-size: 1.1rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--ink);
     margin-bottom: 1rem;
   }
@@ -288,38 +341,8 @@
     color: var(--muted);
   }
   .toc-sidebar a:hover, .toc-sidebar li.active a { color: var(--orange); }
-  .author-sidebar {
-    display: none;
-    position: sticky;
-    top: 100px;
-    align-self: start;
-    text-align: center;
-    padding: 1.5rem;
-    background: var(--panel);
-    border-radius: var(--radius);
-    border: 1px solid rgba(245, 158, 11, 0.15);
-  }
-  .author-sidebar.visible { display: block; }
-  .author-sidebar img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin: 0 auto 1rem;
-    border: 2px solid rgba(245, 158, 11, 0.3);
-  }
-  .author-sidebar .name {
-    font-family: var(--sans-serif);
-    font-weight: 700;
-    font-size: 1rem;
-    color: var(--ink);
-  }
-  .author-sidebar .title {
-    font-size: 0.85rem;
-    color: var(--muted);
-    font-style: italic;
-  }
 
-  /* Post Content (Typographic Hierarchy) */
+  /* Post Content */
   .post-content-wrapper {
     max-width: 700px;
     margin: 0 auto;
@@ -331,32 +354,32 @@
     line-height: 1.85;
     color: var(--ink);
     background: var(--panel);
-    padding: 2.5rem;
+    padding: 2rem;
     border-radius: var(--radius);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   }
   .post-content h1 {
     font-family: var(--serif);
-    font-size: 2.5rem;
+    font-size: 2.25rem;
     font-weight: 800;
     line-height: 1.2;
     color: var(--ink);
-    margin: 2.5rem 0 1.5rem;
+    margin: 2rem 0 1.25rem;
     text-align: center;
   }
   .post-content h2 {
     font-family: var(--serif);
-    font-size: 1.8rem;
+    font-size: 1.75rem;
     font-weight: 700;
     line-height: 1.3;
     color: var(--ink);
-    margin: 2rem 0 1rem;
-    border-left: 4px solid var(--orange);
-    padding-left: 1rem;
+    margin: 1.75rem 0 1rem;
+    padding-left: 0.75rem;
+    border-left: 3px solid var(--orange);
   }
   .post-content h3 {
     font-family: var(--sans-serif);
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     font-weight: 600;
     line-height: 1.4;
     color: var(--ink);
@@ -378,11 +401,11 @@
     font-size: 1.2rem;
     color: var(--muted);
     margin: 2rem 1rem;
-    padding: 1.5rem;
+    padding: 1.25rem 1.5rem;
     background: rgba(245, 158, 11, 0.05);
-    border-left: 4px solid var(--orange);
+    border-left: 3px solid var(--orange);
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
   .post-content ul, .post-content ol {
     margin: 1.5rem 0;
@@ -408,12 +431,12 @@
   }
   .post-content pre {
     background: var(--panel-hover);
-    padding: 1.5rem;
+    padding: 1.25rem;
     border-radius: 8px;
     overflow-x: auto;
     margin: 1.5rem 0;
-    border: 1px solid rgba(245, 158, 11, 0.2);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
   .post-content pre code {
     background: none;
@@ -424,9 +447,9 @@
     height: auto;
     display: block;
     margin: 2rem auto;
-    border-radius: 12px;
-    border: 1px solid rgba(245, 158, 11, 0.2);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    border: 1px solid rgba(245, 158, 11, 0.15);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
   }
   .post-type-essay .post-content {
     background: var(--panel);
@@ -444,27 +467,27 @@
     font-family: var(--sans-serif);
   }
   .page-indicator {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     color: var(--muted);
   }
   .epilogue-page {
     text-align: center;
-    padding: 3rem 2rem;
+    padding: 2.5rem 2rem;
     background: var(--panel);
     border-radius: var(--radius);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
   }
   .epilogue-page h2 {
     font-family: var(--serif);
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    margin-bottom: 1.25rem;
   }
   .article-ender {
     border: none;
     height: 1px;
     background: linear-gradient(to right, transparent, var(--orange), transparent);
-    margin: 3rem auto;
+    margin: 2.5rem auto;
     max-width: 700px;
   }
   .post-nav {
@@ -484,8 +507,8 @@
     border: 2px solid var(--orange);
     border-radius: 999px;
     font-family: var(--sans-serif);
-    font-weight: 700;
-    font-size: 0.95rem;
+    font-weight: 600;
+    font-size: 0.9rem;
     transition: all 0.3s var(--transition);
     cursor: pointer;
   }
@@ -493,7 +516,7 @@
     background: var(--orange);
     color: var(--orange-ink);
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
   }
   .btn-chip:disabled {
     opacity: 0.5;
@@ -508,7 +531,7 @@
 
   /* Loading and Error States */
   .loading-container, .error-container {
-    min-height: 300px;
+    min-height: 250px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -520,8 +543,8 @@
     padding: 2rem;
   }
   .loading-spinner {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border: 3px solid rgba(245, 158, 11, 0.3);
     border-top-color: var(--orange);
     border-radius: 50%;
@@ -531,7 +554,7 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   .error-container h2 {
     font-family: var(--serif);
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     color: var(--red);
     margin-bottom: 1rem;
   }
@@ -539,22 +562,22 @@
   /* Related Posts */
   #disqus_thread, #related-posts-container {
     max-width: 700px;
-    margin: 3rem auto;
-    padding-top: 2rem;
+    margin: 2.5rem auto;
+    padding-top: 1.5rem;
     border-top: 1px solid rgba(245, 158, 11, 0.2);
   }
   .related-posts-title {
     font-family: var(--serif);
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 800;
     color: var(--ink);
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
   .related-posts-grid {
     display: grid;
     gap: 1.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   }
   .related-post-card {
     background: var(--panel);
@@ -562,15 +585,15 @@
     border: 1px solid rgba(245, 158, 11, 0.15);
     overflow: hidden;
     transition: all 0.3s var(--transition);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
   .related-post-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
     border-color: var(--orange);
   }
   .related-post-card .cover {
-    height: 160px;
+    height: 150px;
     overflow: hidden;
     background: var(--panel-hover);
   }
@@ -582,25 +605,39 @@
   }
   .related-post-card:hover .cover img { transform: scale(1.05); }
   .related-post-card .content {
-    padding: 1.25rem;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
   .related-post-card h4 {
     font-family: var(--sans-serif);
-    font-size: 1.1rem;
-    font-weight: 700;
+    font-size: 1.05rem;
+    font-weight: 600;
     color: var(--ink);
     line-height: 1.4;
   }
   .related-post-card p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--muted);
     line-height: 1.6;
   }
   .related-post-card.no-content { display: none; }
-</style>
+
+  /* Footer */
+  footer {
+    background: var(--panel);
+    padding: 1.5rem 0;
+    margin-top: 3rem;
+    border-top: 1px solid rgba(245, 158, 11, 0.2);
+  }
+  footer p {
+    font-family: var(--sans-serif);
+    font-size: 0.9rem;
+    color: var(--muted);
+    text-align: center;
+  }
+  </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJVVQDCS32"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -626,7 +663,7 @@
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" width="16" height="2" rx="1"/></svg>
       </button>
       <a class="brand" href="./">
-        <img src="images/Logo.png" alt="Boluadeoye Logo" width="90" height="90" class="brand-logo">
+        <img src="images/Logo.png" alt="Boluadeoye Logo" width="80" height="80" class="brand-logo">
         <h1>Boluadeoye</h1>
       </a>
       <nav class="top-nav" aria-label="Primary Navigation">
@@ -637,6 +674,11 @@
       </nav>
     </div>
   </header>
+
+  <aside id="author-sidebar" class="author-sidebar">
+    <img src="images/Logo.png" alt="Adeoye Boluwatife">
+    <span class="name">Adeoye Boluwatife</span>
+  </aside>
 
   <main id="post-page-container">
     <div class="loading-container">
@@ -664,6 +706,7 @@
     const menuOverlay = document.getElementById('menuOverlay');
     const progressBar = document.getElementById('progress-bar');
     const pageContainer = document.getElementById('post-page-container');
+    const authorSidebar = document.getElementById('author-sidebar');
     const WORD_COUNT_THRESHOLD = 1500;
     const PAGE_SEPARATOR = /\n---\s*page\s*---\n/;
 
@@ -700,7 +743,7 @@
           const prevTag = document.createElement('link');
           prevTag.rel = 'prev';
           prevTag.href = `${canonicalUrl}&page=${state.currentPage - 1}`;
-          head.appendChild(prevTag);
+          head.appendChild(nextTag);
         }
       }
     }
@@ -801,25 +844,84 @@
       container.innerHTML = `<h3 class="related-posts-title">You Might Also Like</h3><div class="related-posts-grid">${cardsHTML}</div>`;
     }
 
+    // --- SCROLL-AWAY BEHAVIOR FOR AUTHOR SIDEBAR ---
+    let lastScrollY = window.scrollY;
+    function handleAuthorSidebar() {
+      const sidebar = document.getElementById('author-sidebar');
+      const cover = document.querySelector('.feature-cover');
+      if (!sidebar || !cover) return;
+
+      const coverHeight = cover.offsetHeight;
+      const mainContent = document.getElementById('main-content-area');
+      const currentScrollY = window.scrollY;
+      const isVisible = mainContent.classList.contains('visible');
+
+      if (isVisible && currentScrollY > coverHeight) {
+        if (currentScrollY < lastScrollY) {
+          sidebar.classList.add('visible');
+        } else {
+          sidebar.classList.remove('visible');
+        }
+      } else {
+        sidebar.classList.remove('visible');
+      }
+      lastScrollY = currentScrollY;
+    }
+
+    function createTOC() {
+      const headings = document.querySelectorAll('.post-content h2, .post-content h3');
+      const tocContainer = document.querySelector('.toc-sidebar');
+      if (headings.length < 2 || !tocContainer) return;
+
+      tocContainer.innerHTML = '<h3>Contents</h3><ul></ul>';
+      const tocList = tocContainer.querySelector('ul');
+
+      headings.forEach(heading => {
+        const id = heading.textContent.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+        heading.id = id;
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="#${id}">${heading.textContent}</a>`;
+        tocList.appendChild(li);
+      });
+    }
+
+    function setupTOCObserver() {
+      const headings = document.querySelectorAll('.post-content h2, .post-content h3');
+      const tocLinks = document.querySelectorAll('.toc-sidebar a');
+      if (headings.length < 2 || tocLinks.length < 2) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const id = entry.target.getAttribute('id');
+          const tocLink = document.querySelector(`.toc-sidebar a[href="#${id}"]`);
+          if (entry.isIntersecting && tocLink) {
+            tocLinks.forEach(link => link.parentElement.classList.remove('active'));
+            tocLink.parentElement.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-20% 0px -70% 0px' });
+      headings.forEach(heading => observer.observe(heading));
+    }
+
     // --- MAIN INITIALIZATION ---
     async function loadPost() {
       try {
         const urlParams = new URLSearchParams(window.location.search);
         state.file = urlParams.get('file');
         const forceMode = urlParams.get('mode');
-        if(!state.file) throw new Error('No post file specified in URL.');
+        if (!state.file) throw new Error('No post file specified in URL.');
 
         const postsRes = await fetch('./Posts.json', { cache: 'no-store' });
-        if(!postsRes.ok) throw new Error('Could not load Posts.json');
+        if (!postsRes.ok) throw new Error('Could not load Posts.json');
         state.allPosts = await postsRes.json();
 
         state.postData = state.allPosts.find(p => p && p.file && p.file.trim() === state.file.trim());
-        if(!state.postData) throw new Error('Post data not found');
+        if (!state.postData) throw new Error('Post data not found');
 
         const postType = state.postData.type ? 'post-type-' + state.postData.type.toLowerCase().trim() : 'post-type-general';
 
         const mdRes = await fetch(state.file, { cache: 'no-store' });
-        if(!mdRes.ok) throw new Error('Failed to load Markdown file');
+        if (!mdRes.ok) throw new Error('Failed to load Markdown file');
         const markdown = await mdRes.text();
 
         document.title = state.postData.title + ' — Boluadeoye';
@@ -848,10 +950,6 @@
 
         const mainContentHTML = `
             <nav class="toc-sidebar"></nav>
-            <aside id="author-sidebar" class="author-sidebar">
-              <img src="images/Logo.png" alt="Adeoye Boluwatife">
-              <div class="name">Adeoye Boluwatife</div>
-            </aside>
             <div class="post-content-wrapper">
               <article class="post-content" id="article-content"></article>
               <nav class="page-navigation" id="page-navigation" style="display:${state.mode === 'paginated' ? 'flex' : 'none'};">
@@ -915,7 +1013,7 @@
       }
     }
 
-    function renderError(container, message){
+    function renderError(container, message) {
       const errorHTML = `<div class="error-container"><h2>Unable to Load Post</h2><p>${message}</p><div class="post-nav" style="justify-content:center;"><a href="./" class="btn-chip">← Return to Homepage</a></div></div>`;
       if (container) container.innerHTML = errorHTML;
     }
@@ -930,58 +1028,6 @@
         const progress = state.totalPages > 0 ? (state.currentPage / (state.totalPages + 1)) * 100 : 0;
         progressBar.style.width = `${progress}%`;
       }
-    }
-
-    function handleAuthorSidebar() {
-      const sidebar = document.getElementById('author-sidebar');
-      const cover = document.querySelector('.feature-cover');
-      if (!sidebar || !cover) return;
-
-      const coverHeight = cover.offsetHeight;
-      const mainContent = document.getElementById('main-content-area');
-
-      let isVisible = mainContent.classList.contains('visible');
-
-      if (isVisible && window.scrollY > coverHeight) {
-        sidebar.classList.add('visible');
-      } else {
-        sidebar.classList.remove('visible');
-      }
-    }
-
-    function createTOC() {
-      const headings = document.querySelectorAll('.post-content h2, .post-content h3');
-      const tocContainer = document.querySelector('.toc-sidebar');
-      if (headings.length < 2 || !tocContainer) return;
-
-      tocContainer.innerHTML = '<h3>Contents</h3><ul></ul>';
-      const tocList = tocContainer.querySelector('ul');
-
-      headings.forEach(heading => {
-        const id = heading.textContent.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
-        heading.id = id;
-        const li = document.createElement('li');
-        li.innerHTML = `<a href="#${id}">${heading.textContent}</a>`;
-        tocList.appendChild(li);
-      });
-    }
-
-    function setupTOCObserver() {
-      const headings = document.querySelectorAll('.post-content h2, .post-content h3');
-      const tocLinks = document.querySelectorAll('.toc-sidebar a');
-      if(headings.length < 2 || tocLinks.length < 2) return;
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          const id = entry.target.getAttribute('id');
-          const tocLink = document.querySelector(`.toc-sidebar a[href="#${id}"]`);
-          if (entry.isIntersecting && tocLink) {
-            tocLinks.forEach(link => link.parentElement.classList.remove('active'));
-            tocLink.parentElement.classList.add('active');
-          }
-        });
-      }, { rootMargin: '-20% 0px -70% 0px' });
-      headings.forEach(heading => observer.observe(heading));
     }
 
     function closeMenu() {
