@@ -12,7 +12,7 @@
       --bg: #0f172a; --panel: #111a2e; --panel-hover: #1a2341;
       --ink: #e5eefc; --muted: #94a3b8;
       --orange: #f59e0b; --orange-light: #fbbf24; --orange-dark: #d97706; --orange-ink: #0b0f19;
-      --ring: rgba(245, 158, 11, .25); --radius: 16px;
+      --ring: rgba(245, 158, 11, .25); --radius: 12px;
       --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
       --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
       --transition: cubic-bezier(0.4, 0, 0.2, 1);
@@ -120,11 +120,11 @@
       margin: 0 auto;
     }
 
-    /* Compact Card Layout */
+    /* Bookshelf Grid Layout */
     .library-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
       min-height: 300px;
     }
     .book-card {
@@ -135,26 +135,30 @@
       display: flex;
       flex-direction: column;
       transition: all 0.3s var(--transition);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-      height: 360px; /* Fixed height for consistency */
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      height: 320px; /* Fixed height for consistency */
     }
     .book-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
       border-color: var(--orange);
     }
     .book-cover {
-      height: 55%; /* Book cover takes ~55% of card height */
-      background: #0c1425;
+      height: 60%; /* Cover takes ~60% of card height */
+      background: #0c1425; /* Subtle background for whitespace */
+      aspect-ratio: 2 / 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
     }
     .book-cover img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain; /* Ensures full cover visibility */
     }
     .book-info {
-      padding: 0.75rem;
+      padding: 0.6rem;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
@@ -162,19 +166,25 @@
     }
     .book-info h4 {
       font-family: var(--serif);
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: var(--ink);
       line-height: 1.3;
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.15rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .book-author {
       color: var(--muted);
       font-weight: 600;
-      font-size: 0.85rem;
-      margin-bottom: 0.4rem;
+      font-size: 0.8rem;
+      margin-bottom: 0.3rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .book-desc {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--muted);
       line-height: 1.4;
       overflow: hidden;
@@ -182,17 +192,17 @@
       display: -webkit-box;
       -webkit-line-clamp: 2; /* Limit to 2 lines */
       -webkit-box-orient: vertical;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
     .book-link {
       display: block;
       text-align: center;
-      padding: 0.5rem;
+      padding: 0.4rem;
       background: linear-gradient(135deg, var(--orange), var(--orange-light));
       color: var(--orange-ink);
       border-radius: 999px;
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       margin-top: auto; /* Anchors button to bottom */
     }
     .book-link:hover {
