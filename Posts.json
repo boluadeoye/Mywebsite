@@ -284,7 +284,8 @@
     "minutes": 3,
     "cover": "",
     "views": 0,
-    "featured": false
+    "featured": false,
+    "labExperiment": "active-openings"
   },
   {
     "file": "posts/faith-in-storm.md",
