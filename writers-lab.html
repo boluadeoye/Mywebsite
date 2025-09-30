@@ -6,184 +6,160 @@
   <title>The Writer's Lab — Boluadeoye</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;800&family=Tangerine:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700&family=Playfair+Display:wght@700;800&family=Tangerine:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoVBL5gI9kDXOkubtZkrhfD9jAViYg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <style>
   :root {
-    --bg-start: #111827;
-    --bg-end: #1e1b4b;
-    --panel: #1f2937;
-    --panel-hover: #374151;
-    --text-main: #f9fafb;
-    --text-muted: #9ca3af;
-    --accent-cyan: #22d3ee;
-    --accent-magenta: #d946ef;
-    --accent-text: #0f172a;
-    --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
-    --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
-    --body-serif: 'Merriweather', serif;
+    --bg: #1a1a1a;
+    --panel: #262626;
+    --text-main: #f3f2ef;
+    --text-muted: #888888;
+    --accent-gold: #c09f58;
+    --accent-gold-dark: #a17f38;
+    --serif-headings: 'Playfair Display', Georgia, "Times New Roman", serif;
+    --serif-body: 'Merriweather', serif;
+    --sans-serif-ui: 'Inter', system-ui, -apple-system, sans-serif;
     --signature-font: 'Tangerine', cursive;
     --transition: cubic-bezier(0.4, 0, 0.2, 1);
-    --red: #f43f5e;
-    --green: #4ade80;
-    --radius: 16px;
+    --radius: 8px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { background: var(--bg-start); scroll-behavior: smooth; }
+  html { background: var(--bg); }
   body {
-    background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+    background: var(--bg);
     color: var(--text-main);
-    font: 18px/1.8 var(--body-serif);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    font-family: var(--serif-body);
+    font-size: 18px; line-height: 1.8;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    display: flex; flex-direction: column; min-height: 100vh;
   }
-  body::before {
-    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    background:
-      radial-gradient(circle at 10% 20%, rgba(34, 211, 238, 0.1) 0%, transparent 30%),
-      radial-gradient(circle at 90% 80%, rgba(217, 70, 239, 0.08) 0%, transparent 35%);
-  }
-  a { color: var(--accent-cyan); text-decoration: none; transition: all 0.3s var(--transition); }
-  a:hover { color: white; }
-  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
-  main { flex-grow: 1; perspective: 1000px; }
+  .wrap { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
+  main { flex-grow: 1; padding: 4rem 0; }
 
   /* Header */
   header {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(17, 24, 39, .8);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(34, 211, 238, .2);
+    width: 100%; text-align: center; padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(192, 159, 88, 0.2);
   }
-  .header-row { display: flex; align-items: center; justify-content: space-between; min-height: 70px; padding: 0 1rem; }
   .header-title {
-    font-family: var(--serif); font-size: 1.5rem; font-weight: 800; color: var(--text-main);
-    position: absolute; left: 50%; transform: translateX(-50%);
-    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    font-family: var(--serif-headings); font-size: 1.75rem; font-weight: 800;
+    color: var(--accent-gold); letter-spacing: 1px;
   }
-  .hamburger { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 8px; background: rgba(255, 255, 255, .05); border: 1px solid rgba(34, 211, 238, .2); color: var(--text-main); cursor: pointer; transition: all 0.3s ease; }
-  .hamburger:hover { background: rgba(34, 211, 238, .1); }
-  .side-menu { position: fixed; top: 0; left: -280px; z-index: 200; width: 260px; height: 100%; padding: 2.5rem 1.2rem 2rem; display: flex; flex-direction: column; gap: 0.6rem; background: var(--panel); border-right: 1px solid rgba(34, 211, 238, .2); transition: left 0.3s var(--transition); }
-  .side-menu.active { left: 0; }
-  .side-menu a { padding: 1rem 1.25rem; border-radius: 8px; color: var(--text-main); font-weight: 600; font-size: 0.95rem; border: 1px solid transparent; }
-  .side-menu a:hover, .side-menu a.active { background: rgba(34, 211, 238, .1); border-color: var(--accent-cyan); color: var(--accent-cyan); transform: translateX(5px); }
-  .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .6); z-index: 150; display: none; opacity: 0; transition: opacity 0.3s ease; }
-  .overlay.show { display: block; opacity: 1; }
 
-  /* Main View Transitions */
-  .view { transition: opacity 0.5s var(--transition), transform 0.5s var(--transition); }
-  .view.hidden { opacity: 0; transform: scale(0.98); pointer-events: none; position: absolute; top: 0; left: 0; width: 100%; }
+  /* View Transitions */
+  .view { transition: opacity 0.6s var(--transition), transform 0.6s var(--transition); }
+  .view.hidden { opacity: 0; transform: translateY(20px); pointer-events: none; display: none !important; }
 
-  /* Lab Main Page Styles */
-  .lab-header { text-align: center; padding: 5rem 0 4rem; }
-  .lab-header h1 {
-    font-family: var(--serif); font-size: clamp(2.8rem, 6vw, 4rem); color: var(--text-main); margin-bottom: 1rem; text-shadow: 0 3px 15px rgba(0, 0, 0, .3);
-    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta), var(--accent-cyan));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    background-size: 200% auto; animation: textShine 5s linear infinite;
-  }
-  @keyframes textShine { to { background-position: 200% center; } }
-  .lab-header p { font-family: var(--sans-serif); font-size: 1.15rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
-  
-  .workbench {
-    background: var(--panel); max-width: 700px; margin: 0 auto 4rem; padding: 2.5rem;
-    border-radius: var(--radius); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(34, 211, 238, .2); text-align: center;
-  }
-  .workbench-header h2 { font-family: var(--serif); font-size: 2rem; color: var(--text-main); margin-bottom: 0.5rem; }
-  .workbench-header p { font-family: var(--body-serif); font-size: 1.1rem; color: var(--text-muted); max-width: 500px; margin: 1rem auto; }
+  /* Workbench */
+  .workbench-header { text-align: center; margin-bottom: 2.5rem; }
+  .workbench-header h1 { font-family: var(--serif-headings); font-size: 3rem; margin-bottom: 1rem; }
+  .workbench-header p { color: var(--text-muted); font-family: var(--serif-body); max-width: 45ch; margin: 0 auto; }
   
   .workbench textarea {
-    width: 100%; min-height: 120px; padding: 1rem; border: 2px solid var(--accent-cyan); background: var(--panel-hover);
-    color: var(--text-main); font-family: var(--sans-serif); font-size: 1.1rem; border-radius: 8px; resize: vertical; margin-top: 1rem;
-    transition: box-shadow 0.3s ease;
+    width: 100%; min-height: 150px; padding: 1rem;
+    background: var(--panel); border: 2px solid #444; border-radius: var(--radius);
+    color: var(--text-main); font-family: var(--serif-body); font-size: 1.2rem;
+    resize: vertical; transition: all 0.3s ease;
   }
-  .workbench textarea:focus { outline: none; box-shadow: 0 0 15px rgba(34, 211, 238, .3); }
+  .workbench textarea:focus {
+    outline: none; border-color: var(--accent-gold);
+    box-shadow: 0 0 20px rgba(192, 159, 88, 0.2);
+  }
+  .workbench-footer { text-align: center; margin-top: 2rem; }
+  .analyze-btn {
+    font-family: var(--sans-serif-ui); font-size: 1rem; font-weight: 600;
+    background: var(--accent-gold); color: var(--bg);
+    padding: 1rem 2.5rem; border: none; border-radius: 999px;
+    cursor: pointer; transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+  .analyze-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(192, 159, 88, 0.3); }
+  .analyze-btn:disabled { background: #444; color: #777; cursor: not-allowed; }
 
-  /* Certificate of Craft */
-  .certificate-of-craft { padding: 0; border: none; background: transparent; }
+  /* Analysis View */
+  .analysis-view { text-align: center; }
+  .analysis-view h2 { font-family: var(--serif-headings); font-size: 2rem; margin-bottom: 2rem; }
+  .analysis-grid {
+    display: grid; gap: 1rem; max-width: 400px; margin: 0 auto 2.5rem;
+    font-family: var(--sans-serif-ui); font-size: 1rem;
+  }
+  .analysis-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px dashed #444; opacity: 0; transform: translateX(-20px); animation: slideIn 0.5s forwards; }
+  @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
+  .analysis-item .label { color: var(--text-muted); }
+  .analysis-item .value { font-weight: 600; }
+  .analysis-item .value svg { vertical-align: middle; }
+  .final-score-container { margin-top: 2rem; opacity: 0; animation: fadeIn 0.5s 1.8s forwards; }
+  @keyframes fadeIn { to { opacity: 1; } }
+  .final-score {
+    display: inline-block; background: var(--panel); padding: 1rem 2rem;
+    border-radius: var(--radius); border: 1px solid var(--accent-gold);
+  }
+  .final-score .label { font-family: var(--sans-serif-ui); color: var(--text-muted); font-size: 0.9rem; }
+  .final-score .score-value { font-family: var(--serif-headings); font-size: 3rem; color: var(--accent-gold); }
+
+  /* Certificate View */
+  .certificate-view { text-align: center; }
   .certificate-card {
-    background: linear-gradient(165deg, #1f2937, #111827);
-    border: 1px solid var(--accent-cyan); border-radius: var(--radius);
+    background: #f3f2ef; color: #1a1a1a;
+    border: 2px solid var(--accent-gold); border-radius: var(--radius);
     padding: 2.5rem; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-    position: relative; overflow: hidden;
+    margin-bottom: 2rem;
   }
-  .certificate-card::before {
-    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-    background: conic-gradient(transparent, rgba(34, 211, 238, 0.2), transparent 30%);
-    animation: rotate 6s linear infinite;
-  }
-  @keyframes rotate { 100% { transform: rotate(360deg); } }
-  .certificate-content { position: relative; z-index: 1; }
-  .certificate-header { border-bottom: 1px solid rgba(34, 211, 238, .2); padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
-  .certificate-header p { color: var(--accent-cyan); font-family: var(--sans-serif); font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
-  .certificate-header h2 { font-family: var(--serif); font-size: 2rem; color: var(--text-main); margin-bottom: 0.5rem; }
-  .certificate-hook { font-family: var(--serif); font-size: 1.8rem; margin: 2rem 0; color: white; line-height: 1.5; }
-  .certificate-footer { border-top: 1px solid rgba(34, 211, 238, .2); padding-top: 1.5rem; margin-top: 1.5rem; }
-  .certificate-footer p { margin: 0; font-size: 0.9rem; color: var(--text-muted); }
-  .certificate-signature { font-family: var(--signature-font); font-size: 3rem; color: var(--accent-magenta); margin-top: -1rem; }
-  
-  .btn-chip {
-    padding: 0.75rem 1.5rem; background: transparent; color: var(--accent-cyan); border: 2px solid var(--accent-cyan);
-    border-radius: 999px; font-family: var(--sans-serif); font-weight: 600; font-size: 0.9rem;
-    transition: all 0.3s var(--transition); cursor: pointer; margin-top: 1rem;
-  }
-  .btn-chip:hover {
-    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta)); color: var(--accent-text);
-    border-color: transparent; transform: translateY(-2px); box-shadow: 0 4px 20px rgba(34, 211, 238, .3);
-  }
-  .btn-chip:disabled { opacity: 0.5; cursor: not-allowed; }
+  .certificate-header h2 { font-family: var(--sans-serif-ui); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; color: #888; }
+  .certificate-header h3 { font-family: var(--serif-headings); font-size: 2.2rem; margin: 0.5rem 0 2rem; color: #1a1a1a; }
+  .certificate-hook { font-family: var(--serif-body); font-style: italic; font-size: 1.5rem; margin: 2rem 0; color: #1a1a1a; }
+  .certificate-score { display: inline-block; background: rgba(192, 159, 88, 0.1); padding: 0.5rem 1rem; border-radius: 4px; color: var(--accent-gold-dark); font-family: var(--sans-serif-ui); font-weight: 600; }
+  .certificate-footer { border-top: 1px solid #ddd; padding-top: 1.5rem; margin-top: 2rem; }
+  .certificate-footer p { margin: 0; font-size: 0.9rem; color: #888; font-family: var(--sans-serif-ui); }
+  .certificate-signature { font-family: var(--signature-font); font-size: 3.5rem; color: var(--accent-gold-dark); margin-top: -0.5rem; }
+
   .button-group { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
-  @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
   /* Footer */
-  footer { background: var(--panel); border-top: 1px solid rgba(34, 211, 238, .2); color: var(--text-muted); text-align: center; font-size: 0.88rem; padding: 2rem 0; margin-top: 3rem; }
+  footer { background: #111; border-top: 1px solid rgba(192, 159, 88, 0.2); color: var(--text-muted); text-align: center; font-size: 0.88rem; padding: 2rem 0; margin-top: 3rem; }
   footer p { margin: 0; }
   </style>
 </head>
 <body>
-  <nav id="sideMenu" class="side-menu">
-    <a href="./">Home</a>
-    <a href="./posts.html">All Posts</a>
-    <a href="./library.html">Library</a>
-    <a href="./about.html">About</a>
-    <a href="./writers-lab.html" class="active">The Writer's Lab</a>
-  </nav>
-  <div id="menuOverlay" class="overlay"></div>
-
-  <header id="header">
-    <div class="wrap header-row">
-      <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" width="16" height="2" rx="1"/></svg>
-      </button>
-      <a href="./writers-lab.html" class="header-title">The Writer's Lab</a>
-    </div>
+  <header>
+    <a class="header-title" href="./writers-lab.html">The Writer's Lab</a>
   </header>
 
-  <main>
-    <div id="entry-container" class="wrap view">
-      <section class="lab-header">
-        <h1>The Writer's Lab</h1>
-        <p>A space for experimentation and discovery. Write a compelling sentence, a powerful hook, or a line of poetry, and we will forge it into a beautiful certificate of your craft.</p>
-      </section>
+  <main class="wrap">
+    <div id="workbench-view" class="view">
+      <div class="workbench-header">
+        <h1>Forge Your Words</h1>
+        <p>Master your craft. Enter a single, compelling sentence below to begin the analysis.</p>
+      </div>
       <div class="workbench">
-        <div class="workbench-header">
-            <h2>Your Workbench</h2>
-        </div>
         <textarea id="workbench-input" rows="4" placeholder="e.g., An old clock ticked on the mantle..."></textarea>
-        <div class="button-group">
-            <button class="btn-chip" id="generate-btn" disabled>Generate My Certificate</button>
+        <div class="workbench-footer">
+          <button id="analyze-btn" class="analyze-btn" disabled>Analyze Craft</button>
         </div>
       </div>
     </div>
 
-    <div id="certificate-container" class="wrap view hidden">
-      <!-- Certificate will be rendered here -->
+    <div id="analysis-view" class="view hidden">
+      <div class="analysis-view">
+        <h2>Analyzing...</h2>
+        <div id="analysis-grid" class="analysis-grid"></div>
+        <div id="final-score-container" class="final-score-container">
+          <div class="final-score">
+            <div class="label">Craft Score</div>
+            <div id="score-value" class="score-value">0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="certificate-view" class="view hidden">
+      <div id="certificate-card" class="certificate-card">
+        <!-- Certificate content is rendered here by JS -->
+      </div>
+      <div class="button-group">
+        <button id="download-btn" class="analyze-btn">Download as PNG</button>
+        <button id="start-over-btn" class="analyze-btn" style="background:transparent; border: 2px solid var(--accent-gold); color: var(--accent-gold);">Create Another</button>
+      </div>
     </div>
   </main>
 
@@ -194,89 +170,165 @@
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     // --- DOM ELEMENTS ---
-    const entryContainer = document.getElementById('entry-container');
-    const certificateContainer = document.getElementById('certificate-container');
+    const workbenchView = document.getElementById('workbench-view');
+    const analysisView = document.getElementById('analysis-view');
+    const certificateView = document.getElementById('certificate-view');
     const workbenchInput = document.getElementById('workbench-input');
-    const generateBtn = document.getElementById('generate-btn');
+    const analyzeBtn = document.getElementById('analyze-btn');
+    const analysisGrid = document.getElementById('analysis-grid');
+    const scoreValue = document.getElementById('score-value');
+    const certificateCard = document.getElementById('certificate-card');
     
-    // --- RENDER FUNCTION ---
-    function renderCertificate(hook) {
-        certificateContainer.innerHTML = `
-        <div class="certificate-of-craft">
-            <div class="certificate-card" style="animation: popIn 0.6s var(--transition);">
-                <div class="certificate-content">
-                    <div class="certificate-header">
-                        <p>Certificate of Craft</p>
-                        <h2>A Moment of Inspiration</h2>
-                    </div>
-                    <p class="certificate-hook">“${hook}”</p>
-                    <div class="certificate-footer">
-                        <p>Issued from The Writer's Lab by</p>
-                        <p class="certificate-signature">Boluadeoye</p>
-                    </div>
-                </div>
-            </div>
-            <div class="button-group">
-                <button class="btn-chip" id="share-btn">Share Result</button>
-                <button class="btn-chip" id="start-over-btn">Create Another</button>
-            </div>
-        </div>`;
-        attachCertificateListeners(hook);
+    // --- ANALYSIS ENGINE ---
+    const weakVerbs = ['is','are','was','were','be','been','being','has','have','had','do','does','did','get','got','go','went','make','made'];
+    const strongVerbRegex = /\b(soared|whispered|strode|marched|forged|ignited|shattered|blossomed|danced|sang|raced|leapt|cried)\b/i;
+
+    function analyzeCraft(text) {
+      const words = text.trim().split(/\s+/).filter(Boolean);
+      const wordCount = words.length;
+
+      let score = 0;
+      let results = [];
+
+      // 1. Active Voice Check (40 pts)
+      const isPassive = /\b(is|am|are|was|were|be|been|being)\s+([a-zA-Z]{3,}ed|[a-zA-Z]{3,}en)\b/.test(text.toLowerCase());
+      const isActive = !isPassive;
+      score += isActive ? 40 : 10;
+      results.push({ label: 'Clarity (Active Voice)', value: isActive });
+
+      // 2. Conciseness Check (20 pts)
+      const isConcise = wordCount > 2 && wordCount <= 15;
+      score += isConcise ? 20 : 5;
+      results.push({ label: 'Conciseness (3-15 words)', value: isConcise });
+
+      // 3. Verb Impact Check (40 pts)
+      let verbImpact = 15; // Base score
+      const textLower = text.toLowerCase();
+      if (strongVerbRegex.test(textLower)) {
+        verbImpact = 40;
+      } else if (!weakVerbs.some(v => textLower.includes(` ${v} `))) {
+        verbImpact = 25; // Average score if no obvious weak verbs
+      }
+      score += verbImpact;
+      results.push({ label: 'Verb Impact', value: verbImpact, isScore: true });
+
+      return { finalScore: Math.min(100, Math.round(score)), results };
     }
 
-    // --- VIEW MANAGEMENT ---
+    // --- VIEW & ANIMATION LOGIC ---
     function switchView(viewToShow) {
-        const views = [entryContainer, certificateContainer];
-        views.forEach(view => {
-            if (view === viewToShow) {
-                view.classList.remove('hidden');
-                view.style.position = 'relative';
-            } else {
-                view.classList.add('hidden');
-                view.style.position = 'absolute';
-            }
-        });
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+      [workbenchView, analysisView, certificateView].forEach(v => {
+        v.classList.toggle('hidden', v !== viewToShow);
+        v.style.display = (v === viewToShow) ? 'block' : 'none';
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function animateAnalysis(results) {
+      analysisGrid.innerHTML = '';
+      results.forEach((item, index) => {
+        const itemEl = document.createElement('div');
+        itemEl.className = 'analysis-item';
+        itemEl.style.animationDelay = `${index * 0.4}s`;
+        
+        let valueHTML;
+        if(item.isScore) {
+            valueHTML = `<span id="verb-score">0</span>/40`;
+        } else {
+            valueHTML = item.value ? 
+              `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>` : 
+              `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg>`;
+        }
+        itemEl.innerHTML = `<span class="label">${item.label}</span><span class="value">${valueHTML}</span>`;
+        analysisGrid.appendChild(itemEl);
+
+        if(item.isScore) {
+          setTimeout(() => {
+            animateNumber(document.getElementById('verb-score'), item.value, 500);
+          }, index * 400 + 200);
+        }
+      });
+    }
+
+    function animateNumber(el, finalValue, duration) {
+      let start = 0;
+      const stepTime = 20;
+      const steps = duration / stepTime;
+      const increment = finalValue / steps;
+      
+      const timer = setInterval(() => {
+        start += increment;
+        if (start >= finalValue) {
+          start = finalValue;
+          clearInterval(timer);
+        }
+        el.textContent = Math.round(start);
+      }, stepTime);
     }
     
+    function renderCertificate(text, score) {
+        const distinction = score >= 85;
+        const title = distinction ? 'Certificate of Distinction' : 'Certificate of Completion';
+        
+        certificateCard.innerHTML = `
+            <div class="certificate-header">
+                <h2>${title}</h2>
+            </div>
+            <p class="certificate-hook">“${text}”</p>
+            <div class="certificate-score">
+                Craft Score: ${score}
+            </div>
+            <div class="certificate-footer">
+                <p>Issued from The Writer's Lab by</p>
+                <p class="certificate-signature">Boluadeoye</p>
+            </div>
+        `;
+    }
+
     // --- EVENT LISTENERS ---
     workbenchInput.addEventListener('input', () => {
-        const text = workbenchInput.value.trim();
-        generateBtn.disabled = text.length === 0;
+      analyzeBtn.disabled = workbenchInput.value.trim().length === 0;
     });
 
-    generateBtn.addEventListener('click', () => {
-        const hookText = workbenchInput.value.trim();
-        if(hookText) {
-            renderCertificate(hookText);
-            switchView(certificateContainer);
+    analyzeBtn.addEventListener('click', () => {
+      const text = workbenchInput.value.trim();
+      if (!text) return;
+      
+      switchView(analysisView);
+      
+      const { finalScore, results } = analyzeCraft(text);
+      
+      animateAnalysis(results);
+      
+      setTimeout(() => {
+        animateNumber(scoreValue, finalScore, 500);
+      }, 1500);
+
+      setTimeout(() => {
+        renderCertificate(text, finalScore);
+        switchView(certificateView);
+      }, 2500);
+    });
+
+    document.getElementById('certificate-view').addEventListener('click', (e) => {
+        if (e.target.id === 'download-btn') {
+            html2canvas(certificateCard, { 
+                backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg'),
+                scale: 2 // Higher resolution
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'Certificate-of-Craft.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+        if (e.target.id === 'start-over-btn') {
+            workbenchInput.value = '';
+            analyzeBtn.disabled = true;
+            switchView(workbenchView);
         }
     });
 
-    function attachCertificateListeners(hook) {
-        document.getElementById('share-btn').addEventListener('click', () => {
-            const shareText = `I crafted this in The Writer's Lab: "${hook}" — by Boluadeoye`;
-            if (navigator.share) {
-                navigator.share({ title: 'A Certificate of Craft', text: shareText, url: window.location.href });
-            } else {
-                navigator.clipboard.writeText(shareText).then(() => alert('Result copied to clipboard!'));
-            }
-        });
-        document.getElementById('start-over-btn').addEventListener('click', () => {
-            workbenchInput.value = '';
-            generateBtn.disabled = true;
-            switchView(entryContainer);
-        });
-    }
-
-    // --- Basic Nav Menu Logic ---
-    const menuBtn = document.getElementById('menuBtn');
-    const sideMenu = document.getElementById('sideMenu');
-    const menuOverlay = document.getElementById('menuOverlay');
-    const closeMenu = () => { sideMenu.classList.remove('active'); menuOverlay.classList.remove('show'); };
-    const openMenu = () => { sideMenu.classList.add('active'); menuOverlay.classList.add('show'); };
-    menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
-    menuOverlay.addEventListener('click', closeMenu);
   });
   </script>
 </body>
