@@ -61,6 +61,7 @@
     top: 3rem;
     left: 0;
     right: 0;
+    padding: 0 1.5rem;
   }
 
   /* Universal Stage Styling */
@@ -158,7 +159,7 @@
     <a class="header-title" href="./writers-lab.html">The Writer's Crucible</a>
   </header>
 
-  <main class="wrap">
+  <main class="wrap" id="main-container">
     <div id="stage-1-view" class="view">
       <div class="stage-container">
         <div class="stage-header">
@@ -179,7 +180,7 @@
         <div class="stage-header">
           <p class="stage-eyebrow">Stage 2 of 3</p>
           <h1>The Impact Anvil</h1>
-          <p>Good. Now, the verb 'made' is weak. Replace it with a stronger, more evocative verb that adds character.</p>
+          <p>Good. Now, the verb in your sentence is likely weak. Replace it with a stronger, more evocative verb that adds character.</p>
         </div>
         <div class="original-sentence" id="original-sentence-2"></div>
         <textarea id="stage-2-input" rows="3" placeholder="e.g., The council decreed the decision."></textarea>
@@ -197,7 +198,7 @@
           <p>Excellent. For the final polish, add a descriptive phrase to give the sentence more context and power.</p>
         </div>
         <div class="original-sentence" id="original-sentence-3"></div>
-        <textarea id="stage-3-input" rows="4" placeholder="e.g., From the steps of the high temple, the council decreed the decision."></textarea>
+        <textarea id="stage-3-input" rows="4" placeholder="e.g., From the steps of the high temple..."></textarea>
         <div class="stage-footer">
           <button id="stage-3-btn" class="continue-btn" disabled>Reveal Masterpiece →</button>
         </div>
@@ -222,129 +223,127 @@
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     // --- DOM ELEMENTS ---
+    const mainContainer = document.getElementById('main-container');
     const views = {
       1: document.getElementById('stage-1-view'),
       2: document.getElementById('stage-2-view'),
       3: document.getElementById('stage-3-view'),
-      4: document.getElementById('certificate-view')
+      certificate: document.getElementById('certificate-view')
     };
     const inputs = {
       1: document.getElementById('stage-1-input'),
       2: document.getElementById('stage-2-input'),
       3: document.getElementById('stage-3-input')
     };
-    const buttons = {
-      1: document.getElementById('stage-1-btn'),
-      2: document.getElementById('stage-2-btn'),
-      3: document.getElementById('stage-3-btn')
-    };
     const originalSentenceDisplays = {
-      1: document.getElementById('original-sentence-1'),
       2: document.getElementById('original-sentence-2'),
       3: document.getElementById('original-sentence-3')
     };
     const certificateCard = document.getElementById('certificate-card');
 
     // --- STATE ---
-    let sentences = {
+    const sentences = {
       0: "The decision was made by the council.", // The initial weak sentence
-      1: "",
-      2: "",
-      3: ""
+      1: "", 2: "", 3: ""
     };
 
     // --- VIEW MANAGEMENT ---
-    function switchView(stageToShow) {
-      Object.values(views).forEach(view => view.classList.add('hidden'));
-      views[stageToShow].classList.remove('hidden');
+    function switchView(stageKey) {
+      Object.entries(views).forEach(([key, view]) => {
+        view.classList.toggle('hidden', key !== stageKey);
+      });
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // --- RENDER FUNCTIONS ---
     function renderCertificate() {
-        certificateCard.innerHTML = `
-            <div class="certificate-header">
-                <h2>Forged in The Writer's Crucible</h2>
-                <h3>Certificate of Craft</h3>
-            </div>
-            <div class="transformation-display">
-                <p class="label">Before</p>
-                <p class="before-text">${sentences[0]}</p>
-                <p class="label">After</p>
-                <p class="after-text">“${sentences[3]}”</p>
-            </div>
-            <div class="certificate-footer">
-                <p>A demonstration of skill from the workshop of</p>
-                <p class="certificate-signature">Boluadeoye</p>
-            </div>
-        `;
+      certificateCard.innerHTML = `
+        <div class="certificate-header">
+            <h2>Forged in The Writer's Crucible</h2>
+            <h3>Certificate of Craft</h3>
+        </div>
+        <div class="transformation-display">
+            <p class="label">Before</p>
+            <p class="before-text">${sentences[0]}</p>
+            <p class="label">After</p>
+            <p class="after-text">“${sentences[3]}”</p>
+        </div>
+        <div class="certificate-footer">
+            <p>A demonstration of skill from the workshop of</p>
+            <p class="certificate-signature">Boluadeoye</p>
+        </div>
+      `;
     }
 
-    // --- EVENT LISTENERS ---
-    Object.keys(inputs).forEach(stageNumStr => {
-      const stageNum = parseInt(stageNumStr);
-      const input = inputs[stageNum];
-      const button = buttons[stageNum];
+    // --- EVENT HANDLING (ROBUST) ---
+    mainContainer.addEventListener('input', (e) => {
+      if (e.target.tagName === 'TEXTAREA') {
+        const stage = e.target.id.split('-')[1];
+        const button = document.getElementById(`stage-${stage}-btn`);
+        if (button) {
+          button.disabled = e.target.value.trim().length === 0;
+        }
+      }
+    });
 
-      input.addEventListener('input', () => {
-        button.disabled = input.value.trim().length === 0;
-      });
+    mainContainer.addEventListener('click', (e) => {
+      const targetId = e.target.id;
 
-      button.addEventListener('click', () => {
-        sentences[stageNum] = input.value.trim();
+      // Stage progression
+      if (targetId.startsWith('stage-') && targetId.endsWith('-btn')) {
+        const stageNum = parseInt(targetId.split('-')[1]);
+        sentences[stageNum] = inputs[stageNum].value.trim();
         const nextStage = stageNum + 1;
-
+        
         if (views[nextStage]) {
-          // Prepare the next stage
-          if(originalSentenceDisplays[nextStage]) {
+          if (originalSentenceDisplays[nextStage]) {
             originalSentenceDisplays[nextStage].textContent = sentences[stageNum];
           }
-          switchView(nextStage);
+          switchView(String(nextStage));
         } else {
-          // Final stage, render certificate
           renderCertificate();
-          switchView(4);
+          switchView('certificate');
         }
-      });
-    });
-    
-    // Certificate Button Listeners
-    document.getElementById('download-btn').addEventListener('click', () => {
-      // Temporarily remove shadow for cleaner image
-      certificateCard.style.boxShadow = 'none';
+        return;
+      }
       
-      html2canvas(certificateCard, {
-        scale: 2, // for higher resolution
-        backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg'),
-        onclone: (document) => {
-            // Ensure styles are embedded for the canvas render
-            const style = document.createElement('style');
-            style.innerHTML = `
-              @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700&family=Playfair+Display:wght@700;800&family=Tangerine:wght@700&family=Inter:wght@400;600&display=swap');
-              #certificate-card { font-family: 'Merriweather', serif; }
-            `;
-            document.head.appendChild(style);
-        }
-      }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'Writer-s-Crucible-Certificate.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
+      // Certificate actions
+      if (targetId === 'download-btn') {
+        const button = e.target;
+        button.textContent = 'Generating...';
+        button.disabled = true;
 
-        // Restore shadow after capture
-        certificateCard.style.boxShadow = '0 10px 40px rgba(0,0,0,0.1)';
-      });
-    });
+        // Use a small timeout to allow the browser to update the button text
+        setTimeout(() => {
+          html2canvas(certificateCard, {
+            scale: 2,
+            backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg'),
+          }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'Writers-Crucible-Certificate.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            button.textContent = 'Download as PNG';
+            button.disabled = false;
+          }).catch(err => {
+            console.error("Error generating canvas:", err);
+            button.textContent = 'Download Failed';
+          });
+        }, 100);
+        return;
+      }
 
-    document.getElementById('start-over-btn').addEventListener('click', () => {
-      // Reset state
-      Object.values(inputs).forEach(input => input.value = '');
-      Object.values(buttons).forEach(btn => btn.disabled = true);
-      switchView(1);
+      if (targetId === 'start-over-btn') {
+        Object.values(inputs).forEach(input => input.value = '');
+        const firstButton = document.getElementById('stage-1-btn');
+        if (firstButton) firstButton.disabled = true;
+        switchView('1');
+        return;
+      }
     });
 
     // --- INITIALIZATION ---
-    switchView(1);
+    switchView('1');
   });
   </script>
 </body>
