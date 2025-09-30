@@ -237,16 +237,15 @@
       transform: scale(1.05);
     }
 
-    /* List View */
+    /* List View (Refined) */
     .library-grid.list-view {
       display: block;
     }
     .book-card.list-view {
-      display: grid;
-      grid-template-columns: 80px 1fr 120px;
+      display: flex;
       align-items: center;
-      padding: 0.75rem;
-      margin-bottom: 0.75rem;
+      padding: 0.4rem;
+      margin-bottom: 0.3rem;
       border-radius: 8px;
       box-shadow: none;
       transition: all 0.3s var(--transition);
@@ -258,21 +257,24 @@
     }
     .book-card.list-view .book-cover {
       aspect-ratio: 2 / 3;
-      width: 60px;
+      width: 50px;
       height: auto;
+      flex-shrink: 0;
     }
     .book-card.list-view .book-info {
-      padding: 0 1rem;
+      padding: 0 0.75rem;
+      flex-grow: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
     .book-card.list-view .book-info h4 {
-      font-size: 1rem;
-      margin-bottom: 0.25rem;
+      font-size: 0.95rem;
+      color: var(--orange);
+      margin-bottom: 0.2rem;
     }
     .book-card.list-view .book-author {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
     }
     .book-card.list-view .book-desc {
       display: none;
@@ -280,8 +282,10 @@
     .book-card.list-view .book-link {
       opacity: 1;
       width: 100px;
-      padding: 0.5rem;
+      padding: 0.4rem;
       font-size: 0.8rem;
+      flex-shrink: 0;
+      text-align: center;
     }
 
     .loading { text-align: center; padding: 3rem; color: var(--muted); }
@@ -324,7 +328,7 @@
 
   <main class="wrap">
     <section class="page-header">
-        <h1>A Library of Resources</h1>
+        <h1>A Library of Resources</h2>
         <p>Timeless books and resources to nourish your faith, creativity, and personal growth.</p>
     </section>
 
@@ -412,7 +416,7 @@
                 </div>
                 <div class="book-info">
                   <h4>${book.title}</h4>
-                  <p class="book-author">by ${book.author}</p>
+                  <p class="book-author">${book.author}</p>
                 </div>
                 <a href="${book.link}" class="book-link" target="_blank" rel="noopener noreferrer">Get Book</a>
               </div>
