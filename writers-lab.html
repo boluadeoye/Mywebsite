@@ -44,7 +44,7 @@
   body::before {
     content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
     background:
-      radial-gradient(circle at 10% 20%, rgba(34, 211, 238, 0.1) 0%, transparent-30%),
+      radial-gradient(circle at 10% 20%, rgba(34, 211, 238, 0.1) 0%, transparent 30%),
       radial-gradient(circle at 90% 80%, rgba(217, 70, 239, 0.08) 0%, transparent 35%);
   }
   a { color: var(--accent-cyan); text-decoration: none; transition: all 0.3s var(--transition); }
@@ -246,9 +246,22 @@
     let currentStepIndex = 0;
     let userHook = '';
 
-    // --- VALIDATION ENGINE ---
+    // --- VALIDATION ENGINE (CORRECTED) ---
     const validators = {
-      activeVoice: (text) => !(/\b(is|am|are|was|were|be|been|being)\s+([a-zA-Z]+ed|[a-zA-Z]+en)\b/.test(text.toLowerCase()) && /\b(by)\b/i.test(text)),
+      activeVoice: (text) => {
+        const s = text.toLowerCase().trim();
+        // This is a more robust check for common passive structures. It's not perfect NLP, but it's much better.
+        // It looks for a "be" verb (is, was, were...) followed by a word ending in "ed" or "en".
+        const passivePattern = /\b(is|am|are|was|were|be|been|being)\s+([a-zA-Z]{3,}ed|[a-zA-Z]{3,}en)\b/;
+        
+        // Imperative sentences (commands) like "Be quiet" can look passive but are active. We make an exception.
+        if (s.startsWith('be ')) {
+            return true;
+        }
+        
+        // If the passive pattern is found, the sentence is passive (return false). Otherwise, it's active (return true).
+        return !passivePattern.test(s);
+      },
       wordCount: (text, options) => {
         const count = text.trim().split(/\s+/).filter(Boolean).length;
         return count > 0 && count <= options.max;
