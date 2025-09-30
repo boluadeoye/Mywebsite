@@ -23,6 +23,7 @@
     --body-serif: 'Merriweather', serif;
     --transition: cubic-bezier(0.4, 0, 0.2, 1);
     --red: #f44336;
+    --green: #4caf50;
     --radius: 12px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -436,6 +437,10 @@
   .btn-chip:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+    background: transparent !important;
+    color: var(--orange) !important;
+    transform: none !important;
+    box-shadow: none !important;
   }
   .mode-toggle {
     position: absolute;
@@ -552,6 +557,134 @@
     color: var(--muted);
     text-align: center;
   }
+
+  /* --- WRITER'S LAB STYLES --- */
+  .lab-experiment-container {
+    text-align: center;
+  }
+  .lab-experiment {
+    background: var(--panel);
+    padding: 2rem 2.5rem;
+    border-radius: var(--radius);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    margin: 2.5rem 0;
+    text-align: center;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s var(--transition), transform 0.5s var(--transition);
+  }
+  .lab-experiment.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .lab-experiment h3 {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+  }
+  .lab-experiment p {
+    font-family: var(--body-serif);
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 500px;
+    margin: 0 auto 1.5rem;
+  }
+  .lab-experiment .example-box {
+    font-family: var(--sans-serif);
+    font-size: 0.95rem;
+    background: var(--panel-hover);
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1.5rem auto;
+    max-width: 500px;
+    line-height: 1.6;
+  }
+  .lab-experiment .example-box span {
+    display: block;
+    margin: 0.25rem 0;
+  }
+  .lab-experiment .example-box .passive {
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+  .lab-experiment .example-box .active {
+    color: var(--orange-light);
+    font-weight: 600;
+  }
+  .lab-experiment textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--orange);
+    background: var(--panel-hover);
+    color: var(--ink);
+    font-family: var(--sans-serif);
+    font-size: 1rem;
+    border-radius: 8px;
+    resize: vertical;
+    margin: 1rem 0;
+  }
+  .lab-experiment .feedback-box {
+    min-height: 50px;
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--panel);
+    border-radius: 8px;
+    font-family: var(--sans-serif);
+    font-size: 0.9rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    transition: background 0.3s ease;
+  }
+  .feedback-box.success {
+    background: rgba(76, 175, 80, 0.1);
+    color: var(--green);
+    border: 1px solid var(--green);
+  }
+  .feedback-box.error {
+    background: rgba(244, 67, 54, 0.1);
+    color: var(--red);
+    border: 1px solid var(--red);
+  }
+  .lab-experiment .real-time-feedback {
+    font-family: var(--sans-serif);
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: -0.5rem;
+    margin-bottom: 1.5rem;
+    min-height: 20px;
+  }
+  .lab-experiment .result-box {
+    text-align: left;
+    background: var(--panel-hover);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+  }
+  .lab-experiment .result-box .before,
+  .lab-experiment .result-box .after {
+    margin-bottom: 1rem;
+    font-family: var(--sans-serif);
+  }
+  .lab-experiment .result-box strong { color: var(--muted); }
+  .lab-experiment .result-box .after span {
+    color: var(--orange-light);
+    font-weight: 600;
+    background: rgba(245, 158, 11, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+  }
+  .lab-experiment .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
   </style>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJVVQDCS32"></script>
   <script>
@@ -607,7 +740,11 @@
     const state = {
       allPosts: [], postData: null,
       pages: [], currentPage: 1, file: null, mode: 'simple',
-      wordCount: 0, totalPages: 0
+      wordCount: 0, totalPages: 0,
+      labData: {
+        step: 0, // 0: inactive, 1: practice, 2: create
+        userInput: ''
+      }
     };
 
     // --- DOM ELEMENTS & CONSTANTS ---
@@ -618,6 +755,7 @@
     const pageContainer = document.getElementById('post-page-container');
     const WORD_COUNT_THRESHOLD = 1500;
     const PAGE_SEPARATOR = /\n---\s*page\s*---\n/;
+    const LAB_PLACEHOLDER = '<!-- LAB_EXPERIMENT_PLACEHOLDER -->';
 
     // --- GLOBAL FUNCTIONS ---
     window.sharePost = function() {
@@ -669,6 +807,176 @@
       if (container) container.innerHTML = errorHTML;
     }
 
+    // --- WRITER'S LAB FUNCTIONS ---
+    function isActiveVoice(sentence) {
+        if (!sentence || typeof sentence !== 'string') return true; // Default to true to avoid penalizing empty inputs
+        const s = sentence.toLowerCase();
+        // More robust check: looks for a "be" verb followed by a past participle (common pattern)
+        const passivePattern = /\b(is|am|are|was|were|be|been|being)\s+([a-zA-Z]+ed|[a-zA-Z]+en)\b/;
+        const followedByBy = /\b(by)\b/i;
+
+        // A sentence is likely passive if it has a 'be' verb + past participle, especially if 'by' is also present
+        if (passivePattern.test(s) && followedByBy.test(s)) return false;
+        if (s.includes(' was ') || s.includes(' is ') || s.includes(' were ')) {
+            if (followedByBy.test(s)) return false;
+        }
+        return true;
+    }
+
+    function renderLabExperiment() {
+      const container = document.getElementById('lab-experiment-module');
+      if (!container) return;
+
+      let html = '';
+      switch (state.labData.step) {
+        case 1: // Practice Step
+          html = `
+            <h3>Rewrite This Passive Sentence</h3>
+            <p>Change this to active voice. Hint: Make the subject perform the action.</p>
+            <textarea id="lab-practice-input" rows="3" placeholder="Your rewrite...">The adventure was started by a hero.</textarea>
+            <div class="feedback-box" id="lab-feedback-box"></div>
+            <div class="button-group">
+              <button class="btn-chip" id="lab-check-btn">Check My Rewrite</button>
+            </div>
+          `;
+          break;
+        case 2: // Create Step
+          html = `
+            <h3>Write Your Own Hook</h3>
+            <p>Now, craft your own compelling opening sentence using active voice. Keep it under 10 words.</p>
+            <textarea id="lab-create-input" rows="3" placeholder="e.g., A dragon soared over the mountains."></textarea>
+            <div class="real-time-feedback" id="lab-real-time-feedback">0/10 words</div>
+            <div class="button-group">
+              <button class="btn-chip" id="lab-submit-hook-btn" disabled>Submit Hook</button>
+            </div>
+          `;
+          break;
+        case 3: // Result Step
+          html = `
+            <h3>Experiment Complete!</h3>
+            <p>Look at the difference. A strong active voice creates a powerful hook.</p>
+            <div class="result-box">
+                <div class="before"><strong>Before:</strong> The adventure was started by a hero.</div>
+                <div class="after"><strong>After:</strong> <span>${state.labData.userInput}</span></div>
+            </div>
+            <div class="button-group">
+                <button class="btn-chip" id="lab-share-btn">Share My Hook</button>
+                <button class="btn-chip" id="lab-try-again-btn">Try Another</button>
+            </div>
+          `;
+          break;
+        default: // Initial Intro Screen
+          html = `
+            <h3>Craft a Hook with Active Voice</h3>
+            <p>Active voice makes your opening punchy and direct, grabbing the reader's attention from the first word.</p>
+            <div class="example-box">
+              <span class="passive">Passive: The story was begun by a whisper.</span>
+              <span class="active">Active: A whisper began the story.</span>
+            </div>
+            <div class="button-group">
+              <button class="btn-chip" id="lab-start-btn">Start Experiment</button>
+            </div>
+          `;
+      }
+      container.innerHTML = html;
+      attachLabListeners();
+    }
+    
+    function attachLabListeners() {
+      const startBtn = document.getElementById('lab-start-btn');
+      if (startBtn) startBtn.addEventListener('click', () => {
+        state.labData.step = 1;
+        renderLabExperiment();
+        document.getElementById('lab-practice-input').focus();
+      });
+
+      const checkBtn = document.getElementById('lab-check-btn');
+      if (checkBtn) checkBtn.addEventListener('click', () => {
+        const input = document.getElementById('lab-practice-input');
+        const feedbackBox = document.getElementById('lab-feedback-box');
+        const isCorrect = isActiveVoice(input.value) && input.value.toLowerCase().includes('hero');
+        feedbackBox.style.display = 'flex';
+        if (isCorrect) {
+          feedbackBox.className = 'feedback-box success';
+          feedbackBox.innerHTML = `<span>✔️</span> Great! That's active voice! The subject 'hero' now acts directly.`;
+          checkBtn.textContent = 'Next →';
+          checkBtn.onclick = () => {
+            state.labData.step = 2;
+            renderLabExperiment();
+          };
+        } else {
+          feedbackBox.className = 'feedback-box error';
+          feedbackBox.innerHTML = `<span>❌</span> Not quite. Try making the 'hero' the one doing the action.`;
+        }
+      });
+
+      const createInput = document.getElementById('lab-create-input');
+      const submitHookBtn = document.getElementById('lab-submit-hook-btn');
+      const realTimeFeedback = document.getElementById('lab-real-time-feedback');
+
+      if (createInput && submitHookBtn && realTimeFeedback) {
+        createInput.addEventListener('input', () => {
+          const text = createInput.value;
+          const wordCount = getWordCount(text);
+          const is_active = isActiveVoice(text);
+          
+          let feedbackText = `${wordCount}/10 words`;
+          if (text.length > 0) {
+            feedbackText += is_active ? ' | Active voice detected!' : ' | Seems passive...';
+          }
+          realTimeFeedback.textContent = feedbackText;
+          
+          if (wordCount > 0 && wordCount <= 10 && is_active) {
+            submitHookBtn.disabled = false;
+          } else {
+            submitHookBtn.disabled = true;
+          }
+        });
+        
+        submitHookBtn.addEventListener('click', () => {
+          state.labData.userInput = createInput.value;
+          state.labData.step = 3;
+          renderLabExperiment();
+        });
+      }
+
+      const shareBtn = document.getElementById('lab-share-btn');
+      if(shareBtn) shareBtn.addEventListener('click', () => {
+        const text = `I crafted a compelling hook in The Writer's Lab: "${state.labData.userInput}" Check out the experiment at ${window.location.href}`;
+        if(navigator.share){
+            navigator.share({ title: "My Writer's Lab Hook", text: text });
+        } else {
+            const encodedText = encodeURIComponent(text);
+            window.open('https://api.whatsapp.com/send?text=' + encodedText, '_blank');
+        }
+      });
+
+      const tryAgainBtn = document.getElementById('lab-try-again-btn');
+      if(tryAgainBtn) tryAgainBtn.addEventListener('click', () => {
+        state.labData.step = 2;
+        renderLabExperiment();
+      });
+    }
+
+    function initLabExperiment() {
+      const container = document.getElementById('lab-experiment-container');
+      if (!container) return;
+
+      const button = document.createElement('button');
+      button.className = 'begin-reading-btn';
+      button.textContent = "Try the Lab Experiment";
+      container.appendChild(button);
+
+      button.addEventListener('click', () => {
+        button.style.display = 'none';
+        const module = document.getElementById('lab-experiment-module');
+        module.classList.add('visible');
+        state.labData.step = 0;
+        renderLabExperiment();
+        module.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, { once: true });
+    }
+
     // --- RENDER & LOGIC FUNCTIONS ---
     function renderPage(pageNumber) {
       if (pageNumber < 1) return;
@@ -698,7 +1006,16 @@
           if (disqusContainer) disqusContainer.style.display = 'block';
           loadDisqus(state.file);
         } else {
-          contentEl.innerHTML = marked.parse(state.pages[state.currentPage - 1] || '', { breaks: true });
+          let contentHTML = marked.parse(state.pages[state.currentPage - 1] || '', { breaks: true });
+          if(state.postData.labExperiment && contentHTML.includes(LAB_PLACEHOLDER)) {
+            const labHTML = `<div id="lab-experiment-container"><div id="lab-experiment-module" class="lab-experiment"></div></div>`;
+            contentHTML = contentHTML.replace(LAB_PLACEHOLDER, labHTML);
+          }
+          contentEl.innerHTML = contentHTML;
+
+          if (state.postData.labExperiment) {
+            initLabExperiment();
+          }
         }
         contentEl.style.opacity = 1;
       }, 250);
@@ -786,11 +1103,6 @@
           throw new Error('No post file specified in URL.');
         }
 
-        // Normalize file path
-        if (!state.file.startsWith('posts/')) {
-          state.file = `posts/${state.file}`;
-        }
-
         const postsRes = await fetch('./Posts.json', { cache: 'no-store' });
         if (!postsRes.ok) {
           console.error('Failed to fetch Posts.json:', postsRes.status);
@@ -800,9 +1112,16 @@
 
         state.postData = state.allPosts.find(p => p && p.file && p.file.trim() === state.file.trim());
         if (!state.postData) {
-          console.error('Post not found in Posts.json:', state.file);
-          throw new Error('Post data not found.');
+          // Try normalizing the file path if not found
+          const normalizedFile = state.file.startsWith('posts/') ? state.file : `posts/${state.file}`;
+          state.postData = state.allPosts.find(p => p && p.file && p.file.trim() === normalizedFile.trim());
+           if (!state.postData) {
+              console.error('Post not found in Posts.json:', state.file);
+              throw new Error('Post data not found.');
+           }
+           state.file = normalizedFile;
         }
+
 
         const postType = state.postData.type ? 'post-type-' + state.postData.type.toLowerCase().trim() : 'post-type-general';
 
@@ -883,6 +1202,19 @@
             ${mainContentHTML}
           </div>
         `;
+        
+        const contentEl = document.getElementById('article-content');
+        let contentHTML = marked.parse(state.pages[0] || '', { breaks: true });
+        
+        if (state.postData.labExperiment === 'active-openings' && contentHTML.includes(LAB_PLACEHOLDER)) {
+            const labContainerHTML = `<div id="lab-experiment-container"><div id="lab-experiment-module" class="lab-experiment"></div></div>`;
+            contentHTML = contentHTML.replace(LAB_PLACEHOLDER, labContainerHTML);
+        }
+        contentEl.innerHTML = contentHTML;
+
+        if (state.postData.labExperiment === 'active-openings') {
+            initLabExperiment();
+        }
 
         if (state.mode === 'paginated') {
           const beginButton = document.getElementById('begin-reading');
@@ -893,10 +1225,8 @@
           if (disqusContainer) disqusContainer.style.display = 'none';
         } else {
           const mainContentEl = document.getElementById('main-content-area');
-          const contentEl = document.getElementById('article-content');
-          if (mainContentEl && contentEl) {
+          if (mainContentEl) {
             mainContentEl.classList.add('visible');
-            contentEl.innerHTML = marked.parse(state.pages[0] || '', { breaks: true });
             displayRelatedPosts(state.postData);
             loadDisqus(state.file);
           }
