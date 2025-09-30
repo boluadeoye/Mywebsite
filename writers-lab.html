@@ -1,350 +1,161 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>The Writer's Crucible — Boluadeoye</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700&family=Playfair+Display:wght@700;800&family=Tangerine:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoVBL5gI9kDXOkubtZkrhfD9jAViYg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Writer's Crucible</title>
   <style>
-  :root {
-    --bg: #fcfaf5;
-    --text-main: #2c2c2c;
-    --text-muted: #888888;
-    --panel: #ffffff;
-    --accent-blue: #004080;
-    --accent-blue-light: #0059b3;
-    --serif-headings: 'Playfair Display', Georgia, "Times New Roman", serif;
-    --serif-body: 'Merriweather', serif;
-    --sans-serif-ui: 'Inter', system-ui, -apple-system, sans-serif;
-    --signature-font: 'Tangerine', cursive;
-    --transition: cubic-bezier(0.4, 0, 0.2, 1);
-    --radius: 8px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { background: var(--bg); }
-  body {
-    background: var(--bg);
-    color: var(--text-main);
-    font-family: var(--serif-body);
-    font-size: 18px; line-height: 1.8;
-    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-    display: flex; flex-direction: column; min-height: 100vh;
-  }
-  .wrap { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
-  main { flex-grow: 1; padding: 3rem 0; position: relative; }
-
-  /* Header */
-  header {
-    width: 100%; text-align: center; padding: 1.5rem 0;
-    border-bottom: 1px solid #ddd; background-color: var(--bg);
-    position: sticky; top: 0; z-index: 1000;
-  }
-  .header-title {
-    font-family: var(--serif-headings); font-size: 1.75rem; font-weight: 800;
-    color: var(--accent-blue); letter-spacing: 1px;
-    text-decoration: none;
-  }
-
-  /* View Transitions */
-  .view {
-    width: 100%;
-    transition: opacity 0.5s var(--transition), transform 0.5s var(--transition);
-  }
-  .view.hidden {
-    opacity: 0;
-    transform: translateY(20px);
-    pointer-events: none;
-    position: absolute;
-    top: 3rem;
-    left: 0;
-    right: 0;
-    padding: 0 1.5rem;
-  }
-
-  /* Universal Stage Styling */
-  .stage-container {
-    background: var(--panel);
-    border: 1px solid #eee;
-    border-radius: var(--radius);
-    padding: 2.5rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-  }
-  .stage-header { text-align: center; margin-bottom: 2.5rem; }
-  .stage-eyebrow {
-    font-family: var(--sans-serif-ui); font-size: 0.8rem; font-weight: 600;
-    color: var(--accent-blue); text-transform: uppercase; letter-spacing: 1.5px;
-    margin-bottom: 0.5rem;
-  }
-  .stage-header h1 { font-family: var(--serif-headings); font-size: 2.5rem; }
-  .stage-header p { color: var(--text-muted); font-family: var(--serif-body); max-width: 50ch; margin: 1rem auto 0; }
-  
-  .original-sentence {
-    background: #f1f1f1; padding: 1rem; border-radius: var(--radius);
-    margin-bottom: 1.5rem; text-align: center; font-style: italic; color: var(--text-muted);
-  }
-
-  .stage-container textarea {
-    width: 100%; min-height: 120px; padding: 1rem;
-    background: #fdfdfd; border: 2px solid #ddd; border-radius: var(--radius);
-    color: var(--text-main); font-family: var(--serif-body); font-size: 1.1rem;
-    resize: vertical; transition: all 0.3s ease;
-  }
-  .stage-container textarea:focus {
-    outline: none; border-color: var(--accent-blue);
-    box-shadow: 0 0 15px rgba(0, 64, 128, 0.15);
-  }
-  .stage-footer { text-align: center; margin-top: 2rem; }
-  .continue-btn {
-    font-family: var(--sans-serif-ui); font-size: 1rem; font-weight: 600;
-    background: var(--accent-blue); color: white;
-    padding: 0.9rem 2.5rem; border: none; border-radius: 999px;
-    cursor: pointer; transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  }
-  .continue-btn:hover:not(:disabled) { transform: translateY(-3px); background: var(--accent-blue-light); box-shadow: 0 8px 25px rgba(0, 64, 128, 0.2); }
-  .continue-btn:disabled { background: #ccc; color: #888; cursor: not-allowed; }
-
-  /* Certificate View */
-  #certificate-card {
-    background: #fcfaf5; color: #2c2c2c;
-    border: 2px solid var(--accent-blue); border-radius: var(--radius);
-    padding: 3rem; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-    margin-bottom: 2rem;
-  }
-  .certificate-header h2 { font-family: var(--sans-serif-ui); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; color: var(--text-muted); }
-  .certificate-header h3 { font-family: var(--serif-headings); font-size: 2.5rem; margin: 0.5rem 0 2rem; color: var(--accent-blue); }
-  
-  .transformation-display {
-    text-align: left;
-    margin: 2rem 0;
-  }
-  .transformation-display .label {
-    font-family: var(--sans-serif-ui); font-weight: 600; font-size: 0.8rem;
-    text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted);
-  }
-  .transformation-display .before-text {
-    font-style: italic;
-    color: var(--text-muted);
-    text-decoration: line-through;
-    margin-top: 0.5rem;
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-    background: #f1f1f1;
-    border-radius: var(--radius);
-  }
-  .transformation-display .after-text {
-    font-family: var(--serif-headings);
-    font-size: 1.8rem;
-    line-height: 1.5;
-    color: var(--text-main);
-    padding: 1rem;
-  }
-
-  .certificate-footer { border-top: 1px solid #ddd; padding-top: 1.5rem; margin-top: 2rem; }
-  .certificate-footer p { margin: 0; font-size: 0.9rem; color: var(--text-muted); font-family: var(--sans-serif-ui); }
-  .certificate-signature { font-family: var(--signature-font); font-size: 4rem; color: var(--accent-blue); margin-top: -0.5rem; }
-
-  .button-group { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
-
-  /* Footer */
-  footer { background: #eee; border-top: 1px solid #ddd; color: var(--text-muted); text-align: center; font-size: 0.88rem; padding: 2rem 0; margin-top: 3rem; }
-  footer p { margin: 0; }
+    body {
+      background-color: #fcfaf5;
+      color: #2c2c2c;
+      font-family: 'Georgia', serif;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      color: #004080;
+      margin-bottom: 1rem;
+    }
+    .stage {
+      margin-bottom: 2rem;
+      width: 100%;
+      max-width: 600px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    textarea {
+      width: 100%;
+      height: 80px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: none;
+    }
+    button {
+      background-color: #004080;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    button:hover {
+      background-color: #003060;
+    }
+    #certificate {
+      background-color: #fff;
+      border: 2px solid #004080;
+      padding: 2rem;
+      margin-top: 2rem;
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+      font-family: 'Georgia', serif;
+      position: relative;
+    }
+    #certificate h2 {
+      margin-bottom: 1rem;
+    }
+    #branding {
+      margin-top: 2rem;
+      font-style: italic;
+      color: #004080;
+    }
+    #signature {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 1.5rem;
+      margin-top: 0.5rem;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <a class="header-title" href="./writers-lab.html">The Writer's Crucible</a>
-  </header>
+  <h1>The Writer's Crucible</h1>
 
-  <main class="wrap" id="main-container">
-    <div id="stage-1-view" class="view">
-      <div class="stage-container">
-        <div class="stage-header">
-          <p class="stage-eyebrow">Stage 1 of 3</p>
-          <h1>The Clarity Forge</h1>
-          <p>This sentence is passive and lacks energy. Your first task is to rewrite it in the active voice.</p>
-        </div>
-        <div class="original-sentence" id="original-sentence-1">The decision was made by the council.</div>
-        <textarea id="stage-1-input" rows="3" placeholder="e.g., The council made the decision."></textarea>
-        <div class="stage-footer">
-          <button id="stage-1-btn" class="continue-btn" disabled>Forge Clarity →</button>
-        </div>
-      </div>
+  <div class="stage" id="stage1">
+    <label for="weakSentence">Stage 1: The Challenge</label>
+    <textarea id="weakSentence" placeholder="Enter a weak sentence..."></textarea>
+    <button onclick="goToStage2()">Next: Clarity Forge</button>
+  </div>
+
+  <div class="stage" id="stage2" style="display:none;">
+    <label for="activeSentence">Stage 2: Clarity Forge (Active Voice)</label>
+    <textarea id="activeSentence" placeholder="Rewrite in active voice..."></textarea>
+    <button onclick="goToStage3()">Next: Impact Anvil</button>
+  </div>
+
+  <div class="stage" id="stage3" style="display:none;">
+    <label for="strongSentence">Stage 3: Impact Anvil (Stronger Verb)</label>
+    <textarea id="strongSentence" placeholder="Enhance the verb..."></textarea>
+    <button onclick="goToStage4()">Next: Final Polish</button>
+  </div>
+
+  <div class="stage" id="stage4" style="display:none;">
+    <label for="finalSentence">Stage 4: The Final Polish (Imagery/Detail)</label>
+    <textarea id="finalSentence" placeholder="Add imagery or detail..."></textarea>
+    <button onclick="generateCertificate()">Forge Certificate</button>
+  </div>
+
+  <div id="certificate" style="display:none;">
+    <h2>Forged in The Writer's Crucible</h2>
+    <p><strong>Before:</strong><br><span id="beforeText"></span></p>
+    <p><strong>After:</strong><br><span id="afterText"></span></p>
+    <div id="branding">
+      Certified by The Writer's Crucible<br>
+      <div id="signature">Boluadeoye</div>
     </div>
+    <button onclick="downloadCertificate()">Download as PNG</button>
+  </div>
 
-    <div id="stage-2-view" class="view hidden">
-      <div class="stage-container">
-        <div class="stage-header">
-          <p class="stage-eyebrow">Stage 2 of 3</p>
-          <h1>The Impact Anvil</h1>
-          <p>Good. Now, the verb in your sentence is likely weak. Replace it with a stronger, more evocative verb that adds character.</p>
-        </div>
-        <div class="original-sentence" id="original-sentence-2"></div>
-        <textarea id="stage-2-input" rows="3" placeholder="e.g., The council decreed the decision."></textarea>
-        <div class="stage-footer">
-          <button id="stage-2-btn" class="continue-btn" disabled>Strike the Anvil →</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="stage-3-view" class="view hidden">
-      <div class="stage-container">
-        <div class="stage-header">
-          <p class="stage-eyebrow">Stage 3 of 3</p>
-          <h1>The Final Polish</h1>
-          <p>Excellent. For the final polish, add a descriptive phrase to give the sentence more context and power.</p>
-        </div>
-        <div class="original-sentence" id="original-sentence-3"></div>
-        <textarea id="stage-3-input" rows="4" placeholder="e.g., From the steps of the high temple..."></textarea>
-        <div class="stage-footer">
-          <button id="stage-3-btn" class="continue-btn" disabled>Reveal Masterpiece →</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="certificate-view" class="view hidden">
-        <div id="certificate-card">
-            <!-- Certificate content is rendered here by JS -->
-        </div>
-        <div class="button-group">
-            <button id="download-btn" class="continue-btn">Download as PNG</button>
-            <button id="start-over-btn" class="continue-btn" style="background:transparent; border: 2px solid var(--accent-blue); color: var(--accent-blue);">Forge Another</button>
-        </div>
-    </div>
-  </main>
-
-  <footer>
-    <div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div>
-  </footer>
-
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // --- DOM ELEMENTS ---
-    const mainContainer = document.getElementById('main-container');
-    const views = {
-      1: document.getElementById('stage-1-view'),
-      2: document.getElementById('stage-2-view'),
-      3: document.getElementById('stage-3-view'),
-      certificate: document.getElementById('certificate-view')
-    };
-    const inputs = {
-      1: document.getElementById('stage-1-input'),
-      2: document.getElementById('stage-2-input'),
-      3: document.getElementById('stage-3-input')
-    };
-    const originalSentenceDisplays = {
-      2: document.getElementById('original-sentence-2'),
-      3: document.getElementById('original-sentence-3')
-    };
-    const certificateCard = document.getElementById('certificate-card');
+    function goToStage2() {
+      const weak = document.getElementById('weakSentence').value.trim();
+      if (!weak) return alert('Please enter a weak sentence.');
+      document.getElementById('stage1').style.display = 'none';
+      document.getElementById('stage2').style.display = 'block';
+    }
 
-    // --- STATE ---
-    const sentences = {
-      0: "The decision was made by the council.", // The initial weak sentence
-      1: "", 2: "", 3: ""
-    };
+    function goToStage3() {
+      const active = document.getElementById('activeSentence').value.trim();
+      if (!active) return alert('Please rewrite the sentence in active voice.');
+      document.getElementById('stage2').style.display = 'none';
+      document.getElementById('stage3').style.display = 'block';
+    }
 
-    // --- VIEW MANAGEMENT ---
-    function switchView(stageKey) {
-      Object.entries(views).forEach(([key, view]) => {
-        view.classList.toggle('hidden', key !== stageKey);
+    function goToStage4() {
+      const strong = document.getElementById('strongSentence').value.trim();
+      if (!strong) return alert('Please enhance the verb.');
+      document.getElementById('stage3').style.display = 'none';
+      document.getElementById('stage4').style.display = 'block';
+    }
+
+    function generateCertificate() {
+      const weak = document.getElementById('weakSentence').value.trim();
+      const final = document.getElementById('finalSentence').value.trim();
+      if (!final) return alert('Please add imagery or detail.');
+      document.getElementById('beforeText').innerText = weak;
+      document.getElementById('afterText').innerText = final;
+      document.getElementById('stage4').style.display = 'none';
+      document.getElementById('certificate').style.display = 'block';
+    }
+
+    function downloadCertificate() {
+      html2canvas(document.querySelector("#certificate")).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'writers-crucible-certificate.png';
+        link.href = canvas.toDataURL();
+        link.click();
       });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-
-    // --- RENDER FUNCTIONS ---
-    function renderCertificate() {
-      certificateCard.innerHTML = `
-        <div class="certificate-header">
-            <h2>Forged in The Writer's Crucible</h2>
-            <h3>Certificate of Craft</h3>
-        </div>
-        <div class="transformation-display">
-            <p class="label">Before</p>
-            <p class="before-text">${sentences[0]}</p>
-            <p class="label">After</p>
-            <p class="after-text">“${sentences[3]}”</p>
-        </div>
-        <div class="certificate-footer">
-            <p>A demonstration of skill from the workshop of</p>
-            <p class="certificate-signature">Boluadeoye</p>
-        </div>
-      `;
-    }
-
-    // --- EVENT HANDLING (ROBUST) ---
-    mainContainer.addEventListener('input', (e) => {
-      if (e.target.tagName === 'TEXTAREA') {
-        const stage = e.target.id.split('-')[1];
-        const button = document.getElementById(`stage-${stage}-btn`);
-        if (button) {
-          button.disabled = e.target.value.trim().length === 0;
-        }
-      }
-    });
-
-    mainContainer.addEventListener('click', (e) => {
-      const targetId = e.target.id;
-
-      // Stage progression
-      if (targetId.startsWith('stage-') && targetId.endsWith('-btn')) {
-        const stageNum = parseInt(targetId.split('-')[1]);
-        sentences[stageNum] = inputs[stageNum].value.trim();
-        const nextStage = stageNum + 1;
-        
-        if (views[nextStage]) {
-          if (originalSentenceDisplays[nextStage]) {
-            originalSentenceDisplays[nextStage].textContent = sentences[stageNum];
-          }
-          switchView(String(nextStage));
-        } else {
-          renderCertificate();
-          switchView('certificate');
-        }
-        return;
-      }
-      
-      // Certificate actions
-      if (targetId === 'download-btn') {
-        const button = e.target;
-        button.textContent = 'Generating...';
-        button.disabled = true;
-
-        // Use a small timeout to allow the browser to update the button text
-        setTimeout(() => {
-          html2canvas(certificateCard, {
-            scale: 2,
-            backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg'),
-          }).then(canvas => {
-            const link = document.createElement('a');
-            link.download = 'Writers-Crucible-Certificate.png';
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-            button.textContent = 'Download as PNG';
-            button.disabled = false;
-          }).catch(err => {
-            console.error("Error generating canvas:", err);
-            button.textContent = 'Download Failed';
-          });
-        }, 100);
-        return;
-      }
-
-      if (targetId === 'start-over-btn') {
-        Object.values(inputs).forEach(input => input.value = '');
-        const firstButton = document.getElementById('stage-1-btn');
-        if (firstButton) firstButton.disabled = true;
-        switchView('1');
-        return;
-      }
-    });
-
-    // --- INITIALIZATION ---
-    switchView('1');
-  });
   </script>
 </body>
 </html>
