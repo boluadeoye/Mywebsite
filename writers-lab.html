@@ -157,7 +157,7 @@
   }
   .btn-chip:hover {
     background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta)); color: var(--accent-text);
-    border-color: transparent; transform: translateY(-2px); box-shadow: 0 4px 20px rgba(34, 211, 238, .3);
+    border-color: passive; transform: translateY(-2px); box-shadow: 0 4px 20px rgba(34, 211, 238, .3);
   }
   .btn-chip:disabled { opacity: 0.5; cursor: not-allowed; background: transparent !important; color: var(--accent-cyan) !important; transform: none !important; box-shadow: none !important; border-color: var(--accent-cyan) !important; }
   .button-group { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
@@ -219,17 +219,24 @@
               "stepId": 1, "type": "rewrite", "header": "Rewrite This Passive Sentence",
               "instruction": "Change this sentence to the active voice. Hint: Make the subject ('the hero') perform the action.",
               "initialText": "The adventure was started by a hero.",
-              "validationRules": [{ "rule": "activeVoice", "isCorrect": true }],
-              "feedback": { "success": "✔️ Great! That's active voice.", "error": "❌ Not quite. Make the 'hero' the one doing the action." }
+              "validationRules": [{ "rule": "isActiveVoice", "isCorrect": true }],
+              "feedback": {
+                "success": "✔️ Great! That's active voice! The subject now drives the action.",
+                "error": "❌ Still passive. Try making the 'hero' perform the action."
+              }
             },
             {
               "stepId": 2, "type": "create", "header": "Write Your Own Hook",
-              "instruction": "Now, craft your own compelling opening sentence using the active voice. Keep it 10 words or less.",
+              "instruction": "Craft a compelling opening sentence in active voice, 10 words or less.",
               "placeholder": "e.g., A dragon soared over the mountains.",
               "validationRules": [
-                { "rule": "activeVoice", "isCorrect": true },
+                { "rule": "isActiveVoice", "isCorrect": true },
                 { "rule": "wordCount", "options": { "max": 10 } }
-              ]
+              ],
+              "feedback": {
+                "success": "✔️ Active and concise! Ready to submit your hook!",
+                "error": "❌ Check for passive voice or word count."
+              }
             }
           ]
         }
@@ -245,22 +252,51 @@
     let currentExperiment = null;
     let currentStepIndex = 0;
     let userHook = '';
+    let inputDebounce = null;
 
-    // --- VALIDATION ENGINE (CORRECTED) ---
+    // --- VALIDATION ENGINE ---
     const validators = {
-      activeVoice: (text) => {
-        const s = text.toLowerCase().trim();
-        // This is a more robust check for common passive structures. It's not perfect NLP, but it's much better.
-        // It looks for a "be" verb (is, was, were...) followed by a word ending in "ed" or "en".
-        const passivePattern = /\b(is|am|are|was|were|be|been|being)\s+([a-zA-Z]{3,}ed|[a-zA-Z]{3,}en)\b/;
-        
-        // Imperative sentences (commands) like "Be quiet" can look passive but are active. We make an exception.
-        if (s.startsWith('be ')) {
-            return true;
+      isActiveVoice: (text) => {
+        const s = text.trim().toLowerCase();
+        if (!s) return false;
+
+        // Common "to be" verbs and past participles for passive detection
+        const toBeVerbs = ['is', 'am', 'are', 'was', 'were', 'be', 'been', 'being'];
+        const commonPastParticiples = [
+          'ed', 'en', 'built', 'chosen', 'done', 'eaten', 'fallen', 'given', 'gone',
+          'hidden', 'known', 'seen', 'sung', 'taken', 'written', 'driven', 'broken'
+        ];
+
+        // Passive pattern: "to be" verb + past participle + optional "by"
+        const passivePattern = new RegExp(
+          `\\b(${toBeVerbs.join('|')})\\s+([a-zA-Z]{3,}(?:${commonPastParticiples.join('|')}))\\b(?:\\s+by\\b)?`,
+          'i'
+        );
+
+        // Imperative detection: Starts with base verb (curated list for simplicity)
+        const imperativeVerbs = [
+          'run', 'write', 'sing', 'dance', 'jump', 'read', 'build', 'create',
+          'open', 'close', 'start', 'stop', 'give', 'take', 'be', 'go', 'come'
+        ];
+        const imperativePattern = new RegExp(`^(${imperativeVerbs.join('|')})\\b`, 'i');
+
+        // Additional active patterns: Subject + verb or question structures
+        const questionWords = ['who', 'what', 'where', 'when', 'why', 'how'];
+        const isQuestion = questionWords.some(word => s.startsWith(word));
+        const hasActiveStructure = /^[a-zA-Z]+.*\b(?:run|write|sing|dance|jump|read|build|create|open|close|start|stop|give|take|go|come)\b/i.test(s);
+
+        // Logic:
+        // - If passive pattern matches, it's passive (return false)
+        // - If imperative (starts with base verb) or question, it's active
+        // - If subject + active verb detected, it's active
+        // - Fallback: Assume active to avoid blocking valid inputs
+        if (passivePattern.test(s)) {
+          return false;
         }
-        
-        // If the passive pattern is found, the sentence is passive (return false). Otherwise, it's active (return true).
-        return !passivePattern.test(s);
+        if (imperativePattern.test(s) || isQuestion || hasActiveStructure) {
+          return true;
+        }
+        return true; // Fallback to active for ambiguous cases
       },
       wordCount: (text, options) => {
         const count = text.trim().split(/\s+/).filter(Boolean).length;
@@ -287,11 +323,16 @@
       if (step.type === 'rewrite') {
         contentHTML = `<textarea id="workbench-input" rows="3">${step.initialText}</textarea>
           <div class="feedback-box" id="feedback-box"></div>
-          <div class="button-group"><button class="btn-chip" id="check-btn">Check My Rewrite</button></div>`;
+          <div class="button-group">
+            <button class="btn-chip" id="check-btn">Check My Rewrite</button>
+          </div>`;
       } else if (step.type === 'create') {
         contentHTML = `<textarea id="workbench-input" rows="4" placeholder="${step.placeholder}"></textarea>
           <div class="real-time-feedback" id="real-time-feedback">0/10 words</div>
-          <div class="button-group"><button class="btn-chip" id="submit-btn" disabled>Submit Hook</button></div>`;
+          <div class="button-group">
+            <button class="btn-chip" id="submit-btn" disabled>Submit Hook</button>
+            <button class="btn-chip" id="retry-btn">Retry</button>
+          </div>`;
       }
 
       interactiveContainer.innerHTML = `<div class="workbench" style="animation: popIn 0.5s var(--transition);">
@@ -305,27 +346,29 @@
     }
 
     function renderCertificate() {
-        interactiveContainer.innerHTML = `
+      // Sanitize userHook to prevent XSS
+      const sanitizedHook = userHook.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      interactiveContainer.innerHTML = `
         <div class="certificate-of-craft">
-            <div class="certificate-card" style="animation: popIn 0.6s var(--transition);">
-                <div class="certificate-content">
-                    <div class="certificate-header">
-                        <p>Certificate of Craft</p>
-                        <h2>Active Opening Mastery</h2>
-                    </div>
-                    <p class="certificate-hook">“${userHook}”</p>
-                    <div class="certificate-footer">
-                        <p>Issued from The Writer's Lab at</p>
-                        <p class="certificate-signature">Boluadeoye</p>
-                    </div>
-                </div>
+          <div class="certificate-card" style="animation: popIn 0.6s var(--transition);">
+            <div class="certificate-content">
+              <div class="certificate-header">
+                <p>Certificate of Craft</p>
+                <h2>Active Opening Mastery</h2>
+              </div>
+              <p class="certificate-hook">“${sanitizedHook}”</p>
+              <div class="certificate-footer">
+                <p>Issued from The Writer's Lab at</p>
+                <p class="certificate-signature">Boluadeoye</p>
+              </div>
             </div>
-            <div class="button-group">
-                <button class="btn-chip" id="share-btn">Share Result</button>
-                <button class="btn-chip" id="back-library-btn">Back to Library</button>
-            </div>
+          </div>
+          <div class="button-group">
+            <button class="btn-chip" id="share-btn">Share Result</button>
+            <button class="btn-chip" id="back-library-btn">Back to Library</button>
+          </div>
         </div>`;
-        attachCertificateListeners();
+      attachCertificateListeners();
     }
 
     // --- EVENT LISTENERS & LOGIC ---
@@ -348,45 +391,75 @@
         });
       } else if (step.type === 'create') {
         const submitBtn = document.getElementById('submit-btn');
+        const retryBtn = document.getElementById('retry-btn');
         const feedback = document.getElementById('real-time-feedback');
-        input.addEventListener('input', () => {
+
+        const updateFeedback = () => {
           const text = input.value;
           const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
+          const isActive = validators.isActiveVoice(text);
           const isValid = validateInput(text, step.validationRules);
+          
           let feedbackText = `${wordCount}/10 words`;
-          if (text.length > 0) feedbackText += validators.activeVoice(text) ? ' | Active voice detected!' : ' | Seems passive...';
+          if (text.length > 0) {
+            if (!isActive) {
+              const passiveMatch = text.match(
+                /\b(is|am|are|was|were|be|been|being)\s+([a-zA-Z]{3,}(?:ed|en|built|chosen|done|eaten|fallen|given|gone|hidden|known|seen|sung|taken|written|driven|broken))\b/i
+              );
+              feedbackText += passiveMatch
+                ? ` | Passive: "${passiveMatch[0]}" detected. Try: Subject acts.`
+                : ' | Seems passive. Use a subject that acts.';
+            } else {
+              feedbackText += ' | Active voice confirmed!';
+            }
+          }
           feedback.textContent = feedbackText;
           submitBtn.disabled = !isValid;
+        };
+
+        input.addEventListener('input', () => {
+          clearTimeout(inputDebounce);
+          inputDebounce = setTimeout(updateFeedback, 200);
         });
-        submitBtn.addEventListener('click', () => { userHook = input.value; renderCertificate(); });
+
+        submitBtn.addEventListener('click', () => {
+          userHook = input.value;
+          renderCertificate();
+        });
+
+        retryBtn.addEventListener('click', () => {
+          input.value = '';
+          updateFeedback();
+        });
       }
     }
 
     function attachCertificateListeners() {
-        document.getElementById('share-btn').addEventListener('click', () => {
-            const shareText = `I just mastered "Active Openings" in The Writer's Lab and crafted this hook: "${userHook}" — Check it out!`;
-            if (navigator.share) {
-                navigator.share({ title: 'My Result from The Writer\'s Lab', text: shareText, url: window.location.href });
-            } else {
-                navigator.clipboard.writeText(shareText).then(() => alert('Result copied to clipboard!'));
-            }
-        });
-        document.getElementById('back-library-btn').addEventListener('click', showLibrary);
+      document.getElementById('share-btn').addEventListener('click', () => {
+        const sanitizedHook = userHook.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const shareText = `I mastered "Active Openings" in The Writer's Lab with this hook: "${sanitizedHook}" — Check it out!`;
+        if (navigator.share) {
+          navigator.share({ title: "My Writer's Lab Achievement", text: shareText, url: window.location.href });
+        } else {
+          navigator.clipboard.writeText(shareText).then(() => alert('Result copied to clipboard!'));
+        }
+      });
+      document.getElementById('back-library-btn').addEventListener('click', showLibrary);
     }
     
     // --- VIEW MANAGEMENT ---
     function switchView(viewToShow) {
-        const views = [libraryContainer, interactiveContainer];
-        views.forEach(view => {
-            if (view === viewToShow) {
-                view.classList.remove('hidden');
-                view.style.position = 'relative';
-            } else {
-                view.classList.add('hidden');
-                view.style.position = 'absolute';
-            }
-        });
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+      const views = [libraryContainer, interactiveContainer];
+      views.forEach(view => {
+        if (view === viewToShow) {
+          view.classList.remove('hidden');
+          view.style.position = 'relative';
+        } else {
+          view.classList.add('hidden');
+          view.style.position = 'absolute';
+        }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function startExperiment(expId) {
@@ -398,21 +471,23 @@
 
     function showLibrary() {
       currentExperiment = null;
+      userHook = '';
+      currentStepIndex = 0;
       switchView(libraryContainer);
     }
 
     // --- INITIALIZATION ---
     renderLibrary();
     labLibrary.addEventListener('click', (e) => {
-        const card = e.target.closest('.experiment-card');
-        if (card) startExperiment(card.dataset.expId);
+      const card = e.target.closest('.experiment-card');
+      if (card) startExperiment(card.dataset.expId);
     });
 
     const menuBtn = document.getElementById('menuBtn');
     const sideMenu = document.getElementById('sideMenu');
     const menuOverlay = document.getElementById('menuOverlay');
-    const closeMenu = () => { sideMenu.classList.remove('active'); menuOverlay.classList.remove('show'); };
-    const openMenu = () => { sideMenu.classList.add('active'); menuOverlay.classList.add('show'); };
+    const closeMenu = () => { sideMenu.classList.remove('active'); menuOverlay.classList.remove('show'); menuBtn.setAttribute('aria-expanded', 'false'); };
+    const openMenu = () => { sideMenu.classList.add('active'); menuOverlay.classList.add('show'); menuBtn.setAttribute('aria-expanded', 'true'); };
     menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
     menuOverlay.addEventListener('click', closeMenu);
   });
