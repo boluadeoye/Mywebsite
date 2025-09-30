@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>The Writer's Lab — Boluadeoye</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --bg: #0f172a;
+    --panel: #111a2e;
+    --panel-hover: #1a2441;
+    --ink: #e5eefc;
+    --muted: #94a3b8;
+    --orange: #f59e0b;
+    --orange-light: #fbbf24;
+    --orange-ink: #0b0f19;
+    --serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
+    --body-serif: 'Merriweather', serif;
+    --transition: cubic-bezier(0.4, 0, 0.2, 1);
+    --red: #f44336;
+    --green: #4caf50;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: var(--bg); scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font: 18px/1.8 var(--body-serif);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  a { color: var(--orange); text-decoration: none; transition: all 0.3s var(--transition); }
+  a:hover { color: var(--orange-light); text-decoration: underline; text-underline-offset: 4px; }
+  .wrap { margin: 0 auto; max-width: 1000px; padding: 0 1.5rem; position: relative; z-index: 1; }
+  main { flex-grow: 1; }
+
+  /* Header */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 70px;
+    padding: 0 1rem;
+  }
+  .brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    position: absolute;
+    left: 50%;
+    top: -20px;
+    transform: translateX(-50%);
+  }
+  .brand-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: transform 0.4s var(--transition);
+    margin-bottom: -25px;
+  }
+  .brand:hover .brand-logo { transform: scale(1.05); }
+  .brand h1 {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+  }
+  .top-nav { display: none; gap: 0.5rem; align-items: center; margin-left: auto; flex-wrap: wrap; }
+  .top-nav a {
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: 1px solid transparent;
+    color: var(--ink);
+  }
+  .top-nav a:hover, .top-nav a.active {
+    color: var(--orange);
+    border-color: var(--orange);
+    background: rgba(245, 158, 11, 0.1);
+  }
+  .hamburger {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .hamburger:hover { background: rgba(245, 158, 11, 0.15); }
+  .hamburger svg { width: 22px; height: 22px; }
+  .side-menu {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    z-index: 200;
+    width: 240px;
+    height: 100%;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: var(--panel);
+    border-right: 1px solid rgba(245, 158, 11, 0.2);
+    transition: left 0.3s var(--transition);
+  }
+  .side-menu.active { left: 0; }
+  .side-menu a {
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: 1px solid transparent;
+    color: var(--ink);
+  }
+  .side-menu a:hover, .side-menu a.active {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: var(--orange);
+    color: var(--orange);
+  }
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 150;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .overlay.show { display: block; opacity: 1; }
+  @media (min-width: 880px) { .top-nav { display: flex; } .hamburger { display: none; } }
+
+  /* Lab Page Styles */
+  .lab-header {
+    text-align: center;
+    padding: 4rem 0 3rem;
+  }
+  .lab-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    color: var(--ink);
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+  .lab-header p {
+    font-family: var(--sans-serif);
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .lab-library {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 0;
+  }
+
+  .experiment-card {
+    background: var(--panel);
+    border: 1px solid rgba(245, 158, 11, 0.15);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    transition: all 0.3s var(--transition);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+  }
+  .experiment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border-color: var(--orange);
+  }
+  .experiment-card h3 {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+  }
+  .experiment-card p {
+    font-family: var(--body-serif);
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.7;
+    flex-grow: 1;
+  }
+  .experiment-card .start-btn {
+    margin-top: 1.5rem;
+    padding: 0.6rem 1.25rem;
+    background: transparent;
+    color: var(--orange);
+    border: 2px solid var(--orange);
+    border-radius: 999px;
+    font-family: var(--sans-serif);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s var(--transition);
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  .experiment-card:hover .start-btn {
+    background: var(--orange);
+    color: var(--orange-ink);
+  }
+
+  /* Interactive Workbench Styles */
+  #workbench-container {
+    padding: 2rem 0 4rem;
+    display: none; /* Hidden by default */
+  }
+  .workbench {
+    background: var(--panel);
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2.5rem;
+    border-radius: var(--radius);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    text-align: center;
+  }
+  .workbench-header {
+    border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .workbench-header h2 {
+    font-family: var(--serif);
+    font-size: 2rem;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+  .workbench-header p {
+    font-family: var(--body-serif);
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .workbench-progress {
+    font-family: var(--sans-serif);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+    position: absolute;
+    top: -10px;
+    right: 0;
+  }
+  .workbench-content {
+    min-height: 200px;
+  }
+  .workbench textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 1rem;
+    border: 2px solid var(--orange);
+    background: var(--panel-hover);
+    color: var(--ink);
+    font-family: var(--sans-serif);
+    font-size: 1.1rem;
+    border-radius: 8px;
+    resize: vertical;
+    margin-top: 1rem;
+  }
+  .feedback-box {
+    min-height: 50px;
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 8px;
+    font-family: var(--sans-serif);
+    font-size: 0.95rem;
+    display: none; /* Initially hidden */
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    animation: fadeIn 0.4s ease;
+  }
+  .feedback-box.success {
+    background: rgba(76, 175, 80, 0.1);
+    color: var(--green);
+    border: 1px solid var(--green);
+  }
+  .feedback-box.error {
+    background: rgba(244, 67, 54, 0.1);
+    color: var(--red);
+    border: 1px solid var(--red);
+  }
+  .real-time-feedback {
+    font-family: var(--sans-serif);
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 0.5rem;
+    min-height: 22px;
+  }
+  .result-box {
+    text-align: left;
+    background: var(--panel-hover);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+    border-left: 3px solid var(--orange);
+  }
+  .result-box p {
+    margin-bottom: 1rem;
+    font-family: var(--sans-serif);
+    line-height: 1.6;
+  }
+  .result-box strong { color: var(--muted); }
+  .result-box .user-hook {
+    color: var(--orange-light);
+    font-weight: 600;
+    background: rgba(245, 158, 11, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 1.1rem;
+  }
+
+  .btn-chip {
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    color: var(--orange);
+    border: 2px solid var(--orange);
+    border-radius: 999px;
+    font-family: var(--sans-serif);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s var(--transition);
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+  .btn-chip:hover {
+    background: var(--orange);
+    color: var(--orange-ink);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+  }
+  .btn-chip:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: transparent !important;
+    color: var(--orange) !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Footer */
+  footer {
+    background: var(--panel);
+    padding: 1.5rem 0;
+    margin-top: 3rem;
+    border-top: 1px solid rgba(245, 158, 11, 0.2);
+  }
+  footer p {
+    font-family: var(--sans-serif);
+    font-size: 0.9rem;
+    color: var(--muted);
+    text-align: center;
+  }
+  </style>
+</head>
+<body>
+  <nav id="sideMenu" class="side-menu">
+    <a href="./">Home</a>
+    <a href="./posts.html">All Posts</a>
+    <a href="./library.html">Library</a>
+    <a href="./about.html">About</a>
+    <a href="./writers-lab.html" class="active">The Writer's Lab</a>
+  </nav>
+  <div id="menuOverlay" class="overlay"></div>
+
+  <header id="header">
+    <div class="wrap header-row">
+      <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" width="16" height="2" rx="1"/></svg>
+      </button>
+      <a class="brand" href="./">
+        <img src="images/Logo.png" alt="Boluadeoye Logo" width="80" height="80" class="brand-logo">
+        <h1>Boluadeoye</h1>
+      </a>
+      <nav class="top-nav" aria-label="Primary Navigation">
+        <a href="./">Home</a>
+        <a href="./posts.html">All Posts</a>
+        <a href="./library.html">Library</a>
+        <a href="./about.html">About</a>
+        <a href="./writers-lab.html" class="active">The Writer's Lab</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div id="library-container" class="wrap">
+      <section class="lab-header">
+        <h1>The Writer's Lab</h1>
+        <p>Welcome to the lab. This is a space for experimentation and discovery. Select an exercise below to hone your craft and strengthen your writing.</p>
+      </section>
+      <section id="lab-library" class="lab-library"></section>
+    </div>
+
+    <div id="workbench-container" class="wrap">
+      <div id="workbench" class="workbench"></div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div>
+  </footer>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    // --- DATA BLUEPRINT ---
+    const labData = {
+      "experiments": [
+        {
+          "id": "exp-active-openings-01",
+          "title": "Crafting Active Openings",
+          "description": "Learn how to hook your reader in 10 words or less by mastering the power of the active voice.",
+          "steps": [
+            {
+              "stepId": 1,
+              "type": "rewrite",
+              "header": "Rewrite This Passive Sentence",
+              "instruction": "Change this sentence to the active voice. Hint: Make the subject ('the hero') perform the action.",
+              "initialText": "The adventure was started by a hero.",
+              "validationRules": [{ "rule": "activeVoice", "isCorrect": true }],
+              "feedback": {
+                "success": "✔️ Great! That's active voice. The subject 'hero' now acts directly.",
+                "error": "❌ Not quite. Try making the 'hero' the one doing the action."
+              }
+            },
+            {
+              "stepId": 2,
+              "type": "create",
+              "header": "Write Your Own Hook",
+              "instruction": "Now, craft your own compelling opening sentence using the active voice. Keep it 10 words or less.",
+              "placeholder": "e.g., A dragon soared over the mountains.",
+              "validationRules": [
+                { "rule": "activeVoice", "isCorrect": true },
+                { "rule": "wordCount", "options": { "max": 10 } }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    // --- DOM ELEMENTS ---
+    const libraryContainer = document.getElementById('library-container');
+    const workbenchContainer = document.getElementById('workbench-container');
+    const labLibrary = document.getElementById('lab-library');
+    const workbench = document.getElementById('workbench');
+
+    // --- STATE MANAGEMENT ---
+    let currentExperiment = null;
+    let currentStepIndex = 0;
+    let userHook = '';
+
+    // --- VALIDATION ENGINE ---
+    const validators = {
+      activeVoice: (text) => {
+        if (!text || typeof text !== 'string') return true;
+        const s = text.toLowerCase().trim();
+        const passivePattern = /\b(is|am|are|was|were|be|been|being)\s+([a-zA-Z]+ed|[a-zA-Z]+en)\b/;
+        const followedByBy = /\b(by)\b/i;
+        if (passivePattern.test(s) && followedByBy.test(s)) return false;
+        return true;
+      },
+      wordCount: (text, options) => {
+        const count = text.trim().split(/\s+/).filter(Boolean).length;
+        return count <= options.max && count > 0;
+      }
+    };
+
+    function validateInput(text, rules) {
+      if (!rules) return true;
+      return rules.every(ruleConfig => {
+        const validatorFn = validators[ruleConfig.rule];
+        if (validatorFn) {
+          const result = validatorFn(text, ruleConfig.options || {});
+          return result === ruleConfig.isCorrect;
+        }
+        return true;
+      });
+    }
+
+    // --- RENDER FUNCTIONS ---
+    function renderLibrary() {
+      labLibrary.innerHTML = labData.experiments.map(exp => `
+        <div class="experiment-card" data-exp-id="${exp.id}">
+          <h3>${exp.title}</h3>
+          <p>${exp.description}</p>
+          <button class="start-btn">Start Experiment</button>
+        </div>
+      `).join('');
+      document.querySelectorAll('.experiment-card').forEach(card => {
+        card.addEventListener('click', () => {
+          startExperiment(card.dataset.expId);
+        });
+      });
+    }
+
+    function renderWorkbenchStep() {
+      const step = currentExperiment.steps[currentStepIndex];
+      let contentHTML = '';
+
+      switch(step.type) {
+        case 'rewrite':
+          contentHTML = `
+            <textarea id="workbench-input" rows="3" placeholder="Your rewrite...">${step.initialText}</textarea>
+            <div class="feedback-box" id="feedback-box"></div>
+            <div class="button-group">
+              <button class="btn-chip" id="check-btn">Check My Rewrite</button>
+            </div>
+          `;
+          break;
+        case 'create':
+          contentHTML = `
+            <textarea id="workbench-input" rows="4" placeholder="${step.placeholder}"></textarea>
+            <div class="real-time-feedback" id="real-time-feedback">0/10 words</div>
+            <div class="button-group">
+                <button class="btn-chip" id="submit-btn" disabled>Submit Hook</button>
+            </div>
+          `;
+          break;
+      }
+
+      workbench.innerHTML = `
+        <div class="workbench-header">
+          <span class="workbench-progress">Step ${currentStepIndex + 1}/${currentExperiment.steps.length}</span>
+          <h2>${step.header}</h2>
+          <p>${step.instruction}</p>
+        </div>
+        <div class="workbench-content" style="animation: fadeIn 0.5s ease;">
+          ${contentHTML}
+        </div>
+      `;
+      attachWorkbenchListeners();
+    }
+
+    function renderResult() {
+      workbench.innerHTML = `
+        <div class="workbench-header">
+          <h2>Experiment Complete!</h2>
+          <p>You've crafted a powerful, active hook. Notice the energy and directness it brings to your writing.</p>
+        </div>
+        <div class="workbench-content" style="animation: fadeIn 0.5s ease;">
+          <div class="result-box">
+            <p><strong>Example Passive Sentence:</strong><br>"The adventure was started by a hero."</p>
+            <p><strong>Your Active Hook:</strong><br><span class="user-hook">${userHook}</span></p>
+          </div>
+          <div class="button-group">
+            <button class="btn-chip" id="restart-btn">Try Another</button>
+            <button class="btn-chip" id="back-library-btn">Back to Library</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('restart-btn').addEventListener('click', () => startExperiment(currentExperiment.id));
+      document.getElementById('back-library-btn').addEventListener('click', showLibrary);
+    }
+
+
+    // --- EVENT LISTENERS & LOGIC ---
+    function attachWorkbenchListeners() {
+      const input = document.getElementById('workbench-input');
+      const step = currentExperiment.steps[currentStepIndex];
+
+      if (step.type === 'rewrite') {
+        const checkBtn = document.getElementById('check-btn');
+        const feedbackBox = document.getElementById('feedback-box');
+        checkBtn.addEventListener('click', () => {
+          const isValid = validateInput(input.value, step.validationRules);
+          feedbackBox.style.display = 'flex';
+          if (isValid) {
+            feedbackBox.className = 'feedback-box success';
+            feedbackBox.innerHTML = step.feedback.success;
+            checkBtn.textContent = 'Next →';
+            checkBtn.onclick = () => {
+              currentStepIndex++;
+              renderWorkbenchStep();
+            };
+          } else {
+            feedbackBox.className = 'feedback-box error';
+            feedbackBox.innerHTML = step.feedback.error;
+          }
+        });
+      }
+
+      if (step.type === 'create') {
+        const submitBtn = document.getElementById('submit-btn');
+        const feedback = document.getElementById('real-time-feedback');
+        input.addEventListener('input', () => {
+          const text = input.value;
+          const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
+          const isValid = validateInput(text, step.validationRules);
+
+          let feedbackText = `${wordCount}/10 words`;
+          if (text.length > 0) {
+            feedbackText += validators.activeVoice(text) ? ' | Active voice detected!' : ' | Seems passive...';
+          }
+          feedback.textContent = feedbackText;
+          submitBtn.disabled = !isValid;
+        });
+
+        submitBtn.addEventListener('click', () => {
+          userHook = input.value;
+          renderResult();
+        });
+      }
+    }
+
+    function startExperiment(expId) {
+      currentExperiment = labData.experiments.find(e => e.id === expId);
+      currentStepIndex = 0;
+      libraryContainer.style.display = 'none';
+      workbenchContainer.style.display = 'block';
+      workbenchContainer.scrollIntoView({ behavior: 'smooth' });
+      renderWorkbenchStep();
+    }
+
+    function showLibrary() {
+      workbenchContainer.style.display = 'none';
+      libraryContainer.style.display = 'block';
+      currentExperiment = null;
+    }
+
+    // --- INITIALIZATION ---
+    renderLibrary();
+
+    // --- Basic Nav Menu Logic ---
+    const menuBtn = document.getElementById('menuBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+
+    function closeMenu() {
+      sideMenu.classList.remove('active');
+      menuOverlay.classList.remove('show');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    }
+    function openMenu() {
+      sideMenu.classList.add('active');
+      menuOverlay.classList.add('show');
+      menuBtn.setAttribute('aria-expanded', 'true');
+    }
+    menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
+    menuOverlay.addEventListener('click', closeMenu);
+  });
+  </script>
+</body>
+</html>
