@@ -102,14 +102,16 @@
     .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .5); z-index: 150; display: none; cursor: pointer; opacity: 0; transition: opacity 0.3s ease; }
     .overlay.show { display: block; opacity: 1; }
     
+    /* --- Page Header (REVISED) --- */
     .page-header {
       text-align: center;
-      padding: 4rem 0 3rem;
+      padding: 2.5rem 0 2rem; /* Reduced top and bottom padding */
     }
     .page-header h1 {
       font-size: clamp(2.2rem, 5vw, 3.5rem);
       font-family: var(--serif);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem; /* Slightly reduced margin */
+      line-height: 1.1; /* Tighter line height */
       background: linear-gradient(135deg, var(--orange), var(--orange-light));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
@@ -120,7 +122,7 @@
       margin: 0 auto;
     }
     
-    /* --- Filter Bar --- */
+    /* --- Filter Bar (REVISED) --- */
     .filter-controls {
       display: flex;
       flex-wrap: wrap;
@@ -128,8 +130,7 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 2.5rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(245, 158, 11, .15);
+      padding: 1rem 0; /* Removed bottom padding and border for a cleaner look */
     }
     .search-wrapper {
       position: relative;
@@ -380,7 +381,8 @@
       }
 
       function setupCategoryFilters() {
-        const categories = ['All', ...new Set(allBooks.map(book => book.category))];
+        if (!allBooks.length) return;
+        const categories = ['All', ...new Set(allBooks.map(book => book.category).filter(Boolean))];
         categoryFiltersContainer.innerHTML = categories.map(category => 
           `<button class="filter-btn ${category === 'All' ? 'active' : ''}" data-category="${category}">${category}</button>`
         ).join('');
@@ -390,7 +392,6 @@
         if (event.target.classList.contains('filter-btn')) {
           activeCategory = event.target.dataset.category;
           
-          // Update active class on buttons
           categoryFiltersContainer.querySelectorAll('.filter-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.category === activeCategory);
           });
@@ -404,12 +405,11 @@
         
         const filteredBooks = allBooks.filter(book => {
           const matchesCategory = activeCategory === 'All' || book.category === activeCategory;
-          const matchesSearch = book.title.toLowerCase().includes(searchTerm) || book.author.toLowerCase().includes(searchTerm);
+          const matchesSearch = !searchTerm || book.title.toLowerCase().includes(searchTerm) || book.author.toLowerCase().includes(searchTerm);
           return matchesCategory && matchesSearch;
         });
         
         displayBooks(filteredBooks);
-
       }
 
       function displayBooks(books) {
