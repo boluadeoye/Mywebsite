@@ -22,7 +22,12 @@
     .stage {
       margin-bottom: 2rem;
       width: 100%;
-      max-width: 600px;
+      max-width: 700px;
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
     }
     label {
       font-weight: bold;
@@ -51,18 +56,24 @@
     button:hover {
       background-color: #003060;
     }
-    #certificate {
-      background-color: #fff;
-      border: 2px solid #004080;
-      padding: 2rem;
+    #forgeRoom {
+      display: none;
       margin-top: 2rem;
-      width: 100%;
-      max-width: 600px;
       text-align: center;
+    }
+    #certificate {
+      background: url('https://i.imgur.com/3YQZQvB.png') no-repeat center center;
+      background-size: cover;
+      padding: 2rem;
+      width: 100%;
+      max-width: 700px;
+      border: 2px solid #004080;
       font-family: 'Georgia', serif;
-      position: relative;
+      color: #2c2c2c;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
     }
     #certificate h2 {
+      color: #004080;
       margin-bottom: 1rem;
     }
     #branding {
@@ -83,36 +94,39 @@
   <div class="stage" id="stage1">
     <label for="weakSentence">Stage 1: The Challenge</label>
     <textarea id="weakSentence" placeholder="Enter a weak sentence..."></textarea>
-    <button onclick="goToStage2()">Next: Clarity Forge</button>
+    <button onclick="goToStage2()">Begin Clarity Forge</button>
   </div>
 
   <div class="stage" id="stage2" style="display:none;">
     <label for="activeSentence">Stage 2: Clarity Forge (Active Voice)</label>
     <textarea id="activeSentence" placeholder="Rewrite in active voice..."></textarea>
-    <button onclick="goToStage3()">Next: Impact Anvil</button>
+    <button onclick="goToStage3()">Proceed to Impact Anvil</button>
   </div>
 
   <div class="stage" id="stage3" style="display:none;">
     <label for="strongSentence">Stage 3: Impact Anvil (Stronger Verb)</label>
     <textarea id="strongSentence" placeholder="Enhance the verb..."></textarea>
-    <button onclick="goToStage4()">Next: Final Polish</button>
+    <button onclick="goToStage4()">Proceed to Final Polish</button>
   </div>
 
   <div class="stage" id="stage4" style="display:none;">
     <label for="finalSentence">Stage 4: The Final Polish (Imagery/Detail)</label>
     <textarea id="finalSentence" placeholder="Add imagery or detail..."></textarea>
-    <button onclick="generateCertificate()">Forge Certificate</button>
+    <button onclick="revealForgeRoom()">Reveal Certificate</button>
   </div>
 
-  <div id="certificate" style="display:none;">
-    <h2>Forged in The Writer's Crucible</h2>
-    <p><strong>Before:</strong><br><span id="beforeText"></span></p>
-    <p><strong>After:</strong><br><span id="afterText"></span></p>
-    <div id="branding">
-      Certified by The Writer's Crucible<br>
-      <div id="signature">Boluadeoye</div>
+  <div id="forgeRoom">
+    <h2>🕯️ Your Sentence Has Been Forged</h2>
+    <div id="certificate">
+      <h2>Forged in The Writer's Crucible</h2>
+      <p><strong>Before:</strong><br><span id="beforeText"></span></p>
+      <p><strong>After:</strong><br><span id="afterText"></span></p>
+      <div id="branding">
+        Certified by The Writer's Crucible<br>
+        <div id="signature">Boluadeoye</div>
+      </div>
     </div>
-    <button onclick="downloadCertificate()">Download as PNG</button>
+    <button onclick="downloadCertificate()">Download Your Artifact</button>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -126,26 +140,30 @@
 
     function goToStage3() {
       const active = document.getElementById('activeSentence').value.trim();
-      if (!active) return alert('Please rewrite the sentence in active voice.');
+      if (!active || active.includes('was') || active.includes('were')) {
+        return alert('Please ensure the sentence is in active voice.');
+      }
       document.getElementById('stage2').style.display = 'none';
       document.getElementById('stage3').style.display = 'block';
     }
 
     function goToStage4() {
       const strong = document.getElementById('strongSentence').value.trim();
-      if (!strong) return alert('Please enhance the verb.');
+      if (!strong || strong.includes('make') || strong.includes('do')) {
+        return alert('Please use a stronger verb.');
+      }
       document.getElementById('stage3').style.display = 'none';
       document.getElementById('stage4').style.display = 'block';
     }
 
-    function generateCertificate() {
+    function revealForgeRoom() {
       const weak = document.getElementById('weakSentence').value.trim();
       const final = document.getElementById('finalSentence').value.trim();
-      if (!final) return alert('Please add imagery or detail.');
+      if (!final || final.length < 10) return alert('Please add meaningful imagery or detail.');
       document.getElementById('beforeText').innerText = weak;
       document.getElementById('afterText').innerText = final;
       document.getElementById('stage4').style.display = 'none';
-      document.getElementById('certificate').style.display = 'block';
+      document.getElementById('forgeRoom').style.display = 'block';
     }
 
     function downloadCertificate() {
