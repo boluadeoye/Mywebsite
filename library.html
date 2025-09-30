@@ -119,13 +119,77 @@
       max-width: 65ch;
       margin: 0 auto;
     }
+    
+    /* --- Filter Bar --- */
+    .filter-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(245, 158, 11, .15);
+    }
+    .search-wrapper {
+      position: relative;
+      flex-grow: 1;
+      min-width: 250px;
+    }
+    #search-input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
+      background: var(--panel);
+      border: 1px solid rgba(245, 158, 11, .2);
+      border-radius: 999px;
+      color: var(--ink);
+      font-size: 1rem;
+      transition: all 0.2s var(--transition);
+    }
+    #search-input:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px var(--ring);
+    }
+    .search-wrapper::before {
+      content: '🔎';
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+    }
+    .category-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .filter-btn {
+      padding: 0.5rem 1rem;
+      background: transparent;
+      border: 1px solid rgba(245, 158, 11, .2);
+      border-radius: 999px;
+      color: var(--muted);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s var(--transition);
+    }
+    .filter-btn:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+    .filter-btn.active {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: var(--orange-ink);
+    }
 
-    /* --- Bookshelf Grid Layout (REVISED) --- */
+
+    /* --- Bookshelf Grid Layout --- */
     .library-grid {
       display: grid;
-      /* This will create 2 columns on mobile, and up to 4-5 on desktop */
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 2rem; /* Increased gap for better spacing */
+      gap: 2rem;
       min-height: 300px;
     }
     .book-card {
@@ -136,7 +200,7 @@
       display: flex;
       flex-direction: column;
       transition: all 0.3s var(--transition);
-      box-shadow: 0 4px_15px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     .book-card:hover {
       transform: translateY(-5px);
@@ -144,24 +208,24 @@
       border-color: var(--orange);
     }
     .book-cover {
-      aspect-ratio: 2 / 3; /* Enforces a standard book cover shape */
-      background: #0c1425; /* Dark background for any whitespace if image is transparent */
+      aspect-ratio: 2 / 3;
+      background: #0c1425;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0.5rem; /* Small padding to ensure cover never touches the edges */
+      padding: 0.5rem;
     }
     .book-cover img {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* CRITICAL: Ensures full cover is visible without cropping */
-      border-radius: 4px; /* Slightly rounded corners for the image itself */
+      object-fit: contain;
+      border-radius: 4px;
     }
     .book-info {
       padding: 1rem;
       display: flex;
       flex-direction: column;
-      flex-grow: 1; /* Allows the button to anchor to the bottom */
+      flex-grow: 1;
     }
     .book-info h4 {
       font-family: var(--serif);
@@ -180,13 +244,12 @@
       font-size: 0.9rem;
       color: var(--muted);
       line-height: 1.5;
-      flex-grow: 1; /* Pushes the button down */
+      flex-grow: 1;
       margin-bottom: 1rem;
-      /* Truncation for long descriptions */
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: 3; /* Limit to 3 lines */
+      -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
     }
     .book-link {
@@ -198,14 +261,14 @@
       border-radius: 999px;
       font-weight: 700;
       font-size: 0.85rem;
-      margin-top: auto; /* Anchors button to bottom */
+      margin-top: auto;
     }
     .book-link:hover {
       transform: scale(1.05);
       box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
     }
 
-    .loading { text-align: center; padding: 3rem; color: var(--muted); }
+    .loading, .no-results { text-align: center; padding: 3rem; color: var(--muted); }
     .loading-spinner { display: inline-block; width: 36px; height: 36px; border: 2px solid rgba(245, 158, 11, .3); border-top-color: var(--orange); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
     
@@ -248,6 +311,14 @@
         <h1>A Library of Resources</h1>
         <p>Timeless books and resources to nourish your faith, creativity, and personal growth.</p>
     </section>
+    
+    <section id="filter-controls" class="filter-controls">
+        <div class="search-wrapper">
+          <input type="search" id="search-input" placeholder="Search by title or author...">
+        </div>
+        <div id="category-filters" class="category-filters">
+          </div>
+    </section>
 
     <section id="library-grid" class="library-grid" aria-live="polite">
         <div class="loading">
@@ -282,24 +353,68 @@
       menuBtn.addEventListener('click', () => { sideMenu.classList.contains('active') ? closeMenu() : openMenu(); });
       menuOverlay.addEventListener('click', closeMenu);
 
-      // --- Library Loading and Display Logic ---
+      // --- Library Logic ---
       const libraryGrid = document.getElementById('library-grid');
+      const searchInput = document.getElementById('search-input');
+      const categoryFiltersContainer = document.getElementById('category-filters');
+      
+      let allBooks = []; // To store the original list of books
+      let activeCategory = 'All';
 
       async function loadLibrary() {
         try {
           const res = await fetch('./library.json', { cache: 'no-store' });
           if (!res.ok) throw new Error(`Failed to load library.json (Status: ${res.status})`);
-          const books = await res.json();
-          displayBooks(books);
+          allBooks = await res.json();
+          
+          setupCategoryFilters();
+          displayBooks(allBooks);
+          
+          searchInput.addEventListener('input', handleFilterChange);
+          categoryFiltersContainer.addEventListener('click', handleCategoryClick);
+
         } catch(err) {
           console.error('Error loading library:', err);
           libraryGrid.innerHTML = `<div style="text-align:center;padding:3rem;color:#ff6b6b;"><h3>Unable to load library</h3><p>${err.message}</p></div>`;
         }
       }
 
+      function setupCategoryFilters() {
+        const categories = ['All', ...new Set(allBooks.map(book => book.category))];
+        categoryFiltersContainer.innerHTML = categories.map(category => 
+          `<button class="filter-btn ${category === 'All' ? 'active' : ''}" data-category="${category}">${category}</button>`
+        ).join('');
+      }
+
+      function handleCategoryClick(event) {
+        if (event.target.classList.contains('filter-btn')) {
+          activeCategory = event.target.dataset.category;
+          
+          // Update active class on buttons
+          categoryFiltersContainer.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.category === activeCategory);
+          });
+          
+          handleFilterChange();
+        }
+      }
+
+      function handleFilterChange() {
+        const searchTerm = searchInput.value.toLowerCase();
+        
+        const filteredBooks = allBooks.filter(book => {
+          const matchesCategory = activeCategory === 'All' || book.category === activeCategory;
+          const matchesSearch = book.title.toLowerCase().includes(searchTerm) || book.author.toLowerCase().includes(searchTerm);
+          return matchesCategory && matchesSearch;
+        });
+        
+        displayBooks(filteredBooks);
+
+      }
+
       function displayBooks(books) {
-        if (!books || !books.length) {
-          libraryGrid.innerHTML = `<p style="text-align:center;color:var(--muted);padding:3rem;">The library is currently empty. Check back soon!</p>`;
+        if (!books.length) {
+          libraryGrid.innerHTML = `<div class="no-results"><p>No books match your criteria.</p></div>`;
           return;
         }
         libraryGrid.innerHTML = books.map(book => `
