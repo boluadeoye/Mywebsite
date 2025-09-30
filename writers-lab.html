@@ -6,286 +6,212 @@
   <title>The Writer's Crucible — Boluadeoye</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;800&family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700&family=Playfair+Display:wght@700;800&family=Tangerine:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoVBL5gI9kDXOkubtZkrhfD9jAViYg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <style>
   :root {
     --bg: #fcfaf5;
     --text-main: #2c2c2c;
     --text-muted: #888888;
+    --panel: #ffffff;
     --accent-blue: #004080;
-    --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
-    --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-    --body-serif: 'Merriweather', serif;
-    --scholarly-font: 'EB Garamond', serif;
+    --accent-blue-light: #0059b3;
+    --serif-headings: 'Playfair Display', Georgia, "Times New Roman", serif;
+    --serif-body: 'Merriweather', serif;
+    --sans-serif-ui: 'Inter', system-ui, -apple-system, sans-serif;
+    --signature-font: 'Tangerine', cursive;
     --transition: cubic-bezier(0.4, 0, 0.2, 1);
     --radius: 8px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { background: var(--bg); scroll-behavior: smooth; }
+  html { background: var(--bg); }
   body {
     background: var(--bg);
     color: var(--text-main);
-    font: 18px/1.8 var(--body-serif);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem 1rem;
+    font-family: var(--serif-body);
+    font-size: 18px; line-height: 1.8;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    display: flex; flex-direction: column; min-height: 100vh;
   }
-  .wrap { max-width: 700px; width: 100%; position: relative; z-index: 1; }
+  .wrap { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
+  main { flex-grow: 1; padding: 3rem 0; position: relative; }
 
   /* Header */
   header {
-    text-align: center;
-    padding: 2rem 0 1.5rem;
-    border-bottom: 1px solid rgba(0, 64, 128, 0.1);
-    width: 100%;
+    width: 100%; text-align: center; padding: 1.5rem 0;
+    border-bottom: 1px solid #ddd; background-color: var(--bg);
+    position: sticky; top: 0; z-index: 1000;
   }
   .header-title {
-    font-family: var(--serif);
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
-    font-weight: 800;
-    color: var(--text-main);
-    letter-spacing: -0.025rem;
-  }
-  .header-subtitle {
-    font-family: var(--scholarly-font);
-    font-size: 1.2rem;
-    color: var(--text-muted);
-    margin-top: 0.5rem;
+    font-family: var(--serif-headings); font-size: 1.75rem; font-weight: 800;
+    color: var(--accent-blue); letter-spacing: 1px;
+    text-decoration: none;
   }
 
-  /* Stages */
-  .stage {
-    background: var(--bg);
-    padding: 2.5rem;
-    border-radius: var(--radius);
-    border: 1px solid rgba(0, 64, 128, 0.1);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    max-width: 600px;
+  /* View Transitions */
+  .view {
     width: 100%;
-    opacity: 0;
-    transform: translateY(20px);
     transition: opacity 0.5s var(--transition), transform 0.5s var(--transition);
   }
-  .stage.active {
-    opacity: 1;
-    transform: translateY(0);
+  .view.hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    position: absolute;
+    top: 3rem;
+    left: 0;
+    right: 0;
   }
-  .stage-header {
-    margin-bottom: 2rem;
+
+  /* Universal Stage Styling */
+  .stage-container {
+    background: var(--panel);
+    border: 1px solid #eee;
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
   }
-  .stage-title {
-    font-family: var(--serif);
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--text-main);
+  .stage-header { text-align: center; margin-bottom: 2.5rem; }
+  .stage-eyebrow {
+    font-family: var(--sans-serif-ui); font-size: 0.8rem; font-weight: 600;
+    color: var(--accent-blue); text-transform: uppercase; letter-spacing: 1.5px;
     margin-bottom: 0.5rem;
   }
-  .stage-description {
-    font-family: var(--scholarly-font);
-    font-size: 1.05rem;
-    color: var(--text-muted);
-    line-height: 1.7;
+  .stage-header h1 { font-family: var(--serif-headings); font-size: 2.5rem; }
+  .stage-header p { color: var(--text-muted); font-family: var(--serif-body); max-width: 50ch; margin: 1rem auto 0; }
+  
+  .original-sentence {
+    background: #f1f1f1; padding: 1rem; border-radius: var(--radius);
+    margin-bottom: 1.5rem; text-align: center; font-style: italic; color: var(--text-muted);
   }
-  .stage-input {
-    width: 100%;
-    min-height: 100px;
-    padding: 1rem;
-    border: 1px solid rgba(0, 64, 128, 0.2);
-    background: white;
-    color: var(--text-main);
-    font-family: var(--scholarly-font);
-    font-size: 1.1rem;
-    border-radius: 6px;
-    resize: vertical;
-    margin-top: 1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  .stage-container textarea {
+    width: 100%; min-height: 120px; padding: 1rem;
+    background: #fdfdfd; border: 2px solid #ddd; border-radius: var(--radius);
+    color: var(--text-main); font-family: var(--serif-body); font-size: 1.1rem;
+    resize: vertical; transition: all 0.3s ease;
   }
-  .stage-input:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 10px rgba(0, 64, 128, 0.1); }
-  .feedback-box {
-    margin: 1rem 0;
-    padding: 1rem;
-    border-radius: 6px;
-    font-family: var(--sans-serif);
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    animation: popIn 0.4s ease;
+  .stage-container textarea:focus {
+    outline: none; border-color: var(--accent-blue);
+    box-shadow: 0 0 15px rgba(0, 64, 128, 0.15);
   }
-  .feedback-box.success { background: rgba(0, 128, 0, 0.05); color: #006400; border: 1px solid rgba(0, 128, 0, 0.2); }
-  .feedback-box.error { background: rgba(139, 0, 0, 0.05); color: #8b0000; border: 1px solid rgba(139, 0, 0, 0.2); }
-  .real-time-feedback { font-family: var(--sans-serif); font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem; min-height: 22px; }
-  .btn {
-    padding: 0.75rem 1.5rem;
-    background: var(--accent-blue);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-family: var(--sans-serif);
-    font-weight: 600;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all 0.3s var(--transition);
-    margin-top: 1rem;
+  .stage-footer { text-align: center; margin-top: 2rem; }
+  .continue-btn {
+    font-family: var(--sans-serif-ui); font-size: 1rem; font-weight: 600;
+    background: var(--accent-blue); color: white;
+    padding: 0.9rem 2.5rem; border: none; border-radius: 999px;
+    cursor: pointer; transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   }
-  .btn:hover {
-    background: #003366;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 64, 128, 0.2);
-  }
-  .btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
-  .button-group { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
-  .progress { font-family: var(--sans-serif); font-size: 0.85rem; font-weight: 600; color: var(--text-muted); position: absolute; top: 1rem; right: 1.5rem; }
-  .stage.hidden { opacity: 0; transform: translateY(20px); pointer-events: none; position: absolute; width: 100%; }
-  .certificate-of-craft {
-    background: var(--bg);
-    padding: 3rem;
-    border: 1px solid rgba(0, 64, 128, 0.2);
-    border-radius: var(--radius);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    width: 100%;
-    text-align: center;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s var(--transition), transform 0.5s var(--transition);
-  }
-  .certificate-of-craft.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .certificate-title {
-    font-family: var(--serif);
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: var(--text-main);
-    margin-bottom: 1rem;
-  }
-  .certificate-subtitle {
-    font-family: var(--scholarly-font);
-    font-size: 1.2rem;
-    color: var(--text-muted);
+  .continue-btn:hover:not(:disabled) { transform: translateY(-3px); background: var(--accent-blue-light); box-shadow: 0 8px 25px rgba(0, 64, 128, 0.2); }
+  .continue-btn:disabled { background: #ccc; color: #888; cursor: not-allowed; }
+
+  /* Certificate View */
+  #certificate-card {
+    background: #fcfaf5; color: #2c2c2c;
+    border: 2px solid var(--accent-blue); border-radius: var(--radius);
+    padding: 3rem; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
     margin-bottom: 2rem;
   }
-  .certificate-hook {
-    font-family: var(--scholarly-font);
-    font-style: italic;
-    font-size: 1.4rem;
-    color: var(--text-main);
+  .certificate-header h2 { font-family: var(--sans-serif-ui); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; color: var(--text-muted); }
+  .certificate-header h3 { font-family: var(--serif-headings); font-size: 2.5rem; margin: 0.5rem 0 2rem; color: var(--accent-blue); }
+  
+  .transformation-display {
+    text-align: left;
     margin: 2rem 0;
-    padding: 1rem;
-    border-top: 1px solid rgba(0, 64, 128, 0.2);
-    border-bottom: 1px solid rgba(0, 64, 128, 0.2);
   }
-  .certificate-footer {
-    font-family: var(--sans-serif);
-    font-size: 0.9rem;
+  .transformation-display .label {
+    font-family: var(--sans-serif-ui); font-weight: 600; font-size: 0.8rem;
+    text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted);
+  }
+  .transformation-display .before-text {
+    font-style: italic;
     color: var(--text-muted);
-    margin-top: 2rem;
-  }
-  .certificate-signature {
-    font-family: 'EB Garamond';
-    font-size: 2rem;
-    color: var(--accent-blue);
+    text-decoration: line-through;
     margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f1f1f1;
+    border-radius: var(--radius);
   }
-  @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+  .transformation-display .after-text {
+    font-family: var(--serif-headings);
+    font-size: 1.8rem;
+    line-height: 1.5;
+    color: var(--text-main);
+    padding: 1rem;
+  }
+
+  .certificate-footer { border-top: 1px solid #ddd; padding-top: 1.5rem; margin-top: 2rem; }
+  .certificate-footer p { margin: 0; font-size: 0.9rem; color: var(--text-muted); font-family: var(--sans-serif-ui); }
+  .certificate-signature { font-family: var(--signature-font); font-size: 4rem; color: var(--accent-blue); margin-top: -0.5rem; }
+
+  .button-group { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
 
   /* Footer */
-  footer { background: var(--panel); border-top: 1px solid rgba(0, 64, 128, 0.1); color: var(--text-muted); text-align: center; font-size: 0.88rem; padding: 2rem 0; margin-top: 3rem; }
+  footer { background: #eee; border-top: 1px solid #ddd; color: var(--text-muted); text-align: center; font-size: 0.88rem; padding: 2rem 0; margin-top: 3rem; }
   footer p { margin: 0; }
   </style>
 </head>
 <body>
-  <nav id="sideMenu" class="side-menu">
-    <a href="./">Home</a>
-    <a href="./posts.html">All Posts</a>
-    <a href="./library.html">Library</a>
-    <a href="./about.html">About</a>
-    <a href="./writers-lab.html" class="active">The Writer's Lab</a>
-  </nav>
-  <div id="menuOverlay" class="overlay"></div>
-
-  <header id="header">
-    <div class="wrap header-row">
-      <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="4" y="11" width="16" height="2" rx="1"/><rect x="4" y="16" width="16" height="2" rx="1"/></svg>
-      </button>
-      <a href="./writers-lab.html" class="header-title">The Writer's Crucible</a>
-    </div>
+  <header>
+    <a class="header-title" href="./writers-lab.html">The Writer's Crucible</a>
   </header>
 
-  <main>
-    <div id="stage-1" class="stage">
-      <div class="stage-header">
-        <span class="progress">Stage 1/3</span>
-        <h2>Clarity Forge</h2>
-        <p>Transform a passive sentence into active voice. Make the subject the doer of the action.</p>
-      </div>
-      <div class="stage-content">
-        <p class="stage-example">Passive: The adventure was started by the hero.</p>
-        <textarea id="input-1" class="stage-input" rows="2">The adventure was started by the hero.</textarea>
-        <div class="feedback-box" id="feedback-1"></div>
-        <div class="button-group">
-          <button class="btn" id="check-1">Check Rewrite</button>
+  <main class="wrap">
+    <div id="stage-1-view" class="view">
+      <div class="stage-container">
+        <div class="stage-header">
+          <p class="stage-eyebrow">Stage 1 of 3</p>
+          <h1>The Clarity Forge</h1>
+          <p>This sentence is passive and lacks energy. Your first task is to rewrite it in the active voice.</p>
+        </div>
+        <div class="original-sentence" id="original-sentence-1">The decision was made by the council.</div>
+        <textarea id="stage-1-input" rows="3" placeholder="e.g., The council made the decision."></textarea>
+        <div class="stage-footer">
+          <button id="stage-1-btn" class="continue-btn" disabled>Forge Clarity →</button>
         </div>
       </div>
     </div>
 
-    <div id="stage-2" class="stage hidden">
-      <div class="stage-header">
-        <span class="progress">Stage 2/3</span>
-        <h2>Impact Anvil</h2>
-        <p>Strengthen your verbs for more vivid, engaging writing. Replace weak verbs with stronger alternatives.</p>
-      </div>
-      <div class="stage-content">
-        <textarea id="input-2" class="stage-input" rows="2"></textarea>
-        <div class="feedback-box" id="feedback-2"></div>
-        <div class="button-group">
-          <button class="btn" id="check-2" disabled>Check Verbs</button>
+    <div id="stage-2-view" class="view hidden">
+      <div class="stage-container">
+        <div class="stage-header">
+          <p class="stage-eyebrow">Stage 2 of 3</p>
+          <h1>The Impact Anvil</h1>
+          <p>Good. Now, the verb 'made' is weak. Replace it with a stronger, more evocative verb that adds character.</p>
+        </div>
+        <div class="original-sentence" id="original-sentence-2"></div>
+        <textarea id="stage-2-input" rows="3" placeholder="e.g., The council decreed the decision."></textarea>
+        <div class="stage-footer">
+          <button id="stage-2-btn" class="continue-btn" disabled>Strike the Anvil →</button>
         </div>
       </div>
     </div>
 
-    <div id="stage-3" class="stage hidden">
-      <div class="stage-header">
-        <span class="progress">Stage 3/3</span>
-        <h2>Final Polish</h2>
-        <p>Add imagery to bring your opening to life. Incorporate descriptive language to paint a vivid picture.</p>
-      </div>
-      <div class="stage-content">
-        <textarea id="input-3" class="stage-input" rows="2"></textarea>
-        <div class="feedback-box" id="feedback-3"></div>
-        <div class="button-group">
-          <button class="btn" id="check-3" disabled>Polish & Submit</button>
+    <div id="stage-3-view" class="view hidden">
+      <div class="stage-container">
+        <div class="stage-header">
+          <p class="stage-eyebrow">Stage 3 of 3</p>
+          <h1>The Final Polish</h1>
+          <p>Excellent. For the final polish, add a descriptive phrase to give the sentence more context and power.</p>
+        </div>
+        <div class="original-sentence" id="original-sentence-3"></div>
+        <textarea id="stage-3-input" rows="4" placeholder="e.g., From the steps of the high temple, the council decreed the decision."></textarea>
+        <div class="stage-footer">
+          <button id="stage-3-btn" class="continue-btn" disabled>Reveal Masterpiece →</button>
         </div>
       </div>
     </div>
 
-    <div id="certificate" class="certificate-of-craft hidden">
-      <div class="certificate-header">
-        <h2>Certificate of Craft</h2>
-      </div>
-      <p class="certificate-before">Before: [Initial Hook]</p>
-      <p class="certificate-after">After: [Final Hook]</p>
-      <div class="certificate-footer">
-        <p>Issued from The Writer's Crucible at</p>
-        <p class="certificate-signature">Boluadeoye</p>
-      </div>
+    <div id="certificate-view" class="view hidden">
+        <div id="certificate-card">
+            <!-- Certificate content is rendered here by JS -->
+        </div>
+        <div class="button-group">
+            <button id="download-btn" class="continue-btn">Download as PNG</button>
+            <button id="start-over-btn" class="continue-btn" style="background:transparent; border: 2px solid var(--accent-blue); color: var(--accent-blue);">Forge Another</button>
+        </div>
     </div>
   </main>
 
@@ -294,121 +220,131 @@
   </footer>
 
   <script>
-  (function(){
-    // --- STATE ---
-    let currentStage = 1;
-    let initialHook = '';
-    let finalHook = '';
+  document.addEventListener('DOMContentLoaded', () => {
+    // --- DOM ELEMENTS ---
+    const views = {
+      1: document.getElementById('stage-1-view'),
+      2: document.getElementById('stage-2-view'),
+      3: document.getElementById('stage-3-view'),
+      4: document.getElementById('certificate-view')
+    };
+    const inputs = {
+      1: document.getElementById('stage-1-input'),
+      2: document.getElementById('stage-2-input'),
+      3: document.getElementById('stage-3-input')
+    };
+    const buttons = {
+      1: document.getElementById('stage-1-btn'),
+      2: document.getElementById('stage-2-btn'),
+      3: document.getElementById('stage-3-btn')
+    };
+    const originalSentenceDisplays = {
+      1: document.getElementById('original-sentence-1'),
+      2: document.getElementById('original-sentence-2'),
+      3: document.getElementById('original-sentence-3')
+    };
+    const certificateCard = document.getElementById('certificate-card');
 
-    // --- VALIDATION RULES ---
-    const weakVerbs = ['is', 'was', 'were', 'be', 'been', 'being', 'go', 'went', 'have', 'had', 'do', 'did', 'make', 'made'];
-    const imageryWords = ['vivid', 'steep', 'whisper', 'roar', 'glow', 'shadow', 'crisp', 'dank', 'towering', 'flickering', 'ancient', 'serene'];
-    const passivePattern = /\b(is|am|are|was|were|be|been|being)\s+([a-z]+ed|[a-z]+en)\b/i;
+    // --- STATE ---
+    let sentences = {
+      0: "The decision was made by the council.", // The initial weak sentence
+      1: "",
+      2: "",
+      3: ""
+    };
+
+    // --- VIEW MANAGEMENT ---
+    function switchView(stageToShow) {
+      Object.values(views).forEach(view => view.classList.add('hidden'));
+      views[stageToShow].classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     // --- RENDER FUNCTIONS ---
-    function showStage(stageNumber) {
-      for (let i = 1; i <= 3; i++) {
-        document.getElementById(`stage-${i}`).classList.toggle('active', i === stageNumber);
-        document.getElementById(`stage-${i}`).classList.toggle('hidden', i !== stageNumber);
-      }
-      document.getElementById('certificate').classList.toggle('hidden', stageNumber !== 4);
-      document.getElementById('certificate').classList.toggle('active', stageNumber === 4);
+    function renderCertificate() {
+        certificateCard.innerHTML = `
+            <div class="certificate-header">
+                <h2>Forged in The Writer's Crucible</h2>
+                <h3>Certificate of Craft</h3>
+            </div>
+            <div class="transformation-display">
+                <p class="label">Before</p>
+                <p class="before-text">${sentences[0]}</p>
+                <p class="label">After</p>
+                <p class="after-text">“${sentences[3]}”</p>
+            </div>
+            <div class="certificate-footer">
+                <p>A demonstration of skill from the workshop of</p>
+                <p class="certificate-signature">Boluadeoye</p>
+            </div>
+        `;
     }
 
     // --- EVENT LISTENERS ---
-    document.getElementById('check-1').addEventListener('click', () => {
-      const input = document.getElementById('input-1').value.trim();
-      const feedback = document.getElementById('feedback-1');
-      if (passivePattern.test(input)) {
-        feedback.className = 'feedback-box error';
-        feedback.innerHTML = '❌ Still passive. Make the subject the doer!';
-      } else {
-        feedback.className = 'feedback-box success';
-        feedback.innerHTML = '✔️ Perfect! Active voice achieved.';
-        initialHook = input;
-        const nextBtn = document.createElement('button');
-        nextBtn.className = 'btn';
-        nextBtn.textContent = 'Next →';
-        nextBtn.addEventListener('click', () => {
-          currentStage = 2;
-          showStage(2);
-          document.getElementById('input-2').value = initialHook;
-        });
-        feedback.appendChild(nextBtn);
-      }
-      feedback.style.display = 'flex';
-    });
+    Object.keys(inputs).forEach(stageNumStr => {
+      const stageNum = parseInt(stageNumStr);
+      const input = inputs[stageNum];
+      const button = buttons[stageNum];
 
-    document.getElementById('check-2').addEventListener('click', () => {
-      const input = document.getElementById('input-2').value.trim();
-      const feedback = document.getElementById('feedback-2');
-      const words = input.toLowerCase().split(/\s+/);
-      const weakVerbCount = words.filter(word => weakVerbs.includes(word)).length;
-      if (weakVerbCount > 0) {
-        feedback.className = 'feedback-box error';
-        feedback.innerHTML = `❌ ${weakVerbCount} weak verb${weakVerbCount > 1 ? 's' : ''} detected. Try stronger alternatives like 'soared' instead of 'went'.`;
-      } else {
-        feedback.className = 'feedback-box success';
-        feedback.innerHTML = '✔️ Strong verbs! Your sentence has impact.';
-        const nextBtn = document.createElement('button');
-        nextBtn.className = 'btn';
-        nextBtn.textContent = 'Next →';
-        nextBtn.addEventListener('click', () => {
-          currentStage = 3;
-          showStage(3);
-          document.getElementById('input-3').value = input;
-        });
-        feedback.appendChild(nextBtn);
-      }
-      feedback.style.display = 'flex';
-    });
-
-    document.getElementById('check-3').addEventListener('click', () => {
-      const input = document.getElementById('input-3').value.trim();
-      const feedback = document.getElementById('feedback-3');
-      const words = input.toLowerCase().split(/\s+/);
-      const imageryCount = words.filter(word => imageryWords.includes(word)).length;
-      if (imageryCount < 1) {
-        feedback.className = 'feedback-box error';
-        feedback.innerHTML = '❌ Add some imagery! Try words like "steep" or "whisper" to paint a picture.';
-      } else {
-        feedback.className = 'feedback-box success';
-        feedback.innerHTML = `✔️ Vivid imagery detected! Your hook comes to life.`;
-        finalHook = input;
-        const submitBtn = document.createElement('button');
-        submitBtn.className = 'btn';
-        submitBtn.textContent = 'Generate Certificate';
-        submitBtn.addEventListener('click', () => {
-          currentStage = 4;
-          showStage(4);
-          document.querySelector('.certificate-before').textContent = `Before: ${initialHook}`;
-          document.querySelector('.certificate-after').textContent = `After: ${finalHook}`;
-          setTimeout(downloadCertificate, 500);
-        });
-        feedback.appendChild(submitBtn);
-      }
-      feedback.style.display = 'flex';
-    });
-
-    // --- CERTIFICATE DOWNLOAD ---
-    function downloadCertificate() {
-      html2canvas(document.querySelector('.certificate-card')).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'writers-crucible-certificate.png';
-        link.href = canvas.toDataURL();
-        link.click();
+      input.addEventListener('input', () => {
+        button.disabled = input.value.trim().length === 0;
       });
-    }
+
+      button.addEventListener('click', () => {
+        sentences[stageNum] = input.value.trim();
+        const nextStage = stageNum + 1;
+
+        if (views[nextStage]) {
+          // Prepare the next stage
+          if(originalSentenceDisplays[nextStage]) {
+            originalSentenceDisplays[nextStage].textContent = sentences[stageNum];
+          }
+          switchView(nextStage);
+        } else {
+          // Final stage, render certificate
+          renderCertificate();
+          switchView(4);
+        }
+      });
+    });
+    
+    // Certificate Button Listeners
+    document.getElementById('download-btn').addEventListener('click', () => {
+      // Temporarily remove shadow for cleaner image
+      certificateCard.style.boxShadow = 'none';
+      
+      html2canvas(certificateCard, {
+        scale: 2, // for higher resolution
+        backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg'),
+        onclone: (document) => {
+            // Ensure styles are embedded for the canvas render
+            const style = document.createElement('style');
+            style.innerHTML = `
+              @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700&family=Playfair+Display:wght@700;800&family=Tangerine:wght@700&family=Inter:wght@400;600&display=swap');
+              #certificate-card { font-family: 'Merriweather', serif; }
+            `;
+            document.head.appendChild(style);
+        }
+      }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'Writer-s-Crucible-Certificate.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+
+        // Restore shadow after capture
+        certificateCard.style.boxShadow = '0 10px 40px rgba(0,0,0,0.1)';
+      });
+    });
+
+    document.getElementById('start-over-btn').addEventListener('click', () => {
+      // Reset state
+      Object.values(inputs).forEach(input => input.value = '');
+      Object.values(buttons).forEach(btn => btn.disabled = true);
+      switchView(1);
+    });
 
     // --- INITIALIZATION ---
-    showStage(1);
-    const menuBtn = document.getElementById('menuBtn');
-    const sideMenu = document.getElementById('sideMenu');
-    const menuOverlay = document.getElementById('menuOverlay');
-    const closeMenu = () => { sideMenu.classList.remove('active'); menuOverlay.classList.remove('show'); };
-    const openMenu = () => { sideMenu.classList.add('active'); menuOverlay.classList.add('show'); };
-    menuBtn.addEventListener('click', () => sideMenu.classList.contains('active') ? closeMenu() : openMenu());
-    menuOverlay.addEventListener('click', closeMenu);
+    switchView(1);
   });
   </script>
 </body>
