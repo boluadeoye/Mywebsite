@@ -1,189 +1,531 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>The Writer's Foundry — Boluadeoye</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #f5f5dc; --panel: #ffffff;
-      --ink: #2c3e50; --muted: #596a7a;
-      --accent: #800000; --accent-light: #a00000;
-      --accent-ink: #f5f5dc; --border-color: #dcd8cd;
-      --radius: 12px; --serif: 'Playfair Display', Georgia, serif;
-      --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
-      --transition: cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg); color: var(--ink);
-      font: 16px/1.7 var(--sans-serif);
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-    .wrap { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Writer's Foundry: Lab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg: #f5f5dc; /* Beige background */
+            --panel: #ffffff; /* White for cards */
+            --ink: #2c3e50; /* Primary dark text */
+            --muted: #596a7a; /* Muted/secondary text */
+            --accent: #800000; /* Maroon/burgundy accent */
+            --border-color: #dcd8cd; /* Subtle border color */
+        }
 
-    /* --- NEW: Unified Navigation Bar Styles --- */
-    .main-nav { background: var(--panel); border-bottom: 1px solid var(--border-color); padding: 1rem 0; margin-bottom: 2rem; }
-    .main-nav .wrap { display: flex; justify-content: space-between; align-items: center; }
-    .nav-brand { font-family: var(--serif); font-weight: 800; font-size: 1.2rem; color: var(--ink); text-decoration: none; }
-    .nav-links a { font-weight: 700; color: var(--muted); text-decoration: none; margin-left: 1.5rem; }
-    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+        /* Base Styles */
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--ink);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            text-rendering: optimizeLegibility; /* Critical for font appearance */
+        }
 
-    .page-tagline { text-align: center; padding: 1rem 0 2rem; }
-    .page-tagline p { font-size: 1.2rem; color: var(--muted); max-width: 50ch; margin: 0 auto; font-family: var(--serif); font-style: italic;}
+        /* Main Card Container */
+        .main-card {
+            background-color: var(--panel);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 500px;
+            padding: 25px;
+            box-sizing: border-box;
+        }
 
-    .foundry {
-      margin: 2rem auto; padding: 2.5rem;
-      background: var(--panel); border: 1px solid var(--border-color);
-      border-radius: var(--radius); box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-      min-height: 400px; display: flex; flex-direction: column;
-      transition: all 0.5s var(--transition);
-    }
-    .step-container { animation: fadeIn 0.5s var(--transition); }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    
-    .step-header {
-      display: grid; grid-template-columns: auto 1fr auto;
-      align-items: center; margin-bottom: 2rem; width: 100%;
-    }
-    .step-title {
-      grid-column: 2; font-family: var(--serif);
-      font-size: 1.8rem; font-weight: 800; line-height: 1.3;
-      text-align: center; color: var(--accent); padding: 0 0.5rem;
-    }
-    .btn-back {
-      grid-column: 1; justify-self: start;
-      background: none; border: none; font-size: 1.5rem;
-      color: var(--muted); cursor: pointer;
-    }
-    .btn-back:hover { color: var(--accent); }
-    .hidden { visibility: hidden; }
-    
-    .choice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
-    .choice-card {
-      padding: 1.2rem 1.5rem; background: var(--bg);
-      border: 1px solid var(--border-color);
-      border-radius: 8px; font-size: 1.1rem; font-family: var(--serif);
-      font-weight: 800; text-align: center; cursor: pointer;
-      transition: all 0.2s var(--transition); width: 100%;
-    }
-    .choice-card:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.07); border-color: var(--accent); color: var(--accent); }
-    
-    .result-container { text-align: left; }
-    .result-container h3 {
-        font-family: var(--serif); font-size: 1.1rem;
-        text-transform: uppercase; letter-spacing: 1px; color: var(--ink);
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 0.5rem; margin: 1.5rem 0 1rem;
-    }
-    .result-container p { font-size: 1.1rem; line-height: 1.7; }
-    .result-container ul { list-style: none; padding-left: 1rem; border-left: 2px solid var(--accent); }
-    .result-container li { font-size: 0.95rem; color: var(--muted); margin-bottom: 0.5rem; font-style: italic; }
+        /* Header (CRITICAL) */
+        .step-header {
+            display: grid;
+            grid-template-columns: auto 1fr auto; /* Back button | Title (centered) | Spacer */
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
 
-    .btn-primary {
-      padding: 1rem 1.5rem; background: var(--accent);
-      color: var(--accent-ink); border: none; font-family: var(--serif);
-      border-radius: 8px; font-size: 1.1rem;
-      font-weight: 800; text-align: center; cursor: pointer;
-      transition: all 0.2s var(--transition); width: 100%; margin-top: 2rem;
-    }
-    .btn-primary:hover { background: var(--accent-light); box-shadow: 0 4px 20px rgba(128, 0, 0, 0.25); }
-    
-    .action-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
-    .action-card {
-      background: var(--bg); border: 1px solid var(--border-color);
-      border-radius: var(--radius); padding: 1.5rem;
-      text-align: left; cursor: pointer; transition: all 0.2s var(--transition);
-    }
-    .action-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-    .action-card h4 { font-family: var(--serif); font-size: 1.3rem; font-weight: 800; color: var(--ink); margin-bottom: 0.25rem; pointer-events: none; }
-    .action-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.5; margin: 0; pointer-events: none; }
-    .action-card.saved { border-color: #27ae60; background-color: #e8f8f5; }
-  </style>
+        .back-button {
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            line-height: 1; /* Ensures perfect alignment */
+            justify-self: start;
+            visibility: hidden; /* Hidden by default, shown when needed */
+        }
+
+        .back-button:hover {
+            color: var(--accent);
+        }
+
+        .step-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            font-size: 1.8rem; /* Significantly smaller */
+            color: var(--ink);
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            line-height: 1.2;
+            text-rendering: optimizeLegibility;
+            grid-column: 2; /* Ensures it stays in the center column */
+        }
+
+        /* Content Area */
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Choice Cards */
+        .choice-card {
+            background-color: #fcfcfc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 18px 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--ink);
+        }
+
+        .choice-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-color: var(--accent);
+        }
+
+        .choice-card.selected {
+            background-color: var(--accent);
+            color: var(--panel);
+            border-color: var(--accent);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Result Display */
+        .result-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--ink);
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .result-section p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            color: var(--ink);
+        }
+
+        .result-section strong {
+            font-weight: bold; /* Ensures strong is bold even in sans-serif */
+        }
+
+        .result-detail-heading {
+            font-size: 0.9rem;
+            color: var(--ink);
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            letter-spacing: 0.05em;
+        }
+
+        /* Action Cards (for result page navigation) */
+        .action-card {
+            background-color: #fcfcfc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-color: var(--accent);
+        }
+
+        .action-card-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--ink);
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .action-card-description {
+            font-size: 0.95rem;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        /* Primary Button */
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--panel);
+            border: none;
+            border-radius: 8px;
+            padding: 15px 25px;
+            font-family: 'Playfair Display', serif; /* Serif font for primary buttons */
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            margin-top: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            text-rendering: optimizeLegibility;
+        }
+
+        .btn-primary:hover {
+            background-color: #6a0000; /* Darker accent */
+        }
+
+        .btn-secondary {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--ink);
+            font-family: system-ui, -apple-system, sans-serif;
+            font-weight: normal;
+            font-size: 1rem;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            margin-top: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background-color: #f9f0f0;
+        }
+
+        /* Utility classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-  <nav class="main-nav">
-    <div class="wrap">
-      <a href="./lab.html" class="nav-brand">The Writer's Foundry</a>
-      <div class="nav-links">
-        <a href="./lab.html" class="active">Foundry</a>
-        <a href="./anvil.html">Anvil</a>
-        <a href="./journal.html">Journal</a>
-      </div>
+    <div class="main-card">
+        <div class="step-header">
+            <button class="back-button" id="backButton" aria-label="Go back">←</button>
+            <h2 class="step-title" id="stepTitle">Core Idea</h2>
+            <div></div> <!-- Empty div for spacing to ensure title centering -->
+        </div>
+
+        <div class="content-area" id="contentArea">
+            <!-- Content will be dynamically loaded here by JavaScript -->
+        </div>
     </div>
-  </nav>
 
-  <main class="wrap">
-    <section class="page-tagline">
-        <p>An intelligent engine to forge inspiration from raw ideas.</p>
-    </section>
-    
-    <section id="foundry" class="foundry"></section>
-  </main>
+    <script>
+        const contentArea = document.getElementById('contentArea');
+        const stepTitle = document.getElementById('stepTitle');
+        const backButton = document.getElementById('backButton');
 
-  <script>
-    (function(){
-      const foundryContainer = document.getElementById('foundry');
-      let foundryData = null;
-      let userSelections = {};
-      let navigationHistory = [];
-      const navigateTo = (stepFunction) => { navigationHistory.push(stepFunction); stepFunction(); };
-      const goBack = () => { if (navigationHistory.length > 1) { navigationHistory.pop(); navigationHistory[navigationHistory.length - 1](); } };
-      const renderHeader = (title, showBack) => { return `<div class="step-header"><button class="btn-back ${showBack ? '' : 'hidden'}">←</button><h2 class="step-title">${title}</h2></div>`; };
-      const attachBackListener = () => { const backButton = foundryContainer.querySelector('.btn-back'); if (backButton && !backButton.classList.contains('hidden')) { backButton.addEventListener('click', goBack); } };
-      const renderStep1 = () => {
-        foundryContainer.innerHTML = `<div class="step-container">${renderHeader('What is the core of your idea?', false)}<div class="choice-grid"><button class="choice-card" data-choice="character">Character</button><button class="choice-card" data-choice="setting">Setting</button><button class="choice-card" data-choice="theme">Theme</button></div></div>`;
-        foundryContainer.querySelectorAll('.choice-card').forEach(card => { card.addEventListener('click', (e) => { userSelections = { core: e.target.dataset.choice }; navigateTo(renderStep2); }); });
-        attachBackListener();
-      };
-      const renderStep2 = () => {
-        const archetypes = foundryData.characters.archetypes;
-        foundryContainer.innerHTML = `<div class="step-container">${renderHeader('Choose a Character Archetype', true)}<div class="choice-grid">${archetypes.map(a => `<button class="choice-card" data-choice="${a.name}">${a.name}</button>`).join('')}</div></div>`;
-        foundryContainer.querySelectorAll('.choice-card').forEach(card => { card.addEventListener('click', (e) => { const choice = e.target.dataset.choice; userSelections.archetype = foundryData.characters.archetypes.find(a => a.name === choice); navigateTo(renderStep3); }); });
-        attachBackListener();
-      };
-      const renderStep3 = () => {
-        const questions = userSelections.archetype.catalyst_questions;
-        if (!questions || questions.length === 0) { navigateTo(renderFinalResult); return; }
-        foundryContainer.innerHTML = `<div class="step-container">${renderHeader('Consider this...', true)}<div class="choice-grid" style="grid-template-columns: 1fr;">${questions.map((q, index) => `<button class="choice-card" data-choice="${index}">${q}</button>`).join('')}</div></div>`;
-        foundryContainer.querySelectorAll('.choice-card').forEach(card => { card.addEventListener('click', (e) => { const choiceIndex = parseInt(e.target.dataset.choice, 10); userSelections.question = questions[choiceIndex]; navigateTo(renderFinalResult); }); });
-        attachBackListener();
-      };
-      const renderFinalResult = () => {
-          const char = userSelections.archetype;
-          const conflict = foundryData.conflicts.external.find(c => c.tags.some(t => char.tags.includes(t))) || foundryData.conflicts.external[0];
-          const setting = foundryData.settings.locations.find(s => s.tags.some(t => char.tags.includes(t))) || foundryData.settings.locations[0];
-          userSelections.result = { logline: `In the world of <strong>${setting.name}</strong>, a character like <strong>${char.name}</strong>, who is motivated by a desire to "<em>${char.motivation}</em>" but is held back by their flaw of "<em>${char.flaw}</em>", must face the conflict of <strong>${conflict.text}</strong>.`, question: userSelections.question || "Consider their core motivation and flaw.", setting: setting };
-          foundryContainer.innerHTML = `<div class="step-container result-container">${renderHeader('Your Forged Idea', true)}<h3>Logline</h3><p>${userSelections.result.logline}</p><h3>Deep Dive Question</h3><p><em>${userSelections.result.question}</em></p><h3>Setting: ${setting.name}</h3><ul><li><strong>Sight:</strong> ${setting.sensory_palette.sight}</li><li><strong>Sound:</strong> ${setting.sensory_palette.sound}</li><li><strong>Smell:</strong> ${setting.sensory_palette.smell}</li></ul><h3>Next Steps</h3><div class="action-grid"><div class="action-card" id="anvilBtn"><h4>Take to 'The Anvil'</h4><p>Begin writing your story in a focused editor.</p></div><div class="action-card" id="journalBtn"><h4>Save to Journal</h4><p>Store this idea in your personal journal.</p></div></div><button id="restartBtn" class="btn-primary">Start a New Idea</button></div>`;
-          foundryContainer.querySelector('#restartBtn').addEventListener('click', () => { userSelections = {}; navigationHistory = []; navigateTo(renderStep1); });
-          foundryContainer.querySelector('#anvilBtn').addEventListener('click', takeToAnvil);
-          foundryContainer.querySelector('#journalBtn').addEventListener('click', saveToJournal);
-          attachBackListener();
-      };
-      const takeToAnvil = () => { localStorage.setItem('foundryAnvilPrompt', JSON.stringify(userSelections.result)); window.location.href = './anvil.html'; };
-      const saveToJournal = (e) => {
-          let journal = JSON.parse(localStorage.getItem('foundryJournal')) || [];
-          journal.unshift(userSelections.result);
-          localStorage.setItem('foundryJournal', JSON.stringify(journal));
-          const card = e.target.closest('.action-card');
-          const originalText = card.querySelector('p').textContent;
-          card.classList.add('saved');
-          card.querySelector('h4').textContent = 'Saved!'; card.querySelector('p').textContent = 'Your idea has been added to the journal.';
-          setTimeout(() => { card.classList.remove('saved'); card.querySelector('h4').textContent = "Save to Journal"; card.querySelector('p').textContent = originalText; }, 2000);
-      };
-      async function initializeFoundry() {
-        try {
-          const response = await fetch('./foundry-data.json'); if (!response.ok) throw new Error('Could not load the Foundry brain.');
-          foundryData = await response.json(); navigateTo(renderStep1);
-        } catch (error) { foundryContainer.innerHTML = `<p style="color: #c0392b; text-align: center;">Error: ${error.message}</p>`; }
-      }
-      document.addEventListener('DOMContentLoaded', initializeFoundry);
-    })();
-  </script>
+        let foundryData = {};
+        let currentStep = 0; // 0: Core Idea, 1: Archetype, 2: Catalyst, 3: Result
+        let history = []; // Stores previous steps for back button functionality
+
+        let selectedCoreIdea = null;
+        let selectedArchetype = null;
+        let selectedCatalystQuestion = null;
+        let generatedLogline = null;
+        let generatedDeepDiveQuestion = null;
+        let generatedSettingDetails = null;
+
+        // --- Fetch Data ---
+        async function fetchFoundryData() {
+            try {
+                const response = await fetch('foundry-data.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                foundryData = await response.json();
+                console.log("Foundry data loaded:", foundryData);
+                renderStep(0); // Start the journey
+            } catch (error) {
+                console.error("Could not load foundry-data.json:", error);
+                contentArea.innerHTML = `<p style="color: var(--accent); text-align: center;">Error loading creative data. Please try again later.</p>`;
+            }
+        }
+
+        // --- Navigation & History ---
+        function goToStep(stepIndex, saveHistory = true) {
+            if (saveHistory && currentStep !== stepIndex) {
+                history.push(currentStep);
+            }
+            currentStep = stepIndex;
+            renderStep(currentStep);
+            updateBackButtonVisibility();
+        }
+
+        function goBack() {
+            if (history.length > 0) {
+                const prevStep = history.pop();
+                goToStep(prevStep, false); // Don't save current step to history when going back
+            }
+        }
+
+        function updateBackButtonVisibility() {
+            backButton.style.visibility = currentStep === 0 ? 'hidden' : 'visible';
+        }
+
+        backButton.addEventListener('click', goBack);
+
+        // --- Render Functions for Each Step ---
+
+        function renderStep(step) {
+            contentArea.innerHTML = ''; // Clear previous content
+
+            switch (step) {
+                case 0: // Core Idea
+                    stepTitle.textContent = 'Core Idea';
+                    contentArea.innerHTML = `
+                        <div class="choice-card" data-choice="Character">Character</div>
+                        <div class="choice-card" data-choice="Setting">Setting</div>
+                        <div class="choice-card" data-choice="Theme">Theme</div>
+                    `;
+                    addChoiceCardListeners(contentArea.querySelectorAll('.choice-card'), handleCoreIdeaSelection);
+                    break;
+
+                case 1: // Archetype Choice (if Character selected)
+                    if (selectedCoreIdea !== 'Character' || !foundryData.characters || !foundryData.characters.archetypes) {
+                        console.error("Invalid state for step 1. Core idea not character or data missing.");
+                        goToStep(0); // Go back if state is bad
+                        return;
+                    }
+                    stepTitle.textContent = 'Choose Archetype';
+                    foundryData.characters.archetypes.forEach(archetype => {
+                        const card = document.createElement('div');
+                        card.className = 'choice-card';
+                        card.textContent = archetype.name;
+                        card.dataset.archetype = archetype.name;
+                        contentArea.appendChild(card);
+                    });
+                    addChoiceCardListeners(contentArea.querySelectorAll('.choice-card'), handleArchetypeSelection);
+                    break;
+
+                case 2: // Catalyst Question (if Archetype selected)
+                    if (!selectedArchetype) {
+                        console.error("Invalid state for step 2. Archetype not selected.");
+                        goToStep(1); // Go back if state is bad
+                        return;
+                    }
+                    stepTitle.textContent = 'Consider This';
+                    const archetypeData = foundryData.characters.archetypes.find(a => a.name === selectedArchetype);
+                    if (!archetypeData || !archetypeData.catalyst_questions || archetypeData.catalyst_questions.length === 0) {
+                        contentArea.innerHTML = `<p class="text-center">No catalyst questions available for this archetype.</p>`;
+                        return;
+                    }
+
+                    const questionContainer = document.createElement('div');
+                    questionContainer.className = 'content-area';
+                    questionContainer.innerHTML = `
+                        <p class="text-center" style="font-style: italic; color: var(--muted);">What sparks their journey?</p>
+                    `;
+                    const questionsList = document.createElement('div');
+                    questionsList.style.display = 'flex';
+                    questionsList.style.flexDirection = 'column';
+                    questionsList.style.gap = '10px';
+
+                    archetypeData.catalyst_questions.forEach((question, index) => {
+                        const card = document.createElement('div');
+                        card.className = 'choice-card';
+                        card.textContent = question;
+                        card.dataset.question = question;
+                        questionsList.appendChild(card);
+                    });
+                    questionContainer.appendChild(questionsList);
+                    contentArea.appendChild(questionContainer);
+                    addChoiceCardListeners(contentArea.querySelectorAll('.choice-card'), handleCatalystSelection);
+                    break;
+
+                case 3: // Final Result
+                    stepTitle.textContent = 'Forged Idea';
+                    generateFinalIdea(); // Generate the idea before displaying
+                    contentArea.innerHTML = `
+                        <div class="result-section">
+                            <h3 class="text-center">Your Story Seed</h3>
+                            <p class="result-detail-heading">Logline:</p>
+                            <p>${generatedLogline}</p>
+
+                            <p class="result-detail-heading">Deep Dive Question:</p>
+                            <p>${generatedDeepDiveQuestion}</p>
+
+                            ${generatedSettingDetails ? `
+                                <p class="result-detail-heading">Setting Vibe:</p>
+                                <p>${generatedSettingDetails}</p>
+                            ` : ''}
+
+                            <div class="content-area mt-20">
+                                <div class="action-card" onclick="window.location.href='anvil.html?idea=' + encodeURIComponent(generatedLogline);">
+                                    <h4 class="action-card-title">Take to Anvil</h4>
+                                    <p class="action-card-description">Refine and expand this idea in the writing editor.</p>
+                                </div>
+                                <div class="action-card" onclick="window.location.href='journal.html?idea=' + encodeURIComponent(generatedLogline);">
+                                    <h4 class="action-card-title">Save to Journal</h4>
+                                    <p class="action-card-description">Keep this idea for later in your personal log.</p>
+                                </div>
+                                <button class="btn-secondary" onclick="startOver()">Start Over</button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+        }
+
+        // --- Event Handlers ---
+        function addChoiceCardListeners(cards, handler) {
+            cards.forEach(card => {
+                card.addEventListener('click', (event) => {
+                    // Remove 'selected' from all cards first
+                    cards.forEach(c => c.classList.remove('selected'));
+                    // Add 'selected' to the clicked card
+                    event.currentTarget.classList.add('selected');
+
+                    // Allow a slight visual delay before advancing for better UX
+                    setTimeout(() => {
+                        handler(event);
+                    }, 200);
+                });
+            });
+        }
+
+        function handleCoreIdeaSelection(event) {
+            selectedCoreIdea = event.currentTarget.dataset.choice;
+            if (selectedCoreIdea === 'Character') {
+                goToStep(1);
+            } else {
+                // For 'Setting' or 'Theme', directly generate a result for now (simplification as per brief)
+                // In a full app, these would lead to their own selection steps
+                goToStep(3);
+            }
+        }
+
+        function handleArchetypeSelection(event) {
+            selectedArchetype = event.currentTarget.dataset.archetype;
+            goToStep(2);
+        }
+
+        function handleCatalystSelection(event) {
+            selectedCatalystQuestion = event.currentTarget.dataset.question;
+            goToStep(3);
+        }
+
+        function generateFinalIdea() {
+            let logline = "A captivating story where ";
+            let deepDiveQuestion = "What is the true cost of their journey?";
+            let settingDetails = null;
+
+            if (selectedCoreIdea === 'Character' && selectedArchetype) {
+                const archetype = foundryData.characters.archetypes.find(a => a.name === selectedArchetype);
+                if (archetype) {
+                    const randomConflict = foundryData.conflicts.external[Math.floor(Math.random() * foundryData.conflicts.external.length)];
+                    const randomSetting = foundryData.settings.locations[Math.floor(Math.random() * foundryData.settings.locations.length)];
+
+                    logline = `In a ${randomSetting.name}, a **${archetype.name}** who is motivated ${archetype.motivation} must confront ${randomConflict.text} to achieve their goal, risking **${archetype.flaw}**.`;
+                    deepDiveQuestion = selectedCatalystQuestion || `How does their inherent **${archetype.flaw}** impact their struggle against ${randomConflict.text}?`;
+                    
+                    if (randomSetting) {
+                        settingDetails = `
+                            **Sight:** ${randomSetting.sensory_palette.sight}<br>
+                            **Sound:** ${randomSetting.sensory_palette.sound}<br>
+                            **Smell:** ${randomSetting.sensory_palette.smell}
+                        `;
+                    }
+                }
+            } else if (selectedCoreIdea === 'Setting') {
+                const randomSetting = foundryData.settings.locations[Math.floor(Math.random() * foundryData.settings.locations.length)];
+                if (randomSetting) {
+                    const randomConflict = foundryData.conflicts.external[Math.floor(Math.random() * foundryData.conflicts.external.length)];
+                    logline = `In **${randomSetting.name}**, a desperate individual must overcome **${randomConflict.text}** to find hope amidst the oppressive environment.`;
+                    deepDiveQuestion = `How does the unique atmosphere of ${randomSetting.name} shape the protagonist's inner turmoil?`;
+                    settingDetails = `
+                        **Sight:** ${randomSetting.sensory_palette.sight}<br>
+                        **Sound:** ${randomSetting.sensory_palette.sound}<br>
+                        **Smell:** ${randomSetting.sensory_palette.smell}
+                    `;
+                }
+            } else if (selectedCoreIdea === 'Theme') {
+                 // Placeholder for theme-based generation
+                 logline = `A story exploring the complex themes of **redemption and sacrifice** in a world where moral lines are blurred.`;
+                 deepDiveQuestion = `To what lengths will a character go to achieve redemption, and what must they sacrifice along the way?`;
+                 const randomSetting = foundryData.settings.locations[Math.floor(Math.random() * foundryData.settings.locations.length)];
+                 if (randomSetting) {
+                    settingDetails = `
+                        **Sight:** ${randomSetting.sensory_palette.sight}<br>
+                        **Sound:** ${randomSetting.sensory_palette.sound}<br>
+                        **Smell:** ${randomSetting.sensory_palette.smell}
+                    `;
+                 }
+            } else {
+                 // Default fallback if no specific path taken
+                 logline = "A compelling narrative about an unexpected journey and a profound discovery.";
+                 deepDiveQuestion = "What hidden truths will be unearthed when the world shifts on its axis?";
+            }
+
+            generatedLogline = logline;
+            generatedDeepDiveQuestion = deepDiveQuestion;
+            generatedSettingDetails = settingDetails;
+        }
+
+
+        function startOver() {
+            selectedCoreIdea = null;
+            selectedArchetype = null;
+            selectedCatalystQuestion = null;
+            generatedLogline = null;
+            generatedDeepDiveQuestion = null;
+            generatedSettingDetails = null;
+            history = []; // Clear history
+            goToStep(0);
+        }
+
+        // --- Initialize ---
+        fetchFoundryData();
+    </script>
 </body>
 </html>
