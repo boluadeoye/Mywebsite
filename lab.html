@@ -9,8 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #0f172a; --panel-dark: #111a2e;
-      --ink-dark: #e5eefc; --muted-dark: #94a3b8;
       --bg: #f5f5dc; --panel: #ffffff;
       --ink: #2c3e50; --muted: #596a7a;
       --accent: #800000; --accent-light: #a00000;
@@ -25,68 +23,62 @@
       background: var(--bg); color: var(--ink);
       font: 16px/1.7 var(--sans-serif);
       -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
-    a { color: var(--accent); text-decoration: none; }
     .wrap { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
-    .page-header { text-align: center; padding: 3rem 0 2rem; }
-    .page-header h1 {
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      font-family: var(--serif); margin-bottom: 0.5rem;
-      line-height: 1.1; color: var(--accent);
-    }
-    .page-header p {
-      font-size: 1.1rem; color: var(--muted);
-      max-width: 65ch; margin: 0 auto;
-    }
-    .site-nav { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
+
+    /* --- NEW: Unified Navigation Bar Styles --- */
+    .main-nav { background: var(--panel); border-bottom: 1px solid var(--border-color); padding: 1rem 0; margin-bottom: 2rem; }
+    .main-nav .wrap { display: flex; justify-content: space-between; align-items: center; }
+    .nav-brand { font-family: var(--serif); font-weight: 800; font-size: 1.2rem; color: var(--ink); text-decoration: none; }
+    .nav-links a { font-weight: 700; color: var(--muted); text-decoration: none; margin-left: 1.5rem; }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+
+    .page-tagline { text-align: center; padding: 1rem 0 2rem; }
+    .page-tagline p { font-size: 1.2rem; color: var(--muted); max-width: 50ch; margin: 0 auto; font-family: var(--serif); font-style: italic;}
+
     .foundry {
       margin: 2rem auto; padding: 2.5rem;
       background: var(--panel); border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-      min-height: 400px;
-      display: flex; flex-direction: column;
+      border-radius: var(--radius); box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      min-height: 400px; display: flex; flex-direction: column;
       transition: all 0.5s var(--transition);
     }
-    .step-container { animation: fadeIn 0.5s var(--transition); width: 100%;}
+    .step-container { animation: fadeIn 0.5s var(--transition); }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
     .step-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 2rem;
+      display: grid; grid-template-columns: auto 1fr auto;
+      align-items: center; margin-bottom: 2rem; width: 100%;
     }
     .step-title {
-      flex-grow: 1; font-family: var(--serif);
-      font-size: 1.5rem; text-align: center;
-      margin: 0 1rem; color: var(--accent);
-    }
-    .btn-back, .header-spacer {
-      flex-shrink: 0; width: 60px; text-align: left;
+      grid-column: 2; font-family: var(--serif);
+      font-size: 1.8rem; font-weight: 800; line-height: 1.3;
+      text-align: center; color: var(--accent); padding: 0 0.5rem;
     }
     .btn-back {
-      background: none; border: none; font-size: 1rem;
-      font-weight: 700; color: var(--muted); cursor: pointer;
-      padding: 0.5rem;
+      grid-column: 1; justify-self: start;
+      background: none; border: none; font-size: 1.5rem;
+      color: var(--muted); cursor: pointer;
     }
     .btn-back:hover { color: var(--accent); }
     .hidden { visibility: hidden; }
     
     .choice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
     .choice-card {
-      padding: 1rem 1.5rem; background: var(--bg);
+      padding: 1.2rem 1.5rem; background: var(--bg);
       border: 1px solid var(--border-color);
-      border-radius: 8px; font-size: 1rem;
-      font-weight: 700; text-align: center;
-      cursor: pointer; transition: all 0.2s var(--transition);
-      width: 100%;
+      border-radius: 8px; font-size: 1.1rem; font-family: var(--serif);
+      font-weight: 800; text-align: center; cursor: pointer;
+      transition: all 0.2s var(--transition); width: 100%;
     }
     .choice-card:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.07); border-color: var(--accent); color: var(--accent); }
     
     .result-container { text-align: left; }
     .result-container h3 {
         font-family: var(--serif); font-size: 1.1rem;
-        text-transform: uppercase; letter-spacing: 1px;
-        color: var(--muted); border-bottom: 1px solid var(--border-color);
+        text-transform: uppercase; letter-spacing: 1px; color: var(--ink);
+        border-bottom: 1px solid var(--border-color);
         padding-bottom: 0.5rem; margin: 1.5rem 0 1rem;
     }
     .result-container p { font-size: 1.1rem; line-height: 1.7; }
@@ -95,11 +87,10 @@
 
     .btn-primary {
       padding: 1rem 1.5rem; background: var(--accent);
-      color: var(--accent-ink); border: none;
-      border-radius: 8px; font-size: 1rem;
-      font-weight: 700; text-align: center;
-      cursor: pointer; transition: all 0.2s var(--transition);
-      width: 100%; margin-top: 2rem;
+      color: var(--accent-ink); border: none; font-family: var(--serif);
+      border-radius: 8px; font-size: 1.1rem;
+      font-weight: 800; text-align: center; cursor: pointer;
+      transition: all 0.2s var(--transition); width: 100%; margin-top: 2rem;
     }
     .btn-primary:hover { background: var(--accent-light); box-shadow: 0 4px 20px rgba(128, 0, 0, 0.25); }
     
@@ -107,32 +98,33 @@
     .action-card {
       background: var(--bg); border: 1px solid var(--border-color);
       border-radius: var(--radius); padding: 1.5rem;
-      text-align: left; cursor: pointer;
-      transition: all 0.2s var(--transition);
+      text-align: left; cursor: pointer; transition: all 0.2s var(--transition);
     }
     .action-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-    .action-card h4 { font-family: var(--serif); font-size: 1.2rem; color: var(--ink); margin-bottom: 0.25rem; pointer-events: none; }
+    .action-card h4 { font-family: var(--serif); font-size: 1.3rem; font-weight: 800; color: var(--ink); margin-bottom: 0.25rem; pointer-events: none; }
     .action-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.5; margin: 0; pointer-events: none; }
     .action-card.saved { border-color: #27ae60; background-color: #e8f8f5; }
-
-    footer { 
-        background: var(--panel-dark); color: var(--muted-dark);
-        text-align: center; font-size: 0.88rem;
-        padding: 2rem 0; margin-top: 4rem; 
-    }
   </style>
 </head>
 <body>
+  <nav class="main-nav">
+    <div class="wrap">
+      <a href="./lab.html" class="nav-brand">The Writer's Foundry</a>
+      <div class="nav-links">
+        <a href="./lab.html" class="active">Foundry</a>
+        <a href="./anvil.html">Anvil</a>
+        <a href="./journal.html">Journal</a>
+      </div>
+    </div>
+  </nav>
+
   <main class="wrap">
-    <section class="page-header">
-        <div class="site-nav"><a href="./index.html">← Back to Homepage</a></div>
-        <h1>The Writer's Foundry</h1>
+    <section class="page-tagline">
         <p>An intelligent engine to forge inspiration from raw ideas.</p>
     </section>
     
     <section id="foundry" class="foundry"></section>
   </main>
-  <footer><div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div></footer>
 
   <script>
     (function(){
@@ -140,140 +132,40 @@
       let foundryData = null;
       let userSelections = {};
       let navigationHistory = [];
-
-      const renderStep = (stepFunction) => {
-        navigationHistory.push(stepFunction);
-        stepFunction();
-      };
-
-      const goBack = () => {
-        if (navigationHistory.length > 1) {
-          navigationHistory.pop();
-          const previousStep = navigationHistory.pop();
-          renderStep(previousStep);
-        }
-      };
-      
-      const renderHeader = (title, showBack) => {
-        return `
-          <div class="step-header">
-            <button class="btn-back ${showBack ? '' : 'hidden'}">← Back</button>
-            <h2 class="step-title">${title}</h2>
-            <div class="header-spacer ${showBack ? '' : 'hidden'}"></div>
-          </div>
-        `;
-      };
-      
-      const attachBackListener = () => {
-          const backButton = foundryContainer.querySelector('.btn-back');
-          if (backButton && !backButton.classList.contains('hidden')) {
-              backButton.addEventListener('click', goBack);
-          }
-      };
-
+      const navigateTo = (stepFunction) => { navigationHistory.push(stepFunction); stepFunction(); };
+      const goBack = () => { if (navigationHistory.length > 1) { navigationHistory.pop(); navigationHistory[navigationHistory.length - 1](); } };
+      const renderHeader = (title, showBack) => { return `<div class="step-header"><button class="btn-back ${showBack ? '' : 'hidden'}">←</button><h2 class="step-title">${title}</h2></div>`; };
+      const attachBackListener = () => { const backButton = foundryContainer.querySelector('.btn-back'); if (backButton && !backButton.classList.contains('hidden')) { backButton.addEventListener('click', goBack); } };
       const renderStep1 = () => {
-        foundryContainer.innerHTML = `
-          <div class="step-container">
-            ${renderHeader('What is the core of your idea?', false)}
-            <div class="choice-grid">
-              <button class="choice-card" data-choice="character">Character</button>
-            </div>
-          </div>
-        `;
-        foundryContainer.querySelector('.choice-card').addEventListener('click', (e) => {
-          userSelections = { core: e.target.dataset.choice };
-          renderStep(renderStep2);
-        });
+        foundryContainer.innerHTML = `<div class="step-container">${renderHeader('What is the core of your idea?', false)}<div class="choice-grid"><button class="choice-card" data-choice="character">Character</button><button class="choice-card" data-choice="setting">Setting</button><button class="choice-card" data-choice="theme">Theme</button></div></div>`;
+        foundryContainer.querySelectorAll('.choice-card').forEach(card => { card.addEventListener('click', (e) => { userSelections = { core: e.target.dataset.choice }; navigateTo(renderStep2); }); });
         attachBackListener();
       };
-      
       const renderStep2 = () => {
         const archetypes = foundryData.characters.archetypes;
-        foundryContainer.innerHTML = `
-          <div class="step-container">
-            ${renderHeader('Choose a Character Archetype', true)}
-            <div class="choice-grid">
-              ${archetypes.map(a => `<button class="choice-card" data-choice="${a.name}">${a.name}</button>`).join('')}
-            </div>
-          </div>
-        `;
-        foundryContainer.querySelectorAll('.choice-card').forEach(card => {
-          card.addEventListener('click', (e) => {
-            const choice = e.target.dataset.choice;
-            userSelections.archetype = foundryData.characters.archetypes.find(a => a.name === choice);
-            renderStep(renderStep3);
-          });
-        });
+        foundryContainer.innerHTML = `<div class="step-container">${renderHeader('Choose a Character Archetype', true)}<div class="choice-grid">${archetypes.map(a => `<button class="choice-card" data-choice="${a.name}">${a.name}</button>`).join('')}</div></div>`;
+        foundryContainer.querySelectorAll('.choice-card').forEach(card => { card.addEventListener('click', (e) => { const choice = e.target.dataset.choice; userSelections.archetype = foundryData.characters.archetypes.find(a => a.name === choice); navigateTo(renderStep3); }); });
         attachBackListener();
       };
-      
       const renderStep3 = () => {
         const questions = userSelections.archetype.catalyst_questions;
-        if (!questions || questions.length === 0) {
-            renderStep(renderFinalResult);
-            return;
-        }
-        foundryContainer.innerHTML = `
-          <div class="step-container">
-            ${renderHeader('Consider this...', true)}
-            <div class="choice-grid" style="grid-template-columns: 1fr;">
-              ${questions.map((q, index) => `<button class="choice-card" data-choice="${index}">${q}</button>`).join('')}
-            </div>
-          </div>
-        `;
-        foundryContainer.querySelectorAll('.choice-card').forEach(card => {
-          card.addEventListener('click', (e) => {
-            const choiceIndex = parseInt(e.target.dataset.choice, 10);
-            userSelections.question = questions[choiceIndex];
-            renderStep(renderFinalResult);
-          });
-        });
+        if (!questions || questions.length === 0) { navigateTo(renderFinalResult); return; }
+        foundryContainer.innerHTML = `<div class="step-container">${renderHeader('Consider this...', true)}<div class="choice-grid" style="grid-template-columns: 1fr;">${questions.map((q, index) => `<button class="choice-card" data-choice="${index}">${q}</button>`).join('')}</div></div>`;
+        foundryContainer.querySelectorAll('.choice-card').forEach(card => { card.addEventListener('click', (e) => { const choiceIndex = parseInt(e.target.dataset.choice, 10); userSelections.question = questions[choiceIndex]; navigateTo(renderFinalResult); }); });
         attachBackListener();
       };
-
       const renderFinalResult = () => {
           const char = userSelections.archetype;
           const conflict = foundryData.conflicts.external.find(c => c.tags.some(t => char.tags.includes(t))) || foundryData.conflicts.external[0];
           const setting = foundryData.settings.locations.find(s => s.tags.some(t => char.tags.includes(t))) || foundryData.settings.locations[0];
-          
-          userSelections.result = {
-              logline: `In the world of ${setting.name}, a character like ${char.name}, who is motivated by a desire to "${char.motivation}" but is held back by their flaw of "${char.flaw}", must face the conflict of ${conflict.text}`,
-              question: userSelections.question || "Consider their core motivation and flaw.",
-              setting: setting
-          };
-
-          foundryContainer.innerHTML = `
-            <div class="step-container result-container">
-                ${renderHeader('Your Forged Idea', true)}
-                <h3>Logline</h3><p>${userSelections.result.logline}</p>
-                <h3>Deep Dive Question</h3><p><em>${userSelections.result.question}</em></p>
-                <h3>Setting: ${setting.name}</h3>
-                <ul>
-                  <li><strong>Sight:</strong> ${setting.sensory_palette.sight}</li>
-                  <li><strong>Sound:</strong> ${setting.sensory_palette.sound}</li>
-                  <li><strong>Smell:</strong> ${setting.sensory_palette.smell}</li>
-                </ul>
-                <h3>Next Steps</h3>
-                <div class="action-grid">
-                  <div class="action-card" id="anvilBtn"><h4>Take to 'The Anvil'</h4><p>Begin writing your story in a focused editor.</p></div>
-                  <div class="action-card" id="journalBtn"><h4>Save to Journal</h4><p>Store this idea in your personal journal.</p></div>
-                </div>
-                <button id="restartBtn" class="btn-primary">Start a New Idea</button>
-            </div>
-          `;
-          foundryContainer.querySelector('#restartBtn').addEventListener('click', () => {
-              userSelections = {}; navigationHistory = []; renderStep(renderStep1);
-          });
+          userSelections.result = { logline: `In the world of <strong>${setting.name}</strong>, a character like <strong>${char.name}</strong>, who is motivated by a desire to "<em>${char.motivation}</em>" but is held back by their flaw of "<em>${char.flaw}</em>", must face the conflict of <strong>${conflict.text}</strong>.`, question: userSelections.question || "Consider their core motivation and flaw.", setting: setting };
+          foundryContainer.innerHTML = `<div class="step-container result-container">${renderHeader('Your Forged Idea', true)}<h3>Logline</h3><p>${userSelections.result.logline}</p><h3>Deep Dive Question</h3><p><em>${userSelections.result.question}</em></p><h3>Setting: ${setting.name}</h3><ul><li><strong>Sight:</strong> ${setting.sensory_palette.sight}</li><li><strong>Sound:</strong> ${setting.sensory_palette.sound}</li><li><strong>Smell:</strong> ${setting.sensory_palette.smell}</li></ul><h3>Next Steps</h3><div class="action-grid"><div class="action-card" id="anvilBtn"><h4>Take to 'The Anvil'</h4><p>Begin writing your story in a focused editor.</p></div><div class="action-card" id="journalBtn"><h4>Save to Journal</h4><p>Store this idea in your personal journal.</p></div></div><button id="restartBtn" class="btn-primary">Start a New Idea</button></div>`;
+          foundryContainer.querySelector('#restartBtn').addEventListener('click', () => { userSelections = {}; navigationHistory = []; navigateTo(renderStep1); });
           foundryContainer.querySelector('#anvilBtn').addEventListener('click', takeToAnvil);
           foundryContainer.querySelector('#journalBtn').addEventListener('click', saveToJournal);
           attachBackListener();
       };
-      
-      const takeToAnvil = () => {
-          localStorage.setItem('foundryAnvilPrompt', JSON.stringify(userSelections.result));
-          window.location.href = './anvil.html';
-      };
-
+      const takeToAnvil = () => { localStorage.setItem('foundryAnvilPrompt', JSON.stringify(userSelections.result)); window.location.href = './anvil.html'; };
       const saveToJournal = (e) => {
           let journal = JSON.parse(localStorage.getItem('foundryJournal')) || [];
           journal.unshift(userSelections.result);
@@ -281,24 +173,14 @@
           const card = e.target.closest('.action-card');
           const originalText = card.querySelector('p').textContent;
           card.classList.add('saved');
-          card.querySelector('h4').textContent = 'Saved!';
-          card.querySelector('p').textContent = 'Your idea has been added to the journal.';
-          setTimeout(() => {
-              card.classList.remove('saved');
-              card.querySelector('h4').textContent = "Save to Journal";
-              card.querySelector('p').textContent = originalText;
-          }, 2000);
+          card.querySelector('h4').textContent = 'Saved!'; card.querySelector('p').textContent = 'Your idea has been added to the journal.';
+          setTimeout(() => { card.classList.remove('saved'); card.querySelector('h4').textContent = "Save to Journal"; card.querySelector('p').textContent = originalText; }, 2000);
       };
-
       async function initializeFoundry() {
         try {
-          const response = await fetch('./foundry-data.json');
-          if (!response.ok) throw new Error('Could not load the Foundry brain.');
-          foundryData = await response.json();
-          renderStep(renderStep1);
-        } catch (error) {
-          foundryContainer.innerHTML = `<p style="color: #c0392b; text-align: center;">Error: ${error.message}</p>`;
-        }
+          const response = await fetch('./foundry-data.json'); if (!response.ok) throw new Error('Could not load the Foundry brain.');
+          foundryData = await response.json(); navigateTo(renderStep1);
+        } catch (error) { foundryContainer.innerHTML = `<p style="color: #c0392b; text-align: center;">Error: ${error.message}</p>`; }
       }
       document.addEventListener('DOMContentLoaded', initializeFoundry);
     })();
