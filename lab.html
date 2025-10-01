@@ -29,8 +29,7 @@
     .wrap { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
     .page-header { text-align: center; padding: 3rem 0 2rem; }
     .page-header h1 {
-      /* --- MODIFIED: Reduced main heading size for a cleaner look --- */
-      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-size: clamp(2.5rem, 5vw, 4rem);
       font-family: var(--serif); margin-bottom: 0.5rem;
       line-height: 1.1; color: var(--accent);
     }
@@ -50,32 +49,33 @@
     .step-container { animation: fadeIn 0.5s var(--transition); }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
-    /* --- REBUILT: New header styles for perfect alignment --- */
+    /* --- REBUILT: Header styles based on your feedback --- */
     .step-header {
-      position: relative; /* This is the anchor for the title */
       display: flex;
       align-items: center;
-      justify-content: flex-start; /* Aligns button to the left */
+      justify-content: space-between;
       margin-bottom: 2rem;
-      min-height: 60px; /* Gives the header consistent height */
     }
     .step-title {
-      position: absolute; /* Allows for perfect centering */
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80%; /* Prevents long titles from hitting the back button */
+      flex-grow: 1;
       font-family: var(--serif);
-      font-size: 2.2rem; /* Reduced step heading size */
+      /* --- MODIFIED: Drastically reduced font size --- */
+      font-size: 1.4rem;
+      line-height: 1.3;
+      font-weight: 700;
       text-align: center;
-      line-height: 1.2;
       color: var(--accent);
-      margin: 0;
+      margin: 0 0.5rem; /* Reduced margin */
+    }
+    .btn-back, .header-spacer {
+      flex-shrink: 0;
+      width: 40px; /* Reduced width for a tighter layout */
+      text-align: left;
     }
     .btn-back {
-      background: none; border: none; font-size: 1.5rem;
+      background: none; border: none; font-size: 1.5rem; /* Made arrow slightly larger */
       color: var(--muted); cursor: pointer;
-      padding: 0.5rem;
-      z-index: 10; /* Ensures button is clickable above the title area */
+      padding: 0;
     }
     .btn-back:hover { color: var(--accent); }
     .hidden { visibility: hidden; }
@@ -104,12 +104,14 @@
     .result-container h3 {
         font-family: var(--serif); font-size: 1.1rem;
         text-transform: uppercase; letter-spacing: 1px;
-        color: var(--muted); border-bottom: 1px solid var(--border-color);
+        /* --- MODIFIED: Changed to the deep ink color --- */
+        color: var(--ink); 
+        border-bottom: 1px solid var(--border-color);
         padding-bottom: 0.5rem; margin: 1.5rem 0 1rem;
     }
     .result-container p { font-size: 1.1rem; line-height: 1.7; }
-    .result-container ul { list-style: none; margin: 1rem 0; padding-left: 1rem; border-left: 2px solid var(--accent); }
-    .result-container li { font-size: 1rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .result-container ul { list-style: none; padding-left: 1rem; border-left: 2px solid var(--accent); }
+    .result-container li { font-size: 0.95rem; color: var(--muted); margin-bottom: 0.5rem; font-style: italic; }
 
     .btn-primary {
       padding: 1rem 1.5rem; background: var(--accent);
@@ -185,14 +187,15 @@
           previousStep();
         }
       };
-      
-      // --- REBUILT: Simplified header generation ---
+
       const renderHeader = (title, showBack) => {
-        // The CSS now handles all the complex alignment.
+        // This structure uses a spacer for robust centering
         return `
           <div class="step-header">
+            // --- MODIFIED: Cleaner back button ---
             <button class="btn-back ${showBack ? '' : 'hidden'}">←</button>
             <h2 class="step-title">${title}</h2>
+            <div class="header-spacer ${showBack ? '' : 'hidden'}"></div>
           </div>
         `;
       };
