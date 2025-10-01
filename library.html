@@ -183,12 +183,11 @@
       color: var(--orange-ink);
     }
 
-    /* --- Bookshelf Grid Layout (FINAL FIX) --- */
+    /* --- Bookshelf List Layout (NEW) --- */
     .library-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 2rem;
-      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem; /* Space between each book entry */
     }
     .book-card {
       background: var(--panel);
@@ -196,7 +195,7 @@
       border-radius: var(--radius);
       overflow: hidden;
       display: flex;
-      flex-direction: column;
+      flex-direction: row; /* Main change: items go side-by-side */
       transition: all 0.3s var(--transition);
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
@@ -206,27 +205,29 @@
       border-color: var(--orange);
     }
     .book-cover {
+      flex-shrink: 0; /* Prevents the image container from shrinking */
+      width: 150px; /* Fixed width for the cover image area */
       background: #0c1425;
+      padding: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0.5rem;
     }
     .book-cover img {
       width: 100%;
-      height: 100%;
-      object-fit: contain; /* CRITICAL: Ensures full cover is visible without cropping */
+      height: auto; /* Let height adjust to maintain aspect ratio */
+      object-fit: contain;
       border-radius: 4px;
     }
     .book-info {
-      padding: 1rem;
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
-      flex-grow: 1;
+      flex-grow: 1; /* Allows this section to take up remaining space */
     }
     .book-info h4 {
       font-family: var(--serif);
-      font-size: 1.1rem;
+      font-size: 1.25rem;
       color: var(--ink);
       line-height: 1.3;
       margin-bottom: 0.25rem;
@@ -234,31 +235,26 @@
     .book-author {
       color: var(--muted);
       font-weight: 600;
-      font-size: 0.85rem;
-      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
     }
     .book-desc {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       color: var(--muted);
-      line-height: 1.5;
-      flex-grow: 1;
-      margin-bottom: 1rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 3; /* Limit to 3 lines */
-      -webkit-box-orient: vertical;
+      line-height: 1.6;
+      flex-grow: 1; /* Pushes the button to the bottom */
+      margin-bottom: 1.5rem;
     }
     .book-link {
-      display: block;
-      text-align: center;
-      padding: 0.6rem;
+      display: inline-block; /* Changed for better alignment */
+      align-self: flex-start; /* Align button to the left */
+      padding: 0.6rem 1.2rem;
       background: linear-gradient(135deg, var(--orange), var(--orange-light));
       color: var(--orange-ink);
       border-radius: 999px;
       font-weight: 700;
       font-size: 0.85rem;
-      margin-top: auto;
+      margin-top: auto; /* Pushes button to the bottom */
     }
     .book-link:hover {
       transform: scale(1.05);
@@ -272,6 +268,20 @@
     footer { background: var(--panel); border-top: 1px solid rgba(245, 158, 11, .2); color: var(--muted); text-align: center; font-size: 0.88rem; padding: 2rem 0; margin-top: 3rem; }
     
     @media (min-width: 880px) { .top-nav { display: flex; } .hamburger { display: none; } }
+    
+    /* Responsive adjustment for the book card on smaller screens */
+    @media (max-width: 600px) {
+      .book-card {
+        flex-direction: column; /* Stack image and info vertically */
+      }
+      .book-cover {
+        width: 100%; /* Cover takes full width */
+        max-height: 250px; /* Prevent it from being too tall */
+      }
+      .book-cover img {
+        max-height: 100%;
+      }
+    }
   </style>
 </head>
 <body>
