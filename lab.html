@@ -3,76 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Writer's Foundry: Lab</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>The Writer's Foundry</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
     <style>
-        /* CSS Variables */
         :root {
-            --bg: #f5f5dc; /* Beige background */
-            --panel: #ffffff; /* White for cards */
-            --ink: #2c3e50; /* Primary dark text */
-            --muted: #596a7a; /* Muted/secondary text */
-            --accent: #800000; /* Maroon/burgundy accent */
-            --border-color: #dcd8cd; /* Subtle border color */
-            --panel-dark: #111a2e; /* For footer */
-            --muted-dark: #94a3b8; /* For footer text */
+            --bg: #f5f5dc;
+            --panel: #ffffff;
+            --ink: #2c3e50;
+            --muted: #596a7a;
+            --accent: #800000;
+            --border-color: #dcd8cd;
         }
 
-        /* Base Styles */
+        /* General Body & Typography */
         body {
-            font-family: 'Roboto', system-ui, -apple-system, sans-serif;
             background-color: var(--bg);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
             color: var(--ink);
             margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
         }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: calc(100vh - 40px);
-        }
-
-        /* Main Card Container */
-        .main-card {
+        /* Main Application Container */
+        .foundry-container {
+            width: 100%;
+            max-width: 600px;
             background-color: var(--panel);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            width: 100%;
-            max-width: 500px;
-            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+            padding: 2.5rem;
             box-sizing: border-box;
-            margin: auto 0; /* Vertically center the card */
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Header */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            text-align: center;
+            color: var(--ink);
+            font-size: 2.5rem;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .tagline {
+            text-align: center;
+            color: var(--muted);
+            margin: 0 0 2.5rem 0;
+            font-size: 1rem;
+        }
+        
+        /* Header & Navigation */
         .step-header {
             display: grid;
             grid-template-columns: auto 1fr auto;
             align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .back-button {
-            background: none;
-            border: none;
-            color: var(--muted);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0;
-            line-height: 1;
-            justify-self: start;
-            visibility: hidden; /* Controlled by JS */
-        }
-
-        .back-button:hover {
-            color: var(--accent);
+            width: 100%;
+            margin-bottom: 2rem;
+            gap: 1rem;
         }
 
         .step-title {
@@ -81,314 +79,522 @@
             font-size: 1.8rem;
             color: var(--ink);
             text-align: center;
+            grid-column: 2 / 3;
             margin: 0;
-            line-height: 1.2;
-            grid-column: 2;
+        }
+        
+        .back-btn {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--muted);
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            transition: color 0.2s ease;
+            grid-column: 1 / 2;
+            justify-self: start;
         }
 
-        /* Content Area */
-        .content-area {
+        .back-btn:hover {
+            color: var(--ink);
+        }
+        
+        /* Content Sections */
+        .step-content {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Choice Cards */
-        .choice-card {
-            background-color: #fcfcfc;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 18px 25px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: var(--ink);
-        }
-
-        .choice-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            border-color: var(--accent);
-        }
-
-        /* Result Display */
-        .result-section h3 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: var(--ink);
-            margin-top: 0;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .result-section p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 10px;
-            color: var(--ink);
-        }
-        
-        .result-section .result-detail-heading {
-            font-size: 0.9rem;
-            color: var(--ink);
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-top: 20px;
-            margin-bottom: 5px;
-            letter-spacing: 0.05em;
-        }
-
-        /* Action Cards */
-        .action-card {
-            background-color: #fcfcfc;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-        }
-
-        .action-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            border-color: var(--accent);
-        }
-        
-        .action-card.saved {
-             background-color: #e8f8f5;
-             border-color: #27ae60;
-        }
-
-        .action-card-title {
-            font-family: 'Playfair Display', serif;
-            font-weight: 800;
-            font-size: 1.3rem;
-            color: var(--ink);
-            margin: 0;
-        }
-
-        .action-card-description {
-            font-size: 0.95rem;
-            color: var(--muted);
-            margin-top: 8px;
-        }
-
-        /* Buttons */
-        .btn-secondary {
-            background: none;
-            border: 1px solid var(--border-color);
-            color: var(--ink);
-            font-weight: normal;
-            font-size: 1rem;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            margin-top: 10px;
+            gap: 1rem;
             width: 100%;
         }
 
-        .btn-secondary:hover {
+        /* Interactive Choice Cards */
+        .choice-card {
+            background-color: var(--panel);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            user-select: none;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
             border-color: var(--accent);
-            color: var(--accent);
-            background-color: #f9f0f0;
+        }
+
+        /* Final Result Display */
+        .result-container {
+            padding: 1.5rem;
+            background-color: #fdfcf7;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
         }
         
-        /* Footer */
-        footer { 
-            background: var(--panel-dark); 
-            color: var(--muted-dark);
-            text-align: center; 
-            font-size: 0.88rem;
-            padding: 2rem 0; 
-            margin-top: 4rem; 
-            width: 100vw; /* Ensure it spans full width */
-            box-sizing: border-box;
+        .result-container h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--ink);
+            font-size: 0.9rem;
+            margin: 0 0 0.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .result-container p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--muted);
+            margin: 0 0 1.5rem 0;
+        }
+        
+        .result-container p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .result-container strong {
+            color: var(--ink);
+            font-weight: 700;
+        }
+        
+        /* Action Buttons & Cards */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .action-card {
+            background-color: var(--panel);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            text-decoration: none;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            border-color: var(--accent);
+        }
+        
+        .action-card h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin: 0 0 0.25rem 0;
+            color: var(--ink);
+        }
+
+        .action-card p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin: 0;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--panel);
+            border: none;
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #660000;
+            transform: translateY(-2px);
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+        
+        .error-message {
+            color: var(--accent);
+            text-align: center;
+            padding: 1rem;
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            background-color: #fff0f0;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+            .foundry-container {
+                padding: 1.5rem;
+                border-radius: 12px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .step-title {
+                font-size: 1.5rem;
+            }
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="main-card">
-            <div class="step-header">
-                <button class="back-button" id="backButton" aria-label="Go back">←</button>
-                <h2 class="step-title" id="stepTitle">Core Idea</h2>
-                <div></div> </div>
-
-            <div class="content-area" id="contentArea">
-                </div>
+    <main class="foundry-container">
+        <!-- Main Title -->
+        <h1>The Writer's Foundry</h1>
+        <p class="tagline">An intelligent partner for creative minds.</p>
+        
+        <!-- Step UI Container -->
+        <div id="step-container">
+            <!-- Header will be dynamically inserted here -->
+            <!-- Content will be dynamically inserted here -->
         </div>
-    </div>
-    
-    <footer>
-        <p>© 2025 Boluadeoye • Crafted with passion</p>
-    </footer>
+        
+        <!-- Error Message Container -->
+        <div id="error-container" class="hidden">
+            <p class="error-message">Could not load foundry data. Please ensure 'foundry-data.json' is accessible.</p>
+        </div>
+    </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const contentArea = document.getElementById('contentArea');
-            const stepTitle = document.getElementById('stepTitle');
-            const backButton = document.getElementById('backButton');
+    document.addEventListener('DOMContentLoaded', () => {
 
-            let foundryData = {};
-            let history = []; // Stores the state of previous steps
-            let currentSelections = {};
+        // --- STATE MANAGEMENT --- //
+        
+        const state = {
+            foundryData: null,      // Holds the data from foundry-data.json
+            currentStep: 0,         // Index of the current step in the journey
+            userSelections: {},     // Stores user choices, e.g., { coreIdea: 'Character', archetype: 'The Rebel' }
+            stepHistory: [],        // Tracks the sequence of steps for the back button
+        };
+        
+        // --- DOM ELEMENTS --- //
+        
+        const stepContainer = document.getElementById('step-container');
+        const errorContainer = document.getElementById('error-container');
 
-            async function fetchFoundryData() {
-                try {
-                    const response = await fetch('./foundry-data.json');
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                    foundryData = await response.json();
-                    renderStep('coreIdea');
-                } catch (error) {
-                    contentArea.innerHTML = `<p style="color: var(--accent); text-align: center;">Error loading creative data. Please try again later.</p>`;
+        // --- DATA FETCHING --- //
+        
+        async function loadFoundryData() {
+            try {
+                const response = await fetch('foundry-data.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
+                state.foundryData = await response.json();
+                initializeApp();
+            } catch (error) {
+                console.error("Error loading foundry data:", error);
+                document.querySelector('.foundry-container h1').classList.add('hidden');
+                document.querySelector('.foundry-container .tagline').classList.add('hidden');
+                errorContainer.classList.remove('hidden');
             }
+        }
 
-            function navigateTo(step, context) {
-                history.push({ step: currentSelections.step || 'coreIdea', context: { ...currentSelections } });
-                currentSelections = { ...context, step: step };
-                renderStep(step);
-                updateBackButtonVisibility();
-            }
+        // --- CORE LOGIC --- //
+        
+        function initializeApp() {
+            // Start the user journey at the first step
+            navigateToStep(0);
+        }
 
-            function goBack() {
-                if (history.length > 0) {
-                    const prevState = history.pop();
-                    currentSelections = prevState.context;
-                    renderStep(prevState.step);
-                    updateBackButtonVisibility();
-                }
-            }
-
-            function updateBackButtonVisibility() {
-                backButton.style.visibility = history.length > 0 ? 'visible' : 'hidden';
-            }
-
-            function renderStep(step) {
-                contentArea.innerHTML = '';
-                switch (step) {
-                    case 'coreIdea':
-                        stepTitle.textContent = 'Core Idea';
-                        contentArea.innerHTML = `
-                            <div class="choice-card" data-choice="Character">Character</div>
-                            <div class="choice-card" data-choice="Setting">Setting</div>
-                            <div class="choice-card" data-choice="Theme">Theme</div>
-                        `;
-                        contentArea.querySelectorAll('.choice-card').forEach(card => {
-                            card.addEventListener('click', e => navigateTo('archetype', { core: e.target.dataset.choice }));
-                        });
-                        break;
-
-                    case 'archetype':
-                        stepTitle.textContent = 'Choose Archetype';
-                        foundryData.characters.archetypes.forEach(archetype => {
-                            const card = document.createElement('div');
-                            card.className = 'choice-card';
-                            card.textContent = archetype.name;
-                            card.addEventListener('click', () => navigateTo('catalyst', { ...currentSelections, archetype: archetype }));
-                            contentArea.appendChild(card);
-                        });
-                        break;
-
-                    case 'catalyst':
-                        stepTitle.textContent = 'Consider This';
-                        const questions = currentSelections.archetype.catalyst_questions;
-                        if (!questions || questions.length === 0) {
-                            navigateTo('result', { ...currentSelections, question: null });
-                            return;
-                        }
-                        questions.forEach(question => {
-                            const card = document.createElement('div');
-                            card.className = 'choice-card';
-                            card.textContent = question;
-                            card.addEventListener('click', () => navigateTo('result', { ...currentSelections, question: question }));
-                            contentArea.appendChild(card);
-                        });
-                        break;
-
-                    case 'result':
-                        stepTitle.textContent = 'Forged Idea';
-                        const result = generateFinalIdea();
-                        contentArea.innerHTML = `
-                            <div class="result-section">
-                                <p class="result-detail-heading">Logline:</p>
-                                <p>${result.logline}</p>
-                                <p class="result-detail-heading">Deep Dive Question:</p>
-                                <p><em>${result.question}</em></p>
-                                <p class="result-detail-heading">Setting Vibe:</p>
-                                <p><strong>Sight:</strong> ${result.setting.sensory_palette.sight}</p>
-                                <p><strong>Sound:</strong> ${result.setting.sensory_palette.sound}</p>
-                                <p><strong>Smell:</strong> ${result.setting.sensory_palette.smell}</p>
-
-                                <div class="content-area" style="margin-top: 20px;">
-                                    <div class="action-card" id="anvilBtn">
-                                        <h4 class="action-card-title">Take to Anvil</h4>
-                                        <p class="action-card-description">Expand this idea in the editor.</p>
-                                    </div>
-                                    <div class="action-card" id="journalBtn">
-                                        <h4 class="action-card-title">Save to Journal</h4>
-                                        <p class="action-card-description">Keep this idea for later.</p>
-                                    </div>
-                                    <button class="btn-secondary" id="restartBtn">Start Over</button>
-                                </div>
-                            </div>
-                        `;
-                        document.getElementById('anvilBtn').addEventListener('click', () => takeToAnvil(result));
-                        document.getElementById('journalBtn').addEventListener('click', e => saveToJournal(e, result));
-                        document.getElementById('restartBtn').addEventListener('click', startOver);
-                        break;
-                }
-            }
-
-            function generateFinalIdea() {
-                const { archetype, question } = currentSelections;
-                const conflict = foundryData.conflicts.external.find(c => c.tags.some(t => archetype.tags.includes(t))) || foundryData.conflicts.external[0];
-                const setting = foundryData.settings.locations.find(s => s.tags.some(t => archetype.tags.includes(t))) || foundryData.settings.locations[0];
-                
-                const logline = `In the world of <strong>${setting.name}</strong>, a character like <strong>${archetype.name}</strong>, who is motivated by a desire to "<em>${archetype.motivation}</em>" but is held back by their flaw of "<em>${archetype.flaw}</em>", must face the conflict of <strong>${conflict.text}</strong>.`;
-                const deepDiveQuestion = question || `How does their inherent flaw of "${archetype.flaw}" complicate their core motivation?`;
-
-                return { logline, question: deepDiveQuestion, setting };
+        /**
+         * The main navigation function. It renders the appropriate step based on an index.
+         * @param {number} stepIndex - The index of the step to render.
+         * @param {boolean} isNavigatingBack - Flag to indicate if this is a backward navigation.
+         */
+        function navigateToStep(stepIndex, isNavigatingBack = false) {
+            state.currentStep = stepIndex;
+            
+            if (!isNavigatingBack) {
+                state.stepHistory.push(stepIndex);
             }
             
-            function takeToAnvil(result) {
-                localStorage.setItem('foundryAnvilPrompt', JSON.stringify(result));
-                window.location.href = './anvil.html';
-            }
+            // Render the UI for the current step
+            renderStep(stepIndex);
+        }
 
-            function saveToJournal(event, result) {
-                let journal = JSON.parse(localStorage.getItem('foundryJournal')) || [];
-                journal.unshift(result);
-                localStorage.setItem('foundryJournal', JSON.stringify(journal));
-                
-                const card = event.currentTarget;
-                card.classList.add('saved');
-                card.querySelector('.action-card-title').textContent = 'Saved!';
-                card.querySelector('.action-card-description').textContent = 'This idea has been added to your journal.';
-            }
+        /**
+         * Handles the back button functionality.
+         */
+        function goBack() {
+            // Remove the current step from history
+            state.stepHistory.pop();
+            // Get the previous step index
+            const previousStepIndex = state.stepHistory[state.stepHistory.length - 1];
+            
+            // Navigate back, marking it as a backward navigation
+            navigateToStep(previousStepIndex, true);
+        }
+        
+        /**
+         * Resets the entire application state to start over.
+         */
+        function startOver() {
+            state.currentStep = 0;
+            state.userSelections = {};
+            state.stepHistory = [];
+            navigateToStep(0);
+        }
+        
+        // --- UI RENDERING --- //
 
-            function startOver() {
-                history = [];
-                currentSelections = {};
-                renderStep('coreIdea');
-                updateBackButtonVisibility();
-            }
+        /**
+         * Central function to render the UI for a given step.
+         * @param {number} stepIndex - The index of the step to render.
+         */
+        function renderStep(stepIndex) {
+            // Clear previous content
+            stepContainer.innerHTML = '';
+            
+            // Create and append the header for the step
+            const header = createStepHeader(stepIndex);
+            stepContainer.appendChild(header);
 
-            backButton.addEventListener('click', goBack);
-            fetchFoundryData();
-        });
+            // Create and append the content for the step
+            let content;
+            switch (stepIndex) {
+                case 0:
+                    content = createStepContentCoreIdea();
+                    break;
+                case 1:
+                    content = createStepContentArchetypes();
+                    break;
+                case 2:
+                    content = createStepContentCatalyst();
+                    break;
+                case 3:
+                    content = createStepContentResult();
+                    break;
+                default:
+                    content = document.createElement('div');
+                    content.textContent = 'Unknown step.';
+            }
+            stepContainer.appendChild(content);
+        }
+
+        /**
+         * Creates the header element (Back Button, Title) for a step.
+         * @param {number} stepIndex - The index of the step.
+         * @returns {HTMLElement} The constructed header element.
+         */
+        function createStepHeader(stepIndex) {
+            const header = document.createElement('div');
+            header.className = 'step-header';
+            
+            const title = document.createElement('h2');
+            title.className = 'step-title';
+
+            // Determine title and if back button should be shown
+            let showBack = stepIndex > 0;
+            
+            switch (stepIndex) {
+                case 0: title.textContent = 'Choose a Core Idea'; break;
+                case 1: title.textContent = 'Select an Archetype'; break;
+                case 2: title.textContent = 'Consider a Catalyst'; break;
+                case 3: title.textContent = 'Your Forged Idea'; break;
+            }
+            
+            if (showBack) {
+                const backBtn = document.createElement('button');
+                backBtn.className = 'back-btn';
+                backBtn.innerHTML = '&larr;'; // Left arrow HTML entity
+                backBtn.onclick = goBack;
+                header.appendChild(backBtn);
+            } else {
+                // Add an empty spacer to keep the title centered in the grid
+                const spacer = document.createElement('div');
+                header.appendChild(spacer);
+            }
+            
+            header.appendChild(title);
+            
+            // Add another empty spacer for the third grid column
+            const endSpacer = document.createElement('div');
+            header.appendChild(endSpacer);
+            
+            return header;
+        }
+
+        // --- Step Content Creation Functions --- //
+        
+        /**
+         * Renders the content for Step 0: Core Idea selection.
+         */
+        function createStepContentCoreIdea() {
+            const content = document.createElement('div');
+            content.className = 'step-content';
+            const choices = ['Character', 'Setting', 'Theme'];
+            
+            choices.forEach(choice => {
+                const card = document.createElement('div');
+                card.className = 'choice-card';
+                card.textContent = choice;
+                card.onclick = () => {
+                    state.userSelections.coreIdea = choice;
+                    // For now, only the 'Character' path is fully implemented
+                    if (choice === 'Character') {
+                        navigateToStep(1);
+                    } else {
+                        // In a full build, these would lead to different paths.
+                        alert(`The '${choice}' path is coming soon!`);
+                    }
+                };
+                content.appendChild(card);
+            });
+            return content;
+        }
+
+        /**
+         * Renders the content for Step 1: Archetype selection.
+         */
+        function createStepContentArchetypes() {
+            const content = document.createElement('div');
+            content.className = 'step-content';
+            const archetypes = state.foundryData.characters.archetypes;
+
+            archetypes.forEach(archetype => {
+                const card = document.createElement('div');
+                card.className = 'choice-card';
+                card.textContent = archetype.name;
+                card.onclick = () => {
+                    state.userSelections.archetype = archetype.name;
+                    navigateToStep(2);
+                };
+                content.appendChild(card);
+            });
+            return content;
+        }
+
+        /**
+         * Renders the content for Step 2: Catalyst Question selection.
+         */
+        function createStepContentCatalyst() {
+            const content = document.createElement('div');
+            content.className = 'step-content';
+            const selectedArchetypeName = state.userSelections.archetype;
+            const archetype = state.foundryData.characters.archetypes.find(a => a.name === selectedArchetypeName);
+            
+            if (archetype && archetype.catalyst_questions) {
+                archetype.catalyst_questions.forEach(question => {
+                    const card = document.createElement('div');
+                    card.className = 'choice-card';
+                    card.textContent = question;
+                    card.onclick = () => {
+                        state.userSelections.catalyst = question;
+                        navigateToStep(3); // Move to the final result
+                    };
+                    content.appendChild(card);
+                });
+            } else {
+                content.textContent = 'No catalyst questions found for this archetype.';
+            }
+            return content;
+        }
+
+        /**
+         * Renders the final result page (Step 3).
+         */
+        function createStepContentResult() {
+            const content = document.createElement('div');
+            content.className = 'step-content';
+
+            const { idea, logline, question, setting } = generateForgedIdea();
+
+            const resultContainer = document.createElement('div');
+            resultContainer.className = 'result-container';
+            
+            resultContainer.innerHTML = `
+                <h3>Logline</h3>
+                <p>${logline}</p>
+                <h3>Deep-Dive Question</h3>
+                <p>${question}</p>
+                <h3>Setting Palette</h3>
+                <p><strong>Sight:</strong> ${setting.sensory_palette.sight}<br>
+                   <strong>Sound:</strong> ${setting.sensory_palette.sound}<br>
+                   <strong>Smell:</strong> ${setting.sensory_palette.smell}</p>
+            `;
+            
+            content.appendChild(resultContainer);
+            
+            // Actions
+            const actionsGrid = document.createElement('div');
+            actionsGrid.className = 'actions-grid';
+            
+            actionsGrid.innerHTML = `
+                <a href="anvil.html" class="action-card">
+                    <h4>To the Anvil</h4>
+                    <p>Start writing in the editor.</p>
+                </a>
+                <a href="journal.html" class="action-card">
+                    <h4>Save to Journal</h4>
+                    <p>Log this idea for later.</p>
+                </a>
+            `;
+            
+            content.appendChild(actionsGrid);
+            
+            // Start Over Button
+            const startOverBtn = document.createElement('button');
+            startOverBtn.className = 'btn-primary';
+            startOverBtn.textContent = 'Start Over';
+            startOverBtn.onclick = startOver;
+            
+            content.appendChild(startOverBtn);
+
+            return content;
+        }
+        
+        // --- IDEA GENERATION ALGORITHM --- //
+
+        /**
+         * Combines user selections and data to generate the final story idea.
+         * This function uses a simple algorithm for demonstration.
+         * @returns {object} An object containing the generated idea components.
+         */
+        function generateForgedIdea() {
+            const archetypeName = state.userSelections.archetype;
+            const archetype = state.foundryData.characters.archetypes.find(a => a.name === archetypeName);
+            
+            // Simple algorithm: pick the first conflict and setting for consistency.
+            // A more complex version could randomly select based on tags.
+            const conflict = state.foundryData.conflicts.external[0];
+            const setting = state.foundryData.settings.locations[0];
+            
+            const logline = `A <strong>${archetypeName.toLowerCase()}</strong> driven by a need <strong>${archetype.motivation}</strong> must confront <strong>${conflict.text}</strong> in <strong>${setting.name}</strong>, but their <strong>${archetype.flaw}</strong> may be their undoing.`;
+
+            return {
+                idea: { archetype, conflict, setting },
+                logline: logline,
+                question: state.userSelections.catalyst, // The catalyst question is the deep-dive.
+                setting: setting
+            };
+        }
+
+        // --- INITIALIZATION --- //
+        loadFoundryData();
+    });
     </script>
 </body>
 </html>
