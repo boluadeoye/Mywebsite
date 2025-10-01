@@ -49,12 +49,10 @@
     .step-container { animation: fadeIn 0.5s var(--transition); }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
-    .step-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
-    .step-title {
-      font-family: var(--serif); font-size: 1.5rem;
-      text-align: center; flex-grow: 1;
-    }
+    .step-header { display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 2rem; }
+    .step-title { font-family: var(--serif); font-size: 1.5rem; text-align: center; margin: 0; }
     .btn-back {
+      position: absolute; left: 0;
       background: none; border: none; font-size: 1rem;
       font-weight: 700; color: var(--muted); cursor: pointer;
       padding: 0.5rem;
@@ -66,7 +64,7 @@
       display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 1rem; margin-top: 1rem;
     }
-    .choice-card, .btn-primary, .action-chip {
+    .choice-card {
       padding: 1rem 1.5rem; background: var(--bg);
       border: 1px solid var(--border-color);
       border-radius: 8px; font-size: 1rem;
@@ -92,51 +90,49 @@
     .result-container li { font-size: 0.95rem; color: var(--muted); margin-bottom: 0.5rem; font-style: italic; }
 
     .btn-primary {
-      background: var(--accent); color: var(--accent-ink);
-      border: none; margin-top: 2rem;
+      padding: 1rem 1.5rem; background: var(--accent);
+      color: var(--accent-ink); border: none;
+      border-radius: 8px; font-size: 1rem;
+      font-weight: 700; text-align: center;
+      cursor: pointer; transition: all 0.2s var(--transition);
+      width: 100%; margin-top: 2rem;
     }
     .btn-primary:hover {
         background: var(--accent-light);
         box-shadow: 0 4px 20px rgba(128, 0, 0, 0.25);
     }
-
-    /* New Action Chip Styles */
-    .action-chip {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        border-radius: 999px; /* Pill shape */
-        padding: 0.75rem 1.5rem;
-        font-size: 0.9rem;
+    
+    /* Polished Action Card Styles */
+    .action-grid {
+      display: grid; grid-template-columns: 1fr;
+      gap: 1rem;
     }
-    .action-chip svg {
-        width: 16px; height: 16px;
+    .action-card {
+      background: var(--bg); border: 1px solid var(--border-color);
+      border-radius: var(--radius); padding: 1.5rem;
+      text-align: left; cursor: pointer;
+      transition: all 0.2s var(--transition);
     }
-    .action-chip.chip-anvil {
-        color: #2980b9;
-        border-color: #a9cce3;
-        background-color: #eaf2f8;
+    .action-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     }
-    .action-chip.chip-anvil:hover {
-        background-color: #d4e6f1;
-        border-color: #2980b9;
+    .action-card h4 {
+      font-family: var(--serif); font-size: 1.2rem;
+      color: var(--ink); margin-bottom: 0.25rem;
+      pointer-events: none; /* Make text unclickable */
     }
-    .action-chip.chip-journal {
-        color: #27ae60;
-        border-color: #a3e9a4;
+    .action-card p {
+      font-size: 0.9rem; color: var(--muted);
+      line-height: 1.5; margin: 0;
+      pointer-events: none; /* Make text unclickable */
+    }
+    .action-card.saved {
+        border-color: #27ae60;
         background-color: #e8f8f5;
     }
-    .action-chip.chip-journal:hover {
-        background-color: #d1f2eb;
-        border-color: #27ae60;
-    }
-    .action-chip.saved {
-        background-color: #27ae60;
-        border-color: #27ae60;
-        color: white;
-    }
-    
+
     footer { 
         background: var(--panel-dark); color: var(--muted-dark);
         text-align: center; font-size: 0.88rem;
@@ -180,7 +176,7 @@
           <div class="step-header">
             <button class="btn-back ${showBack ? '' : 'hidden'}">← Back</button>
             <h2 class="step-title">${title}</h2>
-            <div style="width: 50px;"></div> </div>
+          </div>
         `;
       };
       
@@ -286,15 +282,15 @@
                 </div>
                 
                 <h3>Next Steps</h3>
-                <div class="choice-grid" style="grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-                  <button class="action-chip chip-anvil" id="anvilBtn">
-                    <svg fill="currentColor" viewBox="0 0 20 20"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
-                    <span>Take to 'The Anvil'</span>
-                  </button>
-                  <button class="action-chip chip-journal" id="journalBtn">
-                    <svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zM2 4a4 4 0 014-4h8a4 4 0 014 4v12a4 4 0 01-4 4H6a4 4 0 01-4-4V4z" clip-rule="evenodd"></path></svg>
-                    <span>Save to Journal</span>
-                  </button>
+                <div class="action-grid">
+                  <div class="action-card" id="anvilBtn">
+                    <h4>Take to 'The Anvil'</h4>
+                    <p>Begin writing your story in a focused editor.</p>
+                  </div>
+                  <div class="action-card" id="journalBtn">
+                    <h4>Save to Journal</h4>
+                    <p>Store this idea in your personal journal to revisit later.</p>
+                  </div>
                 </div>
 
                 <button id="restartBtn" class="btn-primary">Start a New Idea</button>
@@ -320,13 +316,16 @@
           journal.unshift(userSelections.result); // Add to the beginning
           localStorage.setItem('foundryJournal', JSON.stringify(journal));
           
-          const btn = e.target.closest('.action-chip');
-          btn.classList.add('saved');
-          btn.querySelector('span').textContent = 'Saved!';
+          const card = e.target.closest('.action-card');
+          const originalText = card.querySelector('p').textContent;
+          card.classList.add('saved');
+          card.querySelector('h4').textContent = 'Saved!';
+          card.querySelector('p').textContent = 'Your idea has been added to the journal.';
 
           setTimeout(() => {
-              btn.classList.remove('saved');
-              btn.querySelector('span').textContent = "Save to Journal";
+              card.classList.remove('saved');
+              card.querySelector('h4').textContent = "Save to Journal";
+              card.querySelector('p').textContent = originalText;
           }, 2000);
       };
 
@@ -337,7 +336,7 @@
           foundryData = await response.json();
           navigateTo(renderStep1);
         } catch (error) {
-          foundryContainer.innerHTML = `<p style="color: #c0392b; text-align: center;">Error: ${error.message}</p>`;
+          foundryContainer.innerHTML = `<p style="color: #c03b2b; text-align: center;">Error: ${error.message}</p>`;
         }
       }
 
