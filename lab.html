@@ -49,33 +49,33 @@
     .step-container { animation: fadeIn 0.5s var(--transition); }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
+    /* Corrected Header Styles */
     .step-header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      position: relative;
+      justify-content: space-between;
       margin-bottom: 2rem;
     }
     .step-title {
+      flex-grow: 1;
       font-family: var(--serif);
       font-size: 1.5rem;
       text-align: center;
-      margin: 0;
+      margin: 0 1rem;
       color: var(--accent);
     }
+    .btn-back, .header-spacer {
+      flex-shrink: 0;
+      width: 60px; /* Provides consistent spacing */
+      text-align: left;
+    }
     .btn-back {
-      position: absolute;
-      left: 0;
-      background: none;
-      border: none;
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--muted);
-      cursor: pointer;
+      background: none; border: none; font-size: 1rem;
+      font-weight: 700; color: var(--muted); cursor: pointer;
       padding: 0.5rem;
     }
     .btn-back:hover { color: var(--accent); }
-    .btn-back.hidden { visibility: hidden; }
+    .hidden { visibility: hidden; }
     
     .choice-grid {
       display: grid;
@@ -84,70 +84,48 @@
       margin-top: 1rem;
     }
     .choice-card {
-      padding: 1rem 1.5rem;
-      background: var(--bg);
+      padding: 1rem 1.5rem; background: var(--bg);
       border: 1px solid var(--border-color);
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 700;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s var(--transition);
+      border-radius: 8px; font-size: 1rem;
+      font-weight: 700; text-align: center;
+      cursor: pointer; transition: all 0.2s var(--transition);
       width: 100%;
     }
     .choice-card:hover {
       transform: translateY(-3px);
       box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-      border-color: var(--accent);
-      color: var(--accent);
+      border-color: var(--accent); color: var(--accent);
     }
     
     .result-container { text-align: left; }
     .result-container h3 {
-        font-family: var(--serif);
-        font-size: 1.1rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: var(--muted);
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 0.5rem;
-        margin: 1.5rem 0 1rem;
+        font-family: var(--serif); font-size: 1.1rem;
+        text-transform: uppercase; letter-spacing: 1px;
+        color: var(--muted); border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.5rem; margin: 1.5rem 0 1rem;
     }
     .result-container p { font-size: 1.1rem; line-height: 1.7; }
     .result-container ul { list-style: none; padding-left: 1rem; border-left: 2px solid var(--accent); }
     .result-container li { font-size: 0.95rem; color: var(--muted); margin-bottom: 0.5rem; font-style: italic; }
 
     .btn-primary {
-      padding: 1rem 1.5rem;
-      background: var(--accent);
-      color: var(--accent-ink);
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 700;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s var(--transition);
-      width: 100%;
-      margin-top: 2rem;
+      padding: 1rem 1.5rem; background: var(--accent);
+      color: var(--accent-ink); border: none;
+      border-radius: 8px; font-size: 1rem;
+      font-weight: 700; text-align: center;
+      cursor: pointer; transition: all 0.2s var(--transition);
+      width: 100%; margin-top: 2rem;
     }
     .btn-primary:hover {
         background: var(--accent-light);
         box-shadow: 0 4px 20px rgba(128, 0, 0, 0.25);
     }
     
-    .action-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
+    .action-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
     .action-card {
-      background: var(--bg);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      text-align: left;
-      cursor: pointer;
+      background: var(--bg); border: 1px solid var(--border-color);
+      border-radius: var(--radius); padding: 1.5rem;
+      text-align: left; cursor: pointer;
       transition: all 0.2s var(--transition);
     }
     .action-card:hover {
@@ -156,31 +134,21 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     }
     .action-card h4 {
-      font-family: var(--serif);
-      font-size: 1.2rem;
-      color: var(--ink);
-      margin-bottom: 0.25rem;
+      font-family: var(--serif); font-size: 1.2rem;
+      color: var(--ink); margin-bottom: 0.25rem;
       pointer-events: none;
     }
     .action-card p {
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.5;
-      margin: 0;
+      font-size: 0.9rem; color: var(--muted);
+      line-height: 1.5; margin: 0;
       pointer-events: none;
     }
-    .action-card.saved {
-        border-color: #27ae60;
-        background-color: #e8f8f5;
-    }
+    .action-card.saved { border-color: #27ae60; background-color: #e8f8f5; }
 
     footer { 
-        background: var(--panel-dark);
-        color: var(--muted-dark);
-        text-align: center;
-        font-size: 0.88rem;
-        padding: 2rem 0;
-        margin-top: 4rem; 
+        background: var(--panel-dark); color: var(--muted-dark);
+        text-align: center; font-size: 0.88rem;
+        padding: 2rem 0; margin-top: 4rem; 
     }
   </style>
 </head>
@@ -216,10 +184,12 @@
       };
 
       const renderHeader = (title, showBack) => {
+        // This new structure uses a spacer for robust centering
         return `
           <div class="step-header">
             <button class="btn-back ${showBack ? '' : 'hidden'}">← Back</button>
             <h2 class="step-title">${title}</h2>
+            <div class="header-spacer ${showBack ? '' : 'hidden'}"></div>
           </div>
         `;
       };
