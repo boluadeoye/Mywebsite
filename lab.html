@@ -49,33 +49,29 @@
     .step-container { animation: fadeIn 0.5s var(--transition); }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
-    /* --- REBUILT: Header styles based on your feedback --- */
+    /* --- REBUILT AGAIN: New robust header using CSS Grid --- */
     .step-header {
-      display: flex;
+      display: grid;
+      grid-template-columns: auto 1fr auto; /* Left, Center (stretches), Right */
       align-items: center;
-      justify-content: space-between;
       margin-bottom: 2rem;
+      width: 100%;
     }
     .step-title {
-      flex-grow: 1;
+      grid-column: 2; /* Locks title to the center column */
       font-family: var(--serif);
-      /* --- MODIFIED: Drastically reduced font size --- */
-      font-size: 1.4rem;
-      line-height: 1.3;
+      font-size: 1.25rem; /* Further reduction */
       font-weight: 700;
+      line-height: 1.3;
       text-align: center;
       color: var(--accent);
-      margin: 0 0.5rem; /* Reduced margin */
-    }
-    .btn-back, .header-spacer {
-      flex-shrink: 0;
-      width: 40px; /* Reduced width for a tighter layout */
-      text-align: left;
+      padding: 0 0.5rem; /* Ensures space on sides */
     }
     .btn-back {
-      background: none; border: none; font-size: 1.5rem; /* Made arrow slightly larger */
+      grid-column: 1; /* Locks button to the left column */
+      justify-self: start; /* Aligns button to the start of its column */
+      background: none; border: none; font-size: 1.5rem;
       color: var(--muted); cursor: pointer;
-      padding: 0;
     }
     .btn-back:hover { color: var(--accent); }
     .hidden { visibility: hidden; }
@@ -104,8 +100,7 @@
     .result-container h3 {
         font-family: var(--serif); font-size: 1.1rem;
         text-transform: uppercase; letter-spacing: 1px;
-        /* --- MODIFIED: Changed to the deep ink color --- */
-        color: var(--ink); 
+        color: var(--ink); /* Kept the darker color change */
         border-bottom: 1px solid var(--border-color);
         padding-bottom: 0.5rem; margin: 1.5rem 0 1rem;
     }
@@ -187,15 +182,13 @@
           previousStep();
         }
       };
-
+      
+      // --- REBUILT: Cleaned up and simplified the header HTML ---
       const renderHeader = (title, showBack) => {
-        // This structure uses a spacer for robust centering
         return `
           <div class="step-header">
-            // --- MODIFIED: Cleaner back button ---
             <button class="btn-back ${showBack ? '' : 'hidden'}">←</button>
             <h2 class="step-title">${title}</h2>
-            <div class="header-spacer ${showBack ? '' : 'hidden'}"></div>
           </div>
         `;
       };
