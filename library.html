@@ -183,7 +183,7 @@
       color: var(--orange-ink);
     }
 
-    /* --- Bookshelf List Layout (NEW) --- */
+    /* --- Bookshelf List Layout (CORRECTED) --- */
     .library-grid {
       display: flex;
       flex-direction: column;
@@ -193,9 +193,8 @@
       background: var(--panel);
       border: 1px solid rgba(245, 158, 11, .15);
       border-radius: var(--radius);
-      overflow: hidden;
-      display: flex;
-      flex-direction: row; /* Main change: items go side-by-side */
+      display: flex; /* This is key */
+      /* By default, flex-direction is row */
       transition: all 0.3s var(--transition);
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
@@ -207,7 +206,6 @@
     .book-cover {
       flex-shrink: 0; /* Prevents the image container from shrinking */
       width: 150px; /* Fixed width for the cover image area */
-      background: #0c1425;
       padding: 1rem;
       display: flex;
       align-items: center;
@@ -215,7 +213,7 @@
     }
     .book-cover img {
       width: 100%;
-      height: auto; /* Let height adjust to maintain aspect ratio */
+      height: auto;
       object-fit: contain;
       border-radius: 4px;
     }
@@ -223,7 +221,8 @@
       padding: 1.5rem;
       display: flex;
       flex-direction: column;
-      flex-grow: 1; /* Allows this section to take up remaining space */
+      flex-grow: 1; /* Takes up all remaining space */
+      justify-content: space-between; /* Pushes content and button apart */
     }
     .book-info h4 {
       font-family: var(--serif);
@@ -242,19 +241,17 @@
       font-size: 0.95rem;
       color: var(--muted);
       line-height: 1.6;
-      flex-grow: 1; /* Pushes the button to the bottom */
       margin-bottom: 1.5rem;
     }
     .book-link {
-      display: inline-block; /* Changed for better alignment */
-      align-self: flex-start; /* Align button to the left */
+      display: inline-block;
+      align-self: flex-start; /* Aligns button to the left */
       padding: 0.6rem 1.2rem;
       background: linear-gradient(135deg, var(--orange), var(--orange-light));
       color: var(--orange-ink);
       border-radius: 999px;
       font-weight: 700;
       font-size: 0.85rem;
-      margin-top: auto; /* Pushes button to the bottom */
     }
     .book-link:hover {
       transform: scale(1.05);
@@ -272,14 +269,24 @@
     /* Responsive adjustment for the book card on smaller screens */
     @media (max-width: 600px) {
       .book-card {
-        flex-direction: column; /* Stack image and info vertically */
+        flex-direction: column; /* Revert to the clean, original stacked layout on mobile */
       }
       .book-cover {
-        width: 100%; /* Cover takes full width */
-        max-height: 250px; /* Prevent it from being too tall */
+        width: 100%;
+        padding: 1rem;
+        max-height: 300px;
       }
       .book-cover img {
-        max-height: 100%;
+        width: auto;
+        max-width: 50%;
+        margin: 0 auto;
+      }
+      .book-info {
+        padding: 0 1.5rem 1.5rem;
+        text-align: center;
+      }
+      .book-link {
+        align-self: center;
       }
     }
   </style>
@@ -432,11 +439,9 @@
               <div>
                 <h4>${book.title}</h4>
                 <p class="book-author">${book.author}</p>
-              </div>
-              <div>
                 <p class="book-desc">${book.description}</p>
-                <a href="${book.link}" class="book-link" target="_blank" rel="noopener noreferrer">Get Book</a>
               </div>
+              <a href="${book.link}" class="book-link" target="_blank" rel="noopener noreferrer">Get Book</a>
             </div>
           </div>
         `).join('');
