@@ -1,0 +1,104 @@
+{
+  "characters": {
+    "archetypes": [
+      {
+        "name": "The Cynical Detective",
+        "description": "Haunted by a past failure, trusts no one, but has a rigid moral code.",
+        "tags": ["Mystery", "Noir", "Urban"]
+      },
+      {
+        "name": "The Star-forged Knight",
+        "description": "A noble warrior from a fallen galactic empire, bound by an ancient code of honor.",
+        "tags": ["Sci-Fi", "Fantasy", "Action"]
+      },
+      {
+        "name": "The Reluctant Oracle",
+        "description": "Sees glimpses of the future but is terrified of what they foretell.",
+        "tags": ["Fantasy", "Urban", "Mystery"]
+      },
+      {
+        "name": "The AI Caretaker",
+        "description": "A sentient machine that has developed a deep, almost human affection for its last living charge.",
+        "tags": ["Sci-Fi"]
+      },
+      {
+        "name": "The Rogue Scholar",
+        "description": "Exiled from their university for pursuing forbidden knowledge.",
+        "tags": ["Mystery", "Historical", "Fantasy"]
+      }
+    ],
+    "traits": [
+      { "text": "can see the ghosts of their ancestors", "tags": ["Fantasy", "Nigerian"] },
+      { "text": "is a master of disguise", "tags": ["Mystery"] },
+      { "text": "is burdened with a secret they can't speak", "tags": ["Mystery", "Noir", "Urban"] },
+      { "text": "has a clockwork heart that is beginning to fail", "tags": ["Sci-Fi", "Steampunk"] },
+      { "text": "is the last of their kind", "tags": ["Sci-Fi", "Fantasy"] }
+    ]
+  },
+  "settings": {
+    "locations": [
+      {
+        "name": "A futuristic Lagos",
+        "era": "Cyberpunk",
+        "sensory_palette": {
+          "smell": "Wet asphalt and suya smoke after a sudden downpour.",
+          "sound": "A constant, low hum of generators punctuated by the distant call to prayer.",
+          "sight": "Neon signs in Yoruba and Pidgin reflecting off chrome-plated danfo buses."
+        },
+        "tags": ["Sci-Fi", "Urban", "Mystery", "Nigerian"]
+      },
+      {
+        "name": "The Whispering Mangrove",
+        "era": "Magical Realism",
+        "sensory_palette": {
+          "smell": "The thick, salty air mixed with the scent of decaying leaves.",
+          "sound": "The scuttling of unseen crabs and the low hum of insects.",
+          "sight": "A labyrinth of tangled roots rising from brackish, dark water."
+        },
+        "tags": ["Fantasy", "Mystery", "Nature", "Nigerian"]
+      },
+      {
+        "name": "A floating market on a gas giant",
+        "era": "High Sci-Fi",
+        "sensory_palette": {
+            "smell": "The sharp tang of ozone and exotic spices from a hundred worlds.",
+            "sound": "The hiss of pressure seals and the babble of alien languages.",
+            "sight": "Barges navigate crimson clouds under the glow of a colossal, ringed planet."
+        },
+        "tags": ["Sci-Fi", "Action"]
+      },
+      {
+        "name": "An abandoned colonial-era hospital",
+        "era": "Historical/Horror",
+        "sensory_palette": {
+            "smell": "The sterile scent of antiseptic that never quite left, mixed with decay.",
+            "sound": "The wind whistling through broken window panes like a faint moan.",
+            "sight": "Peeling paint, rusted medical equipment, and long, dark corridors."
+        },
+        "tags": ["Mystery", "Horror", "Urban"]
+      }
+    ]
+  },
+  "conflicts": {
+    "internal": [
+      { "text": "a forgotten promise they must now keep.", "tags": ["Mystery", "Urban"] },
+      { "text": "a choice between their honor and their survival.", "tags": ["Sci-Fi", "Fantasy", "Action"] },
+      { "text": "a crisis of faith that makes them question everything.", "tags": ["Urban", "Historical"] },
+      { "text": "a memory they can't trust.", "tags": ["Mystery", "Sci-Fi", "Noir"] }
+    ],
+    "external": [
+      { "text": "a powerful corporation trying to erase a piece of history.", "tags": ["Sci-Fi", "Mystery"] },
+      { "text": "an ancient curse that reawakens in the modern world.", "tags": ["Fantasy", "Urban", "Horror"] },
+      { "text": "a rival seeking the same ancient power.", "tags": ["Fantasy", "Action"] },
+      { "text": "a mysterious plague that affects only technology.", "tags": ["Sci-Fi"] }
+    ]
+  },
+  "catalysts": {
+    "character_conflict": [
+      "What if [CHARACTER] is forced to confront [CONFLICT]?",
+      "The story begins when [CHARACTER] discovers that [CONFLICT].",
+      "How would [CHARACTER]'s life change if they were faced with [CONFLICT]?",
+      "The fate of everything rests on whether [CHARACTER] can overcome [CONFLICT]."
+    ]
+  }
+}
