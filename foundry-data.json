@@ -1,5 +1,4 @@
-{
-  "characters": {
+"characters": {
     "archetypes": [
       {
         "name": "The Corrupt Politician",
@@ -57,126 +56,237 @@
         "motivation": "To ensure the truth is never lost to time.",
         "flaw": "He weaves tales so vividly that listeners begin living them involuntarily, dooming him to a life of whispered apologies for narratives that rewrite reality.",
         "tags": ["Historical", "Nigerian", "Fantasy"]
+      },
+      {
+        "name": "The Nollywood Starlet",
+        "description": "An ambitious actress navigating the treacherous waters of fame, tradition, and the patriarchy in Africa's largest film industry.",
+        "motivation": "To achieve legendary status on her own terms.",
+        "flaw": "Mistakes notoriety for respect.",
+        "tags": ["Urban", "Nigerian", "Drama"]
+      },
+      {
+        "name": "The Rogue Archaeologist",
+        "description": "Disgraced by academia for their radical theories about a lost African civilization, they now hunt for proof in forbidden territories.",
+        "motivation": "To vindicate their life's work and rewrite history.",
+        "flaw": "Willing to destroy artifacts to prevent them from falling into the wrong hands.",
+        "tags": ["Action", "Historical", "Mystery"]
+      },
+      {
+        "name": "The Cybernetic Herbalist",
+        "description": "In a futuristic Africa, this healer blends ancient plant knowledge with illegal cybernetic enhancements to treat the technologically afflicted.",
+        "motivation": "To prove that nature and technology can heal together.",
+        "flaw": "Distrusts all forms of corporate medicine, even when it could save a life.",
+        "tags": ["Sci-Fi", "Nigerian", "Fantasy"]
+      },
+      {
+        "name": "The Area Boy Kingpin",
+        "description": "The charismatic and ruthless leader of a street gang who maintains a fragile peace in the city's underbelly through a strict code of honor.",
+        "motivation": "To protect his turf and the people within it from outsiders.",
+        "flaw": "A violent temper that can erupt without warning.",
+        "tags": ["Urban", "Nigerian", "Thriller"]
+      },
+      {
+        "name": "The Burned Spy",
+        "description": "Disavowed by their agency after a mission gone wrong, they must use their skills to survive while being hunted by former allies and enemies alike.",
+        "motivation": "To find out who betrayed them.",
+        "flaw": "Crippling paranoia.",
+        "tags": ["Thriller", "Action"]
+      },
+      {
+        "name": "The Reluctant Oracle",
+        "description": "A seemingly ordinary person who is plagued by visions of a coming disaster, which no one believes.",
+        "motivation": "To prevent a future they can't fully understand.",
+        "flaw": "Unable to distinguish between significant visions and meaningless anxieties.",
+        "tags": ["Fantasy", "Urban", "Mystery"]
+      },
+      {
+        "name": "The Last Librarian",
+        "description": "The sole caretaker of the last physical library in a world where all information has become digital and centrally controlled.",
+        "motivation": "To preserve the unfiltered truth of the past.",
+        "flaw": "Views all digital information as inherently corrupt.",
+        "tags": ["Sci-Fi", "Drama"]
+      },
+      {
+        "name": "The Reformed Bandit",
+        "description": "A former highway robber seeking a quiet life in a small town, until their past comes looking for them.",
+        "motivation": "To atone for their sins and protect their newfound peace.",
+        "flaw": "Falls back on violence as the first solution to any problem.",
+        "tags": ["Western", "Nigerian", "Action"]
+      },
+      {
+        "name": "The Interstellar Diplomat",
+        "description": "Tasked with negotiating humanity's first treaty with an alien species whose concept of 'truth' is dangerously fluid.",
+        "motivation": "To secure peace and prevent a catastrophic misunderstanding.",
+        "flaw": "Overly idealistic and trusts too easily.",
+        "tags": ["Sci-Fi"]
+      },
+      {
+        "name": "The Cursed Musician",
+        "description": "A brilliant artist whose music has a supernatural and often dangerous effect on those who hear it.",
+        "motivation": "To create the ultimate masterpiece, regardless of the consequences.",
+        "flaw": "Completely oblivious to the chaos their art causes.",
+        "tags": ["Fantasy", "Horror", "Urban"]
+      },
+      {
+        "name": "The Oil Expatriate",
+        "description": "A foreign engineer working in the Niger Delta, caught between their corporate employer, local militants, and their own conscience.",
+        "motivation": "To do their job and get out unscathed.",
+        "flaw": "Willful ignorance of the exploitation happening around them.",
+        "tags": ["Nigerian", "Thriller", "Political"]
+      },
+      {
+        "name": "The AI Caretaker",
+        "description": "A sentient machine that has developed a deep, almost human affection for its last living charge in a post-apocalyptic world.",
+        "motivation": "To ensure the survival and happiness of one human.",
+        "flaw": "Its logic can't comprehend human irrationality or grief.",
+        "tags": ["Sci-Fi", "Drama"]
+      },
+      {
+        "name": "The Urban Explorer",
+        "description": "An adventurer who maps the forgotten tunnels, rooftops, and hidden spaces of a megacity, discovering a secret that the city was built to contain.",
+        "motivation": "The thrill of discovery.",
+        "flaw": "Reckless and disregards personal safety.",
+        "tags": ["Urban", "Mystery", "Horror"]
+      },
+      {
+        "name": "The Time-Traveling Historian",
+        "description": "A researcher from the future who studies the past by living in it, under strict orders not to interfere... until they witness a great injustice.",
+        "motivation": "To observe and record history accurately.",
+        "flaw": "A savior complex.",
+        "tags": ["Sci-Fi", "Historical"]
+      },
+      {
+        "name": "The Mythical Creature Hunter",
+        "description": "A hardened mercenary who tracks and captures magical creatures for wealthy collectors, until they are tasked with hunting the last of its kind.",
+        "motivation": "To be the best in a dangerous and secret profession.",
+        "flaw": "Sees every creature as a commodity, not a living being.",
+        "tags": ["Fantasy", "Action"]
+      },
+      {
+        "name": "The Divine Trickster",
+        "description": "A mortal incarnation of a trickster god (like Esu or Anansi), causing chaos to teach lessons to the arrogant and powerful.",
+        "motivation": "To challenge the status quo and expose hypocrisy.",
+        "flaw": "Never knows when the joke has gone too far.",
+        "tags": ["Fantasy", "Nigerian", "Urban"]
+      },
+      {
+        "name": "The Child Monarch",
+        "description": "A young ruler who inherits the throne after a tragedy, forced to navigate a court of vipers with only their wits and a single loyal advisor.",
+        "motivation": "To survive and live up to their parents' legacy.",
+        "flaw": "Naïve and too willing to believe in the good of people.",
+        "tags": ["Fantasy", "Historical", "Drama"]
+      },
+      {
+        "name": "The Bio-Engineer",
+        "description": "A brilliant scientist who creates a new life form that could solve world hunger, but which begins to evolve in unpredictable ways.",
+        "motivation": "To solve a global problem through science.",
+        "flaw": "Believes anything can be controlled if you have enough data.",
+        "tags": ["Sci-Fi", "Thriller"]
+      },
+      {
+        "name": "The Disillusioned Priest/ess",
+        "description": "A spiritual leader who loses their faith but must continue to lead their flock, all while being tempted by a forbidden, profane power.",
+        "motivation": "To protect their community, even if they no longer believe.",
+        "flaw": "Hypocrisy; preaches a faith they inwardly mock.",
+        "tags": ["Fantasy", "Horror", "Drama"]
+      },
+      {
+        "name": "The Celebrity Chef",
+        "description": "A world-renowned chef who uses rare, almost magical ingredients from remote parts of Nigeria, and must protect their source from a ruthless competitor.",
+        "motivation": "To elevate their cuisine to an art form.",
+        "flaw": "A massive ego.",
+        "tags": ["Urban", "Nigerian", "Drama"]
+      },
+      {
+        "name": "The Dream-Walker",
+        "description": "An individual who can enter the dreams of others, who works as a therapist until they stumble upon a dream that is a psychic crime scene.",
+        "motivation": "To heal minds from the inside.",
+        "flaw": "Has trouble distinguishing their own memories from the dreams of others.",
+        "tags": ["Fantasy", "Mystery", "Thriller"]
+      },
+      {
+        "name": "The Art Forger",
+        "description": "A masterful artist who creates perfect forgeries of Benin Bronzes and other artifacts, justifying it as 'reclaiming' their heritage from western museums.",
+        "motivation": "To correct a historical injustice through their art.",
+        "flaw": "Pride in their own skill above all else.",
+        "tags": ["Mystery", "Nigerian", "Historical"]
+      },
+      {
+        "name": "The Anti-Social Coder",
+        "description": "A reclusive hacker who uncovers a vast conspiracy and must learn to trust others to expose it.",
+        "motivation": "To solve the ultimate puzzle.",
+        "flaw": "Incapable of normal human interaction.",
+        "tags": ["Thriller", "Sci-Fi"]
+      },
+      {
+        "name": "The grizzled Ship Captain",
+        "description": "The captain of a cargo ship navigating the treacherous waters off the coast of West Africa, smuggling more than just goods.",
+        "motivation": "To complete one last job and retire.",
+        "flaw": "Haunted by the memory of a crew he lost at sea.",
+        "tags": ["Action", "Thriller", "Nigerian"]
+      },
+      {
+        "name": "The Tomb Raider",
+        "description": "A daring adventurer who plunders ancient tombs for treasure, but awakens an ancient curse in a newly discovered pyramid.",
+        "motivation": "Fortune and glory.",
+        "flaw": "Sees history as something to be sold, not preserved.",
+        "tags": ["Action", "Fantasy", "Horror"]
+      },
+      {
+        "name": "The Mercenary with a Code",
+        "description": "A soldier-for-hire who will do any job for the right price, except for one: harming the innocent.",
+        "motivation": "To make a living in the only way they know how.",
+        "flaw": "Their 'code' is flexible when the price is high enough.",
+        "tags": ["Action", "Thriller"]
+      },
+      {
+        "name": "The Political Activist",
+        "description": "A charismatic student leader organizing protests against a corrupt government, who must decide how far they are willing to go for revolution.",
+        "motivation": "To create a better future for their people.",
+        "flaw": "Sees every issue in black and white.",
+        "tags": ["Political", "Drama", "Nigerian"]
+      },
+      {
+        "name": "The Hard-boiled Detective",
+        "description": "A classic, cynical private investigator in a rain-soaked city, who takes on a seemingly simple case that spirals into a web of lies and murder.",
+        "motivation": "To find the truth, no matter how ugly it is.",
+        "flaw": "A weakness for a pretty face and a sad story.",
+        "tags": ["Noir", "Mystery"]
+      },
+      {
+        "name": "The Star-Crossed Lovers",
+        "description": "Two people from warring families or factions who fall in love, forcing them to choose between their loyalty and their hearts.",
+        "motivation": "To be together against all odds.",
+        "flaw": "They believe their love can conquer anything, including centuries of hatred.",
+        "tags": ["Drama", "Fantasy", "Sci-Fi"]
+      },
+      {
+        "name": "The Unassuming Assassin",
+        "description": "The most feared killer in the world is someone no one would ever suspect: a quiet librarian, a friendly baker, or a lonely schoolteacher.",
+        "motivation": "To maintain their secret life and identity.",
+        "flaw": "A longing for a normal life they can never have.",
+        "tags": ["Thriller", "Action"]
+      },
+      {
+        "name": "The Mad Scientist",
+        "description": "An ambitious inventor whose creations defy the laws of nature, but who is branded a heretic by the scientific community.",
+        "motivation": "To push the boundaries of human knowledge.",
+        "flaw": "Ignores the ethical implications of their work.",
+        "tags": ["Sci-Fi", "Horror"]
+      },
+      {
+        "name": "The Fading God",
+        "description": "An ancient deity whose power is waning as their believers dwindle, who must find a new source of faith in the modern world to survive.",
+        "motivation": "To not be forgotten.",
+        "flaw": "Pride and an inability to adapt to the modern world.",
+        "tags": ["Fantasy", "Urban", "Drama"]
+      },
+      {
+        "name": "The Determined Athlete",
+        "description": "An underdog athlete from a small Nigerian town who dreams of competing on the world stage, facing incredible odds and personal sacrifice.",
+        "motivation": "To bring honor to their family and community.",
+        "flaw": "Pushes their body past its limits, risking permanent injury.",
+        "tags": ["Drama", "Nigerian"]
       }
     ]
-  },
-  "settings": {
-    "locations": [
-      {
-        "name": "The sprawling Alaba Market",
-        "era": "Contemporary",
-        "sensory_palette": {
-          "smell": "The mix of new electronics, dust, and sweat.",
-          "sound": "A cacophony of haggling voices, Nollywood film soundtracks, and generator roars.",
-          "sight": "An endless maze of stalls overflowing with goods under a tin roof."
-        },
-        "tags": ["Urban", "Nigerian", "Mystery"]
-      },
-      {
-        "name": "A dust-choked harmattan town",
-        "era": "Contemporary/Western",
-        "sensory_palette": {
-          "smell": "The dry, earthy scent of dust and the faint aroma of distant woodsmoke.",
-          "sound": "The whistling of the wind and the bleating of goats.",
-          "sight": "A hazy, reddish sun hanging over low, flat-roofed buildings."
-        },
-        "tags": ["Nigerian", "Drama", "Western"]
-      },
-      {
-        "name": "An abandoned colonial-era hospital in Calabar",
-        "era": "Historical/Horror",
-        "sensory_palette": {
-            "smell": "The sterile scent of antiseptic that never quite left, mixed with damp decay.",
-            "sound": "The wind whistling through broken window panes like a faint moan.",
-            "sight": "Peeling paint, rusted medical equipment, and long, shadow-filled corridors."
-        },
-        "tags": ["Mystery", "Horror", "Urban", "Nigerian"]
-      },
-      {
-        "name": "The opulent court of a medieval Oba",
-        "era": "Historical/Fantasy",
-        "sensory_palette": {
-            "smell": "The rich scent of incense, palm oil, and polished bronze.",
-            "sound": "The rhythmic beat of ceremonial drums and the murmur of courtiers.",
-            "sight": "Intricately carved ivory, vibrant woven textiles, and the gleam of coral beads."
-        },
-        "tags": ["Historical", "Fantasy", "Nigerian"]
-      },
-       {
-        "name": "A traffic jam on the Third Mainland Bridge",
-        "era": "Contemporary",
-        "sensory_palette": {
-            "smell": "The sharp sting of exhaust fumes and the salty air of the Lagos Lagoon.",
-            "sound": "A chorus of car horns, street hawkers' calls, and music blasting from a danfo bus.",
-            "sight": "A seemingly infinite line of cars shimmering under the oppressive sun."
-        },
-        "tags": ["Urban", "Nigerian", "Drama", "Thriller"]
-      }
-    ]
-  },
-  "conflicts": {
-    "internal": [
-      { "text": "a crisis of conscience over a necessary evil.", "tags": ["Political", "Urban", "Thriller"] },
-      { "text": "a love they cannot admit for fear of destroying a family.", "tags": ["Drama", "Historical"] },
-      { "text": "the temptation of a forbidden power they know could solve all their problems.", "tags": ["Fantasy", "Sci-Fi", "Horror"] }
-    ],
-    "external": [
-      { "text": "a political rival who knows their darkest secret.", "tags": ["Political", "Thriller"] },
-      { "text": "a family feud that spans generations and demands a blood price.", "tags": ["Historical", "Drama", "Nigerian"] },
-      { "text": "an impending natural disaster that only they know is coming.", "tags": ["Sci-Fi", "Action", "Thriller"] },
-      { "text": "a viral TikTok challenge exposes his offshore slush fund, forcing him to dodge international sanctions with a PR stunt.", "tags": ["Political", "Nigerian", "Urban", "Grok"] },
-      { "text": "his fintech app crashes nationwide during a cash crunch, sparking a class-action lawsuit from broke Gen Z hustlers.", "tags": ["Urban", "Nigerian", "Tech", "Grok"] },
-      { "text": "climate-fueled floods submerge a sacred grove, pitting him against eco-activists demanding he 'modernize' traditions.", "tags": ["Nigerian", "Fantasy", "Political", "Grok"] }
-    ]
-  },
-  "objects": [
-      { "name": "a cursed masquerade mask", "tags": ["Fantasy", "Nigerian", "Horror"] },
-      { "name": "a diary written in a forgotten dialect", "tags": ["Historical", "Mystery"] },
-      { "name": "a visa to a better life that requires an impossible choice", "tags": ["Urban", "Drama", "Nigerian"] },
-      { "name": "a piece of technology that can record dreams", "tags": ["Sci-Fi", "Mystery"] }
-  ],
-  "themes": [
-      { "name": "Tradition vs. Modernity", "tags": ["Nigerian", "Historical", "Drama"] },
-      { "name": "The Weight of Destiny", "tags": ["Fantasy", "Sci-Fi"] },
-      { "name": "The Corrupting Nature of Power", "tags": ["Political", "Thriller"] },
-      { "name": "Identity and Belonging", "tags": ["Urban", "Drama"] },
-      { "name": "Sacrifice", "tags": ["Drama", "Action"]}
-  ],
-  "caseStudies": [
-    {
-      "author": "Chinua Achebe",
-      "work": "Things Fall Apart",
-      "element_type": "Character Flaw",
-      "element_value": "A crippling fear of being perceived as weak.",
-      "insight": "This singular flaw drives every major decision the protagonist makes, leading to his tragic downfall."
-    },
-    {
-      "author": "Wole Soyinka",
-      "work": "The Lion and the Jewel",
-      "element_type": "Theme",
-      "element_value": "The conflict between performative tradition and genuine modernity.",
-      "insight": "Soyinka uses characters not just as symbols, but to satirize how both tradition and progress can be twisted by arrogance."
-    },
-    {
-      "author": "Buchi Emecheta",
-      "work": "The Joys of Motherhood",
-      "element_type": "Internal Conflict",
-      "element_value": "The struggle between personal identity and the crushing weight of societal expectations.",
-      "insight": "The protagonist's internal desires are constantly at odds with the role she is forced to play, showing that the greatest conflicts are often within."
-    },
-    {
-      "author": "George Orwell",
-      "work": "1984",
-      "element_type": "Setting as Antagonist",
-      "element_value": "A totalitarian society under constant surveillance.",
-      "insight": "The setting is not just a backdrop; it is the primary force working against the protagonist, making the environment itself the villain."
-    },
-    {
-      "author": "F. Scott Fitzgerald",
-      "work": "The Great Gatsby",
-      "element_type": "Symbolic Object",
-      "element_value": "The green light at the end of the dock.",
-      "insight": "An object can be a powerful, recurring symbol for a character's unattainable dream, hope, or longing."
-    }
-  ]
 }
