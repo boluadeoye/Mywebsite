@@ -33,15 +33,13 @@
     a { color: inherit; text-decoration: none; transition: all 0.3s var(--transition); }
     .wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
 
+    /* --- 1. HEADER EDITED (NO LONGER STICKY) --- */
     header {
-      position: sticky; top: 0; z-index: 100; 
+      /* REMOVED: position: sticky; top: 0; */
+      z-index: 100; 
       background: rgba(15,23,42,.85);
-      backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(245,158,11,.15);
       transition: box-shadow 0.3s var(--transition);
-    }
-    header.scrolled {
-      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
     }
     .header-row {
       display: flex;
@@ -102,20 +100,21 @@
     .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .5); z-index: 150; display: none; cursor: pointer; opacity: 0; transition: opacity 0.3s ease; }
     .overlay.show { display: block; opacity: 1; }
     
+    /* --- 2. PAGE HEADER EDITED (TIGHTER SPACING) --- */
     .page-header {
       text-align: center;
-      padding: 2.5rem 0 2rem;
+      padding: 1.5rem 0 1rem; /* Reduced vertical padding */
     }
     .page-header h1 {
-      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-size: clamp(1.8rem, 5vw, 2.5rem); /* Reduced font size */
       font-family: var(--serif);
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem; /* Reduced margin */
       line-height: 1.1;
       background: linear-gradient(135deg, var(--orange), var(--orange-light));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     .page-header p {
-      font-size: 1.1rem;
+      font-size: 1rem; /* Slightly reduced font size */
       color: var(--muted);
       max-width: 65ch;
       margin: 0 auto;
@@ -127,7 +126,7 @@
       gap: 1rem;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem; /* Reduced margin */
       padding: 1rem 0;
     }
     .search-wrapper {
@@ -183,18 +182,19 @@
       color: var(--orange-ink);
     }
 
-    /* --- Bookshelf List Layout (CORRECTED) --- */
+    /* --- 3. BOOKSHELF EDITED (TWO-COLUMN GRID) --- */
     .library-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem; /* Space between each book entry */
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* Two columns */
+      gap: 1.5rem; /* Space between cards */
     }
     .book-card {
       background: var(--panel);
       border: 1px solid rgba(245, 158, 11, .15);
       border-radius: var(--radius);
-      display: flex; /* This is key */
-      /* By default, flex-direction is row */
+      overflow: hidden;
+      display: flex;
+      flex-direction: column; /* Back to vertical stack */
       transition: all 0.3s var(--transition);
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
@@ -204,29 +204,23 @@
       border-color: var(--orange);
     }
     .book-cover {
-      flex-shrink: 0; /* Prevents the image container from shrinking */
-      width: 150px; /* Fixed width for the cover image area */
-      padding: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 100%;
     }
     .book-cover img {
       width: 100%;
       height: auto;
-      object-fit: contain;
-      border-radius: 4px;
+      object-fit: cover; /* Cover ensures it fills the space nicely */
+      aspect-ratio: 2 / 3; /* Gives a consistent book shape */
     }
     .book-info {
-      padding: 1.5rem;
+      padding: 1rem;
       display: flex;
       flex-direction: column;
-      flex-grow: 1; /* Takes up all remaining space */
-      justify-content: space-between; /* Pushes content and button apart */
+      flex-grow: 1;
     }
     .book-info h4 {
       font-family: var(--serif);
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       color: var(--ink);
       line-height: 1.3;
       margin-bottom: 0.25rem;
@@ -234,31 +228,38 @@
     .book-author {
       color: var(--muted);
       font-weight: 600;
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
     }
     .book-desc {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
+      line-height: 1.5;
+      flex-grow: 1; /* Pushes button to bottom */
+      margin-bottom: 1rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3; /* Limit to 3 lines */
+      -webkit-box-orient: vertical;
     }
     .book-link {
-      display: inline-block;
-      align-self: flex-start; /* Aligns button to the left */
-      padding: 0.6rem 1.2rem;
+      display: block;
+      text-align: center;
+      padding: 0.6rem;
       background: linear-gradient(135deg, var(--orange), var(--orange-light));
       color: var(--orange-ink);
       border-radius: 999px;
       font-weight: 700;
       font-size: 0.85rem;
+      margin-top: auto;
     }
     .book-link:hover {
       transform: scale(1.05);
       box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
     }
 
-    .loading, .no-results { text-align: center; padding: 3rem; color: var(--muted); }
+    .loading, .no-results { text-align: center; padding: 3rem; color: var(--muted); grid-column: 1 / -1; }
     .loading-spinner { display: inline-block; width: 36px; height: 36px; border: 2px solid rgba(245, 158, 11, .3); border-top-color: var(--orange); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
     
@@ -266,27 +267,10 @@
     
     @media (min-width: 880px) { .top-nav { display: flex; } .hamburger { display: none; } }
     
-    /* Responsive adjustment for the book card on smaller screens */
+    /* On smaller screens, revert to a single column */
     @media (max-width: 600px) {
-      .book-card {
-        flex-direction: column; /* Revert to the clean, original stacked layout on mobile */
-      }
-      .book-cover {
-        width: 100%;
-        padding: 1rem;
-        max-height: 300px;
-      }
-      .book-cover img {
-        width: auto;
-        max-width: 50%;
-        margin: 0 auto;
-      }
-      .book-info {
-        padding: 0 1.5rem 1.5rem;
-        text-align: center;
-      }
-      .book-link {
-        align-self: center;
+      .library-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
