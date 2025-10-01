@@ -719,6 +719,17 @@
           newsHubContent.innerHTML = `<div class="error-message">Could not load updates from ${source.toUpperCase()}. Please try again later.</div>`;
       }
 
+      function handleTabClick(e) {
+          const button = e.target.closest('button');
+          if (!button) return;
+          
+          newsHubTabs.querySelectorAll('button').forEach(tab => tab.setAttribute('aria-selected', 'false'));
+          button.setAttribute('aria-selected', 'true');
+          
+          const source = button.dataset.source;
+          fetchNews(source);
+      }
+
       function initNewsHub() {
           if (!newsHubContainer) return;
 
