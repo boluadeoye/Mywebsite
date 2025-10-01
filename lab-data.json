@@ -1,0 +1,34 @@
+{
+  "categories": [
+    {
+      "name": "First Lines",
+      "prompts": [
+        "The last thing I expected to see in the desert was a ship.",
+        "It wasn't the fall that scared her, but the sudden stop.",
+        "The old musician played a song that only ghosts could hear.",
+        "By the third day, the rain had washed away everything but the truth.",
+        "He found the map in a bottle, but it wasn't for any place on Earth."
+      ]
+    },
+    {
+      "name": "Characters",
+      "prompts": [
+        "A retired librarian who secretly solves cold cases.",
+        "A chef who can taste emotions in food.",
+        "An astronaut who is afraid of heights.",
+        "A cartographer who maps cities that don't exist.",
+        "A silent monk who communicates only by writing on a small chalkboard."
+      ]
+    },
+    {
+      "name": "Scenarios",
+      "prompts": [
+        "You wake up with the ability to speak a language you've never learned.",
+        "A mysterious package arrives containing an object that belongs to your future self.",
+        "You are the sole witness to an impossible crime.",
+        "You discover a hidden room in your house that changes every day.",
+        "An ancient tree in your backyard starts bearing fruit made of glass."
+      ]
+    }
+  ]
+}
