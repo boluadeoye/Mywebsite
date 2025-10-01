@@ -6,287 +6,230 @@
   <title>The Writer's Foundry — Boluadeoye</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* Default Theme (for footer) */
       --bg-dark: #0f172a; --panel-dark: #111a2e;
       --ink-dark: #e5eefc; --muted-dark: #94a3b8;
-      
-      /* Base Variables */
-      --radius: 12px;
-      --serif: 'Playfair Display', Georgia, "Times New Roman", serif;
+      --bg: #f5f5dc; --panel: #ffffff;
+      --ink: #2c3e50; --muted: #596a7a;
+      --accent: #800000; --accent-light: #a00000;
+      --accent-ink: #f5f5dc; --border-color: #dcd8cd;
+      --radius: 12px; --serif: 'Playfair Display', Georgia, serif;
       --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
       --transition: cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
-    /* Scholarly Theme Variables */
-    body {
-      --bg: #f5f5dc; /* Beige */
-      --panel: #ffffff; /* White Panels for contrast */
-      --ink: #2c3e50; /* Dark Slate Blue */
-      --muted: #596a7a;
-      --accent: #800000; /* Burgundy */
-      --accent-light: #a00000;
-      --accent-ink: #f5f5dc;
-      --ring: rgba(128, 0, 0, .25);
-      --border-color: #dcd8cd;
-    }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      background: var(--bg);
-      color: var(--ink);
+      background: var(--bg); color: var(--ink);
       font: 16px/1.7 var(--sans-serif);
-      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-      overflow-x: hidden; position: relative;
+      -webkit-font-smoothing: antialiased;
     }
-    .wrap { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
-    
-    .page-header {
-      text-align: center;
-      padding: 3rem 0 2rem;
-    }
+    .wrap { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
+    .page-header { text-align: center; padding: 3rem 0 2rem; }
     .page-header h1 {
       font-size: clamp(2.5rem, 5vw, 4rem);
-      font-family: var(--serif);
-      margin-bottom: 0.5rem;
-      line-height: 1.1;
-      color: var(--accent);
+      font-family: var(--serif); margin-bottom: 0.5rem;
+      line-height: 1.1; color: var(--accent);
     }
     .page-header p {
-      font-size: 1.1rem;
-      color: var(--muted);
-      max-width: 65ch;
-      margin: 0 auto;
+      font-size: 1.1rem; color: var(--muted);
+      max-width: 65ch; margin: 0 auto;
     }
-    
     .foundry {
-        margin: 2rem auto;
-        padding: 2.5rem;
-        background: var(--panel);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius);
-        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      margin: 2rem auto; padding: 2.5rem;
+      background: var(--panel); border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      min-height: 400px;
+      display: flex; flex-direction: column;
+      transition: all 0.5s var(--transition);
     }
-    .foundry-controls {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-      margin-bottom: 1.5rem;
-      text-align: center;
+    .step-container { animation: fadeIn 0.5s var(--transition); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .step-title {
+      font-family: var(--serif); font-size: 1.5rem;
+      text-align: center; margin-bottom: 2rem;
     }
-    .control-group {
-        display: flex;
-        flex-direction: column;
+    
+    .choice-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem; margin-top: 1rem;
     }
-    .control-group label {
-        font-weight: 700;
-        font-size: 1rem;
-        margin-bottom: 1rem;
-        color: var(--ink);
-        font-family: var(--serif);
-    }
-    #idea-input {
-      width: 100%;
-      padding: 1rem;
-      font-size: 1.1rem;
-      font-family: var(--sans-serif);
-      color: var(--ink);
-      background: var(--bg);
+    .choice-card, .btn-primary {
+      padding: 1rem 1.5rem; background: var(--bg);
       border: 1px solid var(--border-color);
-      border-radius: 8px;
-      text-align: center;
+      border-radius: 8px; font-size: 1rem;
+      font-weight: 700; text-align: center;
+      cursor: pointer; transition: all 0.2s var(--transition);
     }
-    #idea-input::placeholder {
-      color: var(--muted);
-      font-style: italic;
+    .choice-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+      border-color: var(--accent); color: var(--accent);
     }
     
-    .forge-button {
-        display: block;
-        width: 100%;
-        padding: 0.9rem 2.5rem;
-        margin-bottom: 2.5rem;
-        background: var(--accent);
-        color: var(--accent-ink);
-        border-radius: 999px;
-        font-weight: 700;
-        font-size: 1rem;
-        border: none;
-        cursor: pointer;
-        transition: all 0.2s var(--transition);
-        position: relative;
+    .result-container { text-align: left; }
+    .result-container h3 {
+        font-family: var(--serif); font-size: 1.1rem;
+        text-transform: uppercase; letter-spacing: 1px;
+        color: var(--muted); border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.5rem; margin: 1.5rem 0 1rem;
     }
-    .forge-button:hover {
-        transform: scale(1.02);
-        box-shadow: 0 4px 20px rgba(128, 0, 0, 0.25);
+    .result-container p { font-size: 1.1rem; line-height: 1.7; }
+    .result-container ul { list-style: none; padding-left: 1rem; border-left: 2px solid var(--accent); }
+    .result-container li { font-size: 0.95rem; color: var(--muted); margin-bottom: 0.5rem; font-style: italic; }
+
+    .btn-primary {
+      background: var(--accent); color: var(--accent-ink);
+      border: none; width: 100%; margin-top: 2rem;
+    }
+    .btn-primary:hover {
         background: var(--accent-light);
-    }
-    .forge-button.loading::after {
-      content: '';
-      position: absolute;
-      width: 24px;
-      height: 24px;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      border: 2px solid var(--accent-ink);
-      border-top-color: transparent;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
-    
-    .idea-output {
-        padding: 2rem;
-        border-radius: var(--radius);
-        background: var(--bg);
-        border: 1px solid var(--border-color);
-        text-align: left;
-        min-height: 200px;
-        transition: all 0.3s ease;
-    }
-    .idea-output h3 {
-        font-family: var(--serif);
-        font-size: 1.1rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: var(--muted);
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 0.5rem;
-        margin-bottom: 1rem;
-    }
-    .idea-output p {
-        font-size: 1.1rem;
-        line-height: 1.7;
-        margin-bottom: 1.5rem;
-    }
-    .idea-output .sensory-palette ul {
-        list-style: none;
-        padding-left: 1rem;
-        border-left: 2px solid var(--accent);
-    }
-    .idea-output .sensory-palette li {
-        font-size: 0.95rem;
-        color: var(--muted);
-        margin-bottom: 0.5rem;
-        font-style: italic;
+        box-shadow: 0 4px 20px rgba(128, 0, 0, 0.25);
     }
     
     footer { 
-        background: var(--panel-dark); 
-        border-top: 1px solid rgba(245, 158, 11, .2); 
-        color: var(--muted-dark); 
-        text-align: center; 
-        font-size: 0.88rem; 
-        padding: 2rem 0; 
-        margin-top: 4rem; 
+        background: var(--panel-dark); color: var(--muted-dark);
+        text-align: center; font-size: 0.88rem;
+        padding: 2rem 0; margin-top: 4rem; 
     }
   </style>
 </head>
-<body class="lab-theme">
-
+<body>
   <main class="wrap">
     <section class="page-header">
         <h1>The Writer's Foundry</h1>
         <p>An intelligent engine to forge inspiration from raw ideas.</p>
     </section>
     
-    <section class="foundry">
-        <div class="foundry-controls">
-            <div class="control-group">
-                <label for="idea-input">Provide a core idea or theme</label>
-                <input type="text" id="idea-input" placeholder="e.g., A detective in Lagos, a story about betrayal...">
-            </div>
-        </div>
-        
-        <button id="forgeButton" class="forge-button">Forge Idea</button>
-
-        <div id="ideaOutput" class="idea-output">
-             <p style="text-align: center; color: var(--muted);">Your forged idea will appear here.</p>
-        </div>
-    </section>
+    <section id="foundry" class="foundry"></section>
   </main>
-
-  <footer>
-    <div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div>
-  </footer>
+  <footer><div class="wrap"><p>© 2025 Boluadeoye • Crafted with passion</p></div></footer>
 
   <script>
     (function(){
-      // --- Element Selectors ---
-      const ideaInput = document.getElementById('idea-input');
-      const forgeButton = document.getElementById('forge-button');
-      const ideaOutput = document.getElementById('idea-output');
+      const foundryContainer = document.getElementById('foundry');
+      let foundryData = null;
+      let userSelections = {};
 
-      // --- Core Forging Logic ---
-      async function forgeIdea() {
-        const userInput = ideaInput.value;
-        if (!userInput) {
-          ideaOutput.innerHTML = '<p style="text-align: center; color: var(--muted);">Please provide a core idea to begin.</p>';
-          return;
-        }
-
-        // Show loading state
-        forgeButton.disabled = true;
-        forgeButton.classList.add('loading');
-        forgeButton.innerHTML = '&nbsp;'; // Clear text to show spinner
-        ideaOutput.style.opacity = '0.5';
-
-        try {
-          const response = await fetch('/api/forge', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-              character: userInput, // We can send the same input for all fields
-              setting: userInput,
-              conflict: userInput
-            })
+      const renderStep1 = () => {
+        foundryContainer.innerHTML = `
+          <div class="step-container">
+            <h2 class="step-title">What is the core of your idea?</h2>
+            <div class="choice-grid">
+              <button class="choice-card" data-choice="character">Character</button>
+              <button class="choice-card" data-choice="setting">Setting</button>
+              <button class="choice-card" data-choice="theme">Theme</button>
+            </div>
+          </div>
+        `;
+        foundryContainer.querySelectorAll('.choice-card').forEach(card => {
+          card.addEventListener('click', (e) => {
+            userSelections.core = e.target.dataset.choice;
+            renderStep2();
           });
+        });
+      };
+      
+      const renderStep2 = () => {
+        const archetypes = foundryData.characters.archetypes;
+        foundryContainer.innerHTML = `
+          <div class="step-container">
+            <h2 class="step-title">Choose a Character Archetype</h2>
+            <div class="choice-grid">
+              ${archetypes.map(a => `<button class="choice-card" data-choice="${a.name}">${a.name}</button>`).join('')}
+            </div>
+          </div>
+        `;
+        foundryContainer.querySelectorAll('.choice-card').forEach(card => {
+          card.addEventListener('click', (e) => {
+            const choice = e.target.dataset.choice;
+            userSelections.archetype = foundryData.characters.archetypes.find(a => a.name === choice);
+            renderStep3();
+          });
+        });
+      };
+      
+      const renderStep3 = () => {
+        const questions = userSelections.archetype.catalyst_questions;
+        if (!questions) {
+            renderFinalResult(); // Skip if no questions
+            return;
+        }
+        foundryContainer.innerHTML = `
+          <div class="step-container">
+            <h2 class="step-title">Consider this...</h2>
+            <div class="choice-grid" style="grid-template-columns: 1fr;">
+              ${questions.map((q, index) => `<button class="choice-card" data-choice="${index}">${q}</button>`).join('')}
+            </div>
+          </div>
+        `;
+        foundryContainer.querySelectorAll('.choice-card').forEach(card => {
+          card.addEventListener('click', (e) => {
+            const choiceIndex = parseInt(e.target.dataset.choice, 10);
+            userSelections.question = questions[choiceIndex];
+            renderFinalResult();
+          });
+        });
+      };
 
-          if (!response.ok) {
-            throw new Error(`The AI engine returned an error.`);
-          }
+      const renderFinalResult = () => {
+          const char = userSelections.archetype;
+          // Simple logic to find a relevant conflict and setting
+          const conflict = foundryData.conflicts.external.find(c => c.tags.some(t => char.tags.includes(t))) || foundryData.conflicts.external[0];
+          const setting = foundryData.settings.locations.find(s => s.tags.some(t => char.tags.includes(t))) || foundryData.settings.locations[0];
 
-          const data = await response.json();
-          
-          // Build the final HTML output
-          ideaOutput.innerHTML = `
-              <h3>Logline</h3>
-              <p>${data.logline}</p>
-              <h3>Internal Conflict</h3>
-              <p>${data.internal_conflict}</p>
-              <div class="sensory-palette">
-                  <h3>Sensory Palette</h3>
-                  <ul>
-                      <li><strong>Sight:</strong> ${data.sensory_palette.sight}</li>
-                      <li><strong>Sound:</strong> ${data.sensory_palette.sound}</li>
-                      <li><strong>Smell:</strong> ${data.sensory_palette.smell}</li>
-                  </ul>
-              </div>
+          foundryContainer.innerHTML = `
+            <div class="step-container result-container">
+                <h2 class="step-title">Your Forged Idea</h2>
+                
+                <h3>Logline</h3>
+                <p>
+                  In the world of <strong>${setting.name}</strong>, a character like <strong>${char.name}</strong>, who is motivated by a desire to "${char.motivation}" but is held back by their flaw of "${char.flaw}", must face the conflict of <strong>${conflict.text}</strong>
+                </p>
+                
+                <h3>Deep Dive Question</h3>
+                <p><em>${userSelections.question || "No specific question selected, but consider their core motivation."}</em></p>
+
+                <h3>Setting: ${setting.name}</h3>
+                <div class="sensory-palette">
+                    <ul>
+                        <li><strong>Sight:</strong> ${setting.sensory_palette.sight}</li>
+                        <li><strong>Sound:</strong> ${setting.sensory_palette.sound}</li>
+                        <li><strong>Smell:</strong> ${setting.sensory_palette.smell}</li>
+                    </ul>
+                </div>
+                
+                <h3>Next Steps</h3>
+                <div class="choice-grid">
+                  <button class="choice-card">Take to 'The Anvil'</button>
+                  <button class="choice-card">Save to Journal</button>
+                </div>
+
+                <button id="restartBtn" class="btn-primary">Start a New Idea</button>
+            </div>
           `;
+          foundryContainer.querySelector('#restartBtn').addEventListener('click', () => {
+              userSelections = {};
+              renderStep1();
+          });
+      };
 
+      async function initializeFoundry() {
+        try {
+          const response = await fetch('./foundry-data.json');
+          if (!response.ok) throw new Error('Could not load the Foundry brain.');
+          foundryData = await response.json();
+          renderStep1();
         } catch (error) {
-          ideaOutput.innerHTML = `<p style="color: #c0392b; text-align: center;">Error: ${error.message}</p>`;
-        } finally {
-          // Restore button state
-          forgeButton.disabled = false;
-          forgeButton.classList.remove('loading');
-          forgeButton.innerHTML = 'Forge Another Idea';
-          ideaOutput.style.opacity = '1';
+          foundryContainer.innerHTML = `<p style="color: #c0392b; text-align: center;">Error: ${error.message}</p>`;
         }
       }
 
-      // --- Event Listeners ---
-      forgeButton.addEventListener('click', forgeIdea);
-      ideaInput.addEventListener('keyup', (event) => {
-          if (event.key === 'Enter') {
-              forgeIdea();
-          }
-      });
-
+      document.addEventListener('DOMContentLoaded', initializeFoundry);
     })();
   </script>
 </body>
