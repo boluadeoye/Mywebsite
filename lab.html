@@ -62,7 +62,6 @@
       margin: 0 auto;
     }
     
-    /* --- Writer's Foundry Styles --- */
     .foundry {
         margin: 2rem auto;
         padding: 2.5rem;
@@ -72,10 +71,11 @@
         box-shadow: 0 10px 40px rgba(0,0,0,0.08);
     }
     .foundry-controls {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
     }
     .control-group {
         display: flex;
@@ -83,24 +83,25 @@
     }
     .control-group label {
         font-weight: 700;
-        font-size: 0.85rem;
-        margin-bottom: 0.5rem;
-        color: var(--muted);
-        text-transform: uppercase;
-    }
-    .foundry-select {
-        width: 100%;
-        padding: 0.75rem 1rem;
         font-size: 1rem;
-        font-family: var(--sans-serif);
+        margin-bottom: 1rem;
         color: var(--ink);
-        background: var(--bg);
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23596a7a' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 1rem center;
+        font-family: var(--serif);
+    }
+    #idea-input {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.1rem;
+      font-family: var(--sans-serif);
+      color: var(--ink);
+      background: var(--bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      text-align: center;
+    }
+    #idea-input::placeholder {
+      color: var(--muted);
+      font-style: italic;
     }
     
     .forge-button {
@@ -116,12 +117,27 @@
         border: none;
         cursor: pointer;
         transition: all 0.2s var(--transition);
+        position: relative;
     }
     .forge-button:hover {
         transform: scale(1.02);
         box-shadow: 0 4px 20px rgba(128, 0, 0, 0.25);
         background: var(--accent-light);
     }
+    .forge-button.loading::after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 2px solid var(--accent-ink);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
     
     .idea-output {
         padding: 2rem;
@@ -130,6 +146,7 @@
         border: 1px solid var(--border-color);
         text-align: left;
         min-height: 200px;
+        transition: all 0.3s ease;
     }
     .idea-output h3 {
         font-family: var(--serif);
@@ -142,7 +159,7 @@
         margin-bottom: 1rem;
     }
     .idea-output p {
-        font-size: 1.15rem;
+        font-size: 1.1rem;
         line-height: 1.7;
         margin-bottom: 1.5rem;
     }
@@ -180,22 +197,8 @@
     <section class="foundry">
         <div class="foundry-controls">
             <div class="control-group">
-                <label for="character-select">Choose a Character</label>
-                <select id="character-select" class="foundry-select">
-                    <option value="">-- Random --</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label for="setting-select">Choose a Setting</label>
-                <select id="setting-select" class="foundry-select">
-                    <option value="">-- Random --</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label for="conflict-select">Choose a Conflict</label>
-                <select id="conflict-select" class="foundry-select">
-                    <option value="">-- Random --</option>
-                </select>
+                <label for="idea-input">Provide a core idea or theme</label>
+                <input type="text" id="idea-input" placeholder="e.g., A detective in Lagos, a story about betrayal...">
             </div>
         </div>
         
@@ -214,102 +217,75 @@
   <script>
     (function(){
       // --- Element Selectors ---
-      const characterSelect = document.getElementById('character-select');
-      const settingSelect = document.getElementById('setting-select');
-      const conflictSelect = document.getElementById('conflict-select');
-      const forgeButton = document.getElementById('forgeButton');
-      const ideaOutput = document.getElementById('ideaOutput');
-
-      let foundryData = null;
-
-      // --- Main Initialization ---
-      async function initializeFoundry() {
-        try {
-          const response = await fetch('./foundry-data.json');
-          if (!response.ok) throw new Error('Could not load the Foundry brain.');
-          foundryData = await response.json();
-          populateSelects();
-        } catch (error) {
-          ideaOutput.innerHTML = `<p style="color: #c0392b; text-align: center;">Error: ${error.message}</p>`;
-        }
-      }
-
-      // --- Populate Dropdown Menus from JSON ---
-      function populateSelects() {
-        // Populate Characters
-        foundryData.characters.archetypes.forEach(char => {
-            const option = new Option(char.name, char.name);
-            characterSelect.add(option);
-        });
-        // Populate Settings
-        foundryData.settings.locations.forEach(loc => {
-            const option = new Option(loc.name, loc.name);
-            settingSelect.add(option);
-        });
-        // Populate Conflicts
-        const allConflicts = [...foundryData.conflicts.internal, ...foundryData.conflicts.external];
-        allConflicts.forEach(con => {
-            const option = new Option(con.text, con.text);
-            conflictSelect.add(option);
-        });
-      }
-
-      // --- Get Random Item from an Array ---
-      function getRandomItem(array) {
-        if (!array || array.length === 0) return null;
-        const randomIndex = Math.floor(Math.random() * array.length);
-        return array[randomIndex];
-      }
+      const ideaInput = document.getElementById('idea-input');
+      const forgeButton = document.getElementById('forge-button');
+      const ideaOutput = document.getElementById('idea-output');
 
       // --- Core Forging Logic ---
-      function forgeIdea() {
-        if (!foundryData) return;
-
-        // Get Character
-        let charName = characterSelect.value;
-        if (!charName) { // If random is selected
-            charName = getRandomItem(foundryData.characters.archetypes).name;
+      async function forgeIdea() {
+        const userInput = ideaInput.value;
+        if (!userInput) {
+          ideaOutput.innerHTML = '<p style="text-align: center; color: var(--muted);">Please provide a core idea to begin.</p>';
+          return;
         }
 
-        // Get Setting
-        let settingName = settingSelect.value;
-        let settingObj;
-        if (!settingName) {
-            settingObj = getRandomItem(foundryData.settings.locations);
-        } else {
-            settingObj = foundryData.settings.locations.find(s => s.name === settingName);
-        }
-        
-        // Get Conflict
-        let conflictText = conflictSelect.value;
-        if (!conflictText) {
-            const allConflicts = [...foundryData.conflicts.internal, ...foundryData.conflicts.external];
-            conflictText = getRandomItem(allConflicts).text;
-        }
+        // Show loading state
+        forgeButton.disabled = true;
+        forgeButton.classList.add('loading');
+        forgeButton.innerHTML = '&nbsp;'; // Clear text to show spinner
+        ideaOutput.style.opacity = '0.5';
 
-        // Get a Catalyst and Forge the Logline
-        const catalyst = getRandomItem(foundryData.catalysts.character_conflict);
-        let logline = catalyst.replace('[CHARACTER]', `<strong>${charName}</strong>`);
-        logline = logline.replace('[CONFLICT]', `<strong>${conflictText}</strong>`);
+        try {
+          const response = await fetch('/api/forge', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              character: userInput, // We can send the same input for all fields
+              setting: userInput,
+              conflict: userInput
+            })
+          });
 
-        // Build the final HTML output
-        ideaOutput.innerHTML = `
-            <h3>Logline</h3>
-            <p>${logline}</p>
-            <h3>Setting: ${settingObj.name}</h3>
-            <div class="sensory-palette">
-                <ul>
-                    <li><strong>Sight:</strong> ${settingObj.sensory_palette.sight}</li>
-                    <li><strong>Sound:</strong> ${settingObj.sensory_palette.sound}</li>
-                    <li><strong>Smell:</strong> ${settingObj.sensory_palette.smell}</li>
-                </ul>
-            </div>
-        `;
+          if (!response.ok) {
+            throw new Error(`The AI engine returned an error.`);
+          }
+
+          const data = await response.json();
+          
+          // Build the final HTML output
+          ideaOutput.innerHTML = `
+              <h3>Logline</h3>
+              <p>${data.logline}</p>
+              <h3>Internal Conflict</h3>
+              <p>${data.internal_conflict}</p>
+              <div class="sensory-palette">
+                  <h3>Sensory Palette</h3>
+                  <ul>
+                      <li><strong>Sight:</strong> ${data.sensory_palette.sight}</li>
+                      <li><strong>Sound:</strong> ${data.sensory_palette.sound}</li>
+                      <li><strong>Smell:</strong> ${data.sensory_palette.smell}</li>
+                  </ul>
+              </div>
+          `;
+
+        } catch (error) {
+          ideaOutput.innerHTML = `<p style="color: #c0392b; text-align: center;">Error: ${error.message}</p>`;
+        } finally {
+          // Restore button state
+          forgeButton.disabled = false;
+          forgeButton.classList.remove('loading');
+          forgeButton.innerHTML = 'Forge Another Idea';
+          ideaOutput.style.opacity = '1';
+        }
       }
 
       // --- Event Listeners ---
       forgeButton.addEventListener('click', forgeIdea);
-      document.addEventListener('DOMContentLoaded', initializeFoundry);
+      ideaInput.addEventListener('keyup', (event) => {
+          if (event.key === 'Enter') {
+              forgeIdea();
+          }
+      });
 
     })();
   </script>
