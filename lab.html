@@ -49,10 +49,18 @@
     .step-container { animation: fadeIn 0.5s var(--transition); }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
+    .step-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
     .step-title {
       font-family: var(--serif); font-size: 1.5rem;
-      text-align: center; margin-bottom: 2rem;
+      text-align: center; flex-grow: 1;
     }
+    .btn-back {
+      background: none; border: none; font-size: 1rem;
+      font-weight: 700; color: var(--muted); cursor: pointer;
+      padding: 0.5rem;
+    }
+    .btn-back:hover { color: var(--accent); }
+    .btn-back.hidden { visibility: hidden; }
     
     .choice-grid {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -64,6 +72,7 @@
       border-radius: 8px; font-size: 1rem;
       font-weight: 700; text-align: center;
       cursor: pointer; transition: all 0.2s var(--transition);
+      width: 100%;
     }
     .choice-card:hover {
       transform: translateY(-3px);
@@ -84,7 +93,7 @@
 
     .btn-primary {
       background: var(--accent); color: var(--accent-ink);
-      border: none; width: 100%; margin-top: 2rem;
+      border: none; margin-top: 2rem;
     }
     .btn-primary:hover {
         background: var(--accent-light);
@@ -114,11 +123,41 @@
       const foundryContainer = document.getElementById('foundry');
       let foundryData = null;
       let userSelections = {};
+      let navigationHistory = [];
+
+      const navigateTo = (stepFunction) => {
+        navigationHistory.push(stepFunction);
+        stepFunction();
+      };
+
+      const goBack = () => {
+        if (navigationHistory.length > 1) {
+          navigationHistory.pop(); // Remove current step
+          const previousStep = navigationHistory[navigationHistory.length - 1];
+          previousStep(); // Render previous step
+        }
+      };
+
+      const renderHeader = (title, showBack) => {
+        return `
+          <div class="step-header">
+            <button class="btn-back ${showBack ? '' : 'hidden'}">← Back</button>
+            <h2 class="step-title">${title}</h2>
+            <div style="width: 50px;"></div> </div>
+        `;
+      };
+      
+      const attachBackListener = () => {
+          const backButton = foundryContainer.querySelector('.btn-back');
+          if (backButton) {
+              backButton.addEventListener('click', goBack);
+          }
+      };
 
       const renderStep1 = () => {
         foundryContainer.innerHTML = `
           <div class="step-container">
-            <h2 class="step-title">What is the core of your idea?</h2>
+            ${renderHeader('What is the core of your idea?', false)}
             <div class="choice-grid">
               <button class="choice-card" data-choice="character">Character</button>
               <button class="choice-card" data-choice="setting">Setting</button>
@@ -128,17 +167,18 @@
         `;
         foundryContainer.querySelectorAll('.choice-card').forEach(card => {
           card.addEventListener('click', (e) => {
-            userSelections.core = e.target.dataset.choice;
-            renderStep2();
+            userSelections = { core: e.target.dataset.choice }; // Reset selections
+            navigateTo(renderStep2);
           });
         });
+        attachBackListener();
       };
       
       const renderStep2 = () => {
         const archetypes = foundryData.characters.archetypes;
         foundryContainer.innerHTML = `
           <div class="step-container">
-            <h2 class="step-title">Choose a Character Archetype</h2>
+            ${renderHeader('Choose a Character Archetype', true)}
             <div class="choice-grid">
               ${archetypes.map(a => `<button class="choice-card" data-choice="${a.name}">${a.name}</button>`).join('')}
             </div>
@@ -148,20 +188,21 @@
           card.addEventListener('click', (e) => {
             const choice = e.target.dataset.choice;
             userSelections.archetype = foundryData.characters.archetypes.find(a => a.name === choice);
-            renderStep3();
+            navigateTo(renderStep3);
           });
         });
+        attachBackListener();
       };
       
       const renderStep3 = () => {
         const questions = userSelections.archetype.catalyst_questions;
-        if (!questions) {
-            renderFinalResult(); // Skip if no questions
+        if (!questions || questions.length === 0) {
+            navigateTo(renderFinalResult); // Skip if no questions
             return;
         }
         foundryContainer.innerHTML = `
           <div class="step-container">
-            <h2 class="step-title">Consider this...</h2>
+            ${renderHeader('Consider this...', true)}
             <div class="choice-grid" style="grid-template-columns: 1fr;">
               ${questions.map((q, index) => `<button class="choice-card" data-choice="${index}">${q}</button>`).join('')}
             </div>
@@ -171,28 +212,32 @@
           card.addEventListener('click', (e) => {
             const choiceIndex = parseInt(e.target.dataset.choice, 10);
             userSelections.question = questions[choiceIndex];
-            renderFinalResult();
+            navigateTo(renderFinalResult);
           });
         });
+        attachBackListener();
       };
 
       const renderFinalResult = () => {
           const char = userSelections.archetype;
-          // Simple logic to find a relevant conflict and setting
           const conflict = foundryData.conflicts.external.find(c => c.tags.some(t => char.tags.includes(t))) || foundryData.conflicts.external[0];
           const setting = foundryData.settings.locations.find(s => s.tags.some(t => char.tags.includes(t))) || foundryData.settings.locations[0];
+          
+          userSelections.result = {
+              logline: `In the world of ${setting.name}, a character like ${char.name}, who is motivated by a desire to "${char.motivation}" but is held back by their flaw of "${char.flaw}", must face the conflict of ${conflict.text}`,
+              question: userSelections.question || "Consider their core motivation and flaw.",
+              setting: setting
+          };
 
           foundryContainer.innerHTML = `
             <div class="step-container result-container">
-                <h2 class="step-title">Your Forged Idea</h2>
+                ${renderHeader('Your Forged Idea', true)}
                 
                 <h3>Logline</h3>
-                <p>
-                  In the world of <strong>${setting.name}</strong>, a character like <strong>${char.name}</strong>, who is motivated by a desire to "${char.motivation}" but is held back by their flaw of "${char.flaw}", must face the conflict of <strong>${conflict.text}</strong>
-                </p>
+                <p>${userSelections.result.logline}</p>
                 
                 <h3>Deep Dive Question</h3>
-                <p><em>${userSelections.question || "No specific question selected, but consider their core motivation."}</em></p>
+                <p><em>${userSelections.result.question}</em></p>
 
                 <h3>Setting: ${setting.name}</h3>
                 <div class="sensory-palette">
@@ -204,9 +249,9 @@
                 </div>
                 
                 <h3>Next Steps</h3>
-                <div class="choice-grid">
-                  <button class="choice-card">Take to 'The Anvil'</button>
-                  <button class="choice-card">Save to Journal</button>
+                <div class="choice-grid" style="grid-template-columns: 1fr 1fr;">
+                  <button class="choice-card" id="anvilBtn">Take to 'The Anvil'</button>
+                  <button class="choice-card" id="journalBtn">Save to Journal</button>
                 </div>
 
                 <button id="restartBtn" class="btn-primary">Start a New Idea</button>
@@ -214,8 +259,30 @@
           `;
           foundryContainer.querySelector('#restartBtn').addEventListener('click', () => {
               userSelections = {};
-              renderStep1();
+              navigationHistory = [];
+              navigateTo(renderStep1);
           });
+          foundryContainer.querySelector('#anvilBtn').addEventListener('click', takeToAnvil);
+          foundryContainer.querySelector('#journalBtn').addEventListener('click', saveToJournal);
+          attachBackListener();
+      };
+      
+      const takeToAnvil = () => {
+          localStorage.setItem('foundryAnvilPrompt', JSON.stringify(userSelections.result));
+          window.location.href = './anvil.html';
+      };
+
+      const saveToJournal = (e) => {
+          let journal = JSON.parse(localStorage.getItem('foundryJournal')) || [];
+          journal.unshift(userSelections.result); // Add to the beginning
+          localStorage.setItem('foundryJournal', JSON.stringify(journal));
+          const btn = e.target;
+          btn.textContent = 'Saved!';
+          btn.style.backgroundColor = '#27ae60';
+          setTimeout(() => {
+              btn.textContent = "Save to Journal";
+              btn.style.backgroundColor = 'var(--bg)';
+          }, 1500);
       };
 
       async function initializeFoundry() {
@@ -223,7 +290,7 @@
           const response = await fetch('./foundry-data.json');
           if (!response.ok) throw new Error('Could not load the Foundry brain.');
           foundryData = await response.json();
-          renderStep1();
+          navigateTo(renderStep1);
         } catch (error) {
           foundryContainer.innerHTML = `<p style="color: #c0392b; text-align: center;">Error: ${error.message}</p>`;
         }
