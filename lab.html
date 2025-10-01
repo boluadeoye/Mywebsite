@@ -6,7 +6,7 @@
   <title>The Writer's Foundry — Boluadeoye</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-dark: #0f172a; --panel-dark: #111a2e;
@@ -15,7 +15,9 @@
       --ink: #2c3e50; --muted: #596a7a;
       --accent: #800000; --accent-light: #a00000;
       --accent-ink: #f5f5dc; --border-color: #dcd8cd;
-      --radius: 12px; --serif: 'Playfair Display', Georgia, serif;
+      --radius: 12px;
+      /* --- MODIFIED: Changed the serif font variable --- */
+      --serif: 'Lora', Georgia, serif;
       --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
       --transition: cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -25,6 +27,8 @@
       background: var(--bg); color: var(--ink);
       font: 16px/1.7 var(--sans-serif);
       -webkit-font-smoothing: antialiased;
+      /* --- ADDED: The subtle CSS rendering tweak --- */
+      text-rendering: optimizeLegibility;
     }
     .wrap { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
     .page-header { text-align: center; padding: 3rem 0 2rem; }
@@ -49,27 +53,26 @@
     .step-container { animation: fadeIn 0.5s var(--transition); }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
-    /* --- REBUILT AGAIN: New robust header using CSS Grid --- */
     .step-header {
       display: grid;
-      grid-template-columns: auto 1fr auto; /* Left, Center (stretches), Right */
+      grid-template-columns: auto 1fr auto;
       align-items: center;
       margin-bottom: 2rem;
       width: 100%;
     }
     .step-title {
-      grid-column: 2; /* Locks title to the center column */
+      grid-column: 2;
       font-family: var(--serif);
-      font-size: 1.25rem; /* Further reduction */
+      font-size: 1.25rem;
       font-weight: 700;
       line-height: 1.3;
       text-align: center;
       color: var(--accent);
-      padding: 0 0.5rem; /* Ensures space on sides */
+      padding: 0 0.5rem;
     }
     .btn-back {
-      grid-column: 1; /* Locks button to the left column */
-      justify-self: start; /* Aligns button to the start of its column */
+      grid-column: 1;
+      justify-self: start;
       background: none; border: none; font-size: 1.5rem;
       color: var(--muted); cursor: pointer;
     }
@@ -100,7 +103,7 @@
     .result-container h3 {
         font-family: var(--serif); font-size: 1.1rem;
         text-transform: uppercase; letter-spacing: 1px;
-        color: var(--ink); /* Kept the darker color change */
+        color: var(--ink);
         border-bottom: 1px solid var(--border-color);
         padding-bottom: 0.5rem; margin: 1.5rem 0 1rem;
     }
@@ -183,7 +186,6 @@
         }
       };
       
-      // --- REBUILT: Cleaned up and simplified the header HTML ---
       const renderHeader = (title, showBack) => {
         return `
           <div class="step-header">
