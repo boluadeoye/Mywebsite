@@ -14,88 +14,241 @@
       --accent: #800000; --border-color: #dcd8cd;
       --radius: 12px; --serif: 'Playfair Display', Georgia, serif;
       --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
+      --transition: cubic-bezier(0.4, 0, 0.2, 1);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: var(--bg); color: var(--ink);
       font: 18px/1.8 var(--sans-serif);
-      padding: 2rem 1rem;
+      padding: 1rem;
+      transition: background-color 0.4s var(--transition);
     }
     .anvil-container { max-width: 800px; margin: 0 auto; }
+
+    .anvil-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 0; margin-bottom: 1rem;
+      transition: opacity 0.4s var(--transition);
+    }
+    .anvil-header a { color: var(--accent); text-decoration: none; font-weight: 700; }
+    .tool-btn {
+      background: var(--bg); border: 1px solid var(--border-color);
+      color: var(--muted); padding: 0.5rem 1rem;
+      border-radius: 99px; cursor: pointer; font-weight: 700;
+      margin-left: 0.5rem;
+    }
+    .tool-btn:hover { border-color: var(--accent); color: var(--accent); }
+
     .prompt-box {
-        background: var(--panel);
-        border: 1px solid var(--border-color);
-        padding: 2rem; border-radius: var(--radius);
-        margin-bottom: 2rem;
+      background: var(--panel); border: 1px solid var(--border-color);
+      border-radius: var(--radius); margin-bottom: 2rem;
+      transition: opacity 0.4s var(--transition), transform 0.4s var(--transition);
     }
-    .prompt-box h1 {
-        font-family: var(--serif); font-size: 1.3rem;
-        color: var(--muted); border-bottom: 1px solid var(--border-color);
-        padding-bottom: 0.5rem; margin-bottom: 1rem;
+    .prompt-box summary {
+      font-family: var(--serif); font-size: 1.3rem;
+      color: var(--muted); padding: 1.5rem; cursor: pointer;
     }
+    .prompt-box div { padding: 0 1.5rem 1.5rem; }
     .prompt-box p { font-size: 1.1rem; }
-    
+
     #editor {
-        width: 100%; height: 60vh;
-        padding: 2rem; font-size: 1.2rem; line-height: 1.9;
-        font-family: var(--sans-serif);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius);
-        background: var(--panel); color: var(--ink);
-        resize: vertical;
+      width: 100%; min-height: 70vh;
+      padding: 2rem; font-size: 1.2rem; line-height: 1.9;
+      font-family: var(--sans-serif); border: none;
+      border-radius: var(--radius); background: var(--panel);
+      color: var(--ink); resize: vertical;
     }
     #editor:focus { outline: 2px solid var(--accent); }
-    .word-count {
-        text-align: right; margin-top: 1rem;
-        font-size: 0.9rem; font-weight: 700; color: var(--muted);
+
+    .anvil-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 0; font-size: 0.9rem; font-weight: 700;
+      color: var(--muted); transition: opacity 0.4s var(--transition);
     }
-    .nav-link {
-        display: block; text-align: center; margin-top: 2rem;
-        font-weight: 700; color: var(--accent); text-decoration: none;
+
+    /* Zen Mode */
+    body.zen-mode { background-color: var(--panel); }
+    .zen-mode .anvil-header, .zen-mode .prompt-box, .zen-mode .anvil-footer {
+      opacity: 0; pointer-events: none;
     }
+    .zen-mode .prompt-box { transform: translateY(-20px); }
+
+    /* Thesaurus Popup */
+    #thesaurus-popup {
+      position: absolute; background: var(--panel);
+      border: 1px solid var(--border-color); border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 1rem; max-width: 300px;
+      display: none; z-index: 10;
+    }
+    #thesaurus-popup h4 { font-family: var(--serif); margin-bottom: 0.5rem; }
+    #thesaurus-popup div { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    #thesaurus-popup span { background: var(--bg); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.9rem; }
+    
+    /* Sensory Palette Sidebar */
+    #sensory-sidebar {
+      position: fixed; top: 0; right: -350px;
+      width: 300px; height: 100%;
+      background: var(--bg); border-left: 1px solid var(--border-color);
+      box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+      padding: 2rem; transition: right 0.4s var(--transition);
+      z-index: 20;
+    }
+    #sensory-sidebar.visible { right: 0; }
+    #sensory-sidebar h3 { font-family: var(--serif); color: var(--accent); margin-bottom: 1rem; }
+    #sensory-sidebar ul { list-style-type: none; }
+    #sensory-sidebar li { margin-bottom: 1rem; }
+    #sensory-sidebar strong { color: var(--muted); }
   </style>
 </head>
 <body>
+
   <div class="anvil-container">
-    <div id="promptBox" class="prompt-box">
-      <h1>Your Prompt</h1>
-      <p>Loading your forged idea...</p>
-    </div>
+    <header class="anvil-header">
+      <a href="./lab.html">← Foundry</a>
+      <div>
+        <button id="sensoryBtn" class="tool-btn">Sensory Palette</button>
+        <button id="zenBtn" class="tool-btn">Zen Mode</button>
+        <button id="exportBtn" class="tool-btn">Export</button>
+      </div>
+    </header>
+
+    <details id="promptContainer" class="prompt-box" open>
+      <summary>Your Prompt</summary>
+      <div id="promptContent"><p>Loading your forged idea...</p></div>
+    </details>
+
     <textarea id="editor" placeholder="Begin writing here..."></textarea>
-    <div id="wordCount" class="word-count">0 words</div>
-    <a href="./lab.html" class="nav-link">← Back to the Foundry</a>
+
+    <footer class="anvil-footer">
+      <div id="stats">0 words / 0 characters</div>
+    </footer>
   </div>
+
+  <div id="thesaurus-popup"></div>
+  <aside id="sensory-sidebar"></aside>
+
   <script>
     (function() {
-      const promptBox = document.getElementById('promptBox');
       const editor = document.getElementById('editor');
-      const wordCountDisplay = document.getElementById('wordCount');
+      const statsDisplay = document.getElementById('stats');
+      const zenBtn = document.getElementById('zenBtn');
+      const sensoryBtn = document.getElementById('sensoryBtn');
+      const exportBtn = document.getElementById('exportBtn');
+      const thesaurusPopup = document.getElementById('thesaurus-popup');
+      const sensorySidebar = document.getElementById('sensory-sidebar');
+      const promptContent = document.getElementById('promptContent');
 
       const promptData = JSON.parse(localStorage.getItem('foundryAnvilPrompt'));
+      let draftKey = 'anvilEditorContent_default';
 
+      // --- Initialization ---
       if (promptData) {
-        promptBox.innerHTML = `
-            <h1>Your Prompt</h1>
-            <p>${promptData.logline}</p>
+        draftKey = 'anvilDraft_' + promptData.logline.substring(0, 30).replace(/\s/g, '_');
+        promptContent.innerHTML = `<p>${promptData.logline}</p>`;
+        sensorySidebar.innerHTML = `
+            <h3>Sensory Palette</h3>
+            <ul>
+                <li><strong>Sight:</strong> ${promptData.setting.sensory_palette.sight}</li>
+                <li><strong>Sound:</strong> ${promptData.setting.sensory_palette.sound}</li>
+                <li><strong>Smell:</strong> ${promptData.setting.sensory_palette.smell}</li>
+            </ul>
         `;
       } else {
-        promptBox.innerHTML = `<h1>Your Prompt</h1><p>No prompt found. Go back to the Foundry to forge a new idea.</p>`;
+        promptContent.innerHTML = `<p>No prompt found. Go back to the Foundry to forge a new idea.</p>`;
+        sensoryBtn.style.display = 'none';
       }
       
-      editor.value = localStorage.getItem('anvilEditorContent') || '';
+      editor.value = localStorage.getItem(draftKey) || '';
+      updateStats();
 
-      const updateWordCount = () => {
-          const text = editor.value.trim();
-          const words = text ? text.split(/\s+/).length : 0;
-          wordCountDisplay.textContent = `${words} words`;
-      };
-      
-      editor.addEventListener('input', () => {
-          localStorage.setItem('anvilEditorContent', editor.value);
-          updateWordCount();
+      // --- UI & Tools ---
+      zenBtn.addEventListener('click', () => {
+          document.body.classList.toggle('zen-mode');
+          zenBtn.textContent = document.body.classList.contains('zen-mode') ? 'Focus Mode' : 'Zen Mode';
       });
 
-      updateWordCount(); // Initial count
+      sensoryBtn.addEventListener('click', () => {
+          sensorySidebar.classList.toggle('visible');
+      });
+
+      exportBtn.addEventListener('click', () => {
+          const format = prompt("Export as: TXT or MD", "TXT");
+          if (format) {
+              exportText(format.toUpperCase());
+          }
+      });
+
+      // --- Thesaurus Logic ---
+      editor.addEventListener('mouseup', handleTextSelection);
+      document.addEventListener('mousedown', (e) => {
+          if (!thesaurusPopup.contains(e.target)) {
+              thesaurusPopup.style.display = 'none';
+          }
+      });
+
+      async function handleTextSelection(e) {
+          const selection = window.getSelection();
+          const selectedText = selection.toString().trim().toLowerCase();
+          if (selectedText.length > 2 && !selectedText.includes(' ')) {
+              try {
+                  const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${selectedText}`);
+                  if (!response.ok) return;
+                  const data = await response.json();
+                  const synonyms = data[0]?.meanings[0]?.synonyms || [];
+                  
+                  if (synonyms.length > 0) {
+                      showThesaurus(synonyms.slice(0, 10), e.clientX, e.clientY);
+                  }
+              } catch (error) {
+                  console.error("Thesaurus API error:", error);
+              }
+          }
+      }
+
+      function showThesaurus(synonyms, x, y) {
+          thesaurusPopup.innerHTML = `
+              <h4>Synonyms</h4>
+              <div>${synonyms.map(s => `<span>${s}</span>`).join('')}</div>
+          `;
+          thesaurusPopup.style.left = `${x}px`;
+          thesaurusPopup.style.top = `${y + 10}px`;
+          thesaurusPopup.style.display = 'block';
+      }
+
+      // --- Core Editor Functionality ---
+      editor.addEventListener('input', () => {
+          localStorage.setItem(draftKey, editor.value);
+          updateStats();
+      });
+
+      function updateStats() {
+          const text = editor.value;
+          const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+          const characters = text.length;
+          statsDisplay.textContent = `${words} words / ${characters} characters`;
+      };
+      
+      function exportText(format) {
+          const text = editor.value;
+          let content = text;
+          let filename = 'foundry_draft.txt';
+          let mimeType = 'text/plain';
+
+          if (format === 'MD') {
+              content = `# My Draft\n\n> ${promptData.logline}\n\n---\n\n${text}`;
+              filename = 'foundry_draft.md';
+              mimeType = 'text/markdown';
+          }
+
+          const blob = new Blob([content], { type: mimeType });
+          const anchor = document.createElement('a');
+          anchor.href = URL.createObjectURL(blob);
+          anchor.download = filename;
+          anchor.click();
+          URL.revokeObjectURL(anchor.href);
+      }
+
     })();
   </script>
 </body>
