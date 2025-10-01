@@ -2,103 +2,181 @@
   "characters": {
     "archetypes": [
       {
-        "name": "The Cynical Detective",
-        "description": "Haunted by a past failure, trusts no one, but has a rigid moral code.",
-        "tags": ["Mystery", "Noir", "Urban"]
+        "name": "The Corrupt Politician",
+        "description": "A charismatic leader who presents a benevolent face to the public, but is deeply enmeshed in a web of deceit.",
+        "motivation": "To maintain power at any cost.",
+        "flaw": "Arrogance; believes they are untouchable.",
+        "tags": ["Urban", "Political", "Nigerian", "Thriller"],
+        "catalyst_questions": [
+          "What secret ideal does this politician cling to in private, and how does it clash with the corrupt system they’ve mastered?",
+          "Who in their inner circle knows the truth, and what leverage does this confidant hold that could unravel everything?",
+          "How does their public persona crack under the weight of a single scandal they can’t bribe away?"
+        ]
       },
       {
-        "name": "The Star-forged Knight",
-        "description": "A noble warrior from a fallen galactic empire, bound by an ancient code of honor.",
-        "tags": ["Sci-Fi", "Fantasy", "Action"]
+        "name": "The Village Elder",
+        "description": "The wise custodian of ancient traditions, struggling to guide their community in a rapidly modernizing world.",
+        "motivation": "To preserve the wisdom of the ancestors.",
+        "flaw": "Resistant to necessary change.",
+        "tags": ["Historical", "Nigerian", "Fantasy", "Drama"],
+        "catalyst_questions": [
+          "What ancient tradition does this elder fiercely defend, and how do they wrestle with its irrelevance in a village reshaped by modernity?",
+          "Who among the younger generation challenges their authority most, and what hidden truth about this rebel makes the elder secretly proud?",
+          "When the village faces a crisis, what past failure haunts the elder’s decisions, threatening their legacy?"
+        ]
       },
       {
-        "name": "The Reluctant Oracle",
-        "description": "Sees glimpses of the future but is terrified of what they foretell.",
-        "tags": ["Fantasy", "Urban", "Mystery"]
+        "name": "The Lagos Tech Bro",
+        "description": "A brilliant but reckless innovator whose latest creation could either save or doom the city.",
+        "motivation": "To disrupt the status quo and build a legacy.",
+        "flaw": "Ignores the human cost of their ambition.",
+        "tags": ["Sci-Fi", "Urban", "Nigerian", "Thriller"],
+        "catalyst_questions": [
+          "What personal sacrifice did this tech bro make to chase their startup dream, and how does that loss creep into their confidence?",
+          "How do they navigate the tension between their global ambitions and the local realities—like unreliable power or data costs?",
+          "What’s the one risky move they’re contemplating to outshine their rivals, and what fear keeps them from pulling the trigger?"
+        ]
       },
       {
-        "name": "The AI Caretaker",
-        "description": "A sentient machine that has developed a deep, almost human affection for its last living charge.",
-        "tags": ["Sci-Fi"]
+        "name": "The Jaded Journalist",
+        "description": "Once an idealist, now a cynic who stumbles upon the one story that could change everything.",
+        "motivation": "To expose a single, profound truth.",
+        "flaw": "An insatiable addiction to 'the perfect lede'—he'll sabotage a scoop by rewriting it obsessively, burying the truth under poetic irrelevance.",
+        "tags": ["Urban", "Noir", "Mystery"]
       },
       {
-        "name": "The Rogue Scholar",
-        "description": "Exiled from their university for pursuing forbidden knowledge.",
-        "tags": ["Mystery", "Historical", "Fantasy"]
+        "name": "The Exiled Monarch",
+        "description": "The last heir of a fallen kingdom, living in obscurity and plotting their return to power.",
+        "motivation": "To reclaim their birthright and restore their dynasty.",
+        "flaw": "A superstitious aversion to mirrors, convinced they trap the ghosts of his dethroned lineage; he navigates intrigues blind to his own reflection.",
+        "tags": ["Fantasy", "Historical", "Action"]
+      },
+      {
+        "name": "The Griot Storyteller",
+        "description": "A living library of oral histories and myths, who discovers a story that was meant to be forgotten.",
+        "motivation": "To ensure the truth is never lost to time.",
+        "flaw": "He weaves tales so vividly that listeners begin living them involuntarily, dooming him to a life of whispered apologies for narratives that rewrite reality.",
+        "tags": ["Historical", "Nigerian", "Fantasy"]
       }
-    ],
-    "traits": [
-      { "text": "can see the ghosts of their ancestors", "tags": ["Fantasy", "Nigerian"] },
-      { "text": "is a master of disguise", "tags": ["Mystery"] },
-      { "text": "is burdened with a secret they can't speak", "tags": ["Mystery", "Noir", "Urban"] },
-      { "text": "has a clockwork heart that is beginning to fail", "tags": ["Sci-Fi", "Steampunk"] },
-      { "text": "is the last of their kind", "tags": ["Sci-Fi", "Fantasy"] }
     ]
   },
   "settings": {
     "locations": [
       {
-        "name": "A futuristic Lagos",
-        "era": "Cyberpunk",
+        "name": "The sprawling Alaba Market",
+        "era": "Contemporary",
         "sensory_palette": {
-          "smell": "Wet asphalt and suya smoke after a sudden downpour.",
-          "sound": "A constant, low hum of generators punctuated by the distant call to prayer.",
-          "sight": "Neon signs in Yoruba and Pidgin reflecting off chrome-plated danfo buses."
+          "smell": "The mix of new electronics, dust, and sweat.",
+          "sound": "A cacophony of haggling voices, Nollywood film soundtracks, and generator roars.",
+          "sight": "An endless maze of stalls overflowing with goods under a tin roof."
         },
-        "tags": ["Sci-Fi", "Urban", "Mystery", "Nigerian"]
+        "tags": ["Urban", "Nigerian", "Mystery"]
       },
       {
-        "name": "The Whispering Mangrove",
-        "era": "Magical Realism",
+        "name": "A dust-choked harmattan town",
+        "era": "Contemporary/Western",
         "sensory_palette": {
-          "smell": "The thick, salty air mixed with the scent of decaying leaves.",
-          "sound": "The scuttling of unseen crabs and the low hum of insects.",
-          "sight": "A labyrinth of tangled roots rising from brackish, dark water."
+          "smell": "The dry, earthy scent of dust and the faint aroma of distant woodsmoke.",
+          "sound": "The whistling of the wind and the bleating of goats.",
+          "sight": "A hazy, reddish sun hanging over low, flat-roofed buildings."
         },
-        "tags": ["Fantasy", "Mystery", "Nature", "Nigerian"]
+        "tags": ["Nigerian", "Drama", "Western"]
       },
       {
-        "name": "A floating market on a gas giant",
-        "era": "High Sci-Fi",
-        "sensory_palette": {
-            "smell": "The sharp tang of ozone and exotic spices from a hundred worlds.",
-            "sound": "The hiss of pressure seals and the babble of alien languages.",
-            "sight": "Barges navigate crimson clouds under the glow of a colossal, ringed planet."
-        },
-        "tags": ["Sci-Fi", "Action"]
-      },
-      {
-        "name": "An abandoned colonial-era hospital",
+        "name": "An abandoned colonial-era hospital in Calabar",
         "era": "Historical/Horror",
         "sensory_palette": {
-            "smell": "The sterile scent of antiseptic that never quite left, mixed with decay.",
+            "smell": "The sterile scent of antiseptic that never quite left, mixed with damp decay.",
             "sound": "The wind whistling through broken window panes like a faint moan.",
-            "sight": "Peeling paint, rusted medical equipment, and long, dark corridors."
+            "sight": "Peeling paint, rusted medical equipment, and long, shadow-filled corridors."
         },
-        "tags": ["Mystery", "Horror", "Urban"]
+        "tags": ["Mystery", "Horror", "Urban", "Nigerian"]
+      },
+      {
+        "name": "The opulent court of a medieval Oba",
+        "era": "Historical/Fantasy",
+        "sensory_palette": {
+            "smell": "The rich scent of incense, palm oil, and polished bronze.",
+            "sound": "The rhythmic beat of ceremonial drums and the murmur of courtiers.",
+            "sight": "Intricately carved ivory, vibrant woven textiles, and the gleam of coral beads."
+        },
+        "tags": ["Historical", "Fantasy", "Nigerian"]
+      },
+       {
+        "name": "A traffic jam on the Third Mainland Bridge",
+        "era": "Contemporary",
+        "sensory_palette": {
+            "smell": "The sharp sting of exhaust fumes and the salty air of the Lagos Lagoon.",
+            "sound": "A chorus of car horns, street hawkers' calls, and music blasting from a danfo bus.",
+            "sight": "A seemingly infinite line of cars shimmering under the oppressive sun."
+        },
+        "tags": ["Urban", "Nigerian", "Drama", "Thriller"]
       }
     ]
   },
   "conflicts": {
     "internal": [
-      { "text": "a forgotten promise they must now keep.", "tags": ["Mystery", "Urban"] },
-      { "text": "a choice between their honor and their survival.", "tags": ["Sci-Fi", "Fantasy", "Action"] },
-      { "text": "a crisis of faith that makes them question everything.", "tags": ["Urban", "Historical"] },
-      { "text": "a memory they can't trust.", "tags": ["Mystery", "Sci-Fi", "Noir"] }
+      { "text": "a crisis of conscience over a necessary evil.", "tags": ["Political", "Urban", "Thriller"] },
+      { "text": "a love they cannot admit for fear of destroying a family.", "tags": ["Drama", "Historical"] },
+      { "text": "the temptation of a forbidden power they know could solve all their problems.", "tags": ["Fantasy", "Sci-Fi", "Horror"] }
     ],
     "external": [
-      { "text": "a powerful corporation trying to erase a piece of history.", "tags": ["Sci-Fi", "Mystery"] },
-      { "text": "an ancient curse that reawakens in the modern world.", "tags": ["Fantasy", "Urban", "Horror"] },
-      { "text": "a rival seeking the same ancient power.", "tags": ["Fantasy", "Action"] },
-      { "text": "a mysterious plague that affects only technology.", "tags": ["Sci-Fi"] }
+      { "text": "a political rival who knows their darkest secret.", "tags": ["Political", "Thriller"] },
+      { "text": "a family feud that spans generations and demands a blood price.", "tags": ["Historical", "Drama", "Nigerian"] },
+      { "text": "an impending natural disaster that only they know is coming.", "tags": ["Sci-Fi", "Action", "Thriller"] },
+      { "text": "a viral TikTok challenge exposes his offshore slush fund, forcing him to dodge international sanctions with a PR stunt.", "tags": ["Political", "Nigerian", "Urban", "Grok"] },
+      { "text": "his fintech app crashes nationwide during a cash crunch, sparking a class-action lawsuit from broke Gen Z hustlers.", "tags": ["Urban", "Nigerian", "Tech", "Grok"] },
+      { "text": "climate-fueled floods submerge a sacred grove, pitting him against eco-activists demanding he 'modernize' traditions.", "tags": ["Nigerian", "Fantasy", "Political", "Grok"] }
     ]
   },
-  "catalysts": {
-    "character_conflict": [
-      "What if [CHARACTER] is forced to confront [CONFLICT]?",
-      "The story begins when [CHARACTER] discovers that [CONFLICT].",
-      "How would [CHARACTER]'s life change if they were faced with [CONFLICT]?",
-      "The fate of everything rests on whether [CHARACTER] can overcome [CONFLICT]."
-    ]
-  }
+  "objects": [
+      { "name": "a cursed masquerade mask", "tags": ["Fantasy", "Nigerian", "Horror"] },
+      { "name": "a diary written in a forgotten dialect", "tags": ["Historical", "Mystery"] },
+      { "name": "a visa to a better life that requires an impossible choice", "tags": ["Urban", "Drama", "Nigerian"] },
+      { "name": "a piece of technology that can record dreams", "tags": ["Sci-Fi", "Mystery"] }
+  ],
+  "themes": [
+      { "name": "Tradition vs. Modernity", "tags": ["Nigerian", "Historical", "Drama"] },
+      { "name": "The Weight of Destiny", "tags": ["Fantasy", "Sci-Fi"] },
+      { "name": "The Corrupting Nature of Power", "tags": ["Political", "Thriller"] },
+      { "name": "Identity and Belonging", "tags": ["Urban", "Drama"] },
+      { "name": "Sacrifice", "tags": ["Drama", "Action"]}
+  ],
+  "caseStudies": [
+    {
+      "author": "Chinua Achebe",
+      "work": "Things Fall Apart",
+      "element_type": "Character Flaw",
+      "element_value": "A crippling fear of being perceived as weak.",
+      "insight": "This singular flaw drives every major decision the protagonist makes, leading to his tragic downfall."
+    },
+    {
+      "author": "Wole Soyinka",
+      "work": "The Lion and the Jewel",
+      "element_type": "Theme",
+      "element_value": "The conflict between performative tradition and genuine modernity.",
+      "insight": "Soyinka uses characters not just as symbols, but to satirize how both tradition and progress can be twisted by arrogance."
+    },
+    {
+      "author": "Buchi Emecheta",
+      "work": "The Joys of Motherhood",
+      "element_type": "Internal Conflict",
+      "element_value": "The struggle between personal identity and the crushing weight of societal expectations.",
+      "insight": "The protagonist's internal desires are constantly at odds with the role she is forced to play, showing that the greatest conflicts are often within."
+    },
+    {
+      "author": "George Orwell",
+      "work": "1984",
+      "element_type": "Setting as Antagonist",
+      "element_value": "A totalitarian society under constant surveillance.",
+      "insight": "The setting is not just a backdrop; it is the primary force working against the protagonist, making the environment itself the villain."
+    },
+    {
+      "author": "F. Scott Fitzgerald",
+      "work": "The Great Gatsby",
+      "element_type": "Symbolic Object",
+      "element_value": "The green light at the end of the dock.",
+      "insight": "An object can be a powerful, recurring symbol for a character's unattainable dream, hope, or longing."
+    }
+  ]
 }
