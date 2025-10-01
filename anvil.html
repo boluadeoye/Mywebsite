@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>The Anvil — Writer's Foundry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f5dc; --panel: #ffffff;
+      --ink: #2c3e50; --muted: #596a7a;
+      --accent: #800000; --border-color: #dcd8cd;
+      --radius: 12px; --serif: 'Playfair Display', Georgia, serif;
+      --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font: 18px/1.8 var(--sans-serif);
+      padding: 2rem 1rem;
+    }
+    .anvil-container { max-width: 800px; margin: 0 auto; }
+    .prompt-box {
+        background: var(--panel);
+        border: 1px solid var(--border-color);
+        padding: 2rem; border-radius: var(--radius);
+        margin-bottom: 2rem;
+    }
+    .prompt-box h1 {
+        font-family: var(--serif); font-size: 1.3rem;
+        color: var(--muted); border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.5rem; margin-bottom: 1rem;
+    }
+    .prompt-box p { font-size: 1.1rem; }
+    
+    #editor {
+        width: 100%; height: 60vh;
+        padding: 2rem; font-size: 1.2rem; line-height: 1.9;
+        font-family: var(--sans-serif);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius);
+        background: var(--panel); color: var(--ink);
+        resize: vertical;
+    }
+    #editor:focus { outline: 2px solid var(--accent); }
+    .word-count {
+        text-align: right; margin-top: 1rem;
+        font-size: 0.9rem; font-weight: 700; color: var(--muted);
+    }
+    .nav-link {
+        display: block; text-align: center; margin-top: 2rem;
+        font-weight: 700; color: var(--accent); text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="anvil-container">
+    <div id="promptBox" class="prompt-box">
+      <h1>Your Prompt</h1>
+      <p>Loading your forged idea...</p>
+    </div>
+    <textarea id="editor" placeholder="Begin writing here..."></textarea>
+    <div id="wordCount" class="word-count">0 words</div>
+    <a href="./lab.html" class="nav-link">← Back to the Foundry</a>
+  </div>
+  <script>
+    (function() {
+      const promptBox = document.getElementById('promptBox');
+      const editor = document.getElementById('editor');
+      const wordCountDisplay = document.getElementById('wordCount');
+
+      const promptData = JSON.parse(localStorage.getItem('foundryAnvilPrompt'));
+
+      if (promptData) {
+        promptBox.innerHTML = `
+            <h1>Your Prompt</h1>
+            <p>${promptData.logline}</p>
+        `;
+      } else {
+        promptBox.innerHTML = `<h1>Your Prompt</h1><p>No prompt found. Go back to the Foundry to forge a new idea.</p>`;
+      }
+      
+      editor.value = localStorage.getItem('anvilEditorContent') || '';
+
+      const updateWordCount = () => {
+          const text = editor.value.trim();
+          const words = text ? text.split(/\s+/).length : 0;
+          wordCountDisplay.textContent = `${words} words`;
+      };
+      
+      editor.addEventListener('input', () => {
+          localStorage.setItem('anvilEditorContent', editor.value);
+          updateWordCount();
+      });
+
+      updateWordCount(); // Initial count
+    })();
+  </script>
+</body>
+</html>
