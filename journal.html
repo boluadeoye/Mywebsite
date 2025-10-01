@@ -1,150 +1,451 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Your Journal — Writer's Foundry</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #f5f5dc; --panel: #ffffff;
-      --ink: #2c3e50; --muted: #596a7a;
-      --accent: #800000; --border-color: #dcd8cd;
-      --radius: 12px; --serif: 'Playfair Display', Georgia, serif;
-      --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg); color: var(--ink);
-      font: 16px/1.7 var(--sans-serif);
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-    .wrap { max-width: 800px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Writer's Foundry: Journal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg: #f5f5dc; /* Beige background */
+            --panel: #ffffff; /* White for cards */
+            --ink: #2c3e50; /* Primary dark text */
+            --muted: #596a7a; /* Muted/secondary text */
+            --accent: #800000; /* Maroon/burgundy accent */
+            --border-color: #dcd8cd; /* Subtle border color */
+        }
 
-    /* --- NEW: Unified Navigation Bar Styles --- */
-    .main-nav { background: var(--panel); border-bottom: 1px solid var(--border-color); padding: 1rem 0; margin-bottom: 2rem; }
-    .main-nav .wrap { display: flex; justify-content: space-between; align-items: center; }
-    .nav-brand { font-family: var(--serif); font-weight: 800; font-size: 1.2rem; color: var(--ink); text-decoration: none; }
-    .nav-links a { font-weight: 700; color: var(--muted); text-decoration: none; margin-left: 1.5rem; }
-    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
-    
-    .page-controls { display: flex; justify-content: center; gap: 1rem; margin-top: 3rem; }
-    .btn {
-        padding: 0.7rem 1.5rem; background: var(--accent);
-        color: #fff; text-decoration: none; border-radius: 99px;
-        font-weight: 700; border: 1px solid transparent;
-        transition: all 0.2s ease; cursor: pointer; font-family: var(--sans-serif);
-    }
-    .btn-secondary { background: transparent; color: var(--muted); border-color: var(--border-color); }
-    .btn-secondary:hover { color: var(--accent); border-color: var(--accent); }
+        /* Base Styles */
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--ink);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 0;
+            box-sizing: border-box;
+            text-rendering: optimizeLegibility;
+        }
 
-    .idea-card {
-        background: var(--panel); border: 1px solid var(--border-color);
-        padding: 2rem; border-radius: var(--radius);
-        margin-bottom: 2rem;
-    }
-    .idea-card h3 {
-        font-family: var(--serif); font-size: 1.1rem;
-        text-transform: uppercase; letter-spacing: 1px;
-        font-weight: 800; color: var(--ink);
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 0.5rem; margin-bottom: 1rem;
-    }
-    .idea-card p { font-size: 1.1rem; line-height: 1.7; }
-    .card-notes {
-        width: 100%; margin-top: 1.5rem; padding: 1rem;
-        font-family: var(--sans-serif); font-size: 1rem;
-        border: 1px solid var(--border-color); border-radius: 8px;
-        background: var(--bg); resize: vertical; min-height: 80px;
-    }
-    .card-notes:focus { outline: 1px solid var(--accent); }
-  </style>
+        /* Unified Navigation Bar */
+        .nav-bar {
+            background-color: var(--panel);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+        }
+
+        .nav-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            font-size: 1.05rem;
+            color: var(--muted);
+            text-decoration: none;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--ink);
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent);
+        }
+
+        /* Main Content Wrapper */
+        .wrap {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 800px;
+            margin: 25px auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        h1.page-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            font-size: 2.2rem;
+            color: var(--ink);
+            text-align: center;
+            margin-bottom: 30px;
+            text-rendering: optimizeLegibility;
+        }
+
+        /* Empty State */
+        .empty-journal {
+            text-align: center;
+            padding: 50px 20px;
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            color: var(--muted);
+            font-style: italic;
+            margin-top: 30px;
+        }
+        .empty-journal p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .empty-journal a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .empty-journal a:hover {
+            text-decoration: underline;
+        }
+
+        /* Idea Cards */
+        .idea-card {
+            background-color: var(--panel);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px 25px;
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .idea-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--ink);
+            text-transform: uppercase;
+            margin: 0;
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(var(--ink-rgb), 0.1); /* Subtle separator */
+            letter-spacing: 0.05em;
+        }
+
+        .idea-card p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 0;
+            color: var(--ink);
+        }
+
+        /* Notes Textarea */
+        .idea-card textarea.notes-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg); /* Differentiate from card background */
+            font-family: system-ui, -apple-system, sans-serif;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: var(--ink);
+            resize: vertical;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .idea-card textarea.notes-textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(128, 0, 0, 0.1);
+        }
+
+        /* Control Buttons */
+        .journal-controls {
+            display: flex;
+            justify-content: flex-end; /* Align to the right */
+            gap: 15px;
+            margin-top: 30px;
+            margin-bottom: 50px; /* Space from bottom of page */
+        }
+
+        .btn-secondary {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--ink);
+            font-family: system-ui, -apple-system, sans-serif;
+            font-weight: normal;
+            font-size: 1rem;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background-color: #f9f0f0;
+        }
+
+        .btn-danger {
+            background-color: #dc3545; /* Red for danger */
+            color: var(--panel);
+            border: 1px solid #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .nav-bar {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px 15px;
+            }
+            .nav-links {
+                gap: 15px;
+            }
+            .wrap {
+                margin: 15px auto;
+                padding: 0 15px;
+            }
+            h1.page-title {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+            .idea-card {
+                padding: 15px 20px;
+                margin-bottom: 20px;
+            }
+            .idea-card h3 {
+                font-size: 1rem;
+            }
+            .idea-card p {
+                font-size: 1rem;
+            }
+            .idea-card textarea.notes-textarea {
+                min-height: 80px;
+                padding: 10px;
+            }
+            .journal-controls {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            .btn-secondary, .btn-danger {
+                width: 100%;
+                max-width: 300px; /* Limit width even when full-width */
+            }
+        }
+    </style>
 </head>
 <body>
-  <nav class="main-nav">
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-brand">The Writer's Foundry</a>
+        <div class="nav-links">
+            <a href="lab.html" class="nav-link">Foundry</a>
+            <a href="anvil.html" class="nav-link">Anvil</a>
+            <a href="journal.html" class="nav-link active">Journal</a>
+        </div>
+    </nav>
+
     <div class="wrap">
-      <a href="./lab.html" class="nav-brand">The Writer's Foundry</a>
-      <div class="nav-links">
-        <a href="./lab.html">Foundry</a>
-        <a href="./anvil.html">Anvil</a>
-        <a href="./journal.html" class="active">Journal</a>
-      </div>
+        <h1 class="page-title">Your Journal</h1>
+        
+        <div id="journalEntriesContainer">
+            <!-- Journal ideas will be dynamically loaded here -->
+            <div class="empty-journal" id="emptyJournalMessage">
+                <p>It looks a little sparse in here...</p>
+                <p>Head back to the <a href="lab.html">Foundry</a> to forge some new ideas!</p>
+            </div>
+        </div>
+
+        <div class="journal-controls" id="journalControls">
+            <button class="btn-secondary" id="exportJournalBtn">Export Journal</button>
+            <button class="btn-secondary btn-danger" id="clearJournalBtn">Clear Journal</button>
+        </div>
     </div>
-  </nav>
 
-  <main class="wrap">
-    <section id="journalContainer"></section>
-    <div class="page-controls">
-        <button id="exportBtn" class="btn btn-secondary">Export All to Text</button>
-        <button id="clearBtn" class="btn btn-secondary">Clear Journal</button>
-    </div>
-  </main>
+    <script>
+        const journalEntriesContainer = document.getElementById('journalEntriesContainer');
+        const emptyJournalMessage = document.getElementById('emptyJournalMessage');
+        const exportJournalBtn = document.getElementById('exportJournalBtn');
+        const clearJournalBtn = document.getElementById('clearJournalBtn');
+        const journalControls = document.getElementById('journalControls');
 
-  <script>
-    (function() {
-      const journalContainer = document.getElementById('journalContainer');
-      const clearBtn = document.getElementById('clearBtn');
-      const exportBtn = document.getElementById('exportBtn');
-      
-      let journal = JSON.parse(localStorage.getItem('foundryJournal')) || [];
-      let notes = JSON.parse(localStorage.getItem('foundryJournalNotes')) || {};
+        let journalIdeas = []; // Array to store all idea objects
+        let journalNotes = {}; // Object to store notes for each idea, keyed by index
 
-      const saveNotes = () => { localStorage.setItem('foundryJournalNotes', JSON.stringify(notes)); };
-
-      const renderJournal = () => {
-        if (journal.length > 0) {
-            journalContainer.innerHTML = journal.map((idea, index) => `
-                <div class="idea-card">
-                    <h3>Logline</h3>
-                    <p>${idea.logline}</p>
-                    <textarea class="card-notes" data-index="${index}" placeholder="Add your personal notes here...">${notes[index] || ''}</textarea>
-                </div>
-            `).join('');
-        } else {
-            journalContainer.innerHTML = '<p style="text-align:center; color: var(--muted); font-size: 1.2rem; padding: 3rem 0;">Your journal is empty. Return to the <a href="./lab.html" style="font-weight: 700; color: var(--accent);">Foundry</a> to save some ideas!</p>';
+        // --- Initialization ---
+        function initJournal() {
+            loadJournalData();
+            renderJournal();
+            setupEventListeners();
         }
-      };
 
-      journalContainer.addEventListener('input', (e) => {
-          if (e.target.classList.contains('card-notes')) {
-              const index = e.target.dataset.index;
-              notes[index] = e.target.value;
-              saveNotes();
-          }
-      });
+        // --- Data Loading & Saving ---
+        function loadJournalData() {
+            const storedIdeas = localStorage.getItem('foundryJournal');
+            if (storedIdeas) {
+                try {
+                    journalIdeas = JSON.parse(storedIdeas);
+                } catch (e) {
+                    console.error("Error parsing stored journal ideas:", e);
+                    journalIdeas = [];
+                }
+            }
 
-      clearBtn.addEventListener('click', () => {
-          if (confirm('Are you sure you want to clear your entire journal? This cannot be undone.')) {
-              localStorage.removeItem('foundryJournal');
-              localStorage.removeItem('foundryJournalNotes');
-              journal = []; notes = {};
-              renderJournal();
-          }
-      });
+            const storedNotes = localStorage.getItem('foundryJournalNotes');
+            if (storedNotes) {
+                try {
+                    journalNotes = JSON.parse(storedNotes);
+                } catch (e) {
+                    console.error("Error parsing stored journal notes:", e);
+                    journalNotes = {};
+                }
+            }
+        }
 
-      exportBtn.addEventListener('click', () => {
-          if (journal.length === 0) { alert('Your journal is empty.'); return; }
-          let textContent = "My Writer's Foundry Journal\n============================\n\n";
-          journal.forEach((idea, index) => {
-              textContent += `IDEA ${index + 1}\n----------------------------\n`;
-              textContent += `LOGLINE: ${idea.logline.replace(/<[^>]*>/g, '')}\n\n`;
-              textContent += `DEEP DIVE QUESTION: ${idea.question}\n\n`;
-              if (notes[index]) { textContent += `MY NOTES:\n${notes[index]}\n\n`; }
-              textContent += `============================\n\n`;
-          });
-          const blob = new Blob([textContent], { type: 'text/plain' });
-          const anchor = document.createElement('a');
-          anchor.href = URL.createObjectURL(blob);
-          anchor.download = 'foundry_journal.txt';
-          anchor.click();
-          URL.revokeObjectURL(anchor.href);
-      });
+        function saveJournalIdeas() {
+            localStorage.setItem('foundryJournal', JSON.stringify(journalIdeas));
+        }
 
-      renderJournal();
-    })();
-  </script>
+        function saveJournalNotes() {
+            localStorage.setItem('foundryJournalNotes', JSON.stringify(journalNotes));
+        }
+
+        // --- Rendering ---
+        function renderJournal() {
+            journalEntriesContainer.innerHTML = ''; // Clear existing entries
+
+            if (journalIdeas.length === 0) {
+                emptyJournalMessage.style.display = 'block';
+                journalControls.style.display = 'none'; // Hide controls if no entries
+                return;
+            } else {
+                emptyJournalMessage.style.display = 'none';
+                journalControls.style.display = 'flex'; // Show controls
+            }
+
+            journalIdeas.forEach((idea, index) => {
+                const ideaCard = document.createElement('div');
+                ideaCard.className = 'idea-card';
+                
+                let settingHtml = '';
+                if (idea.setting && idea.setting.name) {
+                    settingHtml = `
+                        <h3>Setting:</h3>
+                        <p>${idea.setting.name}</p>
+                    `;
+                }
+
+                ideaCard.innerHTML = `
+                    <h3>Logline:</h3>
+                    <p>${idea.logline}</p>
+                    <h3>Deep Dive Question:</h3>
+                    <p>${idea.question}</p>
+                    ${settingHtml}
+                    <h3>Your Notes:</h3>
+                    <textarea class="notes-textarea" data-index="${index}" placeholder="Jot down your thoughts and expand on this idea..."></textarea>
+                `;
+                journalEntriesContainer.appendChild(ideaCard);
+
+                const notesTextarea = ideaCard.querySelector('.notes-textarea');
+                notesTextarea.value = journalNotes[index] || ''; // Load saved note
+                notesTextarea.addEventListener('input', (event) => {
+                    journalNotes[index] = event.target.value;
+                    saveJournalNotes();
+                });
+            });
+        }
+
+        // --- Control Button Event Listeners ---
+        function setupEventListeners() {
+            exportJournalBtn.addEventListener('click', exportJournal);
+            clearJournalBtn.addEventListener('click', clearJournal);
+        }
+
+        // --- Export Functionality ---
+        function exportJournal() {
+            let exportContent = `The Writer's Foundry - Your Journal\n\n`;
+            exportContent += `Generated on: ${new Date().toLocaleString()}\n\n`;
+            exportContent += `----------------------------------------------------\n\n`;
+
+            if (journalIdeas.length === 0) {
+                exportContent += "No ideas saved in your journal yet.\n";
+            } else {
+                journalIdeas.forEach((idea, index) => {
+                    exportContent += `--- Idea #${index + 1} ---\n`;
+                    exportContent += `Logline: ${idea.logline}\n\n`;
+                    exportContent += `Deep Dive Question: ${idea.question}\n\n`;
+                    if (idea.setting && idea.setting.name) {
+                        exportContent += `Setting: ${idea.setting.name}\n`;
+                        if (idea.setting.sensory_palette) {
+                            exportContent += `  - Sight: ${idea.setting.sensory_palette.sight || 'N/A'}\n`;
+                            exportContent += `  - Sound: ${idea.setting.sensory_palette.sound || 'N/A'}\n`;
+                            exportContent += `  - Smell: ${idea.setting.sensory_palette.smell || 'N/A'}\n`;
+                        }
+                        exportContent += '\n';
+                    }
+                    const notes = journalNotes[index];
+                    if (notes) {
+                        exportContent += `Your Notes:\n${notes}\n\n`;
+                    }
+                    exportContent += `----------------------------------------------------\n\n`;
+                });
+            }
+
+            const blob = new Blob([exportContent], { type: 'text/plain;charset=utf-8' });
+            const filename = `WriterFoundry_Journal_${new Date().toISOString().slice(0,10)}.txt`;
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(a.href);
+        }
+
+        // --- Clear Journal Functionality ---
+        function clearJournal() {
+            // Using native confirm() as specified in the prompt
+            if (confirm("Are you sure you want to clear your entire journal? This action cannot be undone.")) {
+                localStorage.removeItem('foundryJournal');
+                localStorage.removeItem('foundryJournalNotes');
+                journalIdeas = [];
+                journalNotes = {};
+                renderJournal(); // Re-render to show empty state
+            }
+        }
+
+        // --- Initialize on page load ---
+        initJournal();
+    </script>
 </body>
 </html>
