@@ -261,17 +261,12 @@
 <body>
 
     <main class="foundry-container">
-        <!-- Main Title -->
         <h1>The Writer's Foundry</h1>
         <p class="tagline">An intelligent partner for creative minds.</p>
         
-        <!-- Step UI Container -->
         <div id="step-container">
-            <!-- Header will be dynamically inserted here -->
-            <!-- Content will be dynamically inserted here -->
-        </div>
+            </div>
         
-        <!-- Error Message Container -->
         <div id="error-container" class="hidden">
             <p class="error-message">Could not load foundry data. Please ensure 'foundry-data.json' is accessible.</p>
         </div>
@@ -283,10 +278,10 @@
         // --- STATE MANAGEMENT --- //
         
         const state = {
-            foundryData: null,      // Holds the data from foundry-data.json
-            currentStep: 0,         // Index of the current step in the journey
-            userSelections: {},     // Stores user choices, e.g., { coreIdea: 'Character', archetype: 'The Rebel' }
-            stepHistory: [],        // Tracks the sequence of steps for the back button
+            foundryData: null,
+            currentStepKey: 'coreIdea', // Using a string key for the current step
+            userSelections: {},
+            stepHistory: [],
         };
         
         // --- DOM ELEMENTS --- //
@@ -298,7 +293,8 @@
         
         async function loadFoundryData() {
             try {
-                const response = await fetch('foundry-data.json');
+                // Using the more expansive JSON file now
+                const response = await fetch('foundry-data.json'); 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -312,79 +308,71 @@
             }
         }
 
-        // --- CORE LOGIC --- //
+        // --- CORE LOGIC & NAVIGATION --- //
         
         function initializeApp() {
-            // Start the user journey at the first step
-            navigateToStep(0);
+            navigateToStep('coreIdea');
         }
 
-        /**
-         * The main navigation function. It renders the appropriate step based on an index.
-         * @param {number} stepIndex - The index of the step to render.
-         * @param {boolean} isNavigatingBack - Flag to indicate if this is a backward navigation.
-         */
-        function navigateToStep(stepIndex, isNavigatingBack = false) {
-            state.currentStep = stepIndex;
+        function navigateToStep(stepKey, isNavigatingBack = false) {
+            state.currentStepKey = stepKey;
             
             if (!isNavigatingBack) {
-                state.stepHistory.push(stepIndex);
+                state.stepHistory.push(stepKey);
             }
             
-            // Render the UI for the current step
-            renderStep(stepIndex);
+            renderStep(stepKey);
         }
 
-        /**
-         * Handles the back button functionality.
-         */
         function goBack() {
-            // Remove the current step from history
             state.stepHistory.pop();
-            // Get the previous step index
-            const previousStepIndex = state.stepHistory[state.stepHistory.length - 1];
-            
-            // Navigate back, marking it as a backward navigation
-            navigateToStep(previousStepIndex, true);
+            const previousStepKey = state.stepHistory[state.stepHistory.length - 1];
+            navigateToStep(previousStepKey, true);
         }
         
-        /**
-         * Resets the entire application state to start over.
-         */
         function startOver() {
-            state.currentStep = 0;
             state.userSelections = {};
             state.stepHistory = [];
-            navigateToStep(0);
+            navigateToStep('coreIdea');
         }
         
         // --- UI RENDERING --- //
 
         /**
-         * Central function to render the UI for a given step.
-         * @param {number} stepIndex - The index of the step to render.
+         * Maps a step key to its corresponding rendering function.
+         * @param {string} stepKey - The key identifying the current step.
          */
-        function renderStep(stepIndex) {
-            // Clear previous content
+        function renderStep(stepKey) {
             stepContainer.innerHTML = '';
             
-            // Create and append the header for the step
-            const header = createStepHeader(stepIndex);
+            const header = createStepHeader(stepKey);
             stepContainer.appendChild(header);
 
-            // Create and append the content for the step
             let content;
-            switch (stepIndex) {
-                case 0:
+            switch (stepKey) {
+                case 'coreIdea':
                     content = createStepContentCoreIdea();
                     break;
-                case 1:
+                // Character Path
+                case 'characterArchetype':
                     content = createStepContentArchetypes();
                     break;
-                case 2:
+                case 'characterCatalyst':
                     content = createStepContentCatalyst();
                     break;
-                case 3:
+                // ** NEW: Setting Path **
+                case 'settingGenre':
+                    content = createStepContentSettingGenre();
+                    break;
+                case 'settingLocation':
+                    content = createStepContentSettingLocation();
+                    break;
+                // ** NEW: Theme Path **
+                case 'themeSelection':
+                    content = createStepContentThemeSelection();
+                    break;
+                // Result
+                case 'result':
                     content = createStepContentResult();
                     break;
                 default:
@@ -394,54 +382,45 @@
             stepContainer.appendChild(content);
         }
 
-        /**
-         * Creates the header element (Back Button, Title) for a step.
-         * @param {number} stepIndex - The index of the step.
-         * @returns {HTMLElement} The constructed header element.
-         */
-        function createStepHeader(stepIndex) {
+        function createStepHeader(stepKey) {
             const header = document.createElement('div');
             header.className = 'step-header';
             
             const title = document.createElement('h2');
             title.className = 'step-title';
 
-            // Determine title and if back button should be shown
-            let showBack = stepIndex > 0;
+            let showBack = state.stepHistory.length > 1;
             
-            switch (stepIndex) {
-                case 0: title.textContent = 'Choose a Core Idea'; break;
-                case 1: title.textContent = 'Select an Archetype'; break;
-                case 2: title.textContent = 'Consider a Catalyst'; break;
-                case 3: title.textContent = 'Your Forged Idea'; break;
-            }
+            // Map step keys to titles
+            const titles = {
+                coreIdea: 'Choose a Core Idea',
+                characterArchetype: 'Select an Archetype',
+                characterCatalyst: 'Consider a Catalyst',
+                settingGenre: 'Choose a Genre',
+                settingLocation: 'Choose a Location',
+                themeSelection: 'Choose a Theme',
+                result: 'Your Forged Idea'
+            };
+            title.textContent = titles[stepKey] || 'The Foundry';
             
             if (showBack) {
                 const backBtn = document.createElement('button');
                 backBtn.className = 'back-btn';
-                backBtn.innerHTML = '&larr;'; // Left arrow HTML entity
+                backBtn.innerHTML = '&larr;';
                 backBtn.onclick = goBack;
                 header.appendChild(backBtn);
             } else {
-                // Add an empty spacer to keep the title centered in the grid
-                const spacer = document.createElement('div');
-                header.appendChild(spacer);
+                header.appendChild(document.createElement('div'));
             }
             
             header.appendChild(title);
-            
-            // Add another empty spacer for the third grid column
-            const endSpacer = document.createElement('div');
-            header.appendChild(endSpacer);
+            header.appendChild(document.createElement('div')); // Right spacer
             
             return header;
         }
 
         // --- Step Content Creation Functions --- //
         
-        /**
-         * Renders the content for Step 0: Core Idea selection.
-         */
         function createStepContentCoreIdea() {
             const content = document.createElement('div');
             content.className = 'step-content';
@@ -452,13 +431,13 @@
                 card.className = 'choice-card';
                 card.textContent = choice;
                 card.onclick = () => {
-                    state.userSelections.coreIdea = choice;
-                    // For now, only the 'Character' path is fully implemented
+                    state.userSelections = { coreIdea: choice }; // Reset selections on new path
                     if (choice === 'Character') {
-                        navigateToStep(1);
-                    } else {
-                        // In a full build, these would lead to different paths.
-                        alert(`The '${choice}' path is coming soon!`);
+                        navigateToStep('characterArchetype');
+                    } else if (choice === 'Setting') {
+                        navigateToStep('settingGenre');
+                    } else if (choice === 'Theme') {
+                        navigateToStep('themeSelection');
                     }
                 };
                 content.appendChild(card);
@@ -466,61 +445,111 @@
             return content;
         }
 
-        /**
-         * Renders the content for Step 1: Archetype selection.
-         */
+        // --- CHARACTER PATH ---
         function createStepContentArchetypes() {
             const content = document.createElement('div');
             content.className = 'step-content';
             const archetypes = state.foundryData.characters.archetypes;
-
             archetypes.forEach(archetype => {
                 const card = document.createElement('div');
                 card.className = 'choice-card';
                 card.textContent = archetype.name;
                 card.onclick = () => {
-                    state.userSelections.archetype = archetype.name;
-                    navigateToStep(2);
+                    state.userSelections.archetype = archetype;
+                    navigateToStep('characterCatalyst');
                 };
                 content.appendChild(card);
             });
             return content;
         }
 
-        /**
-         * Renders the content for Step 2: Catalyst Question selection.
-         */
         function createStepContentCatalyst() {
             const content = document.createElement('div');
             content.className = 'step-content';
-            const selectedArchetypeName = state.userSelections.archetype;
-            const archetype = state.foundryData.characters.archetypes.find(a => a.name === selectedArchetypeName);
-            
-            if (archetype && archetype.catalyst_questions) {
-                archetype.catalyst_questions.forEach(question => {
+            const questions = state.userSelections.archetype.catalyst_questions;
+            questions.forEach(question => {
+                const card = document.createElement('div');
+                card.className = 'choice-card';
+                card.textContent = question;
+                card.onclick = () => {
+                    state.userSelections.catalyst = question;
+                    navigateToStep('result');
+                };
+                content.appendChild(card);
+            });
+            return content;
+        }
+
+        // --- NEW: SETTING PATH ---
+        function createStepContentSettingGenre() {
+            const content = document.createElement('div');
+            content.className = 'step-content';
+            const genres = state.foundryData.settings.genres;
+            genres.forEach(genre => {
+                const card = document.createElement('div');
+                card.className = 'choice-card';
+                card.textContent = genre.name;
+                card.onclick = () => {
+                    state.userSelections.settingGenre = genre;
+                    navigateToStep('settingLocation');
+                };
+                content.appendChild(card);
+            });
+            return content;
+        }
+
+        function createStepContentSettingLocation() {
+            const content = document.createElement('div');
+            content.className = 'step-content';
+            const genreTags = state.userSelections.settingGenre.tags;
+            const locations = state.foundryData.settings.locations;
+
+            // Filter locations that share at least one tag with the selected genre
+            const filteredLocations = locations.filter(location => 
+                location.tags.some(tag => genreTags.includes(tag))
+            );
+
+            if (filteredLocations.length > 0) {
+                 filteredLocations.forEach(location => {
                     const card = document.createElement('div');
                     card.className = 'choice-card';
-                    card.textContent = question;
+                    card.textContent = location.name;
                     card.onclick = () => {
-                        state.userSelections.catalyst = question;
-                        navigateToStep(3); // Move to the final result
+                        state.userSelections.settingLocation = location;
+                        navigateToStep('result');
                     };
                     content.appendChild(card);
                 });
             } else {
-                content.textContent = 'No catalyst questions found for this archetype.';
+                content.innerHTML = `<p class="error-message" style="text-align:center;">No specific locations found for this genre. Try another path or expand the data.</p>`;
             }
             return content;
         }
 
-        /**
-         * Renders the final result page (Step 3).
-         */
+        // --- NEW: THEME PATH ---
+        function createStepContentThemeSelection() {
+            const content = document.createElement('div');
+            content.className = 'step-content';
+            const themes = state.foundryData.themes;
+            themes.forEach(theme => {
+                const card = document.createElement('div');
+                card.className = 'choice-card';
+                card.textContent = theme.name;
+                card.onclick = () => {
+                    state.userSelections.theme = theme;
+                    navigateToStep('result');
+                };
+                content.appendChild(card);
+            });
+            return content;
+        }
+
+        // --- FINAL RESULT PAGE (ALL PATHS) ---
         function createStepContentResult() {
             const content = document.createElement('div');
             content.className = 'step-content';
 
-            const { idea, logline, question, setting } = generateForgedIdea();
+            const { logline, deepDive, settingPalette } = generateForgedIdea();
 
             const resultContainer = document.createElement('div');
             resultContainer.className = 'result-container';
@@ -529,19 +558,17 @@
                 <h3>Logline</h3>
                 <p>${logline}</p>
                 <h3>Deep-Dive Question</h3>
-                <p>${question}</p>
+                <p>${deepDive}</p>
                 <h3>Setting Palette</h3>
-                <p><strong>Sight:</strong> ${setting.sensory_palette.sight}<br>
-                   <strong>Sound:</strong> ${setting.sensory_palette.sound}<br>
-                   <strong>Smell:</strong> ${setting.sensory_palette.smell}</p>
+                <p><strong>Sight:</strong> ${settingPalette.sight}<br>
+                   <strong>Sound:</strong> ${settingPalette.sound}<br>
+                   <strong>Smell:</strong> ${settingPalette.smell}</p>
             `;
             
             content.appendChild(resultContainer);
             
-            // Actions
             const actionsGrid = document.createElement('div');
             actionsGrid.className = 'actions-grid';
-            
             actionsGrid.innerHTML = `
                 <a href="anvil.html" class="action-card">
                     <h4>To the Anvil</h4>
@@ -552,44 +579,52 @@
                     <p>Log this idea for later.</p>
                 </a>
             `;
-            
             content.appendChild(actionsGrid);
             
-            // Start Over Button
             const startOverBtn = document.createElement('button');
             startOverBtn.className = 'btn-primary';
             startOverBtn.textContent = 'Start Over';
             startOverBtn.onclick = startOver;
-            
             content.appendChild(startOverBtn);
 
             return content;
         }
         
         // --- IDEA GENERATION ALGORITHM --- //
-
         /**
-         * Combines user selections and data to generate the final story idea.
-         * This function uses a simple algorithm for demonstration.
-         * @returns {object} An object containing the generated idea components.
+         * UPDATED: Generates final idea based on which path the user took.
          */
         function generateForgedIdea() {
-            const archetypeName = state.userSelections.archetype;
-            const archetype = state.foundryData.characters.archetypes.find(a => a.name === archetypeName);
-            
-            // Simple algorithm: pick the first conflict and setting for consistency.
-            // A more complex version could randomly select based on tags.
-            const conflict = state.foundryData.conflicts.external[0];
-            const setting = state.foundryData.settings.locations[0];
-            
-            const logline = `A <strong>${archetypeName.toLowerCase()}</strong> driven by a need <strong>${archetype.motivation}</strong> must confront <strong>${conflict.text}</strong> in <strong>${setting.name}</strong>, but their <strong>${archetype.flaw}</strong> may be their undoing.`;
+            const { coreIdea, archetype, catalyst, settingGenre, settingLocation, theme } = state.userSelections;
+            let logline = 'An unknown journey awaits.';
+            let deepDive = 'What is the central question of this story?';
+            let settingPalette = { sight: '...', sound: '...', smell: '...' };
 
-            return {
-                idea: { archetype, conflict, setting },
-                logline: logline,
-                question: state.userSelections.catalyst, // The catalyst question is the deep-dive.
-                setting: setting
-            };
+            const randomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+            
+            if (coreIdea === 'Character') {
+                const conflict = randomItem(state.foundryData.conflicts.external);
+                const setting = randomItem(state.foundryData.settings.locations);
+                logline = `A <strong>${archetype.name.toLowerCase()}</strong> driven by a need <strong>${archetype.motivation}</strong> must confront <strong>${conflict.text}</strong> in <strong>${setting.name}</strong>, but their <strong>${archetype.flaw}</strong> may be their undoing.`;
+                deepDive = catalyst;
+                settingPalette = setting.sensory_palette;
+            
+            } else if (coreIdea === 'Setting') {
+                const conflict = randomItem(state.foundryData.conflicts.external);
+                const mainArchetype = randomItem(state.foundryData.characters.archetypes);
+                logline = `In the heart of <strong>${settingLocation.name}</strong>, a world defined by <strong>${settingGenre.name.toLowerCase()}</strong>, a lone <strong>${mainArchetype.name.toLowerCase()}</strong> discovers that <strong>${conflict.text}</strong>, threatening to unravel everything.`;
+                deepDive = `How does this specific location shape the conflict?`;
+                settingPalette = settingLocation.sensory_palette;
+            
+            } else if (coreIdea === 'Theme') {
+                const mainArchetype = randomItem(state.foundryData.characters.archetypes);
+                const setting = randomItem(state.foundryData.settings.locations);
+                logline = `A story exploring the theme of <strong>${theme.name.toLowerCase()}</strong>, where a <strong>${mainArchetype.name.toLowerCase()}</strong> in <strong>${setting.name}</strong> must confront a deep personal flaw: their <strong>${mainArchetype.flaw}</strong>.`;
+                deepDive = theme.central_question;
+                settingPalette = setting.sensory_palette;
+            }
+
+            return { logline, deepDive, settingPalette };
         }
 
         // --- INITIALIZATION --- //
