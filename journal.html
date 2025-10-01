@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Your Journal — Writer's Foundry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f5dc; --panel: #ffffff;
+      --ink: #2c3e50; --muted: #596a7a;
+      --accent: #800000; --border-color: #dcd8cd;
+      --radius: 12px; --serif: 'Playfair Display', Georgia, serif;
+      --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font: 16px/1.7 var(--sans-serif);
+    }
+    .wrap { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .page-header { text-align: center; padding: 1rem 0 2rem; }
+    .page-header h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-family: var(--serif); color: var(--accent);
+    }
+    .journal-entry {
+        background: var(--panel); border: 1px solid var(--border-color);
+        padding: 2rem; border-radius: var(--radius);
+        margin-bottom: 1.5rem;
+    }
+    .journal-entry h3 {
+        font-family: var(--serif); font-size: 1.1rem;
+        text-transform: uppercase; letter-spacing: 1px;
+        color: var(--muted); border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.5rem; margin-bottom: 1rem;
+    }
+    .journal-entry p { font-size: 1.1rem; line-height: 1.7; }
+    .controls { text-align: center; margin-top: 3rem; }
+    .btn {
+        padding: 0.7rem 1.5rem; background: var(--accent);
+        color: #fff; text-decoration: none; border-radius: 99px;
+        font-weight: 700; border: 1px solid transparent;
+        transition: all 0.2s ease;
+    }
+    .btn-secondary {
+        background: transparent; color: var(--muted); border-color: var(--border-color);
+    }
+    .btn-secondary:hover { color: var(--accent); border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="page-header"><h1>Your Journal</h1></section>
+    <section id="journalContainer"></section>
+    <div class="controls">
+        <a href="./lab.html" class="btn">← Back to the Foundry</a>
+        <button id="clearBtn" class="btn btn-secondary">Clear Journal</button>
+    </div>
+  </main>
+  <script>
+    (function() {
+      const journalContainer = document.getElementById('journalContainer');
+      const clearBtn = document.getElementById('clearBtn');
+      
+      const journal = JSON.parse(localStorage.getItem('foundryJournal')) || [];
+
+      if (journal.length > 0) {
+        journalContainer.innerHTML = journal.map(idea => `
+            <div class="journal-entry">
+                <h3>Logline</h3>
+                <p>${idea.logline}</p>
+            </div>
+        `).join('');
+      } else {
+        journalContainer.innerHTML = '<p style="text-align:center; color: var(--muted);">Your journal is empty. Go to the Foundry to save some ideas!</p>';
+      }
+
+      clearBtn.addEventListener('click', () => {
+          if (confirm('Are you sure you want to clear your entire journal? This cannot be undone.')) {
+              localStorage.removeItem('foundryJournal');
+              journalContainer.innerHTML = '<p style="text-align:center; color: var(--muted);">Your journal is empty.</p>';
+          }
+      });
+    })();
+  </script>
+</body>
+</html>
