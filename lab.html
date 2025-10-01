@@ -66,7 +66,7 @@
       display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 1rem; margin-top: 1rem;
     }
-    .choice-card, .btn-primary {
+    .choice-card, .btn-primary, .action-chip {
       padding: 1rem 1.5rem; background: var(--bg);
       border: 1px solid var(--border-color);
       border-radius: 8px; font-size: 1rem;
@@ -98,6 +98,43 @@
     .btn-primary:hover {
         background: var(--accent-light);
         box-shadow: 0 4px 20px rgba(128, 0, 0, 0.25);
+    }
+
+    /* New Action Chip Styles */
+    .action-chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border-radius: 999px; /* Pill shape */
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    .action-chip svg {
+        width: 16px; height: 16px;
+    }
+    .action-chip.chip-anvil {
+        color: #2980b9;
+        border-color: #a9cce3;
+        background-color: #eaf2f8;
+    }
+    .action-chip.chip-anvil:hover {
+        background-color: #d4e6f1;
+        border-color: #2980b9;
+    }
+    .action-chip.chip-journal {
+        color: #27ae60;
+        border-color: #a3e9a4;
+        background-color: #e8f8f5;
+    }
+    .action-chip.chip-journal:hover {
+        background-color: #d1f2eb;
+        border-color: #27ae60;
+    }
+    .action-chip.saved {
+        background-color: #27ae60;
+        border-color: #27ae60;
+        color: white;
     }
     
     footer { 
@@ -249,9 +286,15 @@
                 </div>
                 
                 <h3>Next Steps</h3>
-                <div class="choice-grid" style="grid-template-columns: 1fr 1fr;">
-                  <button class="choice-card" id="anvilBtn">Take to 'The Anvil'</button>
-                  <button class="choice-card" id="journalBtn">Save to Journal</button>
+                <div class="choice-grid" style="grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                  <button class="action-chip chip-anvil" id="anvilBtn">
+                    <svg fill="currentColor" viewBox="0 0 20 20"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
+                    <span>Take to 'The Anvil'</span>
+                  </button>
+                  <button class="action-chip chip-journal" id="journalBtn">
+                    <svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zM2 4a4 4 0 014-4h8a4 4 0 014 4v12a4 4 0 01-4 4H6a4 4 0 01-4-4V4z" clip-rule="evenodd"></path></svg>
+                    <span>Save to Journal</span>
+                  </button>
                 </div>
 
                 <button id="restartBtn" class="btn-primary">Start a New Idea</button>
@@ -276,13 +319,15 @@
           let journal = JSON.parse(localStorage.getItem('foundryJournal')) || [];
           journal.unshift(userSelections.result); // Add to the beginning
           localStorage.setItem('foundryJournal', JSON.stringify(journal));
-          const btn = e.target;
-          btn.textContent = 'Saved!';
-          btn.style.backgroundColor = '#27ae60';
+          
+          const btn = e.target.closest('.action-chip');
+          btn.classList.add('saved');
+          btn.querySelector('span').textContent = 'Saved!';
+
           setTimeout(() => {
-              btn.textContent = "Save to Journal";
-              btn.style.backgroundColor = 'var(--bg)';
-          }, 1500);
+              btn.classList.remove('saved');
+              btn.querySelector('span').textContent = "Save to Journal";
+          }, 2000);
       };
 
       async function initializeFoundry() {
