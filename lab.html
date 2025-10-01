@@ -6,7 +6,7 @@
   <title>The Writer's Foundry — Boluadeoye</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-dark: #0f172a; --panel-dark: #111a2e;
@@ -15,9 +15,7 @@
       --ink: #2c3e50; --muted: #596a7a;
       --accent: #800000; --accent-light: #a00000;
       --accent-ink: #f5f5dc; --border-color: #dcd8cd;
-      --radius: 12px;
-      /* --- MODIFIED: Changed the serif font variable --- */
-      --serif: 'Lora', Georgia, serif;
+      --radius: 12px; --serif: 'Playfair Display', Georgia, serif;
       --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
       --transition: cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -27,9 +25,8 @@
       background: var(--bg); color: var(--ink);
       font: 16px/1.7 var(--sans-serif);
       -webkit-font-smoothing: antialiased;
-      /* --- ADDED: The subtle CSS rendering tweak --- */
-      text-rendering: optimizeLegibility;
     }
+    a { color: var(--accent); text-decoration: none; }
     .wrap { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
     .page-header { text-align: center; padding: 3rem 0 2rem; }
     .page-header h1 {
@@ -41,6 +38,7 @@
       font-size: 1.1rem; color: var(--muted);
       max-width: 65ch; margin: 0 auto;
     }
+    .site-nav { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
     .foundry {
       margin: 2rem auto; padding: 2.5rem;
       background: var(--panel); border: 1px solid var(--border-color);
@@ -50,41 +48,30 @@
       display: flex; flex-direction: column;
       transition: all 0.5s var(--transition);
     }
-    .step-container { animation: fadeIn 0.5s var(--transition); }
+    .step-container { animation: fadeIn 0.5s var(--transition); width: 100%;}
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
     .step-header {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
+      display: flex; align-items: center; justify-content: space-between;
       margin-bottom: 2rem;
-      width: 100%;
     }
     .step-title {
-      grid-column: 2;
-      font-family: var(--serif);
-      font-size: 1.25rem;
-      font-weight: 700;
-      line-height: 1.3;
-      text-align: center;
-      color: var(--accent);
-      padding: 0 0.5rem;
+      flex-grow: 1; font-family: var(--serif);
+      font-size: 1.5rem; text-align: center;
+      margin: 0 1rem; color: var(--accent);
+    }
+    .btn-back, .header-spacer {
+      flex-shrink: 0; width: 60px; text-align: left;
     }
     .btn-back {
-      grid-column: 1;
-      justify-self: start;
-      background: none; border: none; font-size: 1.5rem;
-      color: var(--muted); cursor: pointer;
+      background: none; border: none; font-size: 1rem;
+      font-weight: 700; color: var(--muted); cursor: pointer;
+      padding: 0.5rem;
     }
     .btn-back:hover { color: var(--accent); }
     .hidden { visibility: hidden; }
     
-    .choice-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
+    .choice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
     .choice-card {
       padding: 1rem 1.5rem; background: var(--bg);
       border: 1px solid var(--border-color);
@@ -93,18 +80,13 @@
       cursor: pointer; transition: all 0.2s var(--transition);
       width: 100%;
     }
-    .choice-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-      border-color: var(--accent); color: var(--accent);
-    }
+    .choice-card:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.07); border-color: var(--accent); color: var(--accent); }
     
     .result-container { text-align: left; }
     .result-container h3 {
         font-family: var(--serif); font-size: 1.1rem;
         text-transform: uppercase; letter-spacing: 1px;
-        color: var(--ink);
-        border-bottom: 1px solid var(--border-color);
+        color: var(--muted); border-bottom: 1px solid var(--border-color);
         padding-bottom: 0.5rem; margin: 1.5rem 0 1rem;
     }
     .result-container p { font-size: 1.1rem; line-height: 1.7; }
@@ -119,10 +101,7 @@
       cursor: pointer; transition: all 0.2s var(--transition);
       width: 100%; margin-top: 2rem;
     }
-    .btn-primary:hover {
-        background: var(--accent-light);
-        box-shadow: 0 4px 20px rgba(128, 0, 0, 0.25);
-    }
+    .btn-primary:hover { background: var(--accent-light); box-shadow: 0 4px 20px rgba(128, 0, 0, 0.25); }
     
     .action-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
     .action-card {
@@ -131,21 +110,9 @@
       text-align: left; cursor: pointer;
       transition: all 0.2s var(--transition);
     }
-    .action-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-3px);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    }
-    .action-card h4 {
-      font-family: var(--serif); font-size: 1.2rem;
-      color: var(--ink); margin-bottom: 0.25rem;
-      pointer-events: none;
-    }
-    .action-card p {
-      font-size: 0.9rem; color: var(--muted);
-      line-height: 1.5; margin: 0;
-      pointer-events: none;
-    }
+    .action-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    .action-card h4 { font-family: var(--serif); font-size: 1.2rem; color: var(--ink); margin-bottom: 0.25rem; pointer-events: none; }
+    .action-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.5; margin: 0; pointer-events: none; }
     .action-card.saved { border-color: #27ae60; background-color: #e8f8f5; }
 
     footer { 
@@ -158,6 +125,7 @@
 <body>
   <main class="wrap">
     <section class="page-header">
+        <div class="site-nav"><a href="./index.html">← Back to Homepage</a></div>
         <h1>The Writer's Foundry</h1>
         <p>An intelligent engine to forge inspiration from raw ideas.</p>
     </section>
@@ -173,7 +141,7 @@
       let userSelections = {};
       let navigationHistory = [];
 
-      const navigateTo = (stepFunction) => {
+      const renderStep = (stepFunction) => {
         navigationHistory.push(stepFunction);
         stepFunction();
       };
@@ -181,16 +149,17 @@
       const goBack = () => {
         if (navigationHistory.length > 1) {
           navigationHistory.pop();
-          const previousStep = navigationHistory[navigationHistory.length - 1];
-          previousStep();
+          const previousStep = navigationHistory.pop();
+          renderStep(previousStep);
         }
       };
       
       const renderHeader = (title, showBack) => {
         return `
           <div class="step-header">
-            <button class="btn-back ${showBack ? '' : 'hidden'}">←</button>
+            <button class="btn-back ${showBack ? '' : 'hidden'}">← Back</button>
             <h2 class="step-title">${title}</h2>
+            <div class="header-spacer ${showBack ? '' : 'hidden'}"></div>
           </div>
         `;
       };
@@ -208,16 +177,12 @@
             ${renderHeader('What is the core of your idea?', false)}
             <div class="choice-grid">
               <button class="choice-card" data-choice="character">Character</button>
-              <button class="choice-card" data-choice="setting">Setting</button>
-              <button class="choice-card" data-choice="theme">Theme</button>
             </div>
           </div>
         `;
-        foundryContainer.querySelectorAll('.choice-card').forEach(card => {
-          card.addEventListener('click', (e) => {
-            userSelections = { core: e.target.dataset.choice };
-            navigateTo(renderStep2);
-          });
+        foundryContainer.querySelector('.choice-card').addEventListener('click', (e) => {
+          userSelections = { core: e.target.dataset.choice };
+          renderStep(renderStep2);
         });
         attachBackListener();
       };
@@ -236,7 +201,7 @@
           card.addEventListener('click', (e) => {
             const choice = e.target.dataset.choice;
             userSelections.archetype = foundryData.characters.archetypes.find(a => a.name === choice);
-            navigateTo(renderStep3);
+            renderStep(renderStep3);
           });
         });
         attachBackListener();
@@ -245,7 +210,7 @@
       const renderStep3 = () => {
         const questions = userSelections.archetype.catalyst_questions;
         if (!questions || questions.length === 0) {
-            navigateTo(renderFinalResult);
+            renderStep(renderFinalResult);
             return;
         }
         foundryContainer.innerHTML = `
@@ -260,7 +225,7 @@
           card.addEventListener('click', (e) => {
             const choiceIndex = parseInt(e.target.dataset.choice, 10);
             userSelections.question = questions[choiceIndex];
-            navigateTo(renderFinalResult);
+            renderStep(renderFinalResult);
           });
         });
         attachBackListener();
@@ -280,41 +245,24 @@
           foundryContainer.innerHTML = `
             <div class="step-container result-container">
                 ${renderHeader('Your Forged Idea', true)}
-                
-                <h3>Logline</h3>
-                <p>${userSelections.result.logline}</p>
-                
-                <h3>Deep Dive Question</h3>
-                <p><em>${userSelections.result.question}</em></p>
-
+                <h3>Logline</h3><p>${userSelections.result.logline}</p>
+                <h3>Deep Dive Question</h3><p><em>${userSelections.result.question}</em></p>
                 <h3>Setting: ${setting.name}</h3>
-                <div class="sensory-palette">
-                    <ul>
-                        <li><strong>Sight:</strong> ${setting.sensory_palette.sight}</li>
-                        <li><strong>Sound:</strong> ${setting.sensory_palette.sound}</li>
-                        <li><strong>Smell:</strong> ${setting.sensory_palette.smell}</li>
-                    </ul>
-                </div>
-                
+                <ul>
+                  <li><strong>Sight:</strong> ${setting.sensory_palette.sight}</li>
+                  <li><strong>Sound:</strong> ${setting.sensory_palette.sound}</li>
+                  <li><strong>Smell:</strong> ${setting.sensory_palette.smell}</li>
+                </ul>
                 <h3>Next Steps</h3>
                 <div class="action-grid">
-                  <div class="action-card" id="anvilBtn">
-                    <h4>Take to 'The Anvil'</h4>
-                    <p>Begin writing your story in a focused editor.</p>
-                  </div>
-                  <div class="action-card" id="journalBtn">
-                    <h4>Save to Journal</h4>
-                    <p>Store this idea in your personal journal to revisit later.</p>
-                  </div>
+                  <div class="action-card" id="anvilBtn"><h4>Take to 'The Anvil'</h4><p>Begin writing your story in a focused editor.</p></div>
+                  <div class="action-card" id="journalBtn"><h4>Save to Journal</h4><p>Store this idea in your personal journal.</p></div>
                 </div>
-
                 <button id="restartBtn" class="btn-primary">Start a New Idea</button>
             </div>
           `;
           foundryContainer.querySelector('#restartBtn').addEventListener('click', () => {
-              userSelections = {};
-              navigationHistory = [];
-              navigateTo(renderStep1);
+              userSelections = {}; navigationHistory = []; renderStep(renderStep1);
           });
           foundryContainer.querySelector('#anvilBtn').addEventListener('click', takeToAnvil);
           foundryContainer.querySelector('#journalBtn').addEventListener('click', saveToJournal);
@@ -330,13 +278,11 @@
           let journal = JSON.parse(localStorage.getItem('foundryJournal')) || [];
           journal.unshift(userSelections.result);
           localStorage.setItem('foundryJournal', JSON.stringify(journal));
-          
           const card = e.target.closest('.action-card');
           const originalText = card.querySelector('p').textContent;
           card.classList.add('saved');
           card.querySelector('h4').textContent = 'Saved!';
           card.querySelector('p').textContent = 'Your idea has been added to the journal.';
-
           setTimeout(() => {
               card.classList.remove('saved');
               card.querySelector('h4').textContent = "Save to Journal";
@@ -349,12 +295,11 @@
           const response = await fetch('./foundry-data.json');
           if (!response.ok) throw new Error('Could not load the Foundry brain.');
           foundryData = await response.json();
-          navigateTo(renderStep1);
+          renderStep(renderStep1);
         } catch (error) {
           foundryContainer.innerHTML = `<p style="color: #c0392b; text-align: center;">Error: ${error.message}</p>`;
         }
       }
-
       document.addEventListener('DOMContentLoaded', initializeFoundry);
     })();
   </script>
