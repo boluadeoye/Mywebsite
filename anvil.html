@@ -20,40 +20,64 @@
     body {
       background: var(--bg); color: var(--ink);
       font: 18px/1.8 var(--sans-serif);
-      padding: 1rem;
-      transition: background-color 0.4s var(--transition);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
-    a { color: var(--accent); text-decoration: none; font-weight: 700; }
-    .anvil-container { max-width: 800px; margin: 0 auto; }
-    .anvil-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; margin-bottom: 1rem; transition: opacity 0.4s var(--transition); }
+    .wrap { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* --- NEW: Unified Navigation Bar Styles --- */
+    .main-nav { background: var(--panel); border-bottom: 1px solid var(--border-color); padding: 1rem 0; margin-bottom: 2rem; }
+    .main-nav .wrap { display: flex; justify-content: space-between; align-items: center; }
+    .nav-brand { font-family: var(--serif); font-weight: 800; font-size: 1.2rem; color: var(--ink); text-decoration: none; }
+    .nav-links a { font-weight: 700; color: var(--muted); text-decoration: none; margin-left: 1.5rem; }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+
+    .tool-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; margin-bottom: 1rem; transition: opacity 0.4s var(--transition); }
     .tool-btn { background: var(--bg); border: 1px solid var(--border-color); color: var(--muted); padding: 0.5rem 1rem; border-radius: 99px; cursor: pointer; font-weight: 700; margin-left: 0.5rem; }
     .tool-btn:hover { border-color: var(--accent); color: var(--accent); }
+    
     .prompt-box { background: var(--panel); border: 1px solid var(--border-color); border-radius: var(--radius); margin-bottom: 2rem; transition: opacity 0.4s var(--transition), transform 0.4s var(--transition); }
-    .prompt-box summary { font-family: var(--serif); font-size: 1.3rem; color: var(--muted); padding: 1.5rem; cursor: pointer; }
+    .prompt-box summary { font-family: var(--serif); font-size: 1.5rem; font-weight: 800; color: var(--muted); padding: 1.5rem; cursor: pointer; }
     .prompt-box div { padding: 0 1.5rem 1.5rem; }
     .prompt-box p { font-size: 1.1rem; }
+    
     #editor { width: 100%; min-height: 70vh; padding: 2rem; font-size: 1.2rem; line-height: 1.9; font-family: var(--sans-serif); border: none; border-radius: var(--radius); background: var(--panel); color: var(--ink); resize: vertical; }
     #editor:focus { outline: 2px solid var(--accent); }
+    
     .anvil-footer { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; font-size: 0.9rem; font-weight: 700; color: var(--muted); transition: opacity 0.4s var(--transition); }
+    
     body.zen-mode { background-color: var(--panel); }
-    .zen-mode .anvil-header, .zen-mode .prompt-box, .zen-mode .anvil-footer { opacity: 0; pointer-events: none; }
+    .zen-mode .main-nav, .zen-mode .tool-header, .zen-mode .prompt-box, .zen-mode .anvil-footer { opacity: 0; pointer-events: none; }
     .zen-mode .prompt-box { transform: translateY(-20px); }
+    
     #thesaurus-popup { position: absolute; background: var(--panel); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 1rem; max-width: 300px; display: none; z-index: 10; }
-    #thesaurus-popup h4 { font-family: var(--serif); margin-bottom: 0.5rem; }
+    #thesaurus-popup h4 { font-family: var(--serif); margin-bottom: 0.5rem; font-weight: 800; }
     #thesaurus-popup div { display: flex; flex-wrap: wrap; gap: 0.5rem; }
     #thesaurus-popup span { background: var(--bg); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.9rem; }
+    
     #sensory-sidebar { position: fixed; top: 0; right: -350px; width: 300px; height: 100%; background: var(--bg); border-left: 1px solid var(--border-color); box-shadow: -5px 0 20px rgba(0,0,0,0.1); padding: 2rem; transition: right 0.4s var(--transition); z-index: 20; }
     #sensory-sidebar.visible { right: 0; }
-    #sensory-sidebar h3 { font-family: var(--serif); color: var(--accent); margin-bottom: 1rem; }
+    #sensory-sidebar h3 { font-family: var(--serif); color: var(--accent); margin-bottom: 1rem; font-weight: 800; font-size: 1.5rem; }
     #sensory-sidebar ul { list-style-type: none; padding: 0; }
     #sensory-sidebar li { margin-bottom: 1rem; }
     #sensory-sidebar strong { color: var(--muted); }
   </style>
 </head>
 <body>
-  <div class="anvil-container">
-    <header class="anvil-header">
-      <a href="./lab.html">← Back to Foundry</a>
+  <nav class="main-nav">
+    <div class="wrap">
+      <a href="./lab.html" class="nav-brand">The Writer's Foundry</a>
+      <div class="nav-links">
+        <a href="./lab.html">Foundry</a>
+        <a href="./anvil.html" class="active">Anvil</a>
+        <a href="./journal.html">Journal</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <header class="tool-header">
+      <div id="stats">0 words / 0 characters</div>
       <div>
         <button id="sensoryBtn" class="tool-btn">Sensory Palette</button>
         <button id="zenBtn" class="tool-btn">Zen Mode</button>
@@ -66,11 +90,13 @@
     </details>
     <textarea id="editor" placeholder="Begin writing here..."></textarea>
     <footer class="anvil-footer">
-      <div id="stats">0 words / 0 characters</div>
+      <span>Double-click a word for synonyms.</span>
     </footer>
-  </div>
+  </main>
+
   <div id="thesaurus-popup"></div>
   <aside id="sensory-sidebar"></aside>
+
   <script>
     (function() {
       const editor = document.getElementById('editor');
@@ -88,7 +114,7 @@
         promptContent.innerHTML = `<p>${promptData.logline}</p>`;
         sensorySidebar.innerHTML = `<h3>Sensory Palette</h3><ul><li><strong>Sight:</strong> ${promptData.setting.sensory_palette.sight}</li><li><strong>Sound:</strong> ${promptData.setting.sensory_palette.sound}</li><li><strong>Smell:</strong> ${promptData.setting.sensory_palette.smell}</li></ul>`;
       } else {
-        promptContent.innerHTML = `<p>No prompt found. Go back to the Foundry to forge a new idea.</p>`;
+        promptContent.innerHTML = `<p>No prompt found. Return to the <a href="./lab.html">Foundry</a> to forge a new idea.</p>`;
         sensoryBtn.style.display = 'none';
       }
       editor.value = localStorage.getItem(draftKey) || '';
@@ -96,8 +122,8 @@
       zenBtn.addEventListener('click', () => { document.body.classList.toggle('zen-mode'); zenBtn.textContent = document.body.classList.contains('zen-mode') ? 'Focus Mode' : 'Zen Mode'; });
       sensoryBtn.addEventListener('click', () => { sensorySidebar.classList.toggle('visible'); });
       exportBtn.addEventListener('click', () => { const format = prompt("Export as: TXT or MD", "TXT"); if (format) { exportText(format.toUpperCase()); } });
-      editor.addEventListener('mouseup', handleTextSelection);
-      document.addEventListener('mousedown', (e) => { if (!thesaurusPopup.contains(e.target)) { thesaurusPopup.style.display = 'none'; } });
+      editor.addEventListener('dblclick', handleTextSelection); // Changed to double-click for better usability
+      document.addEventListener('mousedown', (e) => { if (!thesaurusPopup.contains(e.target)) { thesaurusPopup.style.display = 'none'; } if (!sensorySidebar.contains(e.target) && !sensoryBtn.contains(e.target)) { sensorySidebar.classList.remove('visible'); } });
       async function handleTextSelection(e) {
           const selection = window.getSelection(); const selectedText = selection.toString().trim().toLowerCase();
           if (selectedText.length > 2 && !selectedText.includes(' ')) {
@@ -119,7 +145,7 @@
       };
       function exportText(format) {
           const text = editor.value; let content = text; let filename = 'foundry_draft.txt'; let mimeType = 'text/plain';
-          if (format === 'MD' && promptData) { content = `# My Draft\n\n> ${promptData.logline}\n\n---\n\n${text}`; filename = 'foundry_draft.md'; mimeType = 'text/markdown'; }
+          if (format === 'MD' && promptData) { content = `# My Draft\n\n> ${promptData.logline.replace(/<[^>]*>/g, '')}\n\n---\n\n${text}`; filename = 'foundry_draft.md'; mimeType = 'text/markdown'; }
           const blob = new Blob([content], { type: mimeType }); const anchor = document.createElement('a');
           anchor.href = URL.createObjectURL(blob); anchor.download = filename; anchor.click(); URL.revokeObjectURL(anchor.href);
       }
