@@ -1,155 +1,621 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>The Anvil — Writer's Foundry</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #f5f5dc; --panel: #ffffff;
-      --ink: #2c3e50; --muted: #596a7a;
-      --accent: #800000; --border-color: #dcd8cd;
-      --radius: 12px; --serif: 'Playfair Display', Georgia, serif;
-      --sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
-      --transition: cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg); color: var(--ink);
-      font: 18px/1.8 var(--sans-serif);
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-    .wrap { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Writer's Foundry: Anvil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg: #f5f5dc; /* Beige background */
+            --panel: #ffffff; /* White for cards */
+            --ink: #2c3e50; /* Primary dark text */
+            --muted: #596a7a; /* Muted/secondary text */
+            --accent: #800000; /* Maroon/burgundy accent */
+            --border-color: #dcd8cd; /* Subtle border color */
+            --zen-bg: #fdfdf9; /* A slightly off-white for zen mode */
+        }
 
-    /* --- NEW: Unified Navigation Bar Styles --- */
-    .main-nav { background: var(--panel); border-bottom: 1px solid var(--border-color); padding: 1rem 0; margin-bottom: 2rem; }
-    .main-nav .wrap { display: flex; justify-content: space-between; align-items: center; }
-    .nav-brand { font-family: var(--serif); font-weight: 800; font-size: 1.2rem; color: var(--ink); text-decoration: none; }
-    .nav-links a { font-weight: 700; color: var(--muted); text-decoration: none; margin-left: 1.5rem; }
-    .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+        /* Base Styles */
+        body {
+            font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--ink);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 0;
+            box-sizing: border-box;
+            text-rendering: optimizeLegibility;
+            transition: background-color 0.5s ease-in-out;
+        }
 
-    .tool-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; margin-bottom: 1rem; transition: opacity 0.4s var(--transition); }
-    .tool-btn { background: var(--bg); border: 1px solid var(--border-color); color: var(--muted); padding: 0.5rem 1rem; border-radius: 99px; cursor: pointer; font-weight: 700; margin-left: 0.5rem; }
-    .tool-btn:hover { border-color: var(--accent); color: var(--accent); }
-    
-    .prompt-box { background: var(--panel); border: 1px solid var(--border-color); border-radius: var(--radius); margin-bottom: 2rem; transition: opacity 0.4s var(--transition), transform 0.4s var(--transition); }
-    .prompt-box summary { font-family: var(--serif); font-size: 1.5rem; font-weight: 800; color: var(--muted); padding: 1.5rem; cursor: pointer; }
-    .prompt-box div { padding: 0 1.5rem 1.5rem; }
-    .prompt-box p { font-size: 1.1rem; }
-    
-    #editor { width: 100%; min-height: 70vh; padding: 2rem; font-size: 1.2rem; line-height: 1.9; font-family: var(--sans-serif); border: none; border-radius: var(--radius); background: var(--panel); color: var(--ink); resize: vertical; }
-    #editor:focus { outline: 2px solid var(--accent); }
-    
-    .anvil-footer { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; font-size: 0.9rem; font-weight: 700; color: var(--muted); transition: opacity 0.4s var(--transition); }
-    
-    body.zen-mode { background-color: var(--panel); }
-    .zen-mode .main-nav, .zen-mode .tool-header, .zen-mode .prompt-box, .zen-mode .anvil-footer { opacity: 0; pointer-events: none; }
-    .zen-mode .prompt-box { transform: translateY(-20px); }
-    
-    #thesaurus-popup { position: absolute; background: var(--panel); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 1rem; max-width: 300px; display: none; z-index: 10; }
-    #thesaurus-popup h4 { font-family: var(--serif); margin-bottom: 0.5rem; font-weight: 800; }
-    #thesaurus-popup div { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    #thesaurus-popup span { background: var(--bg); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.9rem; }
-    
-    #sensory-sidebar { position: fixed; top: 0; right: -350px; width: 300px; height: 100%; background: var(--bg); border-left: 1px solid var(--border-color); box-shadow: -5px 0 20px rgba(0,0,0,0.1); padding: 2rem; transition: right 0.4s var(--transition); z-index: 20; }
-    #sensory-sidebar.visible { right: 0; }
-    #sensory-sidebar h3 { font-family: var(--serif); color: var(--accent); margin-bottom: 1rem; font-weight: 800; font-size: 1.5rem; }
-    #sensory-sidebar ul { list-style-type: none; padding: 0; }
-    #sensory-sidebar li { margin-bottom: 1rem; }
-    #sensory-sidebar strong { color: var(--muted); }
-  </style>
+        /* Unified Navigation Bar */
+        .nav-bar {
+            background-color: var(--panel);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            z-index: 1000;
+        }
+
+        .nav-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-decoration: none;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--ink);
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent);
+        }
+
+        /* Main Content Wrapper */
+        .wrap {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 900px;
+            margin: 25px auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+        /* Inner card for main content */
+        .main-card {
+            background-color: var(--panel);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        /* Tools Header */
+        .tools-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tool-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tool-btn {
+            background-color: #f0f0f0;
+            color: var(--ink);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 8px 15px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tool-btn:hover {
+            background-color: #e0e0e0;
+            border-color: var(--muted);
+            color: var(--accent);
+        }
+
+        .tool-btn.active {
+            background-color: var(--accent);
+            color: var(--panel);
+            border-color: var(--accent);
+        }
+
+        .stats {
+            font-size: 0.95rem;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        /* Prompt Box */
+        details.prompt-box {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+        details.prompt-box summary {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--ink);
+            cursor: pointer;
+            outline: none;
+            padding: 15px 20px;
+        }
+
+        .prompt-content-wrapper {
+             padding: 0 20px 15px;
+        }
+
+        .prompt-content-wrapper p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--ink);
+            margin-bottom: 10px;
+        }
+        
+        .prompt-message a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Main Editor */
+        .editor-container {
+            flex-grow: 1;
+            position: relative;
+        }
+
+        #editor {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+            font-size: 1.2rem;
+            line-height: 1.9;
+            color: var(--ink);
+            background-color: var(--panel);
+            resize: vertical;
+            box-sizing: border-box;
+            transition: background-color 0.5s ease-in-out;
+        }
+
+        #editor:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(128, 0, 0, 0.1);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--muted);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+        /* Zen Mode */
+        body.zen-mode {
+            background-color: var(--zen-bg);
+        }
+
+        body.zen-mode .nav-bar,
+        body.zen-mode .tools-header,
+        body.zen-mode .prompt-box,
+        body.zen-mode footer {
+            opacity: 0;
+            transform: translateY(-20px);
+            pointer-events: none;
+        }
+
+        body.zen-mode .wrap {
+            max-width: 800px;
+            margin-top: 5vh;
+        }
+        
+        body.zen-mode .main-card {
+             background-color: transparent;
+             border: none;
+             box-shadow: none;
+        }
+
+        body.zen-mode #editor {
+            background-color: var(--zen-bg);
+            border-color: transparent;
+            box-shadow: none;
+        }
+
+        /* Sensory Palette Sidebar */
+        .sensory-palette-aside {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 300px;
+            height: 100%;
+            background-color: var(--panel);
+            border-left: 1px solid var(--border-color);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            box-sizing: border-box;
+            transition: right 0.3s ease-out;
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .sensory-palette-aside.visible {
+            right: 0;
+        }
+
+        .sensory-palette-aside .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--muted);
+            cursor: pointer;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        .sensory-palette-aside h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            font-size: 1.6rem;
+            color: var(--ink);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .sensory-palette-aside p {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .sensory-palette-aside strong {
+            color: var(--accent);
+        }
+
+        /* Thesaurus Popup */
+        .thesaurus-popup {
+            position: absolute;
+            background-color: var(--panel);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            padding: 15px;
+            z-index: 1001;
+            max-width: 250px;
+            display: none;
+        }
+
+        .thesaurus-popup strong {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .thesaurus-popup .synonym-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .thesaurus-popup .synonym-list li {
+            background-color: #f0f0f0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: var(--ink);
+            font-size: 0.9rem;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .nav-bar { flex-direction: column; gap: 10px; padding: 10px 15px; }
+            .wrap { margin: 15px auto; padding: 0 15px; }
+            .main-card { padding: 15px; }
+            .tools-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+            #editor { font-size: 1.1rem; line-height: 1.8; min-height: 300px; }
+            .sensory-palette-aside { width: 90%; }
+        }
+    </style>
 </head>
 <body>
-  <nav class="main-nav">
-    <div class="wrap">
-      <a href="./lab.html" class="nav-brand">The Writer's Foundry</a>
-      <div class="nav-links">
-        <a href="./lab.html">Foundry</a>
-        <a href="./anvil.html" class="active">Anvil</a>
-        <a href="./journal.html">Journal</a>
-      </div>
+    <nav class="nav-bar" id="mainNav">
+        <a href="lab.html" class="nav-brand">The Writer's Foundry</a>
+        <div class="nav-links">
+            <a href="lab.html" class="nav-link">Foundry</a>
+            <a href="anvil.html" class="nav-link active">Anvil</a>
+            <a href="journal.html" class="nav-link">Journal</a>
+        </div>
+    </nav>
+
+    <div class="wrap" id="mainWrap">
+        <div class="main-card">
+            <header class="tools-header" id="toolsHeader">
+                <div class="tool-group">
+                    <button class="tool-btn" id="zenModeBtn" title="Toggle Zen Mode">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 12.332 10.119 13.5 8 13.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/></svg>
+                        <span>Zen Mode</span>
+                    </button>
+                    <button class="tool-btn" id="sensoryPaletteBtn" title="Toggle Sensory Palette">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm4 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM7.5 14.5a.5.5 0 0 0 .5.5h5.5a.5.5 0 0 0 0-1H8a.5.5 0 0 0-.5.5z"/><path d="M15.5 8a.5.5 0 0 0-.5-.5H.5a.5.5 0 0 0 0 1h14.5a.5.5 0 0 0 .5-.5zM3 11.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg>
+                        <span>Sensory Palette</span>
+                    </button>
+                </div>
+                <div class="stats">
+                    Words: <span id="wordCount">0</span> | Characters: <span id="charCount">0</span>
+                </div>
+                <div class="tool-group">
+                    <button class="tool-btn" id="exportBtn" title="Export your draft">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>
+                        <span>Export</span>
+                    </button>
+                </div>
+            </header>
+
+            <details class="prompt-box" id="promptBox" open>
+                <summary>Your Prompt</summary>
+                <div class="prompt-content-wrapper" id="promptContent">
+                    <p class="prompt-message">No prompt found. Head back to the <a href="lab.html">Foundry</a> to forge a new idea!</p>
+                </div>
+            </details>
+            
+            <div class="editor-container">
+                <textarea id="editor" placeholder="Start writing your masterpiece..."></textarea>
+                <div id="thesaurusPopup" class="thesaurus-popup"></div>
+            </div>
+        </div>
+        <footer id="footer">
+            &copy; 2025 The Writer's Foundry. Forge Your Story.
+        </footer>
     </div>
-  </nav>
 
-  <main class="wrap">
-    <header class="tool-header">
-      <div id="stats">0 words / 0 characters</div>
-      <div>
-        <button id="sensoryBtn" class="tool-btn">Sensory Palette</button>
-        <button id="zenBtn" class="tool-btn">Zen Mode</button>
-        <button id="exportBtn" class="tool-btn">Export</button>
-      </div>
-    </header>
-    <details id="promptContainer" class="prompt-box" open>
-      <summary>Your Prompt</summary>
-      <div id="promptContent"><p>Loading your forged idea...</p></div>
-    </details>
-    <textarea id="editor" placeholder="Begin writing here..."></textarea>
-    <footer class="anvil-footer">
-      <span>Double-click a word for synonyms.</span>
-    </footer>
-  </main>
+    <aside class="sensory-palette-aside" id="sensoryPaletteAside">
+        <button class="close-btn" id="closePaletteBtn" aria-label="Close Sensory Palette">&times;</button>
+        <h3>Sensory Palette</h3>
+        <div id="sensoryDetailsContent"></div>
+    </aside>
 
-  <div id="thesaurus-popup"></div>
-  <aside id="sensory-sidebar"></aside>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const editor = document.getElementById('editor');
+            const promptContent = document.getElementById('promptContent');
+            const wordCountSpan = document.getElementById('wordCount');
+            const charCountSpan = document.getElementById('charCount');
+            const zenModeBtn = document.getElementById('zenModeBtn');
+            const sensoryPaletteBtn = document.getElementById('sensoryPaletteBtn');
+            const sensoryPaletteAside = document.getElementById('sensoryPaletteAside');
+            const closePaletteBtn = document.getElementById('closePaletteBtn');
+            const sensoryDetailsContent = document.getElementById('sensoryDetailsContent');
+            const thesaurusPopup = document.getElementById('thesaurusPopup');
+            const exportBtn = document.getElementById('exportBtn');
 
-  <script>
-    (function() {
-      const editor = document.getElementById('editor');
-      const statsDisplay = document.getElementById('stats');
-      const zenBtn = document.getElementById('zenBtn');
-      const sensoryBtn = document.getElementById('sensoryBtn');
-      const exportBtn = document.getElementById('exportBtn');
-      const thesaurusPopup = document.getElementById('thesaurus-popup');
-      const sensorySidebar = document.getElementById('sensory-sidebar');
-      const promptContent = document.getElementById('promptContent');
-      const promptData = JSON.parse(localStorage.getItem('foundryAnvilPrompt'));
-      let draftKey = 'anvilEditorContent_default';
-      if (promptData) {
-        draftKey = 'anvilDraft_' + promptData.logline.substring(0, 30).replace(/\s/g, '_');
-        promptContent.innerHTML = `<p>${promptData.logline}</p>`;
-        sensorySidebar.innerHTML = `<h3>Sensory Palette</h3><ul><li><strong>Sight:</strong> ${promptData.setting.sensory_palette.sight}</li><li><strong>Sound:</strong> ${promptData.setting.sensory_palette.sound}</li><li><strong>Smell:</strong> ${promptData.setting.sensory_palette.smell}</li></ul>`;
-      } else {
-        promptContent.innerHTML = `<p>No prompt found. Return to the <a href="./lab.html">Foundry</a> to forge a new idea.</p>`;
-        sensoryBtn.style.display = 'none';
-      }
-      editor.value = localStorage.getItem(draftKey) || '';
-      updateStats();
-      zenBtn.addEventListener('click', () => { document.body.classList.toggle('zen-mode'); zenBtn.textContent = document.body.classList.contains('zen-mode') ? 'Focus Mode' : 'Zen Mode'; });
-      sensoryBtn.addEventListener('click', () => { sensorySidebar.classList.toggle('visible'); });
-      exportBtn.addEventListener('click', () => { const format = prompt("Export as: TXT or MD", "TXT"); if (format) { exportText(format.toUpperCase()); } });
-      editor.addEventListener('dblclick', handleTextSelection); // Changed to double-click for better usability
-      document.addEventListener('mousedown', (e) => { if (!thesaurusPopup.contains(e.target)) { thesaurusPopup.style.display = 'none'; } if (!sensorySidebar.contains(e.target) && !sensoryBtn.contains(e.target)) { sensorySidebar.classList.remove('visible'); } });
-      async function handleTextSelection(e) {
-          const selection = window.getSelection(); const selectedText = selection.toString().trim().toLowerCase();
-          if (selectedText.length > 2 && !selectedText.includes(' ')) {
-              try {
-                  const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${selectedText}`); if (!response.ok) return;
-                  const data = await response.json(); const synonyms = data[0]?.meanings[0]?.synonyms || [];
-                  if (synonyms.length > 0) { showThesaurus(synonyms.slice(0, 10), e.clientX, e.clientY); }
-              } catch (error) { console.error("Thesaurus API error:", error); }
-          }
-      }
-      function showThesaurus(synonyms, x, y) {
-          thesaurusPopup.innerHTML = `<h4>Synonyms</h4><div>${synonyms.map(s => `<span>${s}</span>`).join('')}</div>`;
-          thesaurusPopup.style.left = `${x}px`; thesaurusPopup.style.top = `${y + 10}px`; thesaurusPopup.style.display = 'block';
-      }
-      editor.addEventListener('input', () => { localStorage.setItem(draftKey, editor.value); updateStats(); });
-      function updateStats() {
-          const text = editor.value; const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-          const characters = text.length; statsDisplay.textContent = `${words} words / ${characters} characters`;
-      };
-      function exportText(format) {
-          const text = editor.value; let content = text; let filename = 'foundry_draft.txt'; let mimeType = 'text/plain';
-          if (format === 'MD' && promptData) { content = `# My Draft\n\n> ${promptData.logline.replace(/<[^>]*>/g, '')}\n\n---\n\n${text}`; filename = 'foundry_draft.md'; mimeType = 'text/markdown'; }
-          const blob = new Blob([content], { type: mimeType }); const anchor = document.createElement('a');
-          anchor.href = URL.createObjectURL(blob); anchor.download = filename; anchor.click(); URL.revokeObjectURL(anchor.href);
-      }
-    })();
-  </script>
+            let currentPrompt = null;
+            let draftKey = 'foundryDefaultDraft';
+
+            function initAnvil() {
+                loadPrompt();
+                loadDraft();
+                updateCounts();
+                setupEventListeners();
+            }
+
+            function loadPrompt() {
+                const storedPrompt = localStorage.getItem('foundryAnvilPrompt');
+                if (storedPrompt) {
+                    try {
+                        currentPrompt = JSON.parse(storedPrompt);
+                        displayPrompt(currentPrompt);
+                        draftKey = `foundryDraft_${btoa(currentPrompt.logline).slice(0, 20)}`;
+                    } catch (e) {
+                        promptContent.innerHTML = `<p class="prompt-message">Error loading prompt. Go to the <a href="lab.html">Foundry</a>.</p>`;
+                    }
+                }
+            }
+
+            function displayPrompt(prompt) {
+                promptContent.innerHTML = `
+                    <p><strong>Logline:</strong> ${prompt.logline.replace(/<[^>]*>/g, '')}</p>
+                    <p><strong>Deep Dive Question:</strong> ${prompt.question}</p>
+                `;
+                if (prompt.setting && prompt.setting.sensory_palette) {
+                    displaySensoryDetails(prompt.setting.sensory_palette);
+                } else {
+                    sensoryDetailsContent.innerHTML = `<p>No specific sensory details for this prompt.</p>`;
+                }
+            }
+            
+            function displaySensoryDetails(palette) {
+                sensoryDetailsContent.innerHTML = `
+                    <p><strong>SIGHT:</strong> ${palette.sight || 'N/A'}</p>
+                    <p><strong>SOUND:</strong> ${palette.sound || 'N/A'}</p>
+                    <p><strong>SMELL:</strong> ${palette.smell || 'N/A'}</p>
+                `;
+            }
+
+            function loadDraft() {
+                const savedDraft = localStorage.getItem(draftKey);
+                if (savedDraft) editor.value = savedDraft;
+            }
+
+            function saveDraft() {
+                localStorage.setItem(draftKey, editor.value);
+            }
+
+            function updateCounts() {
+                const text = editor.value;
+                const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+                const chars = text.length;
+                wordCountSpan.textContent = words;
+                charCountSpan.textContent = chars;
+            }
+
+            function toggleZenMode() {
+                document.body.classList.toggle('zen-mode');
+                zenModeBtn.classList.toggle('active');
+                if (document.body.classList.contains('zen-mode')) {
+                    sensoryPaletteAside.classList.remove('visible');
+                    sensoryPaletteBtn.classList.remove('active');
+                }
+            }
+
+            function toggleSensoryPalette() {
+                sensoryPaletteAside.classList.toggle('visible');
+                sensoryPaletteBtn.classList.toggle('active');
+                if (sensoryPaletteAside.classList.contains('visible')) {
+                    document.body.classList.remove('zen-mode');
+                    zenModeBtn.classList.remove('active');
+                }
+            }
+            
+            async function handleThesaurusRequest(event) {
+                const selection = window.getSelection();
+                const selectedText = selection.toString().trim();
+                
+                if (selectedText.length < 2 || selectedText.includes(' ')) {
+                    return;
+                }
+
+                const synonyms = await fetchSynonyms(selectedText);
+                showThesaurusPopup(event.clientX, event.clientY, selectedText, synonyms);
+            }
+
+            async function fetchSynonyms(word) {
+                try {
+                    const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+                    if (!response.ok) return [];
+                    const data = await response.json();
+                    const synonyms = new Set();
+                    data.forEach(entry => {
+                        entry.meanings.forEach(meaning => {
+                            if(meaning.synonyms) {
+                                meaning.synonyms.forEach(syn => synonyms.add(syn));
+                            }
+                        });
+                    });
+                    return Array.from(synonyms).slice(0, 12);
+                } catch (error) {
+                    console.error("Thesaurus API Error:", error);
+                    return [];
+                }
+            }
+
+            function showThesaurusPopup(x, y, word, synonyms) {
+                let content = `<strong>${word}</strong>`;
+                if (synonyms.length > 0) {
+                    content += `<ul class="synonym-list">${synonyms.map(s => `<li>${s}</li>`).join('')}</ul>`;
+                } else {
+                    content += `<p class="no-results">No synonyms found.</p>`;
+                }
+                thesaurusPopup.innerHTML = content;
+
+                thesaurusPopup.style.display = 'block'; // Make it visible to calculate dimensions
+                const rect = thesaurusPopup.getBoundingClientRect();
+                
+                // Adjust position to stay within viewport
+                let top = y + 10;
+                let left = x;
+                if (top + rect.height > window.innerHeight) {
+                    top = y - rect.height - 10;
+                }
+                if (left + rect.width > window.innerWidth) {
+                    left = window.innerWidth - rect.width - 10;
+                }
+                
+                thesaurusPopup.style.top = `${top}px`;
+                thesaurusPopup.style.left = `${left}px`;
+            }
+
+            function exportContent() {
+                const format = prompt("Export as: TXT or MD", "MD");
+                if (!format) return;
+
+                const text = editor.value;
+                let content = text;
+                let filename = `foundry_draft.${format.toLowerCase()}`;
+                let mimeType = 'text/plain';
+
+                if (format.toUpperCase() === 'MD') {
+                    mimeType = 'text/markdown';
+                    if (currentPrompt) {
+                        content = `# Draft\n\n> ${currentPrompt.logline.replace(/<[^>]*>/g, '')}\n\n---\n\n${text}`;
+                    }
+                }
+                
+                const blob = new Blob([content], { type: mimeType });
+                const anchor = document.createElement('a');
+                anchor.href = URL.createObjectURL(blob);
+                anchor.download = filename;
+                anchor.click();
+                URL.revokeObjectURL(anchor.href);
+            }
+
+            function setupEventListeners() {
+                editor.addEventListener('input', () => { saveDraft(); updateCounts(); });
+                zenModeBtn.addEventListener('click', toggleZenMode);
+                sensoryPaletteBtn.addEventListener('click', toggleSensoryPalette);
+                closePaletteBtn.addEventListener('click', () => sensoryPaletteAside.classList.remove('visible'));
+                exportBtn.addEventListener('click', exportContent);
+                editor.addEventListener('dblclick', handleThesaurusRequest);
+                
+                document.addEventListener('click', (event) => {
+                    if (!thesaurusPopup.contains(event.target)) {
+                        thesaurusPopup.style.display = 'none';
+                    }
+                    if (!sensoryPaletteAside.contains(event.target) && !sensoryPaletteBtn.contains(event.target)) {
+                        sensoryPaletteAside.classList.remove('visible');
+                        sensoryPaletteBtn.classList.remove('active');
+                    }
+                });
+            }
+
+            initAnvil();
+        });
+    </script>
 </body>
 </html>
