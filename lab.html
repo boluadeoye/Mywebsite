@@ -50,79 +50,105 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
     .step-header {
-      display: flex; align-items: center; justify-content: space-between; /* Changed for alignment */
-      position: relative; margin-bottom: 2rem;
-      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-bottom: 2rem;
     }
     .step-title {
-      font-family: var(--serif); font-size: 1.5rem;
-      text-align: center; margin: 0 auto; /* Centered with auto margins */
-      flex-grow: 1;
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      text-align: center;
+      margin: 0;
+      color: var(--accent);
     }
     .btn-back {
-      position: static; /* Removed absolute positioning */
-      background: none; border: none; font-size: 1rem;
-      font-weight: 700; color: var(--muted); cursor: pointer;
-      padding: 0.5rem 1rem; /* Consistent padding */
-      align-self: flex-start; /* Aligns vertically with title */
+      position: absolute;
+      left: 0;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 0.5rem;
     }
     .btn-back:hover { color: var(--accent); }
     .btn-back.hidden { visibility: hidden; }
     
     .choice-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem; margin-top: 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
     }
     .choice-card {
-      padding: 1rem 1.5rem; background: var(--bg);
+      padding: 1rem 1.5rem;
+      background: var(--bg);
       border: 1px solid var(--border-color);
-      border-radius: 8px; font-size: 1rem;
-      font-weight: 700; text-align: center;
-      cursor: pointer; transition: all 0.2s var(--transition);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s var(--transition);
       width: 100%;
     }
     .choice-card:hover {
       transform: translateY(-3px);
       box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-      border-color: var(--accent); color: var(--accent);
+      border-color: var(--accent);
+      color: var(--accent);
     }
     
     .result-container { text-align: left; }
     .result-container h3 {
-      font-family: var(--serif); font-size: 1.1rem;
-      text-transform: uppercase; letter-spacing: 1px;
-      color: var(--muted); border-bottom: 1px solid var(--border-color);
-      padding-bottom: 0.5rem; margin: 1.5rem 0 1rem;
+        font-family: var(--serif);
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--muted);
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.5rem;
+        margin: 1.5rem 0 1rem;
     }
     .result-container p { font-size: 1.1rem; line-height: 1.7; }
     .result-container ul { list-style: none; padding-left: 1rem; border-left: 2px solid var(--accent); }
     .result-container li { font-size: 0.95rem; color: var(--muted); margin-bottom: 0.5rem; font-style: italic; }
 
     .btn-primary {
-      padding: 1rem 1.5rem; background: var(--accent);
-      color: var(--accent-ink); border: none;
-      border-radius: 8px; font-size: 1rem;
-      font-weight: 700; text-align: center;
-      cursor: pointer; transition: all 0.2s var(--transition);
-      width: 100%; margin-top: 2rem;
-    }
-    .btn-primary:hover {
-      background: var(--accent-light);
-      box-shadow: 0 4px 20px rgba(128, 0, 0, 0.25);
-    }
-    
-    /* Refined Action Card Styles */
-    .action-grid {
-      display: grid; grid-template-columns: 1fr; /* Full-width cards */
-      gap: 1rem; margin-top: 1rem;
-    }
-    .action-card {
-      background: var(--panel); /* Changed to match foundry panel for cleaner look */
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius); padding: 1.5rem;
-      text-align: left; cursor: pointer;
+      padding: 1rem 1.5rem;
+      background: var(--accent);
+      color: var(--accent-ink);
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
       transition: all 0.2s var(--transition);
       width: 100%;
+      margin-top: 2rem;
+    }
+    .btn-primary:hover {
+        background: var(--accent-light);
+        box-shadow: 0 4px 20px rgba(128, 0, 0, 0.25);
+    }
+    
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .action-card {
+      background: var(--bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s var(--transition);
     }
     .action-card:hover {
       border-color: var(--accent);
@@ -130,32 +156,39 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     }
     .action-card h4 {
-      font-family: var(--serif); font-size: 1.25rem; /* Slightly larger for hierarchy */
-      color: var(--ink); margin-bottom: 0.5rem; /* Increased spacing */
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
       pointer-events: none;
     }
     .action-card p {
-      font-size: 0.95rem; /* Slightly larger for readability */
-      color: var(--muted); line-height: 1.6;
-      margin: 0; pointer-events: none;
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.5;
+      margin: 0;
+      pointer-events: none;
     }
     .action-card.saved {
-      border-color: #27ae60;
-      background-color: #e8f8f5;
+        border-color: #27ae60;
+        background-color: #e8f8f5;
     }
 
     footer { 
-      background: var(--panel-dark); color: var(--muted-dark);
-      text-align: center; font-size: 0.88rem;
-      padding: 2rem 0; margin-top: 4rem; 
+        background: var(--panel-dark);
+        color: var(--muted-dark);
+        text-align: center;
+        font-size: 0.88rem;
+        padding: 2rem 0;
+        margin-top: 4rem; 
     }
   </style>
 </head>
 <body>
   <main class="wrap">
     <section class="page-header">
-      <h1>The Writer's Foundry</h1>
-      <p>An intelligent engine to forge inspiration from raw ideas.</p>
+        <h1>The Writer's Foundry</h1>
+        <p>An intelligent engine to forge inspiration from raw ideas.</p>
     </section>
     
     <section id="foundry" class="foundry"></section>
@@ -192,10 +225,10 @@
       };
       
       const attachBackListener = () => {
-        const backButton = foundryContainer.querySelector('.btn-back');
-        if (backButton) {
-          backButton.addEventListener('click', goBack);
-        }
+          const backButton = foundryContainer.querySelector('.btn-back');
+          if (backButton && !backButton.classList.contains('hidden')) {
+              backButton.addEventListener('click', goBack);
+          }
       };
 
       const renderStep1 = () => {
@@ -241,8 +274,8 @@
       const renderStep3 = () => {
         const questions = userSelections.archetype.catalyst_questions;
         if (!questions || questions.length === 0) {
-          navigateTo(renderFinalResult);
-          return;
+            navigateTo(renderFinalResult);
+            return;
         }
         foundryContainer.innerHTML = `
           <div class="step-container">
@@ -263,81 +296,81 @@
       };
 
       const renderFinalResult = () => {
-        const char = userSelections.archetype;
-        const conflict = foundryData.conflicts.external.find(c => c.tags.some(t => char.tags.includes(t))) || foundryData.conflicts.external[0];
-        const setting = foundryData.settings.locations.find(s => s.tags.some(t => char.tags.includes(t))) || foundryData.settings.locations[0];
-        
-        userSelections.result = {
-          logline: `In the world of ${setting.name}, a character like ${char.name}, who is motivated by a desire to "${char.motivation}" but is held back by their flaw of "${char.flaw}", must face the conflict of ${conflict.text}`,
-          question: userSelections.question || "Consider their core motivation and flaw.",
-          setting: setting
-        };
+          const char = userSelections.archetype;
+          const conflict = foundryData.conflicts.external.find(c => c.tags.some(t => char.tags.includes(t))) || foundryData.conflicts.external[0];
+          const setting = foundryData.settings.locations.find(s => s.tags.some(t => char.tags.includes(t))) || foundryData.settings.locations[0];
+          
+          userSelections.result = {
+              logline: `In the world of ${setting.name}, a character like ${char.name}, who is motivated by a desire to "${char.motivation}" but is held back by their flaw of "${char.flaw}", must face the conflict of ${conflict.text}`,
+              question: userSelections.question || "Consider their core motivation and flaw.",
+              setting: setting
+          };
 
-        foundryContainer.innerHTML = `
-          <div class="step-container result-container">
-            ${renderHeader('Your Forged Idea', true)}
-            
-            <h3>Logline</h3>
-            <p>${userSelections.result.logline}</p>
-            
-            <h3>Deep Dive Question</h3>
-            <p><em>${userSelections.result.question}</em></p>
+          foundryContainer.innerHTML = `
+            <div class="step-container result-container">
+                ${renderHeader('Your Forged Idea', true)}
+                
+                <h3>Logline</h3>
+                <p>${userSelections.result.logline}</p>
+                
+                <h3>Deep Dive Question</h3>
+                <p><em>${userSelections.result.question}</em></p>
 
-            <h3>Setting: ${setting.name}</h3>
-            <div class="sensory-palette">
-              <ul>
-                <li><strong>Sight:</strong> ${setting.sensory_palette.sight}</li>
-                <li><strong>Sound:</strong> ${setting.sensory_palette.sound}</li>
-                <li><strong>Smell:</strong> ${setting.sensory_palette.smell}</li>
-              </ul>
+                <h3>Setting: ${setting.name}</h3>
+                <div class="sensory-palette">
+                    <ul>
+                        <li><strong>Sight:</strong> ${setting.sensory_palette.sight}</li>
+                        <li><strong>Sound:</strong> ${setting.sensory_palette.sound}</li>
+                        <li><strong>Smell:</strong> ${setting.sensory_palette.smell}</li>
+                    </ul>
+                </div>
+                
+                <h3>Next Steps</h3>
+                <div class="action-grid">
+                  <div class="action-card" id="anvilBtn">
+                    <h4>Take to 'The Anvil'</h4>
+                    <p>Begin writing your story in a focused editor.</p>
+                  </div>
+                  <div class="action-card" id="journalBtn">
+                    <h4>Save to Journal</h4>
+                    <p>Store this idea in your personal journal to revisit later.</p>
+                  </div>
+                </div>
+
+                <button id="restartBtn" class="btn-primary">Start a New Idea</button>
             </div>
-            
-            <h3>Next Steps</h3>
-            <div class="action-grid">
-              <div class="action-card" id="anvilBtn">
-                <h4>Take to The Anvil</h4>
-                <p>Start crafting your story in a distraction-free writing environment.</p>
-              </div>
-              <div class="action-card" id="journalBtn">
-                <h4>Save to Journal</h4>
-                <p>Store this idea for later exploration in your personal journal.</p>
-              </div>
-            </div>
-
-            <button id="restartBtn" class="btn-primary">Start a New Idea</button>
-          </div>
-        `;
-        foundryContainer.querySelector('#restartBtn').addEventListener('click', () => {
-          userSelections = {};
-          navigationHistory = [];
-          navigateTo(renderStep1);
-        });
-        foundryContainer.querySelector('#anvilBtn').addEventListener('click', takeToAnvil);
-        foundryContainer.querySelector('#journalBtn').addEventListener('click', saveToJournal);
-        attachBackListener();
+          `;
+          foundryContainer.querySelector('#restartBtn').addEventListener('click', () => {
+              userSelections = {};
+              navigationHistory = [];
+              navigateTo(renderStep1);
+          });
+          foundryContainer.querySelector('#anvilBtn').addEventListener('click', takeToAnvil);
+          foundryContainer.querySelector('#journalBtn').addEventListener('click', saveToJournal);
+          attachBackListener();
       };
       
       const takeToAnvil = () => {
-        localStorage.setItem('foundryAnvilPrompt', JSON.stringify(userSelections.result));
-        window.location.href = './anvil.html';
+          localStorage.setItem('foundryAnvilPrompt', JSON.stringify(userSelections.result));
+          window.location.href = './anvil.html';
       };
 
       const saveToJournal = (e) => {
-        let journal = JSON.parse(localStorage.getItem('foundryJournal')) || [];
-        journal.unshift(userSelections.result);
-        localStorage.setItem('foundryJournal', JSON.stringify(journal));
-        
-        const card = e.target.closest('.action-card');
-        const originalText = card.querySelector('p').textContent;
-        card.classList.add('saved');
-        card.querySelector('h4').textContent = 'Saved!';
-        card.querySelector('p').textContent = 'Your idea has been added to the journal.';
+          let journal = JSON.parse(localStorage.getItem('foundryJournal')) || [];
+          journal.unshift(userSelections.result);
+          localStorage.setItem('foundryJournal', JSON.stringify(journal));
+          
+          const card = e.target.closest('.action-card');
+          const originalText = card.querySelector('p').textContent;
+          card.classList.add('saved');
+          card.querySelector('h4').textContent = 'Saved!';
+          card.querySelector('p').textContent = 'Your idea has been added to the journal.';
 
-        setTimeout(() => {
-          card.classList.remove('saved');
-          card.querySelector('h4').textContent = "Save to Journal";
-          card.querySelector('p').textContent = originalText;
-        }, 2000);
+          setTimeout(() => {
+              card.classList.remove('saved');
+              card.querySelector('h4').textContent = "Save to Journal";
+              card.querySelector('p').textContent = originalText;
+          }, 2000);
       };
 
       async function initializeFoundry() {
@@ -347,7 +380,7 @@
           foundryData = await response.json();
           navigateTo(renderStep1);
         } catch (error) {
-          foundryContainer.innerHTML = `<p style="color: #c03b2b; text-align: center;">Error: ${error.message}</p>`;
+          foundryContainer.innerHTML = `<p style="color: #c0392b; text-align: center;">Error: ${error.message}</p>`;
         }
       }
 
