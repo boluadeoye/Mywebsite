@@ -6,62 +6,90 @@
     <title>The Forge - The Writer's Foundry</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* The Scholar's Study Palette */
-            --bg-chocolate: #A0785A;
-            --panel-milk: #FAF9F6;
-            --ink-black: #1A1A1A;
-            --accent-wine: #800000;
-            --accent-red-hover: #A40000;
-            --muted: #596a7a;
-            --border-color: #e0dccc;
+            /* The Modern Aesthetic Palette */
+            --bg-light-gray: #F4F7FA;
+            --panel-white: #FFFFFF;
+            --primary-blue: #0052CC;
+            --hover-blue: #0065FF;
+            --text-dark: #172B4D;
+            --text-muted: #6B778C;
+            --border-color: #DFE1E6;
+            
+            /* Timing Function */
+            --transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* --- Global Styles & Typography --- */
         *, *::before, *::after { box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-chocolate);
-            font-family: 'Roboto', system-ui, -apple-system, sans-serif;
-            color: var(--ink-black);
+            background-color: var(--bg-light-gray);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: var(--text-dark);
             margin: 0;
-            padding: 2rem 1rem;
+            padding: 96px 16px 32px 16px; /* 64px nav + 32px top padding */
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
+        
+        /* --- Unified Navigation Bar --- */
+        .foundry-nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background-color: var(--panel-white);
+            box-shadow: 0 2px 8px rgba(23, 43, 77, 0.05);
+            border-bottom: 1px solid var(--border-color);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 24px; height: 64px; z-index: 1000;
+        }
+        .nav-brand {
+            font-weight: 800; font-size: 1.2rem;
+            color: var(--text-dark); text-decoration: none;
+        }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-links a {
+            text-decoration: none; color: var(--text-muted);
+            font-weight: 700; font-size: 1rem;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s var(--transition-curve);
+        }
+        .nav-links a:hover { color: var(--text-dark); }
+        .nav-links a.active { color: var(--primary-blue); border-bottom-color: var(--primary-blue); }
 
         /* --- The Main Forge Card --- */
         .main-card {
             width: 100%;
-            max-width: 600px;
-            background-color: var(--panel-milk);
+            max-width: 550px;
+            background-color: var(--panel-white);
             border-radius: 16px;
-            box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.35);
-            padding: 2rem;
+            box-shadow: 0 8px 24px -8px rgba(23, 43, 77, 0.15);
+            padding: 32px;
             position: relative;
             overflow: hidden;
         }
 
-        /* --- Header & Visual Progress Tracker --- */
+        /* --- Header & Progress Tracker --- */
         .step-header {
             display: grid;
             grid-template-columns: 1fr auto 1fr;
             align-items: center;
+            gap: 16px;
             width: 100%;
-            margin-bottom: 2.5rem;
-            min-height: 60px;
+            margin-bottom: 32px;
+            min-height: 64px;
+            border-bottom: 1px solid var(--border-color);
         }
         .step-title {
-            font-family: 'Playfair Display', serif;
             font-weight: 800;
-            font-size: 2.2rem;
-            color: var(--ink-black);
+            font-size: 2rem;
+            color: var(--text-dark);
             text-align: center;
             grid-column: 2 / 3;
             margin: 0;
@@ -69,154 +97,140 @@
         .back-btn {
             grid-column: 1 / 2;
             justify-self: start;
-            background: none; border: none; font-size: 2.5rem;
-            color: var(--muted); cursor: pointer; padding: 0;
-            line-height: 1; transition: color 0.2s ease, transform 0.2s ease;
+            background: none; border: none; font-size: 2rem;
+            color: var(--text-muted); cursor: pointer; padding: 0;
+            line-height: 1; transition: all 0.2s var(--transition-curve);
             opacity: 0;
-            animation: fadeIn 0.3s forwards;
+            animation: fadeIn 0.3s var(--transition-curve) forwards;
         }
-        .back-btn:hover { color: var(--ink-black); transform: translateX(-3px); }
+        .back-btn:hover { color: var(--text-dark); transform: translateX(-4px); }
 
-        .progress-tracker {
+        .progress-bar {
             grid-column: 3 / 4;
             justify-self: end;
             display: flex;
-            gap: 0.75rem;
+            gap: 4px;
+            width: 100px;
+            height: 6px;
+            border-radius: 3px;
+            background-color: #EBECF0;
+            overflow: hidden;
         }
-        .progress-dot {
-            width: 12px; height: 12px;
-            background-color: var(--border-color);
-            border-radius: 50%;
-            transition: background-color 0.5s ease;
+        .progress-segment {
+            flex: 1;
+            background-color: var(--primary-blue);
+            transform: translateX(-100%);
+            transition: transform 0.6s var(--transition-curve);
         }
-        .progress-dot.active {
-            background-color: var(--accent-wine);
-            animation: pulse 1.5s infinite ease-in-out;
-        }
+        .progress-segment.active { transform: translateX(0); }
 
         /* --- Interactive Components --- */
-        .step-content {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
+        .step-content { display: flex; flex-direction: column; gap: 16px; }
+        
         .choice-card {
-            background-color: var(--panel-milk);
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1.5rem;
+            background-color: var(--panel-white);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
             text-align: center;
-            font-family: 'Roboto', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            transition: all 0.2s var(--transition-curve);
         }
-        .choice-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
-            border-color: var(--accent-red-hover);
+        .choice-card:hover { border-color: var(--primary-blue); transform: translateY(-4px); box-shadow: 0 4px 12px -4px rgba(0, 82, 204, 0.2); }
+        .choice-card.selected {
+            border: 2px solid var(--primary-blue);
+            background-color: #EBF3FF;
         }
 
         /* Surprise Me Button */
         .surprise-btn {
-            margin-top: 1rem;
+            margin-top: 8px;
             border: 2px dashed var(--border-color);
             background-color: transparent;
-            color: var(--muted);
-            font-family: 'Playfair Display', serif;
-            font-weight: 800;
-            font-size: 1.2rem;
-            padding: 1rem;
-            border-radius: 8px;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 24px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
+            transition: all 0.2s var(--transition-curve);
+            display: flex; align-items: center; justify-content: center; gap: 12px;
         }
         .surprise-btn:hover {
-            border-color: var(--accent-red-hover);
-            color: var(--accent-red-hover);
-            background-color: #fffdf9;
+            border-color: var(--hover-blue);
+            color: var(--primary-blue);
+            background-color: #F4F7FA;
         }
         .surprise-btn svg { width: 24px; height: 24px; }
 
         /* Result Page & Re-Rolls */
         .result-container {
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background-color: #fffdf9;
+            border-radius: 12px;
         }
-        .result-item { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-color); }
+        .result-item { padding: 24px; border-bottom: 1px solid var(--border-color); }
         .result-item:last-child { border-bottom: none; }
         .result-item h3 {
-            font-family: 'Roboto', sans-serif; font-weight: 700;
-            font-size: 1.1rem; text-transform: uppercase;
-            color: var(--muted); letter-spacing: 1px;
-            margin: 0 0 0.5rem 0; display: flex;
-            justify-content: space-between; align-items: center;
+            font-weight: 700; font-size: 1rem;
+            text-transform: uppercase; color: var(--text-muted);
+            letter-spacing: 0.5px; margin: 0 0 8px 0;
+        }
+        .result-item .result-content {
+            display: flex; align-items: center; justify-content: space-between; gap: 16px;
         }
         .result-item p {
-            font-family: 'Playfair Display', serif;
-            font-weight: 800;
-            font-size: 1.3rem;
-            color: var(--ink-black);
-            line-height: 1.6; margin: 0;
-            transition: opacity 0.3s ease;
+            font-size: 1.1rem; line-height: 1.6;
+            font-weight: 700; margin: 0;
+            flex-grow: 1;
+            transition: opacity 0.3s var(--transition-curve);
         }
         .reroll-btn {
-            background: none; border: none; cursor: pointer;
-            width: 24px; height: 24px; padding: 0;
-            opacity: 0.5; transition: opacity 0.2s ease, transform 0.2s ease;
+            background: transparent; border: none; cursor: pointer;
+            width: 32px; height: 32px; padding: 4px;
+            border-radius: 50%;
+            transition: all 0.2s var(--transition-curve);
         }
-        .reroll-btn:hover { opacity: 1; transform: rotate(90deg); }
-        .reroll-btn svg { width: 100%; height: 100%; stroke: var(--accent-wine); }
-        
+        .reroll-btn:hover { background-color: #EBF3FF; transform: rotate(90deg); }
+        .reroll-btn svg { width: 100%; height: 100%; stroke: var(--text-muted); }
+
         .action-btn {
-            font-family: 'Playfair Display', serif; font-weight: 800;
-            background-color: var(--accent-wine); color: var(--panel-milk); border: none;
-            border-radius: 8px; padding: 1rem 1.5rem; font-size: 1.2rem;
+            font-weight: 700; font-size: 1.1rem;
+            background-color: var(--primary-blue); color: var(--panel-white); border: none;
+            border-radius: 8px; padding: 16px 24px;
             cursor: pointer; text-align: center;
-            transition: background-color 0.2s ease, transform 0.2s ease;
-            margin-top: 2rem;
+            transition: all 0.2s var(--transition-curve);
+            margin-top: 24px;
         }
-        .action-btn:hover { background-color: var(--accent-red-hover); transform: translateY(-2px); }
+        .action-btn:hover { background-color: var(--hover-blue); transform: translateY(-2px); box-shadow: 0 4px 12px -2px rgba(0, 82, 204, 0.3); }
 
         /* Stateful Persistence Banner */
+        #restore-container { position: fixed; top: 80px; left: 0; width: 100%; z-index: 1001; display: flex; justify-content: center; }
         .restore-banner {
-            position: absolute;
-            top: 0; left: 0; width: 100%;
-            background-color: #fffdf9;
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-color);
+            background-color: var(--panel-white);
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px -8px rgba(23, 43, 77, 0.2);
             text-align: center;
-            transform: translateY(-100%);
-            animation: slideDown 0.5s forwards ease-out;
-            z-index: 10;
+            transform: translateY(-200%);
+            animation: slideDown 0.5s var(--transition-curve) forwards;
         }
-        .restore-banner p { margin: 0 0 0.75rem 0; color: var(--ink-black); font-weight: 700; }
+        .restore-banner p { margin: 0 0 16px 0; color: var(--text-dark); font-weight: 700; }
         .restore-btn {
-            background: none; border: 1px solid var(--muted); border-radius: 6px;
-            padding: 0.25rem 0.75rem; cursor: pointer; margin: 0 0.25rem; font-weight: 700;
+            background: none; border: 1px solid var(--border-color); border-radius: 6px;
+            padding: 8px 16px; cursor: pointer; margin: 0 8px; font-weight: 700;
         }
-        .restore-btn.confirm { border-color: var(--accent-wine); color: var(--accent-wine); }
+        .restore-btn.confirm { border-color: var(--primary-blue); color: var(--primary-blue); }
 
-        /* Animations & Transitions */
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(128, 0, 0, 0.4); }
-            50% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(128, 0, 0, 0); }
-        }
-        .content-wrapper.fade-out { animation: fadeOutUp 0.3s forwards ease-in; }
-        @keyframes fadeOutUp {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-20px); }
-        }
+        /* Animations */
+        .content-wrapper.fade-out { animation: fadeOut 0.3s var(--transition-curve) forwards; }
+        @keyframes fadeOut { to { opacity: 0; } }
+        
         .cascade-in {
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.5s forwards ease-out;
+            transform: translateY(24px);
+            animation: fadeInUp 0.5s var(--transition-curve) forwards;
         }
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { to { opacity: 1; } }
@@ -224,308 +238,278 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            body { padding: 1rem; align-items: flex-start; }
-            .main-card { padding: 1.5rem 1rem; }
-            .step-title { font-size: 1.8rem; }
-            .step-header { margin-bottom: 2rem; }
-            .choice-card, .surprise-btn { padding: 1.25rem; font-size: 1.1rem; }
+            body { padding: 80px 0 16px 0; }
+            .foundry-nav { padding: 0 16px; }
+            .nav-brand { font-size: 1rem; }
+            .nav-links { gap: 16px; }
+            .main-card { padding: 24px; border-radius: 0; }
+            .step-title { font-size: 1.6rem; }
         }
     </style>
 </head>
 <body>
+    <nav class="foundry-nav">
+        <a href="lab.html" class="nav-brand">The Forge</a>
+        <div class="nav-links">
+            <a href="lab.html" class="active">Forge</a>
+            <a href="anvil.html">Anvil</a>
+            <a href="journal.html">Journal</a>
+        </div>
+    </nav>
     <div id="restore-container"></div>
     <main class="main-card">
-        <div id="step-container">
-            <!-- The Forge is being prepared... -->
-        </div>
+        <div id="step-container"></div>
     </main>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- State Management ---
-        const state = {
-            foundryData: null,
-            currentStepKey: 'coreIdea',
-            userSelections: {},
-            stepHistory: [],
-        };
-        const LS_KEY = 'foundry-forge-session';
+        const App = {
+            state: {
+                data: null,
+                currentStep: 'coreIdea',
+                selections: {},
+                history: [],
+            },
+            
+            dom: {
+                stepContainer: document.getElementById('step-container'),
+                restoreContainer: document.getElementById('restore-container'),
+            },
 
-        // --- DOM Elements & Icons ---
-        const stepContainer = document.getElementById('step-container');
-        const restoreContainer = document.getElementById('restore-container');
-        const rerollIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.664 0M2.985 19.644A8.25 8.25 0 0111.625 4.5a8.25 8.25 0 017.94 12.063M2.985 19.644L6.166 16.46" /></svg>`;
-        const surpriseIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.898 20.562L16.25 21.75l-.648-1.188a2.25 2.25 0 01-1.4-1.4L13.25 18l1.188-.648a2.25 2.25 0 011.4-1.4l.648-1.188.648 1.188a2.25 2.25 0 011.4 1.4l1.188.648-1.188.648a2.25 2.25 0 01-1.4 1.4z" /></svg>`;
+            icons: {
+                reroll: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.664 0M2.985 19.644A8.25 8.25 0 0111.625 4.5a8.25 8.25 0 017.94 12.063M2.985 19.644L6.166 16.46" /></svg>`,
+                surprise: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.898 20.562L16.25 21.75l-.648-1.188a2.25 2.25 0 01-1.4-1.4L13.25 18l1.188-.648a2.25 2.25 0 011.4-1.4l.648-1.188.648 1.188a2.25 2.25 0 011.4 1.4l1.188.648-1.188.648a2.25 2.25 0 01-1.4 1.4z" /></svg>`,
+            },
 
-        // --- Initialization ---
-        async function initializeForge() {
-            try {
-                const response = await fetch('foundry-data.json');
-                if (!response.ok) throw new Error("The sacred scrolls could not be read.");
-                state.foundryData = await response.json();
-                checkForSavedSession();
-            } catch (error) {
-                console.error("A divine error occurred:", error);
-                stepContainer.innerHTML = `<p style="text-align:center; color: var(--accent-wine);">The Forge's connection to the aether has been severed. Please ensure the sacred scrolls (foundry-data.json) are present and try again.</p>`;
-            }
-        }
+            LS_KEY: 'foundry-forge-session-modern',
 
-        // --- Stateful Persistence ---
-        function saveState() {
-            localStorage.setItem(LS_KEY, JSON.stringify(state));
-        }
-
-        function checkForSavedSession() {
-            const savedStateJSON = localStorage.getItem(LS_KEY);
-            if (savedStateJSON) {
-                const savedState = JSON.parse(savedStateJSON);
-                if (savedState.stepHistory && savedState.stepHistory.length > 1) {
-                    displayRestoreBanner(savedState);
+            async init() {
+                try {
+                    const response = await fetch('foundry-data.json');
+                    if (!response.ok) throw new Error("Data scrolls could not be read.");
+                    this.state.data = await response.json();
+                    this.checkForSavedSession();
+                } catch (error) {
+                    this.dom.stepContainer.innerHTML = `<p style="text-align:center; color: var(--primary-blue);">Error: ${error.message}</p>`;
                 }
-            }
-            // Always render the first step initially, banner is an overlay
-            navigateToStep('coreIdea', true);
-        }
+            },
 
-        function displayRestoreBanner(savedState) {
-            restoreContainer.innerHTML = `
-                <div class="restore-banner">
-                    <p>It looks like you were in the middle of something.</p>
-                    <div>
-                        <button class="restore-btn confirm" id="restore-confirm">Continue where you left off</button>
-                        <button class="restore-btn" id="restore-dismiss">Start Anew</button>
+            saveState() {
+                localStorage.setItem(this.LS_KEY, JSON.stringify(this.state));
+            },
+
+            checkForSavedSession() {
+                const savedStateJSON = localStorage.getItem(this.LS_KEY);
+                if (savedStateJSON) {
+                    const saved = JSON.parse(savedStateJSON);
+                    if (saved.history && saved.history.length > 1) {
+                        this.displayRestoreBanner(saved);
+                    }
+                }
+                this.navigateTo('coreIdea', true);
+            },
+
+            displayRestoreBanner(saved) {
+                this.dom.restoreContainer.innerHTML = `
+                    <div class="restore-banner">
+                        <p>Continue where you left off?</p>
+                        <div>
+                            <button class="restore-btn confirm" id="restore-confirm">Yes</button>
+                            <button class="restore-btn" id="restore-dismiss">No</button>
+                        </div>
                     </div>
-                </div>
-            `;
-            document.getElementById('restore-confirm').onclick = () => {
-                Object.assign(state, savedState);
-                navigateToStep(state.currentStepKey, true);
-                restoreContainer.innerHTML = '';
-            };
-            document.getElementById('restore-dismiss').onclick = () => {
-                localStorage.removeItem(LS_KEY);
-                state.userSelections = {};
-                state.stepHistory = [];
-                navigateToStep('coreIdea');
-                restoreContainer.innerHTML = '';
-            };
-        }
+                `;
+                document.getElementById('restore-confirm').onclick = () => {
+                    Object.assign(this.state, saved);
+                    this.navigateTo(this.state.currentStep, true);
+                    this.dom.restoreContainer.innerHTML = '';
+                };
+                document.getElementById('restore-dismiss').onclick = () => {
+                    localStorage.removeItem(this.LS_KEY);
+                    this.state.selections = {}; this.state.history = [];
+                    this.navigateTo('coreIdea');
+                    this.dom.restoreContainer.innerHTML = '';
+                };
+            },
 
-        // --- Navigation & Rendering ---
-        function navigateToStep(stepKey, isNavigatingBack = false) {
-            const oldContent = stepContainer.querySelector('.content-wrapper');
-            if (oldContent) {
-                oldContent.classList.add('fade-out');
-                setTimeout(() => renderNewStep(stepKey, isNavigatingBack), 300);
-            } else {
-                renderNewStep(stepKey, isNavigatingBack);
-            }
-        }
+            navigateTo(step, isNavigatingBack = false) {
+                const oldContent = this.dom.stepContainer.querySelector('.content-wrapper');
+                if (oldContent) {
+                    oldContent.classList.add('fade-out');
+                    setTimeout(() => this.render(step, isNavigatingBack), 200);
+                } else {
+                    this.render(step, isNavigatingBack);
+                }
+            },
 
-        function renderNewStep(stepKey, isNavigatingBack) {
-            state.currentStepKey = stepKey;
-            if (!isNavigatingBack) {
-                state.stepHistory.push(stepKey);
-            }
+            render(step, isNavigatingBack) {
+                this.state.currentStep = step;
+                if (!isNavigatingBack) this.state.history.push(step);
 
-            stepContainer.innerHTML = ''; 
-            const header = createStepHeader(stepKey);
-            const contentWrapper = document.createElement('div');
-            contentWrapper.className = 'content-wrapper';
+                this.dom.stepContainer.innerHTML = '';
+                const header = this.createHeader(step);
+                const contentWrapper = document.createElement('div');
+                contentWrapper.className = 'content-wrapper';
 
-            const stepRenderers = {
-                'coreIdea': createStepContentCoreIdea,
-                'characterArchetype': () => createChoiceStep(state.foundryData.characters.archetypes, 'archetype', 'characterCatalyst'),
-                'characterCatalyst': () => createChoiceStep(state.userSelections.archetype.catalyst_questions, 'catalyst', 'result'),
-                'result': createStepContentResult,
-            };
+                const renderers = {
+                    'coreIdea': () => this.createCoreIdeaStep(),
+                    'characterArchetype': () => this.createChoiceStep(this.state.data.characters.archetypes, 'archetype', 'characterCatalyst'),
+                    'characterCatalyst': () => this.createChoiceStep(this.state.selections.archetype.catalyst_questions, 'catalyst', 'result'),
+                    'result': () => this.createResultStep(),
+                };
+                
+                contentWrapper.appendChild(renderers[step]());
+                this.dom.stepContainer.appendChild(header);
+                this.dom.stepContainer.appendChild(contentWrapper);
 
-            contentWrapper.appendChild(stepRenderers[stepKey]());
-            stepContainer.appendChild(header);
-            stepContainer.appendChild(contentWrapper);
+                const cards = contentWrapper.querySelectorAll('.choice-card, .surprise-btn, .result-item');
+                cards.forEach((card, index) => {
+                    card.style.animationDelay = `${index * 60}ms`;
+                    card.classList.add('cascade-in');
+                });
+                
+                this.saveState();
+            },
 
-            // Staggered cascade animation
-            const cards = contentWrapper.querySelectorAll('.choice-card, .surprise-btn, .result-item');
-            cards.forEach((card, index) => {
-                card.style.animationDelay = `${index * 50}ms`;
-                card.classList.add('cascade-in');
-            });
+            goBack() {
+                this.state.history.pop();
+                const previous = this.state.history[this.state.history.length - 1];
+                this.navigateTo(previous, true);
+            },
             
-            saveState();
-        }
+            createHeader(step) {
+                const header = document.createElement('div');
+                header.className = 'step-header';
+                const titles = {'coreIdea': 'Start Forging', 'characterArchetype': 'Select Archetype', 'characterCatalyst': 'Select Catalyst', 'result': 'Your Idea'};
+                const stepMap = ['coreIdea', 'characterArchetype', 'characterCatalyst', 'result'];
+                const currentIdx = stepMap.indexOf(step);
 
-        function goBack() {
-            state.stepHistory.pop();
-            const previousStepKey = state.stepHistory[state.stepHistory.length - 1];
-            navigateToStep(previousStepKey, true);
-        }
-        
-        // --- Element Creation ---
-        function createStepHeader(stepKey) {
-            const header = document.createElement('div');
-            header.className = 'step-header';
+                header.innerHTML = `
+                    ${this.state.history.length > 1 ? `<button class="back-btn">&larr;</button>` : `<div></div>`}
+                    <h2 class="step-title">${titles[step] || 'The Forge'}</h2>
+                    <div class="progress-bar">
+                        ${[...Array(4)].map((_, i) => `<div class="progress-segment ${i <= currentIdx ? 'active' : ''}"></div>`).join('')}
+                    </div>
+                `;
+                if (this.state.history.length > 1) header.querySelector('.back-btn').onclick = () => this.goBack();
+                return header;
+            },
 
-            const titles = {
-                coreIdea: 'Begin the Forging',
-                characterArchetype: 'Choose an Archetype',
-                characterCatalyst: 'Choose a Catalyst',
-                result: 'Your Forged Idea'
-            };
-            
-            const stepMap = ['coreIdea', 'characterArchetype', 'characterCatalyst', 'result'];
-            const currentStepIndex = stepMap.indexOf(stepKey);
-
-            header.innerHTML = `
-                ${state.stepHistory.length > 1 ? `<button class="back-btn">&larr;</button>` : `<div></div>`}
-                <h2 class="step-title">${titles[stepKey] || 'The Forge'}</h2>
-                <div class="progress-tracker">
-                    ${[...Array(4)].map((_, i) => `<div class="progress-dot ${i <= currentStepIndex ? 'active' : ''}"></div>`).join('')}
-                </div>
-            `;
-            if (state.stepHistory.length > 1) {
-                header.querySelector('.back-btn').onclick = goBack;
-            }
-            return header;
-        }
-
-        function createStepContentCoreIdea() {
-            const content = document.createElement('div');
-            content.className = 'step-content';
-            const choice = { name: 'Character', key: 'characterArchetype' }; // Simplified to one path for clarity of features
-            
-            const card = document.createElement('div');
-            card.className = 'choice-card';
-            card.textContent = choice.name;
-            card.onclick = () => {
-                state.userSelections = { coreIdea: choice.name };
-                navigateToStep(choice.key);
-            };
-            content.appendChild(card);
-            
-            const surpriseBtn = document.createElement('button');
-            surpriseBtn.className = 'surprise-btn';
-            surpriseBtn.innerHTML = `${surpriseIconSVG} Surprise Me`;
-            surpriseBtn.onclick = handleSurpriseMe;
-            content.appendChild(surpriseBtn);
-            
-            return content;
-        }
-
-        function createChoiceStep(items, selectionKey, nextStepKey) {
-            const content = document.createElement('div');
-            content.className = 'step-content';
-            items.forEach(item => {
+            createCoreIdeaStep() {
+                const content = document.createElement('div');
+                content.className = 'step-content';
                 const card = document.createElement('div');
                 card.className = 'choice-card';
-                card.textContent = typeof item === 'string' ? item : item.name;
+                card.textContent = 'Character-First Story';
                 card.onclick = () => {
-                    state.userSelections[selectionKey] = item;
-                    navigateToStep(nextStepKey);
+                    this.state.selections = { coreIdea: 'Character' };
+                    this.navigateTo('characterArchetype');
                 };
                 content.appendChild(card);
-            });
-            return content;
-        }
+                
+                const surpriseBtn = document.createElement('button');
+                surpriseBtn.className = 'surprise-btn';
+                surpriseBtn.innerHTML = `${this.icons.surprise} Surprise Me`;
+                surpriseBtn.onclick = () => this.handleSurprise();
+                content.appendChild(surpriseBtn);
+                return content;
+            },
 
-        function createStepContentResult() {
-            if (!state.userSelections.forgedIdea) {
-                state.userSelections.forgedIdea = generateForgedIdea();
-            }
-            const idea = state.userSelections.forgedIdea;
-            const content = document.createElement('div');
-            content.className = 'step-content';
+            createChoiceStep(items, key, nextStep) {
+                const content = document.createElement('div');
+                content.className = 'step-content';
+                items.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'choice-card';
+                    const text = typeof item === 'string' ? item : item.name;
+                    card.textContent = text;
+                    card.onclick = () => {
+                        this.state.selections[key] = item;
+                        this.navigateTo(nextStep);
+                    };
+                    content.appendChild(card);
+                });
+                return content;
+            },
 
-            content.innerHTML = `
-                <div class="result-container">
-                    <div class="result-item" data-reroll="archetype">
-                        <h3><span>Archetype</span><button class="reroll-btn">${rerollIconSVG}</button></h3>
-                        <p data-content="archetype">${idea.archetype.name}</p>
+            createResultStep() {
+                if (!this.state.selections.idea) this.state.selections.idea = this.generateIdea();
+                const { idea } = this.state.selections;
+                const content = document.createElement('div');
+                content.className = 'step-content';
+                
+                content.innerHTML = `
+                    <div class="result-container">
+                        ${this.createResultItem('archetype', 'Archetype', idea.archetype.name)}
+                        ${this.createResultItem('conflict', 'Conflict', idea.conflict.text)}
+                        ${this.createResultItem('setting', 'Setting', idea.setting.name)}
                     </div>
-                    <div class="result-item" data-reroll="conflict">
-                        <h3><span>Conflict</span><button class="reroll-btn">${rerollIconSVG}</button></h3>
-                        <p data-content="conflict">${idea.conflict.text}</p>
-                    </div>
-                    <div class="result-item" data-reroll="setting">
-                        <h3><span>Setting</span><button class="reroll-btn">${rerollIconSVG}</button></h3>
-                        <p data-content="setting">${idea.setting.name}</p>
-                    </div>
-                </div>
-                <button class="action-btn" id="start-over-btn">Forge Anew</button>
-            `;
+                    <button class="action-btn" id="start-over-btn">Forge Anew</button>
+                `;
+                content.querySelector('#start-over-btn').onclick = () => {
+                    localStorage.removeItem(this.LS_KEY);
+                    this.state.selections = {}; this.state.history = [];
+                    this.navigateTo('coreIdea');
+                };
+                content.querySelectorAll('.reroll-btn').forEach(btn => {
+                    btn.onclick = () => this.handleReRoll(btn.closest('.result-item').dataset.reroll);
+                });
+                return content;
+            },
 
-            content.querySelector('#start-over-btn').onclick = () => {
-                localStorage.removeItem(LS_KEY);
-                state.userSelections = {};
-                state.stepHistory = [];
-                navigateToStep('coreIdea');
-            };
-
-            content.querySelectorAll('.reroll-btn').forEach(btn => {
-                btn.onclick = () => handleReRoll(btn.closest('.result-item').dataset.reroll);
-            });
-
-            return content;
-        }
-
-        // --- Logic & Generation ---
-        function generateForgedIdea(lockedComponents = {}) {
-            const randomItem = (arr, current) => {
-                let newItem = current;
-                if (arr.length > 1) {
+            createResultItem(key, title, text) {
+                return `
+                    <div class="result-item" data-reroll="${key}">
+                        <h3>${title}</h3>
+                        <div class="result-content">
+                            <p data-content="${key}">${text}</p>
+                            <button class="reroll-btn">${this.icons.reroll}</button>
+                        </div>
+                    </div>`;
+            },
+            
+            generateIdea(locked = {}) {
+                const random = (arr, current) => {
+                    if (arr.length <= 1) return arr[0];
+                    let newItem = current;
                     while (newItem === current || (current && newItem.name === current.name)) {
                         newItem = arr[Math.floor(Math.random() * arr.length)];
                     }
-                } else if (arr.length === 1) {
-                    return arr[0];
-                }
-                return newItem;
-            };
+                    return newItem;
+                };
+                const idea = this.state.selections.idea || {};
+                return {
+                    archetype: locked.archetype || random(this.state.data.characters.archetypes, idea.archetype),
+                    conflict: locked.conflict || random(this.state.data.conflicts.external, idea.conflict),
+                    setting: locked.setting || random(this.state.data.settings.locations, idea.setting),
+                };
+            },
 
-            const idea = state.userSelections.forgedIdea || {};
+            handleSurprise() {
+                this.state.selections = { coreIdea: 'Surprise', idea: this.generateIdea() };
+                this.navigateTo('result');
+            },
+            
+            handleReRoll(key) {
+                const current = this.state.selections.idea;
+                const newIdea = this.generateIdea({
+                    archetype: key !== 'archetype' ? current.archetype : undefined,
+                    conflict: key !== 'conflict' ? current.conflict : undefined,
+                    setting: key !== 'setting' ? current.setting : undefined,
+                });
+                this.state.selections.idea = newIdea;
+                this.saveState();
+                
+                const p = document.querySelector(`p[data-content="${key}"]`);
+                p.style.opacity = 0;
+                setTimeout(() => {
+                    p.textContent = newIdea[key].name || newIdea[key].text;
+                    p.style.opacity = 1;
+                }, 300);
+            },
+        };
 
-            return {
-                archetype: lockedComponents.archetype || randomItem(state.foundryData.characters.archetypes, idea.archetype),
-                conflict: lockedComponents.conflict || randomItem(state.foundryData.conflicts.external, idea.conflict),
-                setting: lockedComponents.setting || randomItem(state.foundryData.settings.locations, idea.setting),
-            };
-        }
-        
-        function handleSurpriseMe() {
-            const dots = document.querySelectorAll('.progress-dot');
-            let i = 0;
-            const interval = setInterval(() => {
-                dots.forEach(r => r.classList.remove('active'));
-                dots[i % dots.length].classList.add('active');
-                i++;
-                if (i > 8) {
-                    clearInterval(interval);
-                    state.userSelections = { coreIdea: 'Surprise' };
-                    state.userSelections.forgedIdea = generateForgedIdea();
-                    navigateToStep('result');
-                }
-            }, 60);
-        }
-        
-        function handleReRoll(componentKey) {
-            const currentIdea = state.userSelections.forgedIdea;
-            const newIdea = generateForgedIdea({
-                archetype: componentKey !== 'archetype' ? currentIdea.archetype : undefined,
-                conflict: componentKey !== 'conflict' ? currentIdea.conflict : undefined,
-                setting: componentKey !== 'setting' ? currentIdea.setting : undefined,
-            });
-            state.userSelections.forgedIdea = newIdea;
-            saveState();
-
-            const p = document.querySelector(`p[data-content="${componentKey}"]`);
-            p.style.opacity = 0;
-            setTimeout(() => {
-                p.textContent = newIdea[componentKey].name || newIdea[componentKey].text;
-                p.style.opacity = 1;
-            }, 300);
-        }
-
-        // Begin
-        initializeForge();
+        App.init();
     });
     </script>
 </body>
