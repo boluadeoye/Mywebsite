@@ -30,7 +30,7 @@
     }
     .wrap { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
     
-    /* --- FINAL NAVIGATION --- */
+    /* --- NAVIGATION --- */
     .nav { position: fixed; top: 0; left: 0; width: 100%; background: var(--bg-slate); border-bottom: 1px solid var(--border-color); z-index: 1000; }
     .nav .wrap { display: flex; justify-content: center; align-items: center; height: 64px; }
     .nav-links { list-style: none; display: flex; align-items: center; gap: 8px; padding: 0; margin: 0; }
@@ -50,7 +50,7 @@
       display: flex;
       flex-direction: column;
       color: var(--text-dark);
-      position: relative; /* This is the anchor for the back button */
+      position: relative; 
     }
     
     /* --- ANIMATIONS & STATES --- */
@@ -64,18 +64,17 @@
     .loading { display: flex; justify-content: center; align-items: center; height: 100%; }
     .loading svg { width: 48px; height: 48px; color: var(--accent-gold); animation: pulse 1.2s infinite; }
     
-    .step-header { display: flex; justify-content: center; align-items: center; flex-direction: column; width: 100%; margin-bottom: 32px; }
+    .step-header { display: flex; justify-content: center; align-items: center; flex-direction: column; width: 100%; margin-bottom: 32px; padding-top: 1rem; }
     .step-title { font-family: 'Inter', sans-serif; font-size: 1.8rem; line-height: 1.4; font-weight: 800; margin-bottom: 16px; color: var(--text-dark); text-align: center; }
     .runes { display: flex; gap: 8px; }
     .rune { width: 12px; height: 12px; border-radius: 50%; background: #CBD5E0; transition: background 300ms var(--transition); }
     .rune.filled { background: var(--accent-gold); }
     .rune.filled.animate { animation: pulse 0.5s var(--transition); }
 
-    /* Correct Back Button Position */
     .btn-back { 
       position: absolute; 
       left: 32px; 
-      top: 32px; 
+      bottom: 32px;
       background: none; 
       border: none; 
       font-weight: 700; 
@@ -115,8 +114,22 @@
     .btn-primary { width: 100%; padding: 16px; background: linear-gradient(to bottom, var(--accent-gold-hover), var(--accent-gold)); color: var(--bg-slate); border: none; border-radius: 8px; font-weight: 700; font-size: 1rem; text-align: center; cursor: pointer; transition: all 300ms var(--transition); margin-top: 32px; font-family: 'Inter', sans-serif; }
     .btn-primary:hover { box-shadow: 0 4px 20px rgba(214, 158, 46, 0.25); transform: translateY(-2px); }
     
-    .banner { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--panel-cream); color: var(--text-dark); padding: 16px 24px; text-align: center; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 2000; animation: fadeIn 500ms var(--transition); }
-    .banner button { background: linear-gradient(to bottom, var(--accent-gold-hover), var(--accent-gold)); color: var(--bg-slate); border: none; padding: 8px 16px; border-radius: 4px; margin-left: 8px; cursor: pointer; font-weight: 700; }
+    .banner { 
+        position: absolute; top: 50%; left: 50%; 
+        transform: translate(-50%, -50%); 
+        background: var(--panel-cream); color: var(--text-dark); 
+        padding: 24px 32px; text-align: center; border-radius: 12px; 
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 2000; 
+        animation: fadeIn 500ms var(--transition); min-width: 280px; 
+    }
+    .banner .button-group { margin-top: 16px; display: flex; justify-content: center; gap: 12px; }
+    .banner button { 
+        background: linear-gradient(to bottom, var(--accent-gold-hover), var(--accent-gold)); 
+        color: var(--bg-slate); border: none; padding: 10px 20px; 
+        border-radius: 8px; cursor: pointer; font-weight: 700; 
+        font-size: 1rem; transition: all 300ms var(--transition);
+    }
+    .banner button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(214, 158, 46, 0.2); }
     
     /* --- FOOTER --- */
     .main-footer { width: 100%; padding: 2rem 0; margin-top: 4rem; background-color: var(--bg-slate); border-top: 1px solid var(--border-color); }
@@ -196,18 +209,13 @@
       };
       
       const renderHeader = (title, step) => {
-        const showBack = navigationHistory.length > 1;
         const header = document.createElement('div');
         header.innerHTML = `
-          ${showBack ? `<button class="btn-back">← Back</button>` : ''}
           <div class="step-header">
             <h2 class="step-title">${title}</h2>
             ${renderRunes(step)}
           </div>
         `;
-        if (showBack) {
-          header.querySelector('.btn-back').addEventListener('click', goBack);
-        }
         return header;
       };
 
@@ -266,7 +274,6 @@
                 navigateTo(renderStep3, 'step3');
             });
         });
-
         createAndAppend(stepContainer, 'button', 'surprise-btn', `${surpriseIcon} Surprise Me`)
             .addEventListener('click', () => {
                 clickSound.play().catch(e => {});
@@ -380,8 +387,13 @@
           
           const savedState = JSON.parse(localStorage.getItem('foundryState'));
           if (savedState && savedState.navigationHistory && savedState.navigationHistory.length > 0) {
-            const banner = createAndAppend(document.body, 'div', 'banner');
-            banner.innerHTML = `Continue where you left off? <button id="continueYes">Yes</button><button id="continueNo">No</button>`;
+            const banner = createAndAppend(foundryContainer, 'div', 'banner');
+            banner.innerHTML = `
+                <p>Continue where you left off?</p>
+                <div class="button-group">
+                    <button id="continueYes">Yes</button><button id="continueNo">No</button>
+                </div>
+            `;
             document.getElementById('continueYes').addEventListener('click', () => {
               userSelections = savedState.userSelections;
               currentStep = savedState.currentStep;
