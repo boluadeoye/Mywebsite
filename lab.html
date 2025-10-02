@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Forge - The Writer's Foundry</title>
+    <!-- Google Fonts: Inter (400, 700, 800) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* The Modern Aesthetic Palette */
+            /* Color Palette */
             --bg-light-gray: #F4F7FA;
             --panel-white: #FFFFFF;
             --primary-blue: #0052CC;
@@ -18,19 +19,22 @@
             --text-muted: #6B778C;
             --border-color: #DFE1E6;
             
-            /* Timing Function */
+            /* Animation Timing */
             --transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* --- Global Styles & Typography --- */
-        *, *::before, *::after { box-sizing: border-box; }
+        /* --- 1. Global Styles & Typography --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
 
         body {
             background-color: var(--bg-light-gray);
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-weight: 400;
             color: var(--text-dark);
             margin: 0;
-            padding: 96px 16px 32px 16px; /* 64px nav + 32px top padding */
+            padding: 96px 1rem 2rem 1rem; /* 64px nav + 32px top padding */
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -39,56 +43,57 @@
             -moz-osx-font-smoothing: grayscale;
         }
         
-        /* --- Unified Navigation Bar --- */
+        /* --- 2. Unified Navigation Bar --- */
         .foundry-nav {
             position: fixed; top: 0; left: 0; width: 100%;
             background-color: var(--panel-white);
             box-shadow: 0 2px 8px rgba(23, 43, 77, 0.05);
             border-bottom: 1px solid var(--border-color);
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0 24px; height: 64px; z-index: 1000;
+            padding: 0 1.5rem; height: 64px; z-index: 1000;
         }
         .nav-brand {
             font-weight: 800; font-size: 1.2rem;
+            letter-spacing: -0.02em;
             color: var(--text-dark); text-decoration: none;
         }
-        .nav-links { display: flex; gap: 24px; }
+        .nav-links { display: flex; gap: 1.5rem; }
         .nav-links a {
             text-decoration: none; color: var(--text-muted);
             font-weight: 700; font-size: 1rem;
-            padding: 8px 0;
+            padding: 0.5rem 0;
             border-bottom: 2px solid transparent;
             transition: color 0.2s var(--transition-curve);
         }
         .nav-links a:hover { color: var(--text-dark); }
         .nav-links a.active { color: var(--primary-blue); border-bottom-color: var(--primary-blue); }
 
-        /* --- The Main Forge Card --- */
+        /* --- 3. Application Architecture & Spacing --- */
         .main-card {
             width: 100%;
             max-width: 550px;
             background-color: var(--panel-white);
-            border-radius: 16px;
-            box-shadow: 0 8px 24px -8px rgba(23, 43, 77, 0.15);
-            padding: 32px;
+            border-radius: 1rem; /* 16px */
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 2rem; /* 32px */
             position: relative;
             overflow: hidden;
         }
-
-        /* --- Header & Progress Tracker --- */
         .step-header {
             display: grid;
             grid-template-columns: 1fr auto 1fr;
             align-items: center;
-            gap: 16px;
+            gap: 1rem;
             width: 100%;
-            margin-bottom: 32px;
+            margin-bottom: 1.5rem; /* 24px */
+            padding-bottom: 1rem; /* 16px */
             min-height: 64px;
             border-bottom: 1px solid var(--border-color);
         }
         .step-title {
             font-weight: 800;
             font-size: 2rem;
+            letter-spacing: -0.03em;
             color: var(--text-dark);
             text-align: center;
             grid-column: 2 / 3;
@@ -99,12 +104,14 @@
             justify-self: start;
             background: none; border: none; font-size: 2rem;
             color: var(--text-muted); cursor: pointer; padding: 0;
-            line-height: 1; transition: all 0.2s var(--transition-curve);
+            line-height: 1; transition: all 300ms var(--transition-curve);
             opacity: 0;
-            animation: fadeIn 0.3s var(--transition-curve) forwards;
+            animation: fadeIn 300ms var(--transition-curve) forwards;
         }
         .back-btn:hover { color: var(--text-dark); transform: translateX(-4px); }
 
+        /* --- 4. Components & Features --- */
+        /* Progress Tracker */
         .progress-bar {
             grid-column: 3 / 4;
             justify-self: end;
@@ -120,129 +127,112 @@
             flex: 1;
             background-color: var(--primary-blue);
             transform: translateX(-100%);
-            transition: transform 0.6s var(--transition-curve);
+            transition: transform 300ms var(--transition-curve);
         }
         .progress-segment.active { transform: translateX(0); }
 
-        /* --- Interactive Components --- */
-        .step-content { display: flex; flex-direction: column; gap: 16px; }
-        
+        /* General Content & Choice Cards */
+        .step-content { display: flex; flex-direction: column; gap: 1rem; }
         .choice-card {
             background-color: var(--panel-white);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 24px;
+            padding: 1.5rem; /* 24px */
             text-align: center;
             font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s var(--transition-curve);
+            transition: all 300ms var(--transition-curve);
         }
-        .choice-card:hover { border-color: var(--primary-blue); transform: translateY(-4px); box-shadow: 0 4px 12px -4px rgba(0, 82, 204, 0.2); }
+        .choice-card:hover { border-color: var(--primary-blue); }
         .choice-card.selected {
             border: 2px solid var(--primary-blue);
-            background-color: #EBF3FF;
+            background-color: var(--bg-light-gray);
+            padding: calc(1.5rem - 1px); /* Account for thicker border */
         }
 
-        /* Surprise Me Button */
+        /* "Surprise Me" Button */
         .surprise-btn {
-            margin-top: 8px;
+            margin-top: 0.5rem;
             border: 2px dashed var(--border-color);
             background-color: transparent;
             color: var(--text-muted);
             font-weight: 700;
             font-size: 1.1rem;
-            padding: 24px;
+            padding: 1.5rem;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s var(--transition-curve);
-            display: flex; align-items: center; justify-content: center; gap: 12px;
+            display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+            transition: all 300ms var(--transition-curve);
         }
-        .surprise-btn:hover {
-            border-color: var(--hover-blue);
-            color: var(--primary-blue);
-            background-color: #F4F7FA;
-        }
-        .surprise-btn svg { width: 24px; height: 24px; }
+        .surprise-btn:hover { border-color: var(--primary-blue); color: var(--primary-blue); }
+        .surprise-btn svg { transition: transform 300ms var(--transition-curve); }
+        .surprise-btn:hover svg { transform: rotate(15deg) scale(1.1); }
 
         /* Result Page & Re-Rolls */
-        .result-container {
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-        }
-        .result-item { padding: 24px; border-bottom: 1px solid var(--border-color); }
+        .result-container { border: 1px solid var(--border-color); border-radius: 12px; }
+        .result-item { padding: 1.5rem; border-bottom: 1px solid var(--border-color); }
         .result-item:last-child { border-bottom: none; }
         .result-item h3 {
             font-weight: 700; font-size: 1rem;
             text-transform: uppercase; color: var(--text-muted);
-            letter-spacing: 0.5px; margin: 0 0 8px 0;
+            letter-spacing: 0.05em; margin: 0 0 0.5rem 0;
         }
-        .result-item .result-content {
-            display: flex; align-items: center; justify-content: space-between; gap: 16px;
-        }
-        .result-item p {
-            font-size: 1.1rem; line-height: 1.6;
-            font-weight: 700; margin: 0;
-            flex-grow: 1;
-            transition: opacity 0.3s var(--transition-curve);
+        .result-content { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+        .result-text {
+            font-size: 1rem; line-height: 1.6;
+            flex-grow: 1; transition: opacity 300ms var(--transition-curve);
         }
         .reroll-btn {
             background: transparent; border: none; cursor: pointer;
-            width: 32px; height: 32px; padding: 4px;
-            border-radius: 50%;
-            transition: all 0.2s var(--transition-curve);
+            width: 2rem; height: 2rem; padding: 0.5rem;
+            border-radius: 50%; color: var(--text-muted);
+            transition: all 300ms var(--transition-curve);
         }
-        .reroll-btn:hover { background-color: #EBF3FF; transform: rotate(90deg); }
-        .reroll-btn svg { width: 100%; height: 100%; stroke: var(--text-muted); }
-
+        .reroll-btn:hover { background-color: #EBECF0; color: var(--primary-blue); transform: rotate(90deg); }
+        
+        /* Action Button */
         .action-btn {
             font-weight: 700; font-size: 1.1rem;
             background-color: var(--primary-blue); color: var(--panel-white); border: none;
-            border-radius: 8px; padding: 16px 24px;
+            border-radius: 8px; padding: 1rem 1.5rem;
             cursor: pointer; text-align: center;
-            transition: all 0.2s var(--transition-curve);
-            margin-top: 24px;
+            transition: all 300ms var(--transition-curve);
+            margin-top: 1.5rem;
         }
         .action-btn:hover { background-color: var(--hover-blue); transform: translateY(-2px); box-shadow: 0 4px 12px -2px rgba(0, 82, 204, 0.3); }
 
         /* Stateful Persistence Banner */
         #restore-container { position: fixed; top: 80px; left: 0; width: 100%; z-index: 1001; display: flex; justify-content: center; }
         .restore-banner {
-            background-color: var(--panel-white);
-            padding: 16px 24px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px -8px rgba(23, 43, 77, 0.2);
-            text-align: center;
-            transform: translateY(-200%);
-            animation: slideDown 0.5s var(--transition-curve) forwards;
+            background-color: var(--panel-white); padding: 1rem 1.5rem; border-radius: 12px;
+            box-shadow: 0 8px 24px -8px rgba(23, 43, 77, 0.2); text-align: center;
+            transform: translateY(-200%); animation: slideDown 0.5s var(--transition-curve) forwards;
         }
-        .restore-banner p { margin: 0 0 16px 0; color: var(--text-dark); font-weight: 700; }
+        .restore-banner p { margin: 0 0 1rem 0; color: var(--text-dark); font-weight: 700; }
         .restore-btn {
             background: none; border: 1px solid var(--border-color); border-radius: 6px;
-            padding: 8px 16px; cursor: pointer; margin: 0 8px; font-weight: 700;
+            padding: 0.5rem 1rem; cursor: pointer; margin: 0 0.5rem; font-weight: 700;
         }
         .restore-btn.confirm { border-color: var(--primary-blue); color: var(--primary-blue); }
 
         /* Animations */
-        .content-wrapper.fade-out { animation: fadeOut 0.3s var(--transition-curve) forwards; }
+        .content-wrapper.fade-out { animation: fadeOut 300ms var(--transition-curve) forwards; }
         @keyframes fadeOut { to { opacity: 0; } }
         
         .cascade-in {
-            opacity: 0;
-            transform: translateY(24px);
-            animation: fadeInUp 0.5s var(--transition-curve) forwards;
+            opacity: 0; transform: translateY(10px);
+            animation: fadeInUp 500ms var(--transition-curve) forwards;
         }
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { to { opacity: 1; } }
         @keyframes slideDown { to { transform: translateY(0); } }
 
-        /* Responsive Design */
+        /* --- 5. Responsive Design --- */
         @media (max-width: 768px) {
-            body { padding: 80px 0 16px 0; }
-            .foundry-nav { padding: 0 16px; }
-            .nav-brand { font-size: 1rem; }
-            .nav-links { gap: 16px; }
-            .main-card { padding: 24px; border-radius: 0; }
+            body { padding: 80px 0 1rem 0; }
+            .nav-links { gap: 1rem; }
+            .main-card { padding: 1.5rem; border-radius: 0; }
             .step-title { font-size: 1.6rem; }
         }
     </style>
@@ -254,6 +244,7 @@
             <a href="lab.html" class="active">Forge</a>
             <a href="anvil.html">Anvil</a>
             <a href="journal.html">Journal</a>
+            <a href="academy.html">Academy</a>
         </div>
     </nav>
     <div id="restore-container"></div>
@@ -263,37 +254,41 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // App object to encapsulate all logic
         const App = {
+            // --- 1. State & Configuration ---
             state: {
                 data: null,
                 currentStep: 'coreIdea',
                 selections: {},
                 history: [],
             },
-            
-            dom: {
-                stepContainer: document.getElementById('step-container'),
-                restoreContainer: document.getElementById('restore-container'),
-            },
-
+            dom: {},
             icons: {
-                reroll: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.664 0M2.985 19.644A8.25 8.25 0 0111.625 4.5a8.25 8.25 0 017.94 12.063M2.985 19.644L6.166 16.46" /></svg>`,
-                surprise: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.898 20.562L16.25 21.75l-.648-1.188a2.25 2.25 0 01-1.4-1.4L13.25 18l1.188-.648a2.25 2.25 0 011.4-1.4l.648-1.188.648 1.188a2.25 2.25 0 011.4 1.4l1.188.648-1.188.648a2.25 2.25 0 01-1.4 1.4z" /></svg>`,
+                reroll: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/><path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/></svg>`,
+                surprise: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M8 0a1.5 1.5 0 0 1 1.5 1.5V3h3V1.5A1.5 1.5 0 0 1 14 0h-2v1.5a.5.5 0 0 1-1 0V0H9.5v1.5a.5.5 0 0 1-1 0V0H8zm-3 4.5A1.5 1.5 0 0 1 6.5 3H8v3H6.5A1.5 1.5 0 0 1 5 4.5v-2H3.5a.5.5 0 0 1 0-1H5V2a.5.5 0 0 1 1 0v1.5h1.5V2a.5.5 0 0 1 1 0v1.5a.5.5 0 0 1 0 1H8v1.5A1.5 1.5 0 0 1 6.5 6H5V4.5zM1.5 6A1.5 1.5 0 0 1 0 4.5V3h3v1.5A1.5 1.5 0 0 1 1.5 6h-2V4.5a.5.5 0 0 1 1 0V6H1.5zM10 8a1.5 1.5 0 0 1 1.5-1.5h1.5V5a.5.5 0 0 1 1 0v1.5h1.5V5a.5.5 0 0 1 1 0v1.5a.5.5 0 0 1 0 1H14v1.5a1.5 1.5 0 0 1-1.5 1.5h-2v-1.5a.5.5 0 0 1 1 0V8H10z"/></svg>`,
             },
+            LS_KEY: 'foundry-forge-v2.1',
 
-            LS_KEY: 'foundry-forge-session-modern',
-
+            // --- 2. Initialization ---
             async init() {
+                this.cacheDOM();
                 try {
                     const response = await fetch('foundry-data.json');
                     if (!response.ok) throw new Error("Data scrolls could not be read.");
                     this.state.data = await response.json();
                     this.checkForSavedSession();
                 } catch (error) {
-                    this.dom.stepContainer.innerHTML = `<p style="text-align:center; color: var(--primary-blue);">Error: ${error.message}</p>`;
+                    this.dom.stepContainer.innerHTML = `<p style="text-align:center; color: var(--primary-blue);">${error.message}</p>`;
                 }
             },
+            
+            cacheDOM() {
+                this.dom.stepContainer = document.getElementById('step-container');
+                this.dom.restoreContainer = document.getElementById('restore-container');
+            },
 
+            // --- 3. State Persistence ---
             saveState() {
                 localStorage.setItem(this.LS_KEY, JSON.stringify(this.state));
             },
@@ -332,11 +327,12 @@
                 };
             },
 
+            // --- 4. Navigation & Rendering Engine ---
             navigateTo(step, isNavigatingBack = false) {
                 const oldContent = this.dom.stepContainer.querySelector('.content-wrapper');
                 if (oldContent) {
                     oldContent.classList.add('fade-out');
-                    setTimeout(() => this.render(step, isNavigatingBack), 200);
+                    setTimeout(() => this.render(step, isNavigatingBack), 300);
                 } else {
                     this.render(step, isNavigatingBack);
                 }
@@ -354,7 +350,7 @@
                 const renderers = {
                     'coreIdea': () => this.createCoreIdeaStep(),
                     'characterArchetype': () => this.createChoiceStep(this.state.data.characters.archetypes, 'archetype', 'characterCatalyst'),
-                    'characterCatalyst': () => this.createChoiceStep(this.state.selections.archetype.catalyst_questions, 'catalyst', 'result'),
+                    'characterCatalyst': () => this.createChoiceStep(this.state.data.characters.archetypes.find(a => a.name === this.state.selections.archetype.name).catalyst_questions, 'catalyst', 'result'),
                     'result': () => this.createResultStep(),
                 };
                 
@@ -362,7 +358,7 @@
                 this.dom.stepContainer.appendChild(header);
                 this.dom.stepContainer.appendChild(contentWrapper);
 
-                const cards = contentWrapper.querySelectorAll('.choice-card, .surprise-btn, .result-item');
+                const cards = contentWrapper.querySelectorAll('.cascade-item');
                 cards.forEach((card, index) => {
                     card.style.animationDelay = `${index * 60}ms`;
                     card.classList.add('cascade-in');
@@ -377,6 +373,7 @@
                 this.navigateTo(previous, true);
             },
             
+            // --- 5. Component Builders ---
             createHeader(step) {
                 const header = document.createElement('div');
                 header.className = 'step-header';
@@ -399,7 +396,7 @@
                 const content = document.createElement('div');
                 content.className = 'step-content';
                 const card = document.createElement('div');
-                card.className = 'choice-card';
+                card.className = 'choice-card cascade-item';
                 card.textContent = 'Character-First Story';
                 card.onclick = () => {
                     this.state.selections = { coreIdea: 'Character' };
@@ -408,7 +405,7 @@
                 content.appendChild(card);
                 
                 const surpriseBtn = document.createElement('button');
-                surpriseBtn.className = 'surprise-btn';
+                surpriseBtn.className = 'surprise-btn cascade-item';
                 surpriseBtn.innerHTML = `${this.icons.surprise} Surprise Me`;
                 surpriseBtn.onclick = () => this.handleSurprise();
                 content.appendChild(surpriseBtn);
@@ -420,7 +417,7 @@
                 content.className = 'step-content';
                 items.forEach(item => {
                     const card = document.createElement('div');
-                    card.className = 'choice-card';
+                    card.className = 'choice-card cascade-item';
                     const text = typeof item === 'string' ? item : item.name;
                     card.textContent = text;
                     card.onclick = () => {
@@ -444,7 +441,7 @@
                         ${this.createResultItem('conflict', 'Conflict', idea.conflict.text)}
                         ${this.createResultItem('setting', 'Setting', idea.setting.name)}
                     </div>
-                    <button class="action-btn" id="start-over-btn">Forge Anew</button>
+                    <button class="action-btn cascade-item" id="start-over-btn">Forge Anew</button>
                 `;
                 content.querySelector('#start-over-btn').onclick = () => {
                     localStorage.removeItem(this.LS_KEY);
@@ -459,15 +456,16 @@
 
             createResultItem(key, title, text) {
                 return `
-                    <div class="result-item" data-reroll="${key}">
+                    <div class="result-item cascade-item" data-reroll="${key}">
                         <h3>${title}</h3>
                         <div class="result-content">
-                            <p data-content="${key}">${text}</p>
+                            <p class="result-text" data-content="${key}">${text}</p>
                             <button class="reroll-btn">${this.icons.reroll}</button>
                         </div>
                     </div>`;
             },
             
+            // --- 6. Core Logic & Generation ---
             generateIdea(locked = {}) {
                 const random = (arr, current) => {
                     if (arr.length <= 1) return arr[0];
@@ -509,6 +507,7 @@
             },
         };
 
+        // Initialize the application
         App.init();
     });
     </script>
