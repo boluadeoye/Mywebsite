@@ -27,10 +27,11 @@
       font-family: 'Inter', sans-serif;
       -webkit-font-smoothing: antialiased;
       padding-top: 80px;
+      max-width: 100vw;
+      overflow-x: hidden;
     }
     .wrap { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
     
-    /* --- NAVIGATION --- */
     .nav { position: fixed; top: 0; left: 0; width: 100%; background: var(--bg-slate); border-bottom: 1px solid var(--border-color); z-index: 1000; }
     .nav .wrap { display: flex; justify-content: center; align-items: center; height: 64px; }
     .nav-links { list-style: none; display: flex; align-items: center; gap: 8px; padding: 0; margin: 0; }
@@ -38,29 +39,20 @@
     .nav-links a.active { background-color: var(--accent-gold); color: var(--bg-slate); }
     .nav-links a:not(.active):hover { background-color: #4A5568; }
     
-    /* --- MAIN CARD & LAYOUT --- */
     .main-card {
-      max-width: 580px;
-      margin: 32px auto;
-      background: var(--panel-cream);
-      padding: 32px;
-      border-radius: 16px;
+      max-width: 580px; margin: 32px auto; background: var(--panel-cream);
+      padding: 32px; border-radius: 16px;
       box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-      min-height: 400px;
-      display: flex;
-      flex-direction: column;
-      color: var(--text-dark);
-      position: relative; 
+      min-height: 400px; display: flex; flex-direction: column;
+      color: var(--text-dark); position: relative;
     }
     
-    /* --- ANIMATIONS & STATES --- */
     .step-container { animation: fadeIn 300ms var(--transition) forwards; }
     .fade-out { animation: fadeOut 300ms var(--transition) forwards; }
     @keyframes fadeOut { to { opacity: 0; transform: translateY(-10px); } }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-    /* --- COMPONENTS --- */
     .loading { display: flex; justify-content: center; align-items: center; height: 100%; }
     .loading svg { width: 48px; height: 48px; color: var(--accent-gold); animation: pulse 1.2s infinite; }
     
@@ -72,17 +64,9 @@
     .rune.filled.animate { animation: pulse 0.5s var(--transition); }
 
     .btn-back { 
-      position: absolute; 
-      left: 32px; 
-      bottom: 32px;
-      background: none; 
-      border: none; 
-      font-weight: 700; 
-      color: var(--text-muted); 
-      cursor: pointer; 
-      font-size: 1rem; 
-      padding: 4px; 
-      z-index: 10;
+      position: absolute; left: 32px; bottom: 32px;
+      background: none; border: none; font-weight: 700; color: var(--text-muted); 
+      cursor: pointer; font-size: 1rem; padding: 4px; z-index: 10;
     }
     .btn-back:hover { color: var(--accent-gold); }
 
@@ -131,7 +115,6 @@
     }
     .banner button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(214, 158, 46, 0.2); }
     
-    /* --- FOOTER --- */
     .main-footer { width: 100%; padding: 2rem 0; margin-top: 4rem; background-color: var(--bg-slate); border-top: 1px solid var(--border-color); }
     .main-footer p { text-align: center; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--text-muted); }
   </style>
@@ -208,17 +191,22 @@
         return `<div class="runes">${steps.map((s, i) => `<div class="rune ${i <= currentIndex ? 'filled' : ''} ${i === currentIndex ? 'animate' : ''}"></div>`).join('')}</div>`;
       };
       
-      const renderHeader = (title, step) => {
-        const header = document.createElement('div');
-        header.innerHTML = `
-          <div class="step-header">
-            <h2 class="step-title">${title}</h2>
-            ${renderRunes(step)}
-          </div>
-        `;
-        return header;
-      };
+      const renderHeaderAndBackButton = (title, step) => {
+          foundryContainer.innerHTML = ''; // Clear container first
+          const showBack = navigationHistory.length > 1;
 
+          if (showBack) {
+              const backButton = createAndAppend(foundryContainer, 'button', 'btn-back', '← Back');
+              backButton.addEventListener('click', goBack);
+          }
+
+          const stepHeader = createAndAppend(foundryContainer, 'div', 'step-header');
+          stepHeader.innerHTML = `
+              <h2 class="step-title">${title}</h2>
+              ${renderRunes(step)}
+          `;
+      };
+      
       const createAndAppend = (parent, tag, className, innerHTML = '') => {
         const el = document.createElement(tag);
         if (className) el.className = className;
@@ -233,9 +221,8 @@
 
       const renderStep1 = () => {
         currentStep = 'step1';
-        foundryContainer.innerHTML = '';
+        renderHeaderAndBackButton('What is the core of your idea?', 'step1');
         const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container');
-        stepContainer.appendChild(renderHeader('What is the core of your idea?', 'step1'));
         
         const grid = createAndAppend(stepContainer, 'div', 'choice-grid');
         ['Character', 'Setting', 'Theme'].forEach(choice => {
@@ -260,9 +247,8 @@
       const renderStep2 = () => {
         currentStep = 'step2';
         const archetypes = foundryData.characters.archetypes;
-        foundryContainer.innerHTML = '';
+        renderHeaderAndBackButton('Choose a Character Archetype', 'step2');
         const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container');
-        stepContainer.appendChild(renderHeader('Choose a Character Archetype', 'step2'));
         
         const grid = createAndAppend(stepContainer, 'div', 'choice-grid');
         archetypes.forEach(a => {
@@ -274,6 +260,7 @@
                 navigateTo(renderStep3, 'step3');
             });
         });
+
         createAndAppend(stepContainer, 'button', 'surprise-btn', `${surpriseIcon} Surprise Me`)
             .addEventListener('click', () => {
                 clickSound.play().catch(e => {});
@@ -289,9 +276,8 @@
               navigateTo(renderFinalResult, 'result');
               return;
           }
-          foundryContainer.innerHTML = '';
+          renderHeaderAndBackButton('Consider this...', 'step3');
           const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container');
-          stepContainer.appendChild(renderHeader('Consider this...', 'step3'));
           
           const grid = createAndAppend(stepContainer, 'div', 'choice-grid');
           questions.forEach((q, index) => {
@@ -307,9 +293,8 @@
 
       const renderFinalResult = () => {
           currentStep = 'result';
-          foundryContainer.innerHTML = '';
+          renderHeaderAndBackButton('Your Forged Idea', 'result');
           const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container result-container');
-          stepContainer.appendChild(renderHeader('Your Forged Idea', 'result'));
           
           const char = userSelections.archetype;
           const conflict = getRandomMatching(foundryData.conflicts.external, char.tags);
