@@ -6,7 +6,7 @@
   <title>The Writer's Foundry — The Forge</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Lora:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-slate: #2D3748;
@@ -31,8 +31,8 @@
     .wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
     .nav { position: fixed; top: 0; left: 0; width: 100%; background: var(--bg-slate); border-bottom: 1px solid var(--border-color); z-index: 1000; }
     .nav .wrap { display: flex; justify-content: space-between; align-items: center; height: 64px; }
-    .brand { font-family: 'Lora', serif; font-size: 1.5rem; font-weight: 700; color: var(--text-cream); text-decoration: none; }
-    .nav-links { list-style: none; display: flex; align-items: center; gap: 8px; }
+    .brand { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--text-cream); text-decoration: none; }
+    .nav-links { list-style: none; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .nav-links a { display: block; text-decoration: none; color: var(--text-cream); font-weight: 700; padding: 8px 16px; border-radius: 999px; transition: all 300ms var(--transition); }
     .nav-links a.active { background-color: var(--accent-gold); color: var(--bg-slate); }
     .nav-links a:not(.active):hover { background-color: #4A5568; }
@@ -46,10 +46,10 @@
     .loading svg { width: 48px; height: 48px; color: var(--accent-gold); animation: pulse 1s infinite; }
     .step-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 32px; }
     .step-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 16px; line-height: 1.4; text-align: center; }
-    .progress-bar { display: flex; justify-content: center; gap: 16px; background: var(--bg-slate); padding: 8px 16px; border-radius: 999px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 900; }
-    .progress-item { display: flex; align-items: center; gap: 8px; color: var(--text-cream); font-size: 0.9rem; font-weight: 600; padding: 4px 12px; position: relative; }
-    .progress-item.active::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 2px; background: var(--accent-gold); }
-    .progress-item svg { width: 16px; height: 16px; }
+    .runes { display: flex; gap: 8px; }
+    .rune { width: 16px; height: 16px; border-radius: 50%; background: var(--border-color); transition: background 300ms var(--transition); }
+    .rune.filled { background: var(--accent-gold); }
+    .rune.filled.animate { animation: pulse 0.5s; }
     .btn-back { position: absolute; top: 32px; left: 32px; font-size: 1rem; font-weight: 700; color: var(--text-muted); background: none; border: none; cursor: pointer; z-index: 10; }
     .btn-back:hover { color: var(--accent-gold); }
     .choice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px; }
@@ -82,7 +82,6 @@
       .nav .wrap { flex-wrap: wrap; gap: 8px; }
       .nav-links { justify-content: flex-end; }
       .main-card { margin-top: 120px; }
-      .progress-bar { top: 100px; }
     }
   </style>
 </head>
@@ -154,13 +153,9 @@
       
       // --- Component Renderers ---
       const renderRunes = (current) => {
-        const steps = [
-          { name: 'step1', label: 'Core Idea', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18m9-9H3"/></svg>' },
-          { name: 'step2', label: 'Archetype', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 0v10"/></svg>' },
-          { name: 'step3', label: 'Catalyst', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V6l-6 6 6 6zm6 0V6l6 6-6 6z"/></svg>' },
-          { name: 'result', label: 'Result', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>' }
-        ];
-        return `<div class="progress-bar">${steps.map(s => `<div class="progress-item ${s.name === current ? 'active' : ''}">${s.icon} ${s.label}</div>`).join('')}</div>`;
+        const steps = ['step1', 'step2', 'step3', 'result'];
+        const currentIndex = steps.indexOf(current);
+        return `<div class="runes">${steps.map((s, i) => `<div class="rune ${i <= currentIndex ? 'filled' : ''} ${i === currentIndex ? 'animate' : ''}"></div>`).join('')}</div>`;
       };
       
       const renderHeader = (title, step) => {
@@ -170,6 +165,7 @@
           ${showBack ? `<button class="btn-back">← Back</button>` : ''}
           <div class="step-header">
             <h2 class="step-title">${title}</h2>
+            ${renderRunes(step)}
           </div>
         `;
         if (showBack) {
@@ -196,7 +192,6 @@
         foundryContainer.innerHTML = '';
         const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container');
         stepContainer.appendChild(renderHeader('What is the core of your idea?', 'step1'));
-        document.body.insertBefore(createAndAppend(document.body, 'div', '', renderRunes('step1')), foundryContainer);
         
         const grid = createAndAppend(stepContainer, 'div', 'choice-grid');
         ['Character', 'Setting', 'Theme'].forEach(choice => {
@@ -224,7 +219,6 @@
         foundryContainer.innerHTML = '';
         const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container');
         stepContainer.appendChild(renderHeader('Choose a Character Archetype', 'step2'));
-        document.body.insertBefore(createAndAppend(document.body, 'div', '', renderRunes('step2')), foundryContainer);
         
         const grid = createAndAppend(stepContainer, 'div', 'choice-grid');
         archetypes.forEach(a => {
@@ -255,7 +249,6 @@
           foundryContainer.innerHTML = '';
           const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container');
           stepContainer.appendChild(renderHeader('Consider this...', 'step3'));
-          document.body.insertBefore(createAndAppend(document.body, 'div', '', renderRunes('step3')), foundryContainer);
           
           const grid = createAndAppend(stepContainer, 'div', 'choice-grid');
           grid.style.gridTemplateColumns = '1fr';
@@ -275,7 +268,6 @@
           foundryContainer.innerHTML = '';
           const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container result-container');
           stepContainer.appendChild(renderHeader('Your Forged Idea', 'result'));
-          document.body.insertBefore(createAndAppend(document.body, 'div', '', renderRunes('result')), foundryContainer);
           
           const char = userSelections.archetype;
           const conflict = userSelections.result ? userSelections.result.conflict : getRandomMatching(foundryData.conflicts.external, char.tags);
