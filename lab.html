@@ -1,515 +1,358 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Forge - The Writer's Foundry</title>
-    <!-- Google Fonts: Inter (400, 700, 800) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            /* Color Palette */
-            --bg-light-gray: #F4F7FA;
-            --panel-white: #FFFFFF;
-            --primary-blue: #0052CC;
-            --hover-blue: #0065FF;
-            --text-dark: #172B4D;
-            --text-muted: #6B778C;
-            --border-color: #DFE1E6;
-            
-            /* Animation Timing */
-            --transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* --- 1. Global Styles & Typography --- */
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: var(--bg-light-gray);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            font-weight: 400;
-            color: var(--text-dark);
-            margin: 0;
-            padding: 96px 1rem 2rem 1rem; /* 64px nav + 32px top padding */
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        
-        /* --- 2. Unified Navigation Bar --- */
-        .foundry-nav {
-            position: fixed; top: 0; left: 0; width: 100%;
-            background-color: var(--panel-white);
-            box-shadow: 0 2px 8px rgba(23, 43, 77, 0.05);
-            border-bottom: 1px solid var(--border-color);
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 1.5rem; height: 64px; z-index: 1000;
-        }
-        .nav-brand {
-            font-weight: 800; font-size: 1.2rem;
-            letter-spacing: -0.02em;
-            color: var(--text-dark); text-decoration: none;
-        }
-        .nav-links { display: flex; gap: 1.5rem; }
-        .nav-links a {
-            text-decoration: none; color: var(--text-muted);
-            font-weight: 700; font-size: 1rem;
-            padding: 0.5rem 0;
-            border-bottom: 2px solid transparent;
-            transition: color 0.2s var(--transition-curve);
-        }
-        .nav-links a:hover { color: var(--text-dark); }
-        .nav-links a.active { color: var(--primary-blue); border-bottom-color: var(--primary-blue); }
-
-        /* --- 3. Application Architecture & Spacing --- */
-        .main-card {
-            width: 100%;
-            max-width: 550px;
-            background-color: var(--panel-white);
-            border-radius: 1rem; /* 16px */
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            padding: 2rem; /* 32px */
-            position: relative;
-            overflow: hidden;
-        }
-        .step-header {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            align-items: center;
-            gap: 1rem;
-            width: 100%;
-            margin-bottom: 1.5rem; /* 24px */
-            padding-bottom: 1rem; /* 16px */
-            min-height: 64px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .step-title {
-            font-weight: 800;
-            font-size: 2rem;
-            letter-spacing: -0.03em;
-            color: var(--text-dark);
-            text-align: center;
-            grid-column: 2 / 3;
-            margin: 0;
-        }
-        .back-btn {
-            grid-column: 1 / 2;
-            justify-self: start;
-            background: none; border: none; font-size: 2rem;
-            color: var(--text-muted); cursor: pointer; padding: 0;
-            line-height: 1; transition: all 300ms var(--transition-curve);
-            opacity: 0;
-            animation: fadeIn 300ms var(--transition-curve) forwards;
-        }
-        .back-btn:hover { color: var(--text-dark); transform: translateX(-4px); }
-
-        /* --- 4. Components & Features --- */
-        /* Progress Tracker */
-        .progress-bar {
-            grid-column: 3 / 4;
-            justify-self: end;
-            display: flex;
-            gap: 4px;
-            width: 100px;
-            height: 6px;
-            border-radius: 3px;
-            background-color: #EBECF0;
-            overflow: hidden;
-        }
-        .progress-segment {
-            flex: 1;
-            background-color: var(--primary-blue);
-            transform: translateX(-100%);
-            transition: transform 300ms var(--transition-curve);
-        }
-        .progress-segment.active { transform: translateX(0); }
-
-        /* General Content & Choice Cards */
-        .step-content { display: flex; flex-direction: column; gap: 1rem; }
-        .choice-card {
-            background-color: var(--panel-white);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem; /* 24px */
-            text-align: center;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 300ms var(--transition-curve);
-        }
-        .choice-card:hover { border-color: var(--primary-blue); }
-        .choice-card.selected {
-            border: 2px solid var(--primary-blue);
-            background-color: var(--bg-light-gray);
-            padding: calc(1.5rem - 1px); /* Account for thicker border */
-        }
-
-        /* "Surprise Me" Button */
-        .surprise-btn {
-            margin-top: 0.5rem;
-            border: 2px dashed var(--border-color);
-            background-color: transparent;
-            color: var(--text-muted);
-            font-weight: 700;
-            font-size: 1.1rem;
-            padding: 1.5rem;
-            border-radius: 12px;
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 0.75rem;
-            transition: all 300ms var(--transition-curve);
-        }
-        .surprise-btn:hover { border-color: var(--primary-blue); color: var(--primary-blue); }
-        .surprise-btn svg { transition: transform 300ms var(--transition-curve); }
-        .surprise-btn:hover svg { transform: rotate(15deg) scale(1.1); }
-
-        /* Result Page & Re-Rolls */
-        .result-container { border: 1px solid var(--border-color); border-radius: 12px; }
-        .result-item { padding: 1.5rem; border-bottom: 1px solid var(--border-color); }
-        .result-item:last-child { border-bottom: none; }
-        .result-item h3 {
-            font-weight: 700; font-size: 1rem;
-            text-transform: uppercase; color: var(--text-muted);
-            letter-spacing: 0.05em; margin: 0 0 0.5rem 0;
-        }
-        .result-content { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-        .result-text {
-            font-size: 1rem; line-height: 1.6;
-            flex-grow: 1; transition: opacity 300ms var(--transition-curve);
-        }
-        .reroll-btn {
-            background: transparent; border: none; cursor: pointer;
-            width: 2rem; height: 2rem; padding: 0.5rem;
-            border-radius: 50%; color: var(--text-muted);
-            transition: all 300ms var(--transition-curve);
-        }
-        .reroll-btn:hover { background-color: #EBECF0; color: var(--primary-blue); transform: rotate(90deg); }
-        
-        /* Action Button */
-        .action-btn {
-            font-weight: 700; font-size: 1.1rem;
-            background-color: var(--primary-blue); color: var(--panel-white); border: none;
-            border-radius: 8px; padding: 1rem 1.5rem;
-            cursor: pointer; text-align: center;
-            transition: all 300ms var(--transition-curve);
-            margin-top: 1.5rem;
-        }
-        .action-btn:hover { background-color: var(--hover-blue); transform: translateY(-2px); box-shadow: 0 4px 12px -2px rgba(0, 82, 204, 0.3); }
-
-        /* Stateful Persistence Banner */
-        #restore-container { position: fixed; top: 80px; left: 0; width: 100%; z-index: 1001; display: flex; justify-content: center; }
-        .restore-banner {
-            background-color: var(--panel-white); padding: 1rem 1.5rem; border-radius: 12px;
-            box-shadow: 0 8px 24px -8px rgba(23, 43, 77, 0.2); text-align: center;
-            transform: translateY(-200%); animation: slideDown 0.5s var(--transition-curve) forwards;
-        }
-        .restore-banner p { margin: 0 0 1rem 0; color: var(--text-dark); font-weight: 700; }
-        .restore-btn {
-            background: none; border: 1px solid var(--border-color); border-radius: 6px;
-            padding: 0.5rem 1rem; cursor: pointer; margin: 0 0.5rem; font-weight: 700;
-        }
-        .restore-btn.confirm { border-color: var(--primary-blue); color: var(--primary-blue); }
-
-        /* Animations */
-        .content-wrapper.fade-out { animation: fadeOut 300ms var(--transition-curve) forwards; }
-        @keyframes fadeOut { to { opacity: 0; } }
-        
-        .cascade-in {
-            opacity: 0; transform: translateY(10px);
-            animation: fadeInUp 500ms var(--transition-curve) forwards;
-        }
-        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes slideDown { to { transform: translateY(0); } }
-
-        /* --- 5. Responsive Design --- */
-        @media (max-width: 768px) {
-            body { padding: 80px 0 1rem 0; }
-            .nav-links { gap: 1rem; }
-            .main-card { padding: 1.5rem; border-radius: 0; }
-            .step-title { font-size: 1.6rem; }
-        }
-    </style>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>The Writer's Foundry — The Forge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-slate: #2D3748;
+      --panel-cream: #F7FAFC;
+      --accent-gold: #D69E2E;
+      --accent-gold-hover: #ECC94B;
+      --text-cream: #EDF2F7;
+      --text-dark: #2D3748;
+      --text-muted: #718096;
+      --border-color: #4A5568;
+      --transition: cubic-bezier(0.4, 0, 0.2, 1);
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-slate) url("data:image/png;base64,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") repeat;
+      color: var(--text-dark);
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+    .nav { background: var(--bg-slate); border-bottom: 1px solid var(--border-color); padding: 16px 0; }
+    .nav .wrap { display: flex; justify-content: space-between; align-items: center; }
+    .brand { font-size: 1.5rem; font-weight: 800; color: var(--text-cream); }
+    .nav ul { list-style: none; display: flex; gap: 24px; }
+    .nav a { text-decoration: none; color: var(--text-cream); font-weight: 700; }
+    .nav a.active { color: var(--accent-gold); }
+    .main-card { max-width: 580px; margin: 32px auto; background: var(--panel-cream); padding: 32px; border-radius: var(--radius); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); min-height: 400px; display: flex; flex-direction: column; }
+    .step-container { animation: fadeIn 300ms var(--transition); opacity: 1; transform: translateY(0); }
+    .fade-out { animation: fadeOut 300ms var(--transition); }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
+    .loading { display: flex; justify-content: center; align-items: center; height: 400px; }
+    .loading svg { width: 48px; height: 48px; color: var(--accent-gold); animation: pulse 1s infinite; }
+    .step-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 24px; }
+    .step-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; }
+    .runes { display: flex; gap: 8px; }
+    .rune { width: 16px; height: 16px; border-radius: 50%; background: var(--border-color); transition: background 300ms var(--transition); }
+    .rune.filled { background: var(--accent-gold); }
+    .rune.filled.animate { animation: pulse 0.5s; }
+    .btn-back { background: none; border: none; font-weight: 700; color: var(--text-muted); cursor: pointer; position: absolute; left: 32px; top: 32px; }
+    .btn-back:hover { color: var(--accent-gold); }
+    .choice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px; }
+    .choice-card { padding: 16px; background: transparent; border: 1px solid var(--border-color); border-radius: 8px; font-weight: 700; text-align: center; cursor: pointer; transition: all 300ms var(--transition); }
+    .choice-card:hover { border-color: var(--accent-gold); color: var(--accent-gold); transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.07); }
+    .surprise-btn { border: 2px dashed var(--border-color); padding: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: all 300ms var(--transition); margin-top: 16px; }
+    .surprise-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+    .surprise-btn svg { width: 20px; height: 20px; }
+    .result-container { text-align: left; font-family: 'Lora', serif; }
+    .result-container h3 { font-family: 'Inter', sans-serif; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin: 24px 0 16px; display: flex; align-items: center; gap: 8px; }
+    .result-container p { font-size: 1.1rem; line-height: 1.7; }
+    .result-container ul { list-style: none; padding-left: 16px; border-left: 2px solid var(--accent-gold); }
+    .result-container li { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 8px; font-style: italic; }
+    .reroll { background: none; border: none; cursor: pointer; width: 24px; height: 24px; border-radius: 50%; transition: all 300ms var(--transition); }
+    .reroll:hover { box-shadow: 0 0 10px var(--accent-gold); color: var(--accent-gold); }
+    .reroll svg { width: 16px; height: 16px; }
+    .btn-primary { padding: 16px; background: linear-gradient(to bottom, var(--accent-gold-hover), var(--accent-gold)); color: #fff; border: none; border-radius: 8px; font-weight: 700; text-align: center; cursor: pointer; transition: all 300ms var(--transition); width: 100%; margin-top: 32px; }
+    .btn-primary:hover { box-shadow: 0 4px 20px rgba(214, 158, 46, 0.25); }
+    .action-grid { display: grid; gap: 16px; }
+    .action-card { background: transparent; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; text-align: left; cursor: pointer; transition: all 300ms var(--transition); }
+    .action-card:hover { border-color: var(--accent-gold); transform: translateY(-3px); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    .action-card h4 { font-size: 1.2rem; color: var(--text-dark); margin-bottom: 4px; }
+    .action-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin: 0; font-family: 'Inter', sans-serif; }
+    .action-card.saved { border-color: #27ae60; background-color: #e8f8f5; }
+    .banner { background: var(--bg-slate); color: var(--text-cream); padding: 16px; text-align: center; margin-bottom: 16px; border-radius: 8px; }
+    .banner button { background: linear-gradient(to bottom, var(--accent-gold-hover), var(--accent-gold)); color: #fff; border: none; padding: 8px 16px; border-radius: 4px; margin-left: 8px; cursor: pointer; }
+  </style>
 </head>
 <body>
-    <nav class="foundry-nav">
-        <a href="lab.html" class="nav-brand">The Forge</a>
-        <div class="nav-links">
-            <a href="lab.html" class="active">Forge</a>
-            <a href="anvil.html">Anvil</a>
-            <a href="journal.html">Journal</a>
-            <a href="academy.html">Academy</a>
-        </div>
-    </nav>
-    <div id="restore-container"></div>
-    <main class="main-card">
-        <div id="step-container"></div>
-    </main>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // App object to encapsulate all logic
-        const App = {
-            // --- 1. State & Configuration ---
-            state: {
-                data: null,
-                currentStep: 'coreIdea',
-                selections: {},
-                history: [],
-            },
-            dom: {},
-            icons: {
-                reroll: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/><path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/></svg>`,
-                surprise: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M8 0a1.5 1.5 0 0 1 1.5 1.5V3h3V1.5A1.5 1.5 0 0 1 14 0h-2v1.5a.5.5 0 0 1-1 0V0H9.5v1.5a.5.5 0 0 1-1 0V0H8zm-3 4.5A1.5 1.5 0 0 1 6.5 3H8v3H6.5A1.5 1.5 0 0 1 5 4.5v-2H3.5a.5.5 0 0 1 0-1H5V2a.5.5 0 0 1 1 0v1.5h1.5V2a.5.5 0 0 1 1 0v1.5a.5.5 0 0 1 0 1H8v1.5A1.5 1.5 0 0 1 6.5 6H5V4.5zM1.5 6A1.5 1.5 0 0 1 0 4.5V3h3v1.5A1.5 1.5 0 0 1 1.5 6h-2V4.5a.5.5 0 0 1 1 0V6H1.5zM10 8a1.5 1.5 0 0 1 1.5-1.5h1.5V5a.5.5 0 0 1 1 0v1.5h1.5V5a.5.5 0 0 1 1 0v1.5a.5.5 0 0 1 0 1H14v1.5a1.5 1.5 0 0 1-1.5 1.5h-2v-1.5a.5.5 0 0 1 1 0V8H10z"/></svg>`,
-            },
-            LS_KEY: 'foundry-forge-v2.1',
-
-            // --- 2. Initialization ---
-            async init() {
-                this.cacheDOM();
-                try {
-                    const response = await fetch('foundry-data.json');
-                    if (!response.ok) throw new Error("Data scrolls could not be read.");
-                    this.state.data = await response.json();
-                    this.checkForSavedSession();
-                } catch (error) {
-                    this.dom.stepContainer.innerHTML = `<p style="text-align:center; color: var(--primary-blue);">${error.message}</p>`;
-                }
-            },
-            
-            cacheDOM() {
-                this.dom.stepContainer = document.getElementById('step-container');
-                this.dom.restoreContainer = document.getElementById('restore-container');
-            },
-
-            // --- 3. State Persistence ---
-            saveState() {
-                localStorage.setItem(this.LS_KEY, JSON.stringify(this.state));
-            },
-
-            checkForSavedSession() {
-                const savedStateJSON = localStorage.getItem(this.LS_KEY);
-                if (savedStateJSON) {
-                    const saved = JSON.parse(savedStateJSON);
-                    if (saved.history && saved.history.length > 1) {
-                        this.displayRestoreBanner(saved);
-                    }
-                }
-                this.navigateTo('coreIdea', true);
-            },
-
-            displayRestoreBanner(saved) {
-                this.dom.restoreContainer.innerHTML = `
-                    <div class="restore-banner">
-                        <p>Continue where you left off?</p>
-                        <div>
-                            <button class="restore-btn confirm" id="restore-confirm">Yes</button>
-                            <button class="restore-btn" id="restore-dismiss">No</button>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('restore-confirm').onclick = () => {
-                    Object.assign(this.state, saved);
-                    this.navigateTo(this.state.currentStep, true);
-                    this.dom.restoreContainer.innerHTML = '';
-                };
-                document.getElementById('restore-dismiss').onclick = () => {
-                    localStorage.removeItem(this.LS_KEY);
-                    this.state.selections = {}; this.state.history = [];
-                    this.navigateTo('coreIdea');
-                    this.dom.restoreContainer.innerHTML = '';
-                };
-            },
-
-            // --- 4. Navigation & Rendering Engine ---
-            navigateTo(step, isNavigatingBack = false) {
-                const oldContent = this.dom.stepContainer.querySelector('.content-wrapper');
-                if (oldContent) {
-                    oldContent.classList.add('fade-out');
-                    setTimeout(() => this.render(step, isNavigatingBack), 300);
-                } else {
-                    this.render(step, isNavigatingBack);
-                }
-            },
-
-            render(step, isNavigatingBack) {
-                this.state.currentStep = step;
-                if (!isNavigatingBack) this.state.history.push(step);
-
-                this.dom.stepContainer.innerHTML = '';
-                const header = this.createHeader(step);
-                const contentWrapper = document.createElement('div');
-                contentWrapper.className = 'content-wrapper';
-
-                const renderers = {
-                    'coreIdea': () => this.createCoreIdeaStep(),
-                    'characterArchetype': () => this.createChoiceStep(this.state.data.characters.archetypes, 'archetype', 'characterCatalyst'),
-                    'characterCatalyst': () => this.createChoiceStep(this.state.data.characters.archetypes.find(a => a.name === this.state.selections.archetype.name).catalyst_questions, 'catalyst', 'result'),
-                    'result': () => this.createResultStep(),
-                };
-                
-                contentWrapper.appendChild(renderers[step]());
-                this.dom.stepContainer.appendChild(header);
-                this.dom.stepContainer.appendChild(contentWrapper);
-
-                const cards = contentWrapper.querySelectorAll('.cascade-item');
-                cards.forEach((card, index) => {
-                    card.style.animationDelay = `${index * 60}ms`;
-                    card.classList.add('cascade-in');
-                });
-                
-                this.saveState();
-            },
-
-            goBack() {
-                this.state.history.pop();
-                const previous = this.state.history[this.state.history.length - 1];
-                this.navigateTo(previous, true);
-            },
-            
-            // --- 5. Component Builders ---
-            createHeader(step) {
-                const header = document.createElement('div');
-                header.className = 'step-header';
-                const titles = {'coreIdea': 'Start Forging', 'characterArchetype': 'Select Archetype', 'characterCatalyst': 'Select Catalyst', 'result': 'Your Idea'};
-                const stepMap = ['coreIdea', 'characterArchetype', 'characterCatalyst', 'result'];
-                const currentIdx = stepMap.indexOf(step);
-
-                header.innerHTML = `
-                    ${this.state.history.length > 1 ? `<button class="back-btn">&larr;</button>` : `<div></div>`}
-                    <h2 class="step-title">${titles[step] || 'The Forge'}</h2>
-                    <div class="progress-bar">
-                        ${[...Array(4)].map((_, i) => `<div class="progress-segment ${i <= currentIdx ? 'active' : ''}"></div>`).join('')}
-                    </div>
-                `;
-                if (this.state.history.length > 1) header.querySelector('.back-btn').onclick = () => this.goBack();
-                return header;
-            },
-
-            createCoreIdeaStep() {
-                const content = document.createElement('div');
-                content.className = 'step-content';
-                const card = document.createElement('div');
-                card.className = 'choice-card cascade-item';
-                card.textContent = 'Character-First Story';
-                card.onclick = () => {
-                    this.state.selections = { coreIdea: 'Character' };
-                    this.navigateTo('characterArchetype');
-                };
-                content.appendChild(card);
-                
-                const surpriseBtn = document.createElement('button');
-                surpriseBtn.className = 'surprise-btn cascade-item';
-                surpriseBtn.innerHTML = `${this.icons.surprise} Surprise Me`;
-                surpriseBtn.onclick = () => this.handleSurprise();
-                content.appendChild(surpriseBtn);
-                return content;
-            },
-
-            createChoiceStep(items, key, nextStep) {
-                const content = document.createElement('div');
-                content.className = 'step-content';
-                items.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'choice-card cascade-item';
-                    const text = typeof item === 'string' ? item : item.name;
-                    card.textContent = text;
-                    card.onclick = () => {
-                        this.state.selections[key] = item;
-                        this.navigateTo(nextStep);
-                    };
-                    content.appendChild(card);
-                });
-                return content;
-            },
-
-            createResultStep() {
-                if (!this.state.selections.idea) this.state.selections.idea = this.generateIdea();
-                const { idea } = this.state.selections;
-                const content = document.createElement('div');
-                content.className = 'step-content';
-                
-                content.innerHTML = `
-                    <div class="result-container">
-                        ${this.createResultItem('archetype', 'Archetype', idea.archetype.name)}
-                        ${this.createResultItem('conflict', 'Conflict', idea.conflict.text)}
-                        ${this.createResultItem('setting', 'Setting', idea.setting.name)}
-                    </div>
-                    <button class="action-btn cascade-item" id="start-over-btn">Forge Anew</button>
-                `;
-                content.querySelector('#start-over-btn').onclick = () => {
-                    localStorage.removeItem(this.LS_KEY);
-                    this.state.selections = {}; this.state.history = [];
-                    this.navigateTo('coreIdea');
-                };
-                content.querySelectorAll('.reroll-btn').forEach(btn => {
-                    btn.onclick = () => this.handleReRoll(btn.closest('.result-item').dataset.reroll);
-                });
-                return content;
-            },
-
-            createResultItem(key, title, text) {
-                return `
-                    <div class="result-item cascade-item" data-reroll="${key}">
-                        <h3>${title}</h3>
-                        <div class="result-content">
-                            <p class="result-text" data-content="${key}">${text}</p>
-                            <button class="reroll-btn">${this.icons.reroll}</button>
-                        </div>
-                    </div>`;
-            },
-            
-            // --- 6. Core Logic & Generation ---
-            generateIdea(locked = {}) {
-                const random = (arr, current) => {
-                    if (arr.length <= 1) return arr[0];
-                    let newItem = current;
-                    while (newItem === current || (current && newItem.name === current.name)) {
-                        newItem = arr[Math.floor(Math.random() * arr.length)];
-                    }
-                    return newItem;
-                };
-                const idea = this.state.selections.idea || {};
-                return {
-                    archetype: locked.archetype || random(this.state.data.characters.archetypes, idea.archetype),
-                    conflict: locked.conflict || random(this.state.data.conflicts.external, idea.conflict),
-                    setting: locked.setting || random(this.state.data.settings.locations, idea.setting),
-                };
-            },
-
-            handleSurprise() {
-                this.state.selections = { coreIdea: 'Surprise', idea: this.generateIdea() };
-                this.navigateTo('result');
-            },
-            
-            handleReRoll(key) {
-                const current = this.state.selections.idea;
-                const newIdea = this.generateIdea({
-                    archetype: key !== 'archetype' ? current.archetype : undefined,
-                    conflict: key !== 'conflict' ? current.conflict : undefined,
-                    setting: key !== 'setting' ? current.setting : undefined,
-                });
-                this.state.selections.idea = newIdea;
-                this.saveState();
-                
-                const p = document.querySelector(`p[data-content="${key}"]`);
-                p.style.opacity = 0;
-                setTimeout(() => {
-                    p.textContent = newIdea[key].name || newIdea[key].text;
-                    p.style.opacity = 1;
-                }, 300);
-            },
-        };
-
-        // Initialize the application
-        App.init();
-    });
-    </script>
+  <nav class="nav">
+    <div class="wrap">
+      <h1 class="brand">The Writer's Foundry</h1>
+      <ul>
+        <li><a href="#" class="active">Lab</a></li>
+        <li><a href="#">Anvil</a></li>
+        <li><a href="#">Journal</a></li>
+        <li><a href="#">Academy</a></li>
+      </ul>
+    </div>
+  </nav>
+  <main class="wrap">
+    <section id="foundry" class="main-card"></section>
+  </main>
+  <script>
+    (function(){
+      const foundryContainer = document.getElementById('foundry');
+      let foundryData = null;
+      let userSelections = {};
+      let navigationHistory = [];
+      let currentStep = 'step1';
+      const clickSound = new Audio('data:audio/wav;base64,UklGRuy3AABXQVZFZm10IBAAAAABAAEAIlYAACJWAAABAAgAZGF0Yci3AACIhISCgH5+enx+gHx4cm5udHp+fHh0cHJ0enx8enx+fn6GiIyMiIaKio6Wmp6goJycnp6coJ6cnJqanqSoqqigmJKSmJygop6ampycmpaOjIiIhoSChoiGgHx2cG5qaGhiYmRkZmRgXFpUUlJUVlhcVlZYWmBgYFxaWlxiZmpsbGxsampubnBwbmxsbnB0cHBubGpqbGxwcnRwbnB2enyAfoB8fH5+goSEhISCgICEhoyKhoCChIiMjIyKiIaCgoaMioiEhISGjpaanJyYlpSWnqKkoJyYlpiYmJaSkI6MioSKjIyIhIB8en5+fHp2eHp6fn6AfHp8enh8foSEgoJ+foKGiIaAeHR2dn58fHx8fHZ2cnBydnRwcHJ6fHp2dHBwbm5sbm5wcHJubnB0dHBwbG50dnx8enp4enZ2dnZ0dnh4fH5+fHp2dHR0enZ0cnZ6eHp6eHh0dnh0dHZ2eHZ0cGxqamZiXFpYWFhaWlhYVlhYVlZaWl5gYGJkZmhoaGxucHJ0eHR2en58fHh0dnZ8foCAgH6ChoSEhISEhoaIjJKWmpiSkpSWmp6enJiampqcnpqYkI6MjIyOjIiGhoiIhoqIiISChISKjo6MiISEhoqOkJKSkpSQjpKYmpqWkJCOkpKUkpKQio6OjI6MhoKAenp2dHJuamhoZGRoamhmZmZkZmhqamhoaGxsbm5qamZoaGpqbm5ubmxuamxsbm50cnR2fHx+foSAfn6CiIqMjpKSkpaeoqCWlJSWlpSanp6alJSSkJCSlpaSkpKWmqCemJKOjI6SlpaYnJqUlJaYlpKQkJCSlpqYkI6OjoyKiIiEgHx+hoaIhoJ8dHBucnR0cHJycHJucGpoZmZoZGZoaG5ubmpsamhkZGRkZGZqbGhmZmhkZGZkYmJkZGZqbG5wcGhoam5yenx6eHZ0dnp6eHh4dnp6fHx6eHRybG5ucnR0cnBudHRycnBwcHZ4enp+fnx8fHZ4fH6EhISGiIiGioqMjoyKiIaIjJSampiWkI6MkI6UlJKQjIqEhoqIgoCAfHp+goCAfnh4dnJ2dHRycHBsbnJwdG5waGhqampsaGRiZmhoamhmaGZsbGxubmxsbm5wcnR0cHBubnJ0eHp2dHZ2eHp8fn5+fnx+goaKioqEhIiOlJiYmJSSkI6OjpCQkJCQjo6SkpKMjIiGiIqMkJCQkI6MioiIhoqKioaIhIaGioiKioqKjIqIiIaEhIKCgICEhISAfHp4eHp6dnR2cHBycnJ0dHJycGpudHR0dHBsbG5ucnJ0cnBwcHZ4eHp4dHBydnp+hIB8eHZ2dnp+fHh2dnR6en5+fHZ0cHBydnRybmxqamZoZmJgXFpaYmZoampoaGhucHJycHBwdnx+goaGiIiMjpSWmpqYlpacnqCinpygoqakoqSkoKCepKaopqKenJaWlJKSkpCKjIyMjo6MiIaIhIiKjpKUkpKSkI6OjIiGgHx6fHp4dnZ0dHJ0dnR0');
+      const swooshSound = new Audio('data:audio/wav;base64,UklGRuy3AABXQVZFZm10IBAAAAABAAEAIlYAACJWAAABAAgAZGF0Yci3AACIhISCgH5+enx+gHx4cm5udHp+fHh0cHJ0enx8enx+fn6GiIyMiIaKio6Wmp6goJycnp6coJ6cnJqanqSoqqigmJKSmJygop6ampycmpaOjIiIhoSChoiGgHx2cG5qaGhiYmRkZmRgXFpUUlJUVlhcVlZYWmBgYFxaWlxiZmpsbGxsampubnBwbmxsbnB0cHBubGpqbGxwcnRwbnB2enyAfoB8fH5+goSEhISCgICEhoyKhoCChIiMjIyKiIaCgoaMioiEhISGjpaanJyYlpSWnqKkoJyYlpiYmJaSkI6MioSKjIyIhIB8en5+fHp2eHp6fn6AfHp8enh8foSEgoJ+foKGiIaAeHR2dn58fHx8fHZ2cnBydnRwcHJ6fHp2dHBwbm5sbm5wcHJubnB0dHBwbG50dnx8enp4enZ2dnZ0dnh4fH5+fHp2dHR0enZ0cnZ6eHp6eHh0dnh0dHZ2eHZ0cGxqamZiXFpYWFhaWlhYVlhYVlZaWl5gYGJkZmhoaGxucHJ0eHR2en58fHh0dnZ8foCAgH6ChoSEhISEhoaIjJKWmpiSkpSWmp6enJiampqcnpqYkI6MjIyOjIiGhoiIhoqIiISChISKjo6MiISEhoqOkJKSkpSQjpKYmpqWkJCOkpKUkpKQio6OjI6MhoKAenp2dHJuamhoZGRoamhmZmZkZmhqamhoaGxsbm5qamZoaGpqbm5ubmxuamxsbm50cnR2fHx+foSAfn6CiIqMjpKSkpaeoqCWlJSWlpSanp6alJSSkJCSlpaSkpKWmqCemJKOjI6SlpaYnJqUlJaYlpKQkJCSlpqYkI6OjoyKiIiEgHx+hoaIhoJ8dHBucnR0cHJycHJucGpoZmZoZGZoaG5ubmpsamhkZGRkZGZqbGhmZmhkZGZkYmJkZGZqbG5wcGhoam5yenx6eHZ0dnp6eHh4dnp6fHx6eHRybG5ucnR0cnBudHRycnBwcHZ4enp+fnx8fHZ4fH6EhISGiIiGioqMjoyKiIaIjJSampiWkI6MkI6UlJKQjIqEhoqIgoCAfHp+goCAfnh4dnJ2dHRycHBsbnJwdG5waGhqampsaGRiZmhoamhmaGZsbGxubmxsbm5wcnR0cHBubnJ0eHp2dHZ2eHp8fn5+fnx+goaKioqEhIiOlJiYmJSSkI6OjpCQkJCQjo6SkpKMjIiGiIqMkJCQkI6MioiIhoqKioaIhIaGioiKioqKjIqIiIaEhIKCgICEhISAfHp4eHp6dnR2cHBycnJ0dHJycGpudHR0dHBsbG5ucnJ0cnBwcHZ4eHp4dHBydnp+hIB8eHZ2dnp+fHh2dnR6en5+fHZ0cHBydnRybmxqamZoZmJgXFpaYmZoampoaGhucHJycHBwdnx+goaGiIiMjpSWmpqYlpacnqCinpygoqakoqSkoKCepKaopqKenJaWlJKSkpCKjIyMjo6MiIaIhIiKjpKUkpKSkI6OjIiGgHx6fHp4dnZ0dHJ0dnR0');
+      // Modular function to get random element from array based on tags match
+      const getRandomMatching = (items, tags) => {
+        const matching = items.filter(i => i.tags.some(t => tags.includes(t)));
+        return matching.length > 0 ? matching[Math.floor(Math.random() * matching.length)] : items[Math.floor(Math.random() * items.length)];
+      };
+      const navigateTo = (stepFunction, stepName) => {
+        navigationHistory.push({func: stepFunction, name: stepName});
+        localStorage.setItem('foundryState', JSON.stringify({userSelections, currentStep: stepName, navigationHistory: navigationHistory.map(h => h.name)}));
+        swooshSound.play();
+        const oldContent = foundryContainer.firstChild;
+        if (oldContent) oldContent.classList.add('fade-out');
+        setTimeout(() => {
+          stepFunction();
+          attachListeners();
+        }, 300);
+      };
+      const goBack = () => {
+        if (navigationHistory.length > 1) {
+          navigationHistory.pop();
+          const previous = navigationHistory[navigationHistory.length - 1];
+          currentStep = previous.name;
+          navigateTo(previous.func, previous.name);
+        }
+      };
+      const renderRunes = (current) => {
+        const steps = ['step1', 'step2', 'step3', 'result'];
+        return `<div class="runes">${steps.map((s, i) => `<div class="rune ${s === current || i < steps.indexOf(current) ? 'filled' : ''} ${s === current ? 'animate' : ''}"></div>`).join('')}</div>`;
+      };
+      const renderHeader = (title, showBack, step) => {
+        return `
+          <button class="btn-back ${showBack ? '' : 'hidden'}">← Back</button>
+          <div class="step-header">
+            <h2 class="step-title">${title}</h2>
+            ${renderRunes(step)}
+          </div>
+        `;
+      };
+      const attachListeners = () => {
+        const backButton = foundryContainer.querySelector('.btn-back');
+        if (backButton) backButton.addEventListener('click', goBack);
+      };
+      const renderStep1 = () => {
+        currentStep = 'step1';
+        foundryContainer.innerHTML = `
+          <div class="step-container">
+            ${renderHeader('What is the core of your idea?', false, 'step1')}
+            <div class="choice-grid">
+              <button class="choice-card" data-choice="character">Character</button>
+              <button class="choice-card" data-choice="setting">Setting</button>
+              <button class="choice-card" data-choice="theme">Theme</button>
+            </div>
+            <button class="surprise-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 4V2m0 14v-2m-4-4H2m8 0h2m-2 0v7m0-7V9m4.01-3 5 5-5 5-5-5 5-5z"/></svg> Surprise Me</button>
+          </div>
+        `;
+        foundryContainer.querySelectorAll('.choice-card').forEach(card => {
+          card.addEventListener('click', (e) => {
+            clickSound.play();
+            userSelections.core = e.target.dataset.choice;
+            navigateTo(renderStep2, 'step2');
+          });
+        });
+        foundryContainer.querySelector('.surprise-btn').addEventListener('click', () => {
+          clickSound.play();
+          const choices = ['character', 'setting', 'theme'];
+          userSelections.core = choices[Math.floor(Math.random() * choices.length)];
+          navigateTo(renderStep2, 'step2');
+        });
+      };
+      const renderStep2 = () => {
+        currentStep = 'step2';
+        const archetypes = foundryData.characters.archetypes;
+        foundryContainer.innerHTML = `
+          <div class="step-container">
+            ${renderHeader('Choose a Character Archetype', true, 'step2')}
+            <div class="choice-grid">
+              ${archetypes.map(a => `<button class="choice-card" data-choice="${a.name}">${a.name}</button>`).join('')}
+            </div>
+            <button class="surprise-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 4V2m0 14v-2m-4-4H2m8 0h2m-2 0v7m0-7V9m4.01-3 5 5-5 5-5-5 5-5z"/></svg> Surprise Me</button>
+          </div>
+        `;
+        foundryContainer.querySelectorAll('.choice-card').forEach(card => {
+          card.addEventListener('click', (e) => {
+            clickSound.play();
+            const choice = e.target.dataset.choice;
+            userSelections.archetype = foundryData.characters.archetypes.find(a => a.name === choice);
+            navigateTo(renderStep3, 'step3');
+          });
+        });
+        foundryContainer.querySelector('.surprise-btn').addEventListener('click', () => {
+          clickSound.play();
+          userSelections.archetype = archetypes[Math.floor(Math.random() * archetypes.length)];
+          navigateTo(renderStep3, 'step3');
+        });
+      };
+      const renderStep3 = () => {
+        currentStep = 'step3';
+        const questions = userSelections.archetype.catalyst_questions;
+        if (!questions || questions.length === 0) {
+          navigateTo(renderFinalResult, 'result');
+          return;
+        }
+        foundryContainer.innerHTML = `
+          <div class="step-container">
+            ${renderHeader('Consider this...', true, 'step3')}
+            <div class="choice-grid" style="grid-template-columns: 1fr;">
+              ${questions.map((q, index) => `<button class="choice-card" data-choice="${index}">${q}</button>`).join('')}
+            </div>
+            <button class="surprise-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 4V2m0 14v-2m-4-4H2m8 0h2m-2 0v7m0-7V9m4.01-3 5 5-5 5-5-5 5-5z"/></svg> Surprise Me</button>
+          </div>
+        `;
+        foundryContainer.querySelectorAll('.choice-card').forEach(card => {
+          card.addEventListener('click', (e) => {
+            clickSound.play();
+            const choiceIndex = parseInt(e.target.dataset.choice, 10);
+            userSelections.question = questions[choiceIndex];
+            navigateTo(renderFinalResult, 'result');
+          });
+        });
+        foundryContainer.querySelector('.surprise-btn').addEventListener('click', () => {
+          clickSound.play();
+          userSelections.question = questions[Math.floor(Math.random() * questions.length)];
+          navigateTo(renderFinalResult, 'result');
+        });
+      };
+      const renderFinalResult = () => {
+        currentStep = 'result';
+        const char = userSelections.archetype;
+        let conflict = getRandomMatching(foundryData.conflicts.external, char.tags);
+        let setting = getRandomMatching(foundryData.settings.locations, char.tags);
+        const question = userSelections.question || "Consider their core motivation and flaw.";
+        const logline = `In the world of ${setting.name}, a character like ${char.name}, who is motivated by a desire to "${char.motivation}" but is held back by their flaw of "${char.flaw}", must face the conflict of ${conflict.text}`;
+        userSelections.result = { logline, question, setting, conflict };
+        foundryContainer.innerHTML = `
+          <div class="step-container result-container">
+            ${renderHeader('Your Forged Idea', true, 'result')}
+            <h3>Logline <button class="reroll" data-reroll="logline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button></h3>
+            <p>${logline}</p>
+            <h3>Deep Dive Question <button class="reroll" data-reroll="question"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button></h3>
+            <p><em>${question}</em></p>
+            <h3>Setting: ${setting.name} <button class="reroll" data-reroll="setting"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button></h3>
+            <div class="sensory-palette">
+              <ul>
+                <li><strong>Sight:</strong> ${setting.sensory_palette.sight}</li>
+                <li><strong>Sound:</strong> ${setting.sensory_palette.sound}</li>
+                <li><strong>Smell:</strong> ${setting.sensory_palette.smell}</li>
+              </ul>
+            </div>
+            <h3>Next Steps</h3>
+            <div class="action-grid">
+              <div class="action-card" id="anvilBtn">
+                <h4>Take to 'The Anvil'</h4>
+                <p>Begin writing in a focused editor.</p>
+              </div>
+              <div class="action-card" id="journalBtn">
+                <h4>Save to Journal</h4>
+                <p>Store this idea in your personal journal to revisit later.</p>
+              </div>
+            </div>
+            <button id="restartBtn" class="btn-primary">Start a New Idea</button>
+          </div>
+        `;
+        foundryContainer.querySelector('#restartBtn').addEventListener('click', () => {
+          userSelections = {};
+          navigationHistory = [];
+          localStorage.removeItem('foundryState');
+          navigateTo(renderStep1, 'step1');
+        });
+        foundryContainer.querySelector('#anvilBtn').addEventListener('click', () => {
+          localStorage.setItem('foundryAnvilPrompt', JSON.stringify(userSelections.result));
+          window.location.href = './anvil.html';
+        });
+        foundryContainer.querySelector('#journalBtn').addEventListener('click', (e) => {
+          let journal = JSON.parse(localStorage.getItem('foundryJournal')) || [];
+          journal.unshift(userSelections.result);
+          localStorage.setItem('foundryJournal', JSON.stringify(journal));
+          const card = e.target.closest('.action-card');
+          const originalText = card.querySelector('p').textContent;
+          card.classList.add('saved');
+          card.querySelector('h4').textContent = 'Saved!';
+          card.querySelector('p').textContent = 'Your idea has been added to the journal.';
+          setTimeout(() => {
+            card.classList.remove('saved');
+            card.querySelector('h4').textContent = "Save to Journal";
+            card.querySelector('p').textContent = originalText;
+          }, 2000);
+        });
+        foundryContainer.querySelectorAll('.reroll').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            clickSound.play();
+            const type = e.target.dataset.reroll;
+            if (type === 'logline') {
+              conflict = getRandomMatching(foundryData.conflicts.external, char.tags);
+              userSelections.result.conflict = conflict;
+              userSelections.result.logline = `In the world of ${setting.name}, a character like ${char.name}, who is motivated by a desire to "${char.motivation}" but is held back by their flaw of "${char.flaw}", must face the conflict of ${conflict.text}`;
+              foundryContainer.querySelector('p:first-of-type').textContent = userSelections.result.logline;
+            } else if (type === 'question') {
+              userSelections.question = userSelections.archetype.catalyst_questions[Math.floor(Math.random() * userSelections.archetype.catalyst_questions.length)];
+              userSelections.result.question = userSelections.question;
+              foundryContainer.querySelector('p:nth-of-type(2)').innerHTML = `<em>${userSelections.question}</em>`;
+            } else if (type === 'setting') {
+              setting = getRandomMatching(foundryData.settings.locations, char.tags);
+              userSelections.result.setting = setting;
+              userSelections.result.logline = `In the world of ${setting.name}, a character like ${char.name}, who is motivated by a desire to "${char.motivation}" but is held back by their flaw of "${char.flaw}", must face the conflict of ${conflict.text}`;
+              const settingH3 = foundryContainer.querySelector('h3:nth-of-type(3)');
+              settingH3.innerHTML = `Setting: ${setting.name} <button class="reroll" data-reroll="setting"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></button>`;
+              foundryContainer.querySelector('p:first-of-type').textContent = userSelections.result.logline;
+              const ul = foundryContainer.querySelector('ul');
+              ul.innerHTML = `
+                <li><strong>Sight:</strong> ${setting.sensory_palette.sight}</li>
+                <li><strong>Sound:</strong> ${setting.sensory_palette.sound}</li>
+                <li><strong>Smell:</strong> ${setting.sensory_palette.smell}</li>
+              `;
+              attachListeners(); // Re-attach for new reroll btn
+            }
+          });
+        });
+      };
+      async function initializeFoundry() {
+        foundryContainer.innerHTML = `
+          <div class="loading">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 2c-4 4-5 9-1 12.9C9.9 19 17 21 20 11c-2 2-8 2-13-3m.5 5.5l5 5"/></svg>
+          </div>
+        `;
+        try {
+          const response = await fetch('./foundry-data.json');
+          if (!response.ok) throw new Error('Could not load the Foundry brain.');
+          foundryData = await response.json();
+          const savedState = JSON.parse(localStorage.getItem('foundryState'));
+          if (savedState) {
+            foundryContainer.innerHTML += `
+              <div class="banner">Continue where you left off? <button id="continueYes">Yes</button><button id="continueNo">No</button></div>
+            `;
+            document.getElementById('continueYes').addEventListener('click', () => {
+              userSelections = savedState.userSelections;
+              currentStep = savedState.currentStep;
+              navigationHistory = []; // Rebuild based on step
+              const stepMap = {step1: renderStep1, step2: renderStep2, step3: renderStep3, result: renderFinalResult};
+              navigateTo(stepMap[currentStep], currentStep);
+            });
+            document.getElementById('continueNo').addEventListener('click', () => {
+              localStorage.removeItem('foundryState');
+              navigateTo(renderStep1, 'step1');
+            });
+          } else {
+            navigateTo(renderStep1, 'step1');
+          }
+        } catch (error) {
+          foundryContainer.innerHTML = `<p style="color: red; text-align: center;">Error: ${error.message}</p>`;
+        }
+      }
+      document.addEventListener('DOMContentLoaded', initializeFoundry);
+    })();
+  </script>
 </body>
 </html>
