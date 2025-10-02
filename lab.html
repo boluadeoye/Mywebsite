@@ -1,341 +1,402 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Forge</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-slate: #2D3748;
-            --panel-cream: #F7FAFC;
-            --accent-gold: #D69E2E;
-            --accent-gold-hover: #ECC94B;
-            --text-cream: #EDF2F7;
-            --text-dark: #2D3748;
-            --text-muted: #718096;
-            --border-color: #4A5568;
-            --transition: cubic-bezier(0.4, 0, 0.2, 1);
-        }
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>The Writer's Foundry — The Forge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Lora:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-slate: #2D3748;
+      --panel-cream: #F7FAFC;
+      --accent-gold: #D69E2E;
+      --accent-gold-hover: #ECC94B;
+      --text-cream: #EDF2F7;
+      --text-dark: #2D3748;
+      --text-muted: #718096;
+      --border-color: #4A5568;
+      --transition: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-slate) url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmQDeuv3powQ5ta2eN0FY0InkqDD73lT9c9lEzwUNqgFHs9VQce3TVClFCQrSTfOiYkVJQBmpbq2L6iZavPnAPcoU0dSw0SUTqz/GtrGuXfbyyBniKykOWQWGqwwMA7QiYAxi+IlPdqo+hYHnUt5ZPfnsHJyNiDtnpJyayNBkF6cWoYGAMY92U2hXHF/C1M8uP/ZtYdiuj26UdAdQQSXQErwSOMzt/XWRWAz5GuSBIkwG1H3FabJ2OsUOUhGC6tK4EMtJO0ttC6IBD3kM0ve0tJwMdSfjZo+EEISaeTr9P3wYrGjXqyC1krcKdhMpxEnt5JetoulscpyzhXN5FRpuPHvbeQaKxFAEB6EN+cYN6xD7RYGpXpNndMmZgM5Dcs3YSNFDHUo2LGfZuukSWyUYirJAdYbF3MfqEKmjM+I2EfhA94iG3L7uKrR+GdWD73ydlIB+6hgrefQTlmgmbM3/LeX5GI1Ux1RWpgxpLuZ2+I+IjzZ8wqE4nilvQdkUdfhzI5QDWy+kw5Wgg2pGpeEVeCCA7b85BO3F9DzxB3cdqvBzWcmzbyMiqhzuYqtHRVG2y4x+KOlnyqla8AoWWpuBoYRxzXrfKuILl6SfiWCbjxoZJUaCBj1CjH7GIaDbc9kqBY3W/Rgjda1iqQcOJu2WW+76pZC9QG7M00dffe9hNnseupFL53r8F7YHSwJWUKP2q+k7RdsxyOB11n0xtOvnW4irMMFNV4H0uqwS5ExsmP9AxbDTc9JwgneAT5vTiUSm1E7BSflSt3bfa1tv8Di3R8n3Af7MNWzs49hmauE2wP+ttrq+AsWpFG2awvsuOqbipWHgtuvuaAE+A1Z/7gC9hesnr+7wqCwG8c5yAg3AL1fm8T9AZtp/bbJGwl1pNrE7RuOX7PeMRUERVaPpEs+yqeoSmuOlokqw49pgomjLeh7icHNlG19yjs6XXOMedYm5xH2YxpV2tc0Ro2jJfxC50ApuxGob7lMsxfTbeUv07TyYxpeLucEH1gNd4IKH2LAg5TdVhlCafZvpskfncCfx8pOhJzd76bJWeYFnFciwcYfubRc12Ip/pIhA1/mSZ/RxjFDrJC5xifFjJpY2Xl5zXdguFqYyTR1zSp1Y9p+tktDYYSNflcxI0iyO4TPBdlRcpeqjK/piF5bklq77VSEaA+z8qmB0O9/uCHRypsNl0661f59sw2TG4S9T5rPStcbQbpDQThZk1/SQq2o+2oJo4B6BUFeMGoKOW6DpXL0GyqLUmHIyRO7x2K0qpfKbrcO/UsozSc9uwex1MVCAJeORlSB9IOiGlD0xsWHox2LNAJi0Xx1HnEceLON8gFyfLpApkstUF0VlNhr+HmCwUprEenmn+Ul6UzxQcRtg33Klbr5lD4khqMsLy4wfDqLnA7AtWgOW0k3RYRerk5YSlpVcjyMAdR1mn6/WKjJ4DM7C1TlkSkBrkmQJ6wc1yLAge9LHzwJItRJf+Dr3cdA5P7eNdmWjxzYIOTm5i3Snyg0ekdIEcwxh6rniMh1vzryMnc4Y5nJZBkV5B2lGUVzsquSquqC/ZbGWCovBWcOY0r2EL9JkDnoQgw9cXSjooo2ALXoBvwiC8lYthOZ/E5O/XW3r2EuclBNAzNbMSK3J3JJMmKvPnhJSV/OJALUMuK4DwdnC/j5+YvKXWNkjBNgiQrZH73t6U4O/uvDwyWSi19DrTGWrJ4t3NdK3bse2LTgApWa/cj9W3+0YzsIDA0M1UOQlaBniqHQ4mYeSxdhmCmZoyPxcoYTkkVi5Z2niVKL4EMAQ7KRLengZoM1yjJO9Tb2AA5WC4fGqgfTuJr8WJhiAqz5/Mrcue2AAAAABJRU5KI") repeat;
+      color: var(--text-cream);
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      padding-top: 80px;
+    }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+    
+    /* --- FINAL NAVIGATION --- */
+    .nav { position: fixed; top: 0; left: 0; width: 100%; background: var(--bg-slate); border-bottom: 1px solid var(--border-color); z-index: 1000; }
+    .nav .wrap { display: flex; justify-content: center; align-items: center; height: 64px; }
+    .nav-links { list-style: none; display: flex; align-items: center; gap: 8px; padding: 0; margin: 0; }
+    .nav-links a { display: block; text-decoration: none; color: var(--text-cream); font-weight: 700; padding: 8px 16px; border-radius: 999px; transition: all 300ms var(--transition); }
+    .nav-links a.active { background-color: var(--accent-gold); color: var(--bg-slate); }
+    .nav-links a:not(.active):hover { background-color: #4A5568; }
+    
+    /* --- MAIN CARD & LAYOUT --- */
+    .main-card {
+      max-width: 580px;
+      margin: 32px auto;
+      background: var(--panel-cream);
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      color: var(--text-dark);
+      position: relative;
+    }
+    
+    /* --- ANIMATIONS & STATES --- */
+    .step-container { animation: fadeIn 300ms var(--transition) forwards; }
+    .fade-out { animation: fadeOut 300ms var(--transition) forwards; }
+    @keyframes fadeOut { to { opacity: 0; transform: translateY(-10px); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-slate) url("data:image/png;base64,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") repeat;
-            color: var(--text-dark);
-        }
+    /* --- COMPONENTS --- */
+    .loading { display: flex; justify-content: center; align-items: center; height: 100%; }
+    .loading svg { width: 48px; height: 48px; color: var(--accent-gold); animation: pulse 1.2s infinite; }
+    
+    .step-header { display: flex; justify-content: center; align-items: center; flex-direction: column; width: 100%; margin-bottom: 32px; }
+    .step-title { font-family: 'Inter', sans-serif; font-size: 1.8rem; line-height: 1.4; font-weight: 800; margin-bottom: 16px; color: var(--text-dark); text-align: center; }
+    .runes { display: flex; gap: 8px; }
+    .rune { width: 12px; height: 12px; border-radius: 50%; background: #CBD5E0; transition: background 300ms var(--transition); }
+    .rune.filled { background: var(--accent-gold); }
+    .rune.filled.animate { animation: pulse 0.5s var(--transition); }
+    .btn-back { background: none; border: none; font-weight: 700; color: var(--text-muted); cursor: pointer; position: absolute; left: 32px; top: 32px; font-size: 1rem; padding: 4px; z-index: 10; }
+    .btn-back:hover { color: var(--accent-gold); }
 
-        .nav { position: fixed; top: 0; left: 0; width: 100%; background: var(--bg-slate); border-bottom: 1px solid var(--border-color); z-index: 1000; }
-        .nav .wrap { display: flex; justify-content: center; align-items: center; height: 64px; }
-        .nav-links { list-style: none; display: flex; align-items: center; gap: 8px; padding: 0; margin: 0; }
-        .nav-links a { display: block; text-decoration: none; color: var(--text-cream); font-weight: 700; padding: 8px 16px; border-radius: 999px; transition: all 300ms var(--transition); }
-        .nav-links a.active { background-color: var(--accent-gold); color: var(--bg-slate); }
-        .nav-links a:not(.active):hover { background-color: #4A5568; }
+    .choice-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 16px; }
+    .choice-card { padding: 20px; background: transparent; border: 1px solid #E2E8F0; border-radius: 8px; font-weight: 700; text-align: center; cursor: pointer; transition: all 300ms var(--transition); font-family: 'Inter', sans-serif; color: var(--text-dark); font-size: 1.1rem; }
+    .choice-card:hover { border-color: var(--accent-gold); color: var(--accent-gold); transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.07); }
+    
+    .surprise-btn { border: 2px dashed #CBD5E0; padding: 20px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: all 300ms var(--transition); margin-top: 16px; color: var(--text-muted); font-weight: 700; background: transparent; width: 100%; font-size: 1.1rem; }
+    .surprise-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+    .surprise-btn svg { width: 20px; height: 20px; }
+    
+    .result-container h3 { font-family: 'Inter', sans-serif; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); border-bottom: 1px solid #E2E8F0; padding-bottom: 8px; margin: 24px 0 16px; display: flex; align-items: center; justify-content: space-between; }
+    .result-container p { font-family: 'Lora', serif; font-size: 1.2rem; line-height: 1.7; color: var(--text-dark); }
+    .result-container ul { list-style: none; margin-top: 1rem; padding: 0; }
+    .result-container li { font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 8px; }
+    .result-container li strong { color: var(--text-dark); }
 
-        .main-footer { width: 100%; padding: 2rem 0; margin-top: 4rem; background-color: var(--bg-slate); border-top: 1px solid var(--border-color); }
-        .main-footer p { text-align: center; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--text-muted); }
-
-        #foundry {
-            max-width: 580px;
-            background: var(--panel-cream);
-            padding: 32px;
-            margin: 80px auto 32px;
-        }
-
-        .step-title {
-            font-size: 1.8rem;
-            line-height: 1.4;
-            margin-bottom: 16px;
-        }
-    </style>
+    .reroll { background: none; border: none; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; transition: all 300ms var(--transition); display: flex; align-items: center; justify-content: center; color: var(--text-muted); }
+    .reroll:hover { background: #e2e8f0; color: var(--accent-gold); transform: rotate(180deg); }
+    .reroll svg { width: 16px; height: 16px; }
+    
+    .action-grid { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+    .action-card { background: transparent; border: 1px solid #E2E8F0; border-radius: 12px; padding: 24px; text-align: left; cursor: pointer; transition: all 300ms var(--transition); }
+    .action-card:hover { border-color: var(--accent-gold); transform: translateY(-3px); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    .action-card h4 { font-family: 'Inter', sans-serif; font-size: 1.1rem; color: var(--text-dark); margin-bottom: 4px; font-weight: 700; }
+    .action-card p { font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin: 0; }
+    .action-card.saved { border-color: #27ae60; background-color: #f0fff4; pointer-events: none; }
+    
+    .btn-primary { width: 100%; padding: 16px; background: linear-gradient(to bottom, var(--accent-gold-hover), var(--accent-gold)); color: var(--bg-slate); border: none; border-radius: 8px; font-weight: 700; font-size: 1rem; text-align: center; cursor: pointer; transition: all 300ms var(--transition); margin-top: 32px; font-family: 'Inter', sans-serif; }
+    .btn-primary:hover { box-shadow: 0 4px 20px rgba(214, 158, 46, 0.25); transform: translateY(-2px); }
+    
+    .banner { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--panel-cream); color: var(--text-dark); padding: 16px 24px; text-align: center; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 2000; animation: fadeIn 500ms var(--transition); }
+    .banner button { background: linear-gradient(to bottom, var(--accent-gold-hover), var(--accent-gold)); color: var(--bg-slate); border: none; padding: 8px 16px; border-radius: 4px; margin-left: 8px; cursor: pointer; font-weight: 700; }
+    
+    /* --- FOOTER --- */
+    .main-footer { width: 100%; padding: 2rem 0; margin-top: 4rem; background-color: var(--bg-slate); border-top: 1px solid var(--border-color); }
+    .main-footer p { text-align: center; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--text-muted); }
+  </style>
 </head>
 <body>
-    <nav class="nav">
-        <div class="wrap">
-            <ul class="nav-links">
-                <li><a href="#" class="active">Lab</a></li>
-                <li><a href="./anvil.html">Anvil</a></li>
-                <li><a href="./journal.html">Journal</a></li>
-                <li><a href="./academy.html">Academy</a></li>
-            </ul>
-        </div>
-    </nav>
 
-    <section id="foundry" class="main-card">
-    </section>
+  <nav class="nav">
+    <div class="wrap">
+      <ul class="nav-links">
+        <li><a href="#" class="active">Lab</a></li>
+        <li><a href="./anvil.html">Anvil</a></li>
+        <li><a href="./journal.html">Journal</a></li>
+        <li><a href="./academy.html">Academy</a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <footer class="main-footer">
-        <div class="wrap">
-            <p>© 2025 Boluadeoye • Crafted with passion</p>
-        </div>
-    </footer>
+  <main class="wrap">
+    <section id="foundry" class="main-card"></section>
+  </main>
 
-    <script>
-        (function(){
-  const foundryContainer = document.getElementById('foundry');
-  let foundryData = null;
-  let userSelections = {};
-  let navigationHistory = [];
-  let currentStep = 'step1';
+  <footer class="main-footer">
+    <div class="wrap">
+      <p>© 2025 Boluadeoye • Crafted with passion</p>
+    </div>
+  </footer>
 
-  // --- Sound Effects (Subtle, non-intrusive) ---
-  const clickSound = new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABgAZGF0YQAAAAA=');
-  const swooshSound = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABgAZGF0YQAAAAA=');
-  [clickSound, swooshSound].forEach(s => s.volume = 0.3);
+  <script>
+    (function(){
+      const foundryContainer = document.getElementById('foundry');
+      let foundryData = null;
+      let userSelections = {};
+      let navigationHistory = [];
+      let currentStep = 'step1';
 
-  // --- Helper Functions ---
-  const getRandomMatching = (items, tags) => {
-    if (!tags || tags.length === 0) return items[Math.floor(Math.random() * items.length)];
-    const matching = items.filter(i => i.tags && i.tags.some(t => tags.includes(t)));
-    return matching.length > 0 ? matching[Math.floor(Math.random() * matching.length)] : items[Math.floor(Math.random() * items.length)];
-  };
+      // --- Sound Effects (Subtle, non-intrusive) ---
+      const clickSound = new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABgAZGF0YQAAAAA=');
+      const swooshSound = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABgAZGF0YQAAAAA=');
+      [clickSound, swooshSound].forEach(s => s.volume = 0.3);
 
-  // --- Navigation Engine ---
-  const navigateTo = (stepFunction, stepName, isBack = false) => {
-    if (!isBack) {
-      navigationHistory.push({ func: stepFunction, name: stepName });
-    }
-    localStorage.setItem('foundryState', JSON.stringify({ userSelections, currentStep: stepName, navigationHistory: navigationHistory.map(h => h.name) }));
-    swooshSound.play().catch(e => {});
+      // --- Helper Functions ---
+      const getRandomMatching = (items, tags) => {
+        if (!tags || tags.length === 0) return items[Math.floor(Math.random() * items.length)];
+        const matching = items.filter(i => i.tags && i.tags.some(t => tags.includes(t)));
+        return matching.length > 0 ? matching[Math.floor(Math.random() * matching.length)] : items[Math.floor(Math.random() * items.length)];
+      };
 
-    const oldContent = foundryContainer.firstChild;
-    if (oldContent) {
-      oldContent.classList.add('fade-out');
-      setTimeout(() => stepFunction(), 300);
-    } else {
-      stepFunction();
-    }
-  };
+      // --- Navigation Engine ---
+      const navigateTo = (stepFunction, stepName, isBack = false) => {
+        if (!isBack) {
+          navigationHistory.push({ func: stepFunction, name: stepName });
+        }
+        localStorage.setItem('foundryState', JSON.stringify({ userSelections, currentStep: stepName, navigationHistory: navigationHistory.map(h => h.name) }));
+        swooshSound.play().catch(e => {});
 
-  const goBack = () => {
-    if (navigationHistory.length > 1) {
-      navigationHistory.pop();
-      const previous = navigationHistory[navigationHistory.length - 1];
-      currentStep = previous.name;
-      navigateTo(previous.func, previous.name, true);
-    }
-  };
-  
-  // --- Component Renderers ---
-  const renderRunes = (current) => {
-    const steps = ['step1', 'step2', 'step3', 'result'];
-    const currentIndex = steps.indexOf(current);
-    return `<div class="runes">${steps.map((s, i) => `<div class="rune ${i <= currentIndex ? 'filled' : ''} ${i === currentIndex ? 'animate' : ''}"></div>`).join('')}</div>`;
-  };
-  
-  const renderHeader = (title, step) => {
-    const showBack = navigationHistory.length > 1;
-    const header = document.createElement('div');
-    header.innerHTML = `
-      ${showBack ? `<button class="btn-back">← Back</button>` : ''}
-      <div class="step-header">
-        <h2 class="step-title">${title}</h2>
-        ${renderRunes(step)}
-      </div>
-    `;
-    if (showBack) {
-      header.querySelector('.btn-back').addEventListener('click', goBack);
-    }
-    return header;
-  };
+        const oldContent = foundryContainer.firstChild;
+        if (oldContent) {
+          oldContent.classList.add('fade-out');
+          setTimeout(() => stepFunction(), 300);
+        } else {
+          stepFunction();
+        }
+      };
 
-  const createAndAppend = (parent, tag, className, innerHTML = '') => {
-    const el = document.createElement(tag);
-    if (className) el.className = className;
-    el.innerHTML = innerHTML;
-    parent.appendChild(el);
-    return el;
-  };
-  
-  const rerollIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>`;
-  const surpriseIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 4V2m0 14v-2m-4-4H2m8 0h2m-2 0v7m0-7V9m4.01-3 5 5-5 5-5-5 5-5z"/></svg>`;
-  const quillIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 2c-4 4-5 9-1 12.9C9.9 19 17 21 20 11c-2 2-8 2-13-3m.5 5.5l5 5"/></svg>`;
-
-  // --- Step Renderers ---
-  const renderStep1 = () => {
-    currentStep = 'step1';
-    foundryContainer.innerHTML = '';
-    const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container');
-    stepContainer.appendChild(renderHeader('What is the core of your idea?', 'step1'));
-    
-    const grid = createAndAppend(stepContainer, 'div', 'choice-grid');
-    ['Character', 'Setting', 'Theme'].forEach(choice => {
-      const card = createAndAppend(grid, 'button', 'choice-card', choice);
-      card.dataset.choice = choice.toLowerCase();
-      card.addEventListener('click', (e) => {
-        clickSound.play().catch(e => {});
-        userSelections.core = e.target.dataset.choice;
-        navigateTo(renderStep2, 'step2');
-      });
-    });
-
-    createAndAppend(stepContainer, 'button', 'surprise-btn', `${surpriseIcon} Surprise Me`)
-        .addEventListener('click', () => {
-            clickSound.play().catch(e => {});
-            const choices = ['character', 'setting', 'theme'];
-            userSelections.core = choices[Math.floor(Math.random() * choices.length)];
-            navigateTo(renderStep2, 'step2');
-        });
-  };
-  
-  const renderStep2 = () => {
-    currentStep = 'step2';
-    const archetypes = foundryData.characters.archetypes;
-    foundryContainer.innerHTML = '';
-    const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container');
-    stepContainer.appendChild(renderHeader('Choose a Character Archetype', 'step2'));
-    
-    const grid = createAndAppend(stepContainer, 'div', 'choice-grid');
-    archetypes.forEach(a => {
-        const card = createAndAppend(grid, 'button', 'choice-card', a.name);
-        card.dataset.choice = a.name;
-        card.addEventListener('click', (e) => {
-            clickSound.play().catch(e => {});
-            userSelections.archetype = archetypes.find(arch => arch.name === e.target.dataset.choice);
-            navigateTo(renderStep3, 'step3');
-        });
-    });
-
-    createAndAppend(stepContainer, 'button', 'surprise-btn', `${surpriseIcon} Surprise Me`)
-        .addEventListener('click', () => {
-            clickSound.play().catch(e => {});
-            userSelections.archetype = archetypes[Math.floor(Math.random() * archetypes.length)];
-            navigateTo(renderStep3, 'step3');
-        });
-  };
-  
-  const renderStep3 = () => {
-      currentStep = 'step3';
-      const questions = userSelections.archetype.catalyst_questions;
-      if (!questions || questions.length === 0) {
-          navigateTo(renderFinalResult, 'result');
-          return;
-      }
-      foundryContainer.innerHTML = '';
-      const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container');
-      stepContainer.appendChild(renderHeader('Consider this...', 'step3'));
+      const goBack = () => {
+        if (navigationHistory.length > 1) {
+          navigationHistory.pop();
+          const previous = navigationHistory[navigationHistory.length - 1];
+          currentStep = previous.name;
+          navigateTo(previous.func, previous.name, true);
+        }
+      };
       
-      const grid = createAndAppend(stepContainer, 'div', 'choice-grid');
-      grid.style.gridTemplateColumns = '1fr';
-      questions.forEach((q, index) => {
-          const card = createAndAppend(grid, 'button', 'choice-card', q);
-          card.dataset.choice = index;
+      // --- Component Renderers ---
+      const renderRunes = (current) => {
+        const steps = ['step1', 'step2', 'step3', 'result'];
+        const currentIndex = steps.indexOf(current);
+        return `<div class="runes">${steps.map((s, i) => `<div class="rune ${i <= currentIndex ? 'filled' : ''} ${i === currentIndex ? 'animate' : ''}"></div>`).join('')}</div>`;
+      };
+      
+      const renderHeader = (title, step) => {
+        const showBack = navigationHistory.length > 1;
+        const header = document.createElement('div');
+        header.innerHTML = `
+          ${showBack ? `<button class="btn-back">← Back</button>` : ''}
+          <div class="step-header">
+            <h2 class="step-title">${title}</h2>
+            ${renderRunes(step)}
+          </div>
+        `;
+        if (showBack) {
+          header.querySelector('.btn-back').addEventListener('click', goBack);
+        }
+        return header;
+      };
+
+      const createAndAppend = (parent, tag, className, innerHTML = '') => {
+        const el = document.createElement(tag);
+        if (className) el.className = className;
+        el.innerHTML = innerHTML;
+        parent.appendChild(el);
+        return el;
+      };
+      
+      const rerollIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>`;
+      const surpriseIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 4V2m0 14v-2m-4-4H2m8 0h2m-2 0v7m0-7V9m4.01-3 5 5-5 5-5-5 5-5z"/></svg>`;
+      const quillIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 2c-4 4-5 9-1 12.9C9.9 19 17 21 20 11c-2 2-8 2-13-3m.5 5.5l5 5"/></svg>`;
+
+      // --- Step Renderers ---
+      const renderStep1 = () => {
+        currentStep = 'step1';
+        foundryContainer.innerHTML = '';
+        const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container');
+        stepContainer.appendChild(renderHeader('What is the core of your idea?', 'step1'));
+        
+        const grid = createAndAppend(stepContainer, 'div', 'choice-grid');
+        ['Character', 'Setting', 'Theme'].forEach(choice => {
+          const card = createAndAppend(grid, 'button', 'choice-card', choice);
+          card.dataset.choice = choice.toLowerCase();
           card.addEventListener('click', (e) => {
-              clickSound.play().catch(e => {});
-              userSelections.question = questions[parseInt(e.target.dataset.choice, 10)];
+            clickSound.play().catch(e => {});
+            userSelections.core = e.target.dataset.choice;
+            navigateTo(renderStep2, 'step2');
+          });
+        });
+
+        createAndAppend(stepContainer, 'button', 'surprise-btn', `${surpriseIcon} Surprise Me`)
+            .addEventListener('click', () => {
+                clickSound.play().catch(e => {});
+                const choices = ['character', 'setting', 'theme'];
+                userSelections.core = choices[Math.floor(Math.random() * choices.length)];
+                navigateTo(renderStep2, 'step2');
+            });
+      };
+      
+      const renderStep2 = () => {
+        currentStep = 'step2';
+        const archetypes = foundryData.characters.archetypes;
+        foundryContainer.innerHTML = '';
+        const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container');
+        stepContainer.appendChild(renderHeader('Choose a Character Archetype', 'step2'));
+        
+        const grid = createAndAppend(stepContainer, 'div', 'choice-grid');
+        archetypes.forEach(a => {
+            const card = createAndAppend(grid, 'button', 'choice-card', a.name);
+            card.dataset.choice = a.name;
+            card.addEventListener('click', (e) => {
+                clickSound.play().catch(e => {});
+                userSelections.archetype = archetypes.find(arch => arch.name === e.target.dataset.choice);
+                navigateTo(renderStep3, 'step3');
+            });
+        });
+
+        createAndAppend(stepContainer, 'button', 'surprise-btn', `${surpriseIcon} Surprise Me`)
+            .addEventListener('click', () => {
+                clickSound.play().catch(e => {});
+                userSelections.archetype = archetypes[Math.floor(Math.random() * archetypes.length)];
+                navigateTo(renderStep3, 'step3');
+            });
+      };
+      
+      const renderStep3 = () => {
+          currentStep = 'step3';
+          const questions = userSelections.archetype.catalyst_questions;
+          if (!questions || questions.length === 0) {
               navigateTo(renderFinalResult, 'result');
+              return;
+          }
+          foundryContainer.innerHTML = '';
+          const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container');
+          stepContainer.appendChild(renderHeader('Consider this...', 'step3'));
+          
+          const grid = createAndAppend(stepContainer, 'div', 'choice-grid');
+          questions.forEach((q, index) => {
+              const card = createAndAppend(grid, 'button', 'choice-card', q);
+              card.dataset.choice = index;
+              card.addEventListener('click', (e) => {
+                  clickSound.play().catch(e => {});
+                  userSelections.question = questions[parseInt(e.target.dataset.choice, 10)];
+                  navigateTo(renderFinalResult, 'result');
+              });
           });
-      });
-  };
+      };
 
-  const renderFinalResult = () => {
-      currentStep = 'result';
-      foundryContainer.innerHTML = '';
-      const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container result-container');
-      stepContainer.appendChild(renderHeader('Your Forged Idea', 'result'));
-      
-      const char = userSelections.archetype;
-      const conflict = userSelections.result && userSelections.result.conflict ? userSelections.result.conflict : getRandomMatching(foundryData.conflicts.external, char.tags);
-      const setting = userSelections.result && userSelections.result.setting ? userSelections.result.setting : getRandomMatching(foundryData.settings.locations, char.tags);
-      const question = userSelections.question || "Consider their core motivation and flaw.";
-      
-      userSelections.result = { char, conflict, setting, question };
-      const logline = `In ${setting.name}, a(n) "${char.name}" driven by a need to "${char.motivation}" must confront the external conflict of "${conflict.text}", all while grappling with their personal flaw of "${char.flaw}".`;
-      userSelections.result.logline = logline;
-      
-      const loglineH3 = createAndAppend(stepContainer, 'h3', '', `Logline <button class="reroll" data-reroll="logline">${rerollIcon}</button>`);
-      createAndAppend(stepContainer, 'p', '', logline);
+      const renderFinalResult = () => {
+          currentStep = 'result';
+          foundryContainer.innerHTML = '';
+          const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container result-container');
+          stepContainer.appendChild(renderHeader('Your Forged Idea', 'result'));
+          
+          const char = userSelections.archetype;
+          const conflict = getRandomMatching(foundryData.conflicts.external, char.tags);
+          const setting = getRandomMatching(foundryData.settings.locations, char.tags);
+          const question = userSelections.question || "Consider their core motivation and flaw.";
+          
+          userSelections.result = { char, conflict, setting, question };
+          const logline = `In ${setting.name}, a(n) "${char.name}" driven by a need to "${char.motivation}" must confront the external conflict of "${conflict.text}", all while grappling with their personal flaw of "${char.flaw}".`;
+          userSelections.result.logline = logline;
+          
+          const loglineH3 = createAndAppend(stepContainer, 'h3', '', `Logline <button class="reroll" data-reroll="logline">${rerollIcon}</button>`);
+          createAndAppend(stepContainer, 'p', '', logline);
 
-      const questionH3 = createAndAppend(stepContainer, 'h3', '', `Deep Dive Question <button class="reroll" data-reroll="question">${rerollIcon}</button>`);
-      createAndAppend(stepContainer, 'p', '', `<em>${question}</em>`);
+          const questionH3 = createAndAppend(stepContainer, 'h3', '', `Deep Dive Question <button class="reroll" data-reroll="question">${rerollIcon}</button>`);
+          createAndAppend(stepContainer, 'p', '', `<em>${question}</em>`);
 
-      const settingH3 = createAndAppend(stepContainer, 'h3', '', `Setting: ${setting.name} <button class="reroll" data-reroll="setting">${rerollIcon}</button>`);
-      const palette = createAndAppend(stepContainer, 'ul');
-      palette.innerHTML = `
-          <li><strong>Sight:</strong> ${setting.sensory_palette.sight}</li>
-          <li><strong>Sound:</strong> ${setting.sensory_palette.sound}</li>
-          <li><strong>Smell:</strong> ${setting.sensory_palette.smell}</li>
-      `;
-      
-      [loglineH3, questionH3, settingH3].forEach(h3 => {
-          h3.querySelector('.reroll').addEventListener('click', (e) => {
-              clickSound.play().catch(e => {});
-              const type = e.currentTarget.dataset.reroll;
-              if (type === 'logline') userSelections.result.conflict = getRandomMatching(foundryData.conflicts.external, char.tags);
-              if (type === 'question') userSelections.question = userSelections.archetype.catalyst_questions[Math.floor(Math.random() * userSelections.archetype.catalyst_questions.length)];
-              if (type === 'setting') userSelections.result.setting = getRandomMatching(foundryData.settings.locations, char.tags);
-              navigateTo(renderFinalResult, 'result', true);
+          const settingH3 = createAndAppend(stepContainer, 'h3', '', `Setting: ${setting.name} <button class="reroll" data-reroll="setting">${rerollIcon}</button>`);
+          const palette = createAndAppend(stepContainer, 'ul');
+          palette.innerHTML = `
+              <li><strong>Sight:</strong> ${setting.sensory_palette.sight}</li>
+              <li><strong>Sound:</strong> ${setting.sensory_palette.sound}</li>
+              <li><strong>Smell:</strong> ${setting.sensory_palette.smell}</li>
+          `;
+          
+          [loglineH3, questionH3, settingH3].forEach(h3 => {
+              h3.querySelector('.reroll').addEventListener('click', (e) => {
+                  clickSound.play().catch(e => {});
+                  const type = e.currentTarget.dataset.reroll;
+                  if (type === 'logline') userSelections.result.conflict = getRandomMatching(foundryData.conflicts.external, char.tags);
+                  if (type === 'question') userSelections.question = userSelections.archetype.catalyst_questions[Math.floor(Math.random() * userSelections.archetype.catalyst_questions.length)];
+                  if (type === 'setting') userSelections.result.setting = getRandomMatching(foundryData.settings.locations, char.tags);
+                  navigateTo(renderFinalResult, 'result', true);
+              });
           });
-      });
 
-      createAndAppend(stepContainer, 'h3', '', 'Next Steps');
-      const actionGrid = createAndAppend(stepContainer, 'div', 'action-grid');
-      
-      createAndAppend(actionGrid, 'div', 'action-card', `<h4>Take to 'The Anvil'</h4><p>Begin writing in a focused editor.</p>`)
-        .addEventListener('click', () => {
-          localStorage.setItem('foundryAnvilPrompt', JSON.stringify(userSelections.result));
-          window.location.href = './anvil.html';
-        });
+          createAndAppend(stepContainer, 'h3', '', 'Next Steps');
+          const actionGrid = createAndAppend(stepContainer, 'div', 'action-grid');
+          
+          createAndAppend(actionGrid, 'div', 'action-card', `<h4>Take to 'The Anvil'</h4><p>Begin writing in a focused editor.</p>`)
+            .addEventListener('click', () => {
+              localStorage.setItem('foundryAnvilPrompt', JSON.stringify(userSelections.result));
+              window.location.href = './anvil.html';
+            });
 
-      createAndAppend(actionGrid, 'div', 'action-card', `<h4>Save to Journal</h4><p>Store this idea in your personal journal.</p>`)
-        .addEventListener('click', (e) => {
-          let journal = JSON.parse(localStorage.getItem('foundryJournal')) || [];
-          journal.unshift({ ...userSelections.result, timestamp: new Date().toISOString() });
-          localStorage.setItem('foundryJournal', JSON.stringify(journal));
-          const card = e.currentTarget;
-          const originalP = card.querySelector('p').textContent;
-          card.classList.add('saved');
-          card.querySelector('h4').textContent = 'Saved!';
-          card.querySelector('p').textContent = 'Your idea has been added to the journal.';
-          setTimeout(() => {
-            card.classList.remove('saved');
-            card.querySelector('h4').textContent = "Save to Journal";
-            card.querySelector('p').textContent = originalP;
-          }, 2000);
-        });
-      
-      createAndAppend(stepContainer, 'button', 'btn-primary', 'Start a New Idea').addEventListener('click', () => {
-        userSelections = {}; navigationHistory = [];
-        localStorage.removeItem('foundryState');
-        navigateTo(renderStep1, 'step1');
-      });
-  };
+          createAndAppend(actionGrid, 'div', 'action-card', `<h4>Save to Journal</h4><p>Store this idea in your personal journal.</p>`)
+            .addEventListener('click', (e) => {
+              let journal = JSON.parse(localStorage.getItem('foundryJournal')) || [];
+              journal.unshift({ ...userSelections.result, timestamp: new Date().toISOString() });
+              localStorage.setItem('foundryJournal', JSON.stringify(journal));
+              const card = e.currentTarget;
+              const originalP = card.querySelector('p').textContent;
+              card.classList.add('saved');
+              card.querySelector('h4').textContent = 'Saved!';
+              card.querySelector('p').textContent = 'Your idea has been added to the journal.';
+              setTimeout(() => {
+                card.classList.remove('saved');
+                card.querySelector('h4').textContent = "Save to Journal";
+                card.querySelector('p').textContent = originalP;
+              }, 2000);
+            });
+          
+          createAndAppend(stepContainer, 'button', 'btn-primary', 'Start a New Idea').addEventListener('click', () => {
+            userSelections = {}; navigationHistory = [];
+            localStorage.removeItem('foundryState');
+            navigateTo(renderStep1, 'step1');
+          });
+      };
 
-  // --- Initialization ---
-  async function initializeFoundry() {
-    foundryContainer.innerHTML = `<div class="loading">${quillIcon}</div>`;
-    try {
-      const response = await fetch('./foundry-data.json');
-      if (!response.ok) throw new Error('Could not load the Foundry brain.');
-      foundryData = await response.json();
-      
-      const savedState = JSON.parse(localStorage.getItem('foundryState'));
-      if (savedState && savedState.navigationHistory && savedState.navigationHistory.length > 0) {
-        const banner = createAndAppend(document.body, 'div', 'banner');
-        banner.innerHTML = `Continue where you left off? <button id="continueYes">Yes</button><button id="continueNo">No</button>`;
-        document.getElementById('continueYes').addEventListener('click', () => {
-          userSelections = savedState.userSelections;
-          currentStep = savedState.currentStep;
-          const stepMap = {step1: renderStep1, step2: renderStep2, step3: renderStep3, result: renderFinalResult};
-          navigationHistory = savedState.navigationHistory.map(name => ({name, func: stepMap[name]}));
-          navigateTo(stepMap[currentStep], currentStep, true);
-          banner.remove();
-        });
-        document.getElementById('continueNo').addEventListener('click', () => {
-          localStorage.removeItem('foundryState');
-          navigateTo(renderStep1, 'step1');
-          banner.remove();
-        });
-      } else {
-        navigateTo(renderStep1, 'step1');
+      // --- Initialization ---
+      async function initializeFoundry() {
+        foundryContainer.innerHTML = `<div class="loading">${quillIcon}</div>`;
+        try {
+          const response = await fetch('./foundry-data.json');
+          if (!response.ok) throw new Error('Could not load the Foundry brain.');
+          foundryData = await response.json();
+          
+          const savedState = JSON.parse(localStorage.getItem('foundryState'));
+          if (savedState && savedState.navigationHistory && savedState.navigationHistory.length > 0) {
+            const banner = createAndAppend(document.body, 'div', 'banner');
+            banner.innerHTML = `Continue where you left off? <button id="continueYes">Yes</button><button id="continueNo">No</button>`;
+            document.getElementById('continueYes').addEventListener('click', () => {
+              userSelections = savedState.userSelections;
+              currentStep = savedState.currentStep;
+              const stepMap = {step1: renderStep1, step2: renderStep2, step3: renderStep3, result: renderFinalResult};
+              navigationHistory = savedState.navigationHistory.map(name => ({name, func: stepMap[name]}));
+              navigateTo(stepMap[currentStep], currentStep, true);
+              banner.remove();
+            });
+            document.getElementById('continueNo').addEventListener('click', () => {
+              localStorage.removeItem('foundryState');
+              navigateTo(renderStep1, 'step1');
+              banner.remove();
+            });
+          } else {
+            navigateTo(renderStep1, 'step1');
+          }
+        } catch (error) {
+          foundryContainer.innerHTML = `<p style="color: red; text-align: center;">Error: ${error.message}</p>`;
+        }
       }
-    } catch (error) {
-      foundryContainer.innerHTML = `<p style="color: red; text-align: center;">Error: ${error.message}</p>`;
-    }
-  }
-  
-  initializeFoundry();
-})();
-    </script>
+      
+      initializeFoundry();
+    })();
+  </script>
 </body>
 </html>
