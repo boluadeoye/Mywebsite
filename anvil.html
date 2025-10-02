@@ -3,426 +3,449 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Anvil - The Writer's Foundry</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <title>The Anvil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* The Modern Aesthetic Palette */
-            --bg-light-gray: #F4F7FA;
-            --panel-white: #FFFFFF;
-            --primary-blue: #0052CC;
-            --hover-blue: #0065FF;
-            --text-dark: #172B4D;
-            --text-muted: #6B778C;
-            --border-color: #DFE1E6;
-            
-            /* Timing Function & Spacing Grid */
-            --transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
-            --space-8: 8px;
-            --space-12: 12px;
-            --space-16: 16px;
-            --space-24: 24px;
-            --space-32: 32px;
+            --bg-slate: #2D3748;
+            --panel-cream: #F7FAFC;
+            --accent-gold: #D69E2E;
+            --accent-gold-hover: #ECC94B;
+            --text-cream: #EDF2F7;
+            --text-dark: #2D3748;
+            --text-muted: #718096;
+            --border-color: #4A5568;
+            --transition: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* --- Global Styles & Typography --- */
-        *, *::before, *::after { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         body {
-            background-color: var(--bg-light-gray);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            font-weight: 400;
-            color: var(--text-dark);
             margin: 0;
-            padding: calc(64px + var(--space-32)) var(--space-16) var(--space-32) var(--space-16);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            transition: background-color 0.4s var(--transition-curve);
-        }
-
-        /* --- Unified Navigation Bar --- */
-        .foundry-nav {
-            position: fixed; top: 0; left: 0; width: 100%;
-            background-color: var(--panel-white);
-            box-shadow: 0 2px 8px rgba(23, 43, 77, 0.05);
-            border-bottom: 1px solid var(--border-color);
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 var(--space-24); height: 64px; z-index: 1000;
-            transition: opacity 0.4s var(--transition-curve), transform 0.4s var(--transition-curve);
-        }
-        .nav-brand {
-            font-weight: 800; font-size: 1.2rem;
-            color: var(--text-dark); text-decoration: none;
-        }
-        .nav-links { display: flex; gap: var(--space-24); }
-        .nav-links a {
-            text-decoration: none; color: var(--text-muted);
-            font-weight: 700; font-size: 1rem;
-            padding: var(--space-8) 0;
-            border-bottom: 2px solid transparent;
-            transition: color 0.2s var(--transition-curve);
-        }
-        .nav-links a:hover { color: var(--text-dark); }
-        .nav-links a.active { color: var(--primary-blue); border-bottom-color: var(--primary-blue); }
-
-        /* --- Main Anvil Layout --- */
-        .anvil-wrap {
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .tool-header {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-slate) url("data:image/png;base64,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") repeat;
+            color: var(--text-dark);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: var(--space-16);
-            padding: var(--space-12) var(--space-16);
-            background-color: var(--panel-white);
-            border: 1px solid var(--border-color);
-            border-radius: var(--space-12);
-            margin-bottom: var(--space-24);
-            transition: opacity 0.4s var(--transition-curve), transform 0.4s var(--transition-curve);
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: 64px;
         }
-        .tool-group { display: flex; gap: var(--space-8); align-items: center; }
-        .tool-btn {
-            background-color: transparent; border: 1px solid transparent;
-            border-radius: 8px; padding: var(--space-8) var(--space-12);
-            cursor: pointer; font-weight: 700; font-size: 0.9rem;
-            color: var(--text-muted);
-            display: flex; align-items: center; gap: var(--space-8);
-            transition: all 0.2s var(--transition-curve);
-        }
-        .tool-btn svg { width: 16px; height: 16px; stroke: var(--text-muted); transition: stroke 0.2s var(--transition-curve); }
-        .tool-btn:hover { background-color: var(--bg-light-gray); color: var(--text-dark); }
-        .tool-btn:hover svg { stroke: var(--text-dark); }
-        .stats-display { color: var(--text-muted); font-weight: 700; font-size: 0.9rem; text-align: center; }
 
-        /* --- Prompt Box --- */
-        .prompt-box {
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--bg-slate);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+        }
+
+        .nav .wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 64px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-links a {
+            display: block;
+            text-decoration: none;
+            color: var(--text-cream);
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 999px;
+            transition: all 300ms var(--transition);
+        }
+
+        .nav-links a.active {
+            background-color: var(--accent-gold);
+            color: var(--bg-slate);
+        }
+
+        .nav-links a:not(.active):hover {
+            background-color: #4A5568;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+        }
+
+        .main-card {
+            max-width: 800px;
+            width: 100%;
+            background: var(--panel-cream);
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        details {
+            margin-bottom: 24px;
             border: 1px solid var(--border-color);
-            border-radius: var(--space-12);
-            margin-bottom: var(--space-24);
-            background-color: var(--panel-white);
-            transition: opacity 0.4s var(--transition-curve), transform 0.4s var(--transition-curve);
+            border-radius: 8px;
+            padding: 16px;
         }
-        .prompt-box summary {
-            padding: var(--space-16) var(--space-24);
+
+        summary {
+            font-weight: 700;
             cursor: pointer;
-            font-weight: 800; font-size: 1.3rem; color: var(--text-dark);
-            display: flex; justify-content: space-between; align-items: center;
-            outline-color: var(--hover-blue);
+            color: var(--text-dark);
         }
-        .prompt-content {
-            padding: 0 var(--space-24) var(--space-24) var(--space-24);
+
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .toolbar button {
+            padding: 8px 16px;
+            background: var(--accent-gold);
+            color: var(--bg-slate);
+            border: none;
+            border-radius: 999px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 300ms var(--transition);
+        }
+
+        .toolbar button:hover {
+            background: var(--accent-gold-hover);
+        }
+
+        #editor {
+            font-family: 'Lora', serif;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            min-height: 400px;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: #fff;
+            outline: none;
+        }
+
+        .highlight {
+            background: rgba(255, 255, 0, 0.3);
+        }
+
+        .stats {
+            position: sticky;
+            bottom: 0;
+            background: var(--panel-cream);
+            padding: 8px;
+            text-align: right;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 16px;
+        }
+
+        .main-footer {
+            width: 100%;
+            padding: 2rem 0;
+            background-color: var(--bg-slate);
             border-top: 1px solid var(--border-color);
         }
-        .prompt-content h3 {
-            font-weight: 700; text-transform: uppercase;
-            letter-spacing: 0.5px; font-size: 1rem;
-            margin: var(--space-16) 0 var(--space-8) 0;
+
+        .main-footer p {
+            text-align: center;
+            font-size: 0.9rem;
             color: var(--text-muted);
         }
-        .prompt-content p { font-size: 1rem; line-height: 1.6; margin: 0; }
-        #empty-prompt { text-align: center; padding: var(--space-24); }
-        #empty-prompt a { color: var(--primary-blue); font-weight: 700; text-decoration: none; }
 
-        /* --- Text Editor --- */
-        .editor-wrapper { position: relative; }
-        #editor {
-            width: 100%; min-height: 75vh;
-            border: 1px solid var(--border-color);
-            border-radius: var(--space-12);
-            padding: var(--space-32);
-            font-family: 'Inter', sans-serif;
-            font-size: 1.1rem; line-height: 1.8;
+        #history-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--panel-cream);
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 2000;
+            max-width: 400px;
+            width: 100%;
+            display: none;
+        }
+
+        #history-modal ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #history-modal li {
+            margin-bottom: 8px;
+        }
+
+        #history-modal button {
+            background: none;
+            border: none;
             color: var(--text-dark);
-            background-color: var(--panel-white);
-            box-sizing: border-box; resize: vertical;
-            transition: all 0.4s var(--transition-curve);
-        }
-        #editor:focus {
-            outline: none; border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.2);
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            padding: 8px;
+            transition: background 300ms var(--transition);
         }
 
-        /* --- Sensory Palette Sidebar --- */
-        #sensory-sidebar {
-            position: fixed; top: 0; right: -400px;
-            width: 100%; max-width: 360px; height: 100%;
-            background-color: var(--panel-white);
-            box-shadow: -10px 0 30px rgba(23, 43, 77, 0.1);
-            border-left: 1px solid var(--border-color);
-            padding: var(--space-24); padding-top: 80px;
-            box-sizing: border-box;
-            transition: right 0.4s var(--transition-curve);
-            z-index: 1001;
+        #history-modal button:hover {
+            background: var(--accent-gold-hover);
         }
-        #sensory-sidebar.open { right: 0; }
-        #sensory-sidebar h3 { font-weight: 700; margin: 0 0 var(--space-24) 0; font-size: 1.2rem; }
-        #sensory-sidebar ul { list-style: none; padding: 0; margin: 0; }
-        #sensory-sidebar li { margin-bottom: var(--space-24); }
-        #sensory-sidebar li strong {
-            display: block; text-transform: uppercase; font-size: 0.9rem;
-            margin-bottom: var(--space-8); color: var(--text-muted); font-weight: 700;
-        }
-        #sensory-sidebar li span { line-height: 1.6; font-size: 1rem; }
-        #close-sidebar {
-            position: absolute; top: var(--space-16); right: var(--space-16);
-            background: none; border: none; cursor: pointer;
-            width: 40px; height: 40px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            transition: background-color 0.2s var(--transition-curve);
-        }
-        #close-sidebar:hover { background-color: var(--bg-light-gray); }
 
-        /* --- On-Demand Thesaurus Popup --- */
-        #thesaurus-popup {
-            position: absolute; background-color: var(--panel-white);
-            border: 1px solid var(--border-color);
-            box-shadow: 0 10px 25px rgba(23, 43, 77, 0.15);
-            border-radius: var(--space-12); padding: var(--space-16);
-            width: 280px; z-index: 1002;
-            display: none; font-family: 'Inter', sans-serif;
+        #close-modal {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
         }
-        #thesaurus-popup h4 {
-            font-weight: 700; margin: 0 0 var(--space-12) 0;
-            font-size: 1.1rem; border-bottom: 1px solid var(--border-color); padding-bottom: var(--space-12);
-        }
-        #thesaurus-synonyms { display: flex; flex-wrap: wrap; gap: var(--space-8); }
-        #thesaurus-synonyms span {
-            background-color: var(--bg-light-gray); padding: 4px 12px;
-            border-radius: 6px; font-size: 0.9rem; cursor: pointer;
-            transition: background-color 0.2s var(--transition-curve);
-        }
-        #thesaurus-synonyms span:hover { background-color: #EBF3FF; color: var(--primary-blue); }
-        .thesaurus-message { color: var(--text-muted); text-align: center; }
 
-        /* --- Zen Mode --- */
-        body.zen-mode .foundry-nav,
-        body.zen-mode .tool-header,
-        body.zen-mode .prompt-box { opacity: 0; pointer-events: none; transform: translateY(-24px); }
-        body.zen-mode #editor {
-            border-color: transparent;
+        body.zen {
+            padding-top: 0;
+        }
+
+        body.zen .nav,
+        body.zen .toolbar,
+        body.zen details,
+        body.zen .stats,
+        body.zen .main-footer {
+            display: none;
+        }
+
+        body.zen main {
+            padding: 0;
+            height: 100vh;
+        }
+
+        body.zen .main-card {
+            max-width: none;
+            width: 100vw;
+            height: 100vh;
+            padding: 10%;
+            border-radius: 0;
             box-shadow: none;
-            background-color: var(--bg-light-gray);
+            background: var(--bg-slate);
+            color: var(--text-cream);
         }
-        body.zen-mode { background-color: var(--bg-light-gray); }
 
-        /* --- Responsive Design --- */
-        @media (max-width: 768px) {
-            body { padding: 64px 0 16px 0; }
-            .foundry-nav { padding: 0 var(--space-16); }
-            .anvil-wrap { padding: 0 var(--space-16); }
-            .tool-header { justify-content: center; }
-            #editor { padding: var(--space-24); font-size: 1rem; }
+        body.zen #editor {
+            background: transparent;
+            border: none;
+            color: var(--text-cream);
+            height: 100%;
+            padding: 0;
+        }
+
+        @media (max-width: 600px) {
+            .main-card {
+                padding: 24px;
+            }
+
+            .toolbar {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
-    
-    <nav class="foundry-nav">
-        <a href="lab.html" class="nav-brand">The Forge</a>
-        <div class="nav-links">
-            <a href="lab.html">Forge</a>
-            <a href="anvil.html" class="active">Anvil</a>
-            <a href="journal.html">Journal</a>
+    <nav class="nav">
+        <div class="wrap">
+            <ul class="nav-links">
+                <li><a href="./lab.html">Lab</a></li>
+                <li><a href="#" class="active">Anvil</a></li>
+                <li><a href="./journal.html">Journal</a></li>
+                <li><a href="./academy.html">Academy</a></li>
+            </ul>
         </div>
     </nav>
 
-    <main class="anvil-wrap">
-        <div class="tool-header">
-            <div class="tool-group" id="tool-group-left"></div>
-            <div class="stats-display" id="stats-display">0 words / 0 characters</div>
-            <div class="tool-group" id="tool-group-right"></div>
-        </div>
+    <main>
+        <section class="main-card">
+            <details id="prompt" style="display: none;">
+                <summary>Writing Prompt</summary>
+                <div id="prompt-content"></div>
+            </details>
 
-        <details class="prompt-box" id="prompt-box">
-            <summary>Your Forged Idea</summary>
-            <div class="prompt-content" id="prompt-content"></div>
-        </details>
-        
-        <div class="editor-wrapper">
-            <textarea id="editor" placeholder="The anvil is ready. Hammer out your story..."></textarea>
-            <div id="thesaurus-popup"></div>
-        </div>
+            <div class="toolbar">
+                <button id="read-aloud">Read Aloud</button>
+                <button id="analyze">Analyze</button>
+                <button id="save-snapshot">Save Snapshot</button>
+                <button id="view-history">View History</button>
+                <button id="zen-mode">Zen Mode</button>
+            </div>
+
+            <div id="editor" contenteditable="true"></div>
+
+            <div class="stats" id="stats">Words: 0 | Characters: 0</div>
+        </section>
     </main>
 
-    <aside id="sensory-sidebar">
-        <button id="close-sidebar"></button>
-        <h3>Sensory Palette</h3>
-        <ul id="sensory-list"></ul>
-    </aside>
+    <div id="history-modal">
+        <button id="close-modal">×</button>
+        <h2>Snapshots</h2>
+        <ul id="history-list"></ul>
+    </div>
+
+    <footer class="main-footer">
+        <div class="wrap">
+            <p>© 2025 Boluadeoye • Crafted with passion</p>
+        </div>
+    </footer>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const Anvil = {
-            state: { prompt: null, draftKey: 'foundry-default' },
-            dom: {},
-            icons: {
-                zen: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.774 4.774zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
-                palette: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.098 19.902a3.75 3.75 0 005.304 0l6.401-6.402a3.75 3.75 0 00-.622-6.321.75.75 0 00-.621.622A3.75 3.75 0 006.402 9.4l-6.402 6.402a3.75 3.75 0 000 5.304z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12.75 12.75L15 15" /></svg>`,
-                export: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>`,
-                close: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>`
-            },
-            
-            async init() {
-                this.cacheDOM();
-                this.renderTools();
-                this.bindEvents();
-                this.state.prompt = this.loadData('foundryAnvilPrompt');
-                
-                if (this.state.prompt) {
-                    this.state.draftKey = `foundry-draft-${this.state.prompt.id}`;
-                    this.populateUI();
-                    this.dom.editor.value = this.loadData(this.state.draftKey) || '';
-                } else {
-                    this.displayEmptyState();
-                }
-                this.updateStats();
-            },
-            
-            cacheDOM() {
-                this.dom.editor = document.getElementById('editor');
-                this.dom.promptBox = document.getElementById('prompt-box');
-                this.dom.promptContent = document.getElementById('prompt-content');
-                this.dom.statsDisplay = document.getElementById('stats-display');
-                this.dom.sensorySidebar = document.getElementById('sensory-sidebar');
-                this.dom.sensoryList = document.getElementById('sensory-list');
-                this.dom.closeSidebarBtn = document.getElementById('close-sidebar');
-                this.dom.thesaurusPopup = document.getElementById('thesaurus-popup');
-                this.dom.toolGroupLeft = document.getElementById('tool-group-left');
-                this.dom.toolGroupRight = document.getElementById('tool-group-right');
-            },
+        (function() {
+            const editor = document.getElementById('editor');
+            const stats = document.getElementById('stats');
+            const promptElement = document.getElementById('prompt');
+            const promptContent = document.getElementById('prompt-content');
+            const historyModal = document.getElementById('history-modal');
+            const historyList = document.getElementById('history-list');
+            const closeModal = document.getElementById('close-modal');
+            const zenButton = document.getElementById('zen-mode');
 
-            renderTools() {
-                this.dom.toolGroupLeft.innerHTML = `
-                    <button class="tool-btn" id="zen-btn">${this.icons.zen} Zen Mode</button>
-                    <button class="tool-btn" id="palette-btn">${this.icons.palette} Palette</button>
-                `;
-                this.dom.toolGroupRight.innerHTML = `
-                    <button class="tool-btn" id="export-txt">${this.icons.export} .txt</button>
-                    <button class="tool-btn" id="export-md">${this.icons.export} .md</button>
-                `;
-                this.dom.closeSidebarBtn.innerHTML = this.icons.close;
-            },
-            
-            bindEvents() {
-                let saveTimeout;
-                this.dom.editor.addEventListener('input', () => {
-                    this.updateStats();
-                    clearTimeout(saveTimeout);
-                    saveTimeout = setTimeout(() => this.saveData(this.state.draftKey, this.dom.editor.value), 500);
-                });
-                
-                this.dom.editor.addEventListener('dblclick', (e) => this.handleThesaurus(e));
-                
-                document.getElementById('zen-btn').addEventListener('click', () => document.body.classList.toggle('zen-mode'));
-                document.getElementById('palette-btn').addEventListener('click', () => this.dom.sensorySidebar.classList.add('open'));
-                this.dom.closeSidebarBtn.addEventListener('click', () => this.dom.sensorySidebar.classList.remove('open'));
-                
-                document.getElementById('export-txt').addEventListener('click', () => this.exportAs('txt'));
-                document.getElementById('export-md').addEventListener('click', () => this.exportAs('md'));
-                
-                document.addEventListener('click', (e) => {
-                    if (!this.dom.thesaurusPopup.contains(e.target) && e.target !== this.dom.editor) {
-                        this.dom.thesaurusPopup.style.display = 'none';
-                    }
-                });
-                
-                this.dom.thesaurusPopup.addEventListener('click', (e) => {
-                    if(e.target.tagName === 'SPAN') {
-                        this.replaceSelectedText(e.target.textContent);
-                        this.dom.thesaurusPopup.style.display = 'none';
-                    }
-                });
-            },
-            
-            loadData(key) {
-                const dataJSON = localStorage.getItem(key);
-                return dataJSON ? JSON.parse(dataJSON) : null;
-            },
+            let snapshots = JSON.parse(localStorage.getItem('anvilSnapshots') || '[]');
+            let debounceTimer;
 
-            saveData(key, data) {
-                localStorage.setItem(key, JSON.stringify(data));
-            },
-            
-            populateUI() {
-                const { archetype, conflict, setting } = this.state.prompt;
-                this.dom.promptContent.innerHTML = `
-                    <h3>Archetype</h3><p>${archetype.name}</p>
-                    <h3>Conflict</h3><p>${conflict.text}</p>
-                    <h3>Setting</h3><p>${setting.name}</p>
+            // Load prompt if available
+            const anvilPrompt = JSON.parse(localStorage.getItem('foundryAnvilPrompt'));
+            if (anvilPrompt) {
+                promptElement.style.display = 'block';
+                promptContent.innerHTML = `
+                    <p>${anvilPrompt.logline}</p>
+                    <h4>Character: ${anvilPrompt.char.name}</h4>
+                    <p>Motivation: ${anvilPrompt.char.motivation}</p>
+                    <p>Flaw: ${anvilPrompt.char.flaw}</p>
+                    <h4>Conflict: ${anvilPrompt.conflict.text}</h4>
+                    <h4>Setting: ${anvilPrompt.setting.name}</h4>
+                    <ul>
+                        <li><strong>Sight:</strong> ${anvilPrompt.setting.sensory_palette.sight}</li>
+                        <li><strong>Sound:</strong> ${anvilPrompt.setting.sensory_palette.sound}</li>
+                        <li><strong>Smell:</strong> ${anvilPrompt.setting.sensory_palette.smell}</li>
+                    </ul>
+                    <h4>Deep Dive Question: ${anvilPrompt.question}</h4>
                 `;
-                const palette = setting.sensory_palette;
-                this.dom.sensoryList.innerHTML = `
-                    <li><strong>Sight</strong><span>${palette.sight}</span></li>
-                    <li><strong>Sound</strong><span>${palette.sound}</span></li>
-                    <li><strong>Smell</strong><span>${palette.smell}</span></li>
-                `;
-            },
-            
-            displayEmptyState() {
-                this.dom.promptContent.innerHTML = `<div id="empty-prompt"><p>No idea loaded.</p><a href="lab.html">Forge a new idea &rarr;</a></div>`;
-                this.dom.promptBox.open = true;
-                document.getElementById('palette-btn').style.opacity = 0.5;
-                document.getElementById('palette-btn').disabled = true;
-            },
-            
-            updateStats() {
-                const text = this.dom.editor.value;
-                const wordCount = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
-                this.dom.statsDisplay.textContent = `${wordCount} words / ${text.length} characters`;
-            },
-            
-            async handleThesaurus(e) {
-                const selected = window.getSelection().toString().trim().toLowerCase();
-                if (selected.length > 1 && !selected.includes(' ')) {
-                    const popup = this.dom.thesaurusPopup;
-                    popup.style.display = 'block';
-                    popup.style.left = `${e.clientX + 10}px`;
-                    popup.style.top = `${e.clientY + 10}px`;
-                    popup.innerHTML = `<h4>Synonyms for "${selected}"</h4><div class="thesaurus-message">Fetching...</div>`;
-                    
-                    try {
-                        const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${selected}`);
-                        if (!res.ok) throw new Error('Not found');
-                        const data = await res.json();
-                        const synonyms = data[0]?.meanings.flatMap(m => m.synonyms || []).slice(0, 15);
-                        
-                        if (synonyms?.length > 0) {
-                            popup.innerHTML = `<h4>Synonyms for "${selected}"</h4><div id="thesaurus-synonyms">${[...new Set(synonyms)].map(s => `<span>${s}</span>`).join('')}</div>`;
-                        } else {
-                            throw new Error('No synonyms found');
-                        }
-                    } catch (err) {
-                        popup.innerHTML = `<h4>Synonyms for "${selected}"</h4><div class="thesaurus-message">${err.message}.</div>`;
-                    }
-                }
-            },
-
-            replaceSelectedText(replacement) {
-                this.dom.editor.setRangeText(replacement, this.dom.editor.selectionStart, this.dom.editor.selectionEnd, 'select');
-                this.dom.editor.focus();
-            },
-            
-            exportAs(filetype) {
-                const content = this.dom.editor.value;
-                const blob = new Blob([content], { type: `text/${filetype === 'md' ? 'markdown' : 'plain'};charset=utf-8` });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `foundry-draft.${filetype}`;
-                a.click();
-                URL.revokeObjectURL(url);
+                // Do not remove the prompt, as it can be reference
             }
-        };
 
-        Anvil.init();
-    });
+            // Load draft if available, else empty
+            editor.textContent = localStorage.getItem('anvilDraft') || '';
+
+            // Update stats
+            function updateStats() {
+                const text = editor.textContent;
+                const words = text.trim().split(/\s+/).filter(w => w).length;
+                const chars = text.length;
+                stats.textContent = `Words: ${words} | Characters: ${chars}`;
+            }
+
+            // Debounce save draft
+            function saveDraft() {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    localStorage.setItem('anvilDraft', editor.textContent);
+                }, 500);
+            }
+
+            // Event listeners for editor
+            editor.addEventListener('input', () => {
+                updateStats();
+                saveDraft();
+            });
+
+            // Initial stats
+            updateStats();
+
+            // Read Aloud
+            document.getElementById('read-aloud').addEventListener('click', () => {
+                const utterance = new SpeechSynthesisUtterance(editor.textContent);
+                speechSynthesis.speak(utterance);
+            });
+
+            // Analyze: Highlight repeated words
+            document.getElementById('analyze').addEventListener('click', () => {
+                let text = editor.textContent;
+                let words = text.match(/\b\w+\b/g) || [];
+                let freq = {};
+                words.forEach(w => {
+                    let lower = w.toLowerCase();
+                    freq[lower] = (freq[lower] || 0) + 1;
+                });
+                let repeated = Object.keys(freq).filter(k => freq[k] >= 3);
+
+                // Clean existing highlights
+                editor.innerHTML = editor.textContent;
+
+                // Highlight
+                let html = editor.innerHTML;
+                repeated.forEach(rep => {
+                    const regex = new RegExp(`\\b${rep}\\b`, 'gi');
+                    html = html.replace(regex, match => `<span class="highlight">${match}</span>`);
+                });
+                editor.innerHTML = html;
+            });
+
+            // Save Snapshot
+            document.getElementById('save-snapshot').addEventListener('click', () => {
+                snapshots.push({
+                    timestamp: new Date().toISOString(),
+                    content: editor.textContent
+                });
+                localStorage.setItem('anvilSnapshots', JSON.stringify(snapshots));
+            });
+
+            // View History
+            document.getElementById('view-history').addEventListener('click', () => {
+                historyList.innerHTML = '';
+                snapshots.forEach((snap, index) => {
+                    const li = document.createElement('li');
+                    const button = document.createElement('button');
+                    button.textContent = new Date(snap.timestamp).toLocaleString();
+                    button.dataset.index = index;
+                    button.addEventListener('click', () => {
+                        editor.textContent = snap.content;
+                        historyModal.style.display = 'none';
+                        updateStats();
+                        saveDraft();
+                    });
+                    li.appendChild(button);
+                    historyList.appendChild(li);
+                });
+                historyModal.style.display = 'block';
+            });
+
+            // Close Modal
+            closeModal.addEventListener('click', () => {
+                historyModal.style.display = 'none';
+            });
+
+            // Zen Mode
+            zenButton.addEventListener('click', () => {
+                document.body.classList.toggle('zen');
+                zenButton.textContent = document.body.classList.contains('zen') ? 'Exit Zen' : 'Zen Mode';
+            });
+        })();
     </script>
 </body>
 </html>
