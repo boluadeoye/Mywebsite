@@ -3,30 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Forge of Ideas - The Writer's Foundry</title>
+    <title>The Forge - The Writer's Foundry</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* The Alchemical Palette */
-            --bg: #f5f5dc;
-            --panel: #FFFEFA;
-            --ink: #2c3e50;
-            --ink-black: #000000;
+            /* The Scholar's Study Palette */
+            --bg-chocolate: #A0785A;
+            --panel-milk: #FAF9F6;
+            --ink-black: #1A1A1A;
             --accent-wine: #800000;
-            --accent-red: #A40000;
+            --accent-red-hover: #A40000;
             --muted: #596a7a;
-            --border-color: #dcd8cd;
+            --border-color: #e0dccc;
         }
 
-        /* --- Global Styles & Divine Typography --- */
+        /* --- Global Styles & Typography --- */
         *, *::before, *::after { box-sizing: border-box; }
 
         body {
-            background-color: var(--bg);
+            background-color: var(--bg-chocolate);
             font-family: 'Roboto', system-ui, -apple-system, sans-serif;
-            color: var(--ink);
+            color: var(--ink-black);
             margin: 0;
             padding: 2rem 1rem;
             display: flex;
@@ -35,23 +34,21 @@
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
         }
 
         /* --- The Main Forge Card --- */
         .main-card {
             width: 100%;
             max-width: 600px;
-            background-color: var(--panel);
-            border: 1px solid var(--border-color);
+            background-color: var(--panel-milk);
             border-radius: 16px;
-            box-shadow: 0 15px 50px -10px rgba(44, 62, 80, 0.2);
+            box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.35);
             padding: 2rem;
             position: relative;
             overflow: hidden;
         }
 
-        /* --- Divine Architecture: Header & Progress Tracker --- */
+        /* --- Header & Visual Progress Tracker --- */
         .step-header {
             display: grid;
             grid-template-columns: 1fr auto 1fr;
@@ -78,7 +75,7 @@
             opacity: 0;
             animation: fadeIn 0.3s forwards;
         }
-        .back-btn:hover { color: var(--ink); transform: translateX(-3px); }
+        .back-btn:hover { color: var(--ink-black); transform: translateX(-3px); }
 
         .progress-tracker {
             grid-column: 3 / 4;
@@ -86,25 +83,25 @@
             display: flex;
             gap: 0.75rem;
         }
-        .progress-rune {
-            width: 10px; height: 10px;
+        .progress-dot {
+            width: 12px; height: 12px;
             background-color: var(--border-color);
             border-radius: 50%;
             transition: background-color 0.5s ease;
         }
-        .progress-rune.active {
+        .progress-dot.active {
             background-color: var(--accent-wine);
             animation: pulse 1.5s infinite ease-in-out;
         }
 
-        /* --- Interactive Runes & Components --- */
+        /* --- Interactive Components --- */
         .step-content {
             display: flex;
             flex-direction: column;
             gap: 1rem;
         }
         .choice-card {
-            background-color: var(--panel);
+            background-color: var(--panel-milk);
             border: 2px solid var(--border-color);
             border-radius: 8px;
             padding: 1.5rem;
@@ -117,8 +114,8 @@
         }
         .choice-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-            border-color: var(--accent-red);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+            border-color: var(--accent-red-hover);
         }
 
         /* Surprise Me Button */
@@ -134,34 +131,41 @@
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
         }
         .surprise-btn:hover {
-            border-color: var(--accent-red);
-            color: var(--accent-red);
-            background-color: #fffaf0;
+            border-color: var(--accent-red-hover);
+            color: var(--accent-red-hover);
+            background-color: #fffdf9;
         }
+        .surprise-btn svg { width: 24px; height: 24px; }
 
         /* Result Page & Re-Rolls */
         .result-container {
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            background: linear-gradient(180deg, var(--panel) 0%, #fcf9f2 100%);
+            background-color: #fffdf9;
         }
         .result-item { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-color); }
         .result-item:last-child { border-bottom: none; }
         .result-item h3 {
             font-family: 'Roboto', sans-serif; font-weight: 700;
             font-size: 1.1rem; text-transform: uppercase;
-            color: var(--ink); letter-spacing: 1px;
+            color: var(--muted); letter-spacing: 1px;
             margin: 0 0 0.5rem 0; display: flex;
             justify-content: space-between; align-items: center;
         }
         .result-item p {
-            font-size: 1.1rem; line-height: 1.6;
-            color: var(--muted); margin: 0;
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--ink-black);
+            line-height: 1.6; margin: 0;
             transition: opacity 0.3s ease;
         }
-        .result-item strong { color: var(--ink); font-weight: 700; }
         .reroll-btn {
             background: none; border: none; cursor: pointer;
             width: 24px; height: 24px; padding: 0;
@@ -172,36 +176,37 @@
         
         .action-btn {
             font-family: 'Playfair Display', serif; font-weight: 800;
-            background-color: var(--accent-wine); color: var(--panel); border: none;
+            background-color: var(--accent-wine); color: var(--panel-milk); border: none;
             border-radius: 8px; padding: 1rem 1.5rem; font-size: 1.2rem;
             cursor: pointer; text-align: center;
             transition: background-color 0.2s ease, transform 0.2s ease;
             margin-top: 2rem;
         }
-        .action-btn:hover { background-color: var(--accent-red); transform: translateY(-2px); }
+        .action-btn:hover { background-color: var(--accent-red-hover); transform: translateY(-2px); }
 
         /* Stateful Persistence Banner */
         .restore-banner {
             position: absolute;
             top: 0; left: 0; width: 100%;
-            background-color: #fffaf0;
+            background-color: #fffdf9;
             padding: 1rem;
             border-bottom: 1px solid var(--border-color);
             text-align: center;
             transform: translateY(-100%);
             animation: slideDown 0.5s forwards ease-out;
+            z-index: 10;
         }
-        .restore-banner p { margin: 0 0 0.75rem 0; color: var(--ink); }
+        .restore-banner p { margin: 0 0 0.75rem 0; color: var(--ink-black); font-weight: 700; }
         .restore-btn {
             background: none; border: 1px solid var(--muted); border-radius: 6px;
             padding: 0.25rem 0.75rem; cursor: pointer; margin: 0 0.25rem; font-weight: 700;
         }
         .restore-btn.confirm { border-color: var(--accent-wine); color: var(--accent-wine); }
 
-        /* --- Animations & Transitions --- */
+        /* Animations & Transitions */
         @keyframes pulse {
             0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(128, 0, 0, 0.4); }
-            50% { transform: scale(1.1); box-shadow: 0 0 0 5px rgba(128, 0, 0, 0); }
+            50% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(128, 0, 0, 0); }
         }
         .content-wrapper.fade-out { animation: fadeOutUp 0.3s forwards ease-in; }
         @keyframes fadeOutUp {
@@ -213,19 +218,17 @@
             transform: translateY(20px);
             animation: fadeInUp 0.5s forwards ease-out;
         }
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { to { opacity: 1; } }
         @keyframes slideDown { to { transform: translateY(0); } }
 
-        /* --- Universal Form (Responsive Design) --- */
+        /* Responsive Design */
         @media (max-width: 768px) {
             body { padding: 1rem; align-items: flex-start; }
             .main-card { padding: 1.5rem 1rem; }
             .step-title { font-size: 1.8rem; }
             .step-header { margin-bottom: 2rem; }
-            .choice-card { padding: 1.25rem; font-size: 1.1rem; }
+            .choice-card, .surprise-btn { padding: 1.25rem; font-size: 1.1rem; }
         }
     </style>
 </head>
@@ -233,26 +236,28 @@
     <div id="restore-container"></div>
     <main class="main-card">
         <div id="step-container">
-            </div>
+            <!-- The Forge is being prepared... -->
+        </div>
     </main>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- The Divine Scribe (State Management) ---
+        // --- State Management ---
         const state = {
             foundryData: null,
             currentStepKey: 'coreIdea',
             userSelections: {},
             stepHistory: [],
         };
-        const LS_KEY = 'foundry-session';
+        const LS_KEY = 'foundry-forge-session';
 
         // --- DOM Elements & Icons ---
         const stepContainer = document.getElementById('step-container');
         const restoreContainer = document.getElementById('restore-container');
-        const rerollIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.664 0M2.985 19.644A8.25 8.25 0 0111.625 4.5a8.25 8.25 0 017.94 12.063M2.985 19.644L6.166 16.46" /></svg>`;
+        const rerollIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.664 0M2.985 19.644A8.25 8.25 0 0111.625 4.5a8.25 8.25 0 017.94 12.063M2.985 19.644L6.166 16.46" /></svg>`;
+        const surpriseIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.898 20.562L16.25 21.75l-.648-1.188a2.25 2.25 0 01-1.4-1.4L13.25 18l1.188-.648a2.25 2.25 0 011.4-1.4l.648-1.188.648 1.188a2.25 2.25 0 011.4 1.4l1.188.648-1.188.648a2.25 2.25 0 01-1.4 1.4z" /></svg>`;
 
-        // --- The Grand Invocation (Initialization) ---
+        // --- Initialization ---
         async function initializeForge() {
             try {
                 const response = await fetch('foundry-data.json');
@@ -265,7 +270,7 @@
             }
         }
 
-        // --- The Alchemical Memory (Stateful Persistence) ---
+        // --- Stateful Persistence ---
         function saveState() {
             localStorage.setItem(LS_KEY, JSON.stringify(state));
         }
@@ -276,12 +281,10 @@
                 const savedState = JSON.parse(savedStateJSON);
                 if (savedState.stepHistory && savedState.stepHistory.length > 1) {
                     displayRestoreBanner(savedState);
-                } else {
-                    navigateToStep('coreIdea'); // Start fresh if session was trivial
                 }
-            } else {
-                navigateToStep('coreIdea');
             }
+            // Always render the first step initially, banner is an overlay
+            navigateToStep('coreIdea', true);
         }
 
         function displayRestoreBanner(savedState) {
@@ -296,17 +299,19 @@
             `;
             document.getElementById('restore-confirm').onclick = () => {
                 Object.assign(state, savedState);
-                navigateToStep(state.currentStepKey, true); // Restore without pushing to history
+                navigateToStep(state.currentStepKey, true);
                 restoreContainer.innerHTML = '';
             };
             document.getElementById('restore-dismiss').onclick = () => {
                 localStorage.removeItem(LS_KEY);
+                state.userSelections = {};
+                state.stepHistory = [];
                 navigateToStep('coreIdea');
                 restoreContainer.innerHTML = '';
             };
         }
 
-        // --- The Ritual of Navigation ---
+        // --- Navigation & Rendering ---
         function navigateToStep(stepKey, isNavigatingBack = false) {
             const oldContent = stepContainer.querySelector('.content-wrapper');
             if (oldContent) {
@@ -323,16 +328,15 @@
                 state.stepHistory.push(stepKey);
             }
 
-            stepContainer.innerHTML = ''; // Clear old content
+            stepContainer.innerHTML = ''; 
             const header = createStepHeader(stepKey);
             const contentWrapper = document.createElement('div');
             contentWrapper.className = 'content-wrapper';
 
             const stepRenderers = {
                 'coreIdea': createStepContentCoreIdea,
-                'characterArchetype': () => createChoiceStep('characterArchetype', state.foundryData.characters.archetypes, 'archetype', 'characterCatalyst'),
-                'characterCatalyst': () => createChoiceStep('characterCatalyst', state.userSelections.archetype.catalyst_questions, 'catalyst', 'result'),
-                'themeSelection': () => createChoiceStep('themeSelection', state.foundryData.themes, 'theme', 'result'),
+                'characterArchetype': () => createChoiceStep(state.foundryData.characters.archetypes, 'archetype', 'characterCatalyst'),
+                'characterCatalyst': () => createChoiceStep(state.userSelections.archetype.catalyst_questions, 'catalyst', 'result'),
                 'result': createStepContentResult,
             };
 
@@ -356,27 +360,26 @@
             navigateToStep(previousStepKey, true);
         }
         
-        // --- The Divine Architect (Element Creation) ---
+        // --- Element Creation ---
         function createStepHeader(stepKey) {
             const header = document.createElement('div');
             header.className = 'step-header';
 
             const titles = {
-                coreIdea: 'Begin the Alchemy',
+                coreIdea: 'Begin the Forging',
                 characterArchetype: 'Choose an Archetype',
                 characterCatalyst: 'Choose a Catalyst',
-                themeSelection: 'Choose a Theme',
                 result: 'Your Forged Idea'
             };
             
-            const stepMap = ['coreIdea', 'characterArchetype', 'characterCatalyst', 'result']; // simplified path for tracker
+            const stepMap = ['coreIdea', 'characterArchetype', 'characterCatalyst', 'result'];
             const currentStepIndex = stepMap.indexOf(stepKey);
 
             header.innerHTML = `
                 ${state.stepHistory.length > 1 ? `<button class="back-btn">&larr;</button>` : `<div></div>`}
                 <h2 class="step-title">${titles[stepKey] || 'The Forge'}</h2>
                 <div class="progress-tracker">
-                    ${[...Array(4)].map((_, i) => `<div class="progress-rune ${i <= currentStepIndex ? 'active' : ''}"></div>`).join('')}
+                    ${[...Array(4)].map((_, i) => `<div class="progress-dot ${i <= currentStepIndex ? 'active' : ''}"></div>`).join('')}
                 </div>
             `;
             if (state.stepHistory.length > 1) {
@@ -388,29 +391,27 @@
         function createStepContentCoreIdea() {
             const content = document.createElement('div');
             content.className = 'step-content';
-            const choices = [ { name: 'Character', key: 'characterArchetype' }, { name: 'Theme', key: 'themeSelection' }];
+            const choice = { name: 'Character', key: 'characterArchetype' }; // Simplified to one path for clarity of features
             
-            choices.forEach(choice => {
-                const card = document.createElement('div');
-                card.className = 'choice-card';
-                card.textContent = choice.name;
-                card.onclick = () => {
-                    state.userSelections = { coreIdea: choice.name };
-                    navigateToStep(choice.key);
-                };
-                content.appendChild(card);
-            });
+            const card = document.createElement('div');
+            card.className = 'choice-card';
+            card.textContent = choice.name;
+            card.onclick = () => {
+                state.userSelections = { coreIdea: choice.name };
+                navigateToStep(choice.key);
+            };
+            content.appendChild(card);
             
             const surpriseBtn = document.createElement('button');
             surpriseBtn.className = 'surprise-btn';
-            surpriseBtn.textContent = '✨ Surprise Me ✨';
+            surpriseBtn.innerHTML = `${surpriseIconSVG} Surprise Me`;
             surpriseBtn.onclick = handleSurpriseMe;
             content.appendChild(surpriseBtn);
             
             return content;
         }
 
-        function createChoiceStep(stepKey, items, selectionKey, nextStepKey) {
+        function createChoiceStep(items, selectionKey, nextStepKey) {
             const content = document.createElement('div');
             content.className = 'step-content';
             items.forEach(item => {
@@ -454,6 +455,8 @@
 
             content.querySelector('#start-over-btn').onclick = () => {
                 localStorage.removeItem(LS_KEY);
+                state.userSelections = {};
+                state.stepHistory = [];
                 navigateToStep('coreIdea');
             };
 
@@ -464,14 +467,16 @@
             return content;
         }
 
-        // --- The Art of Alchemy (Logic & Generation) ---
+        // --- Logic & Generation ---
         function generateForgedIdea(lockedComponents = {}) {
             const randomItem = (arr, current) => {
                 let newItem = current;
                 if (arr.length > 1) {
-                    while (newItem === current) {
+                    while (newItem === current || (current && newItem.name === current.name)) {
                         newItem = arr[Math.floor(Math.random() * arr.length)];
                     }
+                } else if (arr.length === 1) {
+                    return arr[0];
                 }
                 return newItem;
             };
@@ -486,11 +491,11 @@
         }
         
         function handleSurpriseMe() {
-            const runes = document.querySelectorAll('.progress-rune');
+            const dots = document.querySelectorAll('.progress-dot');
             let i = 0;
             const interval = setInterval(() => {
-                runes.forEach(r => r.classList.remove('active'));
-                runes[i % runes.length].classList.add('active');
+                dots.forEach(r => r.classList.remove('active'));
+                dots[i % dots.length].classList.add('active');
                 i++;
                 if (i > 8) {
                     clearInterval(interval);
@@ -498,7 +503,7 @@
                     state.userSelections.forgedIdea = generateForgedIdea();
                     navigateToStep('result');
                 }
-            }, 50);
+            }, 60);
         }
         
         function handleReRoll(componentKey) {
@@ -511,8 +516,7 @@
             state.userSelections.forgedIdea = newIdea;
             saveState();
 
-            // Animate and update only the changed element
-            const p = document.querySelector(`[data-content="${componentKey}"]`);
+            const p = document.querySelector(`p[data-content="${componentKey}"]`);
             p.style.opacity = 0;
             setTimeout(() => {
                 p.textContent = newIdea[componentKey].name || newIdea[componentKey].text;
@@ -520,7 +524,7 @@
             }, 300);
         }
 
-        // Begin the ritual.
+        // Begin
         initializeForge();
     });
     </script>
