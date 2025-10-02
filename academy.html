@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Academy - The Writer's Foundry</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* The Modern Aesthetic Palette */
+            --bg-light-gray: #F4F7FA;
+            --panel-white: #FFFFFF;
+            --primary-blue: #0052CC;
+            --hover-blue: #0065FF;
+            --text-dark: #172B4D;
+            --text-muted: #6B778C;
+            --border-color: #DFE1E6;
+            --accent-rebel-purple: #6E44FF;
+            
+            /* Timing Function & Spacing Grid (8px system) */
+            --transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
+            --space-8: 8px;
+            --space-16: 16px;
+            --space-24: 24px;
+        }
+
+        /* --- Rebellion Codex Mode Override --- */
+        .rebellion-mode {
+            --primary-blue: var(--accent-rebel-purple);
+            --hover-blue: #8262ff;
+        }
+
+        /* --- Global Styles & Typography --- */
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-light-gray);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: var(--text-dark);
+            margin: 0;
+            padding-top: 64px; /* Space for fixed nav */
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* --- Unified Navigation Bar --- */
+        .foundry-nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background-color: var(--panel-white);
+            box-shadow: 0 2px 8px rgba(23, 43, 77, 0.05);
+            border-bottom: 1px solid var(--border-color);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 var(--space-24); height: 64px; z-index: 1000;
+        }
+        .nav-left, .nav-right { display: flex; align-items: center; gap: var(--space-24); }
+        .nav-brand {
+            font-weight: 800; font-size: 1.2rem;
+            color: var(--text-dark); text-decoration: none;
+        }
+        .nav-links { display: flex; gap: var(--space-24); }
+        .nav-links a {
+            text-decoration: none; color: var(--text-muted);
+            font-weight: 700; font-size: 1rem;
+            padding: var(--space-8) 0;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s var(--transition-curve);
+        }
+        .nav-links a:hover { color: var(--text-dark); }
+        .nav-links a.active { color: var(--primary-blue); border-bottom-color: var(--primary-blue); }
+        .hamburger-menu { display: none; } /* Mobile only */
+
+        /* --- Rebellion Codex Toggle --- */
+        .rebel-toggle { display: flex; align-items: center; gap: var(--space-8); }
+        .rebel-toggle label { font-weight: 700; font-size: 0.9rem; color: var(--text-muted); cursor: pointer; }
+        .rebel-toggle input { display: none; }
+        .rebel-toggle .switch {
+            width: 40px; height: 22px; background-color: #EBECF0;
+            border-radius: 11px; position: relative; cursor: pointer;
+            transition: background-color 0.3s var(--transition-curve);
+        }
+        .rebel-toggle .switch::before {
+            content: ''; position: absolute;
+            width: 16px; height: 16px; border-radius: 50%;
+            background-color: white; top: 3px; left: 3px;
+            transition: transform 0.3s var(--transition-curve);
+        }
+        .rebel-toggle input:checked + .switch { background-color: var(--primary-blue); }
+        .rebel-toggle input:checked + .switch::before { transform: translateX(18px); }
+
+        /* --- Main Application Layout --- */
+        .academy-layout { display: flex; }
+        .sidebar {
+            width: 280px;
+            height: calc(100vh - 64px);
+            position: fixed;
+            background-color: var(--panel-white);
+            border-right: 1px solid var(--border-color);
+            padding: var(--space-24);
+            overflow-y: auto;
+        }
+        .main-content {
+            margin-left: 280px;
+            width: calc(100% - 280px);
+            padding: var(--space-24);
+        }
+
+        /* --- Sidebar Navigation --- */
+        .sidebar h2 { font-size: 1.2rem; font-weight: 800; margin: 0 0 var(--space-16) 0; }
+        .module-category { margin-bottom: var(--space-24); }
+        .module-category summary {
+            font-weight: 700; font-size: 1rem;
+            padding: var(--space-8); border-radius: 6px;
+            cursor: pointer; transition: background-color 0.2s var(--transition-curve);
+        }
+        .module-category summary:hover { background-color: var(--bg-light-gray); }
+        .lesson-list { list-style: none; padding: var(--space-8) 0 0 var(--space-16); margin: 0; }
+        .lesson-item a {
+            display: block; padding: var(--space-8);
+            border-radius: 6px; text-decoration: none;
+            color: var(--text-muted); font-weight: 700;
+            transition: all 0.2s var(--transition-curve);
+        }
+        .lesson-item a.active, .lesson-item a:hover {
+            color: var(--primary-blue);
+            background-color: #EBF3FF;
+        }
+
+        /* --- Main Content Area & Components --- */
+        .content-display {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--panel-white);
+            padding: var(--space-32);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .content-display h1 { font-size: 2rem; font-weight: 800; margin: 0 0 var(--space-24) 0; }
+        .content-display p { font-size: 1.1rem; line-height: 1.8; margin: 0 0 var(--space-16) 0; }
+        .choice-btn {
+            display: block; width: 100%;
+            background-color: var(--panel-white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: var(--space-16);
+            margin-bottom: var(--space-8);
+            font-size: 1rem; font-weight: 700;
+            text-align: left; cursor: pointer;
+            transition: all 0.2s var(--transition-curve);
+        }
+        .choice-btn:hover { border-color: var(--primary-blue); background-color: #EBF3FF; color: var(--primary-blue); }
+
+        /* Chat UI */
+        .chat-container { border: 1px solid var(--border-color); border-radius: 12px; }
+        .chat-log { height: 400px; padding: var(--space-16); overflow-y: auto; }
+        .chat-message { max-width: 80%; padding: var(--space-8) var(--space-12); border-radius: 12px; margin-bottom: var(--space-8); }
+        .chat-message.user { background-color: #EBF3FF; color: var(--primary-blue); margin-left: auto; border-bottom-right-radius: 2px; }
+        .chat-message.ai { background-color: var(--bg-light-gray); border-bottom-left-radius: 2px; }
+        .chat-input-form { display: flex; border-top: 1px solid var(--border-color); }
+        .chat-input-form input { flex-grow: 1; border: none; background: none; padding: var(--space-16); font-size: 1rem; outline: none; }
+        .chat-input-form button {
+            background: none; border: none; border-left: 1px solid var(--border-color);
+            padding: 0 var(--space-16); font-weight: 700; color: var(--primary-blue);
+            cursor: pointer; transition: background-color 0.2s var(--transition-curve);
+        }
+        .chat-input-form button:hover { background-color: #EBF3FF; }
+
+        /* Competency Report */
+        .competency-report { margin-top: var(--space-32); border: 1px solid var(--border-color); border-radius: 12px; }
+        .competency-report h2 { font-size: 1.5rem; padding: var(--space-16); margin: 0; border-bottom: 1px solid var(--border-color); }
+        .report-item { display: flex; justify-content: space-between; padding: var(--space-16); border-bottom: 1px solid var(--border-color); }
+        .report-item:last-child { border-bottom: none; }
+        .report-item span:first-child { font-weight: 700; }
+        .report-item span:last-child { font-weight: 700; color: var(--primary-blue); }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -300px;
+                transition: left 0.3s var(--transition-curve);
+                z-index: 2000;
+            }
+            .sidebar.open { left: 0; }
+            .main-content { margin-left: 0; width: 100%; }
+            .content-display { border-radius: 0; border-left: none; border-right: none; }
+            .nav-links, .rebel-toggle { display: none; }
+            .hamburger-menu {
+                display: block; background: none; border: none;
+                cursor: pointer; padding: var(--space-8);
+            }
+            .page-overlay {
+                position: fixed; top: 64px; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.5); z-index: 1999;
+                opacity: 0; transition: opacity 0.3s var(--transition-curve);
+                pointer-events: none;
+            }
+            .page-overlay.active { opacity: 1; pointer-events: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="foundry-nav">
+        <div class="nav-left">
+            <button class="hamburger-menu" id="hamburger-menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12H21" stroke="#172B4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 6H21" stroke="#172B4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 18H21" stroke="#172B4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <a href="lab.html" class="nav-brand">The Academy</a>
+        </div>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="lab.html">Forge</a>
+                <a href="anvil.html">Anvil</a>
+                <a href="journal.html">Journal</a>
+                <a href="academy.html" class="active">Academy</a>
+            </div>
+            <div class="rebel-toggle">
+                <label for="rebel-switch">Rebellion Codex</label>
+                <input type="checkbox" id="rebel-switch">
+                <span class="switch"></span>
+            </div>
+        </div>
+    </nav>
+    <div class="page-overlay" id="page-overlay"></div>
+
+    <div class="academy-layout">
+        <aside class="sidebar" id="sidebar">
+            <h2>Learning Modules</h2>
+            <div id="module-nav"></div>
+        </aside>
+        <main class="main-content">
+            <div class="content-display" id="content-display">
+                </div>
+        </main>
+    </div>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const Academy = {
+            state: {
+                rebellionMode: false,
+                currentLesson: null
+            },
+            dom: {},
+            content: { /* This will hold all lesson and crucible data */ },
+            
+            async init() {
+                this.cacheDOM();
+                this.loadState();
+                await this.loadContent();
+                this.renderSidebar();
+                this.bindEvents();
+                this.renderContent('welcome'); // Initial view
+                console.log("The Academy is in session.");
+            },
+            
+            cacheDOM() {
+                this.dom.body = document.body;
+                this.dom.sidebar = document.getElementById('sidebar');
+                this.dom.moduleNav = document.getElementById('module-nav');
+                this.dom.contentDisplay = document.getElementById('content-display');
+                this.dom.hamburger = document.getElementById('hamburger-menu');
+                this.dom.overlay = document.getElementById('page-overlay');
+                this.dom.rebelSwitch = document.getElementById('rebel-switch');
+            },
+            
+            loadState() {
+                const rebelState = localStorage.getItem('foundryRebellionMode');
+                this.state.rebellionMode = rebelState === 'true';
+                if (this.state.rebellionMode) {
+                    this.dom.body.classList.add('rebellion-mode');
+                    this.dom.rebelSwitch.checked = true;
+                }
+            },
+
+            saveState() {
+                localStorage.setItem('foundryRebellionMode', this.state.rebellionMode);
+            },
+            
+            async loadContent() {
+                // In a real app, this would be a fetch call. Here, it's structured in the JS.
+                this.content = {
+                    welcome: {
+                        title: "Welcome to The Academy",
+                        html: `<p>This is your space to hone the craft of writing. Select a learning module from the sidebar to begin, or dive into an interactive "Crucible" assessment to test your skills.</p>`
+                    },
+                    crucible_branching: {
+                        title: "The Interrogation",
+                        scenes: {
+                            start: {
+                                text: "The detective slams his hand on the metal table. 'I know you were there,' he snarls. 'Tell me what you saw.' Your heart pounds. You have two options.",
+                                choices: [
+                                    { text: "Tell the truth, but omit the dangerous part.", target: 'partialTruth' },
+                                    { text: "Lie and say you saw nothing.", target: 'outrightLie' }
+                                ]
+                            },
+                            partialTruth: {
+                                text: "You describe the scene, carefully editing your role out of it. The detective squints. 'You're holding something back.' He leans in closer. 'Don't make me add obstruction to your charges.'",
+                                choices: []
+                            },
+                             outrightLie: {
+                                text: "You feign ignorance. 'I was at home. I don't know what you're talking about.' He laughs, a harsh, grating sound. 'We have you on camera a block away, pal. Try again.'",
+                                choices: []
+                            }
+                        }
+                    },
+                    crucible_chat: {
+                        title: "World-Building Duel",
+                        persona: {
+                            name: "AI Dungeon Master",
+                            responses: [
+                                "Interesting. The air grows cold as you say that. What happens next?",
+                                "A bold move. And how does the environment react to this?",
+                                "I see. And in the distance, a strange sound echoes. Describe it.",
+                                "Fascinating. But you're forgetting about the prophecy etched on the cave wall."
+                            ]
+                        }
+                    }
+                    // More modules and lessons would be defined here
+                };
+            },
+
+            renderSidebar() {
+                // This is a simplified render. A full version would use the structured data.
+                this.dom.moduleNav.innerHTML = `
+                    <details class="module-category" open>
+                        <summary>Crucible Assessments</summary>
+                        <ul class="lesson-list">
+                            <li class="lesson-item"><a href="#" data-lesson-id="crucible_branching">The Interrogation</a></li>
+                            <li class="lesson-item"><a href="#" data-lesson-id="crucible_chat">World-Building Duel</a></li>
+                        </ul>
+                    </details>
+                `;
+            },
+            
+            bindEvents() {
+                this.dom.hamburger.addEventListener('click', () => this.toggleSidebar());
+                this.dom.overlay.addEventListener('click', () => this.toggleSidebar(false));
+
+                this.dom.rebelSwitch.addEventListener('change', (e) => {
+                    this.state.rebellionMode = e.target.checked;
+                    this.dom.body.classList.toggle('rebellion-mode', this.state.rebellionMode);
+                    this.saveState();
+                    // Re-render current content to reflect mode change
+                    if(this.state.currentLesson) this.renderContent(this.state.currentLesson);
+                });
+
+                this.dom.moduleNav.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (e.target.tagName === 'A') {
+                        const lessonId = e.target.dataset.lessonId;
+                        this.renderContent(lessonId);
+                        this.toggleSidebar(false); // Close sidebar on mobile after selection
+                        // Update active state
+                        this.dom.moduleNav.querySelectorAll('a').forEach(a => a.classList.remove('active'));
+                        e.target.classList.add('active');
+                    }
+                });
+            },
+
+            toggleSidebar(forceOpen) {
+                const isOpen = this.dom.sidebar.classList.contains('open');
+                if (typeof forceOpen === 'boolean') {
+                    this.dom.sidebar.classList.toggle('open', forceOpen);
+                    this.dom.overlay.classList.toggle('active', forceOpen);
+                } else {
+                    this.dom.sidebar.classList.toggle('open');
+                    this.dom.overlay.classList.toggle('active', !isOpen);
+                }
+            },
+
+            renderContent(lessonId) {
+                this.state.currentLesson = lessonId;
+                const contentData = this.content[lessonId];
+                if (!contentData) {
+                    this.dom.contentDisplay.innerHTML = `<h1>Content Not Found</h1>`;
+                    return;
+                }
+
+                let title = contentData.title;
+                if(this.state.rebellionMode){
+                    title = `[Codex]: ${title}`;
+                }
+                
+                this.dom.contentDisplay.innerHTML = `<h1>${title}</h1>`;
+
+                // Specific renderers for different crucible types
+                if (lessonId === 'crucible_branching') {
+                    this.renderBranchingCrucible(contentData);
+                } else if (lessonId === 'crucible_chat') {
+                    this.renderChatCrucible(contentData);
+                } else {
+                    this.dom.contentDisplay.innerHTML += contentData.html;
+                }
+            },
+
+            renderBranchingCrucible(data, sceneId = 'start') {
+                const scene = data.scenes[sceneId];
+                const contentEl = document.createElement('div');
+                contentEl.innerHTML = `<p>${scene.text}</p>`;
+                
+                const choicesEl = document.createElement('div');
+                scene.choices.forEach(choice => {
+                    const btn = document.createElement('button');
+                    btn.className = 'choice-btn';
+                    btn.textContent = choice.text;
+                    btn.onclick = () => this.renderBranchingCrucible(data, choice.target);
+                    choicesEl.appendChild(btn);
+                });
+
+                this.dom.contentDisplay.appendChild(contentEl);
+                this.dom.contentDisplay.appendChild(choicesEl);
+            },
+
+            renderChatCrucible(data) {
+                const contentEl = document.createElement('div');
+                contentEl.innerHTML = `
+                    <p>Build a scene with the AI. Start by setting the scene with one sentence.</p>
+                    <div class="chat-container">
+                        <div class="chat-log" id="chat-log"></div>
+                        <form class="chat-input-form" id="chat-form">
+                            <input type="text" placeholder="Your sentence..." autocomplete="off">
+                            <button type="submit">Send</button>
+                        </form>
+                    </div>
+                `;
+                this.dom.contentDisplay.appendChild(contentEl);
+                
+                const form = document.getElementById('chat-form');
+                const input = form.querySelector('input');
+                const log = document.getElementById('chat-log');
+                let responseCounter = 0;
+
+                form.onsubmit = (e) => {
+                    e.preventDefault();
+                    const userInput = input.value.trim();
+                    if (!userInput) return;
+                    
+                    this.addChatMessage(log, userInput, 'user');
+                    input.value = '';
+
+                    setTimeout(() => {
+                        let aiResponse = data.persona.responses[responseCounter % data.persona.responses.length];
+                        if(this.state.rebellionMode) aiResponse = `[Codex]: ${aiResponse} ...Now make it weirder.`;
+                        this.addChatMessage(log, aiResponse, 'ai');
+                        responseCounter++;
+                    }, 1000 + Math.random() * 500);
+                };
+            },
+
+            addChatMessage(log, text, type) {
+                const msg = document.createElement('div');
+                msg.className = `chat-message ${type}`;
+                msg.textContent = text;
+                log.appendChild(msg);
+                log.scrollTop = log.scrollHeight;
+            }
+        };
+
+        Academy.init();
+    });
+    </script>
+</body>
+</html>
