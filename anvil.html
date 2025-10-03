@@ -382,24 +382,37 @@
 
             updateStats();
 
-            // --- Corrected Read Aloud Logic ---
+            // --- Definitive Read Aloud Fix ---
             readAloudButton.addEventListener('click', () => {
+                // If it's currently speaking, cancel it and reset the button.
                 if (speechSynthesis.speaking) {
                     speechSynthesis.cancel();
-                } else {
-                    if(editor.innerText.trim() === '') return;
-                    const utterance = new SpeechSynthesisUtterance(editor.innerText);
+                    readAloudButton.textContent = 'Read Aloud';
+                } 
+                // If it's not speaking, start reading.
+                else {
+                    const textToRead = editor.innerText.trim();
+                    if(textToRead === '') return;
+
+                    // ALWAYS cancel any previous utterances before starting a new one.
+                    speechSynthesis.cancel();
+
+                    const utterance = new SpeechSynthesisUtterance(textToRead);
                     utterance.onend = () => {
                         readAloudButton.textContent = 'Read Aloud';
                     };
+                    
                     speechSynthesis.speak(utterance);
                     readAloudButton.textContent = 'Stop Reading';
                 }
             });
-
-            // This ensures the button text resets if speech is cancelled elsewhere
-            speechSynthesis.onend = () => {
-                 readAloudButton.textContent = 'Read Aloud';
+            
+            // Add a global listener to reset button if speech ends unexpectedly
+            // This is a failsafe for various browser behaviors.
+            window.speechSynthesis.onvoiceschanged = () => {
+                if (!speechSynthesis.speaking) {
+                    readAloudButton.textContent = 'Read Aloud';
+                }
             };
 
 
