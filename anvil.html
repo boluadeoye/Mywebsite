@@ -291,7 +291,6 @@
             <div class="toolbar">
                 <button id="read-aloud">Read Aloud</button>
                 <button id="analyze">Analyze</button>
-                <button id="save-snapshot">Save Snapshot</button>
                 <button id="view-history">View History</button>
                 <button id="zen-mode">Zen Mode</button>
             </div>
@@ -382,69 +381,66 @@
 
             updateStats();
 
-            // --- Definitive Read Aloud Fix ---
             readAloudButton.addEventListener('click', () => {
-                // If it's currently speaking, cancel it and reset the button.
                 if (speechSynthesis.speaking) {
                     speechSynthesis.cancel();
                     readAloudButton.textContent = 'Read Aloud';
                 } 
-                // If it's not speaking, start reading.
                 else {
                     const textToRead = editor.innerText.trim();
                     if(textToRead === '') return;
 
-                    // ALWAYS cancel any previous utterances before starting a new one.
-                    speechSynthesis.cancel();
+                    speechSynthesis.cancel(); // Ensure any previous speech is stopped
 
                     const utterance = new SpeechSynthesisUtterance(textToRead);
                     utterance.onend = () => {
                         readAloudButton.textContent = 'Read Aloud';
                     };
                     
-                    speechSynthesis.speak(utterance);
-                    readAloudButton.textContent = 'Stop Reading';
+                    // Added a short delay before speaking to prevent the speech service from being 'stuck'
+                    // This is a common workaround for this browser API behavior.
+                    setTimeout(() => {
+                        speechSynthesis.speak(utterance);
+                        readAloudButton.textContent = 'Stop Reading';
+                    }, 100); 
                 }
             });
             
-            // Add a global listener to reset button if speech ends unexpectedly
-            // This is a failsafe for various browser behaviors.
-            window.speechSynthesis.onvoiceschanged = () => {
-                if (!speechSynthesis.speaking) {
-                    readAloudButton.textContent = 'Read Aloud';
-                }
+            // Global listener for when any speech ends or is cancelled externally
+            window.speechSynthesis.onend = () => {
+                readAloudButton.textContent = 'Read Aloud';
+            };
+            window.speechSynthesis.onerror = () => {
+                readAloudButton.textContent = 'Read Aloud';
             };
 
 
             document.getElementById('analyze').addEventListener('click', () => {
                 let text = editor.innerText;
-                editor.innerHTML = text;
+                editor.innerHTML = text; // Reset innerHTML to clear previous highlights safely
+                
                 let words = text.match(/\b\w+\b/g) || [];
                 let freq = {};
-                const stopWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'is', 'are', 'was', 'were', 'in', 'on', 'at', 'to', 'of']);
+                const stopWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'is', 'are', 'was', 'were', 'in', 'on', 'at', 'to', 'of']); // Basic stop words
                 words.forEach(w => {
                     let lower = w.toLowerCase();
                     if (!stopWords.has(lower)) {
                        freq[lower] = (freq[lower] || 0) + 1;
                     }
                 });
-                let repeated = Object.keys(freq).filter(k => freq[k] >= 3);
-                let html = editor.innerHTML;
+                let repeated = Object.keys(freq).filter(k => freq[k] >= 3); // Words repeated 3 or more times
+
+                let html = editor.innerHTML; // Get current (reset) HTML content
                 repeated.forEach(rep => {
+                    // Use a more robust regex to ensure whole word matching and preserve case
                     const regex = new RegExp(`\\b(${rep})\\b`, 'gi');
                     html = html.replace(regex, `<span class="highlight">$1</span>`);
                 });
                 editor.innerHTML = html;
             });
 
-            document.getElementById('save-snapshot').addEventListener('click', () => {
-                snapshots.push({
-                    timestamp: new Date().toISOString(),
-                    content: editor.innerText
-                });
-                localStorage.setItem(snapshotsKey, JSON.stringify(snapshots));
-                alert('Snapshot saved!');
-            });
+            // The 'Save Snapshot' button and its listener were removed
+            // document.getElementById('save-snapshot').addEventListener('click', () => { ... });
 
             document.getElementById('view-history').addEventListener('click', () => {
                 historyList.innerHTML = '';
