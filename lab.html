@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Lab</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <title>The Forge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-slate: #2D3748;
@@ -14,10 +14,14 @@
             --text-cream: #EDF2F7;
             --text-dark: #2D3748;
             --text-muted: #718096;
-            --border-color: #CBD5E0;
-            --transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
+            --border-color: #4A5568;
+            --transition: cubic-bezier(0.4, 0, 0.2, 1);
         }
-        * { box-sizing: border-box; }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
@@ -27,55 +31,310 @@
             flex-direction: column;
             min-height: 100vh;
             padding-top: 64px;
+            box-sizing: border-box;
         }
-        main { flex: 1; display: flex; align-items: center; justify-content: center; }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .nav { position: fixed; top: 0; left: 0; width: 100%; background: var(--bg-slate); border-bottom: 1px solid var(--border-color); z-index: 1000; }
-        .nav .wrap { display: flex; justify-content: space-between; align-items: center; height: 64px; max-width: 1200px; margin: 0 auto; padding: 0 32px; }
-        .nav-home-link { color: var(--text-cream); text-decoration: none; font-weight: 700; font-size: 1.2rem; transition: color 200ms; }
-        .nav-home-link:hover { color: var(--accent-gold); }
-        .nav-links { list-style: none; display: flex; align-items: center; gap: 8px; margin: 0; padding: 0; }
-        .nav-links a { display: block; text-decoration: none; color: var(--text-cream); font-weight: 700; padding: 8px 16px; border-radius: 999px; transition: all 200ms var(--transition-curve); }
-        .nav-links a.active, .nav-links a:hover { background-color: var(--accent-gold); color: var(--bg-slate); }
+        .nav .wrap { display: flex; justify-content: center; align-items: center; height: 64px; }
+        .nav-links { list-style: none; display: flex; align-items: center; gap: 8px; padding: 0; margin: 0; }
+        .nav-links a { display: block; text-decoration: none; color: var(--text-cream); font-weight: 700; padding: 8px 16px; border-radius: 999px; transition: all 300ms var(--transition); }
+        .nav-links a.active { background-color: var(--accent-gold); color: var(--bg-slate); }
+        .nav-links a:not(.active):hover { background-color: #4A5568; }
 
-        #foundry { text-align: center; max-width: 640px; width: 100%; padding: 32px; }
-        #foundry-initial-view h1 { font-family: 'Lora', serif; font-size: 2.5rem; color: var(--text-cream); margin: 0 0 16px; }
-        #foundry-initial-view p { font-size: 1.1rem; color: var(--text-muted); margin: 0 0 32px; }
-        .btn-forge {
-            display: inline-flex; align-items: center; gap: 12px; padding: 16px 32px; background: var(--accent-gold);
-            color: var(--bg-slate); border: none; border-radius: 999px; font-weight: 700; font-size: 1.2rem;
-            cursor: pointer; transition: all 200ms var(--transition-curve); box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .btn-forge:hover { background: var(--accent-gold-hover); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
-        .btn-forge svg { width: 24px; height: 24px; }
-
-        #foundry-result-view { display: none; background: var(--panel-cream); padding: 32px; border-radius: 8px; text-align: left; }
-        .result-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 16px; margin-bottom: 24px; }
-        .result-header h2 { font-family: 'Lora', serif; margin: 0; }
-        .btn-reforge { background: none; border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-weight: 700; transition: all 200ms; }
-        .btn-reforge:hover { background: #EDF2F7; color: var(--text-dark); border-color: var(--text-dark); }
-        .result-section h3 { font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin: 24px 0 8px; }
-        .result-section p, .result-section li { font-family: 'Lora', serif; font-size: 1.1rem; line-height: 1.7; }
-        .result-section ul { list-style: none; padding: 0; margin: 0; }
-        .result-section blockquote { border-left: 3px solid var(--accent-gold); padding-left: 16px; margin: 0; font-style: italic; }
-        .action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
-        .btn-action { text-align: center; padding: 16px; border-radius: 8px; cursor: pointer; transition: all 200ms; }
-        .btn-action h4 { margin: 0 0 4px; }
-        .btn-action p { font-family: 'Inter', sans-serif; font-size: 0.9rem; margin: 0; }
-        .btn-action.forge { background: var(--accent-gold); color: var(--bg-slate); border: 1px solid var(--accent-gold); }
-        .btn-action.forge:hover { background: var(--accent-gold-hover); }
-        .btn-action.archive { background: transparent; border: 1px solid var(--border-color); color: var(--text-dark); }
-        .btn-action.archive:hover { background: #EDF2F7; border-color: var(--text-dark); }
-        .archive-feedback { text-align: center; color: var(--accent-gold); font-weight: 700; margin-top: 16px; opacity: 0; transition: opacity 300ms; }
-        .archive-feedback.show { opacity: 1; }
-        
         .main-footer { width: 100%; padding: 2rem 0; background-color: var(--bg-slate); border-top: 1px solid var(--border-color); }
-        .main-footer p { text-align: center; font-size: 0.9rem; color: var(--text-muted); }
+        .main-footer p { text-align: center; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--text-muted); }
+
+        #foundry {
+            position: relative;
+            max-width: 580px;
+            width: 100%;
+            background: var(--panel-cream);
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-title {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .step-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .runes {
+            display: flex;
+            gap: 8px;
+        }
+
+        .rune {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            transition: background 300ms var(--transition);
+        }
+
+        .rune.filled {
+            background: var(--accent-gold);
+        }
+
+        .rune.animate {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .btn-back {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0;
+            transition: color 300ms var(--transition);
+        }
+
+        .btn-back:hover {
+            color: var(--accent-gold);
+        }
+
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .choice-card {
+            padding: 16px;
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-weight: 700;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 300ms var(--transition);
+            text-align: center;
+        }
+
+        .choice-card:hover {
+            background: var(--accent-gold-hover);
+            border-color: var(--accent-gold);
+        }
+
+        .surprise-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--accent-gold);
+            color: var(--bg-slate);
+            border: none;
+            border-radius: 999px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 300ms var(--transition);
+            margin: 0 auto;
+        }
+
+        .surprise-btn:hover {
+            background: var(--accent-gold-hover);
+        }
+
+        .surprise-btn svg,
+        .reroll svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+        }
+
+        .result-container p {
+            font-family: 'Lora', serif;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .result-container h3 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 32px;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .reroll {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color 300ms var(--transition);
+            padding: 0;
+        }
+
+        .reroll:hover {
+            color: var(--accent-gold);
+        }
+
+        .result-container ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px 0;
+        }
+
+        .result-container ul li {
+            margin-bottom: 8px;
+            font-family: 'Lora', serif;
+        }
+
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: var(--accent-gold);
+            color: var(--bg-slate);
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 300ms var(--transition);
+            margin-top: 16px;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-gold-hover);
+        }
+
+        .btn-secondary {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 300ms var(--transition);
+            margin-top: 16px;
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-gold-hover);
+            color: var(--bg-slate);
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            color: var(--text-muted);
+        }
+
+        .loading svg {
+            width: 48px;
+            height: 48px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .banner {
+            background: var(--accent-gold);
+            color: var(--bg-slate);
+            padding: 16px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .banner p {
+            margin: 0 0 8px 0;
+            font-weight: 700;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .button-group button {
+            padding: 8px 16px;
+            background: var(--bg-slate);
+            color: var(--text-cream);
+            border: none;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 300ms var(--transition);
+        }
+
+        .button-group button:hover {
+            background: #4A5568;
+        }
+
+        .fade-out {
+            animation: fadeOut 300ms forwards;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        @media (max-width: 600px) {
+            #foundry {
+                padding: 24px;
+            }
+
+            .choice-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .home-link {
+            font-family: 'Lora', serif;
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            text-decoration: none;
+            margin-right: auto;
+            padding: 8px;
+        }
     </style>
 </head>
 <body>
     <nav class="nav">
         <div class="wrap">
-            <a href="#" class="nav-home-link" title="Return to Main Website">F</a>
+            <a href="#" title="Return to Main Website" class="home-link">F</a>
             <ul class="nav-links">
                 <li><a href="#" class="active">Lab</a></li>
                 <li><a href="./anvil.html">Anvil</a></li>
@@ -85,10 +344,8 @@
         </div>
     </nav>
 
-    <main>
-        <section id="foundry">
-            </section>
-    </main>
+    <section id="foundry" class="main-card">
+    </section>
 
     <footer class="main-footer">
         <div class="wrap">
@@ -98,137 +355,277 @@
 
     <script>
         (function(){
-            const foundryContainer = document.getElementById('foundry');
-            let foundryData = null;
-            let currentIdea = null;
+  const foundryContainer = document.getElementById('foundry');
+  let foundryData = null;
+  let userSelections = {};
+  let navigationHistory = [];
+  let currentStep = 'step1';
 
-            // --- UI Components ---
-            const initialViewHTML = `
-                <div id="foundry-initial-view">
-                    <h1>The Lab</h1>
-                    <p>Forge a new idea from the raw elements of storytelling.</p>
-                    <button class="btn-forge" id="btn-generate">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M19 3v4M3 10h18M12 14v8m-4-4h8"/></svg>
-                        <span>Forge a New Idea</span>
-                    </button>
-                </div>
-            `;
+  // --- Sound Effects (Subtle, non-intrusive) ---
+  const clickSound = new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABgAZGF0YQAAAAA=');
+  const swooshSound = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABgAZGF0YQAAAAA=');
+  [clickSound, swooshSound].forEach(s => s.volume = 0.3);
 
-            const resultViewHTML = `
-                <div id="foundry-result-view">
-                    <div class="result-header">
-                        <h2>Forged Idea</h2>
-                        <button class="btn-reforge" id="btn-reforge">
-                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                            <span>Re-Forge</span>
-                        </button>
-                    </div>
-                    <div id="result-content"></div>
-                    <div class="action-buttons">
-                        <div class="btn-action forge" id="btn-to-anvil">
-                            <h4>Forge This Idea</h4>
-                            <p>Take to The Anvil to begin writing.</p>
-                        </div>
-                        <div class="btn-action archive" id="btn-to-journal">
-                            <h4>Archive This Idea</h4>
-                            <p>Save to The Journal for later.</p>
-                        </div>
-                    </div>
-                    <div class="archive-feedback" id="archive-feedback"></div>
-                </div>
-            `;
+  // --- Helper Functions ---
+  const getRandomMatching = (items, tags) => {
+    if (!tags || tags.length === 0) return items[Math.floor(Math.random() * items.length)];
+    const matching = items.filter(i => i.tags && i.tags.some(t => tags.includes(t)));
+    return matching.length > 0 ? matching[Math.floor(Math.random() * matching.length)] : items[Math.floor(Math.random() * items.length)];
+  };
 
-            // --- Main Functions ---
-            const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  // --- Navigation Engine ---
+  const navigateTo = (stepFunction, stepName, isBack = false) => {
+    if (!isBack) {
+      navigationHistory.push({ func: stepFunction, name: stepName });
+    }
+    localStorage.setItem('foundryState', JSON.stringify({ userSelections, currentStep: stepName, navigationHistory: navigationHistory.map(h => h.name) }));
+    swooshSound.play().catch(e => {});
 
-            function generateIdea() {
-                const char = getRandomItem(foundryData.characters.archetypes);
-                const conflict = getRandomItem(foundryData.conflicts.external);
-                const setting = getRandomItem(foundryData.settings.locations);
-                const question = getRandomItem(char.catalyst_questions);
-                
-                const logline = `In ${setting.name}, a(n) "${char.name}" driven by a need to "${char.motivation}" must confront the external conflict of "${conflict.text}", all while grappling with their personal flaw of "${char.flaw}".`;
-                
-                currentIdea = { char, conflict, setting, question, logline };
-                displayIdea(currentIdea);
-            }
+    const oldContent = foundryContainer.firstChild;
+    if (oldContent) {
+      oldContent.classList.add('fade-out');
+      setTimeout(() => stepFunction(), 300);
+    } else {
+      stepFunction();
+    }
+  };
 
-            function displayIdea(idea) {
-                foundryContainer.innerHTML = resultViewHTML;
-                const resultContent = document.getElementById('result-content');
-                
-                resultContent.innerHTML = `
-                    <div class="result-section">
-                        <h3>Logline</h3>
-                        <p>${idea.logline}</p>
-                    </div>
-                    <div class="result-section">
-                        <h3>Deep Dive Question</h3>
-                        <blockquote>${idea.question}</blockquote>
-                    </div>
-                    <div class="result-section">
-                        <h3>Setting Palette</h3>
-                        <ul>
-                            <li><strong>Sight:</strong> ${idea.setting.sensory_palette.sight}</li>
-                            <li><strong>Sound:</strong> ${idea.setting.sensory_palette.sound}</li>
-                            <li><strong>Smell:</strong> ${idea.setting.sensory_palette.smell}</li>
-                        </ul>
-                    </div>
-                `;
-                
-                // Add event listeners for the new view
-                document.getElementById('btn-reforge').addEventListener('click', generateIdea);
-                document.getElementById('btn-to-anvil').addEventListener('click', takeToAnvil);
-                document.getElementById('btn-to-journal').addEventListener('click', archiveToJournal);
-            }
+  const goBack = () => {
+    if (navigationHistory.length > 1) {
+      navigationHistory.pop();
+      const previous = navigationHistory[navigationHistory.length - 1];
+      currentStep = previous.name;
+      navigateTo(previous.func, previous.name, true);
+    }
+  };
+  
+  // --- Component Renderers ---
+  const renderRunes = (current) => {
+    const steps = ['step1', 'step2', 'step3', 'result'];
+    const currentIndex = steps.indexOf(current);
+    return `<div class="runes">${steps.map((s, i) => `<div class="rune ${i <= currentIndex ? 'filled' : ''} ${i === currentIndex ? 'animate' : ''}"></div>`).join('')}</div>`;
+  };
+  
+  const renderHeader = (title, step) => {
+    const header = document.createElement('div');
+    header.innerHTML = `
+      <div class="step-header">
+        <h2 class="step-title">${title}</h2>
+        ${renderRunes(step)}
+      </div>
+    `;
+    return header;
+  };
 
-            function showInitialView() {
-                foundryContainer.innerHTML = initialViewHTML;
-                document.getElementById('btn-generate').addEventListener('click', generateIdea);
-            }
-            
-            function takeToAnvil() {
-                localStorage.setItem('foundryAnvilPrompt', JSON.stringify(currentIdea));
-                window.location.href = './anvil.html';
-            }
+  const createAndAppend = (parent, tag, className, innerHTML = '') => {
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    el.innerHTML = innerHTML;
+    parent.appendChild(el);
+    return el;
+  };
+  
+  const rerollIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>`;
+  const surpriseIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 4V2m0 14v-2m-4-4H2m8 0h2m-2 0v7m0-7V9m4.01-3 5 5-5 5-5-5 5-5z"/></svg>`;
+  const quillIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 2c-4 4-5 9-1 12.9C9.9 19 17 21 20 11c-2 2-8 2-13-3m.5 5.5l5 5"/></svg>`;
 
-            function archiveToJournal() {
-                const dossiers = JSON.parse(localStorage.getItem('foundryDossiers')) || [];
-                const newDossier = {
-                    character: currentIdea.char.name,
-                    setting: currentIdea.setting.name,
-                    tension: currentIdea.question, // Using question as tension
-                    tags: [...new Set([...(currentIdea.char.tags || []), ...(currentIdea.setting.tags || [])])],
-                    notes: `Logline: ${currentIdea.logline}\n\nMotivation: ${currentIdea.char.motivation}\nFlaw: ${currentIdea.char.flaw}`
-                };
-                dossiers.unshift(newDossier);
-                localStorage.setItem('foundryDossiers', JSON.stringify(dossiers));
+  // --- Step Renderers ---
+  const renderStep1 = () => {
+    currentStep = 'step1';
+    foundryContainer.innerHTML = '';
+    const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container');
+    stepContainer.appendChild(renderHeader('What is the core of your idea?', 'step1'));
+    if (navigationHistory.length > 1) createAndAppend(foundryContainer, 'button', 'btn-back', '← Back').addEventListener('click', goBack);
+    
+    const grid = createAndAppend(stepContainer, 'div', 'choice-grid');
+    ['Character', 'Setting', 'Theme'].forEach(choice => {
+      const card = createAndAppend(grid, 'button', 'choice-card', choice);
+      card.dataset.choice = choice.toLowerCase();
+      card.addEventListener('click', (e) => {
+        clickSound.play().catch(e => {});
+        userSelections.core = e.target.dataset.choice;
+        navigateTo(renderStep2, 'step2');
+      });
+    });
 
-                const feedback = document.getElementById('archive-feedback');
-                feedback.textContent = 'Idea Archived in Journal!';
-                feedback.classList.add('show');
-                setTimeout(() => { feedback.classList.remove('show'); }, 2000);
-            }
+    createAndAppend(stepContainer, 'button', 'surprise-btn', `${surpriseIcon} Surprise Me`)
+        .addEventListener('click', () => {
+            clickSound.play().catch(e => {});
+            userSelections.archetype = foundryData.characters.archetypes[Math.floor(Math.random() * foundryData.characters.archetypes.length)];
+            navigateTo(renderFinalResult, 'result');
+        });
+  };
+  
+  const renderStep2 = () => {
+    currentStep = 'step2';
+    const archetypes = foundryData.characters.archetypes;
+    foundryContainer.innerHTML = '';
+    const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container');
+    stepContainer.appendChild(renderHeader('Choose a Character Archetype', 'step2'));
+    if (navigationHistory.length > 1) createAndAppend(foundryContainer, 'button', 'btn-back', '← Back').addEventListener('click', goBack);
+    
+    const grid = createAndAppend(stepContainer, 'div', 'choice-grid');
+    archetypes.forEach(a => {
+        const card = createAndAppend(grid, 'button', 'choice-card', a.name);
+        card.dataset.choice = a.name;
+        card.addEventListener('click', (e) => {
+            clickSound.play().catch(e => {});
+            userSelections.archetype = archetypes.find(arch => arch.name === e.target.dataset.choice);
+            navigateTo(renderStep3, 'step3');
+        });
+    });
+  };
+  
+  const renderStep3 = () => {
+      currentStep = 'step3';
+      const questions = userSelections.archetype.catalyst_questions;
+      if (!questions || questions.length === 0) {
+          navigateTo(renderFinalResult, 'result');
+          return;
+      }
+      foundryContainer.innerHTML = '';
+      const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container');
+      stepContainer.appendChild(renderHeader('Consider this...', 'step3'));
+      if (navigationHistory.length > 1) createAndAppend(foundryContainer, 'button', 'btn-back', '← Back').addEventListener('click', goBack);
+      
+      const grid = createAndAppend(stepContainer, 'div', 'choice-grid');
+      questions.forEach((q, index) => {
+          const card = createAndAppend(grid, 'button', 'choice-card', q);
+          card.dataset.choice = index;
+          card.addEventListener('click', (e) => {
+              clickSound.play().catch(e => {});
+              userSelections.question = questions[parseInt(e.target.dataset.choice, 10)];
+              navigateTo(renderFinalResult, 'result');
+          });
+      });
+  };
 
-            async function initialize() {
-                try {
-                    // NOTE: Ensure you have a 'foundry-data.json' file in the same directory.
-                    const response = await fetch('./foundry-data.json');
-                    if (!response.ok) throw new Error('Could not load Foundry data.');
-                    foundryData = await response.json();
-                    showInitialView();
-                } catch (error) {
-                    foundryContainer.innerHTML = `<p style="color: var(--text-muted);">${error.message}</p>`;
-                }
-            }
+  const renderFinalResult = () => {
+      currentStep = 'result';
+      foundryContainer.innerHTML = '';
+      const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container result-container');
+      stepContainer.appendChild(renderHeader('Your Forged Idea', 'result'));
+      if (navigationHistory.length > 1) createAndAppend(foundryContainer, 'button', 'btn-back', '← Back').addEventListener('click', goBack);
+      
+      const char = userSelections.archetype;
+      const conflict = getRandomMatching(foundryData.conflicts.external, char.tags);
+      const setting = getRandomMatching(foundryData.settings.locations, char.tags);
+      const question = userSelections.question || "Consider their core motivation and flaw.";
+      
+      userSelections.result = { char, conflict, setting, question };
+      const logline = `In ${setting.name}, a(n) "${char.name}" driven by a need to "${char.motivation}" must confront the external conflict of "${conflict.text}", all while grappling with their personal flaw of "${char.flaw}".`;
+      userSelections.result.logline = logline;
+      
+      const loglineH3 = createAndAppend(stepContainer, 'h3', '', `Logline <button class="reroll" data-reroll="logline">${rerollIcon}</button>`);
+      createAndAppend(stepContainer, 'p', '', logline);
 
-            // --- Home Link Configuration ---
-            // Please change the '#' to your main website's URL
-            document.querySelector('.nav-home-link').href = '#';
+      const questionH3 = createAndAppend(stepContainer, 'h3', '', `Deep Dive Question <button class="reroll" data-reroll="question">${rerollIcon}</button>`);
+      createAndAppend(stepContainer, 'p', '', `<em>${question}</em>`);
 
-            // --- Start the Lab ---
-            initialize();
-        })();
+      const settingH3 = createAndAppend(stepContainer, 'h3', '', `Setting: ${setting.name} <button class="reroll" data-reroll="setting">${rerollIcon}</button>`);
+      const palette = createAndAppend(stepContainer, 'ul');
+      palette.innerHTML = `
+          <li><strong>Sight:</strong> ${setting.sensory_palette.sight}</li>
+          <li><strong>Sound:</strong> ${setting.sensory_palette.sound}</li>
+          <li><strong>Smell:</strong> ${setting.sensory_palette.smell}</li>
+      `;
+      
+      [loglineH3, questionH3, settingH3].forEach(h3 => {
+          h3.querySelector('.reroll').addEventListener('click', (e) => {
+              clickSound.play().catch(e => {});
+              const type = e.currentTarget.dataset.reroll;
+              if (type === 'logline') userSelections.result.conflict = getRandomMatching(foundryData.conflicts.external, char.tags);
+              if (type === 'question') userSelections.question = userSelections.archetype.catalyst_questions[Math.floor(Math.random() * userSelections.archetype.catalyst_questions.length)];
+              if (type === 'setting') userSelections.result.setting = getRandomMatching(foundryData.settings.locations, char.tags);
+              navigateTo(renderFinalResult, 'result', true);
+          });
+      });
+
+      const forgeBtn = createAndAppend(stepContainer, 'button', 'btn-primary', 'Forge This Idea');
+      forgeBtn.addEventListener('click', takeToAnvil);
+
+      const archiveBtn = createAndAppend(stepContainer, 'button', 'btn-secondary', 'Archive This Idea');
+      archiveBtn.addEventListener('click', (e) => archiveToJournal(e.target));
+      
+      createAndAppend(stepContainer, 'button', 'btn-primary', 'Start a New Idea').addEventListener('click', () => {
+        userSelections = {}; navigationHistory = [];
+        localStorage.removeItem('foundryState');
+        navigateTo(renderStep1, 'step1');
+      });
+  };
+
+  // This function saves the complete idea object to localStorage for The Anvil to use.
+function takeToAnvil() {
+    // Assuming 'currentGeneratedIdea' holds the final idea object
+    localStorage.setItem('foundryAnvilPrompt', JSON.stringify(userSelections.result));
+    window.location.href = './anvil.html';
+}
+
+// This function saves the idea to the main dossier list for The Journal.
+function archiveToJournal(buttonElement) {
+    // Assuming 'currentGeneratedIdea' holds the final idea object
+    const dossiers = JSON.parse(localStorage.getItem('foundryDossiers')) || [];
+    
+    // Create a new dossier object in the correct format for The Journal
+    const newDossier = {
+        character: userSelections.result.char.name,
+        setting: userSelections.result.setting.name,
+        tension: userSelections.result.question,
+        tags: [...new Set([...(userSelections.result.char.tags || []), ...(userSelections.result.setting.tags || [])])],
+        notes: `Logline: ${userSelections.result.logline}`
+    };
+
+    // Add to the beginning of the array
+    dossiers.unshift(newDossier);
+    localStorage.setItem('foundryDossiers', JSON.stringify(dossiers));
+
+    // Provide user feedback on the button itself
+    const originalText = buttonElement.textContent;
+    buttonElement.textContent = 'Archived!';
+    buttonElement.disabled = true;
+    setTimeout(() => {
+        buttonElement.textContent = originalText;
+        buttonElement.disabled = false;
+    }, 2000);
+}
+
+  async function initializeFoundry() {
+    foundryContainer.innerHTML = `<div class="loading">${quillIcon}</div>`;
+    try {
+      const response = await fetch('./foundry-data.json');
+      if (!response.ok) throw new Error('Could not load the Foundry brain.');
+      foundryData = await response.json();
+      
+      const savedState = JSON.parse(localStorage.getItem('foundryState'));
+      if (savedState && savedState.navigationHistory && savedState.navigationHistory.length > 0) {
+        const banner = createAndAppend(foundryContainer, 'div', 'banner');
+        banner.innerHTML = `
+            <p>Continue where you left off?</p>
+            <div class="button-group">
+                <button id="continueYes">Yes</button><button id="continueNo">No</button>
+            </div>
+        `;
+        document.getElementById('continueYes').addEventListener('click', () => {
+          userSelections = savedState.userSelections;
+          currentStep = savedState.currentStep;
+          const stepMap = {step1: renderStep1, step2: renderStep2, step3: renderStep3, result: renderFinalResult};
+          navigationHistory = savedState.navigationHistory.map(name => ({name, func: stepMap[name]}));
+          navigateTo(stepMap[currentStep], currentStep, true);
+        });
+        document.getElementById('continueNo').addEventListener('click', () => {
+          localStorage.removeItem('foundryState');
+          navigateTo(renderStep1, 'step1');
+        });
+      } else {
+        navigateTo(renderStep1, 'step1');
+      }
+    } catch (error) {
+      foundryContainer.innerHTML = `<p style="color: red; text-align: center;">Error: ${error.message}</p>`;
+    }
+  }
+  
+  initializeFoundry();
+})();
     </script>
 </body>
 </html>
