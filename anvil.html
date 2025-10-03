@@ -324,22 +324,19 @@
             const historyList = document.getElementById('history-list');
             const closeModal = document.getElementById('close-modal');
             const zenButton = document.getElementById('zen-mode');
+            const readAloudButton = document.getElementById('read-aloud');
 
-            // --- Corrected Key Generation ---
             const anvilPrompt = JSON.parse(localStorage.getItem('foundryAnvilPrompt'));
             let draftKey = 'anvilDraft_default';
             if (anvilPrompt && anvilPrompt.logline) {
-                // Create a more robust key from the logline
                 draftKey = 'anvilDraft_' + anvilPrompt.logline.replace(/\W/g, '').substring(0, 50);
             }
             let snapshotsKey = draftKey + '_snapshots';
             let snapshots = JSON.parse(localStorage.getItem(snapshotsKey) || '[]');
             let debounceTimer;
 
-            // --- Corrected Prompt Loading ---
             if (anvilPrompt) {
                 promptElement.style.display = 'block';
-                // Safely access properties
                 const logline = anvilPrompt.logline || 'No logline available.';
                 const question = anvilPrompt.question || 'No deep dive question.';
                 const settingName = anvilPrompt.setting?.name || 'Unknown Setting';
@@ -362,7 +359,6 @@
                  promptElement.style.display = 'none';
             }
             
-            // Use innerText for loading to avoid HTML injection
             editor.innerText = localStorage.getItem(draftKey) || '';
 
             function updateStats() {
@@ -375,7 +371,6 @@
             function saveDraft() {
                 clearTimeout(debounceTimer);
                 debounceTimer = setTimeout(() => {
-                    // Use innerText for saving to keep it clean
                     localStorage.setItem(draftKey, editor.innerText);
                 }, 500);
             }
@@ -387,21 +382,32 @@
 
             updateStats();
 
-            document.getElementById('read-aloud').addEventListener('click', () => {
-                if(editor.innerText.trim() === '') return;
-                const utterance = new SpeechSynthesisUtterance(editor.innerText);
-                speechSynthesis.speak(utterance);
+            // --- Corrected Read Aloud Logic ---
+            readAloudButton.addEventListener('click', () => {
+                if (speechSynthesis.speaking) {
+                    speechSynthesis.cancel();
+                } else {
+                    if(editor.innerText.trim() === '') return;
+                    const utterance = new SpeechSynthesisUtterance(editor.innerText);
+                    utterance.onend = () => {
+                        readAloudButton.textContent = 'Read Aloud';
+                    };
+                    speechSynthesis.speak(utterance);
+                    readAloudButton.textContent = 'Stop Reading';
+                }
             });
+
+            // This ensures the button text resets if speech is cancelled elsewhere
+            speechSynthesis.onend = () => {
+                 readAloudButton.textContent = 'Read Aloud';
+            };
+
 
             document.getElementById('analyze').addEventListener('click', () => {
                 let text = editor.innerText;
-                
-                // First, clean existing highlights by resetting innerHTML from clean text
                 editor.innerHTML = text;
-
                 let words = text.match(/\b\w+\b/g) || [];
                 let freq = {};
-                // Simple stop words list
                 const stopWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'is', 'are', 'was', 'were', 'in', 'on', 'at', 'to', 'of']);
                 words.forEach(w => {
                     let lower = w.toLowerCase();
@@ -410,7 +416,6 @@
                     }
                 });
                 let repeated = Object.keys(freq).filter(k => freq[k] >= 3);
-
                 let html = editor.innerHTML;
                 repeated.forEach(rep => {
                     const regex = new RegExp(`\\b(${rep})\\b`, 'gi');
