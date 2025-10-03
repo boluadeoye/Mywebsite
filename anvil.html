@@ -318,10 +318,13 @@
             const stats = document.getElementById('stats');
             const promptElement = document.getElementById('prompt');
             const promptContent = document.getElementById('prompt-content');
+            
             const historyModal = document.getElementById('history-modal');
             const historyList = document.getElementById('history-list');
+            
             const proseModal = document.getElementById('prose-modal');
             const proseReportContent = document.getElementById('prose-report-content');
+
             const zenButton = document.getElementById('zen-mode');
             const readAloudButton = document.getElementById('read-aloud');
 
@@ -407,41 +410,42 @@
                     alert('Nothing to analyze.');
                     return;
                 }
+                
+                // --- Definitive Retext Fix ---
+                // The libraries attach to `window`. The main function is `unified.unified()`
+                // and the plugins are attached directly (e.g., `window.retextEnglish`).
+                try {
+                    window.unified()
+                        .use(window.retextEnglish)
+                        .use(window.retextSentenceSpacing)
+                        .use(window.retextReadability)
+                        .use(window.retextSimplify)
+                        .process(text, (err, file) => {
+                            if (err) { throw err; }
 
-                // --- Corrected Retext Logic ---
-                // The libraries attach themselves to the `window` object
-                // The main function is `unified.unified()`
-                window.unified.unified()
-                    .use(window.retextEnglish)
-                    .use(window.retextSentenceSpacing)
-                    .use(window.retextReadability)
-                    .use(window.retextSimplify)
-                    .process(text, (err, file) => {
-                        if (err) {
-                            console.error(err);
-                            proseReportContent.innerHTML = '<p>An error occurred during analysis.</p>';
+                            let reportHTML = '';
+                            const readability = file.data.readability || {};
+                            reportHTML += `<div class="report-section"><h3>Readability</h3><p>Grade ${Math.round(readability.grade) || 'N/A'}</p></div>`;
+
+                            const simplifyMessages = file.messages.filter(m => m.source === 'retext-simplify');
+                            if (simplifyMessages.length > 0) {
+                                reportHTML += `<div class="report-section"><h3>Word Choice & Structure</h3><ul>`;
+                                simplifyMessages.forEach(message => {
+                                    reportHTML += `<li>${message.reason}</li>`;
+                                });
+                                reportHTML += `</ul></div>`;
+                            } else {
+                                reportHTML += `<div class="report-section"><h3>Word Choice & Structure</h3><p>No suggestions found. Excellent clarity!</p></div>`;
+                            }
+                            
+                            proseReportContent.innerHTML = reportHTML;
                             proseModal.style.display = 'block';
-                            return;
-                        }
-
-                        let reportHTML = '';
-                        const readability = file.data.readability || {};
-                        reportHTML += `<div class="report-section"><h3>Readability</h3><p>Grade ${Math.round(readability.grade) || 'N/A'}</p></div>`;
-
-                        const simplifyMessages = file.messages.filter(m => m.source === 'retext-simplify');
-                        if (simplifyMessages.length > 0) {
-                            reportHTML += `<div class="report-section"><h3>Word Choice & Structure</h3><ul>`;
-                            simplifyMessages.forEach(message => {
-                                reportHTML += `<li>${message.reason}</li>`;
-                            });
-                            reportHTML += `</ul></div>`;
-                        } else {
-                            reportHTML += `<div class="report-section"><h3>Word Choice & Structure</h3><p>No suggestions found. Excellent clarity!</p></div>`;
-                        }
-                        
-                        proseReportContent.innerHTML = reportHTML;
-                        proseModal.style.display = 'block';
-                    });
+                        });
+                } catch(e) {
+                    console.error("Analysis Error:", e);
+                    proseReportContent.innerHTML = '<p>An error occurred during analysis. The libraries might not have loaded correctly.</p>';
+                    proseModal.style.display = 'block';
+                }
             });
 
             document.getElementById('view-history').addEventListener('click', () => {
