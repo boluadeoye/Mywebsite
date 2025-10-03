@@ -3,462 +3,452 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Academy - The Writer's Foundry</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <title>The Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* The Modern Aesthetic Palette */
-            --bg-light-gray: #F4F7FA;
-            --panel-white: #FFFFFF;
-            --primary-blue: #0052CC;
-            --hover-blue: #0065FF;
-            --text-dark: #172B4D;
-            --text-muted: #6B778C;
-            --border-color: #DFE1E6;
-            --accent-rebel-purple: #6E44FF;
-            
-            /* Timing Function & Spacing Grid (8px system) */
-            --transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
-            --space-8: 8px;
-            --space-16: 16px;
-            --space-24: 24px;
+            --bg-slate: #2D3748;
+            --panel-cream: #F7FAFC;
+            --accent-gold: #D69E2E;
+            --accent-gold-hover: #ECC94B;
+            --text-cream: #EDF2F7;
+            --text-dark: #2D3748;
+            --text-muted: #718096;
+            --border-color: #4A5568;
+            --transition: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* --- Rebellion Codex Mode Override --- */
-        .rebellion-mode {
-            --primary-blue: var(--accent-rebel-purple);
-            --hover-blue: #8262ff;
+        * {
+            box-sizing: border-box;
         }
-
-        /* --- Global Styles & Typography --- */
-        *, *::before, *::after { box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-light-gray);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            color: var(--text-dark);
             margin: 0;
-            padding-top: 64px; /* Space for fixed nav */
-            -webkit-font-smoothing: antialiased;
-        }
-        
-        /* --- Unified Navigation Bar --- */
-        .foundry-nav {
-            position: fixed; top: 0; left: 0; width: 100%;
-            background-color: var(--panel-white);
-            box-shadow: 0 2px 8px rgba(23, 43, 77, 0.05);
-            border-bottom: 1px solid var(--border-color);
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 var(--space-24); height: 64px; z-index: 1000;
-        }
-        .nav-left, .nav-right { display: flex; align-items: center; gap: var(--space-24); }
-        .nav-brand {
-            font-weight: 800; font-size: 1.2rem;
-            color: var(--text-dark); text-decoration: none;
-        }
-        .nav-links { display: flex; gap: var(--space-24); }
-        .nav-links a {
-            text-decoration: none; color: var(--text-muted);
-            font-weight: 700; font-size: 1rem;
-            padding: var(--space-8) 0;
-            border-bottom: 2px solid transparent;
-            transition: color 0.2s var(--transition-curve);
-        }
-        .nav-links a:hover { color: var(--text-dark); }
-        .nav-links a.active { color: var(--primary-blue); border-bottom-color: var(--primary-blue); }
-        .hamburger-menu { display: none; } /* Mobile only */
-
-        /* --- Rebellion Codex Toggle --- */
-        .rebel-toggle { display: flex; align-items: center; gap: var(--space-8); }
-        .rebel-toggle label { font-weight: 700; font-size: 0.9rem; color: var(--text-muted); cursor: pointer; }
-        .rebel-toggle input { display: none; }
-        .rebel-toggle .switch {
-            width: 40px; height: 22px; background-color: #EBECF0;
-            border-radius: 11px; position: relative; cursor: pointer;
-            transition: background-color 0.3s var(--transition-curve);
-        }
-        .rebel-toggle .switch::before {
-            content: ''; position: absolute;
-            width: 16px; height: 16px; border-radius: 50%;
-            background-color: white; top: 3px; left: 3px;
-            transition: transform 0.3s var(--transition-curve);
-        }
-        .rebel-toggle input:checked + .switch { background-color: var(--primary-blue); }
-        .rebel-toggle input:checked + .switch::before { transform: translateX(18px); }
-
-        /* --- Main Application Layout --- */
-        .academy-layout { display: flex; }
-        .sidebar {
-            width: 280px;
-            height: calc(100vh - 64px);
-            position: fixed;
-            background-color: var(--panel-white);
-            border-right: 1px solid var(--border-color);
-            padding: var(--space-24);
-            overflow-y: auto;
-        }
-        .main-content {
-            margin-left: 280px;
-            width: calc(100% - 280px);
-            padding: var(--space-24);
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-slate) url("data:image/png;base64,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") repeat;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: 64px;
         }
 
-        /* --- Sidebar Navigation --- */
-        .sidebar h2 { font-size: 1.2rem; font-weight: 800; margin: 0 0 var(--space-16) 0; }
-        .module-category { margin-bottom: var(--space-24); }
-        .module-category summary {
-            font-weight: 700; font-size: 1rem;
-            padding: var(--space-8); border-radius: 6px;
-            cursor: pointer; transition: background-color 0.2s var(--transition-curve);
-        }
-        .module-category summary:hover { background-color: var(--bg-light-gray); }
-        .lesson-list { list-style: none; padding: var(--space-8) 0 0 var(--space-16); margin: 0; }
-        .lesson-item a {
-            display: block; padding: var(--space-8);
-            border-radius: 6px; text-decoration: none;
-            color: var(--text-muted); font-weight: 700;
-            transition: all 0.2s var(--transition-curve);
-        }
-        .lesson-item a.active, .lesson-item a:hover {
-            color: var(--primary-blue);
-            background-color: #EBF3FF;
-        }
+        .nav { position: fixed; top: 0; left: 0; width: 100%; background: var(--bg-slate); border-bottom: 1px solid var(--border-color); z-index: 1000; }
+        .nav .wrap { display: flex; justify-content: center; align-items: center; height: 64px; }
+        .nav-links { list-style: none; display: flex; align-items: center; gap: 8px; padding: 0; margin: 0; }
+        .nav-links a { display: block; text-decoration: none; color: var(--text-cream); font-weight: 700; padding: 8px 16px; border-radius: 999px; transition: all 300ms var(--transition); }
+        .nav-links a.active { background-color: var(--accent-gold); color: var(--bg-slate); }
+        .nav-links a:not(.active):hover { background-color: #4A5568; }
 
-        /* --- Main Content Area & Components --- */
-        .content-display {
+        main {
+            flex: 1;
+            padding: 32px;
             max-width: 800px;
             margin: 0 auto;
-            background-color: var(--panel-white);
-            padding: var(--space-32);
-            border-radius: 12px;
+            width: 100%;
+        }
+
+        .view-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .view-toggle button {
+            padding: 8px 16px;
+            background: var(--panel-cream);
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 300ms var(--transition);
+            margin: 0 8px;
+            font-weight: 700;
+        }
+
+        .view-toggle button.active {
+            background: var(--accent-gold);
+            color: var(--bg-slate);
+            border-color: var(--accent-gold);
+        }
+
+        #library-view {
+            display: block;
+        }
+
+        #codex-view {
+            display: none;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .module-card {
+            background: var(--panel-cream);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 300ms var(--transition);
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .module-card:hover {
+            background: var(--accent-gold-hover);
+            border-color: var(--accent-gold);
+        }
+
+        #article-view {
+            display: none;
+            background: var(--panel-cream);
+            padding: 32px;
+            border-radius: 8px;
             border: 1px solid var(--border-color);
         }
-        .content-display h1 { font-size: 2rem; font-weight: 800; margin: 0 0 var(--space-24) 0; }
-        .content-display p { font-size: 1.1rem; line-height: 1.8; margin: 0 0 var(--space-16) 0; }
-        .choice-btn {
-            display: block; width: 100%;
-            background-color: var(--panel-white);
+
+        #article-content {
+            font-family: 'Lora', serif;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        #crucible-btn {
+            display: block;
+            margin: 24px auto 0;
+            padding: 12px 24px;
+            background: var(--accent-gold);
+            color: var(--bg-slate);
+            border: none;
+            border-radius: 999px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 300ms var(--transition);
+        }
+
+        #crucible-btn:hover {
+            background: var(--accent-gold-hover);
+        }
+
+        #assessment-view {
+            display: none;
+            background: var(--panel-cream);
+            padding: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        #assessment-question {
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+        }
+
+        .option-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: var(--panel-cream);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: var(--space-16);
-            margin-bottom: var(--space-8);
-            font-size: 1rem; font-weight: 700;
-            text-align: left; cursor: pointer;
-            transition: all 0.2s var(--transition-curve);
+            cursor: pointer;
+            transition: all 300ms var(--transition);
         }
-        .choice-btn:hover { border-color: var(--primary-blue); background-color: #EBF3FF; color: var(--primary-blue); }
 
-        /* Chat UI */
-        .chat-container { border: 1px solid var(--border-color); border-radius: 12px; }
-        .chat-log { height: 400px; padding: var(--space-16); overflow-y: auto; }
-        .chat-message { max-width: 80%; padding: var(--space-8) var(--space-12); border-radius: 12px; margin-bottom: var(--space-8); }
-        .chat-message.user { background-color: #EBF3FF; color: var(--primary-blue); margin-left: auto; border-bottom-right-radius: 2px; }
-        .chat-message.ai { background-color: var(--bg-light-gray); border-bottom-left-radius: 2px; }
-        .chat-input-form { display: flex; border-top: 1px solid var(--border-color); }
-        .chat-input-form input { flex-grow: 1; border: none; background: none; padding: var(--space-16); font-size: 1rem; outline: none; }
-        .chat-input-form button {
-            background: none; border: none; border-left: 1px solid var(--border-color);
-            padding: 0 var(--space-16); font-weight: 700; color: var(--primary-blue);
-            cursor: pointer; transition: background-color 0.2s var(--transition-curve);
+        .option-btn:hover {
+            background: var(--accent-gold-hover);
         }
-        .chat-input-form button:hover { background-color: #EBF3FF; }
 
-        /* Competency Report */
-        .competency-report { margin-top: var(--space-32); border: 1px solid var(--border-color); border-radius: 12px; }
-        .competency-report h2 { font-size: 1.5rem; padding: var(--space-16); margin: 0; border-bottom: 1px solid var(--border-color); }
-        .report-item { display: flex; justify-content: space-between; padding: var(--space-16); border-bottom: 1px solid var(--border-color); }
-        .report-item:last-child { border-bottom: none; }
-        .report-item span:first-child { font-weight: 700; }
-        .report-item span:last-child { font-weight: 700; color: var(--primary-blue); }
-
-        /* --- Responsive Design --- */
-        @media (max-width: 768px) {
-            .sidebar {
-                left: -300px;
-                transition: left 0.3s var(--transition-curve);
-                z-index: 2000;
-            }
-            .sidebar.open { left: 0; }
-            .main-content { margin-left: 0; width: 100%; }
-            .content-display { border-radius: 0; border-left: none; border-right: none; }
-            .nav-links, .rebel-toggle { display: none; }
-            .hamburger-menu {
-                display: block; background: none; border: none;
-                cursor: pointer; padding: var(--space-8);
-            }
-            .page-overlay {
-                position: fixed; top: 64px; left: 0; width: 100%; height: 100%;
-                background: rgba(0,0,0,0.5); z-index: 1999;
-                opacity: 0; transition: opacity 0.3s var(--transition-curve);
-                pointer-events: none;
-            }
-            .page-overlay.active { opacity: 1; pointer-events: auto; }
+        #feedback {
+            margin-top: 16px;
+            font-style: italic;
+            color: var(--text-muted);
         }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--accent-gold);
+            cursor: pointer;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+            justify-content: center;
+        }
+
+        .filter-tag {
+            padding: 4px 12px;
+            background: var(--panel-cream);
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 300ms var(--transition);
+        }
+
+        .filter-tag.active {
+            background: var(--accent-gold);
+            color: var(--bg-slate);
+            border-color: var(--accent-gold);
+        }
+
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .case-card {
+            background: var(--panel-cream);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .case-card h3 {
+            margin: 0 0 8px;
+            font-size: 1.2rem;
+        }
+
+        .case-card p {
+            margin: 0;
+            font-family: 'Lora', serif;
+            color: var(--text-muted);
+        }
+
+        .case-card .insight {
+            font-family: 'Lora', serif;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-top: 8px;
+        }
+
+        .main-footer { width: 100%; padding: 2rem 0; background-color: var(--bg-slate); border-top: 1px solid var(--border-color); }
+        .main-footer p { text-align: center; font-size: 0.9rem; color: var(--text-muted); }
     </style>
 </head>
 <body>
-
-    <nav class="foundry-nav">
-        <div class="nav-left">
-            <button class="hamburger-menu" id="hamburger-menu">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12H21" stroke="#172B4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 6H21" stroke="#172B4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 18H21" stroke="#172B4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <a href="lab.html" class="nav-brand">The Academy</a>
-        </div>
-        <div class="nav-right">
-            <div class="nav-links">
-                <a href="lab.html">Forge</a>
-                <a href="anvil.html">Anvil</a>
-                <a href="journal.html">Journal</a>
-                <a href="academy.html" class="active">Academy</a>
-            </div>
-            <div class="rebel-toggle">
-                <label for="rebel-switch">Rebellion Codex</label>
-                <input type="checkbox" id="rebel-switch">
-                <span class="switch"></span>
-            </div>
+    <nav class="nav">
+        <div class="wrap">
+            <ul class="nav-links">
+                <li><a href="./lab.html">Lab</a></li>
+                <li><a href="./anvil.html">Anvil</a></li>
+                <li><a href="./journal.html">Journal</a></li>
+                <li><a href="#" class="active">Academy</a></li>
+            </ul>
         </div>
     </nav>
-    <div class="page-overlay" id="page-overlay"></div>
 
-    <div class="academy-layout">
-        <aside class="sidebar" id="sidebar">
-            <h2>Learning Modules</h2>
-            <div id="module-nav"></div>
-        </aside>
-        <main class="main-content">
-            <div class="content-display" id="content-display">
-                </div>
-        </main>
-    </div>
-    
+    <main>
+        <div class="view-toggle">
+            <button id="library-toggle" class="active">Learning Modules</button>
+            <button id="codex-toggle">Rebellion Codex</button>
+        </div>
+
+        <div id="library-view">
+            <div id="module-grid" class="module-grid"></div>
+            <div id="article-view">
+                <button class="back-btn" id="back-to-modules">← Back to Modules</button>
+                <div id="article-content"></div>
+                <button id="crucible-btn">Enter The Crucible</button>
+            </div>
+            <div id="assessment-view">
+                <button class="back-btn" id="back-to-article">← Back to Article</button>
+                <p id="assessment-question"></p>
+                <div id="options"></div>
+                <p id="feedback"></p>
+            </div>
+        </div>
+
+        <div id="codex-view">
+            <div class="filter-bar" id="codex-filter"></div>
+            <div class="case-grid" id="case-grid"></div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="wrap">
+            <p>© 2025 Boluadeoye • Crafted with passion</p>
+        </div>
+    </footer>
+
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const Academy = {
-            state: {
-                rebellionMode: false,
-                currentLesson: null
-            },
-            dom: {},
-            content: { /* This will hold all lesson and crucible data */ },
-            
-            async init() {
-                this.cacheDOM();
-                this.loadState();
-                await this.loadContent();
-                this.renderSidebar();
-                this.bindEvents();
-                this.renderContent('welcome'); // Initial view
-                console.log("The Academy is in session.");
-            },
-            
-            cacheDOM() {
-                this.dom.body = document.body;
-                this.dom.sidebar = document.getElementById('sidebar');
-                this.dom.moduleNav = document.getElementById('module-nav');
-                this.dom.contentDisplay = document.getElementById('content-display');
-                this.dom.hamburger = document.getElementById('hamburger-menu');
-                this.dom.overlay = document.getElementById('page-overlay');
-                this.dom.rebelSwitch = document.getElementById('rebel-switch');
-            },
-            
-            loadState() {
-                const rebelState = localStorage.getItem('foundryRebellionMode');
-                this.state.rebellionMode = rebelState === 'true';
-                if (this.state.rebellionMode) {
-                    this.dom.body.classList.add('rebellion-mode');
-                    this.dom.rebelSwitch.checked = true;
-                }
-            },
+        (function() {
+            const libraryView = document.getElementById('library-view');
+            const codexView = document.getElementById('codex-view');
+            const libraryToggle = document.getElementById('library-toggle');
+            const codexToggle = document.getElementById('codex-toggle');
+            const moduleGrid = document.getElementById('module-grid');
+            const articleView = document.getElementById('article-view');
+            const assessmentView = document.getElementById('assessment-view');
+            const articleContent = document.getElementById('article-content');
+            const crucibleBtn = document.getElementById('crucible-btn');
+            const backToModules = document.getElementById('back-to-modules');
+            const backToArticle = document.getElementById('back-to-article');
+            const assessmentQuestion = document.getElementById('assessment-question');
+            const optionsDiv = document.getElementById('options');
+            const feedback = document.getElementById('feedback');
+            const codexFilter = document.getElementById('codex-filter');
+            const caseGrid = document.getElementById('case-grid');
 
-            saveState() {
-                localStorage.setItem('foundryRebellionMode', this.state.rebellionMode);
-            },
-            
-            async loadContent() {
-                // In a real app, this would be a fetch call. Here, it's structured in the JS.
-                this.content = {
-                    welcome: {
-                        title: "Welcome to The Academy",
-                        html: `<p>This is your space to hone the craft of writing. Select a learning module from the sidebar to begin, or dive into an interactive "Crucible" assessment to test your skills.</p>`
-                    },
-                    crucible_branching: {
-                        title: "The Interrogation",
-                        scenes: {
-                            start: {
-                                text: "The detective slams his hand on the metal table. 'I know you were there,' he snarls. 'Tell me what you saw.' Your heart pounds. You have two options.",
-                                choices: [
-                                    { text: "Tell the truth, but omit the dangerous part.", target: 'partialTruth' },
-                                    { text: "Lie and say you saw nothing.", target: 'outrightLie' }
-                                ]
-                            },
-                            partialTruth: {
-                                text: "You describe the scene, carefully editing your role out of it. The detective squints. 'You're holding something back.' He leans in closer. 'Don't make me add obstruction to your charges.'",
-                                choices: []
-                            },
-                             outrightLie: {
-                                text: "You feign ignorance. 'I was at home. I don't know what you're talking about.' He laughs, a harsh, grating sound. 'We have you on camera a block away, pal. Try again.'",
-                                choices: []
-                            }
-                        }
-                    },
-                    crucible_chat: {
-                        title: "World-Building Duel",
-                        persona: {
-                            name: "AI Dungeon Master",
-                            responses: [
-                                "Interesting. The air grows cold as you say that. What happens next?",
-                                "A bold move. And how does the environment react to this?",
-                                "I see. And in the distance, a strange sound echoes. Describe it.",
-                                "Fascinating. But you're forgetting about the prophecy etched on the cave wall."
-                            ]
-                        }
+            let foundryData = null;
+            let currentModule = null;
+            let activeCodexFilter = null;
+
+            const modules = [
+                {
+                    title: 'Mastering Plot',
+                    article: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
+                    assessment: {
+                        question: 'What is the inciting incident in a plot?',
+                        options: ['The climax', 'The event that sets the story in motion', 'The resolution'],
+                        correct: 1,
+                        feedback: 'Correct! The inciting incident is the event that disrupts the status quo and sets the protagonist on their journey.'
                     }
-                    // More modules and lessons would be defined here
-                };
-            },
-
-            renderSidebar() {
-                // This is a simplified render. A full version would use the structured data.
-                this.dom.moduleNav.innerHTML = `
-                    <details class="module-category" open>
-                        <summary>Crucible Assessments</summary>
-                        <ul class="lesson-list">
-                            <li class="lesson-item"><a href="#" data-lesson-id="crucible_branching">The Interrogation</a></li>
-                            <li class="lesson-item"><a href="#" data-lesson-id="crucible_chat">World-Building Duel</a></li>
-                        </ul>
-                    </details>
-                `;
-            },
-            
-            bindEvents() {
-                this.dom.hamburger.addEventListener('click', () => this.toggleSidebar());
-                this.dom.overlay.addEventListener('click', () => this.toggleSidebar(false));
-
-                this.dom.rebelSwitch.addEventListener('change', (e) => {
-                    this.state.rebellionMode = e.target.checked;
-                    this.dom.body.classList.toggle('rebellion-mode', this.state.rebellionMode);
-                    this.saveState();
-                    // Re-render current content to reflect mode change
-                    if(this.state.currentLesson) this.renderContent(this.state.currentLesson);
-                });
-
-                this.dom.moduleNav.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    if (e.target.tagName === 'A') {
-                        const lessonId = e.target.dataset.lessonId;
-                        this.renderContent(lessonId);
-                        this.toggleSidebar(false); // Close sidebar on mobile after selection
-                        // Update active state
-                        this.dom.moduleNav.querySelectorAll('a').forEach(a => a.classList.remove('active'));
-                        e.target.classList.add('active');
+                },
+                {
+                    title: 'Crafting Dialogue',
+                    article: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
+                    assessment: {
+                        question: 'What is the primary purpose of dialogue?',
+                        options: ['To describe settings', 'To reveal character and advance the plot', 'To provide exposition only'],
+                        correct: 1,
+                        feedback: 'Correct! Dialogue should reveal character traits and move the story forward.'
                     }
+                },
+                {
+                    title: 'Building Worlds',
+                    article: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
+                    assessment: {
+                        question: 'What is key to effective world-building?',
+                        options: ['Consistency and immersion', 'Random details', 'Overloading with information'],
+                        correct: 0,
+                        feedback: 'Correct! Consistency in rules and details helps immerse the reader in the world.'
+                    }
+                }
+            ];
+
+            // Render module grid
+            function renderModules() {
+                moduleGrid.innerHTML = '';
+                modules.forEach(mod => {
+                    const card = document.createElement('div');
+                    card.classList.add('module-card');
+                    card.textContent = mod.title;
+                    card.addEventListener('click', () => {
+                        currentModule = mod;
+                        moduleGrid.style.display = 'none';
+                        articleView.style.display = 'block';
+                        articleContent.innerHTML = mod.article;
+                    });
+                    moduleGrid.appendChild(card);
                 });
-            },
-
-            toggleSidebar(forceOpen) {
-                const isOpen = this.dom.sidebar.classList.contains('open');
-                if (typeof forceOpen === 'boolean') {
-                    this.dom.sidebar.classList.toggle('open', forceOpen);
-                    this.dom.overlay.classList.toggle('active', forceOpen);
-                } else {
-                    this.dom.sidebar.classList.toggle('open');
-                    this.dom.overlay.classList.toggle('active', !isOpen);
-                }
-            },
-
-            renderContent(lessonId) {
-                this.state.currentLesson = lessonId;
-                const contentData = this.content[lessonId];
-                if (!contentData) {
-                    this.dom.contentDisplay.innerHTML = `<h1>Content Not Found</h1>`;
-                    return;
-                }
-
-                let title = contentData.title;
-                if(this.state.rebellionMode){
-                    title = `[Codex]: ${title}`;
-                }
-                
-                this.dom.contentDisplay.innerHTML = `<h1>${title}</h1>`;
-
-                // Specific renderers for different crucible types
-                if (lessonId === 'crucible_branching') {
-                    this.renderBranchingCrucible(contentData);
-                } else if (lessonId === 'crucible_chat') {
-                    this.renderChatCrucible(contentData);
-                } else {
-                    this.dom.contentDisplay.innerHTML += contentData.html;
-                }
-            },
-
-            renderBranchingCrucible(data, sceneId = 'start') {
-                const scene = data.scenes[sceneId];
-                const contentEl = document.createElement('div');
-                contentEl.innerHTML = `<p>${scene.text}</p>`;
-                
-                const choicesEl = document.createElement('div');
-                scene.choices.forEach(choice => {
-                    const btn = document.createElement('button');
-                    btn.className = 'choice-btn';
-                    btn.textContent = choice.text;
-                    btn.onclick = () => this.renderBranchingCrucible(data, choice.target);
-                    choicesEl.appendChild(btn);
-                });
-
-                this.dom.contentDisplay.appendChild(contentEl);
-                this.dom.contentDisplay.appendChild(choicesEl);
-            },
-
-            renderChatCrucible(data) {
-                const contentEl = document.createElement('div');
-                contentEl.innerHTML = `
-                    <p>Build a scene with the AI. Start by setting the scene with one sentence.</p>
-                    <div class="chat-container">
-                        <div class="chat-log" id="chat-log"></div>
-                        <form class="chat-input-form" id="chat-form">
-                            <input type="text" placeholder="Your sentence..." autocomplete="off">
-                            <button type="submit">Send</button>
-                        </form>
-                    </div>
-                `;
-                this.dom.contentDisplay.appendChild(contentEl);
-                
-                const form = document.getElementById('chat-form');
-                const input = form.querySelector('input');
-                const log = document.getElementById('chat-log');
-                let responseCounter = 0;
-
-                form.onsubmit = (e) => {
-                    e.preventDefault();
-                    const userInput = input.value.trim();
-                    if (!userInput) return;
-                    
-                    this.addChatMessage(log, userInput, 'user');
-                    input.value = '';
-
-                    setTimeout(() => {
-                        let aiResponse = data.persona.responses[responseCounter % data.persona.responses.length];
-                        if(this.state.rebellionMode) aiResponse = `[Codex]: ${aiResponse} ...Now make it weirder.`;
-                        this.addChatMessage(log, aiResponse, 'ai');
-                        responseCounter++;
-                    }, 1000 + Math.random() * 500);
-                };
-            },
-
-            addChatMessage(log, text, type) {
-                const msg = document.createElement('div');
-                msg.className = `chat-message ${type}`;
-                msg.textContent = text;
-                log.appendChild(msg);
-                log.scrollTop = log.scrollHeight;
             }
-        };
 
-        Academy.init();
-    });
+            // Render assessment
+            function renderAssessment() {
+                assessmentQuestion.textContent = currentModule.assessment.question;
+                optionsDiv.innerHTML = '';
+                currentModule.assessment.options.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.classList.add('option-btn');
+                    btn.textContent = opt;
+                    btn.addEventListener('click', () => {
+                        feedback.textContent = idx === currentModule.assessment.correct ? currentModule.assessment.feedback : 'Incorrect. Try again or review the article.';
+                    });
+                    optionsDiv.appendChild(btn);
+                });
+            }
+
+            // View toggles
+            libraryToggle.addEventListener('click', () => {
+                libraryToggle.classList.add('active');
+                codexToggle.classList.remove('active');
+                libraryView.style.display = 'block';
+                codexView.style.display = 'none';
+            });
+
+            codexToggle.addEventListener('click', () => {
+                codexToggle.classList.add('active');
+                libraryToggle.classList.remove('active');
+                libraryView.style.display = 'none';
+                codexView.style.display = 'block';
+            });
+
+            // Library navigation
+            backToModules.addEventListener('click', () => {
+                articleView.style.display = 'none';
+                moduleGrid.style.display = 'grid';
+            });
+
+            crucibleBtn.addEventListener('click', () => {
+                articleView.style.display = 'none';
+                assessmentView.style.display = 'block';
+                renderAssessment();
+            });
+
+            backToArticle.addEventListener('click', () => {
+                assessmentView.style.display = 'none';
+                articleView.style.display = 'block';
+                feedback.textContent = '';
+            });
+
+            // Codex
+            async function loadCodex() {
+                try {
+                    const response = await fetch('./foundry-data.json');
+                    if (!response.ok) throw new Error('Failed to load data');
+                    foundryData = await response.json();
+                    const allTypes = new Set(foundryData.caseStudies.map(cs => cs.element_type));
+                    const types = Array.from(allTypes).sort();
+
+                    codexFilter.innerHTML = '';
+                    types.forEach(type => {
+                        const span = document.createElement('span');
+                        span.classList.add('filter-tag');
+                        span.textContent = type;
+                        span.addEventListener('click', () => {
+                            activeCodexFilter = activeCodexFilter === type ? null : type;
+                            document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                            if (activeCodexFilter) span.classList.add('active');
+                            renderCodex();
+                        });
+                        codexFilter.appendChild(span);
+                    });
+
+                    renderCodex();
+                } catch (error) {
+                    caseGrid.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+                }
+            }
+
+            function renderCodex() {
+                caseGrid.innerHTML = '';
+                const filtered = activeCodexFilter ? foundryData.caseStudies.filter(cs => cs.element_type === activeCodexFilter) : foundryData.caseStudies;
+                filtered.forEach(cs => {
+                    const card = document.createElement('div');
+                    card.classList.add('case-card');
+                    card.innerHTML = `
+                        <h3>${cs.work} by ${cs.author}</h3>
+                        <p>Type: ${cs.element_type}</p>
+                        <div class="insight">${cs.insight}</div>
+                    `;
+                    caseGrid.appendChild(card);
+                });
+            }
+
+            // Init
+            renderModules();
+            loadCodex();
+        })();
     </script>
 </body>
 </html>
