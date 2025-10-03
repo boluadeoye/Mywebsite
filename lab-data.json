@@ -1,34 +1,262 @@
 {
-  "categories": [
-    {
-      "name": "First Lines",
-      "prompts": [
-        "The last thing I expected to see in the desert was a ship.",
-        "It wasn't the fall that scared her, but the sudden stop.",
-        "The old musician played a song that only ghosts could hear.",
-        "By the third day, the rain had washed away everything but the truth.",
-        "He found the map in a bottle, but it wasn't for any place on Earth."
-      ]
-    },
-    {
-      "name": "Characters",
-      "prompts": [
-        "A retired librarian who secretly solves cold cases.",
-        "A chef who can taste emotions in food.",
-        "An astronaut who is afraid of heights.",
-        "A cartographer who maps cities that don't exist.",
-        "A silent monk who communicates only by writing on a small chalkboard."
-      ]
-    },
-    {
-      "name": "Scenarios",
-      "prompts": [
-        "You wake up with the ability to speak a language you've never learned.",
-        "A mysterious package arrives containing an object that belongs to your future self.",
-        "You are the sole witness to an impossible crime.",
-        "You discover a hidden room in your house that changes every day.",
-        "An ancient tree in your backyard starts bearing fruit made of glass."
-      ]
-    }
-  ]
+  "components": {
+    "characters": [
+      {
+        "id": "bio-engineer-symbiote",
+        "name": "Bio-Engineer Symbiote",
+        "world": "delta-punk",
+        "description": "A technocrat bonded with mangrove-root implants, balancing innovation with mutation.",
+        "motivation": "To harmonize human and delta life through bio-tech.",
+        "flaw": "Over-reliance on unstable organic tech.",
+        "tags": ["technologist", "ecological", "mutant", "delta-punk"],
+        "compatibility": {
+          "settings": ["sunken-oil-refinery", "floating-market-bazaar", "spirit-nebula-temple"],
+          "conflicts": ["corporate-conflict", "bloom-plague"],
+          "tensions": ["forbidden-tech", "ancestral-secrets", "cosmic-balance"]
+        }
+      },
+      {
+        "id": "submersible-raider",
+        "name": "Submersible Raider",
+        "world": "delta-punk",
+        "description": "A river-pirate scavenging drowned ruins in a submersible canoe.",
+        "motivation": "To claim sovereignty over underwater territories.",
+        "flaw": "Distrust of all surface-dwellers.",
+        "tags": ["nomad", "survivalist", "rebel", "delta-punk"],
+        "compatibility": {
+          "settings": ["sunken-oil-refinery", "floating-market-bazaar"],
+          "conflicts": ["corporate-conflict", "bloom-plague"],
+          "tensions": ["forbidden-tech", "ancestral-secrets"]
+        }
+      },
+      {
+        "id": "imperial-bronze-caster",
+        "name": "Imperial Bronze-Caster",
+        "world": "benin-guild",
+        "description": "A rebellious artisan crafting starships from sacred bronze.",
+        "motivation": "To break free from guild traditions and innovate.",
+        "flaw": "Arrogance in defying ancestral rituals.",
+        "tags": ["artisan", "rebel", "cosmic", "benin-guild"],
+        "compatibility": {
+          "settings": ["forgotten-moon", "spirit-nebula-temple", "floating-market-bazaar"],
+          "conflicts": ["guild-conflict", "cosmic-storm"],
+          "tensions": ["forbidden-powers", "cosmic-balance"]
+        }
+      },
+      {
+        "id": "mask-carver-mystic",
+        "name": "Mask-Carver Mystic",
+        "world": "benin-guild",
+        "description": "A spiritual guide wielding masks that channel cosmic entities.",
+        "motivation": "To commune with star-spirits for guidance.",
+        "flaw": "Obsession with forbidden powers.",
+        "tags": ["mystic", "spiritual", "forbidden", "benin-guild"],
+        "compatibility": {
+          "settings": ["forgotten-moon", "spirit-nebula-temple"],
+          "conflicts": ["guild-conflict", "cosmic-storm"],
+          "tensions": ["forbidden-powers", "cosmic-balance"]
+        }
+      }
+    ],
+    "settings": [
+      {
+        "id": "sunken-oil-refinery",
+        "name": "Sunken Oil Refinery",
+        "world": "delta-punk",
+        "description": "A submerged industrial ruin overgrown with glowing vines, pulsing with forgotten data.",
+        "sensory": {
+          "sight": "Bioluminescent tendrils weaving through rusted pipes.",
+          "sound": "Distant hum of dormant machines under water.",
+          "smell": "Brackish water mixed with metallic tang."
+        },
+        "tags": ["industrial", "submerged", "bioluminescent", "delta-punk"],
+        "compatibility": {
+          "characters": ["bio-engineer-symbiote", "submersible-raider"],
+          "conflicts": ["corporate-conflict", "bloom-plague"],
+          "tensions": ["forbidden-tech", "ancestral-secrets"]
+        }
+      },
+      {
+        "id": "floating-market-bazaar",
+        "name": "Floating Market Bazaar",
+        "world": "delta-punk",
+        "description": "A vibrant marketplace on repurposed tanker hulls, lit by bootleg bio-lamps.",
+        "sensory": {
+          "sight": "Flickering lanterns and colorful stalls bobbing on waves.",
+          "sound": "Haggling voices and creaking metal hulls.",
+          "smell": "Spiced fish and ozone from makeshift generators."
+        },
+        "tags": ["market", "maritime", "chaotic", "delta-punk"],
+        "compatibility": {
+          "characters": ["bio-engineer-symbiote", "submersible-raider", "imperial-bronze-caster"],
+          "conflicts": ["corporate-conflict", "bloom-plague"],
+          "tensions": ["forbidden-tech", "ancestral-secrets"]
+        }
+      },
+      {
+        "id": "forgotten-moon",
+        "name": "Forgotten Moon",
+        "world": "benin-guild",
+        "description": "A desolate moon orbiting a gas giant, littered with ancient guild relics.",
+        "sensory": {
+          "sight": "Craggy silver landscapes under a swirling gas giant sky.",
+          "sound": "Low hum of dormant bronze machines.",
+          "smell": "Metallic dust and faint ozone."
+        },
+        "tags": ["cosmic", "desolate", "ancient", "benin-guild"],
+        "compatibility": {
+          "characters": ["imperial-bronze-caster", "mask-carver-mystic"],
+          "conflicts": ["guild-conflict", "cosmic-storm"],
+          "tensions": ["forbidden-powers", "cosmic-balance"]
+        }
+      },
+      {
+        "id": "spirit-nebula-temple",
+        "name": "Spirit Nebula Temple",
+        "world": "benin-guild",
+        "description": "A floating temple in a glowing nebula, where spirits whisper prophecies.",
+        "sensory": {
+          "sight": "Shimmering clouds of iridescent gas around bronze spires.",
+          "sound": "Ethereal chants carried on cosmic winds.",
+          "smell": "Incense-like wisps of ionized air."
+        },
+        "tags": ["spiritual", "cosmic", "sacred", "benin-guild"],
+        "compatibility": {
+          "characters": ["imperial-bronze-caster", "mask-carver-mystic", "bio-engineer-symbiote"],
+          "conflicts": ["guild-conflict", "cosmic-storm"],
+          "tensions": ["forbidden-powers", "cosmic-balance"]
+        }
+      }
+    ],
+    "conflicts": [
+      {
+        "id": "corporate-conflict",
+        "text": "Corporate enforcers seize control of bio-energy resources.",
+        "world": "delta-punk",
+        "type": "external",
+        "tags": ["corporate", "resource-war", "delta-punk"],
+        "compatibility": {
+          "characters": ["bio-engineer-symbiote", "submersible-raider"],
+          "settings": ["sunken-oil-refinery", "floating-market-bazaar"]
+        }
+      },
+      {
+        "id": "bloom-plague",
+        "text": "A bloom-plague threatens to destabilize the mangrove platforms.",
+        "world": "delta-punk",
+        "type": "environmental",
+        "tags": ["ecological", "crisis", "delta-punk"],
+        "compatibility": {
+          "characters": ["bio-engineer-symbiote", "submersible-raider"],
+          "settings": ["sunken-oil-refinery", "floating-market-bazaar"]
+        }
+      },
+      {
+        "id": "guild-conflict",
+        "text": "A rival guild faction seeks to control sacred starship technology.",
+        "world": "benin-guild",
+        "type": "political",
+        "tags": ["guild", "power-struggle", "benin-guild"],
+        "compatibility": {
+          "characters": ["imperial-bronze-caster", "mask-carver-mystic"],
+          "settings": ["forgotten-moon", "spirit-nebula-temple"]
+        }
+      },
+      {
+        "id": "cosmic-storm",
+        "text": "A cosmic storm threatens to destroy the guild’s orbital outposts.",
+        "world": "benin-guild",
+        "type": "environmental",
+        "tags": ["cosmic", "crisis", "benin-guild"],
+        "compatibility": {
+          "characters": ["imperial-bronze-caster", "mask-carver-mystic"],
+          "settings": ["forgotten-moon", "spirit-nebula-temple"]
+        }
+      }
+    ],
+    "tensions": [
+      {
+        "id": "forbidden-tech",
+        "text": "Can one harness forbidden tech without triggering a catastrophic mutation?",
+        "world": "delta-punk",
+        "tags": ["technological", "ethical", "delta-punk"],
+        "compatibility": {
+          "characters": ["bio-engineer-symbiote", "submersible-raider"],
+          "settings": ["sunken-oil-refinery", "floating-market-bazaar"]
+        }
+      },
+      {
+        "id": "ancestral-secrets",
+        "text": "What ancestral secrets must be sacrificed to survive the rising waters?",
+        "world": "delta-punk",
+        "tags": ["spiritual", "survival", "delta-punk"],
+        "compatibility": {
+          "characters": ["bio-engineer-symbiote", "submersible-raider"],
+          "settings": ["sunken-oil-refinery", "floating-market-bazaar"]
+        }
+      },
+      {
+        "id": "forbidden-powers",
+        "text": "Can one wield forbidden powers without angering the star-spirits?",
+        "world": "benin-guild",
+        "tags": ["spiritual", "ethical", "benin-guild"],
+        "compatibility": {
+          "characters": ["imperial-bronze-caster", "mask-carver-mystic"],
+          "settings": ["forgotten-moon", "spirit-nebula-temple"]
+        }
+      },
+      {
+        "id": "cosmic-balance",
+        "text": "What sacrifices are required to maintain the guild’s cosmic balance?",
+        "world": "benin-guild",
+        "tags": ["spiritual", "sacrifice", "benin-guild"],
+        "compatibility": {
+          "characters": ["imperial-bronze-caster", "mask-carver-mystic"],
+          "settings": ["forgotten-moon", "spirit-nebula-temple"]
+        }
+      }
+    ]
+  },
+  "rules": {
+    "cross-pollination": [
+      {
+        "rule": "allow-delta-punk-benin",
+        "description": "Allow Delta-Punk characters to pair with Benin Guild settings for thematic synergy.",
+        "matches": [
+          {
+            "component": "characters",
+            "tags": ["delta-punk"],
+            "allowed": {
+              "settings": ["benin-guild"],
+              "conflicts": ["delta-punk"],
+              "tensions": ["delta-punk", "benin-guild"]
+            }
+          },
+          {
+            "component": "settings",
+            "tags": ["benin-guild"],
+            "allowed": {
+              "characters": ["delta-punk"],
+              "conflicts": ["benin-guild"],
+              "tensions": ["delta-punk", "benin-guild"]
+            }
+          }
+        ]
+      },
+      {
+        "rule": "restrict-post-apocalyptic",
+        "description": "Prevent Delta-Punk or Benin Guild components from pairing with post-apocalyptic conflicts.",
+        "restrictions": [
+          {
+            "component": "conflicts",
+            "tags": ["post-apocalyptic"],
+            "disallowed": {
+              "characters": ["delta-punk", "benin-guild"],
+              "settings": ["delta-punk", "benin-guild"]
+            }
+          }
+        ]
+      }
+    ]
+  }
 }
