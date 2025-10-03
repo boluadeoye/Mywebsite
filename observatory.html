@@ -10,38 +10,58 @@
             --bg-slate: #2D3748;
             --panel-cream: #F7FAFC;
             --accent-gold: #D69E2E;
+            --accent-gold-hover: #ECC94B;
             --text-dark: #2D3748;
             --text-muted: #718096;
+            --pacing-color-short: #68D391;
+            --pacing-color-medium: #F6E05E;
+            --pacing-color-long: #FC8181;
+            --pacing-color-active: #81E6D9;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg-slate) url("data:image/png;base64,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") repeat;
+            background: var(--bg-slate);
+            color: var(--text-dark);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             padding-top: 64px;
         }
-        .nav { position: fixed; top: 0; left: 0; width: 100%; background: var(--bg-slate); border-bottom: 1px solid var(--border-color); z-index: 1000; }
+        .nav { position: fixed; top: 0; left: 0; width: 100%; background: var(--bg-slate); border-bottom: 1px solid #4A5568; z-index: 1000; }
         .nav .wrap { display: flex; justify-content: center; align-items: center; height: 64px; }
         .nav-links { list-style: none; display: flex; align-items: center; gap: 8px; }
-        .nav-links a { display: block; text-decoration: none; color: var(--text-cream); font-weight: 700; padding: 8px 16px; border-radius: 999px; }
+        .nav-links a { display: block; text-decoration: none; color: #EDF2F7; font-weight: 700; padding: 8px 16px; border-radius: 999px; }
         main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 32px; }
         .main-panel { display: flex; max-width: 1200px; width: 100%; background: var(--panel-cream); border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden; height: calc(100vh - 128px); }
-        #text-area { width: 60%; padding: 32px; font-family: 'Lora', serif; font-size: 1.1rem; line-height: 1.7; overflow-y: auto; border-right: 1px solid #E2E8F0; color: var(--text-dark); }
+        .text-container { width: 60%; display: flex; flex-direction: column; }
+        #text-area { flex-grow: 1; padding: 32px; font-family: 'Lora', serif; font-size: 1.1rem; line-height: 1.7; overflow-y: auto; border-right: 1px solid #E2E8F0; }
+        #text-area:focus { outline: none; }
+        #text-area .highlight { background-color: var(--accent-gold-hover); }
+        .sample-loader { padding: 16px 32px; border-top: 1px solid #E2E8F0; display: flex; align-items: center; gap: 16px; }
+        .sample-loader label { font-weight: 700; color: var(--text-muted); }
+        .sample-loader select { padding: 8px; border-radius: 4px; border: 1px solid #CBD5E0; font-family: 'Inter', sans-serif; }
         #analysis-dashboard { width: 40%; padding: 32px; overflow-y: auto; }
         #analysis-dashboard h2 { font-family: 'Lora', serif; color: var(--text-dark); margin-top: 0; border-bottom: 1px solid #E2E8F0; padding-bottom: 1rem; margin-bottom: 1.5rem; }
         .lens { margin-bottom: 24px; }
         .lens h3 { font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
-        .suggestion-list { list-style: none; padding-left: 1rem; }
-        .suggestion-list li { font-family: 'Lora', serif; font-size: 1rem; color: var(--text-dark); margin-bottom: 0.75rem; line-height: 1.6; border-left: 3px solid var(--accent-gold); padding-left: 1rem;}
-        .loading-state, .error-state { text-align: center; padding: 2rem; color: var(--text-muted); font-family: 'Lora', serif; }
+        #readability-score { font-size: 1.2rem; font-weight: 700; color: var(--text-dark); }
+        .pacing-graph { display: flex; align-items: flex-end; gap: 2px; height: 100px; border-bottom: 1px solid #E2E8F0; padding-bottom: 1rem; }
+        .bar { flex-grow: 1; cursor: pointer; transition: background-color 200ms ease; min-height: 5px; }
+        .bar.short { background: var(--pacing-color-short); }
+        .bar.medium { background: var(--pacing-color-medium); }
+        .bar.long { background: var(--pacing-color-long); }
+        .bar.active, .bar:hover { background-color: var(--pacing-color-active); }
+        .issue-list { list-style: none; padding: 0; max-height: 150px; overflow-y: auto; }
+        .issue { margin-bottom: 0.5rem; cursor: pointer; color: var(--text-muted); font-family: 'Lora', serif; font-size: 1rem; padding: 0.5rem; border-radius: 4px; transition: background-color 200ms ease; }
+        .issue:hover { color: var(--text-dark); background-color: #EDF2F7; }
+        .issue strong { color: var(--text-dark); }
         .main-footer { width: 100%; padding: 2rem 0; background-color: var(--bg-slate); border-top: 1px solid var(--border-color); }
         .main-footer p { text-align: center; font-size: 0.9rem; color: var(--text-muted); }
         @media (max-width: 900px) {
             .main-panel { flex-direction: column; height: auto; }
-            #text-area, #analysis-dashboard { width: 100%; height: auto; max-height: 50vh; }
-            #text-area { border-right: none; border-bottom: 1px solid var(--border-color); }
+            .text-container, #analysis-dashboard { width: 100%; height: auto; max-height: 50vh; }
+            .text-container { border-right: none; border-bottom: 1px solid var(--border-color); }
         }
     </style>
 </head>
@@ -59,11 +79,36 @@
 
     <main>
         <section class="main-panel">
-            <div id="text-area"></div>
+            <div class="text-container">
+                <div id="text-area" contenteditable="true"></div>
+                <div class="sample-loader">
+                    <label for="sample-select">Load Sample:</label>
+                    <select id="sample-select">
+                        <option value="none" selected disabled>Select an excerpt...</option>
+                        <option value="highPacing">High Pacing</option>
+                        <option value="complexProse">Complex Prose</option>
+                        <option value="repetitiveLanguage">Repetitive Language</option>
+                        <option value="wellBalanced">Well-Balanced</option>
+                    </select>
+                </div>
+            </div>
             <div id="analysis-dashboard">
-                <h2>Oracle Report</h2>
-                <div id="report-content">
-                    <div class="loading-state">The Oracle is thinking...</div>
+                <h2>Observatory Report</h2>
+                <div class="lens" id="readability-lens">
+                    <h3>Readability</h3>
+                    <p id="readability-score">Analyzing...</p>
+                </div>
+                <div class="lens" id="pacing-lens">
+                    <h3>Pacing & Flow</h3>
+                    <div class="pacing-graph" id="pacing-graph"></div>
+                </div>
+                <div class="lens" id="word-choice-lens">
+                    <h3>Word Choice</h3>
+                    <ul class="issue-list" id="word-issues"></ul>
+                </div>
+                <div class="lens" id="passive-voice-lens">
+                    <h3>Passive Voice</h3>
+                    <ul class="issue-list" id="passive-issues"></ul>
                 </div>
             </div>
         </section>
@@ -76,85 +121,168 @@
     </footer>
 
     <script>
-    document.addEventListener('DOMContentLoaded', async () => {
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- Element Declarations ---
         const textArea = document.getElementById('text-area');
-        const reportContent = document.getElementById('report-content');
-        
-        const ORACLE_URL = 'https://foundry-oracle-adeoye-boluwatifes-projects.vercel.app/api/oracle';
+        const readabilityScore = document.getElementById('readability-score');
+        const pacingGraph = document.getElementById('pacing-graph');
+        const wordIssues = document.getElementById('word-issues');
+        const passiveIssues = document.getElementById('passive-issues');
+        const sampleSelect = document.getElementById('sample-select');
 
-        const textToAnalyze = localStorage.getItem('observatoryText') || 'No text was provided from The Anvil.';
-        textArea.innerText = textToAnalyze;
+        // --- Excerpts from Grok ---
+        const excerpts = {
+            highPacing: "He burst through the door. Gunfire echoed. Bullets whizzed past. He dove behind the counter. Heart pounded. Sweat dripped. The enemy advanced. Footsteps thumped closer. He gripped his pistol. Aimed. Fired. One down. Two more charged. He rolled left. Shot again. Miss. They returned fire. Glass shattered. He sprinted to the window. Jumped out. Landed hard. Rolled. Up and running. Sirens wailed in the distance. Tires screeched. He leaped into the alley. Shadows swallowed him. Breath ragged. Legs burned. He pushed on. Escape was near. A car waited. Engine roared. He slammed the door. Floored the gas. Gone in the night. Adrenaline surged. Freedom tasted sweet. But danger lurked. Always.",
+            complexProse: "In the labyrinthine corridors of memory, where shadows of forgotten epochs intertwine with the ethereal threads of recollection, one encounters the profound intricacies of human consciousness, a tapestry woven from the delicate filaments of experience and introspection, each strand bearing the weight of existential ponderings that transcend the mundane boundaries of temporal existence, delving into realms where the soul grapples with the inexorable passage of time, contemplating the ephemeral nature of being amidst the vast, uncharted expanses of philosophical inquiry, wherein the mind, besieged by the relentless onslaught of existential dilemmas, seeks solace in the arcane wisdom of ancient sages, whose doctrines, shrouded in the mists of antiquity, offer but fleeting glimpses into the abyssal depths of self-awareness.",
+            repetitiveLanguage: "To properly enumerate the components of this intricate system, one must first articulate the primary elements involved. The initial component to enumerate is the core processor, which serves to articulate the fundamental operations. Next, we enumerate the auxiliary modules, each designed to articulate specific functionalities within the framework. It is essential to articulate how these components interact, as failing to enumerate their connections could lead to misunderstandings. Furthermore, one should enumerate the peripheral devices that articulate with the main unit, ensuring a comprehensive overview. By continuing to articulate these details, we can enumerate the potential synergies and pitfalls. Ultimately, this method allows us to articulate a complete blueprint, having enumerated all necessary components.",
+            wellBalanced: "The old lighthouse stood sentinel on the jagged cliffs, its beam cutting through the fog like a knife. Waves crashed below, relentless and rhythmic, echoing the heartbeat of the sea. Elena climbed the spiral stairs, her footsteps soft against the worn iron. At the top, she paused, gazing at the horizon where sky met water in a hazy embrace. Memories flooded back—of storms weathered and ships guided safely home. Now, with the village threatened by encroaching developers, she wondered if this beacon could save them too. Determination sparked in her eyes. She would fight, rally the community, preserve their heritage. The light spun on, a symbol of enduring hope amid change."
+        };
 
-        async function getOracleAnalysis(text) {
-            if (!ORACLE_URL || ORACLE_URL.includes('PASTE_YOUR_FULL_VERCEL_URL_HERE')) {
-                reportContent.innerHTML = `<div class="error-state">Error: The Oracle URL has not been configured in the code.</div>`;
-                return;
-            }
-
-            try {
-                const response = await fetch(ORACLE_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ text: text })
-                });
-
-                if (!response.ok) {
-                    const errorBody = await response.json(); // Vercel often sends JSON errors
-                    console.error('Oracle API Error:', errorBody);
-                    // Display a more helpful error message from the server if available
-                    let errorMessage = errorBody.error || `The Oracle returned an error: ${response.status}`;
-                    throw new Error(errorMessage);
+        // --- Self-Contained Analysis Engine ---
+        const analysisEngine = {
+            countSyllables: function(word) { /* ... syllable logic ... */ },
+            getSentences: function(text) { /* ... sentence logic ... */ },
+            detectPassiveVoice: function(text) { /* ... Grok's passive voice logic ... */ },
+            flagWeakAdverbs: function(text) { /* ... Grok's weak adverb logic ... */ },
+            analyze: function(text) { /* ... main analysis logic ... */ }
+        };
+        // Populate engine with functions
+        analysisEngine.countSyllables = function(word) {
+            word = word.toLowerCase();
+            if (word.length <= 3) return 1;
+            word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
+            word = word.replace(/^y/, '');
+            const matches = word.match(/[aeiouy]{1,2}/g);
+            return matches ? matches.length : 0;
+        };
+        analysisEngine.getSentences = function(text) {
+            return text.match(/[^.!?\s][^.!?]*(?:[.!?](?!['"]?\s|$)[^.!?]*)*[.!?]?['"]?(?=\s|$)/g) || [];
+        };
+        analysisEngine.detectPassiveVoice = function(text) {
+            const beForms = ['be', 'am', 'is', 'are', 'was', 'were', 'been', 'being'];
+            const irregularParticiples = ['given', 'taken', 'broken', 'spoken', 'written', 'driven', 'eaten', 'fallen', 'known', 'seen', 'done', 'gone', 'come', 'become', 'begun', 'drunk', 'sung', 'swum', 'rung', 'sprung', 'hung', 'strung', 'flung', 'clung', 'wrung', 'slung', 'stung', 'swung', 'dug', 'spun', 'stuck', 'struck', 'sunk', 'shaken', 'ridden', 'risen', 'forgiven', 'forgotten', 'bitten', 'hidden', 'forbidden', 'chosen', 'frozen', 'stolen', 'sworn', 'torn', 'worn', 'drawn', 'flown', 'grown', 'thrown', 'blown', 'shown'];
+            const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+            return sentences.map(sentence => {
+                const words = sentence.toLowerCase().replace(/[^a-z\s]/g, '').split(/\s+/);
+                let isPassive = false;
+                for (let i = 0; i < words.length - 1; i++) {
+                    if (beForms.includes(words[i])) {
+                        const nextWord = words[i + 1];
+                        if (nextWord.endsWith('ed') || nextWord.endsWith('en') || irregularParticiples.includes(nextWord)) {
+                            isPassive = true;
+                            break;
+                        }
+                    }
                 }
+                return { sentence: sentence.trim(), isPassive };
+            }).filter(result => result.isPassive);
+        };
+        analysisEngine.flagWeakAdverbs = function(text) {
+            const weakAdverbs = ['very', 'really', 'suddenly', 'just', 'actually', 'extremely', 'truly', 'quite', 'rather', 'almost', 'completely', 'entirely', 'fairly', 'hardly', 'highly', 'intensely', 'nearly', 'only', 'so', 'somewhat', 'terribly', 'too', 'utterly', 'virtually'];
+            const flags = [];
+            const lowerText = text.toLowerCase();
+            weakAdverbs.forEach(adverb => {
+                const regex = new RegExp(`\\b${adverb}\\b`, 'g');
+                let match;
+                while ((match = regex.exec(lowerText)) !== null) {
+                    flags.push(text.substring(match.index, match.index + adverb.length));
+                }
+            });
+            return [...new Set(flags)]; // Return unique adverbs found
+        };
+        analysisEngine.analyze = function(text) {
+            const sentences = this.getSentences(text);
+            const words = text.trim().split(/\s+/);
+            let syllableCount = 0;
+            words.forEach(word => { syllableCount += this.countSyllables(word); });
+            const grade = (words.length === 0 || sentences.length === 0) ? 0 : 0.39 * (words.length / sentences.length) + 11.8 * (syllableCount / words.length) - 15.59;
+            const stopWords = new Set(['the', 'and', 'but', 'for', 'was', 'are', 'not', 'you', 'that', 'with', 'from', 'this', 'have', 'his', 'her', 'she', 'they', 'what']);
+            const wordCounts = {};
+            text.toLowerCase().match(/\b[a-z]{3,}\b/g)?.forEach(word => {
+                if (!stopWords.has(word)) { wordCounts[word] = (wordCounts[word] || 0) + 1; }
+            });
+            const repeated = Object.entries(wordCounts).filter(([, count]) => count >= 3).sort((a, b) => b[1] - a[1]);
+            const passive = this.detectPassiveVoice(text);
+            const adverbs = this.flagWeakAdverbs(text);
+            return { grade, sentences: sentences.map(s => ({ text: s, wordCount: s.trim().split(/\s+/).length })), repeated, passive, adverbs };
+        };
 
-                const data = await response.json();
-                displayReport(data);
+        // --- Main Execution ---
+        let originalText = '';
+        function runAnalysis() {
+            originalText = textArea.innerText;
+            const results = analysisEngine.analyze(originalText);
 
-            } catch (error) {
-                console.error('Failed to fetch from Oracle:', error);
-                reportContent.innerHTML = `<div class="error-state">Error: Could not connect to the Oracle Engine. ${error.message}</div>`;
-            }
+            // Readability
+            readabilityScore.textContent = `Grade Level: ${results.grade > 0 ? results.grade.toFixed(1) : 'N/A'}`;
+
+            // Pacing
+            let maxWordCount = Math.max(...results.sentences.map(s => s.wordCount), 0);
+            pacingGraph.innerHTML = '';
+            results.sentences.forEach((sent, idx) => {
+                const bar = document.createElement('div');
+                bar.classList.add('bar');
+                const height = maxWordCount > 0 ? (sent.wordCount / maxWordCount) * 100 : 0;
+                bar.style.height = `${Math.max(5, height)}%`;
+                if (sent.wordCount < 10) bar.classList.add('short');
+                else if (sent.wordCount < 25) bar.classList.add('medium');
+                else bar.classList.add('long');
+                bar.addEventListener('click', () => {
+                    pacingGraph.querySelectorAll('.bar').forEach(b => b.classList.remove('active'));
+                    bar.classList.add('active');
+                    highlightText(sent.text);
+                });
+                pacingGraph.appendChild(bar);
+            });
+
+            // Word Choice & Adverbs
+            wordIssues.innerHTML = '';
+            results.repeated.slice(0, 3).forEach(([word, count]) => createIssueElement(wordIssues, `<strong>'${word}'</strong> used ${count} times`, word));
+            results.adverbs.forEach(adverb => createIssueElement(wordIssues, `Weak adverb: <strong>'${adverb}'</strong>`, adverb));
+            if (wordIssues.innerHTML === '') wordIssues.innerHTML = '<li>No issues found.</li>';
+            
+            // Passive Voice
+            passiveIssues.innerHTML = '';
+            results.passive.forEach(item => createIssueElement(passiveIssues, `"${item.sentence}"`, item.sentence));
+            if (passiveIssues.innerHTML === '') passiveIssues.innerHTML = '<li>No passive voice detected.</li>';
         }
 
-        function displayReport(data) {
-            let html = '';
-
-            if (data.style && data.style.length > 0) {
-                html += `<div class="lens"><h3>Style & Word Choice</h3><ul class="suggestion-list">`;
-                data.style.forEach(suggestion => {
-                    html += `<li>${suggestion}</li>`;
-                });
-                html += `</ul></div>`;
-            }
-
-            if (data.structure && data.structure.length > 0) {
-                html += `<div class="lens"><h3>Structure & Flow</h3><ul class="suggestion-list">`;
-                data.structure.forEach(suggestion => {
-                    html += `<li>${suggestion}</li>`;
-                });
-                html += `</ul></div>`;
-            }
-
-            if (data.narrative && data.narrative.length > 0) {
-                html += `<div class="lens"><h3>Narrative Arc</h3><ul class="suggestion-list">`;
-                // The prompt asks for one insight, but we'll loop just in case
-                data.narrative.forEach(suggestion => {
-                    html += `<li>${suggestion}</li>`;
-                });
-                html += `</ul></div>`;
-            }
-
-            if (html === '') {
-                 html = `<div class="loading-state">The Oracle reviewed your text and found no immediate suggestions. Excellent work!</div>`;
-            }
-
-            reportContent.innerHTML = html;
+        function createIssueElement(list, innerHTML, highlightTerm) {
+            const li = document.createElement('li');
+            li.classList.add('issue');
+            li.innerHTML = innerHTML;
+            li.addEventListener('click', () => highlightText(highlightTerm));
+            list.appendChild(li);
         }
 
-        if (textToAnalyze.trim() && !textToAnalyze.includes('No text was provided')) {
-            getOracleAnalysis(textToAnalyze);
-        } else {
-            reportContent.innerHTML = `<div class="loading-state">Go to The Anvil, write something, and click "Prose Polisher" to begin.</div>`;
+        function highlightText(textToHighlight) {
+            textArea.innerHTML = originalText; // Reset
+            const cleanText = textToHighlight.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${cleanText})`, 'gi');
+            textArea.innerHTML = originalText.replace(regex, `<span class="highlight">$1</span>`);
+            const firstHighlight = textArea.querySelector('.highlight');
+            if (firstHighlight) firstHighlight.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
+        
+        // --- Event Listeners ---
+        let debounceTimer;
+        textArea.addEventListener('input', () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(runAnalysis, 500); // Re-analyze 500ms after user stops typing
+        });
+
+        sampleSelect.addEventListener('change', () => {
+            const selected = sampleSelect.value;
+            if (excerpts[selected]) {
+                textArea.innerText = excerpts[selected];
+                runAnalysis();
+            }
+        });
+
+        // --- Initial Load ---
+        const initialText = localStorage.getItem('observatoryText') || excerpts.wellBalanced;
+        textArea.innerText = initialText;
+        runAnalysis();
     });
     </script>
 </body>
