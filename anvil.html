@@ -305,7 +305,7 @@
         </div>
     </footer>
 
-    <script src="https://unpkg.com/unified@9.2.2/index.js"></script>
+    <script src="https://unpkg.com/retext@7.0.1/browser.js"></script>
     <script src="https://unpkg.com/retext-english@3.0.4/index.js"></script>
     <script src="https://unpkg.com/retext-readability@5.0.3/index.js"></script>
     <script src="https://unpkg.com/retext-simplify@6.0.2/index.js"></script>
@@ -412,10 +412,15 @@
                 }
                 
                 // --- Definitive Retext Fix ---
-                // The libraries attach to `window`. The main function is `unified.unified()`
-                // and the plugins are attached directly (e.g., `window.retextEnglish`).
+                // Wait until the retext library is confirmed to be loaded.
+                if (typeof window.retext === 'undefined') {
+                    proseReportContent.innerHTML = '<p>The analysis engine is still loading. Please try again in a moment.</p>';
+                    proseModal.style.display = 'block';
+                    return;
+                }
+
                 try {
-                    window.unified()
+                    window.retext()
                         .use(window.retextEnglish)
                         .use(window.retextSentenceSpacing)
                         .use(window.retextReadability)
