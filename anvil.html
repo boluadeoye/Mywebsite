@@ -20,10 +20,11 @@
 
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
             font-family: 'Inter', sans-serif;
             background: var(--bg-slate) url("data:image/png;base64,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") repeat;
             color: var(--text-dark);
@@ -56,7 +57,6 @@
             align-items: center;
             gap: 8px;
             padding: 0;
-            margin: 0;
         }
 
         .nav-links a {
@@ -274,7 +274,7 @@
         <div class="wrap">
             <ul class="nav-links">
                 <li><a href="./lab.html">Lab</a></li>
-                <li><a href="#" class="active">Anvil</a></li>
+                <li><a href="./anvil.html" class="active">Anvil</a></li>
                 <li><a href="./journal.html">Journal</a></li>
                 <li><a href="./academy.html">Academy</a></li>
             </ul>
@@ -283,7 +283,7 @@
 
     <main>
         <section class="main-card">
-            <details id="prompt" style="display: none;">
+            <details id="prompt">
                 <summary>Writing Prompt</summary>
                 <div id="prompt-content"></div>
             </details>
@@ -325,122 +325,136 @@
             const closeModal = document.getElementById('close-modal');
             const zenButton = document.getElementById('zen-mode');
 
-            let snapshots = JSON.parse(localStorage.getItem('anvilSnapshots') || '[]');
+            // --- Corrected Key Generation ---
+            const anvilPrompt = JSON.parse(localStorage.getItem('foundryAnvilPrompt'));
+            let draftKey = 'anvilDraft_default';
+            if (anvilPrompt && anvilPrompt.logline) {
+                // Create a more robust key from the logline
+                draftKey = 'anvilDraft_' + anvilPrompt.logline.replace(/\W/g, '').substring(0, 50);
+            }
+            let snapshotsKey = draftKey + '_snapshots';
+            let snapshots = JSON.parse(localStorage.getItem(snapshotsKey) || '[]');
             let debounceTimer;
 
-            // Load prompt if available
-            const anvilPrompt = JSON.parse(localStorage.getItem('foundryAnvilPrompt'));
+            // --- Corrected Prompt Loading ---
             if (anvilPrompt) {
                 promptElement.style.display = 'block';
+                // Safely access properties
+                const logline = anvilPrompt.logline || 'No logline available.';
+                const question = anvilPrompt.question || 'No deep dive question.';
+                const settingName = anvilPrompt.setting?.name || 'Unknown Setting';
+                const sight = anvilPrompt.setting?.sensory_palette?.sight || 'Not specified.';
+                const sound = anvilPrompt.setting?.sensory_palette?.sound || 'Not specified.';
+                const smell = anvilPrompt.setting?.sensory_palette?.smell || 'Not specified.';
+
                 promptContent.innerHTML = `
-                    <p>${anvilPrompt.logline}</p>
-                    <h4>Character: ${anvilPrompt.char.name}</h4>
-                    <p>Motivation: ${anvilPrompt.char.motivation}</p>
-                    <p>Flaw: ${anvilPrompt.char.flaw}</p>
-                    <h4>Conflict: ${anvilPrompt.conflict.text}</h4>
-                    <h4>Setting: ${anvilPrompt.setting.name}</h4>
+                    <p><strong>Logline:</strong> ${logline}</p>
+                    <p><em><strong>Deep Dive Question:</strong> ${question}</em></p>
+                    <hr>
+                    <h4>Setting: ${settingName}</h4>
                     <ul>
-                        <li><strong>Sight:</strong> ${anvilPrompt.setting.sensory_palette.sight}</li>
-                        <li><strong>Sound:</strong> ${anvilPrompt.setting.sensory_palette.sound}</li>
-                        <li><strong>Smell:</strong> ${anvilPrompt.setting.sensory_palette.smell}</li>
+                        <li><strong>Sight:</strong> ${sight}</li>
+                        <li><strong>Sound:</strong> ${sound}</li>
+                        <li><strong>Smell:</strong> ${smell}</li>
                     </ul>
-                    <h4>Deep Dive Question: ${anvilPrompt.question}</h4>
                 `;
-                // Do not remove the prompt, as it can be reference
+            } else {
+                 promptElement.style.display = 'none';
             }
+            
+            // Use innerText for loading to avoid HTML injection
+            editor.innerText = localStorage.getItem(draftKey) || '';
 
-            // Load draft if available, else empty
-            editor.textContent = localStorage.getItem('anvilDraft') || '';
-
-            // Update stats
             function updateStats() {
-                const text = editor.textContent;
+                const text = editor.innerText;
                 const words = text.trim().split(/\s+/).filter(w => w).length;
                 const chars = text.length;
                 stats.textContent = `Words: ${words} | Characters: ${chars}`;
             }
 
-            // Debounce save draft
             function saveDraft() {
                 clearTimeout(debounceTimer);
                 debounceTimer = setTimeout(() => {
-                    localStorage.setItem('anvilDraft', editor.textContent);
+                    // Use innerText for saving to keep it clean
+                    localStorage.setItem(draftKey, editor.innerText);
                 }, 500);
             }
 
-            // Event listeners for editor
             editor.addEventListener('input', () => {
                 updateStats();
                 saveDraft();
             });
 
-            // Initial stats
             updateStats();
 
-            // Read Aloud
             document.getElementById('read-aloud').addEventListener('click', () => {
-                const utterance = new SpeechSynthesisUtterance(editor.textContent);
+                if(editor.innerText.trim() === '') return;
+                const utterance = new SpeechSynthesisUtterance(editor.innerText);
                 speechSynthesis.speak(utterance);
             });
 
-            // Analyze: Highlight repeated words
             document.getElementById('analyze').addEventListener('click', () => {
-                let text = editor.textContent;
+                let text = editor.innerText;
+                
+                // First, clean existing highlights by resetting innerHTML from clean text
+                editor.innerHTML = text;
+
                 let words = text.match(/\b\w+\b/g) || [];
                 let freq = {};
+                // Simple stop words list
+                const stopWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'is', 'are', 'was', 'were', 'in', 'on', 'at', 'to', 'of']);
                 words.forEach(w => {
                     let lower = w.toLowerCase();
-                    freq[lower] = (freq[lower] || 0) + 1;
+                    if (!stopWords.has(lower)) {
+                       freq[lower] = (freq[lower] || 0) + 1;
+                    }
                 });
                 let repeated = Object.keys(freq).filter(k => freq[k] >= 3);
 
-                // Clean existing highlights
-                editor.innerHTML = editor.textContent;
-
-                // Highlight
                 let html = editor.innerHTML;
                 repeated.forEach(rep => {
-                    const regex = new RegExp(`\\b${rep}\\b`, 'gi');
-                    html = html.replace(regex, match => `<span class="highlight">${match}</span>`);
+                    const regex = new RegExp(`\\b(${rep})\\b`, 'gi');
+                    html = html.replace(regex, `<span class="highlight">$1</span>`);
                 });
                 editor.innerHTML = html;
             });
 
-            // Save Snapshot
             document.getElementById('save-snapshot').addEventListener('click', () => {
                 snapshots.push({
                     timestamp: new Date().toISOString(),
-                    content: editor.textContent
+                    content: editor.innerText
                 });
-                localStorage.setItem('anvilSnapshots', JSON.stringify(snapshots));
+                localStorage.setItem(snapshotsKey, JSON.stringify(snapshots));
+                alert('Snapshot saved!');
             });
 
-            // View History
             document.getElementById('view-history').addEventListener('click', () => {
                 historyList.innerHTML = '';
-                snapshots.forEach((snap, index) => {
-                    const li = document.createElement('li');
-                    const button = document.createElement('button');
-                    button.textContent = new Date(snap.timestamp).toLocaleString();
-                    button.dataset.index = index;
-                    button.addEventListener('click', () => {
-                        editor.textContent = snap.content;
-                        historyModal.style.display = 'none';
-                        updateStats();
-                        saveDraft();
+                if(snapshots.length === 0){
+                    historyList.innerHTML = '<li>No snapshots saved for this draft yet.</li>';
+                } else {
+                    snapshots.forEach((snap, index) => {
+                        const li = document.createElement('li');
+                        const button = document.createElement('button');
+                        button.textContent = new Date(snap.timestamp).toLocaleString();
+                        button.dataset.index = index;
+                        button.addEventListener('click', () => {
+                            editor.innerText = snap.content;
+                            historyModal.style.display = 'none';
+                            updateStats();
+                            saveDraft();
+                        });
+                        li.appendChild(button);
+                        historyList.appendChild(li);
                     });
-                    li.appendChild(button);
-                    historyList.appendChild(li);
-                });
+                }
                 historyModal.style.display = 'block';
             });
 
-            // Close Modal
             closeModal.addEventListener('click', () => {
                 historyModal.style.display = 'none';
             });
 
-            // Zen Mode
             zenButton.addEventListener('click', () => {
                 document.body.classList.toggle('zen');
                 zenButton.textContent = document.body.classList.contains('zen') ? 'Exit Zen' : 'Zen Mode';
