@@ -16,11 +16,17 @@
             --text-muted: #718096;
             --border-color: #4A5568;
             --transition: cubic-bezier(0.4, 0, 0.2, 1);
+
+            /* New Pacing Bar Colors */
+            --pacing-color-short: #68D391; /* Green for short, brisk sentences */
+            --pacing-color-medium: #F6E05E; /* Yellow for medium sentences */
+            --pacing-color-long: #FC8181;  /* Red for long, complex sentences */
+            --pacing-color-active: #81E6D9; /* Teal for active highlight */
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg-slate) url("data:image/png;base64,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") repeat;
+            background: var(--bg-slate) url("data:image/png;base64,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") repeat;
             color: var(--text-dark);
             display: flex;
             flex-direction: column;
@@ -43,8 +49,18 @@
         .lens h3 { font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
         #readability-score { font-size: 1.2rem; font-weight: 700; color: var(--text-dark); }
         .pacing-graph { display: flex; align-items: flex-end; gap: 2px; height: 100px; border-bottom: 1px solid #E2E8F0; padding-bottom: 1rem; }
-        .bar { background: #CBD5E0; flex-grow: 1; cursor: pointer; transition: background-color 200ms ease; }
-        .bar:hover { background-color: var(--accent-gold); }
+        .bar {
+            flex-grow: 1;
+            cursor: pointer;
+            transition: background-color 200ms ease;
+            min-height: 5px; /* Ensure bars are always visible */
+        }
+        .bar.short { background: var(--pacing-color-short); }
+        .bar.medium { background: var(--pacing-color-medium); }
+        .bar.long { background: var(--pacing-color-long); }
+        .bar.active { background-color: var(--pacing-color-active); }
+        .bar:hover:not(.active) { opacity: 0.8; } /* Subtle hover effect */
+
         .issue-list { list-style: none; padding: 0; max-height: 150px; overflow-y: auto;}
         .issue { margin-bottom: 0.5rem; cursor: pointer; color: var(--text-muted); font-family: 'Lora', serif; font-size: 1rem; padding: 0.5rem; border-radius: 4px; transition: background-color 200ms ease; }
         .issue:hover { color: var(--text-dark); background-color: #EDF2F7; }
@@ -106,7 +122,7 @@
         const wordIssues = document.getElementById('word-issues');
 
         // --- Load Text ---
-        const originalText = localStorage.getItem('observatoryText') || 'Paste your text here to begin analysis.';
+        const originalText = localStorage.getItem('observatoryText') || 'Write your story here. The Observatory will provide real-time insights into readability, pacing, and word choice to help you craft compelling narratives.';
         textArea.innerText = originalText;
 
         // --- Self-Contained Analysis Engine ---
@@ -121,28 +137,35 @@
             },
             
             getSentences: function(text) {
-                return text.match(/[^.!?\s][^.!?]*(?:[.!?](?!['"]?\s|$)[^.!?]*)*[.!?]?['"]?(?=\s|$)/g) || [];
+                // Improved regex to handle common sentence endings, quotes, and ellipses
+                return text.match(/[^.!?\s][^.!?]*(?:[.!?](?!['"]?\s|\s*$)[^.!?]*)*[.!?]?['"]?(?=\s|$)/g) || [];
             },
 
             analyze: function(text) {
                 const sentences = this.getSentences(text);
-                const words = text.trim().split(/\s+/);
-                const wordCount = words.length;
+                const rawWords = text.trim().split(/\s+/).filter(Boolean); // Filter out empty strings
+                const wordCount = rawWords.length;
                 const sentenceCount = sentences.length;
                 
                 let syllableCount = 0;
-                words.forEach(word => {
+                rawWords.forEach(word => {
                     syllableCount += this.countSyllables(word);
                 });
 
-                if (wordCount === 0 || sentenceCount === 0) {
-                    return { grade: 0, sentences: [], repeated: [] };
+                // Flesch-Kincaid Grade Level Formula
+                let grade = 0;
+                if (wordCount > 0 && sentenceCount > 0) {
+                    grade = 0.39 * (wordCount / sentenceCount) + 11.8 * (syllableCount / wordCount) - 15.59;
                 }
 
-                const grade = 0.39 * (wordCount / sentenceCount) + 11.8 * (syllableCount / wordCount) - 15.59;
+                // Sentence data for pacing graph
+                const sentenceData = sentences.map(s => ({
+                    text: s.trim(),
+                    wordCount: s.trim().split(/\s+/).filter(Boolean).length // Count words for each sentence
+                }));
 
                 // Repeated words
-                const stopWords = new Set(['the', 'and', 'but', 'for', 'was', 'are', 'not', 'you', 'that', 'with', 'from', 'this', 'have', 'his', 'her', 'she', 'they', 'what']);
+                const stopWords = new Set(['the', 'and', 'but', 'for', 'was', 'are', 'not', 'you', 'that', 'with', 'from', 'this', 'have', 'his', 'her', 'she', 'they', 'what', 'who', 'when', 'where', 'why', 'how', 'it', 'is', 'at', 'on', 'in', 'a', 'an', 'to', 'of', 'be', 'i', 'he', 'we', 'me', 'us', 'him', 'my', 'your', 'our', 'their', 'there', 'had', 'been', 'do', 'does', 'did', 'will', 'would', 'can', 'could', 'should']);
                 const wordCounts = {};
                 text.toLowerCase().match(/\b[a-z]{3,}\b/g)?.forEach(word => {
                     if (!stopWords.has(word)) {
@@ -151,7 +174,7 @@
                 });
                 const repeated = Object.entries(wordCounts).filter(([, count]) => count >= 3).sort((a, b) => b[1] - a[1]);
 
-                return { grade, sentences: sentences.map(s => ({ text: s, wordCount: s.trim().split(/\s+/).length })), repeated };
+                return { grade, sentences: sentenceData, repeated };
             }
         };
 
@@ -161,6 +184,9 @@
 
             // 1. Readability
             readabilityScore.textContent = `Grade Level: ${results.grade.toFixed(1)}`;
+            if (originalText.trim() === '' || results.sentences.length === 0) {
+                 readabilityScore.textContent = `Grade Level: N/A (Enter text to analyze)`;
+            }
 
             // 2. Pacing & Flow
             let maxWordCount = 0;
@@ -172,9 +198,24 @@
             results.sentences.forEach((sent, idx) => {
                 const bar = document.createElement('div');
                 bar.classList.add('bar');
-                const height = maxWordCount > 0 ? (sent.wordCount / maxWordCount) * 100 : 0;
-                bar.style.height = `${Math.max(5, height)}%`;
-                bar.addEventListener('click', () => highlightText(sent.text));
+                
+                const normalizedHeight = maxWordCount > 0 ? (sent.wordCount / maxWordCount) : 0;
+                bar.style.height = `${Math.max(5, normalizedHeight * 100)}%`; // Ensure min height for visibility
+
+                // Apply color classes based on sentence length
+                if (sent.wordCount < 10) { // Short sentences
+                    bar.classList.add('short');
+                } else if (sent.wordCount >= 10 && sent.wordCount < 25) { // Medium sentences
+                    bar.classList.add('medium');
+                } else { // Long sentences
+                    bar.classList.add('long');
+                }
+
+                bar.addEventListener('click', () => {
+                    clearPacingBarHighlights();
+                    bar.classList.add('active');
+                    highlightText(sent.text);
+                });
                 pacingGraph.appendChild(bar);
             });
 
@@ -185,7 +226,10 @@
                     const li = document.createElement('li');
                     li.classList.add('issue');
                     li.innerHTML = `<strong>'${word}'</strong> used ${count} times`;
-                    li.addEventListener('click', () => highlightText(word));
+                    li.addEventListener('click', () => {
+                        clearPacingBarHighlights(); // Clear bar highlights on new issue click
+                        highlightText(word);
+                    });
                     wordIssues.appendChild(li);
                 });
             } else {
@@ -193,13 +237,25 @@
             }
         }
 
-        // --- Highlighting ---
+        // --- Highlighting Functions ---
+        let lastHighlightedRange = null;
+
         function highlightText(textToHighlight) {
-            clearHighlights();
+            clearHighlights(); // Clear previous highlights and restore original text
+            clearPacingBarHighlights(); // Clear bar highlights too
+
             const cleanText = textToHighlight.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const regex = new RegExp(`(${cleanText})`, 'gi');
-            
-            textArea.innerHTML = originalText.replace(regex, `<span class="highlight">$1</span>`);
+            let matchCount = 0;
+
+            // Use originalText for replacement to prevent nested spans issues
+            textArea.innerHTML = originalText.replace(regex, (match, p1, offset, string) => {
+                if (matchCount === 0) { // Highlight only the first occurrence for scrolling
+                    matchCount++;
+                    return `<span class="highlight">${match}</span>`;
+                }
+                return match; // Don't highlight subsequent occurrences in HTML to avoid complex DOM
+            });
             
             const firstHighlight = textArea.querySelector('.highlight');
             if (firstHighlight) {
@@ -208,7 +264,13 @@
         }
 
         function clearHighlights() {
-            textArea.innerHTML = originalText;
+            textArea.innerHTML = originalText; // Restore original text
+        }
+
+        function clearPacingBarHighlights() {
+            pacingGraph.querySelectorAll('.bar').forEach(bar => {
+                bar.classList.remove('active');
+            });
         }
 
         // --- Initial Call ---
