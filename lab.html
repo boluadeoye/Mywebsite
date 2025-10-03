@@ -321,20 +321,34 @@
             }
         }
 
-        .home-link {
-            font-family: 'Lora', serif;
-            font-size: 1.5rem;
-            color: var(--accent-gold);
-            text-decoration: none;
+        .nav-exit-link {
+            color: var(--text-cream);
             margin-right: auto;
             padding: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-exit-link:hover {
+            color: var(--accent-gold);
+        }
+
+        .nav-exit-link svg {
+            width: 24px;
+            height: 24px;
         }
     </style>
 </head>
 <body>
     <nav class="nav">
         <div class="wrap">
-            <a href="#" title="Return to Main Website" class="home-link">F</a>
+            <!-- Replace '#' with your main website URL -->
+            <a href="#" class="nav-exit-link" title="Return to Main Website">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
             <ul class="nav-links">
                 <li><a href="#" class="active">Lab</a></li>
                 <li><a href="./anvil.html">Anvil</a></li>
