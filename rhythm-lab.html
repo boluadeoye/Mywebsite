@@ -9,7 +9,11 @@
             --bg-slate: #1e1e1e;
             --panel-cream: #f5f5dc;
             --accent-gold: #d4af37;
+            --text-dark: #333333;
+            --text-muted: #666666;
             --font-body: 'Times New Roman', serif;
+            --font-ui: 'Arial', sans-serif;
+            --accent-ink: #f5f5dc;
         }
 
         body {
@@ -20,10 +24,10 @@
             padding: 0;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            min-height: 100vh;
         }
 
-        nav.header {
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -32,78 +36,164 @@
             border-bottom: 1px solid var(--accent-gold);
         }
 
-        .exit-arrow {
+        .nav-exit-link {
             color: var(--panel-cream);
             text-decoration: none;
             font-size: 1.2rem;
         }
 
-        .brand {
+        .nav-exit-link:hover {
+            color: var(--accent-gold);
+        }
+
+        .nav-brand h2 {
+            margin: 0;
             font-size: 1.5rem;
             color: var(--accent-gold);
         }
 
+        /* --- Page Layout & Header --- */
+        .hub-container {
+            max-width: 900px;
+            margin: 48px auto;
+            padding: 0 24px;
+            text-align: center;
+        }
+
         .back-link {
-            padding: 8px 24px;
-            color: var(--panel-cream);
+            display: block;
+            text-align: left;
+            color: var(--accent-ink);
             text-decoration: none;
-            font-size: 1.1rem;
+            margin-bottom: 24px;
         }
 
         .back-link:hover {
             color: var(--accent-gold);
         }
 
-        main.rhythm-canvas {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 48px;
-            padding: 24px;
+        .hub-title {
+            font-family: var(--font-body);
+            font-size: 2.5rem;
+            color: var(--panel-cream);
+            margin-bottom: 48px;
+        }
+
+        /* --- Card Container (CRITICAL for Layout) --- */
+        .hub-card-container {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            flex-wrap: wrap;
+            gap: 32px;
+        }
+
+        /* --- The Perfect Card Styling --- */
+        .academy-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--panel-cream);
+            padding: 24px 32px;
+            border-radius: 12px;
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .academy-card {
+                width: calc(50% - 16px);
+            }
+        }
+
+        .academy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(214, 158, 46, 0.2);
+        }
+
+        .academy-card h2 {
+            color: var(--accent-gold);
+            font-family: var(--font-body);
+            font-size: 1.8rem;
+            margin: 16px 0 8px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            white-space: nowrap;
+        }
+
+        .academy-card p {
+            font-family: var(--font-ui);
+            color: var(--text-muted);
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        main {
             flex: 1;
         }
 
-        .control-panel {
+        /* Styles for Rhythm Lab components to match the new theme */
+        #rhythm-lab {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 48px;
+            padding: 32px;
+        }
+
+        #rhythm-lab .control-panel {
             background: var(--panel-cream);
             padding: 24px;
             border-radius: 12px;
-            color: var(--bg-slate);
+            color: var(--text-dark);
         }
 
-        .control-panel h3 {
+        #rhythm-lab .control-panel h3 {
             margin-top: 0;
         }
 
-        .input-area {
+        #rhythm-lab .input-area {
             margin-bottom: 24px;
         }
 
-        .input-area label {
+        #rhythm-lab .input-area label {
             display: block;
             margin-bottom: 8px;
         }
 
-        .input-area textarea {
+        #rhythm-lab .control-panel textarea {
             width: 100%;
+            min-height: 150px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            border: 1px solid var(--accent-ink);
+            border-radius: 8px;
+            padding: 16px;
+            outline: none;
+            resize: vertical;
             box-sizing: border-box;
-            padding: 8px;
-            border: 1px solid var(--bg-slate);
-            border-radius: 4px;
         }
 
-        .controls {
+        #rhythm-lab .controls {
             margin-bottom: 24px;
         }
 
-        .controls label {
+        #rhythm-lab .controls label {
             display: block;
             margin-bottom: 8px;
         }
 
-        .controls input[type="range"] {
+        #rhythm-lab .controls input[type="range"] {
             width: 100%;
         }
 
-        .cta-button {
+        #rhythm-lab .cta-button {
             background: var(--accent-gold);
             color: var(--bg-slate);
             border: none;
@@ -111,22 +201,23 @@
             border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
+            width: 100%;
+            box-sizing: border-box;
         }
 
-        .cta-button:hover {
+        #rhythm-lab .cta-button:hover {
             opacity: 0.9;
         }
 
-        .score-display {
-            display: flex;
-            flex-direction: column;
+        #rhythm-lab .score-display {
+            color: var(--panel-cream);
         }
 
-        .text-display-area {
+        #rhythm-lab .text-display-area {
             margin-bottom: 24px;
         }
 
-        .text-display-area span {
+        #rhythm-lab .text-display-area span {
             cursor: pointer;
             font-size: 1.5rem;
             font-family: var(--font-body);
@@ -134,57 +225,73 @@
             transition: color 200ms;
         }
 
-        .text-display-area span.stressed {
+        #rhythm-lab .text-display-area span.stressed {
             color: var(--accent-gold);
             font-weight: bold;
         }
 
-        .text-display-area span.speaking {
+        #rhythm-lab .text-display-area span.speaking {
             background: rgba(255, 255, 255, 0.2);
         }
 
-        .visualizer-area {
+        #rhythm-lab .visualizer-area {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 12px;
         }
 
-        #rhythm-svg path {
+        #rhythm-lab .visualizer-area svg path {
             stroke: var(--accent-gold);
             stroke-width: 2;
             fill: none;
         }
+
+        .main-footer {
+            background: var(--bg-slate);
+            color: var(--panel-cream);
+            text-align: center;
+            padding: 16px;
+            border-top: 1px solid var(--accent-gold);
+        }
     </style>
 </head>
 <body>
-    <nav class="header">
-        <a href="index.html" class="exit-arrow">← Exit to Main Website</a>
-        <div class="brand">The Academy</div>
-    </nav>
-    <a href="crucible.html" class="back-link">← Back to The Crucible</a>
-    <main class="rhythm-canvas">
-        <aside class="control-panel">
-            <h3>Control Panel</h3>
-            <div class="input-area">
-                <label for="text-input">Paste Your Text Here</label>
-                <textarea id="text-input" rows="8"></textarea>
-            </div>
-            <div class="controls">
-                <label for="speed-control">Speed</label>
-                <input type="range" id="speed-control" min="0.5" max="1.5" value="1" step="0.1">
-                
-                <label for="pitch-control">Pitch</label>
-                <input type="range" id="pitch-control" min="0.5" max="1.5" value="1" step="0.1">
-            </div>
-            <button id="play-button" class="cta-button">Play Rhythm</button>
-        </aside>
-
-        <div class="score-display">
-            <div id="text-display" class="text-display-area"></div>
-            <div id="visualizer" class="visualizer-area">
-                <svg id="rhythm-svg" width="100%" height="200"></svg>
-            </div>
+    <nav>
+        <a href="https://boluadeoye.vercel.app/" class="nav-exit-link" title="Return to Main Website">←</a>
+        <div class="nav-brand">
+            <h2>The Academy</h2>
         </div>
+    </nav>
+    <main>
+        <section id="rhythm-lab">
+            <a href="./crucible.html" class="back-link">← Back to The Crucible</a>
+            <h1 class="hub-title">The Rhythm & Meter Lab</h1>
+            <aside class="control-panel">
+                <h3>Control Panel</h3>
+                <div class="input-area">
+                    <label for="text-input">Paste Your Text Here</label>
+                    <textarea id="text-input" rows="8"></textarea>
+                </div>
+                <div class="controls">
+                    <label for="speed-control">Speed</label>
+                    <input type="range" id="speed-control" min="0.5" max="1.5" value="1" step="0.1">
+                    
+                    <label for="pitch-control">Pitch</label>
+                    <input type="range" id="pitch-control" min="0.5" max="1.5" value="1" step="0.1">
+                </div>
+                <button id="play-button" class="cta-button">Play Rhythm</button>
+            </aside>
+
+            <div class="score-display">
+                <div id="text-display" class="text-display-area"></div>
+                <div id="visualizer" class="visualizer-area">
+                    <svg id="rhythm-svg" width="100%" height="200"></svg>
+                </div>
+            </div>
+        </section>
     </main>
+    <footer class="main-footer">
+        © 2024 The Academy
+    </footer>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const textarea = document.getElementById('text-input');
