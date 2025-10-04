@@ -3,171 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Rhythm & Meter Lab</title>
+    <title>The Rhythm & Meter Lab - The Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-slate: #1e1e1e;
-            --panel-cream: #f5f5dc;
-            --accent-gold: #d4af37;
-            --text-dark: #333333;
-            --text-muted: #666666;
-            --font-body: 'Times New Roman', serif;
-            --font-ui: 'Arial', sans-serif;
-            --accent-ink: #f5f5dc;
+            --bg-slate: #2D3748;
+            --panel-cream: #F7FAFC;
+            --accent-gold: #D69E2E;
+            --accent-gold-hover: #ECC94B;
+            --accent-ink: #6A7A94;
+            --text-dark: #2D3748;
+            --text-muted: #718096;
+            --font-body: 'Lora', serif;
+            --font-ui: 'Inter', sans-serif;
+            --transition: cubic-bezier(0.4, 0, 0.2, 1);
         }
-
+        * { box-sizing: border-box; }
         body {
-            background: var(--bg-slate);
-            color: var(--panel-cream);
-            font-family: var(--font-body);
             margin: 0;
-            padding: 0;
+            font-family: var(--font-ui);
+            background: var(--bg-slate);
+            background-image: linear-gradient(135deg, rgba(45, 55, 72, 0.95), rgba(45, 55, 72, 0.85)), url("data:image/png;base64,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");
+            background-size: cover, 100px 100px;
+            background-blend-mode: overlay;
+            color: var(--text-dark);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            padding-top: 64px;
+            animation: subtle-texture 30s linear infinite;
         }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 24px;
-            background: var(--bg-slate);
-            border-bottom: 1px solid var(--accent-gold);
+        @keyframes subtle-texture { 0% { background-position: 0 0, 0 0; } 100% { background-position: 0 0, 100px 100px; } }
+        main { flex: 1; }
+        .nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: var(--bg-slate); border-bottom: 1px solid var(--accent-ink); z-index: 1000;
         }
-
-        .nav-exit-link {
-            color: var(--panel-cream);
-            text-decoration: none;
-            font-size: 1.2rem;
+        .nav .wrap {
+            display: flex; justify-content: space-between; align-items: center;
+            height: 64px; max-width: 1200px; margin: 0 auto; padding: 0 16px;
         }
-
-        .nav-exit-link:hover {
-            color: var(--accent-gold);
+        .nav-brand { display: flex; align-items: center; gap: 8px; }
+        .nav-brand svg { width: 32px; height: 32px; stroke: var(--accent-gold); stroke-width: 2; fill: none; }
+        .nav-brand h2 { font-family: var(--font-ui); font-size: 1.5rem; color: var(--panel-cream); margin: 0; font-weight: 700; }
+        .nav-exit-link svg { width: 24px; height: 24px; stroke: var(--accent-ink); stroke-width: 1.5; transition: stroke 200ms; }
+        .nav-exit-link:hover svg { stroke: var(--accent-gold); }
+        #rhythm-lab {
+            max-width: 1200px; width: 100%; margin: 32px auto; padding: 32px;
+            animation: fade-in 600ms var(--transition);
         }
-
-        .nav-brand h2 {
-            margin: 0;
-            font-size: 1.5rem;
-            color: var(--accent-gold);
-        }
-
-        /* --- Page Layout & Header --- */
-        .hub-container {
-            max-width: 900px;
-            margin: 48px auto;
-            padding: 0 24px;
-            text-align: center;
-        }
-
+        @keyframes fade-in { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .back-link {
-            display: block;
-            text-align: left;
-            color: var(--accent-ink);
-            text-decoration: none;
-            margin-bottom: 24px;
+            display: inline-flex; align-items: center; gap: 8px; color: var(--accent-ink);
+            font-family: var(--font-ui); font-size: 1rem; font-weight: 700; text-decoration: none;
+            margin-bottom: 24px; transition: color 200ms var(--transition);
         }
-
-        .back-link:hover {
-            color: var(--accent-gold);
+        .back-link:hover { color: var(--accent-gold); }
+        .back-link svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 1.5; }
+        .step-title {
+            font-size: 2rem; line-height: 1.4; margin-bottom: 24px; color: var(--panel-cream);
+            font-weight: 700; text-align: left; font-family: var(--font-ui);
         }
-
-        .hub-title {
-            font-family: var(--font-body);
-            font-size: 2.5rem;
-            color: var(--panel-cream);
-            margin-bottom: 48px;
+        .main-footer {
+            padding: 2rem 0; background: var(--bg-slate); border-top: 1px solid var(--accent-ink); text-align: center;
         }
-
-        /* --- Card Container (CRITICAL for Layout) --- */
-        .hub-card-container {
-            display: flex;
-            justify-content: center;
-            align-items: stretch;
-            flex-wrap: wrap;
-            gap: 32px;
-        }
-
-        /* --- The Perfect Card Styling --- */
-        .academy-card {
-            display: flex;
-            flex-direction: column;
-            background: var(--panel-cream);
-            padding: 24px 32px;
-            border-radius: 12px;
-            border: 2px solid var(--accent-gold);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            text-decoration: none;
-            color: var(--text-dark);
-            transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
-            width: 100%;
-            max-width: 400px;
-        }
-
-        @media (min-width: 768px) {
-            .academy-card {
-                width: calc(50% - 16px);
-            }
-        }
-
-        .academy-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(214, 158, 46, 0.2);
-        }
-
-        .academy-card h2 {
-            color: var(--accent-gold);
-            font-family: var(--font-body);
-            font-size: 1.8rem;
-            margin: 16px 0 8px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            white-space: nowrap;
-        }
-
-        .academy-card p {
-            font-family: var(--font-ui);
-            color: var(--text-muted);
-            line-height: 1.6;
-            flex-grow: 1;
-        }
-
-        main {
-            flex: 1;
-        }
+        .main-footer p { font-size: 0.9rem; color: var(--text-muted); }
 
         /* Styles for Rhythm Lab components to match the new theme */
-        #rhythm-lab {
+        .tool-container {
             display: grid;
             grid-template-columns: 300px 1fr;
             gap: 48px;
-            padding: 32px;
         }
-
-        #rhythm-lab .control-panel {
+        .control-panel {
             background: var(--panel-cream);
             padding: 24px;
             border-radius: 12px;
             color: var(--text-dark);
         }
-
-        #rhythm-lab .control-panel h3 {
-            margin-top: 0;
-        }
-
-        #rhythm-lab .input-area {
-            margin-bottom: 24px;
-        }
-
-        #rhythm-lab .input-area label {
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        #rhythm-lab .control-panel textarea {
+        .control-panel h3 { margin-top: 0; font-family: var(--font-ui); }
+        .control-panel label { display: block; margin-bottom: 8px; font-family: var(--font-ui); }
+        .control-panel textarea {
             width: 100%;
             min-height: 150px;
             font-family: var(--font-body);
@@ -177,120 +93,107 @@
             padding: 16px;
             outline: none;
             resize: vertical;
-            box-sizing: border-box;
-        }
-
-        #rhythm-lab .controls {
             margin-bottom: 24px;
         }
-
-        #rhythm-lab .controls label {
-            display: block;
-            margin-bottom: 8px;
+        .control-panel input[type="range"] { width: 100%; margin-bottom: 16px; }
+        .cta-button {
+            display: block; width: 100%; padding: 12px;
+            background: var(--accent-gold); color: var(--bg-slate); border: none;
+            border-radius: 8px; font-weight: 700; cursor: pointer;
+            transition: all 300ms var(--transition);
         }
-
-        #rhythm-lab .controls input[type="range"] {
-            width: 100%;
+        .cta-button:hover { background: var(--accent-gold-hover); }
+        .score-display {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
-
-        #rhythm-lab .cta-button {
-            background: var(--accent-gold);
-            color: var(--bg-slate);
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        #rhythm-lab .cta-button:hover {
-            opacity: 0.9;
-        }
-
-        #rhythm-lab .score-display {
+        .text-display-area {
             color: var(--panel-cream);
+            padding: 24px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            min-height: 150px;
         }
-
-        #rhythm-lab .text-display-area {
-            margin-bottom: 24px;
-        }
-
-        #rhythm-lab .text-display-area span {
+        .text-display-area span {
             cursor: pointer;
             font-size: 1.5rem;
             font-family: var(--font-body);
-            color: var(--panel-cream);
-            transition: color 200ms;
+            transition: color 200ms, background-color 200ms;
+            padding: 2px 4px;
+            border-radius: 4px;
         }
-
-        #rhythm-lab .text-display-area span.stressed {
+        .text-display-area span.stressed {
             color: var(--accent-gold);
             font-weight: bold;
         }
-
-        #rhythm-lab .text-display-area span.speaking {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        #rhythm-lab .visualizer-area {
-            background: rgba(0, 0, 0, 0.2);
+        .text-display-area span.speaking { background: rgba(214, 175, 55, 0.3); }
+        .visualizer-area {
             border-radius: 12px;
+            height: 200px;
         }
-
-        #rhythm-lab .visualizer-area svg path {
-            stroke: var(--accent-gold);
-            stroke-width: 2;
-            fill: none;
-        }
-
-        .main-footer {
-            background: var(--bg-slate);
-            color: var(--panel-cream);
-            text-align: center;
-            padding: 16px;
-            border-top: 1px solid var(--accent-gold);
+        .visualizer-area svg path { stroke: var(--accent-gold); stroke-width: 2; fill: none; }
+        @media (max-width: 768px) {
+            .tool-container { grid-template-columns: 1fr; }
+            #rhythm-lab { padding: 24px; }
         }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="https://boluadeoye.vercel.app/" class="nav-exit-link" title="Return to Main Website">←</a>
-        <div class="nav-brand">
-            <h2>The Academy</h2>
+    <nav class="nav">
+        <div class="wrap">
+            <a href="https://boluadeoye.vercel.app/" class="nav-exit-link" title="Return to Main Website">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+            <div class="nav-brand">
+                <svg viewBox="0 0 32 32">
+                    <path d="M8 24 Q10 20 12 16 Q14 12 16 8 Q18 12 20 16 Q22 20 24 24 M16 8 V4 M16 4 L12 6 M16 4 L20 6" stroke="var(--accent-gold)" stroke-width="2" fill="none"/>
+                </svg>
+                <h2>The Academy</h2>
+            </div>
         </div>
     </nav>
     <main>
         <section id="rhythm-lab">
-            <a href="./crucible.html" class="back-link">← Back to The Crucible</a>
-            <h1 class="hub-title">The Rhythm & Meter Lab</h1>
-            <aside class="control-panel">
-                <h3>Control Panel</h3>
-                <div class="input-area">
-                    <label for="text-input">Paste Your Text Here</label>
-                    <textarea id="text-input" rows="8"></textarea>
-                </div>
-                <div class="controls">
-                    <label for="speed-control">Speed</label>
-                    <input type="range" id="speed-control" min="0.5" max="1.5" value="1" step="0.1">
-                    
-                    <label for="pitch-control">Pitch</label>
-                    <input type="range" id="pitch-control" min="0.5" max="1.5" value="1" step="0.1">
-                </div>
-                <button id="play-button" class="cta-button">Play Rhythm</button>
-            </aside>
-
-            <div class="score-display">
-                <div id="text-display" class="text-display-area"></div>
-                <div id="visualizer" class="visualizer-area">
-                    <svg id="rhythm-svg" width="100%" height="200"></svg>
+            <a href="./crucible.html" class="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to The Crucible
+            </a>
+            <h1 class="step-title">The Rhythm & Meter Lab</h1>
+            <div class="tool-container">
+                <aside class="control-panel">
+                    <h3>Control Panel</h3>
+                    <div class="input-area">
+                        <label for="text-input">Paste Your Text Here</label>
+                        <textarea id="text-input" rows="8"></textarea>
+                    </div>
+                    <div class="controls">
+                        <label for="speed-control">Speed</label>
+                        <input type="range" id="speed-control" min="0.5" max="1.5" value="1" step="0.1">
+                        
+                        <label for="pitch-control">Pitch</label>
+                        <input type="range" id="pitch-control" min="0.5" max="1.5" value="1" step="0.1">
+                    </div>
+                    <button id="play-button" class="cta-button">Play Rhythm</button>
+                </aside>
+    
+                <div class="score-display">
+                    <div id="text-display" class="text-display-area"></div>
+                    <div id="visualizer" class="visualizer-area">
+                        <svg id="rhythm-svg" width="100%" height="100%"></svg>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
     <footer class="main-footer">
-        © 2024 The Academy
+        <p>© 2025 Boluadeoye • Crafted with passion</p>
     </footer>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -327,73 +230,72 @@
             });
 
             function drawWaveform() {
-                svg.innerHTML = '';
+                svg.innerHTML = ''; // Clear previous waveform
                 const spans = display.querySelectorAll('span');
                 if (spans.length === 0) return;
                 const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
                 svg.appendChild(path);
                 const width = svg.clientWidth;
                 const height = svg.clientHeight;
-                const dx = width / (spans.length);
+                const stepX = width / (spans.length - 1 || 1);
                 const high = height * 0.25;
                 const low = height * 0.75;
-                let d = `M0 ${low}`;
-                let x = 0;
-                spans.forEach(span => {
-                    x += dx;
-                    const y = span.classList.contains('stressed') ? high : low;
-                    d += ` L${x} ${y}`;
+                let d = `M 0,${spans[0] && spans[0].classList.contains('stressed') ? high : low}`;
+                
+                spans.forEach((span, index) => {
+                    if (index > 0) {
+                        const y = span.classList.contains('stressed') ? high : low;
+                        d += ` C ${(index - 0.5) * stepX},${spans[index-1].classList.contains('stressed') ? high : low} ${(index - 0.5) * stepX},${y} ${index * stepX},${y}`;
+                    }
                 });
+
                 path.setAttribute('d', d);
-                path.setAttribute('stroke', 'var(--accent-gold)');
-                path.setAttribute('fill', 'none');
-                path.setAttribute('stroke-width', '2');
             }
 
+            let utterance;
             let speaking = false;
             playBtn.addEventListener('click', () => {
                 if (speaking) {
                     speechSynthesis.cancel();
-                    speaking = false;
-                    playBtn.textContent = 'Play Rhythm';
                     return;
                 }
-                speaking = true;
-                playBtn.textContent = 'Stop';
                 playRhythm();
             });
-
+            
             function playRhythm() {
+                const text = textarea.value;
+                if (!text.trim()) return;
+
+                utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = parseFloat(speed.value);
+                utterance.pitch = parseFloat(pitch.value);
+                
                 const spans = Array.from(display.querySelectorAll('span'));
-                if (spans.length === 0) {
+                let wordIndex = 0;
+
+                utterance.onstart = () => {
+                    speaking = true;
+                    playBtn.textContent = 'Stop';
+                };
+
+                utterance.onend = () => {
                     speaking = false;
                     playBtn.textContent = 'Play Rhythm';
-                    return;
-                }
-                const rateVal = parseFloat(speed.value);
-                const pitchVal = parseFloat(pitch.value);
-                let index = 0;
+                    spans.forEach(s => s.classList.remove('speaking'));
+                };
 
-                function speakNext() {
-                    if (index >= spans.length || !speaking) {
-                        speaking = false;
-                        playBtn.textContent = 'Play Rhythm';
-                        return;
+                utterance.onboundary = (event) => {
+                    spans.forEach(s => s.classList.remove('speaking'));
+                    if (event.name === 'word') {
+                       if (wordIndex < spans.length) {
+                           spans[wordIndex].classList.add('speaking');
+                           // More advanced pitch logic could go here
+                           wordIndex++;
+                       }
                     }
-                    const span = spans[index];
-                    const text = span.textContent + (index < spans.length - 1 ? ' ' : '');
-                    const utter = new SpeechSynthesisUtterance(text);
-                    utter.rate = rateVal;
-                    utter.pitch = span.classList.contains('stressed') ? pitchVal * 1.2 : pitchVal * 0.8;
-                    span.classList.add('speaking');
-                    utter.onend = () => {
-                        span.classList.remove('speaking');
-                        index++;
-                        speakNext();
-                    };
-                    speechSynthesis.speak(utter);
-                }
-                speakNext();
+                };
+
+                speechSynthesis.speak(utterance);
             }
         });
     </script>
