@@ -128,8 +128,6 @@
             font-weight: bold;
         }
         .text-display-area span.speaking { background: rgba(214, 175, 55, 0.3); }
-        
-        /* CORRECTED VISUALIZER AREA */
         .visualizer-area {
             background: rgba(0, 0, 0, 0.2);
             border: 1px solid var(--accent-ink);
@@ -137,7 +135,13 @@
             border-radius: 12px;
             height: 200px;
         }
-        .visualizer-area svg path { stroke: var(--accent-gold); stroke-width: 2; fill: none; }
+        .visualizer-area svg path {
+            stroke: var(--accent-gold);
+            stroke-width: 2;
+            fill: none;
+            /* SURGICAL EDIT: ADDED TRANSITION */
+            transition: d 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
         @media (max-width: 768px) {
             .tool-container { grid-template-columns: 1fr; }
             #rhythm-lab { padding: 24px; }
@@ -237,7 +241,6 @@
                 }
             });
 
-            // CORRECTED JAVASCRIPT FUNCTION
             function drawWaveform() {
                 svg.innerHTML = ''; // Clear previous waveform
                 const spans = display.querySelectorAll('span');
@@ -258,23 +261,19 @@
                     const currentY = span.classList.contains('stressed') ? high : low;
                     
                     if (index === 0) {
-                        // Start the path at the beginning
                         d += `M 0,${currentY}`;
                     } else {
-                        // For subsequent words, find the previous Y and draw a vertical line to the new level
                         const prevY = spans[index - 1].classList.contains('stressed') ? high : low;
-                        d += ` L ${index * stepX},${prevY}`; // End of previous horizontal line
-                        d += ` L ${index * stepX},${currentY}`; // Vertical line to new level
+                        d += ` L ${index * stepX},${prevY}`;
+                        d += ` L ${index * stepX},${currentY}`;
                     }
                     
-                    // Draw the horizontal line for the duration of the current word
                     d += ` L ${(index + 1) * stepX},${currentY}`;
                 });
 
                 path.setAttribute('d', d);
             }
 
-            // --- The rest of the original, working speech synthesis script ---
             let utterance;
             let speaking = false;
             playBtn.addEventListener('click', () => {
@@ -303,7 +302,7 @@
 
                 utterance.onend = () => {
                     speaking = false;
-                    playBtn.textContent = 'Play Rhythm';
+                    playBtn.textContent = 'Stop'; // Keep as stop until new play is initiated
                     spans.forEach(s => s.classList.remove('speaking'));
                 };
 
