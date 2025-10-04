@@ -142,16 +142,15 @@
             align-items: center;
             text-align: center;
             color: var(--text-light);
+            background: linear-gradient(-45deg, #2D3748, #4A5568, #805AD5, #D69E2E, #2D3748);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
         }
 
-        #atrium video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         #atrium .overlay {
@@ -160,7 +159,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.4);
             z-index: -1;
         }
 
@@ -177,7 +176,7 @@
 
         #quiz-container {
             max-width: 600px;
-            background: rgba(247, 250, 252, 0.1);
+            background: rgba(247, 250, 252, 0.15);
             padding: 20px;
             border-radius: 8px;
             border: 1px solid var(--accent-ink);
@@ -215,6 +214,10 @@
             display: none;
             font-size: 20px;
             color: var(--accent-gold);
+            background: rgba(247, 250, 252, 0.2);
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
         }
 
         #chambers {
@@ -302,10 +305,9 @@
 
     <main>
         <section id="atrium">
-            <video autoplay loop muted playsinline src="https://videos.pexels.com/video-files/4057039/4057039-hd.mp4" type="video/mp4"></video>
             <div class="overlay"></div>
-            <h1>Enter the Lyceum: Where Mastery Forges Rebels</h1>
-            <p class="tagline">Dare to dissect the divine in writing – or remain a scribe in the shadows.</p>
+            <h1>The Lyceum: Forge Your Literary Legacy</h1>
+            <p class="tagline">Delve into advanced craft, explore profound techniques, and elevate your words beyond the ordinary.</p>
             <div id="quiz-container">
                 <div id="q1" class="question active">
                     <p>Question 1: What's the one writing rule you'd burn at the stake?</p>
@@ -371,9 +373,9 @@
                     const result = document.getElementById('result');
                     result.style.display = 'block';
                     if (score >= 2) {
-                        result.textContent = 'You are a True Rebel – Welcome to the Inner Circle!';
+                        result.textContent = 'You are a Visionary Scribe – Welcome to the Inner Circle!';
                     } else {
-                        result.textContent = 'A Cautious Scribe – Dare to Dive Deeper?';
+                        result.textContent = 'An Aspiring Artisan – Dare to Dive Deeper?';
                     }
                 }
             });
