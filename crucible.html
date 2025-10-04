@@ -3,56 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Crucible</title>
+    <title>The Crucible - The Academy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Lora:wght@500;700&display=swap" rel="stylesheet">
     <style>
+        /* --- 1. Core Design System & Reset --- */
         :root {
-            --bg-slate: #1e1e1e;
-            --panel-cream: #f5f5dc;
-            --accent-gold: #d4af37;
-            --text-dark: #333333;
-            --text-muted: #666666;
-            --font-body: 'Times New Roman', serif;
-            --font-ui: 'Arial', sans-serif;
-            --accent-ink: #f5f5dc; /* Assuming this is a light color for links on dark bg */
+            --bg-slate: #2D3748;
+            --panel-cream: #F7FAFC;
+            --accent-gold: #D69E2E;
+            --accent-ink: #6A7A94;
+            --text-dark: #2D3748;
+            --text-muted: #718096;
+            --font-body: 'Lora', serif;
+            --font-ui: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            background: var(--bg-slate);
-            color: var(--panel-cream);
-            font-family: var(--font-body);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            background-color: var(--bg-slate);
+            font-family: var(--font-ui);
+            color: var(--text-dark);
         }
 
+        /* --- 2. Consistent Header --- */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 24px;
-            background: var(--bg-slate);
-            border-bottom: 1px solid var(--accent-gold);
+            padding: 16px 32px;
+            background-color: var(--panel-cream);
+            border-bottom: 1px solid #e2e8f0;
         }
 
-        .nav-exit-link {
-            color: var(--panel-cream);
-            text-decoration: none;
-            font-size: 1.2rem;
+        .nav-exit-link svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent-ink);
+            stroke-width: 1.5;
+            transition: stroke 200ms;
         }
 
-        .nav-exit-link:hover {
-            color: var(--accent-gold);
+        .nav-exit-link:hover svg {
+            stroke: var(--accent-gold);
+        }
+        
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .nav-brand svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--accent-gold);
         }
 
         .nav-brand h2 {
-            margin: 0;
+            font-family: var(--font-body);
             font-size: 1.5rem;
-            color: var(--accent-gold);
+            color: var(--text-dark);
         }
 
-        /* --- Page Layout & Header --- */
+        /* --- 3. Page Layout & Content --- */
         .hub-container {
             max-width: 900px;
             margin: 48px auto;
@@ -66,6 +89,7 @@
             color: var(--accent-ink);
             text-decoration: none;
             margin-bottom: 24px;
+            font-family: var(--font-ui);
         }
 
         .back-link:hover {
@@ -75,20 +99,20 @@
         .hub-title {
             font-family: var(--font-body);
             font-size: 2.5rem;
-            color: var(--panel-cream); /* Adjusted for visibility on dark bg */
+            color: var(--panel-cream);
             margin-bottom: 48px;
         }
 
-        /* --- Card Container (CRITICAL for Layout) --- */
+        /* --- 4. Card Container (CRITICAL for Layout) --- */
         .hub-card-container {
             display: flex;
             justify-content: center;
-            align-items: stretch; /* Ensures cards are same height if descriptions differ */
-            flex-wrap: wrap; /* Allows cards to stack on mobile */
-            gap: 32px; /* Space between cards */
+            align-items: stretch;
+            flex-wrap: wrap;
+            gap: 32px;
         }
 
-        /* --- The Perfect Card Styling --- */
+        /* --- 5. The Perfect Card Styling --- */
         .academy-card {
             display: flex;
             flex-direction: column;
@@ -105,9 +129,9 @@
             max-width: 400px;
         }
 
-        @media (min-width: 768px) {
+        @media (min-width: 860px) {
             .academy-card {
-                width: calc(50% - 16px); /* Two cards side-by-side on desktop */
+                width: calc(50% - 16px);
             }
         }
 
@@ -132,16 +156,24 @@
             font-family: var(--font-ui);
             color: var(--text-muted);
             line-height: 1.6;
-            flex-grow: 1; /* Allows paragraph to fill space, aligning buttons */
+            flex-grow: 1;
         }
     </style>
 </head>
 <body>
     <nav>
-        <a href="https://boluadeoye.vercel.app/" class="nav-exit-link" title="Return to Main Website">←</a>
+        <a href="https://boluadeoye.vercel.app/" class="nav-exit-link" title="Return to Main Website">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+        </a>
         <div class="nav-brand">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+            </svg>
             <h2>The Academy</h2>
         </div>
+        <div></div>
     </nav>
 
     <main class="hub-container">
