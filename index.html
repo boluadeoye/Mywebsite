@@ -332,69 +332,6 @@
     .chip, .btn { align-self: center; }
   }
 
-  /* --- ECHO CHAMBER STYLES (Designer-Ready Prototype) --- */
-  .echo-chamber-widget {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-  }
-  .echo-chamber-button {
-    width: 60px; height: 60px; border-radius: 50%;
-    background: var(--orange); border: none; color: var(--bg);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    transition: all 0.3s var(--transition);
-  }
-  .echo-chamber-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 25px rgba(245,158,11,.4);
-  }
-  .echo-chamber-window {
-    position: fixed; bottom: 90px; right: 20px;
-    width: 350px; max-height: 500px; background: var(--panel);
-    border: 1px solid var(--orange); border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-    display: flex; flex-direction: column; overflow: hidden;
-    transform: translateY(20px) scale(0.95); opacity: 0;
-    visibility: hidden; transition: all 0.4s var(--transition);
-    transform-origin: bottom right;
-  }
-  .echo-chamber-window.active {
-    transform: translateY(0) scale(1); opacity: 1; visibility: visible;
-  }
-  .echo-header {
-    padding: 1rem; background: var(--bg);
-    border-bottom: 1px solid var(--orange);
-    text-align: center; font-weight: 700; flex-shrink: 0;
-  }
-  .echo-messages {
-    flex-grow: 1; padding: 1rem; overflow-y: auto;
-    display: flex; flex-direction: column; gap: 1rem;
-  }
-  .echo-message {
-    padding: 0.75rem 1rem; border-radius: 12px;
-    line-height: 1.6; max-width: 90%;
-    animation: popIn .3s var(--transition);
-  }
-  @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .guide-message { background: rgba(255,255,255,0.05); align-self: flex-start; }
-  .user-reflection { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); align-self: flex-end; font-style: italic; }
-  .community-echo { background: transparent; border: 1px dashed var(--muted); color: var(--muted); align-self: center; text-align: center; font-size: 0.9rem; max-width: 100%; }
-  .echo-choices { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
-  .echo-choices button, .echo-input-area button {
-    width: 100%; background: var(--panel-hover); border: 1px solid var(--orange);
-    color: var(--orange); padding: 0.75rem; border-radius: 8px;
-    cursor: pointer; font-weight: 700; transition: all 0.2s var(--transition);
-  }
-  .echo-choices button:hover, .echo-input-area button:hover { background: var(--orange); color: var(--bg); }
-  .echo-input-area { padding: 1rem; border-top: 1px solid var(--orange); flex-shrink: 0; }
-  .echo-input-area textarea {
-    width: 100%; background: var(--bg); border: 1px solid var(--muted);
-    border-radius: 8px; color: var(--ink); padding: 0.75rem;
-    resize: vertical; min-height: 80px; font-family: var(--sans-serif);
-  }
-  .echo-input-area button { margin-top: 0.5rem; background: var(--orange); color: var(--bg); }
 </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJVVQDCS32"></script>
 <script>
@@ -409,7 +346,6 @@
     <a href="./">Home</a>
     <a href="./posts.html">All Posts</a>
     <a href="./library.html">Library</a>
-    <a href="./academy.html">The Academy</a>
     <a href="./about.html">About</a>
   </nav>
   <div id="menuOverlay" class="overlay"></div>
@@ -427,7 +363,7 @@
         <a href="./">Home</a>
         <a href="./posts.html">All Posts</a>
         <a href="./library.html">Library</a>
-        <a href="./academy.html">The Academy</a>
+        <a href="./lab.html">Writer's Lab</a>
         <a href="./about.html">About</a>
       </nav>
     </div>
@@ -498,17 +434,6 @@
     </div>
   </footer>
   
-  <div class="echo-chamber-widget">
-    <div class="echo-chamber-window" id="echo-window">
-      <div class="echo-header" id="echo-header">Your Guide</div>
-      <div class="echo-messages" id="echo-messages"></div>
-      <div class="echo-input-area" id="echo-input-area" style="display: none;"></div>
-    </div>
-    <button class="echo-chamber-button" id="echo-toggle-button" aria-label="Open your guide">
-       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#0f172a"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
-    </button>
-  </div>
-
   <script>
     (function(){
       // --- Menu Logic ---
@@ -754,6 +679,5 @@
 
     })();
   </script>
-  <script src="echo-chamber.js" defer></script>
 </body> 
 </html>
