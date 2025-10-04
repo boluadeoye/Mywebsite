@@ -128,7 +128,12 @@
             font-weight: bold;
         }
         .text-display-area span.speaking { background: rgba(214, 175, 55, 0.3); }
+        
+        /* CORRECTED VISUALIZER AREA */
         .visualizer-area {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--accent-ink);
+            padding: 16px;
             border-radius: 12px;
             height: 200px;
         }
@@ -209,7 +214,10 @@
             function renderText() {
                 display.innerHTML = '';
                 const text = textarea.value.trim();
-                if (!text) return;
+                if (!text) {
+                    drawWaveform(); // Clear waveform if text is empty
+                    return;
+                }
                 const words = text.split(/\s+/);
                 words.forEach((word, index) => {
                     const span = document.createElement('span');
@@ -229,29 +237,44 @@
                 }
             });
 
+            // CORRECTED JAVASCRIPT FUNCTION
             function drawWaveform() {
                 svg.innerHTML = ''; // Clear previous waveform
                 const spans = display.querySelectorAll('span');
                 if (spans.length === 0) return;
+
                 const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
                 svg.appendChild(path);
+                
                 const width = svg.clientWidth;
                 const height = svg.clientHeight;
-                const stepX = width / (spans.length - 1 || 1);
-                const high = height * 0.25;
-                const low = height * 0.75;
-                let d = `M 0,${spans[0] && spans[0].classList.contains('stressed') ? high : low}`;
+                const stepX = width / spans.length;
+                const high = height * 0.25; // Y-coordinate for stressed words
+                const low = height * 0.75;  // Y-coordinate for unstressed words
+                
+                let d = '';
                 
                 spans.forEach((span, index) => {
-                    if (index > 0) {
-                        const y = span.classList.contains('stressed') ? high : low;
-                        d += ` C ${(index - 0.5) * stepX},${spans[index-1].classList.contains('stressed') ? high : low} ${(index - 0.5) * stepX},${y} ${index * stepX},${y}`;
+                    const currentY = span.classList.contains('stressed') ? high : low;
+                    
+                    if (index === 0) {
+                        // Start the path at the beginning
+                        d += `M 0,${currentY}`;
+                    } else {
+                        // For subsequent words, find the previous Y and draw a vertical line to the new level
+                        const prevY = spans[index - 1].classList.contains('stressed') ? high : low;
+                        d += ` L ${index * stepX},${prevY}`; // End of previous horizontal line
+                        d += ` L ${index * stepX},${currentY}`; // Vertical line to new level
                     }
+                    
+                    // Draw the horizontal line for the duration of the current word
+                    d += ` L ${(index + 1) * stepX},${currentY}`;
                 });
 
                 path.setAttribute('d', d);
             }
 
+            // --- The rest of the original, working speech synthesis script ---
             let utterance;
             let speaking = false;
             playBtn.addEventListener('click', () => {
@@ -289,12 +312,11 @@
                     if (event.name === 'word') {
                        if (wordIndex < spans.length) {
                            spans[wordIndex].classList.add('speaking');
-                           // More advanced pitch logic could go here
                            wordIndex++;
                        }
                     }
                 };
-
+                
                 speechSynthesis.speak(utterance);
             }
         });
