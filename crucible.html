@@ -390,8 +390,8 @@
             </a>
             <h1 class="step-title">The Crucible</h1>
             <div class="hub-grid">
-                <div class="hub-card" id="polisher-card">
-                    <h3>The Sentence Polisher</h3>
+                <div class="hub-card" id="alchemist-card">
+                    <h3>The Alchemist's Lens</h3>
                     <p>Refine your sentences to shine with clarity and strength.</p>
                 </div>
                 <div class="hub-card" id="rhythm-card">
@@ -407,28 +407,80 @@
     </footer>
 
     <script>
-        (function() {
-            const polisherCard = document.getElementById('polisher-card');
+        // Utility functions for Alchemist's Lens
+        function findIssues(text) {
+            const passiveVoiceRegex = /\b(is|are|was|were)\s+\w+ed\b/gi;
+            const weakAdverbs = /\b(very|really|just|truly)\b/gi;
+            const issues = [];
+
+            let match;
+            while ((match = passiveVoiceRegex.exec(text)) !== null) {
+                issues.push({ type: 'passive', text: match[0], index: match.index, suggestion: 'Consider using active voice for stronger impact.' });
+            }
+            while ((match = weakAdverbs.exec(text)) !== null) {
+                issues.push({ type: 'adverb', text: match[0], index: match.index, suggestion: 'Consider a stronger verb or removing this adverb.' });
+            }
+            return issues.sort((a, b) => a.index - b.index);
+        }
+
+        function highlightIssues(text, issues) {
+            let highlighted = text;
+            let offset = 0;
+            issues.forEach(issue => {
+                const start = issue.index + offset;
+                const end = start + issue.text.length;
+                const span = `<span class="polisher-issue" data-tooltip="${issue.suggestion}">${issue.text}</span>`;
+                highlighted = highlighted.slice(0, start) + span + highlighted.slice(end);
+                offset += span.length - issue.text.length;
+            });
+            return highlighted;
+        }
+
+        function polishText(text, issues) {
+            let polished = text;
+            issues.forEach(issue => {
+                if (issue.type === 'passive') {
+                    polished = polished.replace(issue.text, 'actively');
+                } else if (issue.type === 'adverb') {
+                    polished = polished.replace(issue.text, '');
+                }
+            });
+            return polished.replace(/\s+/g, ' ').trim();
+        }
+
+        // Main script
+        document.addEventListener('DOMContentLoaded', () => {
+            const crucible = document.getElementById('crucible');
+            const alchemistCard = document.getElementById('alchemist-card');
             const rhythmCard = document.getElementById('rhythm-card');
 
-            // Sentence Polisher Logic
-            const renderSentencePolisher = () => {
+            // Sentence Polisher (Alchemist's Lens) Logic
+            const renderAlchemistLens = () => {
                 const tool = document.createElement('div');
                 tool.className = 'crucible-tool polisher-split';
                 tool.innerHTML = `
                     <div class="polisher-input">
-                        <textarea placeholder="Paste your sentence here..."></textarea>
+                        <textarea id="raw-text-area" placeholder="Paste your sentence here..."></textarea>
                     </div>
                     <div class="polisher-output">
-                        <p>Your polished sentence will appear here.</p>
+                        <p id="polished-output">Your polished sentence will appear here.</p>
                     </div>
-                    <button class="btn-primary">Reveal Polish</button>
+                    <button id="transmute-button" class="btn-primary">Transmute</button>
+                `;
+                crucible.innerHTML = `
+                    <a href="./academy.html" class="back-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        Back to The Academy
+                    </a>
+                    <h1 class="step-title">The Alchemist's Lens</h1>
                 `;
                 crucible.appendChild(tool);
 
-                const textarea = tool.querySelector('textarea');
-                const outputText = tool.querySelector('.polisher-output p');
-                const polishBtn = tool.querySelector('.btn-primary');
+                const textarea = tool.querySelector('#raw-text-area');
+                const outputText = tool.querySelector('#polished-output');
 
                 textarea.addEventListener('input', () => {
                     const text = textarea.value;
@@ -436,10 +488,6 @@
                     const highlighted = highlightIssues(text, issues);
                     textarea.innerHTML = highlighted;
                     outputText.textContent = polishText(text, issues);
-                });
-
-                polishBtn.addEventListener('click', () => {
-                    tool.querySelector('.polisher-output').classList.add('revealed');
                 });
             };
 
@@ -458,6 +506,16 @@
                         </svg>
                     </div>
                     <button class="btn-primary">Play Rhythm</button>
+                `;
+                crucible.innerHTML = `
+                    <a href="./academy.html" class="back-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        Back to The Academy
+                    </a>
+                    <h1 class="step-title">The Rhythm & Meter Lab</h1>
                 `;
                 crucible.appendChild(tool);
 
@@ -514,17 +572,20 @@
                 });
             };
 
-            // Attach event listeners
-            polisherCard.addEventListener('click', () => {
-                document.getElementById('crucible').innerHTML = '<a href="./academy.html" class="back-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Back to The Academy</a><h1 class="step-title">The Sentence Polisher</h1>';
-                renderSentencePolisher();
+            // Event Delegation for Transmute Button
+            crucible.addEventListener('click', (event) => {
+                if (event.target.id === 'transmute-button') {
+                    const output = document.getElementById('polished-output');
+                    if (output) {
+                        output.parentElement.classList.add('revealed');
+                    }
+                }
             });
 
-            rhythmCard.addEventListener('click', () => {
-                document.getElementById('crucible').innerHTML = '<a href="./academy.html" class="back-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Back to The Academy</a><h1 class="step-title">The Rhythm & Meter Lab</h1>';
-                renderRhythmMeterLab();
-            });
-        })();
+            // Attach event listeners for hub cards
+            alchemistCard.addEventListener('click', renderAlchemistLens);
+            rhythmCard.addEventListener('click', renderRhythmMeterLab);
+        });
     </script>
 </body>
 </html>
