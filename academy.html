@@ -36,14 +36,8 @@
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .nav {
@@ -72,10 +66,7 @@
             gap: 12px;
         }
 
-        .nav-brand svg {
-            width: 32px;
-            height: 32px;
-        }
+        .nav-brand svg { width: 32px; height: 32px; }
 
         .nav-brand h2 {
             font-family: var(--font-ui);
@@ -92,27 +83,26 @@
             transition: stroke 200ms var(--transition);
         }
 
-        .nav-exit-link:hover svg {
-            stroke: var(--accent-gold-hover);
-        }
+        .nav-exit-link:hover svg { stroke: var(--accent-gold-hover); }
 
         main {
             flex: 1;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            /* COMPACT REVISION: Reduced top padding */
-            padding: 88px 0 32px 0;
+            /* REVISION: Align content left with consistent horizontal padding */
+            padding: 88px 24px 32px 24px;
             width: 100%;
         }
 
         .main-title {
             font-family: var(--font-body);
-            font-size: 2.5rem;
-            text-align: center;
-            /* COMPACT REVISION: Tightened spacing */
-            margin-bottom: 40px;
+            /* REVISION: Further reduced font size */
+            font-size: 2.2rem;
+            text-align: left;
+            /* REVISION: Tightened spacing */
+            margin-bottom: 32px;
+            width: 100%;
             animation: fadeIn 600ms var(--transition) forwards;
             opacity: 0;
         }
@@ -120,19 +110,16 @@
         .wing-grid {
             display: grid;
             grid-template-columns: 1fr;
-            /* COMPACT REVISION: Tightened spacing */
-            gap: 20px;
+            /* REVISION: Tightened spacing */
+            gap: 16px;
             width: 100%;
-            /* COMPACT REVISION: Constrain max-width on mobile for a compact feel */
-            max-width: 500px;
-            padding: 0 24px;
         }
 
         .academy-card {
             background: var(--panel-cream);
-            /* COMPACT REVISION: Reduced internal padding */
-            padding: 24px;
-            border-radius: 16px;
+            /* REVISION: Reduced internal padding for a compact feel */
+            padding: 20px;
+            border-radius: 12px;
             border: 2px solid var(--accent-gold);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             text-decoration: none;
@@ -148,19 +135,19 @@
 
 
         .academy-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 30px rgba(214, 158, 46, 0.25);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(214, 158, 46, 0.2);
         }
 
         .academy-card h2 {
             color: var(--accent-gold);
             font-family: var(--font-body);
-            /* COMPACT REVISION: Reduced font size */
-            font-size: 1.7rem;
-            margin-bottom: 12px;
+            /* REVISION: Further reduced font size */
+            font-size: 1.5rem;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
             white-space: nowrap;
         }
 
@@ -168,7 +155,6 @@
             font-family: var(--font-ui);
             color: var(--text-muted);
             line-height: 1.6;
-            max-width: 400px;
         }
 
         .main-footer {
@@ -183,6 +169,14 @@
         }
 
         @media (min-width: 768px) {
+            main {
+                align-items: center; /* Center content on larger screens */
+                padding: 88px 24px 32px 24px;
+            }
+            .main-title {
+                text-align: center;
+                max-width: 1200px;
+            }
             .wing-grid {
                 max-width: 1200px;
                 grid-template-columns: repeat(3, 1fr);
