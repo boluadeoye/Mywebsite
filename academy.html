@@ -60,7 +60,7 @@
 
         .nav .wrap {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             height: 64px;
             max-width: 1200px;
@@ -68,36 +68,30 @@
             padding: 0 16px;
         }
 
-        .nav-links {
-            list-style: none;
+        .nav-brand {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 0;
-            margin: 0;
         }
 
-        .nav-links a {
-            text-decoration: none;
+        .nav-brand svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--accent-gold);
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .nav-brand h2 {
+            font-family: var(--font-ui);
+            font-size: 1.5rem;
             color: var(--panel-cream);
+            margin: 0;
             font-weight: 700;
-            padding: 8px 16px;
-            border-radius: 999px;
-            transition: all 300ms var(--transition);
-        }
-
-        .nav-links a.active {
-            background: var(--accent-gold);
-            color: var(--bg-slate);
-        }
-
-        .nav-links a:not(.active):hover {
-            background: var(--accent-ink);
         }
 
         .nav-exit-link {
             color: var(--panel-cream);
-            margin-right: auto;
             padding: 8px;
             display: flex;
             align-items: center;
@@ -432,12 +426,12 @@
                     <polyline points="12 19 5 12 12 5"></polyline>
                 </svg>
             </a>
-            <ul class="nav-links">
-                <li><a href="./lab.html">Lab</a></li>
-                <li><a href="./anvil.html">Anvil</a></li>
-                <li><a href="./journal.html">Journal</a></li>
-                <li><a href="#" class="active">Academy</a></li>
-            </ul>
+            <div class="nav-brand">
+                <svg viewBox="0 0 32 32">
+                    <path d="M8 24 Q10 20 12 16 Q14 12 16 8 Q18 12 20 16 Q22 20 24 24 M16 8 V4 M16 4 L12 6 M16 4 L20 6" stroke="var(--accent-gold)" stroke-width="2" fill="none"/>
+                </svg>
+                <h2>The Academy</h2>
+            </div>
         </div>
     </nav>
 
