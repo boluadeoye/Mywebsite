@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rebel's Athenaeum</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-slate: #2D3748;
+            --panel-cream: #F7FAFC;
+            --accent-gold: #D69E2E;
+            --accent-ink: #6A7A94;
+            --text-light: #F7FAFC;
+            --text-dark: #2D3748;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background: var(--bg-slate);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Lora', serif;
+            color: inherit;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        nav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 80px;
+            background: var(--bg-slate);
+            border-right: 1px solid var(--accent-ink);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        nav a {
+            color: var(--accent-gold);
+            font-size: 14px;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        nav a:hover {
+            transform: rotate(180deg) scale(1.1);
+            color: #F6E05A;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        #hamburger {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 20;
+            cursor: pointer;
+            color: var(--accent-gold);
+            font-size: 24px;
+        }
+
+        #mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg-slate);
+            z-index: 15;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+        }
+
+        #mobile-menu.active {
+            display: flex;
+        }
+
+        #mobile-menu a {
+            color: var(--accent-gold);
+            font-size: 24px;
+            transition: color 0.3s ease;
+        }
+
+        #mobile-menu a:hover {
+            color: #F6E05A;
+        }
+
+        main {
+            margin-left: 80px;
+        }
+
+        section {
+            padding: 0 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #atrium {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        #atrium video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        #atrium .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: -1;
+        }
+
+        #atrium h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        #atrium p.tagline {
+            font-size: 20px;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        #quiz-container {
+            max-width: 600px;
+            background: rgba(247, 250, 252, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--accent-ink);
+        }
+
+        .question {
+            display: none;
+        }
+
+        .question.active {
+            display: block;
+        }
+
+        .question p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .question button {
+            background: var(--accent-gold);
+            color: var(--text-dark);
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .question button:hover {
+            background: #F6E05A;
+        }
+
+        #result {
+            display: none;
+            font-size: 20px;
+            color: var(--accent-gold);
+        }
+
+        #chambers {
+            padding-top: 100px;
+            background: var(--bg-slate);
+            color: var(--text-light);
+        }
+
+        #chambers .content-container {
+            background: var(--panel-cream);
+            color: var(--text-dark);
+            padding: 40px;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        #chambers h2 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--text-light);
+        }
+
+        #chambers h3 {
+            font-size: 24px;
+            margin-top: 30px;
+        }
+
+        #chambers p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        footer {
+            background: var(--panel-cream);
+            color: var(--text-dark);
+            text-align: center;
+            padding: 20px;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 767px) {
+            nav {
+                display: none;
+            }
+
+            #hamburger {
+                display: block;
+            }
+
+            main {
+                margin-left: 0;
+            }
+
+            #atrium h1 {
+                font-size: 32px;
+            }
+
+            #atrium p.tagline {
+                font-size: 16px;
+            }
+
+            .question button {
+                display: block;
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#atrium">Atrium</a></li>
+            <li><a href="#chambers">Chambers</a></li>
+        </ul>
+    </nav>
+
+    <div id="hamburger">☰</div>
+    <div id="mobile-menu">
+        <a href="#atrium">Atrium</a>
+        <a href="#chambers">Chambers</a>
+    </div>
+
+    <main>
+        <section id="atrium">
+            <video autoplay loop muted playsinline src="https://videos.pexels.com/video-files/4057039/4057039-hd.mp4" type="video/mp4"></video>
+            <div class="overlay"></div>
+            <h1>Enter the Lyceum: Where Mastery Forges Rebels</h1>
+            <p class="tagline">Dare to dissect the divine in writing – or remain a scribe in the shadows.</p>
+            <div id="quiz-container">
+                <div id="q1" class="question active">
+                    <p>Question 1: What's the one writing rule you'd burn at the stake?</p>
+                    <button data-score="1">Show, don't tell – it's overrated!</button>
+                    <button data-score="0">Always outline before writing.</button>
+                </div>
+                <div id="q2" class="question">
+                    <p>Question 2: How do you feel about happy endings?</p>
+                    <button data-score="1">Twist them into tragedy for impact.</button>
+                    <button data-score="0">They provide necessary closure.</button>
+                </div>
+                <div id="q3" class="question">
+                    <p>Question 3: Grammar: Sacred or shackles?</p>
+                    <button data-score="1">Break it to forge new paths.</button>
+                    <button data-score="0">Essential for clarity.</button>
+                </div>
+                <div id="result"></div>
+            </div>
+        </section>
+
+        <section id="chambers">
+            <h2>The Chamber of Dissection</h2>
+            <div class="content-container">
+                <h3>What is Narrative Subversion?</h3>
+                <p>Narrative subversion is the art of turning storytelling conventions on their head, challenging reader expectations to create deeper, more provocative tales. It's not just plot twists; it's a rebellion against the predictable.</p>
+                
+                <h3>Why Subvert?</h3>
+                <p>In a world saturated with formulaic stories, subversion injects vitality. It forces readers to question assumptions, mirroring the chaos of real life and elevating writing from mere entertainment to intellectual insurgency.</p>
+                
+                <h3>Techniques to Master</h3>
+                <p>Employ unreliable narrators to erode trust, or deconstruct tropes like the hero's journey by making the 'hero' fail spectacularly. Experiment with non-linear timelines to disorient and delight.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Escape the Lyceum? If you must...</p>
+        <p>© 2025 Boluadeoye</p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobile-menu');
+        hamburger.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Quiz logic
+        let score = 0;
+        const questions = ['q1', 'q2', 'q3'];
+        let currentQuestion = 0;
+
+        const buttons = document.querySelectorAll('.question button');
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                score += parseInt(button.getAttribute('data-score'));
+                document.getElementById(questions[currentQuestion]).classList.remove('active');
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    document.getElementById(questions[currentQuestion]).classList.add('active');
+                } else {
+                    const result = document.getElementById('result');
+                    result.style.display = 'block';
+                    if (score >= 2) {
+                        result.textContent = 'You are a True Rebel – Welcome to the Inner Circle!';
+                    } else {
+                        result.textContent = 'A Cautious Scribe – Dare to Dive Deeper?';
+                    }
+                }
+            });
+        });
+
+        // Fade-in on scroll
+        const sections = document.querySelectorAll('section');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
