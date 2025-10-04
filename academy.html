@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Academy</title>
+    <title>The Academy - The Writer's Foundry</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -11,10 +11,12 @@
             --panel-cream: #F7FAFC;
             --accent-gold: #D69E2E;
             --accent-gold-hover: #ECC94B;
-            --text-cream: #EDF2F7;
+            --accent-ink: #6A7A94;
             --text-dark: #2D3748;
             --text-muted: #718096;
-            --border-color: #4A5568;
+            --color-success: #2F855A;
+            --font-body: 'Lora', serif;
+            --font-ui: 'Inter', sans-serif;
             --transition: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -24,220 +26,412 @@
 
         body {
             margin: 0;
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-ui);
             background: var(--bg-slate) url("data:image/png;base64,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") repeat;
             color: var(--text-dark);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             padding-top: 64px;
+            animation: subtle-texture 20s linear infinite;
         }
 
-        .nav { position: fixed; top: 0; left: 0; width: 100%; background: var(--bg-slate); border-bottom: 1px solid var(--border-color); z-index: 1000; }
-        .nav .wrap { display: flex; justify-content: center; align-items: center; height: 64px; }
-        .nav-links { list-style: none; display: flex; align-items: center; gap: 8px; padding: 0; margin: 0; }
-        .nav-links a { display: block; text-decoration: none; color: var(--text-cream); font-weight: 700; padding: 8px 16px; border-radius: 999px; transition: all 300ms var(--transition); }
-        .nav-links a.active { background-color: var(--accent-gold); color: var(--bg-slate); }
-        .nav-links a:not(.active):hover { background-color: #4A5568; }
+        @keyframes subtle-texture {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
 
         main {
             flex: 1;
-            padding: 32px;
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .view-toggle {
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--bg-slate);
+            border-bottom: 1px solid var(--accent-ink);
+            z-index: 1000;
+        }
+
+        .nav .wrap {
             display: flex;
             justify-content: center;
+            align-items: center;
+            height: 64px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--panel-cream);
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 999px;
+            transition: all 300ms var(--transition);
+        }
+
+        .nav-links a.active {
+            background: var(--accent-gold);
+            color: var(--bg-slate);
+        }
+
+        .nav-links a:not(.active):hover {
+            background: var(--accent-ink);
+        }
+
+        .nav-exit-link {
+            color: var(--panel-cream);
+            margin-right: auto;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-exit-link:hover {
+            color: var(--accent-gold-hover);
+        }
+
+        .nav-exit-link svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        #academy {
+            max-width: 1200px;
+            width: 100%;
+            background: var(--panel-cream);
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            animation: fade-in 600ms var(--transition);
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .wing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
             margin-bottom: 24px;
         }
 
-        .view-toggle button {
-            padding: 8px 16px;
-            background: var(--panel-cream);
-            border: 1px solid var(--border-color);
-            border-radius: 999px;
-            cursor: pointer;
-            transition: all 300ms var(--transition);
-            margin: 0 8px;
-            font-weight: 700;
-        }
-
-        .view-toggle button.active {
-            background: var(--accent-gold);
-            color: var(--bg-slate);
-            border-color: var(--accent-gold);
-        }
-
-        #library-view {
-            display: block;
-        }
-
-        #codex-view {
-            display: none;
-        }
-
-        .module-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 16px;
-        }
-
-        .module-card {
-            background: var(--panel-cream);
-            padding: 16px;
+        .wing-card {
+            padding: 24px;
+            background: #fff;
+            border: 1px solid var(--accent-ink);
             border-radius: 8px;
-            border: 1px solid var(--border-color);
             cursor: pointer;
             transition: all 300ms var(--transition);
             text-align: center;
-            font-weight: 700;
         }
 
-        .module-card:hover {
-            background: var(--accent-gold-hover);
+        .wing-card:hover {
+            transform: translateY(-4px);
             border-color: var(--accent-gold);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
-        #article-view {
-            display: none;
-            background: var(--panel-cream);
-            padding: 32px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
+        .wing-card h3 {
+            font-size: 1.5rem;
+            margin: 0 0 12px;
+            color: var(--accent-gold);
+            font-family: var(--font-ui);
         }
 
-        #article-content {
-            font-family: 'Lora', serif;
-            font-size: 1.1rem;
+        .wing-card p {
+            font-family: var(--font-body);
+            font-size: 1rem;
             line-height: 1.6;
             color: var(--text-dark);
+            margin: 0;
         }
 
-        #crucible-btn {
-            display: block;
-            margin: 24px auto 0;
-            padding: 12px 24px;
-            background: var(--accent-gold);
-            color: var(--bg-slate);
-            border: none;
-            border-radius: 999px;
+        .step-title {
+            font-size: 2rem;
+            line-height: 1.4;
+            margin-bottom: 24px;
+            color: var(--text-dark);
             font-weight: 700;
-            cursor: pointer;
-            transition: all 300ms var(--transition);
+            text-align: center;
+            font-family: var(--font-ui);
         }
 
-        #crucible-btn:hover {
-            background: var(--accent-gold-hover);
+        .scriptorium-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
         }
 
-        #assessment-view {
-            display: none;
-            background: var(--panel-cream);
-            padding: 32px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
+        .scriptorium-main {
+            font-family: var(--font-body);
+            line-height: 1.6;
         }
 
-        #assessment-question {
-            font-size: 1.2rem;
+        .scriptorium-main h2 {
+            font-size: 1.5rem;
+            color: var(--accent-gold);
             margin-bottom: 16px;
         }
 
-        .option-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 8px;
-            background: var(--panel-cream);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 300ms var(--transition);
+        .scriptorium-main h3 {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin: 16px 0 8px;
         }
 
-        .option-btn:hover {
-            background: var(--accent-gold-hover);
+        .scriptorium-main p {
+            margin: 0 0 16px;
+            color: var(--text-dark);
         }
 
-        #feedback {
-            margin-top: 16px;
+        .scriptorium-main blockquote {
+            border-left: 4px solid var(--accent-gold);
+            padding-left: 16px;
+            margin: 16px 0;
             font-style: italic;
             color: var(--text-muted);
         }
 
-        .back-btn {
-            background: none;
-            border: none;
-            color: var(--accent-gold);
-            cursor: pointer;
-            font-weight: 700;
-            margin-bottom: 16px;
+        .scriptorium-sidebar {
+            background: var(--bg-slate);
+            padding: 16px;
+            border-radius: 8px;
+            color: var(--panel-cream);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
         }
 
-        .filter-bar {
+        .scriptorium-sidebar h4 {
+            font-size: 1rem;
+            color: var(--accent-gold);
+            margin-bottom: 12px;
+        }
+
+        .crucible-tool {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .polisher-split {
+            display: grid;
+            grid-template-rows: auto auto;
+            gap: 16px;
+        }
+
+        .polisher-input, .polisher-output {
+            background: #fff;
+            border: 1px solid var(--accent-ink);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .polisher-input textarea {
+            width: 100%;
+            min-height: 100px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            border: none;
+            resize: vertical;
+            outline: none;
+        }
+
+        .polisher-output {
+            opacity: 0.7;
+            transition: opacity 300ms var(--transition);
+        }
+
+        .polisher-output.revealed {
+            opacity: 1;
+        }
+
+        .polisher-issue {
+            position: relative;
+            display: inline-block;
+        }
+
+        .polisher-issue::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-gold);
+            opacity: 0.5;
+            transition: opacity 300ms var(--transition);
+        }
+
+        .polisher-issue:hover::after {
+            opacity: 1;
+        }
+
+        .polisher-issue:hover::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-slate);
+            color: var(--panel-cream);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .rhythm-canvas {
+            background: var(--bg-slate);
+            padding: 24px;
+            border-radius: 8px;
+            color: var(--panel-cream);
+        }
+
+        .rhythm-input textarea {
+            width: 100%;
+            min-height: 100px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            border: none;
+            resize: vertical;
+            outline: none;
+            background: #fff;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .rhythm-words {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 24px;
-            justify-content: center;
+            margin: 16px 0;
         }
 
-        .filter-tag {
-            padding: 4px 12px;
+        .rhythm-word {
+            padding: 4px 8px;
             background: var(--panel-cream);
-            border: 1px solid var(--border-color);
-            border-radius: 999px;
+            color: var(--text-dark);
+            border-radius: 4px;
             cursor: pointer;
             transition: all 300ms var(--transition);
         }
 
-        .filter-tag.active {
+        .rhythm-word.stressed {
             background: var(--accent-gold);
             color: var(--bg-slate);
-            border-color: var(--accent-gold);
+            font-weight: 700;
         }
 
-        .case-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 16px;
+        .rhythm-visualizer {
+            margin: 16px 0;
+            height: 100px;
+            position: relative;
         }
 
-        .case-card {
-            background: var(--panel-cream);
-            padding: 16px;
+        .rhythm-visualizer svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .btn-primary {
+            display: block;
+            width: 100%;
+            max-width: 200px;
+            margin: 16px auto;
+            padding: 12px;
+            background: var(--accent-gold);
+            color: var(--bg-slate);
+            border: none;
             border-radius: 8px;
-            border: 1px solid var(--border-color);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 300ms var(--transition);
         }
 
-        .case-card h3 {
-            margin: 0 0 8px;
-            font-size: 1.2rem;
+        .btn-primary:hover {
+            background: var(--accent-gold-hover);
         }
 
-        .case-card p {
-            margin: 0;
-            font-family: 'Lora', serif;
+        .btn-secondary {
+            display: block;
+            width: 100%;
+            max-width: 200px;
+            margin: 16px auto;
+            padding: 12px;
+            background: transparent;
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 300ms var(--transition);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-gold-hover);
+            color: var(--bg-slate);
+        }
+
+        .main-footer {
+            padding: 2rem 0;
+            background: var(--bg-slate);
+            border-top: 1px solid var(--accent-ink);
+            text-align: center;
+        }
+
+        .main-footer p {
+            font-size: 0.9rem;
             color: var(--text-muted);
         }
 
-        .case-card .insight {
-            font-family: 'Lora', serif;
-            font-size: 1rem;
-            line-height: 1.5;
-            margin-top: 8px;
-        }
+        @media (max-width: 768px) {
+            .scriptorium-content {
+                grid-template-columns: 1fr;
+            }
 
-        .main-footer { width: 100%; padding: 2rem 0; background-color: var(--bg-slate); border-top: 1px solid var(--border-color); }
-        .main-footer p { text-align: center; font-size: 0.9rem; color: var(--text-muted); }
+            .scriptorium-sidebar {
+                order: -1;
+            }
+
+            .wing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            #academy {
+                padding: 24px;
+            }
+        }
     </style>
 </head>
 <body>
     <nav class="nav">
         <div class="wrap">
+            <a href="https://boluadeoye.vercel.app/" class="nav-exit-link" title="Return to Main Website">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
             <ul class="nav-links">
                 <li><a href="./lab.html">Lab</a></li>
                 <li><a href="./anvil.html">Anvil</a></li>
@@ -248,206 +442,319 @@
     </nav>
 
     <main>
-        <div class="view-toggle">
-            <button id="library-toggle" class="active">Learning Modules</button>
-            <button id="codex-toggle">Rebellion Codex</button>
-        </div>
-
-        <div id="library-view">
-            <div id="module-grid" class="module-grid"></div>
-            <div id="article-view">
-                <button class="back-btn" id="back-to-modules">← Back to Modules</button>
-                <div id="article-content"></div>
-                <button id="crucible-btn">Enter The Crucible</button>
+        <section id="academy">
+            <h1 class="step-title">The Academy</h1>
+            <div class="wing-grid">
+                <div class="wing-card" data-wing="scriptorium">
+                    <h3>The Scriptorium 📚</h3>
+                    <p>The Library of Knowledge: Master the foundations of grammar, punctuation, and coherence.</p>
+                </div>
+                <div class="wing-card" data-wing="crucible">
+                    <h3>The Crucible 🔥</h3>
+                    <p>The Practice Workshop: Hone your craft through interactive exercises.</p>
+                </div>
+                <div class="wing-card" data-wing="lyceum">
+                    <h3>The Lyceum ✨</h3>
+                    <p>The Hall of Advanced Study: Deep dives into the art of writing.</p>
+                </div>
             </div>
-            <div id="assessment-view">
-                <button class="back-btn" id="back-to-article">← Back to Article</button>
-                <p id="assessment-question"></p>
-                <div id="options"></div>
-                <p id="feedback"></p>
-            </div>
-        </div>
-
-        <div id="codex-view">
-            <div class="filter-bar" id="codex-filter"></div>
-            <div class="case-grid" id="case-grid"></div>
-        </div>
+        </section>
     </main>
 
     <footer class="main-footer">
-        <div class="wrap">
-            <p>© 2025 Boluadeoye • Crafted with passion</p>
-        </div>
+        <p>© 2025 Boluadeoye • Crafted with passion</p>
     </footer>
 
     <script>
         (function() {
-            const libraryView = document.getElementById('library-view');
-            const codexView = document.getElementById('codex-view');
-            const libraryToggle = document.getElementById('library-toggle');
-            const codexToggle = document.getElementById('codex-toggle');
-            const moduleGrid = document.getElementById('module-grid');
-            const articleView = document.getElementById('article-view');
-            const assessmentView = document.getElementById('assessment-view');
-            const articleContent = document.getElementById('article-content');
-            const crucibleBtn = document.getElementById('crucible-btn');
-            const backToModules = document.getElementById('back-to-modules');
-            const backToArticle = document.getElementById('back-to-article');
-            const assessmentQuestion = document.getElementById('assessment-question');
-            const optionsDiv = document.getElementById('options');
-            const feedback = document.getElementById('feedback');
-            const codexFilter = document.getElementById('codex-filter');
-            const caseGrid = document.getElementById('case-grid');
+            const academyContainer = document.getElementById('academy');
+            const wingCards = document.querySelectorAll('.wing-card');
 
-            let foundryData = null;
-            let currentModule = null;
-            let activeCodexFilter = null;
+            // Helper function to create and append elements
+            const createAndAppend = (parent, tag, className, innerHTML = '') => {
+                const el = document.createElement(tag);
+                if (className) el.className = className;
+                el.innerHTML = innerHTML;
+                parent.appendChild(el);
+                return el;
+            };
 
-            const modules = [
-                {
-                    title: 'Mastering Plot',
-                    article: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
-                    assessment: {
-                        question: 'What is the inciting incident in a plot?',
-                        options: ['The climax', 'The event that sets the story in motion', 'The resolution'],
-                        correct: 1,
-                        feedback: 'Correct! The inciting incident is the event that disrupts the status quo and sets the protagonist on their journey.'
-                    }
-                },
-                {
-                    title: 'Crafting Dialogue',
-                    article: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
-                    assessment: {
-                        question: 'What is the primary purpose of dialogue?',
-                        options: ['To describe settings', 'To reveal character and advance the plot', 'To provide exposition only'],
-                        correct: 1,
-                        feedback: 'Correct! Dialogue should reveal character traits and move the story forward.'
-                    }
-                },
-                {
-                    title: 'Building Worlds',
-                    article: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
-                    assessment: {
-                        question: 'What is key to effective world-building?',
-                        options: ['Consistency and immersion', 'Random details', 'Overloading with information'],
-                        correct: 0,
-                        feedback: 'Correct! Consistency in rules and details helps immerse the reader in the world.'
-                    }
+            // Scriptorium Content
+            const renderScriptorium = () => {
+                academyContainer.innerHTML = '';
+                createAndAppend(academyContainer, 'h1', 'step-title', 'The Scriptorium');
+                const content = createAndAppend(academyContainer, 'div', 'scriptorium-content');
+                
+                const main = createAndAppend(content, 'div', 'scriptorium-main');
+                createAndAppend(main, 'h2', '', 'Table of Contents');
+                
+                // Grammar Section
+                createAndAppend(main, 'h3', '', 'Grammar');
+                createAndAppend(main, 'p', '', 'Learn the building blocks of clear and effective writing.');
+                createAndAppend(main, 'ul', '', `
+                    <li>Parts of Speech: Understanding nouns, verbs, adjectives, and more.</li>
+                    <li>Sentence Structure: Crafting simple, compound, and complex sentences.</li>
+                    <li>Subject-Verb Agreement: Ensuring harmony in your sentences.</li>
+                    <li>Active vs. Passive Voice: Bringing energy to your prose.</li>
+                `);
+                createAndAppend(main, 'blockquote', '', 'Example: "The cat chased the mouse" (active) vs. "The mouse was chased by the cat" (passive).');
+
+                // Punctuation Section
+                createAndAppend(main, 'h3', '', 'Punctuation');
+                createAndAppend(main, 'p', '', 'Master the art of punctuation to guide your reader.');
+                createAndAppend(main, 'ul', '', `
+                    <li>The Comma Splice: Avoiding run-on sentences.</li>
+                    <li>Mastering the Em Dash: Adding drama and clarity.</li>
+                    <li>Semicolon Secrets: Connecting ideas with precision.</li>
+                    <li>Parentheses and Brackets: Adding asides effectively.</li>
+                `);
+                createAndAppend(main, 'blockquote', '', 'Example: "She ran—faster than ever—toward the horizon."');
+
+                // Coherence Section
+                createAndAppend(main, 'h3', '', 'Coherence');
+                createAndAppend(main, 'p', '', 'Create seamless flow in your writing.');
+                createAndAppend(main, 'ul', '', `
+                    <li>Logical Flow: Organizing ideas for clarity.</li>
+                    <li>Transitions: Bridging sentences and paragraphs.</li>
+                    <li>Parallel Structure: Balancing your prose.</li>
+                    <li>Consistency in Tone: Maintaining a unified voice.</li>
+                `);
+
+                // IPA Module
+                createAndAppend(main, 'h3', '', 'The IPA Module');
+                createAndAppend(main, 'p', '', 'Discover the music of language with the International Phonetic Alphabet.');
+                createAndAppend(main, 'ul', '', `
+                    <li>Why IPA Matters: Understanding phonetic patterns for rhythm.</li>
+                    <li>Basic Symbols: Learning /ˈstres/, /ə/, and more.</li>
+                    <li>Poetry Applications: Crafting metrical patterns like iambs.</li>
+                    <li>Prose Rhythm: Enhancing dialogue and narrative flow.</li>
+                `);
+                createAndAppend(main, 'blockquote', '', 'Example: "To be /tə biː/ or not to be" reveals the iambic pulse.');
+
+                const sidebar = createAndAppend(content, 'div', 'scriptorium-sidebar');
+                createAndAppend(sidebar, 'h4', '', 'Marginalia');
+                createAndAppend(sidebar, 'p', '', 'Quick Tips: Use active voice for impact; em dashes add flair; IPA reveals rhythm.');
+                createAndAppend(sidebar, 'p', '', 'Diagram: Sentence structure tree—subject, predicate, clauses.');
+
+                const backBtn = createAndAppend(academyContainer, 'button', 'btn-secondary', 'Back to The Academy');
+                backBtn.addEventListener('click', renderFoyer);
+            };
+
+            // Crucible: Sentence Polisher
+            const renderSentencePolisher = () => {
+                academyContainer.innerHTML = '';
+                createAndAppend(academyContainer, 'h1', 'step-title', 'The Sentence Polisher');
+                const tool = createAndAppend(academyContainer, 'div', 'crucible-tool polisher-split');
+                
+                const input = createAndAppend(tool, 'div', 'polisher-input');
+                const textarea = createAndAppend(input, 'textarea', '', '');
+                textarea.placeholder = 'Paste your sentence here...';
+                
+                const output = createAndAppend(tool, 'div', 'polisher-output');
+                const outputText = createAndAppend(output, 'p', '', 'Your polished sentence will appear here.');
+                
+                const polishBtn = createAndAppend(tool, 'button', 'btn-primary', 'Reveal Polish');
+                
+                textarea.addEventListener('input', () => {
+                    const text = textarea.value;
+                    const issues = findIssues(text);
+                    const highlighted = highlightIssues(text, issues);
+                    textarea.innerHTML = highlighted;
+                    outputText.textContent = polishText(text, issues);
+                });
+
+                polishBtn.addEventListener('click', () => {
+                    output.classList.add('revealed');
+                    output.style.animation = 'unfold 600ms var(--transition)';
+                });
+
+                const backBtn = createAndAppend(academyContainer, 'button', 'btn-secondary', 'Back to The Academy');
+                backBtn.addEventListener('click', renderFoyer);
+            };
+
+            function findIssues(text) {
+                const adverbRegex = /\b(very|really|quite)\b/gi;
+                const passiveRegex = /\b(is|are|was|were)\s+\w+ed\b/gi;
+                let issues = [];
+                let match;
+
+                while ((match = adverbRegex.exec(text)) !== null) {
+                    issues.push({ type: 'adverb', word: match[0], index: match.index, suggestion: 'Remove or replace with a stronger verb.' });
                 }
-            ];
 
-            // Render module grid
-            function renderModules() {
-                moduleGrid.innerHTML = '';
-                modules.forEach(mod => {
-                    const card = document.createElement('div');
-                    card.classList.add('module-card');
-                    card.textContent = mod.title;
-                    card.addEventListener('click', () => {
-                        currentModule = mod;
-                        moduleGrid.style.display = 'none';
-                        articleView.style.display = 'block';
-                        articleContent.innerHTML = mod.article;
-                    });
-                    moduleGrid.appendChild(card);
-                });
+                while ((match = passiveRegex.exec(text)) !== null) {
+                    issues.push({ type: 'passive', word: match[0], index: match.index, suggestion: 'Rewrite in active voice.' });
+                }
+
+                return issues;
             }
 
-            // Render assessment
-            function renderAssessment() {
-                assessmentQuestion.textContent = currentModule.assessment.question;
-                optionsDiv.innerHTML = '';
-                currentModule.assessment.options.forEach((opt, idx) => {
-                    const btn = document.createElement('button');
-                    btn.classList.add('option-btn');
-                    btn.textContent = opt;
-                    btn.addEventListener('click', () => {
-                        feedback.textContent = idx === currentModule.assessment.correct ? currentModule.assessment.feedback : 'Incorrect. Try again or review the article.';
-                    });
-                    optionsDiv.appendChild(btn);
+            function highlightIssues(text, issues) {
+                let highlighted = text;
+                issues.sort((a, b) => b.index - a.index).forEach(issue => {
+                    const before = highlighted.slice(0, issue.index);
+                    const after = highlighted.slice(issue.index + issue.word.length);
+                    highlighted = `${before}<span class="polisher-issue" data-tooltip="${issue.suggestion}">${issue.word}</span>${after}`;
                 });
+                return highlighted;
             }
 
-            // View toggles
-            libraryToggle.addEventListener('click', () => {
-                libraryToggle.classList.add('active');
-                codexToggle.classList.remove('active');
-                libraryView.style.display = 'block';
-                codexView.style.display = 'none';
-            });
+            function polishText(text, issues) {
+                let polished = text;
+                issues.forEach(issue => {
+                    if (issue.type === 'adverb') {
+                        polished = polished.replace(new RegExp(`\\b${issue.word}\\b`, 'gi'), '');
+                    } else if (issue.type === 'passive') {
+                        polished = polished.replace(new RegExp(`\\b${issue.word}\\s+(\\w+ed)\\b`, 'gi'), 'actively $1');
+                    }
+                });
+                return polished.trim();
+            }
 
-            codexToggle.addEventListener('click', () => {
-                codexToggle.classList.add('active');
-                libraryToggle.classList.remove('active');
-                libraryView.style.display = 'none';
-                codexView.style.display = 'block';
-            });
+            // Crucible: Rhythm & Meter Lab
+            const renderRhythmMeterLab = () => {
+                academyContainer.innerHTML = '';
+                createAndAppend(academyContainer, 'h1', 'step-title', 'The Rhythm & Meter Lab');
+                const tool = createAndAppend(academyContainer, 'div', 'crucible-tool rhythm-canvas');
+                
+                const input = createAndAppend(tool, 'div', 'rhythm-input');
+                const textarea = createAndAppend(input, 'textarea', '', '');
+                textarea.placeholder = 'Paste your text here...';
+                
+                const wordsContainer = createAndAppend(tool, 'div', 'rhythm-words');
+                const visualizer = createAndAppend(tool, 'div', 'rhythm-visualizer');
+                const svg = createAndAppend(visualizer, 'svg', '');
+                svg.innerHTML = '<rect x="0" y="0" width="100%" height="100%" fill="none" stroke="#6A7A94" stroke-width="1"/>';
+                
+                const playBtn = createAndAppend(tool, 'button', 'btn-primary', 'Play Rhythm');
 
-            // Library navigation
-            backToModules.addEventListener('click', () => {
-                articleView.style.display = 'none';
-                moduleGrid.style.display = 'grid';
-            });
-
-            crucibleBtn.addEventListener('click', () => {
-                articleView.style.display = 'none';
-                assessmentView.style.display = 'block';
-                renderAssessment();
-            });
-
-            backToArticle.addEventListener('click', () => {
-                assessmentView.style.display = 'none';
-                articleView.style.display = 'block';
-                feedback.textContent = '';
-            });
-
-            // Codex
-            async function loadCodex() {
-                try {
-                    const response = await fetch('./foundry-data.json');
-                    if (!response.ok) throw new Error('Failed to load data');
-                    foundryData = await response.json();
-                    const allTypes = new Set(foundryData.caseStudies.map(cs => cs.element_type));
-                    const types = Array.from(allTypes).sort();
-
-                    codexFilter.innerHTML = '';
-                    types.forEach(type => {
-                        const span = document.createElement('span');
-                        span.classList.add('filter-tag');
-                        span.textContent = type;
-                        span.addEventListener('click', () => {
-                            activeCodexFilter = activeCodexFilter === type ? null : type;
-                            document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
-                            if (activeCodexFilter) span.classList.add('active');
-                            renderCodex();
+                let words = [];
+                
+                textarea.addEventListener('input', () => {
+                    words = textarea.value.trim().split(/\s+/);
+                    wordsContainer.innerHTML = '';
+                    words.forEach((word, i) => {
+                        const wordEl = createAndAppend(wordsContainer, 'span', 'rhythm-word', word);
+                        wordEl.dataset.index = i;
+                        wordEl.addEventListener('click', () => {
+                            wordEl.classList.toggle('stressed');
+                            updateVisualizer();
                         });
-                        codexFilter.appendChild(span);
                     });
-
-                    renderCodex();
-                } catch (error) {
-                    caseGrid.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
-                }
-            }
-
-            function renderCodex() {
-                caseGrid.innerHTML = '';
-                const filtered = activeCodexFilter ? foundryData.caseStudies.filter(cs => cs.element_type === activeCodexFilter) : foundryData.caseStudies;
-                filtered.forEach(cs => {
-                    const card = document.createElement('div');
-                    card.classList.add('case-card');
-                    card.innerHTML = `
-                        <h3>${cs.work} by ${cs.author}</h3>
-                        <p>Type: ${cs.element_type}</p>
-                        <div class="insight">${cs.insight}</div>
-                    `;
-                    caseGrid.appendChild(card);
+                    updateVisualizer();
                 });
-            }
 
-            // Init
-            renderModules();
-            loadCodex();
+                function updateVisualizer() {
+                    const stressed = wordsContainer.querySelectorAll('.stressed').length;
+                    const total = words.length || 1;
+                    const height = 100 / total;
+                    svg.innerHTML = '<rect x="0" y="0" width="100%" height="100%" fill="none" stroke="#6A7A94" stroke-width="1"/>';
+                    words.forEach((_, i) => {
+                        const isStressed = wordsContainer.children[i]?.classList.contains('stressed');
+                        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                        rect.setAttribute('x', `${i * (100 / total)}%`);
+                        rect.setAttribute('y', isStressed ? '25%' : '50%');
+                        rect.setAttribute('width', `${100 / total}%`);
+                        rect.setAttribute('height', isStressed ? '50%' : '25%');
+                        rect.setAttribute('fill', isStressed ? 'var(--accent-gold)' : 'var(--panel-cream)');
+                        svg.appendChild(rect);
+                    });
+                }
+
+                playBtn.addEventListener('click', () => {
+                    const utterance = new SpeechSynthesisUtterance(textarea.value);
+                    const stressedIndices = Array.from(wordsContainer.querySelectorAll('.rhythm-word'))
+                        .map((el, i) => el.classList.contains('stressed') ? i : -1)
+                        .filter(i => i !== -1);
+                    utterance.onboundary = (event) => {
+                        if (event.name === 'word') {
+                            const wordIndex = event.charIndex ? textarea.value.slice(0, event.charIndex).split(/\s+/).length - 1 : 0;
+                            utterance.pitch = stressedIndices.includes(wordIndex) ? 1.5 : 1.0;
+                        }
+                    };
+                    speechSynthesis.speak(utterance);
+                });
+
+                const backBtn = createAndAppend(academyContainer, 'button', 'btn-secondary', 'Back to The Academy');
+                backBtn.addEventListener('click', renderFoyer);
+            };
+
+            // Lyceum Placeholder
+            const renderLyceum = () => {
+                academyContainer.innerHTML = '';
+                createAndAppend(academyContainer, 'h1', 'step-title', 'The Lyceum');
+                createAndAppend(academyContainer, 'p', 'forge-container', 'Advanced study and deep dives into the craft are coming soon.');
+                const backBtn = createAndAppend(academyContainer, 'button', 'btn-secondary', 'Back to The Academy');
+                backBtn.addEventListener('click', renderFoyer);
+            };
+
+            // Grand Foyer
+            const renderFoyer = () => {
+                academyContainer.innerHTML = '';
+                createAndAppend(academyContainer, 'h1', 'step-title', 'The Academy');
+                const grid = createAndAppend(academyContainer, 'div', 'wing-grid');
+                const wings = [
+                    { id: 'scriptorium', name: 'The Scriptorium 📚', desc: 'The Library of Knowledge: Master the foundations of grammar, punctuation, and coherence.' },
+                    { id: 'crucible', name: 'The Crucible 🔥', desc: 'The Practice Workshop: Hone your craft through interactive exercises.' },
+                    { id: 'lyceum', name: 'The Lyceum ✨', desc: 'The Hall of Advanced Study: Deep dives into the art of writing.' }
+                ];
+
+                wings.forEach(wing => {
+                    const card = createAndAppend(grid, 'div', 'wing-card', '');
+                    card.dataset.wing = wing.id;
+                    createAndAppend(card, 'h3', '', wing.name);
+                    createAndAppend(card, 'p', '', wing.desc);
+                });
+
+                wingCards.forEach(card => {
+                    card.addEventListener('click', () => {
+                        const wing = card.dataset.wing;
+                        if (wing === 'scriptorium') renderScriptorium();
+                        else if (wing === 'crucible') renderCrucibleMenu();
+                        else renderLyceum();
+                    });
+                });
+            };
+
+            // Crucible Menu
+            const renderCrucibleMenu = () => {
+                academyContainer.innerHTML = '';
+                createAndAppend(academyContainer, 'h1', 'step-title', 'The Crucible');
+                const grid = createAndAppend(academyContainer, 'div', 'wing-grid');
+                const tools = [
+                    { id: 'polisher', name: 'The Sentence Polisher', desc: 'Refine your sentences to shine with clarity and strength.' },
+                    { id: 'rhythm', name: 'The Rhythm & Meter Lab', desc: 'Discover the music of your words through phonetic rhythm.' }
+                ];
+
+                tools.forEach(tool => {
+                    const card = createAndAppend(grid, 'div', 'wing-card', '');
+                    card.dataset.tool = tool.id;
+                    createAndAppend(card, 'h3', '', tool.name);
+                    createAndAppend(card, 'p', '', tool.desc);
+                    card.addEventListener('click', () => {
+                        if (tool.id === 'polisher') renderSentencePolisher();
+                        else renderRhythmMeterLab();
+                    });
+                });
+
+                const backBtn = createAndAppend(academyContainer, 'button', 'btn-secondary', 'Back to The Academy');
+                backBtn.addEventListener('click', renderFoyer);
+            };
+
+            // Initialize
+            renderFoyer();
+
+            // Attach event listeners to wing cards after DOM load
+            document.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll('.wing-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const wing = card.dataset.wing;
+                        if (wing === 'scriptorium') renderScriptorium();
+                        else if (wing === 'crucible') renderCrucibleMenu();
+                        else renderLyceum();
+                    });
+                });
+            });
         })();
     </script>
 </body>
