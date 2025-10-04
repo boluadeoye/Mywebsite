@@ -13,6 +13,7 @@
             --text-muted: #666666;
             --font-body: 'Times New Roman', serif;
             --font-ui: 'Arial', sans-serif;
+            --accent-ink: #f5f5dc; /* Assuming this is a light color for links on dark bg */
         }
 
         body {
@@ -26,7 +27,7 @@
             min-height: 100vh;
         }
 
-        nav.header {
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -35,48 +36,62 @@
             border-bottom: 1px solid var(--accent-gold);
         }
 
-        .exit-arrow {
+        .nav-exit-link {
             color: var(--panel-cream);
             text-decoration: none;
             font-size: 1.2rem;
         }
 
-        .exit-arrow:hover {
+        .nav-exit-link:hover {
             color: var(--accent-gold);
         }
 
-        .brand {
+        .nav-brand h2 {
+            margin: 0;
             font-size: 1.5rem;
             color: var(--accent-gold);
         }
 
+        /* --- Page Layout & Header --- */
+        .hub-container {
+            max-width: 900px;
+            margin: 48px auto;
+            padding: 0 24px;
+            text-align: center;
+        }
+
         .back-link {
-            padding: 8px 24px;
-            color: var(--panel-cream);
+            display: block;
+            text-align: left;
+            color: var(--accent-ink);
             text-decoration: none;
-            font-size: 1.1rem;
+            margin-bottom: 24px;
         }
 
         .back-link:hover {
             color: var(--accent-gold);
         }
 
-        h1 {
-            text-align: center;
+        .hub-title {
+            font-family: var(--font-body);
             font-size: 2.5rem;
-            color: var(--panel-cream);
-            margin: 24px 0;
+            color: var(--panel-cream); /* Adjusted for visibility on dark bg */
+            margin-bottom: 48px;
         }
 
+        /* --- Card Container (CRITICAL for Layout) --- */
         .hub-card-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 24px;
+            justify-content: center;
+            align-items: stretch; /* Ensures cards are same height if descriptions differ */
+            flex-wrap: wrap; /* Allows cards to stack on mobile */
+            gap: 32px; /* Space between cards */
         }
 
+        /* --- The Perfect Card Styling --- */
         .academy-card {
-            display: block;
+            display: flex;
+            flex-direction: column;
             background: var(--panel-cream);
             padding: 24px 32px;
             border-radius: 12px;
@@ -86,8 +101,14 @@
             text-decoration: none;
             color: var(--text-dark);
             transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
             max-width: 400px;
-            margin: 24px auto;
+        }
+
+        @media (min-width: 768px) {
+            .academy-card {
+                width: calc(50% - 16px); /* Two cards side-by-side on desktop */
+            }
         }
 
         .academy-card:hover {
@@ -111,25 +132,34 @@
             font-family: var(--font-ui);
             color: var(--text-muted);
             line-height: 1.6;
+            flex-grow: 1; /* Allows paragraph to fill space, aligning buttons */
         }
     </style>
 </head>
 <body>
-    <nav class="header">
-        <a href="index.html" class="exit-arrow">← Exit to Main Website</a>
-        <div class="brand">The Academy</div>
+    <nav>
+        <a href="https://boluadeoye.vercel.app/" class="nav-exit-link" title="Return to Main Website">←</a>
+        <div class="nav-brand">
+            <h2>The Academy</h2>
+        </div>
     </nav>
-    <a href="academy.html" class="back-link">← Back to The Academy</a>
-    <h1>The Crucible 🔥</h1>
-    <div class="hub-card-container">
-        <a href="./alchemist-lens.html" class="academy-card">
-            <h2>🔬 The Alchemist's Lens</h2>
-            <p>A sophisticated workbench for sentence transformation and creative exploration.</p>
-        </a>
-        <a href="./rhythm-lab.html" class="academy-card">
-            <h2>🎼 The Rhythm & Meter Lab</h2>
-            <p>An immersive canvas for visualizing and hearing the music of your words.</p>
-        </a>
-    </div>
+
+    <main class="hub-container">
+        <a href="./academy.html" class="back-link">← Back to The Academy</a>
+        
+        <h1 class="hub-title">The Crucible 🔥</h1>
+        
+        <div class="hub-card-container">
+            <a href="./alchemist-lens.html" class="academy-card">
+                <h2>🔬 The Alchemist's Lens</h2>
+                <p>A sophisticated workbench for sentence transformation and creative exploration.</p>
+            </a>
+
+            <a href="./rhythm-lab.html" class="academy-card">
+                <h2>🎼 The Rhythm & Meter Lab</h2>
+                <p>An immersive canvas for visualizing and hearing the music of your words.</p>
+            </a>
+        </div>
+    </main>
 </body>
 </html>
