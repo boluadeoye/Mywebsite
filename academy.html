@@ -3,74 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Academy</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <title>The Academy - The Writer's Foundry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-slate: #2D3748;
             --panel-cream: #F7FAFC;
             --accent-gold: #D69E2E;
+            --accent-gold-hover: #ECC94B;
             --accent-ink: #6A7A94;
             --text-dark: #2D3748;
             --text-muted: #718096;
             --panel-cream-text: #F7FAFC;
+            --font-body: 'Lora', serif;
+            --font-ui: 'Inter', sans-serif;
+            --transition: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
+            font-family: var(--font-ui);
             background-color: var(--bg-slate);
-            font-family: 'Inter', sans-serif;
             color: var(--panel-cream-text);
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
+            min-height: var(--app-height, 100dvh);
         }
 
-        nav {
+        /* AESTHETIC: Staggered entry animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav {
             position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
-            background-color: var(--bg-slate);
+            background: var(--bg-slate);
             border-bottom: 1px solid var(--accent-ink);
-            padding: 1rem 2rem;
+            z-index: 1000;
+            padding: 0 24px;
+        }
+
+        .nav .wrap {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 1000;
+            height: 64px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        nav a {
+        .nav-brand {
             display: flex;
             align-items: center;
-            text-decoration: none;
-            color: var(--panel-cream-text);
+            gap: 12px;
         }
 
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .nav-logo svg {
+        .nav-brand svg {
             width: 32px;
             height: 32px;
         }
 
-        .nav-logo span {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 600;
+        .nav-brand h2 {
+            font-family: var(--font-ui);
+            font-size: 1.5rem;
+            color: var(--panel-cream-text);
+            font-weight: 700;
         }
 
-        .back-arrow svg {
-            width: 24px;
-            height: 24px;
+        .nav-exit-link svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--accent-ink);
+            stroke-width: 1.5;
+            transition: stroke 200ms var(--transition);
+        }
+
+        .nav-exit-link:hover svg {
+            stroke: var(--accent-gold-hover);
         }
 
         main {
@@ -79,121 +103,139 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 6rem 2rem 2rem;
-        }
-
-        h1 {
-            font-family: 'Lora', serif;
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: var(--panel-cream-text);
-            text-align: center;
-        }
-
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            padding: 96px 0 32px 0;
             width: 100%;
-            max-width: 1200px;
-            padding: 0 1rem;
         }
 
-        .card {
-            background-color: var(--panel-cream);
-            border: 2px solid var(--accent-gold);
-            border-radius: 12px;
-            padding: 1.5rem;
+        .main-title {
+            font-family: var(--font-body);
+            font-size: 2.75rem;
             text-align: center;
+            margin-bottom: 48px;
+            animation: fadeIn 600ms var(--transition) forwards;
+            opacity: 0;
+        }
+
+        .wing-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px; /* AESTHETIC: Increased vertical spacing */
+            width: 100%;
+            max-width: 500px;
+            padding: 0 24px;
+        }
+
+        .academy-card {
+            background: var(--panel-cream);
+            padding: 32px; /* AESTHETIC: Increased internal padding */
+            border-radius: 16px;
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             text-decoration: none;
             color: var(--text-dark);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 300ms var(--transition), box-shadow 300ms var(--transition);
+            opacity: 0;
+            animation: fadeIn 600ms var(--transition) forwards;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(214, 158, 46, 0.2);
+        /* AESTHETIC: Staggered animation delay */
+        .academy-card:nth-child(1) { animation-delay: 200ms; }
+        .academy-card:nth-child(2) { animation-delay: 300ms; }
+        .academy-card:nth-child(3) { animation-delay: 400ms; }
+
+
+        .academy-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(214, 158, 46, 0.25); /* AESTHETIC: Enhanced hover glow */
         }
 
-        .card h2 {
-            font-family: 'Lora', serif;
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-dark);
+        .academy-card h2 {
+            color: var(--accent-gold);
+            font-family: var(--font-body);
+            font-size: 1.9rem; /* AESTHETIC: Larger title font */
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            white-space: nowrap; /* FIX: Keep title on one line */
         }
 
-        .card p {
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
+        .academy-card p {
+            font-family: var(--font-ui);
             color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 400px;
         }
 
-        footer {
-            background-color: var(--bg-slate);
-            padding: 1rem;
+        .main-footer {
+            padding: 2rem 1rem;
             text-align: center;
-            color: var(--panel-cream-text);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
         }
 
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
+        .main-footer p {
+            font-size: 0.9rem;
+            /* FIX: Refined footer text color and opacity */
+            color: var(--accent-ink);
+            opacity: 0.7;
+        }
 
-            .card-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .card {
-                padding: 1rem;
-            }
-
-            .card h2 {
-                font-size: 1.25rem;
-            }
-
-            .card p {
-                font-size: 0.9rem;
+        /* AESTHETIC: Responsive layout for larger screens */
+        @media (min-width: 768px) {
+            .wing-grid {
+                max-width: 1200px;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 32px;
             }
         }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="https://boluadeoye.vercel.app/" class="back-arrow">
-            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2">
-                <path d="M15 18l-6-6 6-6"/>
-            </svg>
-        </a>
-        <a href="#" class="nav-logo">
-            <svg viewBox="0 0 32 32">
-                <path d="M8 24 Q10 20 12 16 Q14 12 16 8 Q18 12 20 16 Q22 20 24 24 M16 8 V4 M16 4 L12 6 M16 4 L20 6" stroke="var(--accent-gold)" stroke-width="2" fill="none"/>
-            </svg>
-            <span>The Academy</span>
-        </a>
+    <nav class="nav">
+        <div class="wrap">
+            <a href="https://boluadeoye.vercel.app/" class="nav-exit-link" title="Return to Main Website">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+            <div class="nav-brand">
+                <svg viewBox="0 0 32 32">
+                    <path d="M8 24 Q10 20 12 16 Q14 12 16 8 Q18 12 20 16 Q22 20 24 24 M16 8 V4 M16 4 L12 6 M16 4 L20 6" stroke="var(--accent-gold)" stroke-width="2" fill="none"/>
+                </svg>
+                <h2>The Academy</h2>
+            </div>
+        </div>
     </nav>
+
     <main>
-        <h1>The Academy</h1>
-        <div class="card-grid">
-            <a href="./lyceum.html" class="card">
+        <h1 class="main-title">The Academy</h1>
+        <div class="wing-grid">
+            <a href="./lyceum.html" class="academy-card">
                 <h2>✨ The Lyceum</h2>
                 <p>The Hall of Advanced Study: Deep dives into the art of writing.</p>
             </a>
-            <a href="./rhythm-lab.html" class="card">
+            <a href="./rhythm-lab.html" class="academy-card">
                 <h2>🎼 The Rhythm & Meter Lab</h2>
                 <p>An immersive canvas for visualizing and hearing the music of your words.</p>
             </a>
-            <a href="./scriptorium.html" class="card">
+            <a href="./scriptorium.html" class="academy-card">
                 <h2>📚 The Scriptorium</h2>
                 <p>The Library of Knowledge: Master the foundations of grammar, punctuation, and coherence.</p>
             </a>
         </div>
     </main>
-    <footer>
-        © 2025 Boluadeoye • Crafted with passion
+
+    <footer class="main-footer">
+        <p>© 2025 Boluadeoye • Crafted with passion</p>
     </footer>
+
+    <script>
+        const setAppHeight = () => {
+            const doc = document.documentElement;
+            doc.style.setProperty('--app-height', `${window.innerHeight}px`);
+        };
+        window.addEventListener('resize', setAppHeight);
+        setAppHeight();
+    </script>
 </body>
 </html>
