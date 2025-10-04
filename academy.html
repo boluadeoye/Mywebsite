@@ -33,7 +33,7 @@
             color: var(--text-dark);
             display: flex;
             flex-direction: column;
-            min-height: 100dvh; /* FIX: Use dvh for mobile-friendly height */
+            min-height: var(--app-height, 100dvh);
             padding-top: 64px;
             animation: subtle-texture 30s linear infinite;
         }
@@ -270,5 +270,14 @@
     <footer class="main-footer">
         <p>© 2025 Boluadeoye • Crafted with passion</p>
     </footer>
+
+    <script>
+        const setAppHeight = () => {
+            const doc = document.documentElement;
+            doc.style.setProperty('--app-height', `${window.innerHeight}px`);
+        };
+        window.addEventListener('resize', setAppHeight);
+        setAppHeight();
+    </script>
 </body>
 </html>
