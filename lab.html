@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Lab - The Writer's Foundry</title>
+    <title>The Academy</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -11,11 +11,12 @@
             --panel-cream: #F7FAFC;
             --accent-gold: #D69E2E;
             --accent-gold-hover: #ECC94B;
-            --text-cream: #EDF2F7;
+            --accent-ink: #6A7A94;
             --text-dark: #2D3748;
             --text-muted: #718096;
-            --border-color: #4A5568;
-            --transition: cubic-bezier(0.4, 0, 0.2, 1);
+            --color-success: #2F855A;
+            --font-body: 'Lora', serif;
+            --font-ui: 'Inter', sans-serif;
         }
 
         * {
@@ -24,7 +25,7 @@
 
         body {
             margin: 0;
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-ui);
             background: var(--bg-slate) url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmQDeuv3powQ5ta2eN0FY0InkqDD73lT9c9lEzwUNqgFHs9VQce3TVClFCQrSTfOiYkVJQBmpbq2L6iZavPnAPcoU0dSw0SUTqz/GtrGuXfbyyBniKykOWQWGqwwMA7QiYAxi+IlPdqo+hYHnUt5ZPfnsHJyNiDtnpJyayNBkF6cWoYGAMY92U2hXHF/C1M8uP/ZtYdiuj26UdAdQQSXQErwSOMzt/XWRWAz5GuSBIkwG1H3FabJ2OsUOUhGC6tK4EMtJO0ttC6IBD3kM0ve0tJwMdSfjZo+EEISaeTr9P3wYrGjXqyC1krcKdhMpxEnt5JetoulscpyzhXN5FRpuPHvbeQaKxFAEB6EN+cYN6xD7RYGpXpNndMmZgM5Dcs3YSNFDHUo2LGfZuukSWyUYirJAdYbF3MfqEKmjM+I2EfhA94iG3L7uKrR+GdWD73ydlIB+6hgrefQTlmgmbM3/LeX5GI1Ux1RWpgxpLuZ2+I+IjzZ8wqE4nilvQdkUdfhzI5QDWy+kw5Wgg2pGpeEVeCCA7b85BO3F9DzxB3cdqvBzWcmzbyMiqhzuYqtHRVG2y4x+KOlnyqla8AoWWpuBoYRxzXrfKuILl6SfiWCbjxoZJUaCBj1CjH7GIaDbc9kqBY3W/Rgjda1iqQcOJu2WW+76pZC9QG7M00dffe9hNnseupFL53r8F7YHSwJWUKP2q+k7RdsxyOB11n0xtOvnW4irMMFNV4H0uqwS5ExsmP9AxbDTc9JwgneAT5vTiUSm1E7BSflSt3bfa1tv8Di3R8n3Af7MNWzs49hmauE2wP+ttrq+AsWpFG2awvsuOqbipWHgtuvuaAE+A1Z/7gC9hesnr+7wqCwG8c5yAg3AL1fm8T9AZtp/bbJGwl1pNrE7RuOX7PeMRUERVaPpEs+yqeoSmuOlokqw49pgomjLeh7icHNlG19yjs6XXOMedYm5xH2YxpV2tc0Ro2jJfxC50ApuxGob7lMsxfTbeUv07TyYxpeLucEH1gNd4IKH2LAg5TdVhlCafZvpskfncCfx8pOhJzd76bJWeYFnFciwcYfubRc12Ip/ppIhA1/mSZ/RxjFDrJC5xifFjJpY2Xl5zXdguFqYyTR1zSp1Y9p+tktDYYSNflcxI0iyO4TPBdlRcpeqjK/piF5bklq77VSEaA+z8qmB0O9/uCHRypsNl0661f59sw2TG4S9T5rPStcbQbpDQThZk1/SQq2o+2oJo4B6BUFeMGoKOW6DpXL0GyqLUmHIyRO7x2K0qpfKbrcO/UsozSc9uwex1MVCAJeORlSB9IOiGlD0xsWHox2LNAJi0Xx1HnEceLON8gFyfLpApkstUF0VlNhr+HmCwUprEenmn+Ul6UzxQcRtg33Klbr5lD4khqMsLy4wfDqLnA7AtWgOW0k3RYRerk5YSlpVcjyMAdR1mn6/WKjJ4DM7C1TlkSkBrkmQJ6wc1yLAge9LHzwJItRJf+Dr3cdA5P7eNdmWjxzYIOTm5i3Snyg0ekdIEcwxh6rniMh1vzryMnc4Y5nJZBkV5B2lGUVzsquSquqC/ZbGWCovBWcOY0r2EL9JkDnoQgw9cXSjooo2ALXoBvwiC8lYthOZ/E5O/XW3r2EuclBNAzNbMSK3J3JJMmKvPnhJSV/OJALUMuK4DwdnC/j5+YvKXWNkjBNgiQrZH73t6U4O/uvDwyWSi19DrTGWrJ4t3NdK3bse2LTgApWa/cj9W3+0YzsIDA0M1UOQlaBniqHQ4mYeSxdhmCmZoyPxcoYTkkVi5Z2niVKL4EMAQ7KRLengZoM1yjJO9Tb2AA5WC4fGqgfTuJr8WJhiAqz5/Mrcue2AAAAABJRU5KI") repeat;
             color: var(--text-dark);
             display: flex;
@@ -510,12 +511,8 @@
                 const worlds = [...new Set(foundryData.components.characters.map(c => c.world))];
                 const worldDetails = worlds.map(w => ({
                     id: w,
-                    name: foundryData.components.characters.find(c => c.world === w)?.world === 'delta-punk' 
-                        ? 'Delta-Punk Port Harcourt' 
-                        : 'The Benin Empire Space Guild',
-                    description: foundryData.components.characters.find(c => c.world === w)?.world === 'delta-punk'
-                        ? 'A vibrant, gritty fusion of Afro-futurism and eco-punk.'
-                        : 'An alternate history where bronze mastery guides star-farers.'
+                    name: w === 'delta-punk' ? 'Delta-Punk Port Harcourt' : 'The Benin Empire Space Guild',
+                    description: w === 'delta-punk' ? 'A vibrant, gritty fusion of Afro-futurism and eco-punk.' : 'An alternate history where bronze mastery guides star-farers.'
                 }));
 
                 const grid = createAndAppend(stepContainer, 'div', 'world-grid');
@@ -538,7 +535,7 @@
                 foundryContainer.innerHTML = '';
                 const stepContainer = createAndAppend(foundryContainer, 'div', 'step-container forge-container');
                 const title = currentMode === 'pure-mode' 
-                    ? `Forge an Idea in ${foundryData.components.characters.find(c => c.world === currentWorld)?.world === 'delta-punk' ? 'Delta-Punk Port Harcourt' : 'The Benin Empire Space Guild'}`
+                    ? `Forge an Idea in ${currentWorld === 'delta-punk' ? 'Delta-Punk Port Harcourt' : 'The Benin Empire Space Guild'}`
                     : 'Forge an Alchemical Idea';
                 createAndAppend(stepContainer, 'h2', 'step-title', title);
 
@@ -553,6 +550,7 @@
 
                 const forgeBtn = createAndAppend(stepContainer, 'button', 'btn-primary', 'Forge a New Idea');
                 forgeBtn.addEventListener('click', () => {
+                    let character, setting, conflict, tension;
                     if (currentMode === 'pure-mode') {
                         const worldComponents = {
                             characters: foundryData.components.characters.filter(c => c.world === currentWorld),
@@ -560,17 +558,18 @@
                             conflicts: foundryData.components.conflicts.filter(c => c.world === currentWorld),
                             tensions: foundryData.components.tensions.filter(t => t.world === currentWorld)
                         };
-                        currentGeneratedIdea = {
-                            character: getRandomItem(worldComponents.characters),
-                            setting: getRandomItem(worldComponents.settings),
-                            conflict: getRandomItem(worldComponents.conflicts),
-                            tension: getRandomItem(worldComponents.tensions)
-                        };
+                        character = getRandomItem(worldComponents.characters);
+                        setting = getRandomItem(worldComponents.settings);
+                        conflict = getRandomItem(worldComponents.conflicts);
+                        tension = getRandomItem(worldComponents.tensions);
                     } else {
-                        const character = getRandomItem(foundryData.components.characters);
-                        const { setting, conflict, tension } = getCompatibleComponents(character, foundryData.components, foundryData.rules);
-                        currentGeneratedIdea = { character, setting, conflict, tension };
+                        character = getRandomItem(foundryData.components.characters);
+                        const compatible = getCompatibleComponents(character, foundryData.components, foundryData.rules);
+                        setting = compatible.setting;
+                        conflict = compatible.conflict;
+                        tension = compatible.tension;
                     }
+                    currentGeneratedIdea = { character, setting, conflict, tension };
                     renderForgeView();
                 });
 
@@ -657,4 +656,4 @@
         })();
     </script>
 </body>
-</html>
+</htm>
