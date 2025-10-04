@@ -35,7 +35,6 @@
             min-height: var(--app-height, 100dvh);
         }
 
-        /* AESTHETIC: Staggered entry animation */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -103,15 +102,17 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 96px 0 32px 0;
+            /* COMPACT REVISION: Reduced top padding */
+            padding: 88px 0 32px 0;
             width: 100%;
         }
 
         .main-title {
             font-family: var(--font-body);
-            font-size: 2.75rem;
+            font-size: 2.5rem;
             text-align: center;
-            margin-bottom: 48px;
+            /* COMPACT REVISION: Tightened spacing */
+            margin-bottom: 40px;
             animation: fadeIn 600ms var(--transition) forwards;
             opacity: 0;
         }
@@ -119,15 +120,18 @@
         .wing-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 24px; /* AESTHETIC: Increased vertical spacing */
+            /* COMPACT REVISION: Tightened spacing */
+            gap: 20px;
             width: 100%;
+            /* COMPACT REVISION: Constrain max-width on mobile for a compact feel */
             max-width: 500px;
             padding: 0 24px;
         }
 
         .academy-card {
             background: var(--panel-cream);
-            padding: 32px; /* AESTHETIC: Increased internal padding */
+            /* COMPACT REVISION: Reduced internal padding */
+            padding: 24px;
             border-radius: 16px;
             border: 2px solid var(--accent-gold);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -138,7 +142,6 @@
             animation: fadeIn 600ms var(--transition) forwards;
         }
 
-        /* AESTHETIC: Staggered animation delay */
         .academy-card:nth-child(1) { animation-delay: 200ms; }
         .academy-card:nth-child(2) { animation-delay: 300ms; }
         .academy-card:nth-child(3) { animation-delay: 400ms; }
@@ -146,18 +149,19 @@
 
         .academy-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 10px 30px rgba(214, 158, 46, 0.25); /* AESTHETIC: Enhanced hover glow */
+            box-shadow: 0 10px 30px rgba(214, 158, 46, 0.25);
         }
 
         .academy-card h2 {
             color: var(--accent-gold);
             font-family: var(--font-body);
-            font-size: 1.9rem; /* AESTHETIC: Larger title font */
+            /* COMPACT REVISION: Reduced font size */
+            font-size: 1.7rem;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 16px;
-            white-space: nowrap; /* FIX: Keep title on one line */
+            white-space: nowrap;
         }
 
         .academy-card p {
@@ -174,12 +178,10 @@
 
         .main-footer p {
             font-size: 0.9rem;
-            /* FIX: Refined footer text color and opacity */
             color: var(--accent-ink);
             opacity: 0.7;
         }
 
-        /* AESTHETIC: Responsive layout for larger screens */
         @media (min-width: 768px) {
             .wing-grid {
                 max-width: 1200px;
