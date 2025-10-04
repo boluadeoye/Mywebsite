@@ -118,10 +118,18 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
+        .step-title {
+            font-size: 2.5rem;
+            font-family: var(--font-body);
+            color: var(--text-dark);
+            text-align: center;
+            margin-bottom: 24px;
+        }
 
         .wing-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 24px;
             margin-bottom: 24px;
         }
@@ -152,7 +160,7 @@
             align-items: center;
             justify-content: center;
             gap: 12px;
-            white-space: nowrap;
+            white-space: nowrap; /* CRITICAL FIX FOR TYPOGRAPHY */
         }
 
         .academy-card p {
@@ -202,6 +210,12 @@
         .main-footer p {
             font-size: 0.9rem;
             color: var(--text-muted);
+        }
+
+        @media (max-width: 1024px) {
+            .wing-grid {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            }
         }
 
         @media (max-width: 768px) {
