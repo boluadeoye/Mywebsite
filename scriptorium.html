@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Scriptorium - The Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-slate: #2D3748;
+            --panel-cream: #F7FAFC;
+            --accent-gold: #D69E2E;
+            --accent-gold-hover: #ECC94B;
+            --accent-ink: #6A7A94;
+            --text-dark: #2D3748;
+            --text-muted: #718096;
+            --font-body: 'Lora', serif;
+            --font-ui: 'Inter', sans-serif;
+            --transition: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--font-ui);
+            background: var(--bg-slate);
+            background-image: linear-gradient(135deg, rgba(45, 55, 72, 0.95), rgba(45, 55, 72, 0.85)), url("data:image/png;base64,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");
+            background-size: cover, 100px 100px;
+            background-blend-mode: overlay;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: 64px;
+            animation: subtle-texture 30s linear infinite;
+        }
+
+        @keyframes subtle-texture {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 0 0, 100px 100px; }
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--bg-slate);
+            border-bottom: 1px solid var(--accent-ink);
+            z-index: 1000;
+        }
+
+        .nav .wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-brand svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--accent-gold);
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .nav-brand h2 {
+            font-family: var(--font-ui);
+            font-size: 1.5rem;
+            color: var(--panel-cream);
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .nav-exit-link svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent-ink);
+            stroke-width: 1.5;
+            transition: stroke 200ms;
+        }
+
+        .nav-exit-link:hover svg {
+            stroke: var(--accent-gold);
+        }
+
+        #scriptorium {
+            max-width: 1200px;
+            width: 100%;
+            background: var(--panel-cream);
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            animation: fade-in 600ms var(--transition);
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-ink);
+            font-family: var(--font-ui);
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 8px;
+            margin-bottom: 24px;
+            transition: color 200ms var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--accent-gold);
+        }
+
+        .back-link svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 1.5;
+        }
+
+        .manuscript-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 48px;
+            max-width: 1100px;
+            margin: 48px auto;
+        }
+
+        .manuscript-main {
+            font-family: var(--font-body);
+            line-height: 1.6;
+        }
+
+        .manuscript-main h1 {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            font-family: var(--font-ui);
+            text-align: center;
+            margin: 0 0 32px;
+        }
+
+        .toc-nav {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .toc-nav a {
+            color: var(--accent-ink);
+            font-family: var(--font-ui);
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: background 200ms var(--transition), color 200ms var(--transition);
+        }
+
+        .toc-nav a:hover {
+            background: var(--accent-gold);
+            color: var(--bg-slate);
+        }
+
+        .manuscript-main h2 {
+            font-size: 1.8rem;
+            color: var(--accent-gold);
+            margin: 32px 0 16px;
+        }
+
+        .manuscript-main h3 {
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            margin: 24px 0 12px;
+        }
+
+        .manuscript-main p {
+            color: var(--text-muted);
+            margin: 0 0 16px;
+            opacity: 0;
+            transition: opacity 600ms ease-in-out;
+        }
+
+        .manuscript-main p.is-visible {
+            opacity: 1;
+        }
+
+        .manuscript-main blockquote {
+            border-left: 4px solid var(--accent-gold);
+            padding-left: 16px;
+            margin: 16px 0;
+            font-style: italic;
+            color: var(--text-muted);
+        }
+
+        .manuscript-sidebar {
+            background: var(--bg-slate);
+            padding: 24px;
+            border-radius: 8px;
+            color: var(--panel-cream);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+        }
+
+        .manuscript-sidebar h4 {
+            font-size: 1.1rem;
+            color: var(--accent-gold);
+            margin: 0 0 16px;
+        }
+
+        .manuscript-sidebar p {
+            margin: 0 0 16px;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 600ms ease-in-out, transform 600ms ease-in-out;
+        }
+
+        .manuscript-sidebar p.is-visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .main-footer {
+            padding: 2rem 0;
+            background: var(--bg-slate);
+            border-top: 1px solid var(--accent-ink);
+            text-align: center;
+        }
+
+        .main-footer p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .manuscript-container {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                margin: 24px auto;
+            }
+
+            .manuscript-sidebar {
+                order: -1;
+            }
+
+            #scriptorium {
+                padding: 24px;
+            }
+
+            .toc-nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="wrap">
+            <a href="https://boluadeoye.vercel.app/" class="nav-exit-link" title="Return to Main Website">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+            <div class="nav-brand">
+                <svg viewBox="0 0 32 32">
+                    <path d="M8 24 Q10 20 12 16 Q14 12 16 8 Q18 12 20 16 Q22 20 24 24 M16 8 V4 M16 4 L12 6 M16 4 L20 6" stroke="var(--accent-gold)" stroke-width="2" fill="none"/>
+                </svg>
+                <h2>The Academy</h2>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="scriptorium">
+            <a href="./academy.html" class="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to The Academy
+            </a>
+            <h1>The Scriptorium</h1>
+            <nav class="toc-nav">
+                <a href="#grammar">Grammar</a>
+                <a href="#punctuation">Punctuation</a>
+                <a href="#coherence">Coherence</a>
+            </nav>
+            <div class="manuscript-container">
+                <div class="manuscript-main">
+                    <section id="grammar">
+                        <h2>Grammar</h2>
+                        <h3>Parts of Speech</h3>
+                        <p class="paragraph-fade-in">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <h3>Sentence Structure</h3>
+                        <p class="paragraph-fade-in">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <h3>Subject-Verb Agreement</h3>
+                        <p class="paragraph-fade-in">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                        <h3>Active vs. Passive Voice</h3>
+                        <p class="paragraph-fade-in">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <blockquote>Example: "The cat chased the mouse" (active) vs. "The mouse was chased by the cat" (passive).</blockquote>
+                    </section>
+                    <section id="punctuation">
+                        <h2>Punctuation</h2>
+                        <h3>The Comma Splice</h3>
+                        <p class="paragraph-fade-in">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <h3>Mastering the Em Dash</h3>
+                        <p class="paragraph-fade-in">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <h3>Semicolon Secrets</h3>
+                        <p class="paragraph-fade-in">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                        <h3>Parentheses and Brackets</h3>
+                        <p class="paragraph-fade-in">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <blockquote>Example: "She ran—faster than ever—toward the horizon."</blockquote>
+                    </section>
+                    <section id="coherence">
+                        <h2>Coherence</h2>
+                        <h3>Logical Flow</h3>
+                        <p class="paragraph-fade-in">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <h3>Transitions</h3>
+                        <p class="paragraph-fade-in">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <h3>Parallel Structure</h3>
+                        <p class="paragraph-fade-in">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                        <h3>Consistency in Tone</h3>
+                        <p class="paragraph-fade-in">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </section>
+                </div>
+                <div class="manuscript-sidebar">
+                    <h4>Marginalia</h4>
+                    <p>Quick Tips: Use active voice for impact; em dashes add flair; IPA reveals rhythm.</p>
+                    <p>Diagram: Sentence structure tree—subject, predicate, clauses.</p>
+                    <p>Historical Note: Medieval scribes often annotated manuscripts with witty remarks.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>© 2025 Boluadeoye • Crafted with passion</p>
+    </footer>
+
+    <script>
+        // Ink-Settle and Marginalia Animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            document.querySelectorAll('.paragraph-fade-in, .manuscript-sidebar p').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('.toc-nav a').forEach(anchor => {
+                anchor.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = anchor.getAttribute('href').substring(1);
+                    const target = document.getElementById(targetId);
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
