@@ -119,14 +119,40 @@
             box-shadow: 0 8px 25px rgba(214, 158, 46, 0.2);
         }
 
-        .card h2 {
+        .card-lyceum h2 {
+            font-family: 'Lora', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-gold);
+        }
+
+        .card-lyceum p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .card-rhythm h2 {
             font-family: 'Lora', serif;
             font-size: 1.5rem;
             margin-bottom: 1rem;
             color: var(--text-dark);
         }
 
-        .card p {
+        .card-rhythm p {
+            color: var(--accent-ink);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .card-scriptorium h2 {
+            font-family: 'Lora', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-ink);
+        }
+
+        .card-scriptorium p {
             color: var(--text-muted);
             line-height: 1.6;
             margin: 0;
@@ -134,7 +160,8 @@
 
         footer {
             background: var(--bg-slate);
-            color: var(--panel-cream-text);
+            color: var(--text-dark);
+            opacity: 0.6;
             text-align: center;
             padding: 1rem;
             margin-top: auto;
@@ -170,7 +197,9 @@
                 padding: 1.5rem;
             }
 
-            .card h2 {
+            .card-lyceum h2,
+            .card-rhythm h2,
+            .card-scriptorium h2 {
                 font-size: 1.25rem;
             }
         }
@@ -193,15 +222,15 @@
     <main>
         <h1>The Academy</h1>
         <div class="cards-grid">
-            <a href="./lyceum.html" class="card">
+            <a href="./lyceum.html" class="card card-lyceum">
                 <h2>✨ The Lyceum</h2>
                 <p>The Hall of Advanced Study: Deep dives into the art of writing.</p>
             </a>
-            <a href="./rhythm-lab.html" class="card">
+            <a href="./rhythm-lab.html" class="card card-rhythm">
                 <h2>🎼 The Rhythm & Meter Lab</h2>
                 <p>An immersive canvas for visualizing and hearing the music of your words.</p>
             </a>
-            <a href="./scriptorium.html" class="card">
+            <a href="./scriptorium.html" class="card card-scriptorium">
                 <h2>📚 The Scriptorium</h2>
                 <p>The Library of Knowledge: Master the foundations of grammar, punctuation, and coherence.</p>
             </a>
