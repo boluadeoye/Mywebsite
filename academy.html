@@ -113,13 +113,14 @@
             padding: 32px;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            position: relative;
-            animation: fade-in 600ms var(--transition);
         }
 
-        @keyframes fade-in {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
         }
 
         .wing-grid {
@@ -386,6 +387,30 @@
             color: var(--bg-slate);
         }
 
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: none;
+            color: var(--accent-gold);
+            font-family: var(--font-ui);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 8px;
+            margin: 16px 0;
+        }
+
+        .back-button:hover {
+            color: var(--accent-gold-hover);
+        }
+
+        .back-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
         .main-footer {
             padding: 2rem 0;
             background: var(--bg-slate);
@@ -437,20 +462,147 @@
 
     <main>
         <section id="academy">
-            <h1 class="step-title">The Academy</h1>
-            <div class="wing-grid">
-                <div class="wing-card" data-wing="scriptorium">
-                    <h3>The Scriptorium 📚</h3>
-                    <p>The Library of Knowledge: Master the foundations of grammar, punctuation, and coherence.</p>
+            <div id="foyer-view" class="view active">
+                <h1 class="step-title">The Academy</h1>
+                <div class="wing-grid">
+                    <div class="wing-card" id="scriptorium-card">
+                        <h3>The Scriptorium 📚</h3>
+                        <p>The Library of Knowledge: Master the foundations of grammar, punctuation, and coherence.</p>
+                    </div>
+                    <div class="wing-card" id="crucible-card">
+                        <h3>The Crucible 🔥</h3>
+                        <p>The Practice Workshop: Hone your craft through interactive exercises.</p>
+                    </div>
+                    <div class="wing-card" id="lyceum-card">
+                        <h3>The Lyceum ✨</h3>
+                        <p>The Hall of Advanced Study: Deep dives into the art of writing.</p>
+                    </div>
                 </div>
-                <div class="wing-card" data-wing="crucible">
-                    <h3>The Crucible 🔥</h3>
-                    <p>The Practice Workshop: Hone your craft through interactive exercises.</p>
+            </div>
+            <div id="scriptorium-view" class="view">
+                <button class="back-button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to The Academy
+                </button>
+                <div class="scriptorium-content">
+                    <div class="scriptorium-main">
+                        <h2>Table of Contents</h2>
+                        <h3>Grammar</h3>
+                        <p>Learn the building blocks of clear and effective writing.</p>
+                        <ul>
+                            <li>Parts of Speech: Understanding nouns, verbs, adjectives, and more.</li>
+                            <li>Sentence Structure: Crafting simple, compound, and complex sentences.</li>
+                            <li>Subject-Verb Agreement: Ensuring harmony in your sentences.</li>
+                            <li>Active vs. Passive Voice: Bringing energy to your prose.</li>
+                        </ul>
+                        <blockquote>Example: "The cat chased the mouse" (active) vs. "The mouse was chased by the cat" (passive).</blockquote>
+                        <h3>Punctuation</h3>
+                        <p>Master the art of punctuation to guide your reader.</p>
+                        <ul>
+                            <li>The Comma Splice: Avoiding run-on sentences.</li>
+                            <li>Mastering the Em Dash: Adding drama and clarity.</li>
+                            <li>Semicolon Secrets: Connecting ideas with precision.</li>
+                            <li>Parentheses and Brackets: Adding asides effectively.</li>
+                        </ul>
+                        <blockquote>Example: "She ran—faster than ever—toward the horizon."</blockquote>
+                        <h3>Coherence</h3>
+                        <p>Create seamless flow in your writing.</p>
+                        <ul>
+                            <li>Logical Flow: Organizing ideas for clarity.</li>
+                            <li>Transitions: Bridging sentences and paragraphs.</li>
+                            <li>Parallel Structure: Balancing your prose.</li>
+                            <li>Consistency in Tone: Maintaining a unified voice.</li>
+                        </ul>
+                        <h3>The IPA Module</h3>
+                        <p>Discover the music of language with the International Phonetic Alphabet.</p>
+                        <ul>
+                            <li>Why IPA Matters: Understanding phonetic patterns for rhythm.</li>
+                            <li>Basic Symbols: Learning /ˈstres/, /ə/, and more.</li>
+                            <li>Poetry Applications: Crafting metrical patterns like iambs.</li>
+                            <li>Prose Rhythm: Enhancing dialogue and narrative flow.</li>
+                        </ul>
+                        <blockquote>Example: "To be /tə biː/ or not to be" reveals the iambic pulse.</blockquote>
+                    </div>
+                    <div class="scriptorium-sidebar">
+                        <h4>Marginalia</h4>
+                        <p>Quick Tips: Use active voice for impact; em dashes add flair; IPA reveals rhythm.</p>
+                        <p>Diagram: Sentence structure tree—subject, predicate, clauses.</p>
+                    </div>
                 </div>
-                <div class="wing-card" data-wing="lyceum">
-                    <h3>The Lyceum ✨</h3>
-                    <p>The Hall of Advanced Study: Deep dives into the art of writing.</p>
+            </div>
+            <div id="crucible-view" class="view">
+                <button class="back-button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to The Academy
+                </button>
+                <div class="wing-grid">
+                    <div class="wing-card" id="polisher-card">
+                        <h3>The Sentence Polisher</h3>
+                        <p>Refine your sentences to shine with clarity and strength.</p>
+                    </div>
+                    <div class="wing-card" id="rhythm-card">
+                        <h3>The Rhythm & Meter Lab</h3>
+                        <p>Discover the music of your words through phonetic rhythm.</p>
+                    </div>
                 </div>
+            </div>
+            <div id="polisher-view" class="view">
+                <button class="back-button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to The Academy
+                </button>
+                <h1 class="step-title">The Sentence Polisher</h1>
+                <div class="crucible-tool polisher-split">
+                    <div class="polisher-input">
+                        <textarea placeholder="Paste your sentence here..."></textarea>
+                    </div>
+                    <div class="polisher-output">
+                        <p>Your polished sentence will appear here.</p>
+                    </div>
+                    <button class="btn-primary">Reveal Polish</button>
+                </div>
+            </div>
+            <div id="rhythm-view" class="view">
+                <button class="back-button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to The Academy
+                </button>
+                <h1 class="step-title">The Rhythm & Meter Lab</h1>
+                <div class="crucible-tool rhythm-canvas">
+                    <div class="rhythm-input">
+                        <textarea placeholder="Paste your text here..."></textarea>
+                    </div>
+                    <div class="rhythm-words"></div>
+                    <div class="rhythm-visualizer">
+                        <svg>
+                            <rect x="0" y="0" width="100%" height="100%" fill="none" stroke="#6A7A94" stroke-width="1"/>
+                        </svg>
+                    </div>
+                    <button class="btn-primary">Play Rhythm</button>
+                </div>
+            </div>
+            <div id="lyceum-view" class="view">
+                <button class="back-button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to The Academy
+                </button>
+                <h1 class="step-title">The Lyceum</h1>
+                <p class="forge-container">Advanced study and deep dives into the craft are coming soon.</p>
             </div>
         </section>
     </main>
@@ -461,10 +613,20 @@
 
     <script>
         (function() {
-            const academyContainer = document.getElementById('academy');
-            const wingCards = document.querySelectorAll('.wing-card');
+            // View Management Function
+            function showView(viewId) {
+                document.querySelectorAll('.view').forEach(view => {
+                    view.style.display = 'none';
+                    view.classList.remove('active');
+                });
+                const activeView = document.getElementById(viewId);
+                if (activeView) {
+                    activeView.style.display = 'block';
+                    activeView.classList.add('active');
+                }
+            }
 
-            // Helper function to create and append elements
+            // Helper function to create and append elements (for dynamic content in Crucible tools)
             const createAndAppend = (parent, tag, className, innerHTML = '') => {
                 const el = document.createElement(tag);
                 if (className) el.className = className;
@@ -473,82 +635,12 @@
                 return el;
             };
 
-            // Scriptorium Content
-            const renderScriptorium = () => {
-                academyContainer.innerHTML = '';
-                createAndAppend(academyContainer, 'h1', 'step-title', 'The Scriptorium');
-                const content = createAndAppend(academyContainer, 'div', 'scriptorium-content');
-                
-                const main = createAndAppend(content, 'div', 'scriptorium-main');
-                createAndAppend(main, 'h2', '', 'Table of Contents');
-                
-                // Grammar Section
-                createAndAppend(main, 'h3', '', 'Grammar');
-                createAndAppend(main, 'p', '', 'Learn the building blocks of clear and effective writing.');
-                createAndAppend(main, 'ul', '', `
-                    <li>Parts of Speech: Understanding nouns, verbs, adjectives, and more.</li>
-                    <li>Sentence Structure: Crafting simple, compound, and complex sentences.</li>
-                    <li>Subject-Verb Agreement: Ensuring harmony in your sentences.</li>
-                    <li>Active vs. Passive Voice: Bringing energy to your prose.</li>
-                `);
-                createAndAppend(main, 'blockquote', '', 'Example: "The cat chased the mouse" (active) vs. "The mouse was chased by the cat" (passive).');
+            // Sentence Polisher Logic
+            function setupSentencePolisher() {
+                const textarea = document.querySelector('#polisher-view textarea');
+                const outputText = document.querySelector('#polisher-view .polisher-output p');
+                const polishBtn = document.querySelector('#polisher-view .btn-primary');
 
-                // Punctuation Section
-                createAndAppend(main, 'h3', '', 'Punctuation');
-                createAndAppend(main, 'p', '', 'Master the art of punctuation to guide your reader.');
-                createAndAppend(main, 'ul', '', `
-                    <li>The Comma Splice: Avoiding run-on sentences.</li>
-                    <li>Mastering the Em Dash: Adding drama and clarity.</li>
-                    <li>Semicolon Secrets: Connecting ideas with precision.</li>
-                    <li>Parentheses and Brackets: Adding asides effectively.</li>
-                `);
-                createAndAppend(main, 'blockquote', '', 'Example: "She ran—faster than ever—toward the horizon."');
-
-                // Coherence Section
-                createAndAppend(main, 'h3', '', 'Coherence');
-                createAndAppend(main, 'p', '', 'Create seamless flow in your writing.');
-                createAndAppend(main, 'ul', '', `
-                    <li>Logical Flow: Organizing ideas for clarity.</li>
-                    <li>Transitions: Bridging sentences and paragraphs.</li>
-                    <li>Parallel Structure: Balancing your prose.</li>
-                    <li>Consistency in Tone: Maintaining a unified voice.</li>
-                `);
-
-                // IPA Module
-                createAndAppend(main, 'h3', '', 'The IPA Module');
-                createAndAppend(main, 'p', '', 'Discover the music of language with the International Phonetic Alphabet.');
-                createAndAppend(main, 'ul', '', `
-                    <li>Why IPA Matters: Understanding phonetic patterns for rhythm.</li>
-                    <li>Basic Symbols: Learning /ˈstres/, /ə/, and more.</li>
-                    <li>Poetry Applications: Crafting metrical patterns like iambs.</li>
-                    <li>Prose Rhythm: Enhancing dialogue and narrative flow.</li>
-                `);
-                createAndAppend(main, 'blockquote', '', 'Example: "To be /tə biː/ or not to be" reveals the iambic pulse.');
-
-                const sidebar = createAndAppend(content, 'div', 'scriptorium-sidebar');
-                createAndAppend(sidebar, 'h4', '', 'Marginalia');
-                createAndAppend(sidebar, 'p', '', 'Quick Tips: Use active voice for impact; em dashes add flair; IPA reveals rhythm.');
-                createAndAppend(sidebar, 'p', '', 'Diagram: Sentence structure tree—subject, predicate, clauses.');
-
-                const backBtn = createAndAppend(academyContainer, 'button', 'btn-secondary', 'Back to The Academy');
-                backBtn.addEventListener('click', renderFoyer);
-            };
-
-            // Crucible: Sentence Polisher
-            const renderSentencePolisher = () => {
-                academyContainer.innerHTML = '';
-                createAndAppend(academyContainer, 'h1', 'step-title', 'The Sentence Polisher');
-                const tool = createAndAppend(academyContainer, 'div', 'crucible-tool polisher-split');
-                
-                const input = createAndAppend(tool, 'div', 'polisher-input');
-                const textarea = createAndAppend(input, 'textarea', '', '');
-                textarea.placeholder = 'Paste your sentence here...';
-                
-                const output = createAndAppend(tool, 'div', 'polisher-output');
-                const outputText = createAndAppend(output, 'p', '', 'Your polished sentence will appear here.');
-                
-                const polishBtn = createAndAppend(tool, 'button', 'btn-primary', 'Reveal Polish');
-                
                 textarea.addEventListener('input', () => {
                     const text = textarea.value;
                     const issues = findIssues(text);
@@ -558,13 +650,11 @@
                 });
 
                 polishBtn.addEventListener('click', () => {
+                    const output = document.querySelector('#polisher-view .polisher-output');
                     output.classList.add('revealed');
                     output.style.animation = 'unfold 600ms var(--transition)';
                 });
-
-                const backBtn = createAndAppend(academyContainer, 'button', 'btn-secondary', 'Back to The Academy');
-                backBtn.addEventListener('click', renderFoyer);
-            };
+            }
 
             function findIssues(text) {
                 const adverbRegex = /\b(very|really|quite)\b/gi;
@@ -605,25 +695,14 @@
                 return polished.trim();
             }
 
-            // Crucible: Rhythm & Meter Lab
-            const renderRhythmMeterLab = () => {
-                academyContainer.innerHTML = '';
-                createAndAppend(academyContainer, 'h1', 'step-title', 'The Rhythm & Meter Lab');
-                const tool = createAndAppend(academyContainer, 'div', 'crucible-tool rhythm-canvas');
-                
-                const input = createAndAppend(tool, 'div', 'rhythm-input');
-                const textarea = createAndAppend(input, 'textarea', '', '');
-                textarea.placeholder = 'Paste your text here...';
-                
-                const wordsContainer = createAndAppend(tool, 'div', 'rhythm-words');
-                const visualizer = createAndAppend(tool, 'div', 'rhythm-visualizer');
-                const svg = createAndAppend(visualizer, 'svg', '');
-                svg.innerHTML = '<rect x="0" y="0" width="100%" height="100%" fill="none" stroke="#6A7A94" stroke-width="1"/>';
-                
-                const playBtn = createAndAppend(tool, 'button', 'btn-primary', 'Play Rhythm');
-
+            // Rhythm & Meter Lab Logic
+            function setupRhythmMeterLab() {
+                const textarea = document.querySelector('#rhythm-view textarea');
+                const wordsContainer = document.querySelector('#rhythm-view .rhythm-words');
+                const visualizer = document.querySelector('#rhythm-view .rhythm-visualizer svg');
+                const playBtn = document.querySelector('#rhythm-view .btn-primary');
                 let words = [];
-                
+
                 textarea.addEventListener('input', () => {
                     words = textarea.value.trim().split(/\s+/);
                     wordsContainer.innerHTML = '';
@@ -639,10 +718,8 @@
                 });
 
                 function updateVisualizer() {
-                    const stressed = wordsContainer.querySelectorAll('.stressed').length;
                     const total = words.length || 1;
-                    const height = 100 / total;
-                    svg.innerHTML = '<rect x="0" y="0" width="100%" height="100%" fill="none" stroke="#6A7A94" stroke-width="1"/>';
+                    visualizer.innerHTML = '<rect x="0" y="0" width="100%" height="100%" fill="none" stroke="#6A7A94" stroke-width="1"/>';
                     words.forEach((_, i) => {
                         const isStressed = wordsContainer.children[i]?.classList.contains('stressed');
                         const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
@@ -651,7 +728,7 @@
                         rect.setAttribute('width', `${100 / total}%`);
                         rect.setAttribute('height', isStressed ? '50%' : '25%');
                         rect.setAttribute('fill', isStressed ? 'var(--accent-gold)' : 'var(--panel-cream)');
-                        svg.appendChild(rect);
+                        visualizer.appendChild(rect);
                     });
                 }
 
@@ -668,86 +745,40 @@
                     };
                     speechSynthesis.speak(utterance);
                 });
+            }
 
-                const backBtn = createAndAppend(academyContainer, 'button', 'btn-secondary', 'Back to The Academy');
-                backBtn.addEventListener('click', renderFoyer);
-            };
-
-            // Lyceum Placeholder
-            const renderLyceum = () => {
-                academyContainer.innerHTML = '';
-                createAndAppend(academyContainer, 'h1', 'step-title', 'The Lyceum');
-                createAndAppend(academyContainer, 'p', 'forge-container', 'Advanced study and deep dives into the craft are coming soon.');
-                const backBtn = createAndAppend(academyContainer, 'button', 'btn-secondary', 'Back to The Academy');
-                backBtn.addEventListener('click', renderFoyer);
-            };
-
-            // Grand Foyer
-            const renderFoyer = () => {
-                academyContainer.innerHTML = '';
-                createAndAppend(academyContainer, 'h1', 'step-title', 'The Academy');
-                const grid = createAndAppend(academyContainer, 'div', 'wing-grid');
-                const wings = [
-                    { id: 'scriptorium', name: 'The Scriptorium 📚', desc: 'The Library of Knowledge: Master the foundations of grammar, punctuation, and coherence.' },
-                    { id: 'crucible', name: 'The Crucible 🔥', desc: 'The Practice Workshop: Hone your craft through interactive exercises.' },
-                    { id: 'lyceum', name: 'The Lyceum ✨', desc: 'The Hall of Advanced Study: Deep dives into the art of writing.' }
-                ];
-
-                wings.forEach(wing => {
-                    const card = createAndAppend(grid, 'div', 'wing-card', '');
-                    card.dataset.wing = wing.id;
-                    createAndAppend(card, 'h3', '', wing.name);
-                    createAndAppend(card, 'p', '', wing.desc);
-                });
-
-                wingCards.forEach(card => {
-                    card.addEventListener('click', () => {
-                        const wing = card.dataset.wing;
-                        if (wing === 'scriptorium') renderScriptorium();
-                        else if (wing === 'crucible') renderCrucibleMenu();
-                        else renderLyceum();
-                    });
-                });
-            };
-
-            // Crucible Menu
-            const renderCrucibleMenu = () => {
-                academyContainer.innerHTML = '';
-                createAndAppend(academyContainer, 'h1', 'step-title', 'The Crucible');
-                const grid = createAndAppend(academyContainer, 'div', 'wing-grid');
-                const tools = [
-                    { id: 'polisher', name: 'The Sentence Polisher', desc: 'Refine your sentences to shine with clarity and strength.' },
-                    { id: 'rhythm', name: 'The Rhythm & Meter Lab', desc: 'Discover the music of your words through phonetic rhythm.' }
-                ];
-
-                tools.forEach(tool => {
-                    const card = createAndAppend(grid, 'div', 'wing-card', '');
-                    card.dataset.tool = tool.id;
-                    createAndAppend(card, 'h3', '', tool.name);
-                    createAndAppend(card, 'p', '', tool.desc);
-                    card.addEventListener('click', () => {
-                        if (tool.id === 'polisher') renderSentencePolisher();
-                        else renderRhythmMeterLab();
-                    });
-                });
-
-                const backBtn = createAndAppend(academyContainer, 'button', 'btn-secondary', 'Back to The Academy');
-                backBtn.addEventListener('click', renderFoyer);
-            };
-
-            // Initialize
-            renderFoyer();
-
-            // Attach event listeners to wing cards after DOM load
+            // Initialize Event Listeners
             document.addEventListener('DOMContentLoaded', () => {
-                document.querySelectorAll('.wing-card').forEach(card => {
-                    card.addEventListener('click', () => {
-                        const wing = card.dataset.wing;
-                        if (wing === 'scriptorium') renderScriptorium();
-                        else if (wing === 'crucible') renderCrucibleMenu();
-                        else renderLyceum();
+                // Main menu card listeners
+                document.getElementById('scriptorium-card').addEventListener('click', () => {
+                    showView('scriptorium-view');
+                });
+                document.getElementById('crucible-card').addEventListener('click', () => {
+                    showView('crucible-view');
+                });
+                document.getElementById('lyceum-card').addEventListener('click', () => {
+                    showView('lyceum-view');
+                });
+                document.getElementById('polisher-card').addEventListener('click', () => {
+                    showView('polisher-view');
+                });
+                document.getElementById('rhythm-card').addEventListener('click', () => {
+                    showView('rhythm-view');
+                });
+
+                // Back button listeners
+                document.querySelectorAll('.back-button').forEach(button => {
+                    button.addEventListener('click', () => {
+                        showView('foyer-view');
                     });
                 });
+
+                // Initialize Crucible tools
+                setupSentencePolisher();
+                setupRhythmMeterLab();
+
+                // Show initial view
+                showView('foyer-view');
             });
         })();
     </script>
