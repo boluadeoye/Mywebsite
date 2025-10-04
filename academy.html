@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Academy - The Writer's Foundry</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-slate: #2D3748;
@@ -14,8 +16,8 @@
             --accent-ink: #6A7A94;
             --text-dark: #2D3748;
             --text-muted: #718096;
-            --font-body: 'Lora', serif;
-            --font-ui: 'Inter', sans-serif;
+            --font-body: 'Playfair Display', serif;
+            --font-ui: 'Source Sans Pro', sans-serif;
             --transition: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -119,6 +121,14 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        .step-title {
+            font-size: 2.5rem;
+            font-family: var(--font-body);
+            color: var(--text-dark);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
         .wing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -202,6 +212,7 @@
         .main-footer p {
             font-size: 0.9rem;
             color: var(--text-muted);
+            font-family: var(--font-ui);
         }
 
         @media (max-width: 768px) {
@@ -241,9 +252,9 @@
                     <h2><span class="icon icon-scriptorium">📚</span> The Scriptorium</h2>
                     <p>The Library of Knowledge: Master the foundations of grammar, punctuation, and coherence.</p>
                 </a>
-                <a href="./crucible.html" class="academy-card">
-                    <h2><span class="icon icon-crucible">🔥</span> The Crucible</h2>
-                    <p>The Practice Workshop: Hone your craft through interactive exercises.</p>
+                <a href="./rhythm-lab.html" class="academy-card">
+                    <h2><span class="icon icon-crucible">🎼</span> The Rhythm & Meter Lab</h2>
+                    <p>An immersive canvas for visualizing and hearing the music of your words.</p>
                 </a>
                 <a href="./lyceum.html" class="academy-card">
                     <h2><span class="icon icon-lyceum">✨</span> The Lyceum</h2>
