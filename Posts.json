@@ -1,22 +1,5 @@
 [
   {
-  "file": "posts/the-grace-of-the-fire-a-devotional.md",
-  "title": "The Grace of the Fire: Finding Purpose in Our Trials",
-  "excerpt": "A Sunday morning devotional reflecting on Joni Eareckson Tada's story and how God uses our most challenging moments to forge new purpose and strength within us.",
-  "meta_description": "Explore the powerful truth that God's grace is present not just in rescue, but in refining. A devotional inspired by Joni Eareckson Tada's journey of finding purpose through adversity.",
-  "date": "2025-10-05",
-  "type": "devotional",
-  "minutes": 3,
-  "cover": "images/fire.jpg",
-  "views": 0,
-  "featured": false
-  "reflection_prompts": [
-    "Reflect on a 'fire' in your past. How did God's grace manifest in the midst of it, even if subtly?",
-    "What is one current challenge you are facing that God might be using to prepare you for something new?",
-    "How can embracing your trials, rather than just enduring them, shift your perspective on God's work in your life?"
-  ]
-  },
-  {
     "file": "posts/the-four-mirrors.md",
     "title": "The Four Mirrors of the Self",
     "excerpt": "Pride is often mistaken for confidence, and humility for weakness. An examination of pride, humility, high self-esteem, and low self-esteem to find our true worth.",
@@ -25,7 +8,7 @@
     "minutes": 7,
     "cover": "images/mirrors-cover.jpg",
     "views": 0,
-    "featured": false
+    "featured": true
   },
   {
     "file": "posts/finding-purpose-in-waiting.md",
@@ -36,7 +19,7 @@
     "minutes": 4,
     "cover": "images/finding-purpose-in-waiting.jpg",
     "views": 0,
-    "featured": true
+    "featured": false
   },
   {
     "file": "posts/a-light-in-the-shadows.md",
@@ -47,7 +30,7 @@
     "minutes": 3,
     "cover": "images/Light.jpg",
     "views": 0,
-    "featured": false
+    "featured": false,
     "reflection_prompts": [
       "What is a 'small flame'—a moment of hope or a promise—that God has provided for you in a past or present 'dark room'?",
       "How does the truth that 'the darkness has not overcome it' encourage you today?",
