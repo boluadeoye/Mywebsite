@@ -1,0 +1,31 @@
+/* --- FONT IMPORTS --- */
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700&family=Source+Sans+Pro:wght@400;600&display=swap');
+
+/* --- CSS VARIABLES (THEME) --- */
+/* This is a sophisticated practice for managing our theme in one place. */
+:root {
+    --dark-slate: #2D3748;
+    --parchment: #FDFDFD;
+    --gold-accent: #D4AF37;
+    --green-accent: #8A9A5B;
+    --light-slate: #A0AEC0;
+    --border-color: #E2E8F0;
+
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Lora', serif;
+    --font-ui: 'Source Sans Pro', sans-serif;
+}
+
+/* --- GENERAL RESET & DEFAULTS --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--parchment);
+    color: var(--dark-slate);
+    line-height: 1.6;
+}
