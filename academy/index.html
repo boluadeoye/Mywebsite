@@ -27,7 +27,6 @@
         .difficulty-advanced { color: var(--accent-gold); }
         .difficulty-indicator { display: inline-flex; align-items: center; gap: 0.5rem; }
 
-        /* Floating CTA Button Styling */
         .floating-cta {
             position: fixed;
             bottom: 2rem;
@@ -75,7 +74,6 @@
             </div>
 
             <div id="lessons-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Lessons will be loaded here by JavaScript -->
                 <p class="col-span-full text-center ui-font text-gray-500">Loading lessons...</p>
             </div>
         </div>
@@ -86,7 +84,7 @@
     </footer>
 
     <!-- Floating CTA Button -->
-    <a href="#" class="floating-cta ui-font font-bold flex items-center gap-2">
+    <a href="./login.html" class="floating-cta ui-font font-bold flex items-center gap-2">
         <i data-feather="unlock" class="w-5 h-5"></i>
         <span>Unlock Premium</span>
     </a>
@@ -96,12 +94,11 @@
             const grid = document.getElementById('lessons-grid');
 
             try {
-                // This requires a 'data' folder with 'free-lessons.json' inside it.
                 const response = await fetch('data/free-lessons.json');
                 if (!response.ok) throw new Error('Network error while fetching lessons.');
                 
                 const lessons = await response.json();
-                grid.innerHTML = ''; // Clear the "Loading..." message
+                grid.innerHTML = ''; 
 
                 lessons.forEach(lesson => {
                     const card = document.createElement('a');
