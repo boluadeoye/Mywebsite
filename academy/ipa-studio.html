@@ -56,7 +56,7 @@
         </div>
     </main>
     <script>
-        // --- COMPLETE JAVASCRIPT LOGIC FOR IPA PHONETICS STUDIO ---
+        // --- COMPLETE JAVASCRIPT LOGIC FOR IPA PHONETICS STUDIO (CORRECTED) ---
 
         // Gatekeeper: Redirects if not logged in.
         if (localStorage.getItem('academy_premium_token') !== 'true') {
@@ -66,56 +66,13 @@
         document.addEventListener('DOMContentLoaded', () => {
             feather.replace();
             
-            // --- DATA: All IPA symbols, examples, and audio file names ---
+            // --- DATA: All IPA symbols and examples ---
             const ipaData = {
-                vowels: [
-                    { symbol: 'iː', example: 'b<STRONG>ee</STRONG>t', description: 'Long high front vowel' },
-                    { symbol: 'ɪ', example: 'b<STRONG>i</STRONG>t', description: 'Short high front vowel' },
-                    { symbol: 'e', example: 'b<STRONG>e</STRONG>t', description: 'Mid front vowel' },
-                    { symbol: 'æ', example: 'b<STRONG>a</STRONG>t', description: 'Low front vowel' },
-                    { symbol: 'ɑː', example: 'f<STRONG>a</STRONG>ther', description: 'Long low back vowel' },
-                    { symbol: 'ɒ', example: 'p<STRONG>o</STRONG>t', description: 'Short low back rounded vowel' },
-                    { symbol: 'ɔː', example: 'c<STRONG>augh</STRONG>t', description: 'Long mid back rounded vowel' },
-                    { symbol: 'ʊ', example: 'p<STRONG>u</STRONG>t', description: 'Short high back rounded vowel' },
-                    { symbol: 'uː', example: 'b<STRONG>oo</STRONG>t', description: 'Long high back rounded vowel' },
-                    { symbol: 'ʌ', example: 'c<STRONG>u</STRONG>t', description: 'Mid central vowel' },
-                    { symbol: 'ɜː', example: 'b<STRONG>ir</STRONG>d', description: 'Long mid central vowel' },
-                    { symbol: 'ə', example: '<STRONG>a</STRONG>bout', description: 'Schwa - unstressed mid central vowel' }
-                ],
-                diphthongs: [
-                    { symbol: 'eɪ', example: 'b<STRONG>ay</STRONG>', description: 'Closing diphthong' },
-                    { symbol: 'aɪ', example: 'b<STRONG>uy</STRONG>', description: 'Closing diphthong' },
-                    { symbol: 'ɔɪ', example: 'b<STRONG>oy</STRONG>', description: 'Closing diphthong' },
-                    { symbol: 'aʊ', example: 'n<STRONG>ow</STRONG>', description: 'Closing diphthong' },
-                    { symbol: 'əʊ', example: 'g<STRONG>o</STRONG>', description: 'Closing diphthong' }
-                ],
-                consonants: [
-                    { symbol: 'p', example: '<STRONG>p</STRONG>it', description: 'Voiceless bilabial plosive' },
-                    { symbol: 'b', example: '<STRONG>b</STRONG>it', description: 'Voiced bilabial plosive' },
-                    { symbol: 't', example: '<STRONG>t</STRONG>in', description: 'Voiceless alveolar plosive' },
-                    { symbol: 'd', example: '<STRONG>d</STRONG>in', description: 'Voiced alveolar plosive' },
-                    { symbol: 'k', example: '<STRONG>c</STRONG>ut', description: 'Voiceless velar plosive' },
-                    { symbol: 'g', example: '<STRONG>g</STRONG>ut', description: 'Voiced velar plosive' },
-                    { symbol: 'f', example: '<STRONG>f</STRONG>an', description: 'Voiceless labiodental fricative' },
-                    { symbol: 'v', example: '<STRONG>v</STRONG>an', description: 'Voiced labiodental fricative' },
-                    { symbol: 'θ', example: '<STRONG>th</STRONG>in', description: 'Voiceless dental fricative' },
-                    { symbol: 'ð', example: '<STRONG>th</STRONG>is', description: 'Voiced dental fricative' },
-                    { symbol: 's', example: '<STRONG>s</STRONG>ip', description: 'Voiceless alveolar fricative' },
-                    { symbol: 'z', example: '<STRONG>z</STRONG>ip', description: 'Voiced alveolar fricative' },
-                    { symbol: 'ʃ', example: '<STRONG>sh</STRONG>ip', description: 'Voiceless postalveolar fricative' },
-                    { symbol: 'ʒ', example: 'mea<STRONG>s</STRONG>ure', description: 'Voiced postalveolar fricative' },
-                    { symbol: 'h', example: '<STRONG>h</STRONG>at', description: 'Voiceless glottal fricative' },
-                    { symbol: 'm', example: '<STRONG>m</STRONG>ap', description: 'Voiced bilabial nasal' },
-                    { symbol: 'n', example: '<STRONG>n</STRONG>ap', description: 'Voiced alveolar nasal' },
-                    { symbol: 'ŋ', example: 'si<STRONG>ng</STRONG>', description: 'Voiced velar nasal' },
-                    { symbol: 'l', example: '<STRONG>l</STRONG>id', description: 'Voiced alveolar lateral approximant' },
-                    { symbol: 'r', example: '<STRONG>r</STRONG>id', description: 'Voiced postalveolar approximant' },
-                    { symbol: 'w', example: '<STRONG>w</STRONG>et', description: 'Voiced labiovelar approximant' },
-                    { symbol: 'j', example: '<STRONG>y</STRONG>et', description: 'Voiced palatal approximant' }
-                ]
+                vowels: [ { symbol: 'iː', example: 'b<STRONG>ee</STRONG>t', description: 'Long high front vowel' }, { symbol: 'ɪ', example: 'b<STRONG>i</STRONG>t', description: 'Short high front vowel' }, { symbol: 'e', example: 'b<STRONG>e</STRONG>t', description: 'Mid front vowel' }, { symbol: 'æ', example: 'b<STRONG>a</STRONG>t', description: 'Low front vowel' }, { symbol: 'ɑː', example: 'f<STRONG>a</STRONG>ther', description: 'Long low back vowel' }, { symbol: 'ɒ', example: 'p<STRONG>o</STRONG>t', description: 'Short low back rounded vowel' }, { symbol: 'ɔː', example: 'c<STRONG>augh</STRONG>t', description: 'Long mid back rounded vowel' }, { symbol: 'ʊ', example: 'p<STRONG>u</STRONG>t', description: 'Short high back rounded vowel' }, { symbol: 'uː', example: 'b<STRONG>oo</STRONG>t', description: 'Long high back rounded vowel' }, { symbol: 'ʌ', example: 'c<STRONG>u</STRONG>t', description: 'Mid central vowel' }, { symbol: 'ɜː', example: 'b<STRONG>ir</STRONG>d', description: 'Long mid central vowel' }, { symbol: 'ə', example: '<STRONG>a</STRONG>bout', description: 'Schwa - unstressed mid central vowel' } ],
+                diphthongs: [ { symbol: 'eɪ', example: 'b<STRONG>ay</STRONG>', description: 'Closing diphthong' }, { symbol: 'aɪ', example: 'b<STRONG>uy</STRONG>', description: 'Closing diphthong' }, { symbol: 'ɔɪ', example: 'b<STRONG>oy</STRONG>', description: 'Closing diphthong' }, { symbol: 'aʊ', example: 'n<STRONG>ow</STRONG>', description: 'Closing diphthong' }, { symbol: 'əʊ', example: 'g<STRONG>o</STRONG>', description: 'Closing diphthong' } ],
+                consonants: [ { symbol: 'p', example: '<STRONG>p</STRONG>it', description: 'Voiceless bilabial plosive' }, { symbol: 'b', example: '<STRONG>b</STRONG>it', description: 'Voiced bilabial plosive' }, { symbol: 't', example: '<STRONG>t</STRONG>in', description: 'Voiceless alveolar plosive' }, { symbol: 'd', example: '<STRONG>d</STRONG>in', description: 'Voiced alveolar plosive' }, { symbol: 'k', example: '<STRONG>c</STRONG>ut', description: 'Voiceless velar plosive' }, { symbol: 'g', example: '<STRONG>g</STRONG>ut', description: 'Voiced velar plosive' }, { symbol: 'f', example: '<STRONG>f</STRONG>an', description: 'Voiceless labiodental fricative' }, { symbol: 'v', example: '<STRONG>v</STRONG>an', description: 'Voiced labiodental fricative' }, { symbol: 'θ', example: '<STRONG>th</STRONG>in', description: 'Voiceless dental fricative' }, { symbol: 'ð', example: '<STRONG>th</STRONG>is', description: 'Voiced dental fricative' }, { symbol: 's', example: '<STRONG>s</STRONG>ip', description: 'Voiceless alveolar fricative' }, { symbol: 'z', example: '<STRONG>z</STRONG>ip', description: 'Voiced alveolar fricative' }, { symbol: 'ʃ', example: '<STRONG>sh</STRONG>ip', description: 'Voiceless postalveolar fricative' }, { symbol: 'ʒ', example: 'mea<STRONG>s</STRONG>ure', description: 'Voiced postalveolar fricative' }, { symbol: 'h', example: '<STRONG>h</STRONG>at', description: 'Voiceless glottal fricative' }, { symbol: 'm', example: '<STRONG>m</STRONG>ap', description: 'Voiced bilabial nasal' }, { symbol: 'n', example: '<STRONG>n</STRONG>ap', description: 'Voiced alveolar nasal' }, { symbol: 'ŋ', example: 'si<STRONG>ng</STRONG>', description: 'Voiced velar nasal' }, { symbol: 'l', example: '<STRONG>l</STRONG>id', description: 'Voiced alveolar lateral approximant' }, { symbol: 'r', example: '<STRONG>r</STRONG>id', description: 'Voiced postalveolar approximant' }, { symbol: 'w', example: '<STRONG>w</STRONG>et', description: 'Voiced labiovelar approximant' }, { symbol: 'j', example: '<STRONG>y</STRONG>et', description: 'Voiced palatal approximant' } ]
             };
             
-            // --- DOM ELEMENT REFERENCES ---
             const displaySymbol = document.getElementById('display-symbol');
             const displayExample = document.getElementById('display-example');
             const displayDescription = document.getElementById('display-description');
@@ -124,33 +81,40 @@
             const diphthongsContainer = document.getElementById('diphthongs-container');
             const consonantsContainer = document.getElementById('consonants-container');
             
-            let currentAudio = null;
+            let currentSymbolData = null;
 
             // --- CORE FUNCTIONS ---
-
-            // Updates the main display with the selected symbol's info
             function updateDisplay(symbolData) {
                 displaySymbol.textContent = symbolData.symbol;
                 displayExample.innerHTML = symbolData.example;
                 displayDescription.textContent = symbolData.description;
-                
-                // Prepare the audio file for playback
-                // Assumes audio files are in /assets/audio/ipa/ and named like 'iː.mp3'
-                const safeFilename = encodeURIComponent(symbolData.symbol) + '.mp3';
-                currentAudio = new Audio(`assets/audio/ipa/${safeFilename}`);
-                
+                currentSymbolData = symbolData; // Store the data for the play button
                 playSoundBtn.disabled = false;
             }
 
-            // Plays the audio for the currently selected symbol
             function playSound() {
-                if (currentAudio) {
-                    currentAudio.currentTime = 0;
-                    currentAudio.play();
+                if (currentSymbolData && 'speechSynthesis' in window) {
+                    speechSynthesis.cancel(); // Stop any currently speaking utterance
+                    
+                    // Create an utterance from the IPA symbol itself for pronunciation
+                    const utterance = new SpeechSynthesisUtterance(currentSymbolData.symbol);
+                    
+                    // Optional: Try to find an English voice for consistency
+                    const voices = speechSynthesis.getVoices();
+                    const englishVoice = voices.find(voice => voice.lang.startsWith('en'));
+                    if (englishVoice) {
+                        utterance.voice = englishVoice;
+                    }
+                    
+                    utterance.rate = 0.7; // Slow it down for phonetic clarity
+                    utterance.pitch = 1.0;
+                    
+                    speechSynthesis.speak(utterance);
+                } else {
+                    alert("Your browser does not support speech synthesis, or no symbol is selected.");
                 }
             }
 
-            // Creates a clickable button for an IPA symbol
             function createSymbolButton(symbolData) {
                 const button = document.createElement('button');
                 button.className = 'p-4 border border-gray-200 rounded-md text-2xl font-source-sans hover:bg-gold-accent/10 hover:border-gold-accent transition-colors';
@@ -161,19 +125,27 @@
 
             // --- INITIALIZATION ---
             function initialize() {
-                // Build the charts
+                vowelsContainer.innerHTML = '';
+                diphthongsContainer.innerHTML = '';
+                consonantsContainer.innerHTML = '';
+
                 ipaData.vowels.forEach(s => vowelsContainer.appendChild(createSymbolButton(s)));
                 ipaData.diphthongs.forEach(s => diphthongsContainer.appendChild(createSymbolButton(s)));
                 ipaData.consonants.forEach(s => consonantsContainer.appendChild(createSymbolButton(s)));
                 
-                // Setup event listener for the play button
                 playSoundBtn.addEventListener('click', playSound);
                 
-                // Set initial display state
-                updateDisplay(ipaData.vowels[0]);
+                if (ipaData.vowels.length > 0) {
+                    updateDisplay(ipaData.vowels[0]);
+                }
             }
             
-            initialize();
+            // Wait for voices to load, then initialize
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = initialize;
+            } else {
+                initialize();
+            }
         });
     </script>
 </body>
