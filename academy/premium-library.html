@@ -81,7 +81,6 @@
                     <button id="menu-btn" class="lg:hidden p-2 text-gray-600 hover:text-gray-900">
                         <i data-feather="menu" class="w-6 h-6"></i>
                     </button>
-                    <!-- THIS IS THE CORRECTED LINE -->
                     <h1 id="page-title" class="text-2xl font-bold truncate">Dashboard</h1>
                     <div class="relative w-full max-w-xs ml-4">
                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -97,8 +96,10 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
+            // --- INITIALIZE FEATHER ICONS ---
             feather.replace();
 
+            // --- GLOBAL STATE & DOM ELEMENTS ---
             let allLessons = [];
             let completedLessons = JSON.parse(localStorage.getItem('academy_progress')) || [];
             const sidebar = document.getElementById('sidebar');
@@ -109,27 +110,28 @@
             const pageTitle = document.getElementById('page-title');
             const searchBar = document.getElementById('search-bar');
             
+            // --- CORE FUNCTIONALITY ---
+
+            // Toggles the mobile sidebar visibility.
             function toggleSidebar() {
                 sidebar.classList.toggle('is-open');
                 sidebarOverlay.classList.toggle('is-open');
             }
-            menuBtn.addEventListener('click', toggleSidebar);
-            sidebarOverlay.addEventListener('click', toggleSidebar);
 
-            document.getElementById('logout-btn').addEventListener('click', () => {
-                localStorage.removeItem('academy_premium_token');
-                window.location.href = './login.html';
-            });
-            
-            try {
-                const response = await fetch('data/all-lessons.json');
-                if (!response.ok) throw new Error('Failed to load master lesson list.');
-                allLessons = await response.json();
-            } catch (error) {
-                mainContent.innerHTML = `<p class="text-red-500 text-center">${error.message}</p>`;
-                return;
+            // Fetches the master list of lessons from the JSON file.
+            async function loadLessonData() {
+                try {
+                    const response = await fetch('data/all-lessons.json');
+                    if (!response.ok) throw new Error('Failed to load master lesson list.');
+                    allLessons = await response.json();
+                } catch (error) {
+                    mainContent.innerHTML = `<p class="text-red-500 text-center">${error.message}</p>`;
+                }
             }
 
+            // --- RENDER FUNCTIONS ---
+
+            // Renders the main dashboard view with progress widgets.
             function renderDashboard() {
                 pageTitle.textContent = 'Dashboard';
                 const totalLessons = allLessons.length;
@@ -140,12 +142,14 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                         <div class="bg-white p-6 rounded-lg shadow"><h3 class="font-bold text-lg ui-font">Overall Progress</h3><div class="relative pt-4"><svg class="w-full h-full" viewBox="0 0 100 100"><circle class="progress-circle-bg" stroke-width="10" cx="50" cy="50" r="40" fill="transparent"></circle><circle class="progress-circle-fg" stroke-width="10" cx="50" cy="50" r="40" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="${251.2 - (progress / 100) * 251.2}"></circle></svg><div class="absolute inset-0 flex items-center justify-center"><span class="text-3xl font-bold">${progress}%</span></div></div></div>
                         <div class="bg-white p-6 rounded-lg shadow"><h3 class="font-bold text-lg ui-font">Lessons Completed</h3><p class="text-5xl font-bold mt-4">${completedCount} <span class="text-xl text-gray-500">/ ${totalLessons}</span></p></div>
-                        <div class="bg-white p-6 rounded-lg shadow"><h3 class="font-bold text-lg ui-font">Daily Streak</h3><p class="text-5xl font-bold mt-4">🔥 0 <span class="text-xl text-gray-500">Days</span></p></div>
+                        <div class="bg-white p-6 rounded-lg shadow"><h3 class="font-bold text-lg ui-font">Daily Streak</h3><div class="flex items-center gap-2 mt-4"><i data-feather="trending-up" class="w-12 h-12 text-yellow-500"></i><p class="text-5xl font-bold">0 <span class="text-xl text-gray-500">Days</span></p></div></div>
                     </div>
                     <h2 class="text-2xl font-bold mb-4">Continue Where You Left Off</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="continue-grid"><p class="text-gray-500 ui-font">No lessons started yet.</p></div>`;
+                feather.replace(); // Re-run Feather to render the new icon.
             }
 
+            // Renders the library view, optionally filtered by category or search term.
             function renderLibrary(category = null, searchTerm = '') {
                 pageTitle.textContent = category || 'The Grand Library';
                 let lessonsToRender = allLessons;
@@ -161,10 +165,11 @@
                 });
                 content += '</div>';
                 mainContent.innerHTML = content;
-                feather.replace();
+                feather.replace(); // Re-run Feather to render icons on cards.
             }
 
-            function initialize() {
+            // Builds the sidebar navigation links from the defined categories.
+            function buildSidebar() {
                 const categories = { "The Craft": ["Story Writing", "Prose & Style", "Poetry & Verse", "Professional Writing"], "The Study": ["English Language Studies", "Deep Dive into Literature", "Author Spotlights"] };
                 let navHtml = `<a href="#dashboard" class="nav-item flex items-center gap-3 px-4 py-2 text-gray-700 font-semibold rounded-md hover:bg-gray-200 bg-gray-200"><i data-feather="home" class="w-5 h-5"></i> Dashboard</a>`;
                 Object.entries(categories).forEach(([section, subcats]) => {
@@ -174,23 +179,46 @@
                 });
                 navHtml += `<div><h4 class="px-4 mt-4 mb-2 text-sm font-bold text-gray-400 uppercase">Toolkit</h4><a href="rhythm-lab.html" class="nav-item flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-200 rounded-md">Rhythm & Meter Lab</a><a href="ipa-studio.html" class="nav-item flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-200 rounded-md">IPA Phonetics Studio</a></div>`;
                 sidebarNav.innerHTML = navHtml;
-                
-                function router() {
-                    const hash = window.location.hash.substring(1);
-                    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('bg-gray-200'));
-                    const activeLink = document.querySelector(`.nav-item[href="${window.location.hash}"]`) || document.querySelector('.nav-item[href="#dashboard"]');
-                    if(activeLink) activeLink.classList.add('bg-gray-200');
+                feather.replace(); // Render icons in the newly created sidebar.
+            }
+            
+            // --- SIMPLE CLIENT-SIDE ROUTER ---
+            function router() {
+                const hash = window.location.hash || '#dashboard';
+                // Update active link style
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('bg-gray-200'));
+                const activeLink = document.querySelector(`.nav-item[href="${hash}"]`) || document.querySelector('.nav-item[href="#dashboard"]');
+                if(activeLink) activeLink.classList.add('bg-gray-200');
 
-                    if (hash.startsWith('category/')) { renderLibrary(decodeURIComponent(hash.split('/')[1])); }
-                    else { renderDashboard(); }
-                    if(window.innerWidth < 1024) toggleSidebar();
+                // Route to the correct view
+                if (hash.startsWith('#category/')) {
+                    renderLibrary(decodeURIComponent(hash.split('/')[1]));
+                } else {
+                    renderDashboard();
                 }
-                
+                // Close mobile sidebar on navigation
+                if(window.innerWidth < 1024 && sidebar.classList.contains('is-open')) {
+                    toggleSidebar();
+                }
+            }
+            
+            // --- EVENT LISTENERS & INITIALIZATION ---
+            async function initialize() {
+                // Setup event listeners
+                menuBtn.addEventListener('click', toggleSidebar);
+                sidebarOverlay.addEventListener('click', toggleSidebar);
+                document.getElementById('logout-btn').addEventListener('click', () => {
+                    localStorage.removeItem('academy_premium_token');
+                    window.location.href = './login.html';
+                });
                 window.addEventListener('hashchange', router);
                 sidebarNav.addEventListener('click', (e) => { if (e.target.closest('a')) { setTimeout(router, 0); } });
                 searchBar.addEventListener('input', () => renderLibrary(null, searchBar.value));
+
+                // Load data, build UI, and route to the initial view
+                await loadLessonData();
+                buildSidebar();
                 router();
-                feather.replace();
             }
             
             initialize();
