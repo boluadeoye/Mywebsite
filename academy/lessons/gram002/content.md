@@ -18,7 +18,7 @@
     <li><strong>Object Pronouns</strong> receive the action of the verb. They are the "receivers." The list is also short: <strong>me, you, him, her, it, us, them.</strong></li>
 </ul>
 <blockquote><strong>Incorrect:</strong> Her and me went to the library.</blockquote>
-<p>To test this, remove the other person. You would not say, "Me went to the library." You would say, "I went to the library." Therefore, the subject pronouns are correct.</p>
+<p>To test this, remove the other person from the sentence. You would not say, "Me went to the library." You would say, "I went to the library." Therefore, the subject pronouns are correct.</p>
 <blockquote><strong>Correct:</strong> She and I went to the library.</blockquote>
 
 <h2>Pronoun-Antecedent Agreement</h2>
