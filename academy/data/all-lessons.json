@@ -1,0 +1,43 @@
+[
+  {
+    "id": "gram001", "access": "free", "category": "English Language Studies",
+    "title": "Mastering Subject-Verb Agreement", "summary": "Learn the foundational rule of English syntax.", "difficulty": "Beginner",
+    "insightSpark": "Find a complex paragraph in a book. Why does the subject-verb agreement work?",
+    "quizzes": [{ "type": "multiple-choice", "prompt": "The pack of wolves ___ to the moon.", "options": ["howl", "howls"], "answer": "howls", "explanation": "The subject is 'pack' (singular)." }]
+  },
+  {
+    "id": "gram002", "access": "free", "category": "English Language Studies",
+    "title": "Mastering Pronoun Usage", "summary": "Avoid ambiguity with correct pronoun usage.", "difficulty": "Beginner",
+    "insightSpark": "Write a sentence where a pronoun is ambiguous, then rewrite it for clarity.",
+    "quizzes": [{ "type": "fill-in-the-blank", "prompt": "The dog wagged ___ tail.", "answer": "its", "explanation": "'Its' is possessive." }]
+  },
+  {
+    "id": "eng002", "access": "free", "category": "Prose & Style",
+    "title": "Building Effective Paragraphs", "summary": "Learn to organize ideas into cohesive paragraphs.", "difficulty": "Intermediate",
+    "insightSpark": "Take a paragraph from your own writing and identify its PIE structure. How can it be improved?",
+    "quizzes": [{ "type": "multiple-choice", "prompt": "What is the first sentence in a well-structured paragraph typically called?", "options": ["Conclusion", "Topic Sentence"], "answer": "Topic Sentence", "explanation": "It introduces the main idea." }]
+  },
+  {
+    "id": "eng003", "access": "free", "category": "Poetry & Verse",
+    "title": "Using Figurative Language", "summary": "Incorporate metaphors, similes, and personification.", "difficulty": "Intermediate",
+    "insightSpark": "Describe a simple object, like a cup of coffee, using three different types of figurative language.",
+    "quizzes": [{ "type": "multiple-choice", "prompt": "Which is a simile?", "options": ["The world is a stage.", "He is as brave as a lion."], "answer": "He is as brave as a lion.", "explanation": "A simile is a comparison using 'like' or 'as'." }]
+  },
+  {
+    "id": "eng004", "access": "free", "category": "Story Writing",
+    "title": "Incorporating Dialogue Effectively", "summary": "Master the art of writing natural, purposeful dialogue.", "difficulty": "Advanced",
+    "insightSpark": "Write a scene where two characters reveal a secret without ever stating it directly.",
+    "quizzes": [{ "type": "fill-in-the-blank", "prompt": "\"Hello,\" she _____.", "answer": "said", "explanation": "The most common dialogue tag is often the best." }]
+  },
+  {
+    "id": "lit023", "access": "free", "category": "Story Writing",
+    "title": "Understanding Point of View", "summary": "Examine different narrative perspectives.", "difficulty": "Advanced",
+    "insightSpark": "Rewrite a short, famous fairy tale from the villain's point of view. How does the story change?",
+    "quizzes": [{ "type": "multiple-choice", "prompt": "Which Point of View uses the pronoun 'I' to narrate?", "options": ["Third Person", "First Person"], "answer": "First Person", "explanation": "First Person is from the narrator's personal perspective." }]
+  },
+  {
+    "id": "gram003", "access": "premium", "category": "English Language Studies",
+    "title": "The Art of the Semicolon", "summary": "Connect related clauses with style.", "difficulty": "Intermediate", "insightSpark": "Craft a single sentence that correctly uses a semicolon to join two ideas.",
+    "quizzes": [{ "type": "sentence-correction", "prompt": "Correct this sentence:", "sentence": "The storm raged on, the house was shaking.", "answer": "The storm raged on; the house was shaking.", "explanation": "A semicolon can join two closely related independent clauses." }]
+  }
+]
