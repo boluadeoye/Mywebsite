@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inner Sanctum Access - The Writer's Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora&family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        :root {
+            --bg-slate: #2D3748;
+            --parchment: #FDFDFD;
+            --accent-gold: #D4AF37;
+            --text-dark: #2D3748;
+            --error-red: #ef4444;
+        }
+        body { 
+            background-color: var(--parchment); 
+            font-family: 'Lora', serif; 
+            color: var(--text-dark);
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232D3748' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        h1 { font-family: 'Playfair Display', serif; }
+        .ui-font { font-family: 'Source Sans Pro', sans-serif; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-2xl shadow-2xl m-4">
+        <div class="text-center">
+            <a href="./index.html" class="inline-block">
+                <svg class="mx-auto h-12 w-12" viewBox="0 0 24 24">
+                    <path d="M12 2 L2 22 H22 Z M12 6 L18.3 18 H5.7 Z" fill="var(--accent-gold)"/>
+                </svg>
+            </a>
+            <h1 class="mt-4 text-3xl font-bold tracking-tight">Inner Sanctum Access</h1>
+            <p class="mt-2 text-sm text-gray-600 ui-font">Enter your personal access key to unlock the premium library.</p>
+        </div>
+        <form id="login-form" class="space-y-6">
+            <div class="relative rounded-md shadow-sm">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <i data-feather="key" class="h-5 w-5 text-gray-400"></i>
+                </div>
+                <input id="access-key" name="key" type="password" required class="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-3 pl-10 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500 sm:text-sm ui-font" placeholder="Your Personal Access Key">
+            </div>
+            <p id="error-message" class="text-sm text-center font-semibold ui-font hidden" style="color: var(--error-red);"></p>
+            <div>
+                <button id="submit-button" type="submit" class="group relative flex w-full justify-center rounded-md border border-transparent py-3 px-4 text-sm font-medium text-white ui-font focus:outline-none focus:ring-2 focus:ring-offset-2" style="background-color: var(--bg-slate); transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#4a5568'" onmouseout="this.style.backgroundColor='var(--bg-slate)'">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <i data-feather="lock" class="h-5 w-5 text-yellow-400 group-hover:text-yellow-300"></i>
+                    </span>
+                    Unlock Academy
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            feather.replace();
+
+            const loginForm = document.getElementById('login-form');
+            const accessKeyInput = document.getElementById('access-key');
+            const errorMessage = document.getElementById('error-message');
+            const submitButton = document.getElementById('submit-button');
+
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const key = accessKeyInput.value;
+                
+                submitButton.disabled = true;
+                submitButton.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Verifying...`;
+                errorMessage.classList.add('hidden');
+
+                try {
+                    const response = await fetch('data/premium-keys.json');
+                    if (!response.ok) throw new Error('Could not verify keys.');
+                    const validKeys = await response.json();
+
+                    // Simple, direct comparison
+                    if (validKeys.includes(key)) {
+                        localStorage.setItem('academy_premium_token', 'true');
+                        submitButton.textContent = 'Success!';
+                        // Redirect to the premium library
+                        window.location.href = './premium-library.html';
+                    } else {
+                        throw new Error('Invalid access key.');
+                    }
+                } catch (error) {
+                    errorMessage.textContent = error.message;
+                    errorMessage.classList.remove('hidden');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = `
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <i data-feather="lock" class="h-5 w-5 text-yellow-400 group-hover:text-yellow-300"></i>
+                        </span>
+                        Unlock Academy`;
+                    feather.replace();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
