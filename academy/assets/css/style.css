@@ -7,8 +7,8 @@
     --parchment: #FDFDFD;
     --gold-accent: #D4AF37;
     --green-accent: #8A9A5B;
-    --light-slate: #A0AEC0;
-    --border-color: #E2E8F0;
+    --card-background: #4A5568; /* A lighter shade of the dark background */
+    --border-color: #4A5568;
 
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Lora', serif;
@@ -24,13 +24,16 @@
 
 body {
     font-family: var(--font-body);
-    background-color: var(--parchment);
-    color: var(--dark-slate);
+    background-color: var(--dark-slate);
+    color: var(--parchment);
     line-height: 1.6;
 }
 
 /* --- TYPOGRAPHY & SHARED CLASSES --- */
-.heading-font { font-family: var(--font-heading); }
+.heading-font { 
+    font-family: var(--font-heading);
+    line-height: 1.2; /* Tighter line-height as requested */
+}
 .body-font { font-family: var(--font-body); }
 .ui-font { font-family: var(--font-ui); }
 
@@ -57,7 +60,7 @@ body {
 
 .logo .heading-font {
     font-size: 1.5rem;
-    color: var(--dark-slate);
+    color: var(--parchment);
 }
 
 .main-footer {
@@ -65,25 +68,27 @@ body {
     padding: 2rem;
     margin-top: 4rem;
     border-top: 1px solid var(--border-color);
-    color: var(--light-slate);
+    color: var(--parchment);
+    opacity: 0.6;
 }
 
 /* --- BUTTONS --- */
 .button {
     display: inline-block;
     padding: 0.75rem 1.5rem;
-    border: none;
+    border: 1px solid var(--gold-accent);
     border-radius: 6px;
     font-family: var(--font-ui);
     font-weight: 600;
     text-decoration: none;
-    background-color: var(--dark-slate);
-    color: var(--parchment);
-    transition: background-color 0.2s ease;
+    background-color: transparent;
+    color: var(--gold-accent);
+    transition: all 0.2s ease;
 }
 
 .button:hover {
-    background-color: #1A202C;
+    background-color: var(--gold-accent);
+    color: var(--dark-slate);
 }
 
 /* --- HERO SECTION --- */
@@ -99,5 +104,52 @@ body {
 
 .hero .body-font {
     font-size: 1.1rem;
-    color: #4A5568;
+    color: var(--parchment);
+    opacity: 0.8;
+}
+
+/* --- LESSON CARDS & GRID --- */
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+}
+
+.lesson-card {
+    display: block;
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: var(--parchment);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.lesson-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold-accent);
+}
+
+.lesson-card h3 { 
+    font-family: var(--font-heading);
+    color: var(--gold-accent);
+    margin-bottom: 0.5rem; 
+}
+
+.lesson-card p { 
+    font-size: 0.95rem; 
+    opacity: 0.8;
+}
+
+.tag {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 99px;
+    background-color: var(--dark-slate);
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    font-weight: 600;
 }
