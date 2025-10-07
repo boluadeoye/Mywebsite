@@ -50,7 +50,6 @@
 </head>
 <body class="bg-gray-50">
 
-    <!-- The JavaScript Gatekeeper -->
     <script>
         if (localStorage.getItem('academy_premium_token') !== 'true') {
             window.location.href = './login.html';
@@ -58,11 +57,9 @@
     </script>
 
     <div class="relative min-h-screen lg:flex">
-        <!-- Mobile Sidebar Overlay -->
         <div id="sidebar-overlay" class="sidebar-overlay fixed inset-0 z-20 lg:hidden"></div>
 
-        <!-- Sidebar -->
-        <aside id="sidebar" class="sidebar fixed inset-y-0 left-0 z-30 w-64 flex-shrink-0 border-r border-gray-200 flex-col lg:static lg:flex sidebar-mobile">
+        <aside id="sidebar" class="sidebar fixed inset-y-0 left-0 z-30 w-64 flex-shrink-0 border-r border-gray-200 flex-col lg:flex sidebar-mobile">
             <div class="h-20 flex items-center justify-center border-b border-gray-200 flex-shrink-0">
                 <a href="./premium-library.html" class="flex items-center gap-3">
                     <svg class="h-8 w-8" viewBox="0 0 24 24"><path d="M12 2 L2 22 H22 Z M12 6 L18.3 18 H5.7 Z" fill="var(--accent-gold)"/></svg>
@@ -78,15 +75,14 @@
             </div>
         </aside>
 
-        <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <header class="bg-white border-b border-gray-200">
                 <div class="h-20 flex items-center justify-between px-4 lg:px-8">
-                    <!-- Hamburger Menu Button -->
                     <button id="menu-btn" class="lg:hidden p-2 text-gray-600 hover:text-gray-900">
                         <i data-feather="menu" class="w-6 h-6"></i>
                     </button>
-                    <h1 id="page-title" class="text-2xl lg:text-3xl font-bold">Dashboard</h1>
+                    <!-- THIS IS THE CORRECTED LINE -->
+                    <h1 id="page-title" class="text-2xl font-bold truncate">Dashboard</h1>
                     <div class="relative w-full max-w-xs ml-4">
                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                             <i data-feather="search" class="w-5 h-5 text-gray-400"></i>
@@ -103,7 +99,6 @@
         document.addEventListener('DOMContentLoaded', async () => {
             feather.replace();
 
-            // --- STATE & ELEMENTS ---
             let allLessons = [];
             let completedLessons = JSON.parse(localStorage.getItem('academy_progress')) || [];
             const sidebar = document.getElementById('sidebar');
@@ -114,7 +109,6 @@
             const pageTitle = document.getElementById('page-title');
             const searchBar = document.getElementById('search-bar');
             
-            // --- MOBILE MENU LOGIC ---
             function toggleSidebar() {
                 sidebar.classList.toggle('is-open');
                 sidebarOverlay.classList.toggle('is-open');
@@ -122,13 +116,11 @@
             menuBtn.addEventListener('click', toggleSidebar);
             sidebarOverlay.addEventListener('click', toggleSidebar);
 
-            // --- LOGOUT ---
             document.getElementById('logout-btn').addEventListener('click', () => {
                 localStorage.removeItem('academy_premium_token');
                 window.location.href = './login.html';
             });
             
-            // --- DATA FETCHING ---
             try {
                 const response = await fetch('data/all-lessons.json');
                 if (!response.ok) throw new Error('Failed to load master lesson list.');
@@ -138,7 +130,6 @@
                 return;
             }
 
-            // --- RENDER FUNCTIONS ---
             function renderDashboard() {
                 pageTitle.textContent = 'Dashboard';
                 const totalLessons = allLessons.length;
@@ -161,7 +152,7 @@
                 if (category) { lessonsToRender = allLessons.filter(l => l.category === category); }
                 if (searchTerm) { const lowerSearch = searchTerm.toLowerCase(); lessonsToRender = lessonsToRender.filter(l => l.title.toLowerCase().includes(lowerSearch) || l.summary.toLowerCase().includes(lowerSearch)); }
 
-                let content = '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">';
+                let content = '<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">';
                 lessonsToRender.forEach(lesson => {
                     const isPremium = lesson.access === 'premium';
                     const isCompleted = completedLessons.includes(lesson.id);
@@ -173,26 +164,15 @@
                 feather.replace();
             }
 
-            // --- INITIALIZE ---
             function initialize() {
                 const categories = { "The Craft": ["Story Writing", "Prose & Style", "Poetry & Verse", "Professional Writing"], "The Study": ["English Language Studies", "Deep Dive into Literature", "Author Spotlights"] };
-                let navHtml = `
-                    <a href="#dashboard" class="nav-item flex items-center gap-3 px-4 py-2 text-gray-700 font-semibold rounded-md hover:bg-gray-200 bg-gray-200">
-                        <i data-feather="home" class="w-5 h-5"></i> Dashboard
-                    </a>`;
-                
+                let navHtml = `<a href="#dashboard" class="nav-item flex items-center gap-3 px-4 py-2 text-gray-700 font-semibold rounded-md hover:bg-gray-200 bg-gray-200"><i data-feather="home" class="w-5 h-5"></i> Dashboard</a>`;
                 Object.entries(categories).forEach(([section, subcats]) => {
                     navHtml += `<div><h4 class="px-4 mt-4 mb-2 text-sm font-bold text-gray-400 uppercase">${section}</h4>`;
-                    subcats.forEach(cat => {
-                         navHtml += `<a href="#category/${cat}" class="nav-item flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-200 rounded-md">${cat}</a>`
-                    });
+                    subcats.forEach(cat => { navHtml += `<a href="#category/${cat}" class="nav-item flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-200 rounded-md">${cat}</a>` });
                     navHtml += `</div>`;
                 });
-                
-                navHtml += `<div><h4 class="px-4 mt-4 mb-2 text-sm font-bold text-gray-400 uppercase">Toolkit</h4>
-                    <a href="rhythm-lab.html" class="nav-item flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-200 rounded-md">Rhythm & Meter Lab</a>
-                    <a href="ipa-studio.html" class="nav-item flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-200 rounded-md">IPA Phonetics Studio</a></div>`;
-                
+                navHtml += `<div><h4 class="px-4 mt-4 mb-2 text-sm font-bold text-gray-400 uppercase">Toolkit</h4><a href="rhythm-lab.html" class="nav-item flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-200 rounded-md">Rhythm & Meter Lab</a><a href="ipa-studio.html" class="nav-item flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-200 rounded-md">IPA Phonetics Studio</a></div>`;
                 sidebarNav.innerHTML = navHtml;
                 
                 function router() {
@@ -201,18 +181,14 @@
                     const activeLink = document.querySelector(`.nav-item[href="${window.location.hash}"]`) || document.querySelector('.nav-item[href="#dashboard"]');
                     if(activeLink) activeLink.classList.add('bg-gray-200');
 
-                    if (hash.startsWith('category/')) {
-                        renderLibrary(decodeURIComponent(hash.split('/')[1]));
-                    } else {
-                        renderDashboard();
-                    }
+                    if (hash.startsWith('category/')) { renderLibrary(decodeURIComponent(hash.split('/')[1])); }
+                    else { renderDashboard(); }
                     if(window.innerWidth < 1024) toggleSidebar();
                 }
                 
                 window.addEventListener('hashchange', router);
                 sidebarNav.addEventListener('click', (e) => { if (e.target.closest('a')) { setTimeout(router, 0); } });
                 searchBar.addEventListener('input', () => renderLibrary(null, searchBar.value));
-
                 router();
                 feather.replace();
             }
