@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Lesson - The Writer's Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:ital@0;1&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        :root {
+            --bg-slate: #2D3748;
+            --parchment: #FDFDFD;
+            --accent-gold: #D4AF37;
+            --accent-green: #8A9A5B;
+            --text-dark: #1f2937;
+            --text-body: #374151;
+            --border-color: #e5e7eb;
+            --success-green: #22c55e;
+            --error-red: #ef4444;
+            --intermediate-blue: #3b82f6;
+        }
+        body { background-color: var(--parchment); font-family: 'Lora', serif; color: var(--text-body); }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--text-dark); }
+        .ui-font { font-family: 'Source Sans Pro', sans-serif; }
+        header { background-color: var(--bg-slate); }
+        
+        #lesson-content h2 { font-size: 1.75rem; margin-top: 3rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px dashed var(--border-color); }
+        #lesson-content p { font-size: 1.125rem; line-height: 1.9; margin-bottom: 1.75rem; }
+        #lesson-content blockquote { border-left: 4px solid var(--accent-gold); padding: 1rem 1.75rem; margin: 2rem 0; font-style: italic; color: #555; background-color: #fffdf7; }
+        #lesson-content ul, #lesson-content ol { margin: 1.75rem 0 1.75rem 1.75rem; padding-left: 1rem; list-style-position: outside; }
+        #lesson-content li { margin-bottom: 1rem; padding-left: 0.5rem; line-height: 1.8; }
+        
+        .difficulty-beginner { color: var(--success-green); }
+        .difficulty-intermediate { color: var(--intermediate-blue); }
+        .difficulty-advanced { color: var(--accent-gold); }
+        .difficulty-indicator { display: inline-flex; align-items: center; gap: 0.5rem; }
+
+        .quiz-section { background-color: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; padding: 24px; margin-top: 40px; }
+        .quiz-options label { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+        .quiz-options label:hover { border-color: var(--accent-gold); background: #fffaf0; }
+        .quiz-options input[type="radio"]:checked + .option-text { font-weight: 700; color: var(--accent-gold); }
+        .fill-in-blank-input { border: 1px solid var(--border-color); border-radius: 4px; padding: 4px 8px; font-family: 'Source Sans Pro', sans-serif; }
+        .feedback { margin-top: 1rem; padding: 0.75rem; border-radius: 6px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+        .feedback.correct { color: var(--success-green); background-color: #f0fff4; border-left: 4px solid var(--success-green); }
+        .feedback.incorrect { color: var(--error-red); background-color: #fff5f5; border-left: 4px solid var(--error-red); }
+        
+        #lesson-spark { margin-top: 3rem; padding: 24px; background-color: var(--bg-slate); color: #e2e8f0; border-radius: 8px; border-left: 4px solid var(--accent-gold); }
+        #lesson-spark h3 { color: #ffffff; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- The JavaScript Gatekeeper -->
+    <script>
+        if (localStorage.getItem('academy_premium_token') !== 'true') {
+            window.location.href = './login.html';
+        }
+    </script>
+
+    <header class="text-white shadow-lg">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="./premium-library.html" class="flex items-center gap-3">
+                    <svg class="h-10 w-10" viewBox="0 0 24 24">
+                        <path d="M12 2 L2 22 H22 Z M12 6 L18.3 18 H5.7 Z" fill="var(--accent-gold)"/>
+                    </svg>
+                    <span class="font-bold text-xl ui-font leading-tight">The Writer's Academy</span>
+                </a>
+                <button id="logout-btn" class="ui-font font-bold hover:underline" style="color: var(--accent-gold);">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="py-12">
+        <div id="lesson-container" class="max-w-3xl mx-auto px-6 sm:px-8">
+            <p class="text-center ui-font text-gray-500">Loading lesson...</p>
+        </div>
+    </main>
+
+    <footer class="mt-24 py-8 text-center text-gray-400" style="background-color: var(--bg-slate);">
+        <p class="ui-font">© 2025 Boluadeoye • Crafted with passion</p>
+    </footer>
+    
+    <script>
+        // --- QUIZ & PROGRESS LOGIC ---
+        let currentLessonQuizzes = [];
+
+        function saveProgress(lessonId) {
+            let completed = JSON.parse(localStorage.getItem('academy_progress')) || [];
+            if (!completed.includes(lessonId)) {
+                completed.push(lessonId);
+                localStorage.setItem('academy_progress', JSON.stringify(completed));
+            }
+        }
+        
+        function renderQuiz(quizzes) {
+            const quizContainer = document.getElementById('quiz-container');
+            if (!quizContainer) return;
+            let quizHtml = '<div class="quiz-section space-y-8" style="opacity: 0;"><h3>Knowledge Check</h3>';
+            quizzes.forEach((quiz, index) => {
+                quizHtml += `<div id="quiz-block-${index}">`;
+                if (quiz.type === 'multiple-choice' || quiz.type === 'sentence-correction') {
+                    quizHtml += `<p class="font-bold mb-4 ui-font text-lg">${quiz.prompt}</p><div class="quiz-options space-y-3">`;
+                    quiz.options.forEach((option) => { quizHtml += `<label class="ui-font"><input type="radio" name="quiz-${index}" value="${option}" class="sr-only"><span class="option-text p-3 border border-gray-300 rounded-md block cursor-pointer">${option}</span></label>`; });
+                    quizHtml += `</div>`;
+                } else if (quiz.type === 'fill-in-the-blank') {
+                    quizHtml += `<p class="font-bold mb-4 ui-font text-lg">${quiz.prompt.replace('___', `<input type="text" class="fill-in-blank-input" id="fill-in-${index}">`)}</p>`;
+                }
+                quizHtml += `<button class="mt-4 ui-font bg-slate-800 text-white px-4 py-2 rounded-md" onclick="checkAnswer(${index})">Check Answer</button><div id="feedback-${index}" class="mt-4"></div></div>`;
+            });
+            quizHtml += '</div>';
+            quizContainer.innerHTML = quizHtml;
+
+            anime({ targets: '.quiz-section', translateY: [50, 0], opacity: [0, 1], delay: 500, duration: 800, easing: 'easeOutCubic' });
+        }
+
+        function checkAnswer(quizIndex) {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            const quiz = currentLessonQuizzes[quizIndex];
+            if (!quiz) return;
+            
+            const feedbackEl = document.getElementById(`feedback-${quizIndex}`);
+            let isCorrect = false;
+
+            if (quiz.type === 'multiple-choice' || quiz.type === 'sentence-correction') {
+                const selected = document.querySelector(`input[name="quiz-${quizIndex}"]:checked`);
+                if (selected && selected.value === quiz.answer) isCorrect = true;
+            } else if (quiz.type === 'fill-in-the-blank') {
+                const input = document.getElementById(`fill-in-${quizIndex}`);
+                if (input && input.value.trim().toLowerCase() === quiz.answer.toLowerCase()) isCorrect = true;
+            }
+            
+            const feedback = document.createElement('div');
+            feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+            feedback.innerHTML = `<i data-feather="${isCorrect ? 'check-circle' : 'x-circle'}"></i> <strong>${isCorrect ? 'Correct!' : 'Not quite.'}</strong> ${quiz.explanation || ''}`;
+            feedbackEl.innerHTML = ''; 
+            feedbackEl.appendChild(feedback); 
+            feather.replace();
+            document.querySelector(`#quiz-block-${quizIndex}`).querySelectorAll('button, input').forEach(el => el.disabled = true);
+
+            if (isCorrect) {
+                saveProgress(id);
+            }
+        }
+        window.checkAnswer = checkAnswer; // Make it globally accessible
+
+        // --- MAIN PAGE LOADER ---
+        document.addEventListener('DOMContentLoaded', async () => {
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                localStorage.removeItem('academy_premium_token');
+                window.location.href = './login.html';
+            });
+
+            const container = document.getElementById('lesson-container');
+            mermaid.initialize({ startOnLoad: false });
+
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const id = params.get('id');
+                if (!id) throw new Error('No lesson ID provided in the URL.');
+                
+                const lessonsResponse = await fetch('data/all-lessons.json');
+                if (!lessonsResponse.ok) throw new Error('Could not load the lesson index.');
+                const allLessons = await lessonsResponse.json();
+                const lesson = allLessons.find(l => l.id === id);
+                if (!lesson) throw new Error('Lesson not found.');
+
+                currentLessonQuizzes = lesson.quizzes || [];
+                document.title = `${lesson.title} - The Writer's Academy`;
+                
+                const mdResponse = await fetch(`lessons/${id}/content.md`);
+                if (!mdResponse.ok) throw new Error(`Could not load content for this lesson.`);
+                const mdContent = await mdResponse.text();
+
+                const difficultyClass = `difficulty-${(lesson.difficulty || 'Beginner').toLowerCase()}`;
+                
+                container.innerHTML = `
+                    <div class="text-center mb-8 pb-8 border-b border-gray-200">
+                        <h1 class="text-5xl font-bold mb-4">${lesson.title}</h1>
+                        <p class="text-lg text-gray-600 italic mb-4">${lesson.summary}</p>
+                        <p class="mt-4 text-lg font-bold ui-font ${difficultyClass} difficulty-indicator">
+                            <i data-feather="bar-chart-2" class="w-5 h-5"></i>
+                            <span>${lesson.difficulty}</span>
+                        </p>
+                    </div>
+                    <div id="lesson-content"></div>
+                    <div id="quiz-container"></div>
+                    <div id="lesson-spark"></div>
+                `;
+
+                document.getElementById('lesson-content').innerHTML = marked.parse(mdContent);
+                if (lesson.quizzes && lesson.quizzes.length > 0) {
+                    renderQuiz(lesson.quizzes);
+                }
+                
+                const sparkContainer = document.getElementById('lesson-spark');
+                if (lesson.insightSpark) {
+                    sparkContainer.innerHTML = `<h3 class="text-3xl font-bold flex items-center gap-3"><span style="color: var(--accent-gold);">✨</span> Insight Spark</h3><p class="ui-font text-lg mt-4">${lesson.insightSpark}</p>`;
+                }
+
+                mermaid.run({ querySelector: '.mermaid' });
+
+            } catch (error) {
+                console.error('Failed to load lesson:', error);
+                container.innerHTML = `<p class="text-center ui-font text-red-500">${error.message}</p>`;
+            } finally {
+                feather.replace();
+            }
+        });
+    </script>
+</body>
+</html>
