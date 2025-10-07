@@ -29,11 +29,9 @@
         #lesson-content h2 { font-size: 1.75rem; margin-top: 3rem; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px dashed #d1d5db; }
         #lesson-content p { font-size: 1.125rem; line-height: 1.8; margin-bottom: 1.75rem; }
         #lesson-content blockquote { border-left: 4px solid var(--accent-gold); padding-left: 1.75rem; margin: 2rem 0; font-style: italic; color: #555; background-color: #fffdf7; }
-        
-        /* CORRECTED LIST STYLING */
         #lesson-content ul, #lesson-content ol { 
             margin: 1.5rem 0 1.5rem 1.75rem; 
-            padding-left: 1rem; /* Nudges the list to the right */
+            padding-left: 1rem; 
             list-style-position: outside;
         }
         #lesson-content li { 
@@ -47,18 +45,18 @@
         .difficulty-advanced { color: var(--accent-gold); }
         .difficulty-indicator { display: inline-flex; align-items: center; gap: 0.5rem; }
 
-        /* CORRECTED QUIZ OPACITY */
         .quiz-section { 
             background-color: #ffffff; 
             border: 1px solid #e2e8f0; 
             border-radius: 8px; 
             padding: 24px; 
             margin-top: 40px;
-            opacity: 1; /* Ensures it is not transparent */
+            opacity: 1; 
         }
         .quiz-options label { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
         .quiz-options label:hover { border-color: var(--accent-gold); background: #fffaf0; }
         .quiz-options input[type="radio"]:checked + .option-text { font-weight: 700; color: var(--accent-gold); }
+        .fill-in-blank-input { border: 1px solid #d1d5db; border-radius: 4px; padding: 4px 8px; font-family: 'Source Sans Pro', sans-serif; width: 80px; text-align: center; }
         .feedback { margin-top: 1rem; padding: 0.75rem; border-radius: 6px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
         .feedback.correct { color: var(--success-green); background-color: #f0fff4; border-left: 4px solid var(--success-green); }
         .feedback.incorrect { color: var(--error-red); background-color: #fff5f5; border-left: 4px solid var(--error-red); }
@@ -99,7 +97,6 @@
             if (!quizContainer) return;
             
             let quizHtml = '<div class="quiz-section space-y-8" style="opacity: 0;"><h3>Knowledge Check</h3>';
-            // ... (rest of the quiz rendering logic is unchanged)
             quizzes.forEach((quiz, index) => {
                 quizHtml += `<div id="quiz-block-${index}">`;
                 if (quiz.type === 'multiple-choice' || quiz.type === 'sentence-correction') {
@@ -107,7 +104,10 @@
                     quiz.options.forEach((option) => { quizHtml += `<label class="ui-font"><input type="radio" name="quiz-${index}" value="${option}" class="sr-only"><span class="option-text p-3 border border-gray-300 rounded-md block cursor-pointer">${option}</span></label>`; });
                     quizHtml += `</div>`;
                 } else if (quiz.type === 'fill-in-the-blank') {
-                    quizHtml += `<p class="font-bold mb-4 ui-font text-lg">${quiz.prompt.replace('___', `<input type="text" class="fill-in-blank-input" id="fill-in-${index}">`)}</p>`;
+                    // --- THIS IS THE ROBUST FIX ---
+                    const parts = quiz.prompt.split('___');
+                    let promptHtml = parts[0] + `<input type="text" class="fill-in-blank-input" id="fill-in-${index}">` + (parts[1] || '');
+                    quizHtml += `<p class="font-bold mb-4 ui-font text-lg">${promptHtml}</p>`;
                 }
                 quizHtml += `<button class="mt-4 ui-font bg-slate-800 text-white px-4 py-2 rounded-md" onclick="checkAnswer(${index})">Check Answer</button><div id="feedback-${index}" class="mt-4"></div></div>`;
             });
@@ -120,11 +120,12 @@
         // --- QUIZ CHECKER ---
         let currentLessonQuizzes = [];
         function checkAnswer(quizIndex) {
-            // ... (this logic is unchanged)
             const quiz = currentLessonQuizzes[quizIndex];
             if (!quiz) return;
+            
             const feedbackEl = document.getElementById(`feedback-${quizIndex}`);
             let isCorrect = false;
+
             if (quiz.type === 'multiple-choice' || quiz.type === 'sentence-correction') {
                 const selected = document.querySelector(`input[name="quiz-${quizIndex}"]:checked`);
                 if (selected && selected.value === quiz.answer) { isCorrect = true; }
@@ -132,6 +133,7 @@
                 const input = document.getElementById(`fill-in-${quizIndex}`);
                 if (input && input.value.trim().toLowerCase() === quiz.answer.toLowerCase()) { isCorrect = true; }
             }
+            
             const feedback = document.createElement('div');
             feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
             feedback.innerHTML = `<i data-feather="${isCorrect ? 'check-circle' : 'x-circle'}"></i> <strong>${isCorrect ? 'Correct!' : 'Not quite.'}</strong> ${quiz.explanation || ''}`;
