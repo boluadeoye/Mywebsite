@@ -3,39 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Antechamber - The Writer's Academy</title>
-    
-    <meta name="description" content="Explore a showcase of foundational writing lessons from The Writer's Academy.">
-    
-    <link rel="stylesheet" href="assets/css/style.css">
+    <title>The Writer's Academy - Free Showcase</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora&family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        :root {
+            --bg-slate: #2D3748;
+            --parchment: #FDFDFD;
+            --accent-gold: #D4AF37;
+            --accent-green: #8A9A5B;
+            --text-dark: #2D3748;
+            --success-green: #22c55e;
+            --intermediate-blue: #3b82f6;
+        }
+        body { background-color: var(--parchment); font-family: 'Lora', serif; color: var(--text-dark); }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        .ui-font { font-family: 'Source Sans Pro', sans-serif; }
+        header { background-color: var(--bg-slate); }
+        .card { background-color: #ffffff; border-left: 4px solid var(--accent-green); }
+        .difficulty-beginner { color: var(--success-green); }
+        .difficulty-intermediate { color: var(--intermediate-blue); }
+        .difficulty-advanced { color: var(--accent-gold); }
+        .difficulty-indicator { display: inline-flex; align-items: center; gap: 0.5rem; }
 
+        /* Floating CTA Button Styling */
+        .floating-cta {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            background-color: var(--accent-gold);
+            color: var(--bg-slate);
+            padding: 0.75rem 1.25rem;
+            border-radius: 9999px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease-out;
+            animation: pulse 2.5s infinite;
+        }
+        .floating-cta:hover {
+            transform: scale(1.05);
+            animation-play-state: paused;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+    </style>
 </head>
-<body>
+<body class="text-gray-800">
 
-    <header class="main-header">
-        <div class="logo">
-            <svg class="h-8 w-8" viewBox="0 0 24 24">
-              <path d="M12 2 L2 22 H22 Z M12 6 L18.3 18 H5.7 Z" fill="#D4AF37"/>
-            </svg>
-            <h1 class="heading-font">The Writer's Academy</h1>
-        </div>
-        <nav>
-            <a href="#" class="button">Unlock the Premium Library</a>
+    <header class="text-white shadow-lg">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-3">
+                    <svg class="h-10 w-10" viewBox="0 0 24 24">
+                        <path d="M12 2 L2 22 H22 Z M12 6 L18.3 18 H5.7 Z" fill="var(--accent-gold)"/>
+                    </svg>
+                    <span class="font-bold text-xl ui-font leading-tight">The Writer's Academy</span>
+                </div>
+            </div>
         </nav>
     </header>
 
-    <main class="container">
-        <section class="hero">
-            <h2 class="heading-font">Welcome to the Antechamber</h2>
-            <p class="body-font">Explore our foundational lessons and discover the craft of writing.</p>
-        </section>
+    <main class="py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h1 class="text-5xl font-bold">The Antechamber</h1>
+                <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Welcome. This curated showcase features a selection of our foundational lessons. Each is a comprehensive, handbook-style guide designed to provide immediate value on your writing journey.</p>
+            </div>
 
-        <section id="free-lessons-grid" class="lessons-grid"></section>
+            <div id="lessons-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Lessons will be loaded here by JavaScript -->
+                <p class="col-span-full text-center ui-font text-gray-500">Loading lessons...</p>
+            </div>
+        </div>
     </main>
 
-    <footer class="main-footer">
+    <footer class="mt-24 py-8 text-center text-gray-400" style="background-color: var(--bg-slate);">
         <p class="ui-font">© 2025 Boluadeoye • Crafted with passion</p>
     </footer>
 
-    </body>
+    <!-- Floating CTA Button -->
+    <a href="#" class="floating-cta ui-font font-bold flex items-center gap-2">
+        <i data-feather="unlock" class="w-5 h-5"></i>
+        <span>Unlock Premium</span>
+    </a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const grid = document.getElementById('lessons-grid');
+
+            try {
+                // This requires a 'data' folder with 'free-lessons.json' inside it.
+                const response = await fetch('data/free-lessons.json');
+                if (!response.ok) throw new Error('Network error while fetching lessons.');
+                
+                const lessons = await response.json();
+                grid.innerHTML = ''; // Clear the "Loading..." message
+
+                lessons.forEach(lesson => {
+                    const card = document.createElement('a');
+                    card.href = `lesson.html?id=${lesson.id}`;
+                    card.className = 'card p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 block';
+                    
+                    const difficultyClass = `difficulty-${(lesson.difficulty || 'Beginner').toLowerCase()}`;
+
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-2xl font-bold pr-4">${lesson.title}</h3>
+                            <span class="flex-shrink-0 text-lg" style="color: var(--accent-green);">
+                                <i data-feather="book-open"></i>
+                            </span>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-base">${lesson.summary}</p>
+                        <p class="mt-4 text-sm font-bold ui-font ${difficultyClass} difficulty-indicator">
+                            <i data-feather="bar-chart-2" class="w-4 h-4"></i>
+                            <span>${lesson.difficulty}</span>
+                        </p>
+                    `;
+                    grid.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error('Failed to load lessons:', error);
+                grid.innerHTML = '<p class="col-span-full text-center ui-font text-red-500">Could not load lessons at this time. Please try again later.</p>';
+            } finally {
+                feather.replace();
+            }
+        });
+    </script>
+
+</body>
 </html>
