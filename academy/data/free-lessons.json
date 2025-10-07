@@ -1,0 +1,38 @@
+[
+  {
+    "id": "free-1",
+    "title": "The Power of the Opening Scene",
+    "description": "Learn to hook your reader from the very first sentence.",
+    "category": "Narrative Craft",
+    "quiz": [
+      {
+        "question": "What is the primary goal of an opening scene?",
+        "options": [
+          "Introduce every character",
+          "Establish a compelling question",
+          "Describe the setting in detail",
+          "Provide backstory"
+        ],
+        "answer": 1
+      }
+    ]
+  },
+  {
+    "id": "free-2",
+    "title": "Show, Don't Tell: The Core Principle",
+    "description": "Master the foundational skill of immersive writing.",
+    "category": "Core Skills",
+    "quiz": [
+      {
+        "question": "Which of these is an example of 'showing'?",
+        "options": [
+          "She was very sad.",
+          "Tears welled in her eyes.",
+          "Her sadness was overwhelming.",
+          "She felt a deep sorrow."
+        ],
+        "answer": 1
+      }
+    ]
+  }
+]
