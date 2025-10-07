@@ -3,36 +3,94 @@
     "id": "gram001",
     "title": "Mastering Subject-Verb Agreement",
     "summary": "Explore the fundamental rules of subject-verb agreement, with practical examples and common pitfalls to avoid.",
-    "difficulty": "Beginner"
+    "difficulty": "Beginner",
+    "insightSpark": "Find a complex paragraph in a book. Why does the subject-verb agreement work? Analyze three sentences.",
+    "quizzes": [
+      { 
+        "type": "multiple-choice", 
+        "prompt": "The pack of wolves ___ to the moon.", 
+        "options": ["howl", "howls"], 
+        "answer": "howls", 
+        "explanation": "The subject is 'pack' (singular), so the verb is 'howls'." 
+      }
+    ]
   },
   {
     "id": "gram002",
     "title": "Mastering Pronoun Usage",
     "summary": "Delve into the proper use of pronouns, including antecedents, cases, and avoiding ambiguity in your writing.",
-    "difficulty": "Beginner"
+    "difficulty": "Beginner",
+    "insightSpark": "Write a sentence where the pronoun 'it' is ambiguous, then rewrite it for clarity.",
+    "quizzes": [
+      { 
+        "type": "fill-in-the-blank", 
+        "prompt": "The dog wagged ___ tail.", 
+        "answer": "its", 
+        "explanation": "'Its' is the possessive form of 'it'. 'It's' is a contraction for 'it is'." 
+      }
+    ]
   },
   {
     "id": "eng002",
     "title": "Building Effective Paragraphs",
     "summary": "Learn how to structure paragraphs for clarity, coherence, and impact in your prose.",
-    "difficulty": "Intermediate"
+    "difficulty": "Intermediate",
+    "insightSpark": "Take a paragraph from your own writing and identify its topic sentence, supporting details, and conclusion. How could you make it stronger?",
+    "quizzes": [
+      { 
+        "type": "multiple-choice", 
+        "prompt": "What is the first sentence in a well-structured paragraph typically called?", 
+        "options": ["Conclusion", "Topic Sentence"], 
+        "answer": "Topic Sentence", 
+        "explanation": "The topic sentence introduces the main idea of the paragraph." 
+      }
+    ]
   },
   {
     "id": "eng003",
     "title": "Using Figurative Language",
     "summary": "Discover techniques for incorporating metaphors, similes, and other figures of speech to enrich your writing.",
-    "difficulty": "Intermediate"
+    "difficulty": "Intermediate",
+    "insightSpark": "Describe a simple object, like a cup of coffee, using three different types of figurative language.",
+    "quizzes": [
+      { 
+        "type": "sentence-correction", 
+        "prompt": "Correct the grammar in this simile: Her eyes was like stars.", 
+        "options": ["Her eyes was like stars.", "Her eyes were like stars."], 
+        "answer": "Her eyes were like stars.", 
+        "explanation": "The plural subject 'eyes' requires the plural verb 'were'." 
+      }
+    ]
   },
   {
     "id": "eng004",
     "title": "Incorporating Dialogue Effectively",
     "summary": "Master the art of writing natural, purposeful dialogue that advances your story and reveals character.",
-    "difficulty": "Advanced"
+    "difficulty": "Advanced",
+    "insightSpark": "Write a short scene between two characters where their dialogue reveals a secret without ever stating it directly.",
+    "quizzes": [
+      { 
+        "type": "fill-in-the-blank", 
+        "prompt": "\"Hello,\" she _____.", 
+        "answer": "said", 
+        "explanation": "The most common and often best dialogue tag is a simple 'said'." 
+      }
+    ]
   },
   {
     "id": "lit023",
     "title": "Understanding Point of View",
     "summary": "Examine different narrative perspectives and how they shape the reader's experience in literature.",
-    "difficulty": "Advanced"
+    "difficulty": "Advanced",
+    "insightSpark": "Rewrite a short, famous fairy tale from the villain's point of view. How does the story change?",
+    "quizzes": [
+      { 
+        "type": "multiple-choice", 
+        "prompt": "Which Point of View uses the pronoun 'I' to narrate the story?", 
+        "options": ["Third Person", "First Person"], 
+        "answer": "First Person", 
+        "explanation": "First Person POV is told from the narrator's personal perspective." 
+      }
+    ]
   }
 ]
