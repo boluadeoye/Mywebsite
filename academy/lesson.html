@@ -29,15 +29,33 @@
         #lesson-content h2 { font-size: 1.75rem; margin-top: 3rem; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px dashed #d1d5db; }
         #lesson-content p { font-size: 1.125rem; line-height: 1.8; margin-bottom: 1.75rem; }
         #lesson-content blockquote { border-left: 4px solid var(--accent-gold); padding-left: 1.75rem; margin: 2rem 0; font-style: italic; color: #555; background-color: #fffdf7; }
-        #lesson-content ul, #lesson-content ol { margin: 2rem 0 2rem 1.75rem; }
-        #lesson-content li { margin-bottom: 1rem; padding-left: 0.5rem; line-height: 1.8; }
+        
+        /* CORRECTED LIST STYLING */
+        #lesson-content ul, #lesson-content ol { 
+            margin: 1.5rem 0 1.5rem 1.75rem; 
+            padding-left: 1rem; /* Nudges the list to the right */
+            list-style-position: outside;
+        }
+        #lesson-content li { 
+            margin-bottom: 1rem; 
+            padding-left: 0.5rem; 
+            line-height: 1.8; 
+        }
         
         .difficulty-beginner { color: var(--success-green); }
         .difficulty-intermediate { color: var(--intermediate-blue); }
         .difficulty-advanced { color: var(--accent-gold); }
         .difficulty-indicator { display: inline-flex; align-items: center; gap: 0.5rem; }
 
-        .quiz-section { background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px; margin-top: 40px; }
+        /* CORRECTED QUIZ OPACITY */
+        .quiz-section { 
+            background-color: #ffffff; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px; 
+            padding: 24px; 
+            margin-top: 40px;
+            opacity: 1; /* Ensures it is not transparent */
+        }
         .quiz-options label { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
         .quiz-options label:hover { border-color: var(--accent-gold); background: #fffaf0; }
         .quiz-options input[type="radio"]:checked + .option-text { font-weight: 700; color: var(--accent-gold); }
@@ -65,7 +83,7 @@
     </header>
 
     <main class="py-12">
-        <div id="lesson-container" class="max-w-3xl mx-auto px-4">
+        <div id="lesson-container" class="max-w-3xl mx-auto px-6 sm:px-8">
             <p class="text-center ui-font text-gray-500">Loading lesson...</p>
         </div>
     </main>
@@ -81,6 +99,7 @@
             if (!quizContainer) return;
             
             let quizHtml = '<div class="quiz-section space-y-8" style="opacity: 0;"><h3>Knowledge Check</h3>';
+            // ... (rest of the quiz rendering logic is unchanged)
             quizzes.forEach((quiz, index) => {
                 quizHtml += `<div id="quiz-block-${index}">`;
                 if (quiz.type === 'multiple-choice' || quiz.type === 'sentence-correction') {
@@ -95,25 +114,17 @@
             quizHtml += '</div>';
             quizContainer.innerHTML = quizHtml;
 
-            anime({
-                targets: '.quiz-section',
-                translateY: [50, 0],
-                opacity: [0, 1],
-                delay: 500,
-                duration: 800,
-                easing: 'easeOutCubic'
-            });
+            anime({ targets: '.quiz-section', translateY: [50, 0], opacity: [0, 1], delay: 500, duration: 800, easing: 'easeOutCubic' });
         }
 
         // --- QUIZ CHECKER ---
         let currentLessonQuizzes = [];
         function checkAnswer(quizIndex) {
+            // ... (this logic is unchanged)
             const quiz = currentLessonQuizzes[quizIndex];
             if (!quiz) return;
-            
             const feedbackEl = document.getElementById(`feedback-${quizIndex}`);
             let isCorrect = false;
-
             if (quiz.type === 'multiple-choice' || quiz.type === 'sentence-correction') {
                 const selected = document.querySelector(`input[name="quiz-${quizIndex}"]:checked`);
                 if (selected && selected.value === quiz.answer) { isCorrect = true; }
@@ -121,7 +132,6 @@
                 const input = document.getElementById(`fill-in-${quizIndex}`);
                 if (input && input.value.trim().toLowerCase() === quiz.answer.toLowerCase()) { isCorrect = true; }
             }
-            
             const feedback = document.createElement('div');
             feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
             feedback.innerHTML = `<i data-feather="${isCorrect ? 'check-circle' : 'x-circle'}"></i> <strong>${isCorrect ? 'Correct!' : 'Not quite.'}</strong> ${quiz.explanation || ''}`;
@@ -140,7 +150,6 @@
                 const params = new URLSearchParams(window.location.search);
                 const id = params.get('id');
                 if (!id) throw new Error('No lesson ID provided in the URL.');
-
                 const lessonsResponse = await fetch('data/free-lessons.json');
                 if (!lessonsResponse.ok) throw new Error('Could not load the lesson index.');
                 const allLessons = await lessonsResponse.json();
@@ -151,7 +160,7 @@
                 document.title = `${lesson.title} - The Writer's Academy`;
                 
                 const mdResponse = await fetch(`lessons/${id}/content.md`);
-                if (!mdResponse.ok) throw new Error(`Could not load the content for lesson ID: ${id}.`);
+                if (!mdResponse.ok) throw new Error(`Could not load content for lesson ID: ${id}.`);
                 const mdContent = await mdResponse.text();
 
                 const difficultyClass = `difficulty-${(lesson.difficulty || 'Beginner').toLowerCase()}`;
