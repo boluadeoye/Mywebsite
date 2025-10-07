@@ -1,38 +1,38 @@
 [
   {
-    "id": "free-1",
-    "title": "The Power of the Opening Scene",
-    "description": "Learn to hook your reader from the very first sentence.",
-    "category": "Narrative Craft",
-    "quiz": [
-      {
-        "question": "What is the primary goal of an opening scene?",
-        "options": [
-          "Introduce every character",
-          "Establish a compelling question",
-          "Describe the setting in detail",
-          "Provide backstory"
-        ],
-        "answer": 1
-      }
-    ]
+    "id": "gram001",
+    "title": "Mastering Subject-Verb Agreement",
+    "summary": "Explore the fundamental rules of subject-verb agreement, with practical examples and common pitfalls to avoid.",
+    "difficulty": "Beginner"
   },
   {
-    "id": "free-2",
-    "title": "Show, Don't Tell: The Core Principle",
-    "description": "Master the foundational skill of immersive writing.",
-    "category": "Core Skills",
-    "quiz": [
-      {
-        "question": "Which of these is an example of 'showing'?",
-        "options": [
-          "She was very sad.",
-          "Tears welled in her eyes.",
-          "Her sadness was overwhelming.",
-          "She felt a deep sorrow."
-        ],
-        "answer": 1
-      }
-    ]
+    "id": "gram002",
+    "title": "Mastering Pronoun Usage",
+    "summary": "Delve into the proper use of pronouns, including antecedents, cases, and avoiding ambiguity in your writing.",
+    "difficulty": "Beginner"
+  },
+  {
+    "id": "eng002",
+    "title": "Building Effective Paragraphs",
+    "summary": "Learn how to structure paragraphs for clarity, coherence, and impact in your prose.",
+    "difficulty": "Intermediate"
+  },
+  {
+    "id": "eng003",
+    "title": "Using Figurative Language",
+    "summary": "Discover techniques for incorporating metaphors, similes, and other figures of speech to enrich your writing.",
+    "difficulty": "Intermediate"
+  },
+  {
+    "id": "eng004",
+    "title": "Incorporating Dialogue Effectively",
+    "summary": "Master the art of writing natural, purposeful dialogue that advances your story and reveals character.",
+    "difficulty": "Advanced"
+  },
+  {
+    "id": "lit023",
+    "title": "Understanding Point of View",
+    "summary": "Examine different narrative perspectives and how they shape the reader's experience in literature.",
+    "difficulty": "Advanced"
   }
 ]
