@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Library - The Writer's Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        :root {
+            --bg-slate: #2D3748;
+            --parchment: #FDFDFD;
+            --accent-gold: #D4AF37;
+            --accent-green: #8A9A5B;
+            --text-dark: #1f2937;
+            --sidebar-bg: #f9fafb;
+            --border-color: #e5e7eb;
+            --success-green: #22c55e;
+            --intermediate-blue: #3b82f6;
+        }
+        body { background-color: var(--parchment); font-family: 'Lora', serif; color: var(--text-dark); }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+        .ui-font { font-family: 'Source Sans Pro', sans-serif; }
+        .sidebar { background-color: var(--sidebar-bg); }
+        .card-premium { border-left: 4px solid var(--accent-gold); }
+        .card-free { border-left: 4px solid var(--accent-green); }
+        .progress-circle-bg { stroke: var(--border-color); }
+        .progress-circle-fg { stroke: var(--accent-gold); transition: stroke-dashoffset 0.5s ease-out; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- The JavaScript Gatekeeper -->
+    <script>
+        if (localStorage.getItem('academy_premium_token') !== 'true') {
+            window.location.href = './login.html';
+        }
+    </script>
+
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="sidebar w-64 flex-shrink-0 border-r border-gray-200 flex flex-col">
+            <div class="h-20 flex items-center justify-center border-b border-gray-200">
+                <a href="./premium-library.html" class="flex items-center gap-3">
+                    <svg class="h-8 w-8" viewBox="0 0 24 24"><path d="M12 2 L2 22 H22 Z M12 6 L18.3 18 H5.7 Z" fill="var(--accent-gold)"/></svg>
+                    <span class="font-bold text-xl ui-font leading-tight text-gray-800">The Academy</span>
+                </a>
+            </div>
+            <nav id="sidebar-nav" class="flex-1 px-4 py-6 space-y-4 ui-font"></nav>
+            <div class="px-4 py-4 border-t border-gray-200">
+                <button id="logout-btn" class="w-full flex items-center gap-3 text-left text-sm font-semibold text-gray-600 hover:text-red-500 ui-font">
+                    <i data-feather="log-out" class="w-5 h-5"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <header class="bg-white border-b border-gray-200">
+                <div class="h-20 flex items-center justify-between px-8">
+                    <h1 id="page-title" class="text-3xl font-bold">Dashboard</h1>
+                    <div class="relative w-full max-w-xs">
+                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                            <i data-feather="search" class="w-5 h-5 text-gray-400"></i>
+                        </div>
+                        <input type="text" id="search-bar" class="ui-font block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-yellow-500 focus:outline-none focus:ring-1 focus:ring-yellow-500 sm:text-sm" placeholder="Search lessons...">
+                    </div>
+                </div>
+            </header>
+            <main id="main-content" class="flex-1 overflow-y-auto p-8"></main>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            feather.replace();
+
+            // --- STATE MANAGEMENT ---
+            let allLessons = [];
+            let completedLessons = JSON.parse(localStorage.getItem('academy_progress')) || [];
+
+            // --- ELEMENTS ---
+            const sidebarNav = document.getElementById('sidebar-nav');
+            const mainContent = document.getElementById('main-content');
+            const pageTitle = document.getElementById('page-title');
+            const searchBar = document.getElementById('search-bar');
+            
+            // --- LOGOUT ---
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                localStorage.removeItem('academy_premium_token');
+                window.location.href = './login.html';
+            });
+            
+            // --- DATA FETCHING ---
+            try {
+                const response = await fetch('data/all-lessons.json');
+                if (!response.ok) throw new Error('Failed to load master lesson list.');
+                allLessons = await response.json();
+            } catch (error) {
+                mainContent.innerHTML = `<p class="text-red-500 text-center">${error.message}</p>`;
+                return;
+            }
+
+            // --- RENDER FUNCTIONS ---
+            function renderDashboard() {
+                pageTitle.textContent = 'Dashboard';
+                const totalLessons = allLessons.length;
+                const completedCount = completedLessons.length;
+                const progress = totalLessons > 0 ? Math.round((completedCount / totalLessons) * 100) : 0;
+                
+                mainContent.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-lg shadow">
+                            <h3 class="font-bold text-lg ui-font">Overall Progress</h3>
+                            <div class="relative pt-4">
+                                <svg class="w-full h-full" viewBox="0 0 100 100">
+                                    <circle class="progress-circle-bg" stroke-width="10" cx="50" cy="50" r="40" fill="transparent"></circle>
+                                    <circle class="progress-circle-fg" stroke-width="10" cx="50" cy="50" r="40" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="${251.2 - (progress / 100) * 251.2}"></circle>
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <span class="text-3xl font-bold">${progress}%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow">
+                            <h3 class="font-bold text-lg ui-font">Lessons Completed</h3>
+                            <p class="text-5xl font-bold mt-4">${completedCount} <span class="text-xl text-gray-500">/ ${totalLessons}</span></p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow">
+                            <h3 class="font-bold text-lg ui-font">Daily Streak</h3>
+                            <p class="text-5xl font-bold mt-4">🔥 0 <span class="text-xl text-gray-500">Days</span></p>
+                        </div>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-4">Continue Where You Left Off</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="continue-grid">
+                        <p class="text-gray-500 ui-font">No lessons started yet.</p>
+                    </div>`;
+            }
+
+            function renderLibrary(category = null, searchTerm = '') {
+                pageTitle.textContent = category || 'The Grand Library';
+                let lessonsToRender = allLessons;
+                if (category) {
+                    lessonsToRender = allLessons.filter(l => l.category === category);
+                }
+                if (searchTerm) {
+                    const lowerSearch = searchTerm.toLowerCase();
+                    lessonsToRender = lessonsToRender.filter(l => 
+                        l.title.toLowerCase().includes(lowerSearch) || 
+                        l.summary.toLowerCase().includes(lowerSearch)
+                    );
+                }
+
+                let content = '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">';
+                lessonsToRender.forEach(lesson => {
+                    const isPremium = lesson.access === 'premium';
+                    const isCompleted = completedLessons.includes(lesson.id);
+                    const cardClass = isPremium ? 'card-premium' : 'card-free';
+
+                    content += `
+                        <a href="premium-lesson.html?id=${lesson.id}" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow duration-300 block ${cardClass}">
+                            <div class="flex justify-between items-start">
+                                <h3 class="text-xl font-bold pr-4">${lesson.title}</h3>
+                                ${isCompleted ? '<i data-feather="check-circle" class="text-green-500"></i>' : (isPremium ? '<i data-feather="star" class="text-yellow-500"></i>' : '')}
+                            </div>
+                            <p class="text-gray-600 mt-2 text-sm">${lesson.summary}</p>
+                        </a>`;
+                });
+                content += '</div>';
+                mainContent.innerHTML = content;
+                feather.replace();
+            }
+
+            // --- INITIALIZE ---
+            function initialize() {
+                // Build sidebar
+                const categories = [...new Set(allLessons.map(l => l.category))];
+                sidebarNav.innerHTML = `
+                    <a href="#dashboard" class="nav-item flex items-center gap-3 px-4 py-2 text-gray-700 font-semibold rounded-md hover:bg-gray-200">
+                        <i data-feather="home" class="w-5 h-5"></i> Dashboard
+                    </a>
+                    <div>
+                        <h4 class="px-4 mt-4 mb-2 text-sm font-bold text-gray-400 uppercase">The Craft</h4>
+                        ${categories.map(cat => `<a href="#category/${cat}" class="nav-item flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-200 rounded-md">${cat}</a>`).join('')}
+                    </div>
+                    <div>
+                        <h4 class="px-4 mt-4 mb-2 text-sm font-bold text-gray-400 uppercase">Toolkit</h4>
+                        <a href="rhythm-lab.html" class="nav-item flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-200 rounded-md">Rhythm & Meter Lab</a>
+                        <a href="ipa-studio.html" class="nav-item flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-200 rounded-md">IPA Phonetics Studio</a>
+                    </div>`;
+                
+                // Router
+                function router() {
+                    const hash = window.location.hash.substring(1);
+                    if (hash.startsWith('category/')) {
+                        const category = decodeURIComponent(hash.split('/')[1]);
+                        renderLibrary(category);
+                    } else {
+                        renderDashboard();
+                    }
+                }
+                
+                window.addEventListener('hashchange', router);
+                sidebarNav.addEventListener('click', (e) => {
+                    if (e.target.closest('a')) {
+                       setTimeout(router, 0); // Allow hash to update before routing
+                    }
+                });
+                searchBar.addEventListener('input', () => renderLibrary(null, searchBar.value));
+
+                router(); // Initial render
+                feather.replace();
+            }
+            
+            initialize();
+        });
+    </script>
+</body>
+</html>
