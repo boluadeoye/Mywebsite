@@ -36,20 +36,20 @@
             background-color: rgba(212, 175, 55, 0.1);
         }
         .difficulty-beginner {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+        .difficulty-intermediate {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3B82F6;
+        }
+        .difficulty-advanced {
             background-color: rgba(212, 175, 55, 0.1);
             color: #D4AF37;
         }
-        .difficulty-intermediate {
-            background-color: rgba(45, 55, 72, 0.1);
-            color: #2D3748;
-        }
-        .difficulty-advanced {
-            background-color: rgba(55, 65, 81, 0.1);
-            color: #374151;
-        }
     </style>
 </head>
-<body class="bg-page-bg text-body-text font-lora min-h-screen flex flex-col items-center p-8">
+<body class="bg-page-bg text-body-text font-lora min-h-screen flex flex-col items-center p-8 md:p-12">
     <header class="w-full max-w-4xl flex justify-end mb-8">
         <button id="logout-btn" class="font-source-sans bg-dark-slate text-parchment px-6 py-2 rounded-md hover:bg-dark-slate/90 transition">Logout</button>
     </header>
@@ -82,29 +82,16 @@
                 } else if (quiz.type === 'fill-in-the-blank') {
                     quizHtml += `<p class="font-source-sans text-lg font-semibold mb-6 text-body-text">${quiz.prompt.replace('___', `<input type="text" class="border-b-2 border-gray-400 focus:border-gold-accent outline-none bg-transparent px-2 py-1 font-lora text-lg transition-colors" id="fill-in-${index}">`)}</p>`;
                 }
-                if (quiz.type === 'fill-in-the-blank') {
-                    quizHtml += `<button class="mt-6 font-source-sans bg-dark-slate text-parchment px-6 py-3 rounded-md hover:bg-dark-slate/90 transition" onclick="checkAnswer(${index})">Check Answer</button>`;
-                }
+                quizHtml += `<button class="mt-6 font-source-sans bg-dark-slate text-parchment px-6 py-3 rounded-md hover:bg-dark-slate/90 transition" onclick="checkAnswer(${index})">Check Answer</button>`;
                 quizHtml += `<div id="feedback-${index}" class="mt-6"></div></div>`;
             });
             quizHtml += '</div>';
             quizContainer.innerHTML = quizHtml;
 
-            // Add event listeners for instant feedback
+            // Add event listeners for instant visual feedback on selection
             quizzes.forEach((quiz, index) => {
                 if (quiz.type === 'multiple-choice' || quiz.type === 'sentence-correction') {
-                    document.querySelectorAll(`input[name="quiz-${index}"]`).forEach(input => {
-                        input.addEventListener('change', () => {
-                            checkAnswer(index);
-                        });
-                    });
-                } else if (quiz.type === 'fill-in-the-blank') {
-                    const input = document.getElementById(`fill-in-${index}`);
-                    input.addEventListener('keyup', (e) => {
-                        if (e.key === 'Enter') {
-                            checkAnswer(index);
-                        }
-                    });
+                    // Visual feedback is handled by CSS on :checked
                 }
             });
 
@@ -182,9 +169,9 @@
                         <p class="text-xl max-w-2xl mx-auto">${lesson.summary}</p>
                         <div class="inline-flex items-center px-4 py-2 rounded-full text-sm font-source-sans uppercase tracking-wide ${difficultyClass}"><i data-feather="bar-chart-2" class="mr-2"></i><span>${lesson.difficulty}</span></div>
                     </div>
-                    <div id="lesson-content" class="prose prose-lg prose-headings:font-playfair prose-headings:text-dark-slate prose-p:text-body-text prose-a:text-gold-accent max-w-none" style="opacity: 0;"></div>
-                    <div id="quiz-container"></div>
-                    <div id="lesson-spark" style="opacity: 0;"></div>
+                    <div id="lesson-content" class="prose prose-lg prose-headings:font-playfair prose-headings:text-dark-slate prose-p:text-body-text prose-li:text-body-text prose-blockquote:text-gray-600 prose-a:text-gold-accent prose-ul:list-disc prose-ul:pl-8 prose-ol:list-decimal prose-ol:pl-8 prose-li:my-4 max-w-3xl mx-auto leading-loose" style="opacity: 0;"></div>
+                    <div id="quiz-container" class="max-w-3xl mx-auto"></div>
+                    <div id="lesson-spark" class="max-w-3xl mx-auto" style="opacity: 0;"></div>
                 `;
 
                 document.getElementById('lesson-content').innerHTML = marked.parse(mdContent);
@@ -192,7 +179,7 @@
                 
                 const sparkContainer = document.getElementById('lesson-spark');
                 if (lesson.insightSpark) {
-                    sparkContainer.innerHTML = `<div class="p-8 bg-parchment rounded-xl shadow-sm border border-gray-200"><h3 class="text-2xl font-playfair text-gold-accent mb-4"><span class="mr-2">✨</span>Insight Spark</h3><p class="text-lg">${lesson.insightSpark}</p></div>`;
+                    sparkContainer.innerHTML = `<div class="p-8 bg-dark-slate rounded-xl shadow-sm"><h3 class="text-2xl font-playfair text-gold-accent mb-4"><span class="mr-2">✨</span>Insight Spark</h3><p class="text-lg text-parchment">${lesson.insightSpark}</p></div>`;
                 }
 
                 mermaid.run({ querySelector: '.mermaid' });
@@ -202,7 +189,7 @@
                   translateY: [30, 0],
                   rotate: ['2deg', 0],
                   opacity: [0, 1],
-                  delay: 800,
+                  delay: 1200,
                   duration: 1000,
                   easing: 'easeOutExpo'
                 });
