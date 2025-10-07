@@ -5,10 +5,9 @@
 :root {
     --dark-slate: #2D3748;
     --parchment: #FDFDFD;
+    --light-gray-bg: #F8F9FA;
     --gold-accent: #D4AF37;
-    --green-accent: #8A9A5B;
-    --card-background: #4A5568; /* A lighter shade of the dark background */
-    --border-color: #4A5568;
+    --border-color: #E2E8F0;
 
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Lora', serif;
@@ -24,15 +23,15 @@
 
 body {
     font-family: var(--font-body);
-    background-color: var(--dark-slate);
-    color: var(--parchment);
+    background-color: var(--light-gray-bg);
+    color: var(--dark-slate);
     line-height: 1.6;
 }
 
 /* --- TYPOGRAPHY & SHARED CLASSES --- */
 .heading-font { 
     font-family: var(--font-heading);
-    line-height: 1.2; /* Tighter line-height as requested */
+    line-height: 1.2;
 }
 .body-font { font-family: var(--font-body); }
 .ui-font { font-family: var(--font-ui); }
@@ -49,7 +48,8 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 2rem;
-    border-bottom: 1px solid var(--border-color);
+    background-color: var(--dark-slate);
+    color: var(--parchment);
 }
 
 .logo {
@@ -67,9 +67,8 @@ body {
     text-align: center;
     padding: 2rem;
     margin-top: 4rem;
-    border-top: 1px solid var(--border-color);
+    background-color: var(--dark-slate);
     color: var(--parchment);
-    opacity: 0.6;
 }
 
 /* --- BUTTONS --- */
@@ -84,6 +83,7 @@ body {
     background-color: transparent;
     color: var(--gold-accent);
     transition: all 0.2s ease;
+    white-space: nowrap; /* Prevents text wrapping */
 }
 
 .button:hover {
@@ -104,8 +104,7 @@ body {
 
 .hero .body-font {
     font-size: 1.1rem;
-    color: var(--parchment);
-    opacity: 0.8;
+    color: #4A5568;
 }
 
 /* --- LESSON CARDS & GRID --- */
@@ -118,29 +117,30 @@ body {
 
 .lesson-card {
     display: block;
-    background-color: var(--card-background);
+    background-color: #FFFFFF;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 1.5rem;
     text-decoration: none;
-    color: var(--parchment);
-    transition: transform 0.2s ease, border-color 0.2s ease;
+    color: var(--dark-slate);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .lesson-card:hover {
     transform: translateY(-5px);
-    border-color: var(--gold-accent);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .lesson-card h3 { 
     font-family: var(--font-heading);
-    color: var(--gold-accent);
+    color: var(--dark-slate);
     margin-bottom: 0.5rem; 
 }
 
 .lesson-card p { 
     font-size: 0.95rem; 
-    opacity: 0.8;
+    color: #4A5568;
 }
 
 .tag {
@@ -148,7 +148,7 @@ body {
     margin-top: 1rem;
     padding: 0.25rem 0.75rem;
     border-radius: 99px;
-    background-color: var(--dark-slate);
+    background-color: var(--light-gray-bg);
     font-family: var(--font-ui);
     font-size: 0.8rem;
     font-weight: 600;
