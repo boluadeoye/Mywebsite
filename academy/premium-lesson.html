@@ -44,37 +44,30 @@
 </head>
 <body class="bg-page-bg text-body-text font-lora min-h-screen flex flex-col items-center p-4 sm:p-8 md:p-12">
 
-    <!-- The Main Parchment Card -->
-    <main id="lesson-card" class="w-full max-w-5xl bg-parchment rounded-xl shadow-lg p-8 sm:p-12 space-y-8">
+    <main id="lesson-card" class="w-full max-w-6xl bg-parchment rounded-xl shadow-lg p-8 sm:p-12 space-y-8">
         
-        <!-- Header - Now Permanently Inside the Card -->
         <header class="flex justify-between items-center w-full">
             <a href="./premium-library.html" class="flex items-center gap-3">
                 <svg class="h-10 w-10" viewBox="0 0 24 24"><path d="M12 2 L2 22 H22 Z M12 6 L18.3 18 H5.7 Z" fill="#D4AF37"/></svg>
             </a>
-            <button id="logout-btn" class="font-source-sans font-semibold text-gray-500 hover:text-dark-slate transition">Logout</button>
+            <button id="logout-btn" class="font-source-sans bg-dark-slate text-parchment px-6 py-2 rounded-md hover:bg-dark-slate/90 transition">Logout</button>
         </header>
 
-        <!-- Container for Dynamic Lesson Content -->
         <div id="lesson-container" class="space-y-12">
             <p class="text-center font-source-sans">Loading lesson...</p>
         </div>
 
     </main>
     
-    <!-- Restored Shorter Footer -->
     <footer class="w-full mt-16 py-6 text-center text-gray-500">
         <p class="font-source-sans text-sm text-gray-400">© 2025 Boluadeoye • Crafted with passion</p>
         <p class="font-source-sans text-xs mt-2 text-gray-400 opacity-75">Built with Modern Web Craft</p>
     </footer>
 
     <script>
-        // --- COMPLETE JAVASCRIPT LOGIC (Unchanged from your functional version) ---
-        
+        // --- COMPLETE JAVASCRIPT LOGIC (Unchanged) ---
         let currentLessonQuizzes = [];
-
         function saveProgress(lessonId) { /* ... */ }
-
         function renderQuiz(quizzes) {
             const quizContainer = document.getElementById('quiz-container');
             if (!quizContainer) return;
@@ -97,16 +90,15 @@
             quizContainer.innerHTML = quizHtml;
             anime({ targets: '.quiz-section', translateY: [50, 0], opacity: [0, 1], delay: 500, duration: 800, easing: 'easeOutCubic' });
         }
-
         function checkAnswer(quizIndex) {
             const params = new URLSearchParams(window.location.search);
             const id = params.get('id');
             const quiz = currentLessonQuizzes[quizIndex];
             if (!quiz) return;
-            const feedbackEl = document.getElementById(`feedback-${index}`);
+            const feedbackEl = document.getElementById(`feedback-${quizIndex}`);
             let isCorrect = false;
             if (quiz.type === 'multiple-choice' || quiz.type === 'sentence-correction') {
-                const selected = document.querySelector(`input[name="quiz-${index}"]:checked`);
+                const selected = document.querySelector(`input[name="quiz-${quizIndex}"]:checked`);
                 if (selected && selected.value === quiz.answer) isCorrect = true;
             } else if (quiz.type === 'fill-in-the-blank') {
                 const input = document.getElementById(`fill-in-${quizIndex}`);
@@ -123,32 +115,24 @@
             anime({ targets: feedback, opacity: [0, 1], translateY: [20, 0], duration: 500, easing: 'easeOutQuad' });
         }
         window.checkAnswer = checkAnswer;
-
         document.addEventListener('DOMContentLoaded', async () => {
             if (localStorage.getItem('academy_premium_token') !== 'true') { window.location.href = './login.html'; }
             document.getElementById('logout-btn').addEventListener('click', () => { localStorage.removeItem('academy_premium_token'); window.location.href = './login.html'; });
-            
             const container = document.getElementById('lesson-container');
             mermaid.initialize({ startOnLoad: false });
-            
             try {
                 const params = new URLSearchParams(window.location.search);
                 const id = params.get('id');
                 if (!id) throw new Error('No lesson ID provided.');
-                
                 const lessonsResponse = await fetch('data/all-lessons.json');
                 const allLessons = await lessonsResponse.json();
                 const lesson = allLessons.find(l => l.id === id);
                 if (!lesson) throw new Error('Lesson not found.');
-
                 currentLessonQuizzes = lesson.quizzes || [];
                 document.title = `${lesson.title} - The Writer's Academy`;
-                
                 const mdResponse = await fetch(`lessons/${id}/content.md`);
                 const mdContent = await mdResponse.text();
-                
                 const difficultyClass = `difficulty-${(lesson.difficulty || 'Beginner').toLowerCase()}`;
-                
                 container.innerHTML = `
                     <div class="lesson-header-container text-center space-y-6" style="opacity: 0;">
                         <h1 class="text-4xl lg:text-5xl font-playfair font-bold text-dark-slate">${lesson.title}</h1>
@@ -159,23 +143,18 @@
                     <div id="quiz-container"></div>
                     <div id="lesson-spark" style="opacity: 0;"></div>
                 `;
-
                 document.getElementById('lesson-content').innerHTML = marked.parse(mdContent);
                 if (lesson.quizzes && lesson.quizzes.length > 0) renderQuiz(lesson.quizzes);
-                
                 const sparkContainer = document.getElementById('lesson-spark');
                 if (lesson.insightSpark) {
                     sparkContainer.innerHTML = `<div class="pt-12 border-t border-gray-200"><div class="p-8 bg-dark-slate rounded-xl shadow-inner"><h3 class="text-2xl font-playfair text-gold-accent mb-4 flex items-center"><i data-feather="sparkles" class="mr-3 text-gold-accent/80"></i>Insight Spark</h3><p class="text-lg text-parchment/80 font-lora">${lesson.insightSpark}</p></div></div>`;
                 }
-
                 mermaid.run({ querySelector: '.mermaid' });
                 feather.replace();
-                
                 anime.timeline({ easing: 'easeOutCubic' })
                     .add({ targets: '.lesson-header-container', opacity: [0, 1], translateY: [30, 0], duration: 700 })
                     .add({ targets: '#lesson-content', opacity: [0, 1], translateY: [30, 0], duration: 700 }, '-=400')
                     .add({ targets: '#lesson-spark', opacity: [0, 1], translateY: [30, 0], duration: 700 }, '-=400');
-
             } catch (error) {
                 console.error('Failed to load lesson:', error);
                 container.innerHTML = `<p class="text-center font-source-sans text-dark-slate">${error.message}</p>`;
