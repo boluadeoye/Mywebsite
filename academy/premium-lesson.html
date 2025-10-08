@@ -50,10 +50,20 @@
     </style>
 </head>
 <body class="bg-page-bg text-body-text font-lora min-h-screen flex flex-col items-center p-8 md:p-12">
-    <header class="w-full max-w-4xl flex justify-end mb-8">
-        <button id="logout-btn" class="font-source-sans bg-dark-slate text-parchment px-6 py-2 rounded-md hover:bg-dark-slate/90 transition">Logout</button>
-    </header>
-    <main id="lesson-container" class="w-full max-w-4xl mx-auto space-y-16"></main>
+    <main id="lesson-card" class="w-full max-w-4xl mx-auto bg-parchment p-8 rounded-xl shadow-sm border border-gray-200 space-y-16">
+        <div class="flex justify-between items-center mb-8">
+            <a href="./premium-library.html" class="flex items-center gap-3">
+                <svg class="h-10 w-10" viewBox="0 0 24 24">
+                    <path d="M12 2 L2 22 H22 Z M12 6 L18.3 18 H5.7 Z" fill="#D4AF37"/>
+                </svg>
+            </a>
+            <button id="logout-btn" class="font-source-sans bg-dark-slate text-parchment px-6 py-2 rounded-md hover:bg-dark-slate/90 transition">Logout</button>
+        </div>
+    </main>
+    <footer class="w-full mt-16 py-6 text-center text-gray-500">
+        <p class="font-source-sans text-sm text-gray-400">© 2025 Boluadeoye • Crafted with passion</p>
+        <p class="font-source-sans text-xs mt-2 text-gray-400 opacity-75">Built with Modern Web Craft</p>
+    </footer>
     <script>
         // --- COMPLETE JAVASCRIPT LOGIC ---
 
@@ -142,7 +152,7 @@
             }
 
             document.getElementById('logout-btn').addEventListener('click', () => { localStorage.removeItem('academy_premium_token'); window.location.href = './login.html'; });
-            const container = document.getElementById('lesson-container');
+            const container = document.getElementById('lesson-card');
             mermaid.initialize({ startOnLoad: false });
             try {
                 const params = new URLSearchParams(window.location.search);
