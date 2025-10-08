@@ -3,134 +3,329 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Writer's Academy - Free Showcase</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora&family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <title>E-Learning Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         :root {
             --bg-slate: #2D3748;
             --parchment: #FDFDFD;
             --accent-gold: #D4AF37;
-            --accent-green: #8A9A5B;
-            --text-dark: #2D3748;
-            --success-green: #22c55e;
-            --intermediate-blue: #3b82f6;
+            --text-dark: #1f2937;
         }
-        body { background-color: var(--parchment); font-family: 'Lora', serif; color: var(--text-dark); }
+        body { background-color: #f9fafb; font-family: 'Lora', serif; color: var(--text-dark); }
         h1, h2, h3 { font-family: 'Playfair Display', serif; }
         .ui-font { font-family: 'Source Sans Pro', sans-serif; }
-        header { background-color: var(--bg-slate); }
-        .card { background-color: #ffffff; border-left: 4px solid var(--accent-green); }
-        .difficulty-beginner { color: var(--success-green); }
-        .difficulty-intermediate { color: var(--intermediate-blue); }
-        .difficulty-advanced { color: var(--accent-gold); }
-        .difficulty-indicator { display: inline-flex; align-items: center; gap: 0.5rem; }
-
-        .floating-cta {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            z-index: 1000;
-            background-color: var(--accent-gold);
-            color: var(--bg-slate);
-            padding: 0.75rem 1.25rem;
-            border-radius: 9999px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease-out;
-            animation: pulse 2.5s infinite;
-        }
-        .floating-cta:hover {
-            transform: scale(1.05);
-            animation-play-state: paused;
-        }
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
-        }
     </style>
 </head>
-<body class="text-gray-800">
-
-    <header class="text-white shadow-lg">
+<body>
+    <header class="bg-white shadow-md">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <div class="flex items-center gap-3">
-                    <svg class="h-10 w-10" viewBox="0 0 24 24">
-                        <path d="M12 2 L2 22 H22 Z M12 6 L18.3 18 H5.7 Z" fill="var(--accent-gold)"/>
-                    </svg>
-                    <span class="font-bold text-xl ui-font leading-tight">The Writer's Academy</span>
-                </div>
+                <a href="#" class="flex items-center gap-3">
+                    <svg class="h-8 w-8" viewBox="0 0 24 24"><path d="M12 2 L2 22 H22 Z M12 6 L18.3 18 H5.7 Z" fill="var(--accent-gold)"/></svg>
+                    <span class="font-bold text-xl ui-font text-gray-800">E-Learning Platform</span>
+                </a>
+                <div id="auth-nav" class="text-sm ui-font"></div>
             </div>
         </nav>
     </header>
 
-    <main class="py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h1 class="text-5xl font-bold">The Antechamber</h1>
-                <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Welcome. This curated showcase features a selection of our foundational lessons. Each is a comprehensive, handbook-style guide designed to provide immediate value on your writing journey.</p>
-            </div>
-
-            <div id="lessons-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <p class="col-span-full text-center ui-font text-gray-500">Loading lessons...</p>
-            </div>
-        </div>
-    </main>
-
-    <footer class="mt-24 py-8 text-center text-gray-400" style="background-color: var(--bg-slate);">
-        <p class="ui-font">© 2025 Boluadeoye • Crafted with passion</p>
-    </footer>
-
-    <!-- Floating CTA Button -->
-    <a href="./login.html" class="floating-cta ui-font font-bold flex items-center gap-2">
-        <i data-feather="unlock" class="w-5 h-5"></i>
-        <span>Unlock Premium</span>
-    </a>
+    <main id="app-root" class="py-12"></main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const grid = document.getElementById('lessons-grid');
+        // --- CONFIGURATION ---
+        const API_BASE_URL = 'https://elearning-backend-lac.vercel.app';
 
-            try {
-                const response = await fetch('data/free-lessons.json');
-                if (!response.ok) throw new Error('Network error while fetching lessons.');
-                
-                const lessons = await response.json();
-                grid.innerHTML = ''; 
-
-                lessons.forEach(lesson => {
-                    const card = document.createElement('a');
-                    card.href = `lesson.html?id=${lesson.id}`;
-                    card.className = 'card p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 block';
-                    
-                    const difficultyClass = `difficulty-${(lesson.difficulty || 'Beginner').toLowerCase()}`;
-
-                    card.innerHTML = `
-                        <div class="flex justify-between items-start">
-                            <h3 class="text-2xl font-bold pr-4">${lesson.title}</h3>
-                            <span class="flex-shrink-0 text-lg" style="color: var(--accent-green);">
-                                <i data-feather="book-open"></i>
-                            </span>
-                        </div>
-                        <p class="text-gray-600 mt-2 text-base">${lesson.summary}</p>
-                        <p class="mt-4 text-sm font-bold ui-font ${difficultyClass} difficulty-indicator">
-                            <i data-feather="bar-chart-2" class="w-4 h-4"></i>
-                            <span>${lesson.difficulty}</span>
-                        </p>
-                    `;
-                    grid.appendChild(card);
-                });
-
-            } catch (error) {
-                console.error('Failed to load lessons:', error);
-                grid.innerHTML = '<p class="col-span-full text-center ui-font text-red-500">Could not load lessons at this time. Please try again later.</p>';
-            } finally {
-                feather.replace();
+        // --- API HELPERS ---
+        const api = {
+            async get(endpoint, token = null) {
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = `Bearer ${token}`;
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, { headers });
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response.json();
+            },
+            async post(endpoint, body, token = null) {
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = `Bearer ${token}`;
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, { method: 'POST', headers, body: JSON.stringify(body) });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.message || `HTTP error! status: ${response.status}`);
+                return data;
+            },
+            async put(endpoint, body, token) {
+                const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` };
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, { method: 'PUT', headers, body: JSON.stringify(body) });
+                 if (!response.ok) {
+                    const data = await response.json();
+                    throw new Error(data.message || `HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            },
+            async delete(endpoint, token) {
+                const headers = { 'Authorization': `Bearer ${token}` };
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, { method: 'DELETE', headers });
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response.json();
             }
-        });
-    </script>
+        };
 
+        // --- AUTHENTICATION ---
+        const auth = {
+            getToken: () => localStorage.getItem('authToken'),
+            setToken: (token) => localStorage.setItem('authToken', token),
+            logout: () => {
+                localStorage.removeItem('authToken');
+                window.location.hash = '#/';
+            },
+            isLoggedIn: () => !!localStorage.getItem('authToken')
+        };
+
+        // --- RENDERER ---
+        const renderer = {
+            render(template) {
+                document.getElementById('app-root').innerHTML = template;
+                feather.replace();
+            },
+            renderNav() {
+                const nav = document.getElementById('auth-nav');
+                if (auth.isLoggedIn()) {
+                    nav.innerHTML = `
+                        <div class="flex items-center gap-4">
+                            <a href="#/admin/dashboard" class="font-semibold text-gray-600 hover:text-gray-900">Admin Dashboard</a>
+                            <button id="logout-btn" class="font-semibold text-red-600 hover:text-red-900">Logout</button>
+                        </div>`;
+                    document.getElementById('logout-btn').addEventListener('click', auth.logout);
+                } else {
+                    nav.innerHTML = '<a href="#/login" class="font-semibold text-gray-600 hover:text-gray-900">Admin Login</a>';
+                }
+            }
+        };
+
+        // --- PAGE VIEWS ---
+        const pages = {
+            async home() {
+                let template = `<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><h1 class="text-4xl font-bold mb-8">Available Courses</h1><div id="course-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"><p>Loading courses...</p></div></div>`;
+                renderer.render(template);
+                try {
+                    const courses = await api.get('/courses');
+                    let courseGrid = '';
+                    courses.forEach(course => {
+                        courseGrid += `
+                            <a href="#/courses/${course._id}" class="block bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+                                <h2 class="text-2xl font-bold">${course.title}</h2>
+                                <p class="text-gray-600 mt-2">By ${course.instructor}</p>
+                                <p class="mt-4 inline-block bg-gray-200 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">${course.category}</p>
+                            </a>`;
+                    });
+                    document.getElementById('course-grid').innerHTML = courseGrid || '<p>No courses available at the moment.</p>';
+                } catch (error) {
+                    document.getElementById('course-grid').innerHTML = `<p class="text-red-500">${error.message}</p>`;
+                }
+            },
+            async courseDetail(id) {
+                renderer.render('<p class="text-center">Loading course details...</p>');
+                try {
+                    const course = await api.get(`/courses/${id}`);
+                    const template = `
+                        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <a href="#" class="text-gray-600 hover:text-gray-900 ui-font flex items-center gap-2 mb-8"><i data-feather="arrow-left"></i> Back to Courses</a>
+                            <h1 class="text-5xl font-bold">${course.title}</h1>
+                            <p class="text-xl text-gray-600 mt-4">By ${course.instructor}</p>
+                            <p class="mt-4 inline-block bg-gray-200 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">${course.category}</p>
+                            <div class="prose max-w-none mt-8 text-lg">
+                                ${marked.parse(course.description)}
+                            </div>
+                        </div>`;
+                    renderer.render(template);
+                } catch (error) {
+                    renderer.render(`<p class="text-red-500 text-center">${error.message}</p>`);
+                }
+            },
+            login() {
+                const template = `
+                    <div class="max-w-md mx-auto px-4">
+                        <h1 class="text-3xl font-bold text-center mb-6">Admin Login</h1>
+                        <form id="login-form" class="bg-white p-8 rounded-lg shadow-md space-y-6">
+                            <div><label for="email" class="ui-font font-semibold">Email</label><input type="email" id="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"></div>
+                            <div><label for="password" class="ui-font font-semibold">Password</label><input type="password" id="password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"></div>
+                            <p id="error-message" class="text-red-500 text-sm hidden"></p>
+                            <button type="submit" class="w-full ui-font font-bold py-3 px-4 rounded-md text-white" style="background-color: var(--bg-slate);">Login</button>
+                        </form>
+                    </div>`;
+                renderer.render(template);
+                document.getElementById('login-form').addEventListener('submit', async e => {
+                    e.preventDefault();
+                    const email = document.getElementById('email').value;
+                    const password = document.getElementById('password').value;
+                    const errorMsg = document.getElementById('error-message');
+                    try {
+                        const data = await api.post('/login', { email, password });
+                        auth.setToken(data.token);
+                        window.location.hash = '#/admin/dashboard';
+                    } catch (error) {
+                        errorMsg.textContent = error.message;
+                        errorMsg.classList.remove('hidden');
+                    }
+                });
+            },
+            // --- ADMIN PAGES ---
+            async adminDashboard() {
+                if (!auth.isLoggedIn()) return window.location.hash = '#/login';
+                renderer.render('<p class="text-center">Loading dashboard...</p>');
+                try {
+                    const courses = await api.get('/courses', auth.getToken());
+                    let tableRows = '';
+                    courses.forEach(course => {
+                        tableRows += `
+                            <tr class="border-b">
+                                <td class="py-4 px-6">${course.title}</td>
+                                <td class="py-4 px-6">${course.instructor}</td>
+                                <td class="py-4 px-6">${course.category}</td>
+                                <td class="py-4 px-6 ui-font space-x-4">
+                                    <a href="#/admin/courses/${course._id}/edit" class="text-blue-600 hover:underline">Edit</a>
+                                    <button data-id="${course._id}" class="delete-btn text-red-600 hover:underline">Delete</button>
+                                </td>
+                            </tr>`;
+                    });
+                    const template = `
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div class="flex justify-between items-center mb-8">
+                                <h1 class="text-4xl font-bold">Admin Dashboard</h1>
+                                <a href="#/admin/courses/new" class="ui-font font-bold py-2 px-4 rounded-md text-white" style="background-color: var(--bg-slate);">Add New Course</a>
+                            </div>
+                            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                                <table class="w-full text-left">
+                                    <thead class="bg-gray-50 ui-font"><tr><th class="py-3 px-6">Title</th><th class="py-3 px-6">Instructor</th><th class="py-3 px-6">Category</th><th class="py-3 px-6">Actions</th></tr></thead>
+                                    <tbody>${tableRows || '<tr><td colspan="4" class="text-center py-4">No courses found.</td></tr>'}</tbody>
+                                </table>
+                            </div>
+                        </div>`;
+                    renderer.render(template);
+                    document.querySelectorAll('.delete-btn').forEach(btn => {
+                        btn.addEventListener('click', async e => {
+                            if (!confirm('Are you sure you want to delete this course?')) return;
+                            const id = e.target.dataset.id;
+                            try {
+                                await api.delete(`/courses/${id}`, auth.getToken());
+                                window.location.reload(); // Simple refresh after delete
+                            } catch (error) {
+                                alert(`Error: ${error.message}`);
+                            }
+                        });
+                    });
+                } catch (error) {
+                    renderer.render(`<p class="text-red-500 text-center">${error.message}</p>`);
+                }
+            },
+            async addCourse() {
+                if (!auth.isLoggedIn()) return window.location.hash = '#/login';
+                const template = `
+                    <div class="max-w-2xl mx-auto px-4">
+                        <h1 class="text-3xl font-bold mb-6">Add New Course</h1>
+                        <form id="course-form" class="bg-white p-8 rounded-lg shadow-md space-y-6">
+                            <div><label for="title" class="ui-font font-semibold">Title</label><input type="text" id="title" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"></div>
+                            <div><label for="description" class="ui-font font-semibold">Description (Markdown supported)</label><textarea id="description" rows="8" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"></textarea></div>
+                            <div><label for="category" class="ui-font font-semibold">Category</label><input type="text" id="category" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"></div>
+                            <div><label for="instructor" class="ui-font font-semibold">Instructor</label><input type="text" id="instructor" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"></div>
+                            <p id="error-message" class="text-red-500 text-sm hidden"></p>
+                            <button type="submit" class="w-full ui-font font-bold py-3 px-4 rounded-md text-white" style="background-color: var(--bg-slate);">Create Course</button>
+                        </form>
+                    </div>`;
+                renderer.render(template);
+                document.getElementById('course-form').addEventListener('submit', async e => {
+                    e.preventDefault();
+                    const course = {
+                        title: document.getElementById('title').value,
+                        description: document.getElementById('description').value,
+                        category: document.getElementById('category').value,
+                        instructor: document.getElementById('instructor').value
+                    };
+                    try {
+                        await api.post('/courses', course, auth.getToken());
+                        window.location.hash = '#/admin/dashboard';
+                    } catch (error) {
+                        document.getElementById('error-message').textContent = error.message;
+                        document.getElementById('error-message').classList.remove('hidden');
+                    }
+                });
+            },
+            async editCourse(id) {
+                if (!auth.isLoggedIn()) return window.location.hash = '#/login';
+                renderer.render('<p class="text-center">Loading course for editing...</p>');
+                try {
+                    const course = await api.get(`/courses/${id}`, auth.getToken());
+                    const template = `
+                        <div class="max-w-2xl mx-auto px-4">
+                            <h1 class="text-3xl font-bold mb-6">Edit Course</h1>
+                            <form id="course-form" class="bg-white p-8 rounded-lg shadow-md space-y-6">
+                                <div><label for="title" class="ui-font font-semibold">Title</label><input type="text" id="title" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"></div>
+                                <div><label for="description" class="ui-font font-semibold">Description (Markdown supported)</label><textarea id="description" rows="8" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"></textarea></div>
+                                <div><label for="category" class="ui-font font-semibold">Category</label><input type="text" id="category" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"></div>
+                                <div><label for="instructor" class="ui-font font-semibold">Instructor</label><input type="text" id="instructor" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"></div>
+                                <p id="error-message" class="text-red-500 text-sm hidden"></p>
+                                <button type="submit" class="w-full ui-font font-bold py-3 px-4 rounded-md text-white" style="background-color: var(--bg-slate);">Update Course</button>
+                            </form>
+                        </div>`;
+                    renderer.render(template);
+                    document.getElementById('title').value = course.title;
+                    document.getElementById('description').value = course.description;
+                    document.getElementById('category').value = course.category;
+                    document.getElementById('instructor').value = course.instructor;
+                    document.getElementById('course-form').addEventListener('submit', async e => {
+                        e.preventDefault();
+                        const updatedCourse = {
+                            title: document.getElementById('title').value,
+                            description: document.getElementById('description').value,
+                            category: document.getElementById('category').value,
+                            instructor: document.getElementById('instructor').value
+                        };
+                        try {
+                            await api.put(`/courses/${id}`, updatedCourse, auth.getToken());
+                            window.location.hash = '#/admin/dashboard';
+                        } catch (error) {
+                            document.getElementById('error-message').textContent = error.message;
+                            document.getElementById('error-message').classList.remove('hidden');
+                        }
+                    });
+                } catch (error) {
+                    renderer.render(`<p class="text-red-500 text-center">${error.message}</p>`);
+                }
+            }
+        };
+
+        // --- ROUTER ---
+        const router = () => {
+            const path = window.location.hash.substring(1) || '/';
+            const routes = [
+                { path: /^\/courses\/(.+)\/edit$/, handler: (id) => pages.editCourse(id) },
+                { path: /^\/courses\/(.+)$/, handler: (id) => pages.courseDetail(id) },
+                { path: /^\/admin\/dashboard$/, handler: pages.adminDashboard },
+                { path: /^\/admin\/courses\/new$/, handler: pages.addCourse },
+                { path: /^\/login$/, handler: pages.login },
+                { path: /^\/$/, handler: pages.home }
+            ];
+
+            renderer.renderNav();
+
+            for (const route of routes) {
+                const match = path.match(route.path);
+                if (match) {
+                    const params = match.slice(1);
+                    route.handler(...params);
+                    return;
+                }
+            }
+            // 404
+            renderer.render('<h1 class="text-center text-4xl font-bold">404 - Page Not Found</h1>');
+        };
+
+        // --- INITIALIZATION ---
+        window.addEventListener('hashchange', router);
+        window.addEventListener('load', router);
+    </script>
 </body>
 </html>
