@@ -35,50 +35,44 @@
             border-color: #D4AF37;
             background-color: rgba(212, 175, 55, 0.1);
         }
-        .difficulty-beginner { background-color: rgba(16, 185, 129, 0.1); color: #10B981; }
-        .difficulty-intermediate { background-color: rgba(59, 130, 246, 0.1); color: #3B82F6; }
-        .difficulty-advanced { background-color: rgba(212, 175, 55, 0.1); color: #D4AF37; }
-        .prose-lg { line-height: 1.8; }
-        .prose-lg p { margin-top: 1.25em; margin-bottom: 1.25em; }
-        .prose-lg h2 { margin-top: 2em; margin-bottom: 1em; padding-bottom: 0.5em; border-bottom: 1px solid #e5e7eb; }
+        .difficulty-beginner {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+        .difficulty-intermediate {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3B82F6;
+        }
+        .difficulty-advanced {
+            background-color: rgba(212, 175, 55, 0.1);
+            color: #D4AF37;
+        }
     </style>
 </head>
-<body class="bg-page-bg text-body-text font-lora min-h-screen flex flex-col">
-
-    <header class="w-full bg-dark-slate text-parchment shadow-md sticky top-0 z-10">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <a href="./premium-library.html" class="flex items-center gap-3">
-                    <svg class="h-10 w-10" viewBox="0 0 24 24"><path d="M12 2 L2 22 H22 Z M12 6 L18.3 18 H5.7 Z" fill="#D4AF37"/></svg>
-                    <span class="font-bold text-xl font-source-sans leading-tight">The Writer's Academy</span>
-                </a>
-                <button id="logout-btn" class="font-source-sans font-semibold text-gold-accent hover:underline">Logout</button>
-            </div>
-        </nav>
+<body class="bg-page-bg text-body-text font-lora min-h-screen flex flex-col items-center p-8 md:p-12">
+    <header class="w-full max-w-4xl flex justify-end mb-8">
+        <button id="logout-btn" class="font-source-sans bg-dark-slate text-parchment px-6 py-2 rounded-md hover:bg-dark-slate/90 transition">Logout</button>
     </header>
-
-    <main class="w-full flex-grow flex justify-center py-8 md:py-12 px-4">
-        <div id="lesson-card" class="w-full max-w-4xl bg-parchment rounded-xl shadow-lg p-8 sm:p-12 space-y-12">
-            <p class="text-center font-source-sans">Loading lesson...</p>
-        </div>
-    </main>
-    
-    <footer class="w-full mt-16 py-6 text-center text-gray-500 bg-dark-slate">
-        <p class="font-source-sans text-sm text-gray-400">© 2025 Boluadeoye • Crafted with passion</p>
-        <p class="font-source-sans text-xs mt-2 text-gray-400 opacity-75">Built with Modern Web Craft</p>
-    </footer>
-
+    <main id="lesson-container" class="w-full max-w-4xl mx-auto space-y-16"></main>
     <script>
+        // --- COMPLETE JAVASCRIPT LOGIC ---
+
         let currentLessonQuizzes = [];
 
-        function saveProgress(lessonId) { /* ... unchanged ... */ }
+        function saveProgress(lessonId) {
+            let completed = JSON.parse(localStorage.getItem('academy_progress')) || [];
+            if (!completed.includes(lessonId)) {
+                completed.push(lessonId);
+                localStorage.setItem('academy_progress', JSON.stringify(completed));
+            }
+        }
 
         function renderQuiz(quizzes) {
             const quizContainer = document.getElementById('quiz-container');
             if (!quizContainer) return;
-            let quizHtml = `<div class="quiz-section space-y-12 pt-12 border-t border-gray-200" style="opacity: 0;"><h3 class="text-3xl font-playfair text-dark-slate mb-6">Knowledge Check</h3>`;
+            let quizHtml = '<div class="quiz-section space-y-12" style="opacity: 0;"><h3 class="text-3xl font-playfair text-dark-slate mb-6">Knowledge Check</h3>';
             quizzes.forEach((quiz, index) => {
-                quizHtml += `<div id="quiz-block-${index}" class="p-8 bg-page-bg rounded-xl border border-gray-200">`;
+                quizHtml += `<div id="quiz-block-${index}" class="p-8 bg-parchment rounded-xl shadow-sm border border-gray-200">`;
                 if (quiz.type === 'multiple-choice' || quiz.type === 'sentence-correction') {
                     quizHtml += `<p class="font-source-sans text-lg font-semibold mb-6 text-body-text">${quiz.prompt}</p><div class="quiz-options space-y-4">`;
                     quiz.options.forEach((option) => { 
@@ -93,25 +87,70 @@
             });
             quizHtml += '</div>';
             quizContainer.innerHTML = quizHtml;
+
+            // Add event listeners for instant visual feedback on selection
+            quizzes.forEach((quiz, index) => {
+                if (quiz.type === 'multiple-choice' || quiz.type === 'sentence-correction') {
+                    // Visual feedback is handled by CSS on :checked
+                }
+            });
+
             anime({ targets: '.quiz-section', translateY: [50, 0], opacity: [0, 1], delay: 500, duration: 800, easing: 'easeOutCubic' });
         }
 
-        function checkAnswer(quizIndex) { /* ... unchanged ... */ }
+        function checkAnswer(quizIndex) {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            const quiz = currentLessonQuizzes[quizIndex];
+            if (!quiz) return;
+            
+            const feedbackEl = document.getElementById(`feedback-${quizIndex}`);
+            let isCorrect = false;
+
+            if (quiz.type === 'multiple-choice' || quiz.type === 'sentence-correction') {
+                const selected = document.querySelector(`input[name="quiz-${quizIndex}"]:checked`);
+                if (selected && selected.value === quiz.answer) isCorrect = true;
+            } else if (quiz.type === 'fill-in-the-blank') {
+                const input = document.getElementById(`fill-in-${quizIndex}`);
+                if (input && input.value.trim().toLowerCase() === quiz.answer.toLowerCase()) isCorrect = true;
+            }
+            
+            const feedback = document.createElement('div');
+            feedback.className = `p-4 rounded-md flex items-center space-x-3 font-source-sans transition-opacity duration-300 ${isCorrect ? 'bg-gold-accent/10 text-gold-accent' : 'bg-dark-slate/10 text-dark-slate'}`;
+            feedback.innerHTML = `<i data-feather="${isCorrect ? 'check-circle' : 'x-circle'}"></i> <strong>${isCorrect ? 'Correct!' : 'Not quite.'}</strong> ${quiz.explanation || ''}`;
+            feedbackEl.innerHTML = ''; 
+            feedbackEl.appendChild(feedback); 
+            feather.replace();
+            document.querySelector(`#quiz-block-${quizIndex}`).querySelectorAll('button, input, textarea').forEach(el => el.disabled = true);
+            if (isCorrect) saveProgress(id);
+
+            // Animate feedback appearance
+            anime({
+                targets: feedback,
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 500,
+                easing: 'easeOutQuad'
+            });
+        }
         window.checkAnswer = checkAnswer;
 
         document.addEventListener('DOMContentLoaded', async () => {
-            if (localStorage.getItem('academy_premium_token') !== 'true') { window.location.href = './login.html'; }
+            // Gatekeeper
+            if (localStorage.getItem('academy_premium_token') !== 'true') {
+                window.location.href = './login.html';
+            }
+
             document.getElementById('logout-btn').addEventListener('click', () => { localStorage.removeItem('academy_premium_token'); window.location.href = './login.html'; });
-            
-            const container = document.getElementById('lesson-card');
+            const container = document.getElementById('lesson-container');
             mermaid.initialize({ startOnLoad: false });
-            
             try {
                 const params = new URLSearchParams(window.location.search);
                 const id = params.get('id');
                 if (!id) throw new Error('No lesson ID provided.');
                 
                 const lessonsResponse = await fetch('data/all-lessons.json');
+                if (!lessonsResponse.ok) throw new Error('Could not load lesson index.');
                 const allLessons = await lessonsResponse.json();
                 const lesson = allLessons.find(l => l.id === id);
                 if (!lesson) throw new Error('Lesson not found.');
@@ -120,20 +159,19 @@
                 document.title = `${lesson.title} - The Writer's Academy`;
                 
                 const mdResponse = await fetch(`lessons/${id}/content.md`);
+                if (!mdResponse.ok) throw new Error('Could not load lesson content.');
                 const mdContent = await mdResponse.text();
                 
                 const difficultyClass = `difficulty-${(lesson.difficulty || 'Beginner').toLowerCase()}`;
-                
-                // Inject the entire lesson structure into the main card
                 container.innerHTML = `
                     <div class="lesson-header-container text-center space-y-6" style="opacity: 0;">
-                        <h1 class="text-4xl lg:text-5xl font-playfair font-bold text-dark-slate">${lesson.title}</h1>
-                        <p class="text-xl max-w-3xl mx-auto text-body-text/80">${lesson.summary}</p>
-                        <div class="inline-flex items-center px-4 py-2 rounded-full text-sm font-source-sans font-semibold uppercase tracking-wider ${difficultyClass}"><i data-feather="bar-chart-2" class="mr-2 h-4 w-4"></i><span>${lesson.difficulty}</span></div>
+                        <h1 class="text-4xl font-playfair font-bold text-dark-slate">${lesson.title}</h1>
+                        <p class="text-xl max-w-2xl mx-auto">${lesson.summary}</p>
+                        <div class="inline-flex items-center px-4 py-2 rounded-full text-sm font-source-sans uppercase tracking-wide ${difficultyClass}"><i data-feather="bar-chart-2" class="mr-2"></i><span>${lesson.difficulty}</span></div>
                     </div>
-                    <div id="lesson-content" class="prose prose-lg max-w-none leading-relaxed" style="opacity: 0;"></div>
-                    <div id="quiz-container"></div>
-                    <div id="lesson-spark" style="opacity: 0;"></div>
+                    <div id="lesson-content" class="prose prose-lg prose-headings:font-playfair prose-headings:text-dark-slate prose-p:text-body-text prose-li:text-body-text prose-blockquote:text-gray-600 prose-a:text-gold-accent prose-ul:list-disc prose-ul:pl-8 prose-ol:list-decimal prose-ol:pl-8 prose-li:my-4 max-w-3xl mx-auto leading-loose" style="opacity: 0;"></div>
+                    <div id="quiz-container" class="max-w-3xl mx-auto"></div>
+                    <div id="lesson-spark" class="max-w-3xl mx-auto" style="opacity: 0;"></div>
                 `;
 
                 document.getElementById('lesson-content').innerHTML = marked.parse(mdContent);
@@ -141,21 +179,43 @@
                 
                 const sparkContainer = document.getElementById('lesson-spark');
                 if (lesson.insightSpark) {
-                    sparkContainer.innerHTML = `<div class="pt-12 border-t border-gray-200"><div class="p-8 bg-dark-slate rounded-xl shadow-inner"><h3 class="text-2xl font-playfair text-gold-accent mb-4 flex items-center"><i data-feather="sparkles" class="mr-3 text-gold-accent/80"></i>Insight Spark</h3><p class="text-lg text-parchment/80 font-lora">${lesson.insightSpark}</p></div></div>`;
+                    sparkContainer.innerHTML = `<div class="p-8 bg-dark-slate rounded-xl shadow-sm"><h3 class="text-2xl font-playfair text-gold-accent mb-4"><span class="mr-2">✨</span>Insight Spark</h3><p class="text-lg text-parchment">${lesson.insightSpark}</p></div>`;
                 }
 
                 mermaid.run({ querySelector: '.mermaid' });
-                feather.replace();
                 
-                // Animate elements into view
-                anime.timeline({ easing: 'easeOutCubic' })
-                    .add({ targets: '.lesson-header-container', opacity: [0, 1], translateY: [30, 0], duration: 700 })
-                    .add({ targets: '#lesson-content', opacity: [0, 1], translateY: [30, 0], duration: 700 }, '-=400')
-                    .add({ targets: '#lesson-spark', opacity: [0, 1], translateY: [30, 0], duration: 700 }, '-=400');
+                anime({
+                  targets: '#lesson-spark',
+                  translateY: [30, 0],
+                  rotate: ['2deg', 0],
+                  opacity: [0, 1],
+                  delay: 1200,
+                  duration: 1000,
+                  easing: 'easeOutExpo'
+                });
+
+                // Additional animations for header and content
+                anime({
+                    targets: '.lesson-header-container',
+                    opacity: [0, 1],
+                    translateY: [50, 0],
+                    duration: 800,
+                    easing: 'easeOutCubic'
+                });
+                anime({
+                    targets: '#lesson-content',
+                    opacity: [0, 1],
+                    translateY: [50, 0],
+                    delay: 300,
+                    duration: 800,
+                    easing: 'easeOutCubic'
+                });
 
             } catch (error) {
                 console.error('Failed to load lesson:', error);
                 container.innerHTML = `<p class="text-center font-source-sans text-dark-slate">${error.message}</p>`;
+            } finally {
+                feather.replace();
             }
         });
     </script>
