@@ -50,7 +50,7 @@
     </style>
 </head>
 <body class="bg-page-bg text-body-text font-lora min-h-screen flex flex-col items-center p-8 md:p-12">
-    <main id="lesson-card" class="w-full max-w-4xl mx-auto bg-parchment p-8 rounded-xl shadow-sm border border-gray-200 space-y-16">
+    <main id="lesson-card" class="w-full max-w-4xl mx-auto bg-parchment p-8 rounded-xl shadow-sm border border-gray-200">
         <div class="flex justify-between items-center mb-8">
             <a href="./premium-library.html" class="flex items-center gap-3">
                 <svg class="h-10 w-10" viewBox="0 0 24 24">
@@ -59,6 +59,7 @@
             </a>
             <button id="logout-btn" class="font-source-sans bg-dark-slate text-parchment px-6 py-2 rounded-md hover:bg-dark-slate/90 transition">Logout</button>
         </div>
+        <div id="lesson-container" class="space-y-16"></div>
     </main>
     <footer class="w-full mt-16 py-6 text-center text-gray-500">
         <p class="font-source-sans text-sm text-gray-400">© 2025 Boluadeoye • Crafted with passion</p>
@@ -152,7 +153,7 @@
             }
 
             document.getElementById('logout-btn').addEventListener('click', () => { localStorage.removeItem('academy_premium_token'); window.location.href = './login.html'; });
-            const container = document.getElementById('lesson-card');
+            const container = document.getElementById('lesson-container');
             mermaid.initialize({ startOnLoad: false });
             try {
                 const params = new URLSearchParams(window.location.search);
@@ -179,9 +180,9 @@
                         <p class="text-xl max-w-2xl mx-auto">${lesson.summary}</p>
                         <div class="inline-flex items-center px-4 py-2 rounded-full text-sm font-source-sans uppercase tracking-wide ${difficultyClass}"><i data-feather="bar-chart-2" class="mr-2"></i><span>${lesson.difficulty}</span></div>
                     </div>
-                    <div id="lesson-content" class="prose prose-lg prose-headings:font-playfair prose-headings:text-dark-slate prose-p:text-body-text prose-li:text-body-text prose-blockquote:text-gray-600 prose-a:text-gold-accent prose-ul:list-disc prose-ul:pl-8 prose-ol:list-decimal prose-ol:pl-8 prose-li:my-4 max-w-3xl mx-auto leading-loose" style="opacity: 0;"></div>
-                    <div id="quiz-container" class="max-w-3xl mx-auto"></div>
-                    <div id="lesson-spark" class="max-w-3xl mx-auto" style="opacity: 0;"></div>
+                    <div id="lesson-content" class="prose prose-lg prose-headings:font-playfair prose-headings:text-dark-slate prose-p:text-body-text prose-li:text-body-text prose-blockquote:text-gray-600 prose-a:text-gold-accent prose-ul:list-disc prose-ul:pl-8 prose-ol:list-decimal prose-ol:pl-8 prose-li:my-4 leading-loose" style="opacity: 0;"></div>
+                    <div id="quiz-container"></div>
+                    <div id="lesson-spark" style="opacity: 0;"></div>
                 `;
 
                 document.getElementById('lesson-content').innerHTML = marked.parse(mdContent);
