@@ -1,12 +1,29 @@
 [
   {
+    "file": "posts/the-man-who-wouldnt-quit-wilberforce.md",
+    "title": "The Man Who Wouldn't Quit: William Wilberforce's 20-Year War on Slavery",
+    "excerpt": "Discover the incredible story of William Wilberforce, a man whose unshakable faith and relentless perseverance fueled a decades-long war against the British slave trade.",
+    "meta_description": "Learn about William Wilberforce, the hero who fought for 20 years against slavery. His story is a powerful lesson in faith, perseverance, and the fight for justice.",
+    "date": "2025-10-09",
+    "type": "Story",
+    "minutes": 2,
+    "cover": "images/William.jpg",
+    "views": 0,
+    "featured": false,
+    "reflection_prompts": [
+      "Wilberforce chose a difficult path based on his conviction. In what area of your life is your conviction being tested against your comfort?",
+      "The story highlights the power of quiet, daily perseverance. What 'long defeat' are you currently facing that requires you to simply keep showing up?",
+      "How can you turn your faith from a passive comfort into an active 'fuel' for a cause or purpose you believe in?"
+    ]
+  },
+  {
     "file": "posts/the-grace-of-the-fire-a-devotional.md",
     "title": "The Grace of the Fire: Finding Purpose in Our Trials",
     "excerpt": "A Sunday morning devotional reflecting on Joni Eareckson Tada's story and how God uses our most challenging moments to forge new purpose and strength within us.",
     "meta_description": "Explore the powerful truth that God's grace is present not just in rescue, but in refining. A devotional inspired by Joni Eareckson Tada's journey of finding purpose through adversity.",
     "date": "2025-10-05",
-    "type": "devotional",
-    "minutes": 3,
+    "type": "Devotional",
+    "minutes": 2,
     "cover": "images/fire.jpg",
     "views": 0,
     "featured": false,
@@ -42,7 +59,7 @@
     "file": "posts/a-light-in-the-shadows.md",
     "title": "A Light in the Shadows",
     "excerpt": "A comforting devotional on holding onto hope during difficult times, and the profound power of even a small light to overcome the darkness.",
-    "date": "2025-09-26",
+    "date": "2025-10-8",
     "type": "devotional",
     "minutes": 3,
     "cover": "images/Light.jpg",
@@ -171,7 +188,7 @@
     "minutes": 3,
     "cover": "images/angelou.jpg",
     "views": 0,
-    "featured": false,
+    "featured": true,
     "reflection_prompts": [
       "Maya Angelou uses rich metaphors like 'oil wells,' 'gold mines,' and 'diamonds.' What do these images represent?",
       "The poem builds to the final refrain of 'I rise.' How does the poem's structure contribute to its powerful feeling of triumph?",
@@ -419,4 +436,4 @@
     "views": 0,
     "featured": false
   }
-]
+    ]
